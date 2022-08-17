@@ -8,7 +8,8 @@ public class FortnightPlan {
 	private String fortnightly_plan_id,contract_id_fk,category,fortnightly_plan_structure_id,data_id,actual_current_st,
 	component,fortnightly_plan_update_id,  period, cum_planned_last_structure,period_value, 
 	cum_actual_last_structure, planned_current_structure, cum_planned_last_st, cum_actual_last_st, planned_current_st,user_id,user_role_code,work_id_fk,total_items,
-	designation,user_name,created_by_user_id_fk,module_name,work_name,work_short_name,department_fk,contract_short_name,structure,user_type_fk,structure_type_fk,remarks,critical,activity_name,scope;
+	designation,user_name,created_by_user_id_fk,module_name,work_name,work_short_name,department_fk,
+	contract_short_name,structure,user_type_fk,structure_type_fk,remarks,critical,activity_name,scope,status, uploaded_by_user_id_fk;
 	
 	
 	private String [] activity,scope_of_work,critical_item,completion_status,planned_progress_on_last_fortnight, actual_progress_on_last_fortnight, plan_for_the_current_fortnight,chkcompletion_status;
@@ -356,6 +357,22 @@ public class FortnightPlan {
 
 	public void setActual_current_st(String actual_current_st) {
 		this.actual_current_st = actual_current_st;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getUploaded_by_user_id_fk() {
+		return uploaded_by_user_id_fk;
+	}
+
+	public void setUploaded_by_user_id_fk(String uploaded_by_user_id_fk) {
+		this.uploaded_by_user_id_fk = uploaded_by_user_id_fk;
 	}
 
 

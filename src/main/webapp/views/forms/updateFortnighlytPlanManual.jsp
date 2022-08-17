@@ -548,7 +548,7 @@
 
 
   
-		if(check > from && check < to)   
+		if(check >= from && check <= to)   
 	    {
 			
 			  var dateNow = from;
@@ -580,7 +580,7 @@
 			
 	   		$("#period").val(strPeriod);
 	    }
-   		else if(check > from1 && check < to1)
+   		else if(check >= from1 && check <= to1)
  		{
 			  var dateNow = from1;
 			  var yearNow = dateNow.getFullYear();

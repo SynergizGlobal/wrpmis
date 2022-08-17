@@ -150,7 +150,7 @@
 										<a href="javascript:void(0);" onclick="exportFortnight();"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
 											class="fa fa-cloud-download"></i> Execution Export</strong></a>
-										<a href="javascript:void(0);" onclick="uploadFortnight();"
+										<a href="javascript:void(0);" onclick="openUploadFortnightModal();"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
 											class="fa fa-cloud-upload"></i> Execution Upload</strong></a>											
     								</div>
@@ -242,6 +242,54 @@
 			</div>
 		</div>
 	</div>
+	
+	
+	<div id="upload_template" class="modal">
+		<div class="modal-content">
+			<div class="center-align p-2 bg-m modal-title headbg">
+				<h6>Upload Fortnightly Plan</h6>
+			</div>
+			<!-- form start-->
+			<div class="container">
+				<form action="<%=request.getContextPath()%>/upload-fortnightly-plan"
+					method="post" enctype="multipart/form-data">
+					<div class="row no-mar">
+						<div class="col s12 m12 input-field center-align">
+							<div class="row">
+								<div class="col m2 hide-on-small-only"></div>
+								<div class="col m8 s12">
+									<div class="file-field input-field">
+										<div class="btn bg-m">
+											<span>Attachment</span> <input type="file" id="fortnightlyPlanFile"
+												name="fortnightlyPlanFile" required="required">
+										</div>
+										<div class="file-path-wrapper">
+											<input class="file-path validate" type="text">
+										</div>
+									</div>
+								</div>
+								<div class="col m2 hide-on-small-only"></div>
+							</div>
+						</div>
+					</div>
+					<div class="row no-mar">
+						<div class="col s12 m6">
+							<div class="center-align m-1">
+								<button type="submit" class="btn waves-effect waves-light bg-m"
+									style="width: 100%;">Update</button>
+							</div>
+						</div>
+						<div class="col s12 m6">
+							<div class="center-align m-1">
+								<button type="button" class="btn waves-effect waves-light bg-s"
+									style="width: 100%;" onclick="closeUploadUSModal();">Cancel</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>	
 
 	<!-- Page Loader -->
 	<div class="page-loader" style="display: none;">
@@ -283,8 +331,15 @@
 	<script>
 	
 		var filtersMap = new Object();
+
+		function closeUploadUSModal() {
+			$("#fortnightlyPlanFile").val('');
+			$("#upload_template").modal('close');
+		}		
+		
 		var pageNo = window.localStorage.getItem("fortnightplanPageNo");
         $(document).ready(function () {
+        	$('.modal').modal();
         	$('select:not(.searchable)').formSelect();
             $('.searchable').select2();
             var filters = window.localStorage.getItem("fortnightPlanFilters");
@@ -509,6 +564,11 @@
     	     }});
         	
         }
+        
+		function openUploadFortnightModal() {
+			$("#fortnightlyPlanFile").val('');
+			$("#upload_template").modal('open');
+		}        
         
         function getPeriodFilterList(period){
         	$(".page-loader").show();

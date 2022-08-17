@@ -94,7 +94,7 @@ public class NewBudgetDaoImpl implements NewBudgetDao {
 	public Budget getNewBudget(Budget obj)throws Exception{
 		Budget budget = null;
 		try {
-			String qry = "select new_budget_id as budget_id, work_id_fk,b.contract_id_fk as contract_id,w.work_name,p.project_name,w.work_short_name,w.project_id_fk from new_budget b " + 
+			String qry = "select distinct work_id_fk,b.contract_id_fk as contract_id,w.work_name,p.project_name,w.work_short_name,w.project_id_fk from new_budget b " + 
 					"LEFT JOIN contract c on c.contract_id = b.contract_id_fk "+
 					"LEFT JOIN work w on c.work_id_fk = w.work_id "+ 
 					"left join project p on w.project_id_fk = p.project_id where new_budget_id is not null " ; 
@@ -109,7 +109,7 @@ public class NewBudgetDaoImpl implements NewBudgetDao {
 				pValues[i++] = obj.getContract_id();
 			}
 			budget = (Budget)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<Budget>(Budget.class));	
-			if(!StringUtils.isEmpty(budget) && !StringUtils.isEmpty(budget.getBudget_id())) {
+			if(!StringUtils.isEmpty(budget) && !StringUtils.isEmpty(budget.getContract_id())) {
 				List<Budget> objsList = null;
 				String qryDetails = "select new_budget_id as budget_id,b.financial_year_fk AS financial_year_fk,new_budget_estimate as budget_estimate, revised_estimate as revised_estimate, final_estimate,"+
 						"new_budget_grant as budget_grant, revised_grant, final_grant "

@@ -67,6 +67,21 @@ public class FileFormatModel {
 		return fileFormat;
 	}
 	
+	public static List<String> getFortnightFileFormat() {
+		List<String> fileFormat = new ArrayList<String>();
+		String columns = "S. No,Category,Contract,Structure,Structure ID,Cum Planned\r\n" + 
+        		"Last Fortnight,Cum Actual\r\n" + 
+        		"Last Fortnight,Plan for\r\n" + 
+        		"Current Fortnight,Actual\r\n" + 
+        		"progress,FortnightPlan ID,Remarks";
+		
+		String[] convertedColumnsArray = columns.split(",");
+		for (String column : convertedColumnsArray) {
+			fileFormat.add(column.trim());
+		}
+		return fileFormat;
+	}	
+	
 	public static List<String> getP6WbsFileFormat() {
 		List<String> fileFormat = new ArrayList<String>();
 		//String columns = "Contract ID,FOB ID,WBS Code, WBS Name, Parent WBS Code, WBS Category";

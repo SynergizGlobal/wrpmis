@@ -97,4 +97,9 @@ public class FortnightPlanServiceImpl implements FortnightPlanService {
 		return fortnightPlanDao.getContractListFilter(obj);
 	}
 	
+	@Override
+	public boolean saveFortnightDataUploadFile(FortnightPlan obj) throws Exception {
+		return fortnightPlanDao.saveFortnightDataUploadFile(obj);
+	}	
+	
 }

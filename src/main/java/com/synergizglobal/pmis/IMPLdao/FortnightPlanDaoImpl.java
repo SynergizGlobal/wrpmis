@@ -829,6 +829,12 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 		return false;	
 	}
 
+	@Override
+	public boolean saveFortnightDataUploadFile(FortnightPlan obj) throws Exception {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 	
 
 }

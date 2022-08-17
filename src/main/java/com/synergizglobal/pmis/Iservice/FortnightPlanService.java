@@ -35,5 +35,6 @@ public interface FortnightPlanService {
 	List<FortnightPlan> getFortnightPlanModuleCategoryList() throws Exception;
 
 	boolean refreshExecutionActivities(String UserId) throws Exception;
+	public boolean saveFortnightDataUploadFile(FortnightPlan obj) throws Exception;
 
 } 

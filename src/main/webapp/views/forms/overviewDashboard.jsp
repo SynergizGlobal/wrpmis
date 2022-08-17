@@ -201,17 +201,20 @@
 		    pointer-events:none;
 		    /* opacity:0.4!important; */
 		 }
+		 body{
+		 	background:linear-gradient(to top, rgba(255, 255, 255, 1), rgba(101, 150, 255, .75));
+		 }
 		 
 	</style>
 	
 </head>
-<body style="background-color:#fff;">
+<body>
 	<!-- header included -->
 	<jsp:include page="../layout/header.jsp"></jsp:include>
 	
 	<!-- model 1 which closes entire navigation -->
 	
-	<div class="" style="margin-top:2rem;">
+	<div class="gr-bl" style="margin-top:2rem;">
 	    <div class="row">
 	        <div class="col s12 m2" id="menu-item-holder">
 	             <div class=" main-menu-collapse">

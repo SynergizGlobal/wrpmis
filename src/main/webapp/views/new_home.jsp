@@ -44,9 +44,9 @@
 				  line-height: 40px;
 				  padding: 0 20px;
 				  background: #fff;
-				  margin: 40px auto;
+				  margin: 30px auto;
 				  /* position: relative; */
-				  height: 70px;
+				  height: 60px;
 				  width: 210px;
 				  border-radius: 20px;
 				}
@@ -240,7 +240,7 @@
         }
 
         .row .col {
-            padding: 20px 0.75rem !important;
+            padding: 10px 0.75rem !important;
         }
 		 
 		@media(max-width: 1560px){
@@ -675,10 +675,25 @@
     z-index: 0;
     /* background: linear-gradient(to top, rgba(255, 255, 255, 1), rgba(101, 150, 255, .75)); */
     width: 100%;
-    bottom: auto;
+    bottom: 2em;
+}
+
 }
 .btn-menu{
 	position:relative;
+	margin-top: -4em;
+}
+@media(max-width: 1920px){
+.btn-menu{
+	position:relative;
+	margin-top: -1em;
+}
+}
+@media(max-width: 1560px){
+.btn-menu{
+	position:relative;
+	margin-top: -4em;
+}
 }
  body {
 	 background: linear-gradient(to top, rgba(255, 255, 255, 1), rgba(101, 150, 255, .75));
@@ -724,7 +739,7 @@
 	 justify-content: center;
 	 width: 100%;
 	 height: 100%;
-	 bottom: 1em;
+	 bottom: 0em;
 	 overflow: hidden;
 	 box-shadow: inset 0 -60px 0 -30px rgba(75, 175, 172, 1);
 }
@@ -1126,7 +1141,6 @@
     <!-- li ends  -->
 
    <!-- <div class="bg" id="train"></div> -->
-   	<div class="gr-bg">
    	<main>
   
   <section class="city-stuff">
@@ -1277,7 +1291,6 @@
 	            </div>
 	        </div>
 	    </div>
-   	</div>
    
     
     <form action="<%=request.getContextPath()%>/project-overview" id="projectOverviewForm" method="post">

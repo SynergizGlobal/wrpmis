@@ -1037,19 +1037,19 @@ public class UserDaoImpl implements UserDao{
 					+ "where u.user_id is not null and u.user_id <> ?" ;
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_role_name_fk())) {
-				qry = qry + " and u.user_role_name_fk = ?";
+				qry = qry + " and u.user_role_name_fk = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and u.department_fk = ?";
+				qry = qry + " and u.department_fk = ? ";
 				arrSize++;
 			}			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getReporting_to_id_srfk())) {
-				qry = qry + " and u.reporting_to_id_srfk = ?";
+				qry = qry + " and u.reporting_to_id_srfk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_type_fk())) {
-				qry = qry + " and u.user_type_fk = ?";
+				qry = qry + " and u.user_type_fk = ? ";
 				arrSize++;
 			}
 			Object[] pValues = new Object[arrSize];
@@ -1070,8 +1070,8 @@ public class UserDaoImpl implements UserDao{
 			}
 			
 			//qry = qry + " order by case when (u.user_id like '%Dummy%') then 0 else 1 end desc,case when (u.user_name like '%user%')  then 0 else 1 end desc, case when(u.pmis_key_fk like '%SGS%') then 0 else 1 end desc";
-			qry = qry + "order by u.user_type_fk is null, field(u.user_type_fk,'Management','HOD','DyHOD','Officers ( Jr./Sr. Scale )','Others','Training')";
-;			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<User>(User.class));	
+			//qry = qry + "order by u.user_type_fk is null, field(u.user_type_fk,'Management','HOD','DyHOD','Officers ( Jr./Sr. Scale )','Others','Training')";;
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<User>(User.class));	
 			
 			
 		}catch(Exception e){ 

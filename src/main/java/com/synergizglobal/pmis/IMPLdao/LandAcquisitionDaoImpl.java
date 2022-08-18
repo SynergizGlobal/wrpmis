@@ -70,7 +70,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 	public List<LandAcquisition> getLandAcquisitionList(LandAcquisition obj, int startIndex, int offset, String searchParameter) throws Exception {
 		List<LandAcquisition> objsList = null;
 		try {
-			String qry ="select distinct la_id,survey_number,li.remarks,li.area_to_be_acquired,li.category_fk as type_of_land,li.la_land_status_fk,li.work_id_fk,w.work_name,w.project_id_fk,p.project_name,ISNULL(li.category_fk,c.la_category) as type_of_land ,sc.la_sub_category as sub_category_of_land, w.work_short_name,village_id,la_sub_category_fk,village,area_of_plot  as area_of_plot,modified_by,FORMAT(modified_date,'dd-MM-yyyy') as modified_date " + 
+			String qry ="select distinct la_id,survey_number,li.remarks,li.area_to_be_acquired,li.area_acquired,li.category_fk as type_of_land,li.la_land_status_fk,li.work_id_fk,w.work_name,w.project_id_fk,p.project_name,ISNULL(li.category_fk,c.la_category) as type_of_land ,sc.la_sub_category as sub_category_of_land, w.work_short_name,village_id,la_sub_category_fk,village,area_of_plot  as area_of_plot,modified_by,FORMAT(modified_date,'dd-MM-yyyy') as modified_date " + 
 					" from la_land_identification li " + 
 					"left join work w on li.work_id_fk = w.work_id "
 					+ "left join land_executives le on li.work_id_fk = le.work_id_fk  "+

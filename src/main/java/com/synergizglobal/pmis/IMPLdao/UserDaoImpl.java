@@ -77,11 +77,11 @@ public class UserDaoImpl implements UserDao{
 			String qry = "select user_id,designation,user_name FROM [user] u where u.user_name not like '%user%' and u.pmis_key_fk not like '%SGS%' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk()) && CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk())) {
-				qry = qry + " and (department_fk = ? or department_fk = ?)";
+				qry = qry + " and (department_fk = ? or department_fk = ?) ";
 				arrSize++;
 				arrSize++;
 			}else if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and department_fk = ?";
+				qry = qry + " and department_fk = ? ";
 				arrSize++;
 			} 
 			
@@ -116,19 +116,19 @@ public class UserDaoImpl implements UserDao{
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_role_name_fk())) {
-				qry = qry + " and u.user_role_name_fk = ?";
+				qry = qry + " and u.user_role_name_fk = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and u.department_fk = ?";
+				qry = qry + " and u.department_fk = ? ";
 				arrSize++;
 			}			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getReporting_to_id_srfk())) {
-				qry = qry + " and u.reporting_to_id_srfk = ?";
+				qry = qry + " and u.reporting_to_id_srfk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_type_fk())) {
-				qry = qry + " and u.user_type_fk = ?";
+				qry = qry + " and u.user_type_fk = ? ";
 				arrSize++;
 			}
 			Object[] pValues = new Object[arrSize];
@@ -151,8 +151,8 @@ public class UserDaoImpl implements UserDao{
 			}
 			
 			
-			qry = qry + " order by case when (u.user_id like '%Dummy%') then 0 else 1 end desc,case when (u.user_name like '%user%')  then 0 else 1 end desc, \r\n" + 
-					"case when(u.pmis_key_fk like '%SGS%') then 0 else 1 end desc";
+			//qry = qry + " order by case when (u.user_id like '%Dummy%') then 0 else 1 end desc,case when (u.user_name like '%user%')  then 0 else 1 end desc, \r\n" + 
+					//"case when(u.pmis_key_fk like '%SGS%') then 0 else 1 end desc";
 			
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<User>(User.class));	
 			
@@ -406,15 +406,15 @@ public class UserDaoImpl implements UserDao{
 					+ "where u.user_id = ? " ;
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_role_name_fk())) {
-				qry = qry + " and u.user_role_name_fk = ?";
+				qry = qry + " and u.user_role_name_fk = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and u.department_fk = ?";
+				qry = qry + " and u.department_fk = ? ";
 				arrSize++;
 			}			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getReporting_to_id_srfk())) {
-				qry = qry + " and u.reporting_to_id_srfk = ?";
+				qry = qry + " and u.reporting_to_id_srfk = ? ";
 				arrSize++;
 			}
 			
@@ -744,13 +744,13 @@ public class UserDaoImpl implements UserDao{
 				String userId = checkUserIdExitence(user.getUser_id());
 				String user_id = null;
 				if(StringUtils.isEmpty(user.getUser_id())) {
-					String user_role_code_qry = "select user_role_code from user_role where user_role_name = ?";
+					String user_role_code_qry = "select user_role_code from user_role where user_role_name = ? ";
 					String user_role_code = (String)jdbcTemplate.queryForObject( user_role_code_qry,new Object[] {user.getUser_role_name_fk()}, String.class);
 					user_id = getMaxUserId(user_role_code);
 				}else {
 					user_id = user.getUser_id();
 				}
-				String department_qry = "select department from department where department_name = ?";
+				String department_qry = "select department from department where department_name = ? ";
 				String department_id = (String)jdbcTemplate.queryForObject( department_qry,new Object[] {user.getDepartment_name()}, String.class);					
 				user.setDepartment_fk(department_id);
 				user.setUser_id(user_id);
@@ -810,7 +810,7 @@ public class UserDaoImpl implements UserDao{
 	public List<User> getReportingToUserId(String reporting_to_id_srfk) throws Exception {
 		List<User> objsList = null;
 		try {
-			String qry = "select user_id FROM [user]  where designation = ?";
+			String qry = "select user_id FROM [user]  where designation = ? ";
 			int arrSize = 1;
 			Object[] pValues = new Object[arrSize];
 			pValues[0] = reporting_to_id_srfk;
@@ -828,7 +828,7 @@ public class UserDaoImpl implements UserDao{
 		String userId = null;
 		try{
 			con = dataSource.getConnection();
-			String maxIdQry = "select user_id FROM [user] where user_id = ?";
+			String maxIdQry = "select user_id FROM [user] where user_id = ? ";
 			stmt = con.prepareStatement(maxIdQry);
 			stmt.setString(1, user_id);
 			rs = stmt.executeQuery();  
@@ -863,13 +863,13 @@ public class UserDaoImpl implements UserDao{
 	public String checkPMISKeyAvailability(User obj) throws Exception {
 		String pmis_key = "NoKey";
 		try {
-			String qry = "select count(*) from pmis_key where pmis_key = ?";
+			String qry = "select count(*) from pmis_key where pmis_key = ? ";
 			
 			int count = jdbcTemplate.queryForObject( qry,new Object[] {obj.getPmis_key_fk()}, Integer.class);	
 			
 			if(count > 0) {
 				pmis_key = "Available";
-				qry = "select count(*) FROM [user] where pmis_key_fk = ?";				
+				qry = "select count(*) FROM [user] where pmis_key_fk = ? ";				
 				count = jdbcTemplate.queryForObject( qry,new Object[] {obj.getPmis_key_fk()}, Integer.class);	
 				if(count > 0) {
 					pmis_key = "Taken";
@@ -889,22 +889,22 @@ public class UserDaoImpl implements UserDao{
 					+ "where user_role_name_fk is not null and user_role_name_fk <> '' " ;
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_role_name_fk())) {
-				qry = qry + " and user_role_name_fk = ?";
+				qry = qry + " and user_role_name_fk = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and department_fk = ?";
+				qry = qry + " and department_fk = ? ";
 				arrSize++;
 			}			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getReporting_to_id_srfk())) {
-				qry = qry + " and reporting_to_id_srfk = ?";
+				qry = qry + " and reporting_to_id_srfk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_type_fk())) {
-				qry = qry + " and u.user_type_fk = ?";
+				qry = qry + " and u.user_type_fk = ? ";
 				arrSize++;
 			}
-			qry = qry + " GROUP BY user_role_name_fk";
+			qry = qry + " GROUP BY user_role_name_fk ";
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
@@ -937,18 +937,18 @@ public class UserDaoImpl implements UserDao{
 					+ "where u.department_fk is not null and u.department_fk <> '' " ;
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_role_name_fk())) {
-				qry = qry + " and u.user_role_name_fk = ?";
+				qry = qry + " and u.user_role_name_fk = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and u.department_fk = ?";
+				qry = qry + " and u.department_fk = ? ";
 				arrSize++;
 			}			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getReporting_to_id_srfk())) {
-				qry = qry + " and u.reporting_to_id_srfk = ?";
+				qry = qry + " and u.reporting_to_id_srfk = ? ";
 				arrSize++;
 			}if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_type_fk())) {
-				qry = qry + " and u.user_type_fk = ?";
+				qry = qry + " and u.user_type_fk = ? ";
 				arrSize++;
 			}
 			qry = qry + " GROUP BY u.department_fk,department_name";
@@ -984,19 +984,19 @@ public class UserDaoImpl implements UserDao{
 					+ "where u.reporting_to_id_srfk is not null and u.reporting_to_id_srfk <> '' and usr.user_name<> '' " ;
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_role_name_fk())) {
-				qry = qry + " and u.user_role_name_fk = ?";
+				qry = qry + " and u.user_role_name_fk = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and u.department_fk = ?";
+				qry = qry + " and u.department_fk = ? ";
 				arrSize++;
 			}			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getReporting_to_id_srfk())) {
-				qry = qry + " and u.reporting_to_id_srfk = ?";
+				qry = qry + " and u.reporting_to_id_srfk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_type_fk())) {
-				qry = qry + " and u.user_type_fk = ?";
+				qry = qry + " and u.user_type_fk = ? ";
 				arrSize++;
 			}
 			qry = qry + " GROUP BY usr.designation,u.reporting_to_id_srfk,usr.user_name  ";
@@ -1102,15 +1102,15 @@ public class UserDaoImpl implements UserDao{
 					+ "where u.user_type_fk is not null and u.user_type_fk <> '' " ;
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_role_name_fk())) {
-				qry = qry + " and u.user_role_name_fk = ?";
+				qry = qry + " and u.user_role_name_fk = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and u.department_fk = ?";
+				qry = qry + " and u.department_fk = ? ";
 				arrSize++;
 			}			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getReporting_to_id_srfk())) {
-				qry = qry + " and u.reporting_to_id_srfk = ?";
+				qry = qry + " and u.reporting_to_id_srfk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_type_fk())) {
@@ -1216,7 +1216,7 @@ public class UserDaoImpl implements UserDao{
 				}
 			}
 			
-			qry = qry + " order by case when (u.user_id like '%Dummy%') then 0 else 1 end desc,case when (u.user_name like '%user%')  then 0 else 1 end desc, case when(u.pmis_key_fk like '%SGS%') then 0 else 1 end desc";
+			//qry = qry + " order by case when (u.user_id like '%Dummy%') then 0 else 1 end desc,case when (u.user_name like '%user%')  then 0 else 1 end desc, case when(u.pmis_key_fk like '%SGS%') then 0 else 1 end desc";
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<User>(User.class));	
 			
@@ -1274,7 +1274,7 @@ public class UserDaoImpl implements UserDao{
 			}	
 			
 			
-			qry = qry + " order by case when (u.user_id like '%Dummy%') then 0 else 1 end desc,case when (u.user_name like '%user%')  then 0 else 1 end desc, case when(u.pmis_key_fk like '%SGS%') then 0 else 1 end desc";
+			//qry = qry + " order by case when (u.user_id like '%Dummy%') then 0 else 1 end desc,case when (u.user_name like '%user%')  then 0 else 1 end desc, case when(u.pmis_key_fk like '%SGS%') then 0 else 1 end desc";
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<User>(User.class));	
 			

@@ -81,23 +81,23 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			int arrSize = 0;
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLa_land_status_fk())) {
-				qry = qry + " and la_land_status_fk = ?";
+				qry = qry + " and la_land_status_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and li.work_id_fk = ?";
+				qry = qry + " and li.work_id_fk = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getVillage())) {
-				qry = qry + " and village = ?";
+				qry = qry + " and village = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getType_of_land())) {
-				qry = qry + " and c.la_category = ?";
+				qry = qry + " and c.la_category = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_category_of_land())) {
-				qry = qry + " and sc.la_sub_category = ?";
+				qry = qry + " and sc.la_sub_category = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
@@ -180,23 +180,23 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			int arrSize = 0;
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLa_land_status_fk())) {
-				qry = qry + " and la_land_status_fk = ?";
+				qry = qry + " and la_land_status_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and li.work_id_fk = ?";
+				qry = qry + " and li.work_id_fk = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getVillage())) {
-				qry = qry + " and village = ?";
+				qry = qry + " and village = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getType_of_land())) {
-				qry = qry + " and c.la_category = ?";
+				qry = qry + " and c.la_category = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_category_of_land())) {
-				qry = qry + " and sc.la_sub_category = ?";
+				qry = qry + " and sc.la_sub_category = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
@@ -268,30 +268,30 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					"where li.work_id_fk is not null and li.work_id_fk <> '' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLa_land_status_fk())) {
-				qry = qry + " and la_land_status_fk = ?";
+				qry = qry + " and la_land_status_fk = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and li.work_id_fk = ?";
+				qry = qry + " and li.work_id_fk = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getVillage())) {
-				qry = qry + " and village = ?";
+				qry = qry + " and village = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getType_of_land())) {
-				qry = qry + " and la_category = ?";
+				qry = qry + " and la_category = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_category_of_land())) {
-				qry = qry + " and la_sub_category = ?";
+				qry = qry + " and la_sub_category = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				qry = qry + " and le.executive_user_id_fk = ? ";
 				arrSize++;
 			}
-			qry = qry + "GROUP BY li.work_id_fk,w.work_name,w.work_short_name ORDER BY li.work_id_fk";
+			qry = qry + " GROUP BY li.work_id_fk,w.work_name,w.work_short_name ORDER BY li.work_id_fk";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLa_land_status_fk())) {
@@ -332,30 +332,30 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					"where village is not null and village <> '' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLa_land_status_fk())) {
-				qry = qry + " and la_land_status_fk = ?";
+				qry = qry + " and la_land_status_fk = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and li.work_id_fk = ?";
+				qry = qry + " and li.work_id_fk = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getVillage())) {
-				qry = qry + " and village = ?";
+				qry = qry + " and village = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getType_of_land())) {
-				qry = qry + " and la_category = ?";
+				qry = qry + " and la_category = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_category_of_land())) {
-				qry = qry + " and la_sub_category = ?";
+				qry = qry + " and la_sub_category = ? ";
 				arrSize++;
 			}		
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				qry = qry + " and le.executive_user_id_fk = ? ";
 				arrSize++;
 			}
-			qry = qry + "GROUP BY village ";
+			qry = qry + " GROUP BY village ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLa_land_status_fk())) {
@@ -396,30 +396,30 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					"where c.la_category is not null and c.la_category <> '' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLa_land_status_fk())) {
-				qry = qry + " and la_land_status_fk = ?";
+				qry = qry + " and la_land_status_fk = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and li.work_id_fk = ?";
+				qry = qry + " and li.work_id_fk = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getVillage())) {
-				qry = qry + " and village = ?";
+				qry = qry + " and village = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getType_of_land())) {
-				qry = qry + " and la_category = ?";
+				qry = qry + " and la_category = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_category_of_land())) {
-				qry = qry + " and la_sub_category = ?";
+				qry = qry + " and la_sub_category = ? ";
 				arrSize++;
 			}		
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				qry = qry + " and le.executive_user_id_fk = ? ";
 				arrSize++;
 			}
-			qry = qry + "GROUP BY la_category ";
+			qry = qry + " GROUP BY la_category ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLa_land_status_fk())) {
@@ -460,30 +460,30 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					"where la_sub_category is not null and la_sub_category <> '' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLa_land_status_fk())) {
-				qry = qry + " and la_land_status_fk = ?";
+				qry = qry + " and la_land_status_fk = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and li.work_id_fk = ?";
+				qry = qry + " and li.work_id_fk = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getVillage())) {
-				qry = qry + " and village = ?";
+				qry = qry + " and village = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getType_of_land())) {
-				qry = qry + " and la_category = ?";
+				qry = qry + " and la_category = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_category_of_land())) {
-				qry = qry + " and la_sub_category = ?";
+				qry = qry + " and la_sub_category = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				qry = qry + " and le.executive_user_id_fk = ? ";
 				arrSize++;
 			}
-			qry = qry + "GROUP BY la_sub_category ";
+			qry = qry + " GROUP BY la_sub_category ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLa_land_status_fk())) {
@@ -607,7 +607,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			LADetails = (LandAcquisition)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));
 			
 			if(!StringUtils.isEmpty(LADetails)) {
-				String qry2 ="select id as la_file_id, la_id_fk, la_file_type_fk, name, attachment from la_files where la_id_fk = ?";
+				String qry2 ="select id as la_file_id, la_id_fk, la_file_type_fk, name, attachment from la_files where la_id_fk = ? ";
 				List<LandAcquisition> objList = jdbcTemplate.query( qry2,new Object[] {obj.getLa_id()}, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));
 				LADetails.setLaFilesList(objList);
 			}
@@ -969,7 +969,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
-				qry = qry + "and project_id_fk = ?";
+				qry = qry + "and project_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
@@ -1011,7 +1011,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
-				qry = qry + "and project_id_fk = ?";
+				qry = qry + "and project_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
@@ -1073,11 +1073,11 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getType_of_land())) {
-				qry = qry + " where la_category_fk = ?";
+				qry = qry + " where la_category_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_category_of_land())) {
-				qry = qry + " where la_sub_category  = ?";
+				qry = qry + " where la_sub_category  = ? ";
 				arrSize++;
 			}
 			
@@ -1109,11 +1109,11 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_category_of_land())) {
-				qry = qry + " where la_sub_category  = ?";
+				qry = qry + " where la_sub_category  = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getType_of_land())) {
-				qry = qry + " where la_category = ?";
+				qry = qry + " where la_category = ? ";
 				arrSize++;
 			}
 			qry = qry + " group by la_category";
@@ -1837,30 +1837,30 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLa_land_status_fk())) {
-				qry = qry + " and la_land_status_fk = ?";
+				qry = qry + " and la_land_status_fk = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and li.work_id_fk = ?";
+				qry = qry + " and li.work_id_fk = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getVillage())) {
-				qry = qry + " and village = ?";
+				qry = qry + " and village = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getType_of_land())) {
-				qry = qry + " and la_category = ?";
+				qry = qry + " and la_category = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_category_of_land())) {
-				qry = qry + " and la_sub_category = ?";
+				qry = qry + " and la_sub_category = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				qry = qry + " and le.executive_user_id_fk = ? ";
 				arrSize++;
 			}
-			qry = qry + "GROUP BY la_land_status_fk ";
+			qry = qry + " GROUP BY la_land_status_fk ";
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
@@ -2330,23 +2330,23 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			int arrSize = 0;
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLa_land_status_fk())) {
-				qry = qry + " and la_land_status_fk = ?";
+				qry = qry + " and la_land_status_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and li.work_id_fk = ?";
+				qry = qry + " and li.work_id_fk = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getVillage())) {
-				qry = qry + " and village = ?";
+				qry = qry + " and village = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getType_of_land())) {
-				qry = qry + " and c.la_category = ?";
+				qry = qry + " and c.la_category = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSub_category_of_land())) {
-				qry = qry + " and sc.la_sub_category = ?";
+				qry = qry + " and sc.la_sub_category = ? ";
 				arrSize++;
 			}	
  			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {

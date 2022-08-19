@@ -9,8 +9,8 @@ public class P6Data {
 	p6_activity_data_id, data_date, soft_delete_status_fk, p6_file_path, uploaded_by_user_id_fk,work_id_fk,work_short_name,work_name, uploaded_date,upload_type,contract_id,
 	contract_name,fob_id,fob_name,created_by_user_id_fk,user_name,designation,isRevised,structure_type_fk,structure,
 	 task_code, structure_id_fk , from_structure_id, to_structure_id, section, line, component, component_id , original_duration,
-	unit, scope, completed, weightage, component_details, remarks, created_date, modified_date, modified_by_user_id_fk,user_role_code,user_type_fk,user_id;
-
+	unit,  component_details, remarks, created_date, modified_date, modified_by_user_id_fk,user_role_code,user_type_fk,user_id,scope, completed, weightage;
+	
 	 
 	public String getOriginal_duration() {
 		return original_duration;

@@ -511,13 +511,15 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 			String wbsQry = "INSERT INTO p6_activities (task_code, contract_id_fk, structure_id_fk, p6_activity_name, from_structure_id, to_structure_id, "
 					+ "section, line, component, component_id, baseline_start, baseline_finish, start, finish, float, status_fk, unit, scope, "
 					+ "completed, weightage, component_details, remarks, created_by_user_id_fk,original_duration,created_date)"
-					+ " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP) ";
+					+ " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,CAST(? as decimal(18,2)),CAST(? as decimal(18,2)),CAST(? as decimal(18,2)),?,?,?,?,CURRENT_TIMESTAMP) ";
 			
 			String wbsUpdateQry = "Update p6_activities set structure_id_fk = ?, p6_activity_name = ?, from_structure_id = ?, to_structure_id = ?, "
-					+ "section = ?, line = ?, component = ?, component_id = ?, baseline_start = ?, baseline_finish = ?, start = ?, finish = ?, float = ?, status_fk = ?, unit = ?, scope = ?, "
-					+ "completed = ?, weightage = ?, component_details = ?, remarks = ?, modified_by_user_id_fk = ?,original_duration = ?, modified_date = CURRENT_TIMESTAMP where task_code = ? and contract_id_fk = ?";
+					+ "section = ?, line = ?, component = ?, component_id = ?, baseline_start = ?, baseline_finish = ?, start = ?, finish = ?, float = ?, status_fk = ?, unit = ?, scope = CAST(? as decimal(18,2)), "
+					+ "completed = CAST(? as decimal(18,2)), weightage = CAST(? as decimal(18,2)), component_details = ?, remarks = ?, modified_by_user_id_fk = ?,original_duration = ?, modified_date = CURRENT_TIMESTAMP where task_code = ? and contract_id_fk = ?";
 			stmt = con.prepareStatement(wbsQry);
 			stmtUpdate = con.prepareStatement(wbsUpdateQry);
+			int loop=0;
+			int loop1=0;
 			for (P6Data obj : activitiesList) {
 						PreparedStatement pstmt = con.prepareStatement("SELECT p6_activity_id as p6_activity_id FROM p6_activities WHERE task_code = ? and contract_id_fk = ?");
 						p = 1;
@@ -586,7 +588,8 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 								stmt.setString(p++,!StringUtils.isEmpty((obj.getRemarks()))?obj.getRemarks():null);
 								stmt.setString(p++,!StringUtils.isEmpty((pobj.getCreated_by_user_id_fk()))?pobj.getCreated_by_user_id_fk():null);
 								stmt.setString(p++,!StringUtils.isEmpty((pobj.getOriginal_duration()))?pobj.getOriginal_duration():null);
-								stmt.addBatch();
+								stmt.executeUpdate();
+								loop++;
 							}else {
 								
 								String qry = "DELETE FROM p6_activity_progress WHERE p6_activity_id_fk = ? ";
@@ -624,7 +627,8 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 								
 								stmtUpdate.setString(p++,!StringUtils.isEmpty((obj.getP6_task_code()))?obj.getP6_task_code():null);
 								stmtUpdate.setString(p++,!StringUtils.isEmpty((pobj.getContract_id_fk()))?pobj.getContract_id_fk():null);
-								stmtUpdate.addBatch();
+								stmtUpdate.executeUpdate();
+								loop1++;
 								
 							}
 							rowNo ++;
@@ -637,13 +641,13 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 							rowNo ++;
 						}
 			}
-			int[] c = stmt.executeBatch();	
-			int[] d = stmtUpdate.executeBatch();	
-			for (int i = 0; i < c.length; i++) {
-				wbsCount = wbsCount + c[i];
+			//int[] c = stmt.executeBatch();	
+			//int[] d = stmtUpdate.executeBatch();	
+			for (int i = 0; i < loop; i++) {
+				wbsCount = wbsCount + (i+1);
 			}
-			for (int i = 0; i < d.length; i++) {
-				wbsCountUpdate = wbsCountUpdate + d[i];
+			for (int i = 0; i < loop1; i++) {
+				wbsCountUpdate = wbsCountUpdate + (i+1);
 			}
 			DBConnectionHandler.closeJDBCResoucrs(null, stmtUpdate, rs);
 			counts = wbsCount + "," + wbsCountUpdate;

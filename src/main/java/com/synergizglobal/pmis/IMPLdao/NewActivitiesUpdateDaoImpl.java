@@ -424,11 +424,11 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					+ "scv.component AS strip_chart_component,scv.activity_name AS strip_chart_activity_name,"
 					+ "scv.line AS strip_chart_line,scv.structure AS structure_type,scv.section AS strip_chart_section_name,completed,scope,remaining,units as unit_fk,scv.status AS status_name,scv.remarks,"
 					+ "case  " + 
-					" when (ISNULL(NULLIF(completed, '' ), 0)=0 or completed is null) then '' " + 
-					" when ISNULL(NULLIF(completed, '' ), 0)>=ISNULL(NULLIF(scope, '' ), 0) then (select FORMAT(min(progress_date),'dd-MM-yyyy') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id) " + 
+					" when (ISNULL(completed, 0)=0 or completed is null) then '' " + 
+					" when ISNULL(completed, 0)>=ISNULL(scope, 0) then (select FORMAT(min(progress_date),'dd-MM-yyyy') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id) " + 
 					" else (select FORMAT(min(progress_date),'dd-MM-yyyy') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id) end as actual_start,case  " + 
-					" when (ISNULL(NULLIF(completed, '' ), 0)=0 or completed is null) then '' " + 
-					" when ISNULL(NULLIF(completed, '' ), 0)>=ISNULL(NULLIF(scope, '' ), 0) then (select FORMAT(max(progress_date),'dd-MM-yyyy') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id) " + 
+					" when (ISNULL(completed, 0)=0 or completed is null) then '' " + 
+					" when ISNULL(completed, 0)>=ISNULL(scope, 0) then (select FORMAT(max(progress_date),'dd-MM-yyyy') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id) " + 
 					" else '' end as actual_finish,FORMAT(scv.baseline_start,'dd-MM-yyyy') AS planned_start,"
 					+ "FORMAT(scv.baseline_finish,'dd-MM-yyyy') AS planned_finish,c.work_id_fk as work_id,c.contract_name,c.contract_short_name,w.project_id_fk as project_id "
 					+ "from p6_activities scv "
@@ -805,7 +805,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 		List<StripChart> objsList = null;
 		try {
 			String qry = "select p6_activity_id as activity_id,component_id as strip_chart_component_id_name,component as strip_chart_component,p6_activity_id as strip_chart_activity_id,p6_activity_name as strip_chart_activity_name,FORMAT(baseline_start,'dd-MMM-yy') AS planned_start "  
-					+",FORMAT(baseline_finish,'dd-MMM-yy') AS planned_finish,FORMAT(start,'dd-MMM-yy') AS start,FORMAT(finish,'dd-MMM-yy') AS finish,ISNULL(NULLIF(scope, '' ), 0) as scope,ISNULL(NULLIF(completed, '' ), 0) as completed, unit as unit_fk from p6_activities a left join structure s11 on s11.structure_id = a.structure_id_fk " 
+					+",FORMAT(baseline_finish,'dd-MMM-yy') AS planned_finish,FORMAT(start,'dd-MMM-yy') AS start,FORMAT(finish,'dd-MMM-yy') AS finish,ISNULL(scope, 0) as scope,ISNULL(completed, 0) as completed, unit as unit_fk from p6_activities a left join structure s11 on s11.structure_id = a.structure_id_fk " 
 					+ " where p6_activity_id is not null and (component_details != 'OBC' or component_details is null) and s11.structure_type_fk!='FOB' ";
 			
 				if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()))
@@ -1278,7 +1278,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					{
 						//String updateQry = "UPDATE  activities set completed = ISNULL(NULLIF(completed, '' ), 0) + ?";	
 						
-						String updateQry = "UPDATE  p6_activities set modified_by_user_id_fk=?,modified_date=?,completed = ISNULL(NULLIF(completed, '' ), 0) ";
+						String updateQry = "UPDATE  p6_activities set modified_by_user_id_fk=?,modified_date=?,completed = ISNULL(completed, 0) ";
 						
 						if(StrVar.length>0)
 						{
@@ -1377,7 +1377,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 						if(Float.parseFloat(StrVar2[i])>=completed && ((Str1.compareTo(String.valueOf(Str))!=0) || (obj.getActualScopes()[i]!=null && obj.getActualScopes()[i]!="") ) )
 						{
 						
-							String updateQry = "UPDATE  p6_activities set modified_by_user_id_fk=?,modified_date=?,completed = ISNULL(NULLIF(completed, '' ), 0) ";
+							String updateQry = "UPDATE  p6_activities set modified_by_user_id_fk=?,modified_date=?,completed = ISNULL(completed, 0) ";
 				
 							
 							updateQry = updateQry + " WHERE p6_activity_id = ? ";
@@ -1884,7 +1884,8 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 		List<StripChart> objsList = null;
 		try {
 			String qry = "select p6_activity_id as activity_id,weightage,component_details,task_code as p6_task_code,component_id as strip_chart_component_id_name,component as strip_chart_component,p6_activity_id as strip_chart_activity_id,p6_activity_name as strip_chart_activity_name,FORMAT(baseline_start,'dd-MMM-yy') AS planned_start "  
-					+",FORMAT(baseline_finish,'dd-MMM-yy') AS planned_finish,FORMAT(start,'dd-MMM-yy') AS start,FORMAT(finish,'dd-MMM-yy') AS finish,ISNULL(NULLIF(scope, '' ), 0) as scope,ISNULL(NULLIF(completed, '' ), 0) as completed, unit as unit_fk from p6_activities  a left join structure s11 on s11.structure_id = a.structure_id_fk" 
+					+",FORMAT(baseline_finish,'dd-MMM-yy') AS planned_finish,FORMAT(start,'dd-MMM-yy') AS start,FORMAT(finish,'dd-MMM-yy') AS finish,ISNULL(scope, 0) as scope,\r\n" + 
+					"ISNULL(completed, 0) as completed, unit as unit_fk from p6_activities  a left join structure s11 on s11.structure_id = a.structure_id_fk" 
 					+ " where p6_activity_id is not null  ";
 
 			int arrSize = 0;

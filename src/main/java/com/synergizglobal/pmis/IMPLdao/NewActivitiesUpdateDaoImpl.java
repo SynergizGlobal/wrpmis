@@ -2127,40 +2127,33 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 	public boolean deleteAcivitiesBulk(StripChart obj) throws Exception {
 		boolean flag=false;
 		Connection connection = null;
-		java.sql.CallableStatement statement = null;
 		ResultSet resultSet = null;
+		java.sql.CallableStatement cstmt=null;
+		
 		try{
-				String concat="";
-				for (int i = 0; i < obj.getActivity_ids().length; i++)
+			
+			String concat="";
+			for (int i = 0; i < obj.getActivity_ids().length; i++)
+			{
+				if(obj.getIds()[i].compareTo("1")==0)
 				{
-					if(obj.getIds()[i].compareTo("1")==0)
-					{
-						concat=concat+obj.getActivity_ids()[i]+",";
-					}
+					concat=concat+obj.getActivity_ids()[i]+",";
 				}
-				concat=concat.substring(0, concat.length() - 1);  
-				connection = dataSource.getConnection();	
-				
-				
-				logger.error("callingStoredProcedures deleteActivities :"+ new Date());	
-				String qry1 = "exec dbo.[deleteActivities] ?";			
-				statement = connection.prepareCall(qry1);
-				statement.setString(1, concat);
-				statement.executeQuery();
-				flag=true;
-				DBConnectionHandler.closeJDBCResoucrs(null, statement, resultSet);
-				logger.error("callingStoredProcedures Ends deleteActivities :"+ new Date());				
-
-				/*boolean hadResults = statement.execute();
-				if(hadResults)
-				{
-					return true;
-				}*/
+			}
+			concat=concat.substring(0, concat.length() - 1);  
+			connection = dataSource.getConnection();				
+			
+			cstmt = connection.prepareCall("{call dbo.deleteActivities(?, ?)}"); 
+	        cstmt.setString(1, concat);
+	        cstmt.registerOutParameter(2, java.sql.Types.BOOLEAN);  
+	        cstmt.execute();  
+	        System.out.println("return flag " + cstmt.getBoolean(2));
+	        flag=cstmt.getBoolean(2);
 		}catch(Exception e){ 
 		}finally {
-			DBConnectionHandler.closeJDBCResoucrs(connection, statement, resultSet);
+			DBConnectionHandler.closeJDBCResoucrs(connection, cstmt, resultSet);
 		}
-		return true;				
+		return flag;				
 	}	
 
 }

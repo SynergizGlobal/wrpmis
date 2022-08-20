@@ -26,6 +26,23 @@
 	.blue.lighten-1, .blue.darken-3, .blue.darken-2, .blue, .blue.darken-1{
 		background: #000063 !important;
 	}
+	
+	.second-level-menu li a{
+		color: #000;
+	}
+	.dropdown:hover{
+		background-color: rgb(101, 150, 255, .75) !important;
+	}
+	.fourth-level-menu>li, .third-level-menu>li, .second-level-menu>li{
+		background-color: #ccc !important;
+	}
+	.second-level-menu li:hover>a{
+		background: #000063 !important;
+		color: #fff !important;
+	}
+	.second-level-menu li a:hover>a{
+		color: #fff !important;
+	}
 	li.item.row {
 	    margin-bottom: 0;
 	}

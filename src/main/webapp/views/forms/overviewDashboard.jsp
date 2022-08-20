@@ -209,6 +209,9 @@
 		 body{
 		 	background:linear-gradient(to top, rgba(255, 255, 255, 1), rgba(101, 150, 255, .75));
 		 }
+		 .filterHolder{
+		 	background-color: #fff !important;
+		 }
 		 
 	</style>
 	

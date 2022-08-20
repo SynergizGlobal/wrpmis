@@ -2422,7 +2422,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 		Contract bObj = null;
 		try {
 			con = dataSource.getConnection();
-			String qry ="SELECT bg_type_fk,issuing_bank, bg_number,cast((bg_value * bg_value_units) as CHAR) as bg_value,FORMAT(valid_upto,'dd-MM-yyyy') AS valid_upto"
+			String qry ="SELECT bg_type_fk,issuing_bank, bg_number,cast(cast((bg_value * bg_value_units) as decimal(18,2)) as varchar) as bg_value,FORMAT(valid_upto,'dd-MM-yyyy') AS valid_upto"
 					+ ",FORMAT(bg_date,'dd-MM-yyyy') AS bg_date,FORMAT(release_date,'dd-MM-yyyy') AS release_date"
 					+ " from bank_guarantee where contract_id_fk = ?";
 			stmt = con.prepareStatement(qry);
@@ -2462,7 +2462,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 		Contract iObj = null;
 		try {
 			con = dataSource.getConnection();
-			String qry ="SELECT insurance_type_fk,issuing_agency,agency_address,insurance_number,cast((insurance_value * insurance_value_units) as CHAR) as insurance_value,FORMAT(valid_upto,'dd-MM-yyyy') AS valid_upto"
+			String qry ="SELECT insurance_type_fk,issuing_agency,agency_address,insurance_number,cast(cast((insurance_value * insurance_value_units) as decimal(18,2)) as varchar) as insurance_value,FORMAT(valid_upto,'dd-MM-yyyy') AS valid_upto"
 					+ ",released_fk as insurance_status from insurance where contract_id_fk = ?";
 			stmt = con.prepareStatement(qry);
 			stmt.setString(1, obj.getContract_id());

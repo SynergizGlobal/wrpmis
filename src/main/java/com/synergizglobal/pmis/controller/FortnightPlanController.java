@@ -120,6 +120,41 @@ public class FortnightPlanController {
 		return model;
 	}
 	
+	@RequestMapping(value="/FortnightQuarterlyPlan",method=RequestMethod.GET)
+	public ModelAndView FortnightQuarterlyPlan(@ModelAttribute FortnightPlan obj,HttpSession session) {
+		ModelAndView model = new ModelAndView();
+		try {
+			model.setViewName(PageConstants2.quarterlyPlanGrid);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("FortnightQuarterlyPlan : " + e.getMessage());
+		}
+		return model;
+	}	
+	
+	@RequestMapping(value = "/add-quarterly-plan", method = {RequestMethod.GET})
+	public ModelAndView addQuarterlyPlan(@ModelAttribute Budget obj){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName(PageConstants2.quarterlyPlanForm);
+			model.addObject("action", "add");
+			List<FortnightPlan> FortnightPlanWorkList = FortnightPlanService.getFortnightPlanWorkList();
+			model.addObject("FortnightPlanWorkList", FortnightPlanWorkList);
+			
+			List<FortnightPlan> FortnightPlanCategoryList = FortnightPlanService.getFortnightPlanModuleCategoryList();
+			model.addObject("FortnightPlanCategoryList", FortnightPlanCategoryList);
+			
+			List<FortnightPlan> FortnightPlanCriticalItemList = FortnightPlanService.getFortnightPlanCriticalItemList();
+			model.addObject("FortnightPlanCriticalItemList", FortnightPlanCriticalItemList);			
+			
+		}catch (Exception e) {
+				logger.error("addFortnightlyPlan : " + e.getMessage());
+		}
+		return model;
+	}	
+	
+	
 	@RequestMapping(value = "/add-fortnightly-plan", method = {RequestMethod.GET})
 	public ModelAndView addBudgetForm(@ModelAttribute Budget obj){
 		ModelAndView model = new ModelAndView();

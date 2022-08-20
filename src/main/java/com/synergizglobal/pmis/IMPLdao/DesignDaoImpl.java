@@ -1135,7 +1135,7 @@ public class DesignDaoImpl implements DesignDao{
 				qry = qry + " and drawing_type_fk = ?";
 				arrSize++;
 			}
-			qry = qry + " group by hod  ORDER BY case when u.designation='ED Civil' then 1 \r\n" + 
+			qry = qry + " group by user_id,u.designation,u.user_name  ORDER BY case when u.designation='ED Civil' then 1 \r\n" + 
 					"   when u.designation='CPM I' then 2 \r\n" + 
 					"   when u.designation='CPM II' then 3\r\n" + 
 					"   when u.designation='CPM III' then 4 \r\n" + 
@@ -1235,26 +1235,26 @@ public class DesignDaoImpl implements DesignDao{
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				qry = qry + " and contract_id_fk = ?";
+				qry = qry + " and contract_id_fk = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_id_fk())) {
-				qry = qry + " and department_id_fk = ?";
+				qry = qry + " and department_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
-				qry = qry + " and hod = ?";
+				qry = qry + " and hod = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type_fk())) {
-				qry = qry + " and structure_type_fk = ?";
+				qry = qry + " and structure_type_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDrawing_type_fk())) {
-				qry = qry + " and drawing_type_fk = ?";
+				qry = qry + " and drawing_type_fk = ? ";
 				arrSize++;
 			}
-			qry = qry + " group by department_id_fk";
+			qry = qry + " group by department_id_fk,department_name";
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -1296,15 +1296,15 @@ public class DesignDaoImpl implements DesignDao{
 				
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and d.work_id_fk = ?";
+				qry = qry + " and d.work_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				qry = qry + " and d.contract_id_fk = ?";
+				qry = qry + " and d.contract_id_fk = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_id_fk())) {
-				qry = qry + " and department_id_fk = ?";
+				qry = qry + " and department_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
@@ -1312,14 +1312,14 @@ public class DesignDaoImpl implements DesignDao{
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type_fk())) {
-				qry = qry + " and structure_type_fk = ?";
+				qry = qry + " and structure_type_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDrawing_type_fk())) {
-				qry = qry + " and drawing_type_fk = ?";
+				qry = qry + " and drawing_type_fk = ? ";
 				arrSize++;
 			}
-			qry = qry + " group by d.contract_id_fk";
+			qry = qry + " group by d.contract_id_fk,contract_name,contract_short_name";
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;

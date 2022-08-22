@@ -1428,7 +1428,7 @@
 				var dy_hod_user_id = '${safety.dy_hod_user_id_fk}';
 				var logged_in_user_id = '${sessionScope.USER_ID}';
 				if($.trim(hod_user_id) != logged_in_user_id && $.trim(dy_hod_user_id) != logged_in_user_id){
-					$("#responsible_person").attr("disabled",true);
+					//$("#responsible_person").attr("disabled",true);
 				}else if($.trim(hod_user_id) == logged_in_user_id || $.trim(dy_hod_user_id) == logged_in_user_id){
 					$("#responsible_person").attr("disabled",false);
 				}

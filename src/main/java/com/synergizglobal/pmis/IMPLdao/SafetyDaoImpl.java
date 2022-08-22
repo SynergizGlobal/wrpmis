@@ -1786,7 +1786,7 @@ public class SafetyDaoImpl implements SafetyDao {
 	public List<Safety> getResponsiblePersonsListForSafetyForm(Safety obj) throws Exception {
 		List<Safety> objsList = null;
 		try {
-			String qry = "SELECT designation,user_name,user_id,reporting_to_id_srfk FROM [user] where designation <> '' ";
+			String qry = "SELECT designation,user_name,user_id,reporting_to_id_srfk FROM [user] where designation <> '' and user_name not like '%user%' and pmis_key_fk not like '%SGS%' and user_type_fk not in('Others') ";
 			/*int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getReporting_to_id_srfk())) {
 				qry = qry + " and reporting_to_id_srfk = ?";

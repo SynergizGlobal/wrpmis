@@ -118,28 +118,6 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 			
 			qry = qry + " group by category,contract_short_name,structure_type,structure  ";
 			
-			
-			qry = qry + " union all ";
-
-
-			qry = qry +" SELECT distinct fortnightly_plan_update_data_id as fortnightly_plan_id,u.category,'' as contract_short_name,structure,critical_item as structure_type_fk, " + 
-					"planned_progress_on_last_fortnight as cum_planned_last_st,actual_progress_on_last_fortnight as cum_actual_last_st, " + 
-					"plan_for_the_current_fortnight as planned_current_st,u.remarks as actual_current_st,data_id  " + 
-					"from fortnightly_plan_update_data u " + 
-					"LEFT JOIN work w on u.work_id =w.work_id  " + 
-					"where 0=0 "; 	
-			
-			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and u.work_id = ? ";
-				arrSize++;
-			}
-			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getPeriod())) {
-				qry = qry + " and period=? ";
-				arrSize++;
-			}			
-			
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
@@ -174,14 +152,6 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCritical())) {
 				pValues[i++] = obj.getCritical();
 			}				
-			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				pValues[i++] = obj.getWork_id_fk();
-			}	
-			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getPeriod())) {
-				pValues[i++] = obj.getPeriod();
-			}	
 			
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<FortnightPlan>(FortnightPlan.class));	
 		}catch(Exception e){ 

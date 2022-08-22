@@ -55,15 +55,15 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 				qry = qry + " and d.dashboard_url IS NOT NULL and d.dashboard_url <> '' ";
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getModule_name_fk())) {
-				qry = qry + " and d.module_name_fk = ?";
+				qry = qry + " and d.module_name_fk = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDashboard_type_fk())) {
-				qry = qry + " and d.dashboard_type_fk = ?";
+				qry = qry + " and d.dashboard_type_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSoft_delete_status_fk())) {
-				qry = qry + " and d.soft_delete_status_fk = ?";
+				qry = qry + " and d.soft_delete_status_fk = ? ";
 				arrSize++;
 			}
 
@@ -98,7 +98,7 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 					"where module_name_fk is not null and module_name_fk <> '' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getModule_name_fk())) {
-				qry = qry + " and module_name_fk = ?";
+				qry = qry + " and module_name_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDashboard_type_fk())) {
@@ -136,7 +136,7 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 					"where dashboard_type_fk is not null and dashboard_type_fk <> '' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getModule_name_fk())) {
-				qry = qry + " and module_name_fk = ?";
+				qry = qry + " and module_name_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDashboard_type_fk())) {
@@ -174,7 +174,7 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 					"where soft_delete_status_fk is not null and soft_delete_status_fk <> '' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getModule_name_fk())) {
-				qry = qry + " and module_name_fk = ?";
+				qry = qry + " and module_name_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDashboard_type_fk())) {
@@ -233,7 +233,7 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 			
 			int arrSize = 0;			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id_fk = ?";
+				qry = qry + " and work_id_fk = ? ";
 				arrSize++;
 			}
 			qry = qry + " order by contract_id asc";
@@ -319,7 +319,7 @@ public class DashboardsAccessDaoImpl implements DashboardsAccessDao{
 					"left join dashboard d1 on d.parent_dashboard_id_sr_fk = d1.dashboard_id  " + 
 					"left join work w on d.work_id_fk = w.work_id  " + 
 					"left join contract c on d.contract_id_fk = c.contract_id " 
-					+ "where d.dashboard_id is not null and d.dashboard_id = ?"; 
+					+ "where d.dashboard_id is not null and d.dashboard_id = ? "; 
 					
 			int arrSize = 4;
 

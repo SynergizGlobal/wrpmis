@@ -43,17 +43,17 @@ public class FormsAccessDaoImpl implements FormsAccessDao{
 					+ "FROM form f1 "
 					+ "LEFT OUTER JOIN form f2 on f1.parent_form_id_sr_fk = f2.form_id "
 					+ "where f1.parent_form_id_sr_fk is not null";
-			qry = qry + " and f1.url_type = ?";
+			qry = qry + " and f1.url_type = ? ";
 			int arrSize = 4;
 			if("MRVC".equals(obj.getUser_type_access())) {
 				qry = qry + " and f1.web_form_url IS NOT NULL and f1.web_form_url <> '' ";
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getModule_name_fk())) {
-				qry = qry + " and f1.module_name_fk = ?";
+				qry = qry + " and f1.module_name_fk = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSoft_delete_status_fk())) {
-				qry = qry + " and f1.soft_delete_status_fk = ?";
+				qry = qry + " and f1.soft_delete_status_fk = ? ";
 				arrSize++;
 			}
 
@@ -87,14 +87,14 @@ public class FormsAccessDaoImpl implements FormsAccessDao{
 					"where module_name_fk is not null and module_name_fk <> '' ";
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getModule_name_fk())) {
-				qry = qry + " and module_name_fk = ?";
+				qry = qry + " and module_name_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSoft_delete_status_fk())) {
 				qry = qry + " and soft_delete_status_fk = ? ";
 				arrSize++;
 			}
-			qry = qry + " and url_type = ?";
+			qry = qry + " and url_type = ? ";
 			qry = qry + " GROUP BY module_name_fk ORDER BY module_name_fk";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -121,14 +121,14 @@ public class FormsAccessDaoImpl implements FormsAccessDao{
 					"where soft_delete_status_fk is not null and soft_delete_status_fk <> '' ";
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getModule_name_fk())) {
-				qry = qry + " and module_name_fk = ?";
+				qry = qry + " and module_name_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSoft_delete_status_fk())) {
 				qry = qry + " and soft_delete_status_fk = ? ";
 				arrSize++;
 			}
-			qry = qry + " and url_type = ?";
+			qry = qry + " and url_type = ? ";
 			qry = qry + " GROUP BY soft_delete_status_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -176,7 +176,7 @@ public class FormsAccessDaoImpl implements FormsAccessDao{
 	public List<Form> getFolderssListForFormAccess(Form obj) throws Exception {
 		List<Form> objsList = null;
 		try {
-			String qry = "SELECT form_id,form_name FROM form where url_type = ?";
+			String qry = "SELECT form_id,form_name FROM form where url_type = ? ";
 			objsList = jdbcTemplate.query( qry,new Object[]{"Update Forms"}, new BeanPropertyRowMapper<Form>(Form.class));
 		} catch (Exception e) {
 			throw new Exception(e);
@@ -209,7 +209,7 @@ public class FormsAccessDaoImpl implements FormsAccessDao{
 					+ "(select STRING_AGG(access_value,',') from form_access where form_id_fk = f1.form_id and access_type = ?) as user_access "
 					+ "FROM form f1 " 
 					+ "LEFT OUTER JOIN form f2 on f1.parent_form_id_sr_fk = f2.form_id "
-					+ "where f1.form_id = ?" ;
+					+ "where f1.form_id = ? " ;
 			
 			int arrSize = 4;
 

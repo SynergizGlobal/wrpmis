@@ -264,12 +264,11 @@
                                 <div class="row" style="margin-bottom: 0;" id="filters">
                                     <div class="col s12 m3 input-field">
                                         <p class="searchable_label">Work </p>
-                                        <select id="work_id_fk" class="searchable">
-                                            <option value="" disabled selected>Select Work</option>
-                                            <option value="1">Option 1</option>
-                                            <option value="2">Option 2</option>
-                                            <option value="3">Option 3</option>
-                                        </select>
+										<select id="work_id_fk" name="work_id_fk"
+											onchange="addInQueWork(this.value);getFortnightQuarterlyPlanList();" class="searchable">
+											<option value="">Select</option>
+
+										</select>
                                     </div>
                                     <div class="col s12 m3 input-field">
                                         <p class="searchable_label">Items</p>
@@ -280,28 +279,27 @@
                                             <option value="3">Option 3</option>
                                         </select>
                                     </div>
-                                    <div class="col s12 m2 input-field">
-	                                    <p>Critical Items</p>
+                                	<div class="col s12 m2 input-field">
+	                                    <p>Critical</p>
 	                                    <p>
 	                                        <label>
-	                                            <input class="with-gap" name="critical_items" id="critical_items1" type="radio" value="Yes" />
+	                                            <input class="with-gap" name="critical" id="critical1" type="radio" value="Yes" onchange="getFortnightQuarterlyPlanList();" />
 	                                            <span>Yes</span>
 	                                        </label>
 	                                        <label>
-	                                            <input class="with-gap" name="critical_items" id="critical_items2" type="radio" value="No" />
+	                                            <input class="with-gap" name="critical" id="critical2" type="radio" value="No" onchange="getFortnightQuarterlyPlanList();" />
 	                                            <span>No</span>
 	                                        </label>
 	                                    </p>
                                 	</div>
-                                    <div class="col s12 m2 input-field">
-                                        <p class="searchable_label">Period</p>
-                                        <select id="contractor_fk" class="searchable">
-                                            <option value="" disabled selected>Select Period</option>
-                                            <option value="1">Option 1</option>
-                                            <option value="2">Option 2</option>
-                                            <option value="3">Option 3</option>
-                                        </select>
-                                    </div>
+									<div class="col s12 m3 input-field">
+										<p class="searchable_label">Period<span class="required">*</span></p>
+										<select id="period" name="period"
+											onchange="addInQuePeriod(this.value);getFortnightQuarterlyPlanList();" class="searchable">
+											<option value="">Select</option>
+
+										</select>
+									</div>
                                     <div class="col s12 m1">
                                         <button class="btn bg-m waves-effect waves-light t-c clear-filters"
                                             style="margin-top: 20px;width: 100%;">Clear Filters</button>
@@ -318,7 +316,7 @@
                                 	<table id="app_com_table" class="mdl-data-table mobile_responsible_table auto-index">
                                     <thead>
                                         <tr>
-                                            <th class="w10px">S.No</th>
+                                            <th class="w10px">S.No. </th>
                                             <th class="w20em">Items</th>
                                             <th class="pdla">Critical (Y/N)</th>
                                             <th class="pdla">Scope of Work</th>
@@ -532,294 +530,260 @@ $(function(){
 			}
 		});
 	});
-    	//multiple modal end
-    	 
-    	/* $(function(){
-    		  $(".mdl-data-table tr").each(function(){
-    		    var col_val = $(this).find("td:eq(1)").text();
-    		    if (col_val == "CONFIRMED"){
-    		      $(this).addClass('selected');  //the selected class colors the row green//
-    		    } else {
-    		      $(this).addClass('bad');
-    		    }
-    		  });
-    		}); */
+	
+	
+	
+function getPeriodFilterList(period){
+	$(".page-loader").show();
+ 	var work_id_fk = $("#work_id_fk").val();
+ 	var period = $("#period").val(); 
+ 	var category = $("#category").val();
+    if ($.trim(period) == "") {
+    	$("#period option:not(:first)").remove();
+    	var myParams = {work_id_fk : work_id_fk,period : period,category : category};
+        $.ajax({
+            url: "<%=request.getContextPath()%>/ajax/getPeriodsListFilterInFortnight",
+            data: myParams, cache: false,async: false,
+            success: function (data) {
+               if(data != null && data != '' && data.length > 0){  
+                    $.each(data, function (i, val) {
+                    		var selectedFlag = (period == val.period)?'selected':'';
+                           $("#period").append('<option value="' + val.period_value + '"'+selectedFlag+'>' + $.trim(val.period) + '</option>');
+                    });
+                }
+                $('.searchable').select2();
+                $(".page-loader").hide();
+            },error: function (jqXHR, exception) {
+	   			      $(".page-loader").hide();
+   	          	  getErrorMessage(jqXHR, exception);
+   	     	  }
+        });
+    }else{
+    	  $(".page-loader").hide();
+    }
+ }
+
+function getWorksFilterList(work_id){
+ 	$(".page-loader").show();
+ 	var period = $("#period").val();
+ 	var work_id_fk = $("#work_id_fk").val();
+ 	var category = $("#category").val();
+    if ($.trim(work_id_fk) == "") {
+    	$("#work_id_fk option:not(:first)").remove();
+    	var myParams = {work_id_fk : work_id_fk,period : period,category : category};
+        $.ajax({
+            url: "<%=request.getContextPath()%>/ajax/getWorksListFilterInFortnight",
+            data: myParams, cache: false,async: false,
+            success: function (data) {
+            	if(data != null && data != '' && data.length > 0){  
+                    $.each(data, function (i, val) {
+                    	 var work_short_name = '';
+                         if ($.trim(val.work_short_name) != '') { work_short_name = ' - ' + $.trim(val.work_short_name) }
+                         var selectedFlag = (work_id == val.work_id_fk)?'selected':'';
+                         $("#work_id_fk").append('<option value="' + val.work_id_fk + '"'+selectedFlag+'>' + $.trim(val.work_id_fk) + work_short_name + '</option>');
+                    });
+                }
+                $('.searchable').select2();
+                $(".page-loader").hide();
+            },error: function (jqXHR, exception) {
+	   			      $(".page-loader").hide();
+   	          	  getErrorMessage(jqXHR, exception);
+   	     	  }
+        });
+    }else{
+    	  $(".page-loader").hide();
+    }
+ }
+
+
+function getItemFilterList(category){
+ 	$(".page-loader").show();
+	var work_id_fk = $("#work_id_fk").val();
+ 	var period = $("#period").val();
+ 	var category = $("#category").val();
+    if ($.trim(category) == "") {
+    	$("#category option:not(:first)").remove();
+    	var myParams = {work_id_fk : work_id_fk,category : category,period : period};
+        $.ajax({
+            url: "<%=request.getContextPath()%>/ajax/getCategoryListFilterInFortnight",
+            data: myParams, cache: false,async: false,
+            success: function (data) {
+            	if(data != null && data != '' && data.length > 0){  
+                    $.each(data, function (i, val) {
+                         if ($.trim(val.category) != '') { category = ' - ' + $.trim(val.category) }
+                         var selectedFlag = (category == val.category)?'selected':'';
+                         $("#category").append('<option value="' + val.category + '"'+selectedFlag+'>'+$.trim(val.category)+'</option>');
+                    });
+                }
+                $('.searchable').select2();
+                $(".page-loader").hide();
+            },error: function (jqXHR, exception) {
+	   			      $(".page-loader").hide();
+   	          	  getErrorMessage(jqXHR, exception);
+   	     	  }
+        });
+    }else{
+    	  $(".page-loader").hide();
+    }
+ }	
+	
+	
+function getFortnightQuarterlyPlanList(){
+	$(".page-loader").show();
+	
+	getPeriodFilterList('');
+	getWorksFilterList('');
+	getItemFilterList('');
+	
+	var work_id_fk = $("#work_id_fk").val();
+	var period = $("#period").val();
+	var category = $("#category").val();
+	var critical = "";
+	
+		if($("#critical1").prop('checked') )
+		{
+			critical="Yes";
+		}else if($("#critical2").prop('checked') )
+		{
+			critical="No";
+		}        	
+	
+	var filters = '';
+	Object.keys(filtersMap).forEach(function (key) {
+		//alert(filtersMap[key]);
+		filters = filters + key +"="+filtersMap[key] + "^";
+		window.localStorage.setItem("fortnightPlanFilters", filters);
+		});
+		table = $('#datatable-fortnightplan').DataTable();
+	 
+	table.destroy();
+	
+	$.fn.dataTable.moment('DD-MMM-YYYY');
+	table = $('#datatable-fortnightplan').DataTable({
+ 		"bStateSave": true,  
+ 		fixedHeader: true,
+       
+     	//Default: Page display length
+			"iDisplayLength" : 10,
+			"iData" : {
+				"start" : 52
+			},"iDisplayStart" : 0,
+			"drawCallback" : function() {
+				var info = table.page.info();
+				window.localStorage.setItem("fortnightplanPageNo", info.page);
+			},
+        columnDefs: [ 
+        	{targets: [2,3], className: 'hideCOl'},
+            { targets: [ 1,2,4], className: 'fw-12vw'  },
+            { targets: [ 5,6,7], className: 'fw-10vw'  },
+            { targets: [0,1], className: 'fw-111'  },
+            { "width": "20px", "targets": [0] },
+            { orderable: false, 'aTargets': ['no-sort'] } 
+        ],
+        // "ScrollX": true,
+        "sScrollX": "100%",
+         "sScrollXInner": "100%",
+         "bScrollCollapse": true,
+         "ordering":false,
+         "initComplete" : function() {
+				$('.dataTables_filter input[type="search"]')
+						.attr('placeholder', 'Search')
+						.css({
+							'width' : '350px ',
+							'display' : 'inline-block'
+						});
+				var input = $('.dataTables_filter input')
+						.unbind()
+						.bind('keyup',function(e){
+					    if (e.which == 13){
+					    	self.search(input.val()).draw();
+					    }
+					}), self = this.api(), $searchButton = $('<i class="fa fa-search" title="Go" >')
+				.click(function() {
+					self.search(input.val()).draw();
+				}), 
+				$clearButton = $('<i class="fa fa-close" title="Reset">')
+				.click(function() {
+					input.val('');
+					$searchButton.click();
+				})
+				$('.dataTables_filter').append( '<div class="right-btns"></div>');
+				$('.dataTables_filter div').append( $searchButton, $clearButton); 					
+			}
+    }).rows().remove().draw();
+	table.state.clear();		
  
-    <%-- 	var filtersMap = new Object();
-        $(document).ready(function () {
-            $('select:not(.searchable)').formSelect();
-            $('.searchable').select2();
-            $('.notification.dropdown-trigger').dropdown({
-                coverTrigger: false,
-                closeOnClick: false,
-            });
-            getRRList();
-        });
-		var filters = window.localStorage.getItem("RandRBSESFilters");
-	    if($.trim(filters) != '' && $.trim(filters) != null){
-	      	  var temp = filters.split('^'); 
-	      	  for(var i=0;i< temp.length;i++){
-		        	  if($.trim(temp[i]) != '' ){
-		        		  var temp2 = temp[i].split('=');
-			        	  if($.trim(temp2[0]) == 'work_id_fk' ){
-			        		  getWorksFilterList(temp2[1]);
-			        	  }else if($.trim(temp2[0]) == 'hod'){
-			        		  getHODFilterList(temp2[1]);
-			        	  }
-		        	  }
-		          }
-	          }
-        $('.clear-filters').click(function () {
-            $('#hod').val("");
-            $('#work_id_fk').val("");
-            window.localStorage.setItem("RandRBSESFilters",'');
-        	window.location.href= "<%=request.getContextPath()%>/rr-bses";
-        });
-        
-        function addInQueHOD(hod){
-	      	Object.keys(filtersMap).forEach(function (key) {
-		   		if(key.match('hod')) delete filtersMap[key];
-	   	   	});
-	      	if($.trim(hod) != ''){
-	        	filtersMap["hod"] = hod;
-	      	}
-	    }
-	    function addInQueWork(work_id_fk){
-	      	Object.keys(filtersMap).forEach(function (key) {
-		   		if(key.match('work_id_fk')) delete filtersMap[key];
-	   	   	});
-	      	if($.trim(work_id_fk) != ''){
-	        	filtersMap["work_id_fk"] = work_id_fk;
-	      	}
-	    }
-	    function getHODFilterList(hodVal) {
-	    	$(".page-loader").show();
-	    	var work_id_fk = $("#work_id_fk").val();
-	    	var hod = $("#hod").val();
-	        if ($.trim(hod) == "") { 
-	        	$("#hod option:not(:first)").remove();
-	        	var myParams = { hod: hod,work_id_fk : work_id_fk};
-	        	$.ajax({
-	                url: "<%=request.getContextPath()%>/ajax/getHodFilterListInRRBSES",
-	                data: myParams, cache: false,async: false,
-	                success: function (data) {
-	                    if (data.length > 0) {
-	                        $.each(data, function (i, val) {
-	                             var selectedFlag = (hodVal == val.hod)?'selected':'';
-		                         $("#hod").append('<option value="' + val.hod + '"'+selectedFlag+'>' + $.trim(val.designation)+"-" + $.trim(val.user_name)  +'</option>');
-	                        });
-	                    }
-	                    $('.searchable').select2();
-	                    $(".page-loader").hide();
-	                },error: function (jqXHR, exception) {
-	 	   			      $(".page-loader").hide();
-		   	          	  getErrorMessage(jqXHR, exception);
-		   	     	  }
-	            });
-	        }else{
-	        	  $(".page-loader").hide();
-	        }
-	    }
-	    
-	    function getWorksFilterList(work) {
-	    	$(".page-loader").show();
-	    	var work_id_fk = $("#work_id_fk").val();
-	    	var hod = $("#hod").val();
-	        if ($.trim(work_id_fk) == "") {
-	        	$("#work_id_fk option:not(:first)").remove();
-	        	var myParams = { hod: hod,work_id_fk : work_id_fk};
-	            $.ajax({
-	                url: "<%=request.getContextPath()%>/ajax/getWorkFilterListInRRBSES",
-	                data: myParams, cache: false,async: false,
-	                success: function (data) {
-	                    if (data.length > 0) {
-	                        $.each(data, function (i, val) {
-	                        	 var workShortName = '';
-	                             if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
-	                             var selectedFlag = (work == val.work_id_fk)?'selected':'';
-		                         $("#work_id_fk").append('<option value="' + val.work_id_fk + '"'+selectedFlag+'>' + $.trim(val.work_id_fk)   + workShortName +'</option>');
-	                        });
-	                    }
-	                    $('.searchable').select2();
-	                    $(".page-loader").hide();
-	                },error: function (jqXHR, exception) {
-	 	   			      $(".page-loader").hide();
-		   	          	  getErrorMessage(jqXHR, exception);
-		   	     	  }
-	            });
-	        }else{
-	        	  $(".page-loader").hide();
-	        }
-	    }
-	    
-	    function getRandR(rrbses_id){
-	    	$("#rrbses_id").val(rrbses_id);
-	    	$('#getForm').attr('action', '<%=request.getContextPath()%>/get-rr-bses');
-	    	$('#getForm').submit();
-	    }
-	  	//This function is used to get error message for all ajax calls
-	    function getErrorMessage(jqXHR, exception) {
-	    	    var msg = '';
-	    	    if (jqXHR.status === 0) {
-	    	        msg = 'Not connect.\n Verify Network.';
-	    	    } else if (jqXHR.status == 404) {
-	    	        msg = 'Requested page not found. [404]';
-	    	    } else if (jqXHR.status == 500) {
-	    	        msg = 'Internal Server Error [500].';
-	    	    } else if (exception === 'parsererror') {
-	    	        msg = 'Requested JSON parse failed.';
-	    	    } else if (exception === 'timeout') {
-	    	        msg = 'Time out error.';
-	    	    } else if (exception === 'abort') {
-	    	        msg = 'Ajax request aborted.';
-	    	    } else {
-	    	        msg = 'Uncaught Error.\n' + jqXHR.responseText;
-	    	    }
-	    	    console.log(msg);
-	     }
-	    
-	    var queue = 1;
-	    function getRRList() {
-			$(".page-loader-2").show();
-
-			getWorksFilterList('');
-			getHODFilterList('');
-	     	
-	     	
-	    	var work_id_fk = $("#work_id_fk").val();
-	    	var hod = $("#hod").val();
-	    	
-	    	var filters = '';
-	    	Object.keys(filtersMap).forEach(function (key) {
-	    		//alert(filtersMap[key]);
-	    		filters = filters + key +"="+filtersMap[key] + "^";
-	    		window.localStorage.setItem("RandRBSESFilters", filters);
+ 	var myParams = {work_id_fk : work_id_fk, period : period, category:category,critical:critical};
+	$.ajax({url : "<%=request.getContextPath()%>/ajax/getFortnightPlanList",
+			type:"POST",
+			data:myParams,cache: false,async:false,
+			success : function(data)
+			{    	
+				if(data != null && data != '' && data.length > 0){    					
+         		$.each(data,function(key,val){
+         			var fortnightly_plan_id = val.fortnightly_plan_id;
+         			var cname="";
+         			if ($.trim(val.contract_short_name) != '') { cname =  "Yes" } 
+         			
+                    var actions = '<a href="javascript:void(0);"  onclick=getFortnightPlan('+fortnightly_plan_id+',"'+cname+'",'+val.data_id+'); class="btn waves-effect waves-light bg-m t-c mob-btn" title="Edit"><i class="fa fa-pencil"></i></a>';    	                   	
+                   	var rowArray = [];    	                  
+                   	var workName = '';
+                    if ($.trim(val.work_short_name) != '') { workName =  $.trim(val.work_short_name) } 
+                    
+                    if(val.category!="Others")
+                    	{
+                   	
+                            var a1=parseFloat(val.cum_planned_last_st)*100;
+                            a1=a1.toFixed(2)+'%';
+                            var a2=parseFloat(val.cum_actual_last_st)*100;
+                            a2=a2.toFixed(2)+'%';
+                            var a3=parseFloat(val.planned_current_st)*100;
+                            a3=a3.toFixed(2)+'%';
+                            var a4=parseFloat(val.actual_current_st)*100;
+                            a4=a4.toFixed(2)+'%';
+                        
+                        
+                            rowArray.push($.trim(key+1));
+    	                   	rowArray.push($.trim(val.contract_short_name));
+    	                   	rowArray.push($.trim(val.structure_type_fk));
+    	                   	rowArray.push($.trim(val.structure));
+    	                   	rowArray.push(a1);
+    	                   	rowArray.push(a2);
+    	                   	rowArray.push(a3);
+    	                   	rowArray.push(a4);
+                    	}
+                    else
+                    	{
+                            rowArray.push($.trim(key+1));
+    	                   	rowArray.push($.trim(val.contract_short_name));
+    	                   	rowArray.push($.trim(val.structure_type_fk));
+    	                   	rowArray.push($.trim(val.structure));
+    	                   	rowArray.push($.trim(val.cum_planned_last_st));
+    	                   	rowArray.push($.trim(val.cum_actual_last_st));
+    	                   	rowArray.push($.trim(val.planned_current_st));
+    	                   	rowArray.push($.trim(val.actual_current_st));
+    	                   	rowArray.push($.trim(actions));                               	
+                    	}
+                   	rowArray.push($.trim(actions));    	                   	
+                   	
+                    table.row.add(rowArray).draw( true );
+                    		                       
 				});
-	    	   	table = $('#rr-bses').DataTable();
-	    		table.destroy();
-				var i = 0;
-	    		$.fn.dataTable.moment('DD-MMM-YYYY');
-	    		var rowLen = 0;
-	    		var myParams =  "work_id_fk="
-	    				+ work_id_fk + "&hod="+ hod;
-
-	    		/***************************************************************************************************/
-	    		$("#rr-bses").DataTable({
-	    			
-	    							"bProcessing" : true,
-	    							"bServerSide" : true,
-	    							"sort" : "position",
-	    							//bStateSave variable you can use to save state on client cookies: set value "true" 
-	    							"bStateSave" : false,
-	    							 stateSave: true,
-	    							 "fnStateSave": function (oSettings, oData) {
-	    							 	localStorage.setItem('MRVCDataTables', JSON.stringify(oData));
-	    							},
-	    							 "fnStateLoad": function (oSettings) {
-	    								return JSON.parse(localStorage.getItem('MRVCDataTables'));
-	    							 },
-	    							//Default: Page display length
-	    							"iDisplayLength" : 10,
-	    							"iData" : {
-	    								"start" : 52
-	    							},
-	    							//We will use below variable to track page number on server side(For more information visit: http://legacy.datatables.net/usage/options#iDisplayStart)
-	    							"iDisplayStart" : 0,
-	    							"fnDrawCallback" : function() {
-	    								//Get page numer on client. Please note: number start from 0 So
-	    								//for the first page you will see 0 second page 1 third page 2...
-	    								//Un-comment below alert to see page number
-	    								//alert("Current page number: "+this.fnPagingInfo().iPage);
-	    							},
-	    							//"sDom": 'l<"toolbar">frtip',
-	    							"initComplete" : function() {
-	    								$('.dataTables_filter input[type="search"]')
-	    										.attr('placeholder', 'Search')
-	    										.css({
-	    											'width' : '350px ',
-	    											'display' : 'inline-block'
-	    										});
-
-	    								var input = $('.dataTables_filter input')
-	    										.unbind()
-	    										.bind('keyup',function(e){
-	    										    if (e.which == 13){
-	    										    	self.search(input.val()).draw();
-	    										    }
-	    										}), self = this.api(), $searchButton = $(
-	    										'<i class="fa fa-search" title="Go" >')
-	    								//.text('Go')
-	    								.click(function() {
-	    									self.search(input.val()).draw();
-	    								}), $clearButton = $(
-	    										'<i class="fa fa-close" title="Reset">')
-	    								//.text('X')
-	    								.click(function() {
-	    									input.val('');
-	    									$searchButton.click();
-	    								})
-	    								$('.dataTables_filter').append(
-	    										'<div class="right-btns"></div>');
-	    								$('.dataTables_filter div').append(
-	    										$searchButton, $clearButton);
-	    								rowLen = $('#rr-bses tbody tr:visible').length
-	    								if(rowLen <= 1 &&  queue == 1){									
-	    									$('#rr-bses').dataTable().api().draw(); 
-	    									getRRList();
-	    									queue++;
-	    							    } 
-	    							}
-	    							,
-	    							columnDefs : [ {
-	    								"targets" : 'no-sort',
-	    								"orderable" : false,
-	    							}],
-	    							"sScrollX" : "100%",
-	    							"sScrollXInner" : "100%",
-	    							"ordering":false,
-	    							"bScrollCollapse" : true,
-	    							"language" : {
-	    								"info" : "_START_ - _END_ of _TOTAL_",
-	    								paginate : {
-	    									next : '<i class="fa fa-angle-right"></i>', 
-	    									previous : '<i class="fa fa-angle-left"></i>'  
-	    								}
-	    							},
-	    							
-	    							"bDestroy" : true,
-	    							"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/rr-bses?"+myParams,
-	    		        "aoColumns": [
-	    		        	
-	      		            { "mData": function(data,type,row){
-	                             if($.trim(data.work_id_fk) == ''){ return '-'; }else{ return data.work_short_name; }
-	      		            } },
-	      		         	{ "mData": function(data,type,row){
-	                             if($.trim(data.hod) == ''){ return '-'; }else{ return data.designation +"-"+ data.user_name ; }
-	      		            } },
-	      		       
-	    		            { "mData": function(data,type,row){ 
-	    		            	if($.trim(data.mrvc_responsible_person) == ''){ return '-'; }else{return data.res_designation +"-"+ data.res_user_name ; }
-	    		            } },
-	    		         	{ "mData": function(data,type,row){
-	    		            	if($.trim(data.bses_agency_name) == ''){ return '-'; }else{ return data.bses_agency_name; }
-	    		            } },
-	    		            { "mData": function(data,type,row){
-	    		            	if($.trim(data.agency_responsible_person) == ''){ return '-'; }else{ return data.agency_responsible_person; }
-	    		            } },
-	    		         	{ "mData": function(data,type,row){
-	    		         		var rrbses_id = "'"+data.rrbses_id+"'";
-	    	                    var actions = '<a href="javascript:void(0);"  onclick="getRandR('+rrbses_id+');" class="btn waves-effect waves-light bg-m t-c mob-btn" ><i class="fa fa-pencil"></i></a>';
-	    		            	return actions;
-	    		            } }
-	    		            
-	    		        ]
-	    		    });
-	    	
-	    	
-		  $(".page-loader-2").hide();  		     
-	  	
-	 } --%>
-
+         		
+         		$(".page-loader").hide();
+			}else{
+				$(".page-loader").hide();
+			}
+			
+		},error: function (jqXHR, exception) {
+			$(".page-loader").hide();
+         	getErrorMessage(jqXHR, exception);
+     }});
+	
+}	
+	
+	
+	
     </script>
 
 </body>

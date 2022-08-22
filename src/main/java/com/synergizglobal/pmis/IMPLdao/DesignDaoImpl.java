@@ -446,7 +446,7 @@ public class DesignDaoImpl implements DesignDao{
 			dObj = (Design)jdbcTemplate.queryForObject(qry, new Object[] {obj.getDesign_id()}, new BeanPropertyRowMapper<Design>(Design.class));
 			//FORMAT(consultant_submission,'dd-MM-yyyy') AS consultant_submission,
 			if(!StringUtils.isEmpty(dObj)) {
-				String qry2 ="select revision,current,FORMAT(revision_date,'dd-MM-yyyy') AS revision_date,remarks,revision_status_fk from design_revisions where design_id_fk = ?";
+				String qry2 ="select revision,[current],FORMAT(revision_date,'dd-MM-yyyy') AS revision_date,remarks,revision_status_fk from design_revisions where design_id_fk = ?";
 				List<Design> objList = jdbcTemplate.query( qry2,new Object[] {obj.getDesign_id()}, new BeanPropertyRowMapper<Design>(Design.class));
 				dObj.setDesignRevisions(objList);
 			}
@@ -457,7 +457,7 @@ public class DesignDaoImpl implements DesignDao{
 				dObj.setDesignFilesList(objList);
 			}
 			if(!StringUtils.isEmpty(dObj)) {
-				String qry3 ="select id, design_id_fk, stage_fk, submitted_by, submitted_to,FORMAT(submitted_date,'dd-MM-yyyy') AS submitted_date, submssion_purpose,latest from design_status where design_id_fk = ? and (latest is null or latest = 'Yes' ) order by DATE(submitted_date) DESC, id DESC ";
+				String qry3 ="select id, design_id_fk, stage_fk, submitted_by, submitted_to,FORMAT(submitted_date,'dd-MM-yyyy') AS submitted_date, submssion_purpose,latest from design_status where design_id_fk = ? and (latest is null or latest = 'Yes' ) order by submitted_date DESC, id DESC ";
 				List<Design> objList = jdbcTemplate.query( qry3,new Object[] {obj.getDesign_id()}, new BeanPropertyRowMapper<Design>(Design.class));
 				dObj.setDesignStatusList(objList);
 			}
@@ -813,7 +813,7 @@ public class DesignDaoImpl implements DesignDao{
 				count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			
 				String qryDesignRevision = "INSERT INTO design_revisions (design_id_fk,revision,revision_date,"
-						+ "revision_status_fk,current,remarks) VALUES(?,?,?,?,?,?)";
+						+ "revision_status_fk,[current],remarks) VALUES(?,?,?,?,?,?)";
 				
 				int[] counts = jdbcTemplate.batchUpdate(qryDesignRevision,
 			            new BatchPreparedStatementSetter() {
@@ -1793,7 +1793,7 @@ public class DesignDaoImpl implements DesignDao{
 	public List<Design> getApprovingRailwayList() throws Exception {
 		List<Design> objsList = null;
 		try {
-			String qry = "SELECT DISTINCT(railway_id) from railway where railway_id in ('WR','CR','MRVC','Others') order by case when railway_id='WR' then 1 when railway_id='CR' then 2 when railway_id='MRVC' then 3 railway_id='Others' then 4 end asc)";
+			String qry = "SELECT railway_id from railway where railway_id in ('WR','CR','MRVC','Others') order by case when railway_id='WR' then 1 when railway_id='CR' then 2 when railway_id='MRVC' then 3 when railway_id='Others' then 4 end asc";
 		    objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Design>(Design.class));
 		}catch(Exception e){ 
 			throw new Exception(e);

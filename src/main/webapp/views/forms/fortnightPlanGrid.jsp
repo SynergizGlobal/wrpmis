@@ -144,9 +144,9 @@
     							</div>								
 								<div class="col s12 m10 right-align exportButton">
     								<div class="m-n1">
-    									<a href="<%=request.getContextPath()%>/add-fortnightly-plan"
+<%--     									<a href="<%=request.getContextPath()%>/add-fortnightly-plan"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
-											class="fa fa-plus-circle"></i> Add</strong></a>
+											class="fa fa-plus-circle"></i> Add</strong></a> --%>
 										<a href="javascript:void(0);" onclick="exportFortnight();"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
 											class="fa fa-cloud-download"></i> Execution Export</strong></a>
@@ -170,7 +170,7 @@
 								<div class="row no-mar">
 									
 									<div class="col s12 m2 input-field">
-										<p class="searchable_label">Work</p>
+										<p class="searchable_label">Work<span class="required">*</span></p>
 										<select id="work_id_fk" name="work_id_fk"
 											onchange="addInQueWork(this.value);getFortnightlyPlanList();" class="searchable">
 											<option value="">Select</option>
@@ -197,7 +197,7 @@
 	                                    </p>
                                 	</div>									
 									<div class="col s12 m3 input-field">
-										<p class="searchable_label">Period</p>
+										<p class="searchable_label">Period<span class="required">*</span></p>
 										<select id="period" name="period"
 											onchange="addInQuePeriod(this.value);getFortnightlyPlanList();" class="searchable">
 											<option value="">Select</option>
@@ -221,14 +221,13 @@
 										<thead>
 											<tr>
 												<th class="w10px">S.No</th>
-												<th class="pdla">Category</th>
 												<th class="w20em">Contract</th>
 												<th class="pdla">Structure</th>
 												<th class="pdla">Structure ID</th>
-												<th class="pdla">Cum Planned<br> Last Fortnight</th>
-												<th class="pdla">Cum Actual<br> Last Fortnight</th>
-												<th class="pdla">Plan for<br> Current Fortnight</th>
-												<th class="pdla">Actual<br> progress</th>
+												<th class="pdla">Cum. Progress<br> till Last Fortnight</th>
+												<th class="pdla">Planned for <br>Current Fortnight</th>
+												<th class="pdla">Actual for <br>Current Fortnight</th>
+												<th class="pdla">Expected Date<br>of Completion </th>
 												<th class="no-sort w10px">Update</th>
 											</tr>
 										</thead>
@@ -525,7 +524,6 @@
 	                            
 	                            
 		                            rowArray.push($.trim(key+1));
-		    	                   	rowArray.push($.trim(val.category));
 		    	                   	rowArray.push($.trim(val.contract_short_name));
 		    	                   	rowArray.push($.trim(val.structure_type_fk));
 		    	                   	rowArray.push($.trim(val.structure));
@@ -537,7 +535,6 @@
                             else
                             	{
 	                                rowArray.push($.trim(key+1));
-	        	                   	rowArray.push($.trim(val.category));
 	        	                   	rowArray.push($.trim(val.contract_short_name));
 	        	                   	rowArray.push($.trim(val.structure_type_fk));
 	        	                   	rowArray.push($.trim(val.structure));

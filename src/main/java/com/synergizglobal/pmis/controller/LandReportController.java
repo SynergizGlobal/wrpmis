@@ -493,6 +493,10 @@ public class LandReportController {
 				cell2 = row1.createCell(d++);
 				cell2.setCellStyle(activityNameStyle1);
 				cell2.setCellValue(zObj.getLa_land_status_fk());
+				
+				cell2 = row1.createCell(d++);
+				cell2.setCellStyle(activityNameStyle1);
+				cell2.setCellValue(zObj.getIssue_id());				
 
 		        rowNo2++;
 			}

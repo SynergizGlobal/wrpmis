@@ -137,16 +137,19 @@
 								<h6 class="mob-mar">Fortnightly Plan</h6>
 								<div class="col s12 m2">
     								<div class="m-n1">
-    									<a href="<%=request.getContextPath()%>/refresh-execution-activities"
+    								
+ 	                                                    <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin'}"> 
+<a href="<%=request.getContextPath()%>/refresh-execution-activities"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
 											class="fa fa-refresh"></i> Refresh Execution Activities</strong></a>
+	                                                    </c:if>   									
     								</div>
     							</div>								
 								<div class="col s12 m10 right-align exportButton">
     								<div class="m-n1">
-<%--     									<a href="<%=request.getContextPath()%>/add-fortnightly-plan"
+    									<a href="<%=request.getContextPath()%>/add-fortnightly-plan"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
-											class="fa fa-plus-circle"></i> Add</strong></a> --%>
+											class="fa fa-plus-circle"></i> Add</strong></a>
 										<a href="javascript:void(0);" onclick="exportFortnight();"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
 											class="fa fa-cloud-download"></i> Execution Export</strong></a>
@@ -507,43 +510,26 @@
     	         			
     	                    var actions = '<a href="javascript:void(0);"  onclick=getFortnightPlan('+fortnightly_plan_id+',"'+cname+'",'+val.data_id+'); class="btn waves-effect waves-light bg-m t-c mob-btn" title="Edit"><i class="fa fa-pencil"></i></a>';    	                   	
     	                   	var rowArray = [];    	                  
-    	                   	var workName = '';
-                            if ($.trim(val.work_short_name) != '') { workName =  $.trim(val.work_short_name) } 
-                            
-                            if(val.category!="Others")
-                            	{
     	                   	
 		                            var a1=parseFloat(val.cum_planned_last_st)*100;
-		                            a1=a1.toFixed(2)+'%';
+		                            a1='<span style="color:'+val.color+'">'+a1.toFixed(2)+'%<span>';
 		                            var a2=parseFloat(val.cum_actual_last_st)*100;
-		                            a2=a2.toFixed(2)+'%';
+		                            a2='<span style="color:'+val.color+'">'+a2.toFixed(2)+'%<span>';
 		                            var a3=parseFloat(val.planned_current_st)*100;
-		                            a3=a3.toFixed(2)+'%';
+		                            a3='<span style="color:'+val.color+'">'+a3.toFixed(2)+'%<span>';
 		                            var a4=parseFloat(val.actual_current_st)*100;
-		                            a4=a4.toFixed(2)+'%';
+		                            a4='<span style="color:'+val.color+'">'+a4.toFixed(2)+'%<span>';
 	                            
 	                            
-		                            rowArray.push($.trim(key+1));
-		    	                   	rowArray.push($.trim(val.contract_short_name));
-		    	                   	rowArray.push($.trim(val.structure_type_fk));
-		    	                   	rowArray.push($.trim(val.structure));
+		                            rowArray.push('<span style="color:'+val.color+'">'+$.trim(key+1)+'</span>');
+		    	                   	rowArray.push('<span style="color:'+val.color+'">'+$.trim(val.contract_short_name)+'</span>');
+		    	                   	rowArray.push('<span style="color:'+val.color+'">'+$.trim(val.structure_type_fk)+'</span>');
+		    	                   	rowArray.push('<span style="color:'+val.color+'">'+$.trim(val.structure)+'</span>');
 		    	                   	rowArray.push(a1);
 		    	                   	rowArray.push(a2);
 		    	                   	rowArray.push(a3);
 		    	                   	rowArray.push(a4);
-                            	}
-                            else
-                            	{
-	                                rowArray.push($.trim(key+1));
-	        	                   	rowArray.push($.trim(val.contract_short_name));
-	        	                   	rowArray.push($.trim(val.structure_type_fk));
-	        	                   	rowArray.push($.trim(val.structure));
-	        	                   	rowArray.push($.trim(val.cum_planned_last_st));
-	        	                   	rowArray.push($.trim(val.cum_actual_last_st));
-	        	                   	rowArray.push($.trim(val.planned_current_st));
-	        	                   	rowArray.push($.trim(val.actual_current_st));
-	        	                   	rowArray.push($.trim(actions));                               	
-                            	}
+
     	                   	rowArray.push($.trim(actions));    	                   	
     	                   	
     	                    table.row.add(rowArray).draw( true );

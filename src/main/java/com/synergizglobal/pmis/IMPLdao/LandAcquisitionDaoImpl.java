@@ -1116,7 +1116,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 				qry = qry + " where la_category = ? ";
 				arrSize++;
 			}
-			qry = qry + " group by la_category";
+			qry = qry + " group by id,la_category,ls.la_sub_category";
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;

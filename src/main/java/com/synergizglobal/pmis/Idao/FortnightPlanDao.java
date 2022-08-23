@@ -42,5 +42,16 @@ public interface FortnightPlanDao {
 	boolean refreshExecutionActivities(String userId) throws Exception;
 
 	boolean saveFortnightDataUploadFile(FortnightPlan obj) throws Exception;
+
+	List<FortnightPlan> getFortnightQuarterlyPlanItemList() throws Exception;
+	List<FortnightPlan> getFortnightQuarterlyPlanPeriodList() throws Exception;
+
+	boolean insertQuarterlyPlan(FortnightPlan obj) throws Exception;
+	
+	List<FortnightPlan> getWorksListQuarterlyFilter(FortnightPlan obj) throws Exception;
+	List<FortnightPlan> getPeriodListQuarterlyFilter(FortnightPlan obj) throws Exception;
+	List<FortnightPlan> getItemListQuarterlyFilter(FortnightPlan obj) throws Exception;
+
+	List<FortnightPlan> getFortnightQuarterlyPlanList(FortnightPlan obj) throws Exception;	
 }
  

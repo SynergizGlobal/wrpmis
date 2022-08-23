@@ -7,8 +7,11 @@ import com.synergizglobal.pmis.model.FortnightPlan;
 public interface FortnightPlanService {
 	
 	List<FortnightPlan> getFortnightPlanList(FortnightPlan obj) throws Exception;
+	List<FortnightPlan> getFortnightQuarterlyPlanList(FortnightPlan obj) throws Exception;
 
 	List<FortnightPlan> getFortnightPlanWorkList() throws Exception;
+	List<FortnightPlan> getFortnightQuarterlyPlanItemList() throws Exception;
+	List<FortnightPlan> getFortnightQuarterlyPlanPeriodList() throws Exception;
 
 	List<FortnightPlan> getFortnightPlanContractList(FortnightPlan obj) throws Exception;
 	
@@ -23,6 +26,7 @@ public interface FortnightPlanService {
 
 	boolean updateFortnightPlan(FortnightPlan obj) throws Exception;
 	boolean updateFortnightlyPlan(FortnightPlan obj) throws Exception;
+	boolean insertQuarterlyPlan(FortnightPlan obj) throws Exception;
 
 	int getTotalRecords(FortnightPlan obj, String searchParameter) throws Exception;
 
@@ -36,5 +40,10 @@ public interface FortnightPlanService {
 
 	boolean refreshExecutionActivities(String UserId) throws Exception;
 	public boolean saveFortnightDataUploadFile(FortnightPlan obj) throws Exception;
+	
+	
+	public List<FortnightPlan> getWorksListQuarterlyFilter(FortnightPlan obj) throws Exception;
+	public List<FortnightPlan> getPeriodListQuarterlyFilter(FortnightPlan obj) throws Exception;
+	public List<FortnightPlan> getItemListQuarterlyFilter(FortnightPlan obj) throws Exception;	
 
 } 

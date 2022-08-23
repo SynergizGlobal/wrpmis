@@ -51,6 +51,10 @@ public class FortnightPlanServiceImpl implements FortnightPlanService {
 	@Override
 	public boolean updateFortnightlyPlan(FortnightPlan obj) throws Exception {
 		return fortnightPlanDao.updateFortnightlyPlan(obj);
+	}
+	@Override
+	public boolean insertQuarterlyPlan(FortnightPlan obj) throws Exception {
+		return fortnightPlanDao.insertQuarterlyPlan(obj);
 	}	
 	@Override
 	public int getTotalRecords(FortnightPlan obj, String searchParameter) throws Exception {
@@ -66,6 +70,15 @@ public class FortnightPlanServiceImpl implements FortnightPlanService {
 	public List<FortnightPlan> getFortnightPlanWorkList() throws Exception {
 		return fortnightPlanDao.getFortnightPlanWorkList();
 	}
+	
+	@Override
+	public List<FortnightPlan> getFortnightQuarterlyPlanItemList() throws Exception {
+		return fortnightPlanDao.getFortnightQuarterlyPlanItemList();
+	}
+	@Override
+	public List<FortnightPlan> getFortnightQuarterlyPlanPeriodList() throws Exception {
+		return fortnightPlanDao.getFortnightQuarterlyPlanPeriodList();
+	}	
 
 	@Override
 	public List<FortnightPlan> getFortnightPlanContractList(FortnightPlan obj) throws Exception {
@@ -100,6 +113,25 @@ public class FortnightPlanServiceImpl implements FortnightPlanService {
 	@Override
 	public boolean saveFortnightDataUploadFile(FortnightPlan obj) throws Exception {
 		return fortnightPlanDao.saveFortnightDataUploadFile(obj);
-	}	
+	}
+	
+	public List<FortnightPlan> getWorksListQuarterlyFilter(FortnightPlan obj) throws Exception
+	{
+		return fortnightPlanDao.getWorksListQuarterlyFilter(obj);
+	}
+	
+	public List<FortnightPlan> getPeriodListQuarterlyFilter(FortnightPlan obj) throws Exception
+	{
+		return fortnightPlanDao.getPeriodListQuarterlyFilter(obj);
+	}
+	public List<FortnightPlan> getItemListQuarterlyFilter(FortnightPlan obj) throws Exception
+	{
+		return fortnightPlanDao.getItemListQuarterlyFilter(obj);
+	}
+
+	@Override
+	public List<FortnightPlan> getFortnightQuarterlyPlanList(FortnightPlan obj) throws Exception {
+		return fortnightPlanDao.getFortnightQuarterlyPlanList(obj);
+	}
 	
 }

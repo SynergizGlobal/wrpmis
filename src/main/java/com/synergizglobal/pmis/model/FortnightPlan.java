@@ -9,10 +9,12 @@ public class FortnightPlan {
 	component,fortnightly_plan_update_id,  period, cum_planned_last_structure,period_value, 
 	cum_actual_last_structure, planned_current_structure, cum_planned_last_st, cum_actual_last_st, planned_current_st,user_id,user_role_code,work_id_fk,total_items,
 	designation,user_name,created_by_user_id_fk,module_name,work_name,work_short_name,department_fk,
-	contract_short_name,structure,user_type_fk,structure_type_fk,remarks,critical,activity_name,scope,status, uploaded_by_user_id_fk;
+	contract_short_name,structure,user_type_fk,structure_type_fk,remarks,critical,activity_name,scope,status, uploaded_by_user_id_fk,item,cumulative_progress,tdc_calendar,criticality,
+	scope_of_work_quarterly,fortnight_quarterly_plan_id;
 	
 	
-	private String [] activity,scope_of_work,critical_item,completion_status,planned_progress_on_last_fortnight, actual_progress_on_last_fortnight, plan_for_the_current_fortnight,chkcompletion_status;
+	private String [] activity,scope_of_work,critical_item,completion_status,planned_progress_on_last_fortnight, actual_progress_on_last_fortnight, plan_for_the_current_fortnight,
+	chkcompletion_status,fortnight;
 
 
 	public String getFortnightly_plan_id() {
@@ -373,6 +375,62 @@ public class FortnightPlan {
 
 	public void setUploaded_by_user_id_fk(String uploaded_by_user_id_fk) {
 		this.uploaded_by_user_id_fk = uploaded_by_user_id_fk;
+	}
+
+	public String getItem() {
+		return item;
+	}
+
+	public void setItem(String item) {
+		this.item = item;
+	}
+
+	public String getCumulative_progress() {
+		return cumulative_progress;
+	}
+
+	public void setCumulative_progress(String cumulative_progress) {
+		this.cumulative_progress = cumulative_progress;
+	}
+
+	public String getTdc_calendar() {
+		return tdc_calendar;
+	}
+
+	public void setTdc_calendar(String tdc_calendar) {
+		this.tdc_calendar = tdc_calendar;
+	}
+
+	public String [] getFortnight() {
+		return fortnight;
+	}
+
+	public void setFortnight(String [] fortnight) {
+		this.fortnight = fortnight;
+	}
+
+	public String getScope_of_work_quarterly() {
+		return scope_of_work_quarterly;
+	}
+
+	public void setScope_of_work_quarterly(String scope_of_work_quarterly) {
+		this.scope_of_work_quarterly = scope_of_work_quarterly;
+	}
+
+	public String getCriticality() {
+		return criticality;
+	}
+
+	public void setCriticality(String criticality) {
+		this.criticality = criticality;
+	}
+
+	public String getFortnight_quarterly_plan_id() {
+		return fortnight_quarterly_plan_id;
+	}
+
+	public void setFortnight_quarterly_plan_id(String fortnight_quarterly_plan_id) {
+		this.fortnight_quarterly_plan_id = fortnight_quarterly_plan_id;
 	}
 
 

@@ -432,11 +432,11 @@ public class IssueDaoImpl implements IssueDao {
 			String qry = "INSERT INTO issue"
 					+ "(contract_id_fk,title,date,location,reported_by,responsible_person,"
 					+ "priority_fk,category_fk,status_fk,assigned_date,corrective_measure,resolved_date,escalated_to,remarks,"
-					+ "zonal_railway_fk,other_organization,other_org_resposible_person_name,other_org_resposible_person_designation,escalation_date,created_by_user_id_fk,created_date,description) "
+					+ "zonal_railway_fk,other_organization,other_org_resposible_person_name,other_org_resposible_person_designation,escalation_date,created_by_user_id_fk,created_date,description,la_id) "
 					+ "VALUES "
 					+ "(:contract_id_fk,:title,:date,:location,:reported_by,:responsible_person,:"
 					+ "priority_fk,:category_fk,:status_fk,:assigned_date,:corrective_measure,:resolved_date,:escalated_to,:remarks,"
-					+ ":zonal_railway_fk,:other_organization,:other_org_resposible_person_name,:other_org_resposible_person_designation,:escalation_date,:created_by_user_id_fk,CURRENT_TIMESTAMP,:description)";
+					+ ":zonal_railway_fk,:other_organization,:other_org_resposible_person_name,:other_org_resposible_person_designation,:escalation_date,:created_by_user_id_fk,CURRENT_TIMESTAMP,:description,:la_id)";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
 			KeyHolder keyHolder = new GeneratedKeyHolder();
 			int count = template.update(qry, paramSource, keyHolder);

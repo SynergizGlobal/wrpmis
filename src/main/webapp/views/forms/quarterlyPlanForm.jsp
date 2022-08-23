@@ -323,27 +323,30 @@
                         </span>
                     </div>
                     <!-- form start-->
-                    <form action="#">
+                    <form action="<%=request.getContextPath()%>/insert-fortnightly-plan" id="getForm" name="getForm" method="post">
                         <div class="container container-no-margin">
                             <div class="row">  
                                 <h5 class="center-align" style="margin-bottom: 40px;"></h5>
                                 <div class="col s6 m4 input-field">
                                     <p class="searchable_label"> Work: </p>
-                                     <select id="work_id" class="searchable" name="work_id">
+                                     <select id="work_id_fk" class="searchable" name="work_id_fk">
                                         <option value="">Select</option>
+                                       	<c:forEach var="obj" items="${FortnightPlanWorkList }">
+                                      	   	<option value= "${obj.work_id_fk}">${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
+                                    	 </c:forEach>                                          
                                     </select>
                                     
                                 </div>
                                 <div class="col s6 m4 input-field">
                                     <p class="searchable_label"> Period: </p>
-                                    <select id="qp_period" class="searchable" name="qp_period">
+                                    <select id="period" class="searchable" name="period">
                                         <option value="">Select</option>
                                     </select>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <input id="qp_structure" maxlength="30" data-length="30" name="qp_structure" type="text" class="validate w80 pdr4em" value="">
-                                     <label for="qp_structure">Structure</label>
-                                     <span id="qp_structureError" class="error-msg" ></span>
+                                    <input id="structure" maxlength="30" data-length="30" name="structure" type="text" class="validate w80 pdr4em" value="">
+                                     <label for="structure">Structure</label>
+                                     <span id="structureError" class="error-msg" ></span>
                                 </div>  
                                 
                                 
@@ -351,13 +354,16 @@
                             <div class="row" style="margin-top: 20px;">
                                 <div class="col s6 m4 input-field">
                                     <p class="searchable_label"> Item: </p>
-                                    <select id="qp_item" class="searchable" name="qp_item">
+                                    <select id="item" class="searchable" name="item">
                                         <option value="">Select</option>
+                                       	<c:forEach var="obj" items="${FortnightPlanItemList }">
+                                      	   	<option value= "${obj.item}">${obj.item }</option>
+                                    	 </c:forEach>                                          
                                     </select>
                                 </div>
                                  <div class="col s6 m4 input-field">
                                     <p class="searchable_label"> Criticality: </p>
-                                    <select id="qp_criticality" class="searchable" name="qp_criticality">
+                                    <select id="criticality" class="searchable" name="criticality">
                                         <option value="">Select</option>
                                          <option value="yes">Yes</option>
                                           <option value="no">No</option>
@@ -371,9 +377,9 @@
                                              <span id="tdc_calendarError" class="error-msg" ></span>
                                 </div> 
                                 <div class="col s6 m4 input-field">
-                                    <textarea id="scope_of_work" name="scope_of_work" class="pmis-textarea pdr4em w85 my-valid-class" data-length="150" maxlength="150"></textarea>
-                                     <label for="scope_of_work">Scope Of Work</label>
-                                     <span id="scope_of_workError" class="error-msg" ></span>
+                                    <textarea id="scope_of_work_quarterly" name="scope_of_work_quarterly" class="pmis-textarea pdr4em w85 my-valid-class" data-length="150" maxlength="150"></textarea>
+                                     <label for="scope_of_work_quarterly">Scope Of Work</label>
+                                     <span id="scope_of_work_quarterlyError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 input-field">
                                 <textarea id="cumulative_progress" name="cumulative_progress" class="pmis-textarea pdr4em w85 my-valid-class" data-length="150" maxlength="150"></textarea>
@@ -405,12 +411,12 @@
                                                        <tr>
                                                         <td data-head="S No">&nbsp;</td>
                                                         <td data-head="Fortnight" class="input-field">
-                                                            <select id="qp_fortnight" class="searchable" name="qp_fortnight">
+                                                            <select id="fortnight0" class="searchable" name="fortnight" class="fortnight">
 						                                        <option value="">Select</option>
 						                                    </select>
                                                         </td>
                                                         <td data-head="Activity" class="input-field">
-                                                        <textarea id="qp_activity" name="qp_activity" class="pmis-textarea pdr4em w85 my-valid-class" data-length="200" maxlength="200"></textarea>
+                                                        <textarea id="activity" name="activity" class="pmis-textarea pdr4em w85 my-valid-class" data-length="200" maxlength="200"></textarea>
                                                         </td>
                                                         
                                                         
@@ -453,8 +459,7 @@
                             <div class="row">
                                 <div class="col s12 m6 l6 mt-brdr ">
                                     <div class="center-align m-1">
-                                        <button class="btn waves-effect waves-light bg-m">Add /
-                                            Edit</button>
+                                        <input class="btn waves-effect waves-light bg-m" type="submit" value="Add" width="10%">
                                     </div>
                                 </div>
                                 <div class="col s12 m6 l6 mt-brdr ">
@@ -522,8 +527,160 @@
         $( ".searchable" ).each(function( index,val ) {
  $( this ).select2({                placeholder:      $( this ).attr('placeholder')       });
  });
-       // $('').select2({                placeholder            });
-    });
+        
+        var DateShort=new Date().getFullYear();
+        	DateShort=DateShort.toString();
+        	DateShort=DateShort.substring(2,4);
+
+        $('#period').append('<option value="1st January,'+DateShort+'  - 31st March,'+DateShort+'">1st January,'+DateShort+'  - 31st March,'+DateShort+'</option>');
+        $('#period').append('<option value="1st January,'+DateShort+'  - 31st March,'+DateShort+'">1st April,'+DateShort+'  - 30th June,'+DateShort+'</option>'); 
+        $('#period').append('<option value="1st January,'+DateShort+'  - 31st March,'+DateShort+'">1st July,'+DateShort+'  - 30th September,'+DateShort+'</option>'); 
+        $('#period').append('<option value="1st January,'+DateShort+'  - 31st March,'+DateShort+'">1st October,'+DateShort+'  - 31st December,'+DateShort+'</option>'); 
+        
+        getFortnights(0);
+    });    
+        
+        function getFortnights(Iteration)
+        {
+        
+        
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1;
+  
+        var yyyy = today.getFullYear();
+        
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+        var today = dd + '/' + mm + '/' + yyyy;
+        
+        var dateFrom = "01/"+ mm + '/' + yyyy;
+        var dateTo = "15/"+ mm + '/' + yyyy;
+        
+        var dateFrom1 = "16/"+ mm + '/' + yyyy;
+        var dateTo1 = daysInMonth(mm,yyyy)+"/"+ mm + '/' + yyyy;  
+        
+        
+        
+        var dateCheck = today;
+
+        var d1 = dateFrom.split("/");
+        var d2 = dateTo.split("/");
+        var c = dateCheck.split("/");
+
+        var from = new Date(d1[2], parseInt(d1[1])-1, d1[0]);  
+        var to   = new Date(d2[2], parseInt(d2[1])-1, d2[0]);
+        var check = new Date(c[2], parseInt(c[1])-1, c[0]);
+        
+        
+        
+        var d11 = dateFrom1.split("/");
+        var d21 = dateTo1.split("/");
+        var c1 = dateCheck.split("/");
+
+        var from1 = new Date(d11[2], parseInt(d11[1])-1, d11[0]);  
+        var to1   = new Date(d21[2], parseInt(d21[1])-1, d21[0]);
+        var check = new Date(c1[2], parseInt(c1[1])-1, c1[0]);     
+
+        		
+        		var months = ["January", "February", "March", "April", "May", "June", "July",
+                 "August", "September", "October", "November", "December"];
+
+
+   
+
+ 			
+ 			  var dateNow = from;
+ 			  var yearNow = dateNow.getFullYear();
+ 			  var monthNow = months[dateNow.getMonth()];
+ 			  var dayNow = dateNow.getDate();
+ 			  var daySuffix;
+
+ 			  switch (dayNow) {
+ 			      case 1:
+ 			      case 21:
+ 			      case 31:
+ 			          daySuffix = "st";
+ 			          break;
+ 			      case 2:
+ 			      case 22:
+ 			          daySuffix = "nd";
+ 			          break;
+ 			      case 3:
+ 			      case 23:
+ 			          daySuffix = "rd";
+ 			          break;
+ 			      default:
+ 			          daySuffix = "th";
+ 			          break;
+ 			  }			
+ 			var strPeriod=dayNow+daySuffix+" "+monthNow+","+yearNow.toString().substring(yearNow.toString().length-2)+" - "+"15th"+" "+monthNow+","+yearNow.toString().substring(yearNow.toString().length-2);
+ 			
+ 			
+ 			$('#fortnight'+Iteration).append('<option value="'+strPeriod+'">'+strPeriod+'</option>');
+ 			$("#fortnight"+Iteration).val(strPeriod);
+
+ 			  var dateNow = from1;
+ 			  var yearNow = dateNow.getFullYear();
+ 			  var monthNow = months[dateNow.getMonth()];
+ 			  var dayNow = dateNow.getDate();
+ 			  var daySuffix;
+
+ 			  switch (dayNow) {
+ 			      case 1:
+ 			      case 21:
+ 			      case 31:
+ 			          daySuffix = "st";
+ 			          break;
+ 			      case 2:
+ 			      case 22:
+ 			          daySuffix = "nd";
+ 			          break;
+ 			      case 3:
+ 			      case 23:
+ 			          daySuffix = "rd";
+ 			          break;
+ 			      default:
+ 			          daySuffix = "th";
+ 			          break;
+ 			  }	
+ 			  
+ 			  var dateNow1 = to1;
+ 			  var yearNow1 = dateNow1.getFullYear();
+ 			  var monthNow1 = months[dateNow1.getMonth()];
+ 			  var dayNow1 = dateNow1.getDate();
+ 			  var daySuffix1;
+
+ 			  switch (dayNow1) {
+ 			      case 1:
+ 			      case 21:
+ 			      case 31:
+ 			          daySuffix1 = "st";
+ 			          break;
+ 			      case 2:
+ 			      case 22:
+ 			          daySuffix1 = "nd";
+ 			          break;
+ 			      case 3:
+ 			      case 23:
+ 			          daySuffix1 = "rd";
+ 			          break;
+ 			      default:
+ 			          daySuffix1 = "th";
+ 			          break;
+ 			  }			  
+ 			  
+ 			var strPeriod=dayNow+daySuffix+" "+monthNow+","+yearNow.toString().substring(yearNow.toString().length-2)+" - "+dayNow1+daySuffix1+" "+monthNow+","+yearNow.toString().substring(yearNow.toString().length-2);
+ 			$('#fortnight'+Iteration).append('<option value="'+strPeriod+'">'+strPeriod+'</option>');
+ 			$("#fortnight"+Iteration).val(strPeriod);
+  		   
+        }
+       
+
 
  $(function() {
  $('input[type="radio"]').click(function() {
@@ -536,6 +693,10 @@
    }
  });
  });
+ 
+ function daysInMonth(month, year) {
+	    return new Date(year, month, 0).getDate();
+	} 
 
    function addStRow(){
         var rowNo = $("#rowNo").val();
@@ -545,20 +706,21 @@
         var html = '<tr id="actionStRow' + rNo + '"><td></td>'
 
            +'<td data-head="Fortnight" class="input-field">'
-           +'<select id="qp_fortnight' + rNo + '" class="searchable"  name="qp_fortnight" value="">' 
+           +'<select id="fortnight' + rNo + '" class="fortnight searchable"  name="fortnight" value="">' 
            +'<option value="">Select</option></select></td>'
 
            +'<td data-head="Activity" class="input-field">'
-           +'<textarea id="qp_activity' + rNo +'" name="qp_activity" class="pmis-textarea pdr4em w85 my-valid-class" data-length="200" maxlength="200"></textarea> </td>'
+           +'<textarea id="activity' + rNo +'" name="activity" class="pmis-textarea pdr4em w85 my-valid-class" data-length="200" maxlength="200"></textarea> </td>'
 
            +'<td class="input-field mobile_btn_close"><a onclick="removeStActions(' + rNo + ');" class="btn waves-effect waves-light red t-c remove"><i class="fa fa-close"></i></a></td>'
            +'</tr>';
     
         $('#stBody').append(html);
         $("#rowNo").val(rNo);
+        getFortnights(rNo);
         var rowCount = $("#stBody tr").length;
         $("#sNo").val(rowCount);    
-        $('#qp_activity'+rNo).characterCounter();
+        $('#activity'+rNo).characterCounter();
         $('.searchable').select2();
     }
  	$(function(){
@@ -572,189 +734,7 @@
  			}
  		});
  	});  
- 	<%-- function getResponsible(hod){
- 	   	$(".page-loader").show();
- 	    $("#mrvc_responsible_person option:not(:first)").remove();
- 	    if ($.trim(hod) != "") {
- 	        var myParams = { hod: hod };
- 	        $.ajax({
- 	            url: "<%=request.getContextPath()%>/ajax/getResponsibleListInRRBSES",
- 	            data: myParams, cache: false,
- 	            success: function (data) {
- 	                if (data.length > 0) {
- 	                    $.each(data, function (i, val) {
- 	                        var workName = '';
- 	                        if ($.trim(val.user_name) != '') { workName = ' - ' + $.trim(val.user_name) }
- 	                        var user_id = "${rrDetails.mrvc_responsible_person}";
- 	                        if ($.trim(user_id) != '' && val.user_id == $.trim(user_id)) {
- 	                            $("#mrvc_responsible_person").append('<option  value="' + val.user_id + '" selected>' + $.trim(val.designation) + $.trim(workName) + '</option>');
- 	                        } else {
- 	                            $("#mrvc_responsible_person").append('<option  value="' + val.user_id + '">' + $.trim(val.designation) + $.trim(workName) + '</option>');
- 	                        }
- 	                    });
- 	                }
- 	                $('.searchable').select2();
- 	                $(".page-loader").hide();
- 	            }
- 	        });
- 	    }else{
- 	    	$(".page-loader").hide();
- 	    }
- 		
- 	} --%>
- /* 	  function addStRow(){
- 	       var rowNo = $("#rowNo").val();
- 	       var rowNo1 = $("#sNo").val();
- 	       var rNo = Number(rowNo)+1;
- 	       var sNo = Number(rowNo1)+1;
- 	       var html = '<tr id="actionStRow' + rNo + '"><td></td>'
 
- 	          +'<td data-head="Date of Appointment" class="input-field">'
- 	          +'<input id="appointment_date_committee' + rNo + '" type="text" placeholder="Date" class="validate datepicker" name="date_of_appointments" value="">'              
- 	          +'<button type="button" id="appointment_date_committee_icon' + rNo + '" class="datepicker-button"><i class="fa fa-calendar"></i></button>'
- 	          +'<span id="appointment_date_committee' + rNo + 'Error" class="error-msg"></span></td>'
-
- 	          +'<td data-head="Name Of Representative" class="input-field">'
- 	          +'<input type="text" placeholder="Name"  maxlength="50" data-length="50" id="name_representative' + rNo + '" class="validate w70 pdr4em"  name="name_of_representatives" onchange="executivesToStringMethod('+rNo+');" value="">' 
- 	          +'<span id="name_of_representative' + rNo + 'Error" class="error-msg"></span> </td>'
-
- 	          +'<td data-head="Contact Number" class="input-field">'
- 	          +'<input type="number" placeholder="Number" maxlength="10" data-length="10" id="contact_number_rep' + rNo + '" class="validate w70 pdr4em num"  name="phone_nos" value="">' 
- 	          +'<span id="contact_number_rep' + rNo + 'Error" class="error-msg"></span> </td>'
-
- 	          +'<td data-head="Email" class="input-field">'
- 	          +'<input type="email" placeholder="Email"  maxlength="50" data-length="50" id="rep_email' + rNo + '" class="validate w70 pdr4em"  name="email_ids" value="">' 
- 	          +'<span id="rep_email' + rNo + 'Error" class="error-msg"></span> </td>'
-
- 	          +'<td class="input-field mobile_btn_close"><a onclick="removeStActions(' + rNo + ');" class="btn waves-effect waves-light red t-c remove"><i class="fa fa-close"></i></a></td>'
- 	          +'</tr>';
- 	   
- 	       $('#stBody').append(html);
- 	       $("#rowNo").val(rNo);   
- 	       var rowCount = $("#stBody tr").length;
- 	       $("#sNo").val(rowCount);    
- 	       $('#name_representative'+rNo).characterCounter();
- 			 $('#contact_number_rep'+rNo).characterCounter();
- 			 $('#rep_email'+rNo).characterCounter();
- 			 $('#contact_number_rep'+rNo).keypress(function() {
- 		           if ($(this).val().length == $(this).attr("maxlength")) {
- 		               return false;
- 		           }
- 		       });
- 	       $('.searchable').select2();
- 	   }
- 		$(function(){
- 			
- 			$(document).on('click', '.remove', function() {
- 				var trIndex = $(this).closest("tr").index();
- 					if(trIndex>0) {
- 					$(this).closest("tr").remove();
- 				} else {
- 					
- 				}
- 			});
- 		}); */ 
- 	   
-
- /* 		   function addRR(){
- 		   	 if(validator.form()){ // validation perform
- 		       	$(".page-loader").show();	
- 		       	    $('form input[name=date_of_appointments]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
- 		 			$('form input[name=name_of_representatives]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
- 		 			$('form input[name=phone_nos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
- 		 			$('form input[name=email_ids]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
- 		  			document.getElementById("RandRForm").submit();			
- 			 	 }
- 		   }
- 		   function updateRR(){
- 		   	if(validator.form()){ // validation perform
- 		       	$(".page-loader").show();	
- 		       	$('form input[name=financial_year_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
- 		        $('form input[name=date_of_appointments]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
- 	 			$('form input[name=name_of_representatives]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
- 	 			$('form input[name=phone_nos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
- 	 			$('form input[name=email_ids]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
- 		  			document.getElementById("RandRForm").submit();	
- 		   	}
- 		   }
- 	     
-
- 		   var validator =	$('#RandRForm').validate({
- 				 errorClass: "my-error-class",
- 				 validClass: "my-valid-class",
- 				 ignore: ":hidden:not(.validate-dropdown)",
- 		 		    rules: {
- 		 		 		   "work_id_fk": {
- 		 			 		  required: true
- 		 			 	  },"hod": {
- 		 			 		  required: true
- 		 			 	  }	,"mrvc_responsible_person"	:{
- 		 			 		  required:true
- 		 			 	  },"bses_agency_name"	:{
- 		 			 		  required:true
- 		 			 	  }
- 		 		 	},
- 		 		    messages: {
- 		 		 		   "work_id_fk": {
- 		 			 		  required: 'Required'
- 		 			 	  },"hod": {
- 		 			 		  required: 'Required'
- 		 			 	  }	,"mrvc_responsible_person"	:{
- 		 			 		  required:'Required'
- 		 			 	  },"bses_agency_name"	:{
- 		 			 		  required:'Required'
- 		 			 	  }
- 			   		},
- 			   		errorPlacement:function(error, element){
- 			   		 	  if(element.attr("id") == "work_id_fk" ){
- 						     document.getElementById("work_id_fkError").innerHTML="";
- 					 	     error.appendTo('#work_id_fkError');
- 						 }else if(element.attr("id") == "hod" ){
- 						     document.getElementById("hodError").innerHTML="";
- 					 	     error.appendTo('#hodError');
- 						 }else if(element.attr("id") == "mrvc_responsible_person" ){
- 						     document.getElementById("mrvc_responsible_personError").innerHTML="";
- 					 	     error.appendTo('#mrvc_responsible_personError');
- 						 }else if(element.attr("id") == "bses_agency_name" ){
- 						     document.getElementById("bses_agency_nameError").innerHTML="";
- 					 	     error.appendTo('#bses_agency_nameError');
- 						 }else{
- 							 error.insertAfter(element);
- 				        } 
- 			   		 	  
- 			   		},invalidHandler: function (form, validator) {
- 		                var errors = validator.numberOfInvalids();
- 		                if (errors) {
- 		                    var position = validator.errorList[0].element;
- 		                    jQuery('html, body').animate({
- 		                        scrollTop:jQuery(validator.errorList[0].element).offset().top - 100
- 		                    }, 1000);
- 		                }
- 		            },
- 			   		submitHandler:function(form){
- 				    	//form.submit();
- 				    }
- 				});   
- 		  	 $.validator.addMethod("dateFormat",
- 		   	    function(value, element) {
- 		   	        return value.match(/^(0?[1-9]|[12][0-9]|3[0-1])[-](0?[1-9]|1[0-2])[-](19|20)?\d{2}$/);
- 		   	        //var dtRegex = new RegExp("^(JAN|FEB|MAR|APR|MAY|JUN|JULY|AUG|SEP|OCT|NOV|DEC) ([0]?[1-9]|[1-2]\\d|3[0-1]), [1-2]\\d{3}$", 'i');
- 		   	    	//return dtRegex.test(value);
- 		   	    },
- 		   	    //"Date format (Aug 02,2020)"
- 		   	    "Date format (DD-MM-YYYY)"
- 		   	);
- 		      $('select').change(function(){
- 		          if ($(this).val() != ""){
- 		              $(this).valid();
- 		          }
- 		      });
-
- 		      $('input').change(function(){
- 		          if ($(this).val() != ""){
- 		              $(this).valid();
- 		          }
- 		      }); */
 
     </script>
 

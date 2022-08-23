@@ -172,11 +172,26 @@
 			    opacity: 0.7;
 			    cursor: pointer;
 			    background-color: transparent;
-		}			
+		}	
+		
+		.modal-content label,
+		.modal-content [type="checkbox"]+span:not(.lever) {
+		    font-size: 1.25rem; 
+		    color: #9e9e9e;
+		}
+		.modal-content [type="radio"]:not(:checked)+span, [type="radio"]:checked+span{
+			padding-left:25px;
+		}
+		
+				.modal-content label, .modal-content [type="checkbox"]+span:not(.lever) {
+				    font-size: 1rem;
+				    color: #9e9e9e;
+		}				
     </style>
 </head>
 
 <body>
+
 
     <!-- header  starts-->
      <jsp:include page="../layout/header.jsp"></jsp:include>
@@ -268,60 +283,17 @@
                               </div> 
                              </c:if>
                              <br>
-                    <%--          <c:if test="${action eq 'add'}">
-	                            <div class="row" >
-	                                <div class="col s12 m3 l2 input-field offset-m2 mt-sm-n1rem">
-	                                    <label for="la_id" class="mn6tbpx"> Land Acquisition ID <span class="required">*</span>:</label>
-	                                </div>
-	                                 <div class="col s12 m5 l6 input-field">
-	                                  <input id="la_id" name="la_id" type="text" class="validate mt-10" value="${LADetails.la_id }" >
-	                                  <span id="la_idError" class="error-msg" ></span>
-	                                 </div>
-	                                  <div class="col s12 m8 l4 input-field offset-m2">
-	                                   <p class="searchable_label"> Land Status <!-- <span class="required">*</span> --></p>
-                                    	<select id="la_land_status_fk" class="searchable validate-dropdown" name="la_land_status_fk">
-                                        	<option value="" >Select</option>
-                                        	<c:forEach var="obj" items="${laLandStatus }">
-	                                      	   	<option value= "${obj.la_land_status}">${obj.la_land_status}</option>
-	                                    	 </c:forEach>
-                                    	</select>
-                                   		<span id="type_of_landError" class="error-msg" ></span> 
-	                                 </div>
-	                            
-	                            </div>
-							</c:if> --%>
-					<%-- 		<c:if test="${action eq 'edit'}">
-	                            <div class="row" >	                                 
-	                                <div class="col s12 m2 l2 input-field offset-m2 mt-sm-n1rem">
-	                                    <label for="la_id"> Land Acquisition ID <span class="required">*</span>:</label>
-	                                </div>
-	                                 <div class="col s12 m6 l6 input-field">
-	                                  <input id="la_id" name="la_id" type="text" class="validate mt-10" value="${LADetails.la_id }" readonly>
-	                                 </div>	
-	                                 <div class="col s12 m8 l4 input-field offset-m2">
-	                                 <p class="searchable_label"> Land Status <!-- <span class="required">*</span> --></p>
-                                    	<select id="la_land_status_fk" class="searchable validate-dropdown" name="la_land_status_fk" >
-                                        	<option value="" >Select</option>
-                                        	<c:forEach var="obj" items="${laLandStatus }">
-	                                      	   	<option value= "${obj.la_land_status}" <c:if test="${LADetails.la_land_status_fk eq obj.la_land_status}">selected</c:if>>${obj.la_land_status}</option>
-	                                    	 </c:forEach>
-                                    	</select>
-                                   		<span id="type_of_landError" class="error-msg" ></span> 
-	                                 </div>                                 
-	                            </div>
-							</c:if> --%>
-							
                             <div class="row">                                 
                                 <div class="col s6 m4 l4 input-field offset-m2">
                                     <input id="survey_number" maxlength="25" data-length="25" name="survey_number" type="text" class="validate mt-10 w80 pdr4em" value="${LADetails.survey_number }">
                                     <label for="survey_number">Survey Number<!-- <span class="required">*</span> --></label>
 									<br><span id="survey_numberError" class="error-msg" ></span>                                    
                                 </div>
-                                <div class="col s6 m4 l4 input-field ">
+<%--                                 <div class="col s6 m4 l4 input-field ">
                                     <input id="village_id" maxlength="50" data-length="50" name="village_id" type="text" class="validate mt-10 w80 pdr4em" value="${LADetails.village_id }">
                                     <label for="village_id">Village ID </label>
                                     <span id="village_idError" class="error-msg" ></span>
-                                </div> 
+                                </div>  --%>
                                 <div class="col s12 m8 l4 input-field offset-m2">
                                        <input id="special_feature" maxlength="50" data-length="50" name="special_feature" type="text" value="${LADetails.special_feature }"
                                            class="validate mt-10 w80 pdr4em">
@@ -558,7 +530,7 @@
                                         <span class="units">units</span>
                                         <span id="govt_area_acquiredError" class="error-msg"></span>
                                     </div> --%>
-                                    <div class="col s12 m4 l4 input-field offset-m2">
+<%--                                     <div class="col s12 m4 l4 input-field offset-m2">
                                         <p class="searchable_label"> Proposal Submission Status </p>
                                         <select class="searchable" id="proposal_submission_status_fk"
                                             name="proposal_submission_status_fk">
@@ -568,7 +540,7 @@
 													<c:if test="${LADetails.proposal_submission_status_fk eq obj.status }">selected</c:if>>${obj.status }</option>
 											</c:forEach>
                                         </select>
-                                    </div>   
+                                    </div> --%>   
                                     <div class="col s12 m4 l4 input-field">
                                         <input id="proposal_submission" type="text" value="${LADetails.proposal_submission }" 
                                             name="proposal_submission" class="validate datepicker">
@@ -601,7 +573,7 @@
 		                                	</c:forEach>
 	                                	</select>
                                     </div>
-                                      <div class="col s6 m4 l4 input-field">
+<%--                                       <div class="col s6 m4 l4 input-field">
                                         <p class="searchable_label"> LFP Status </p>
                                         <select class="searchable" id="lfp_status_fk" name="lfp_status_fk">
                                             <option value="" selected>Select</option>
@@ -610,7 +582,7 @@
 													<c:if test="${LADetails.lfp_status_fk eq obj.status }">selected</c:if>>${obj.status }</option>
 											</c:forEach>
                                         </select>
-                                    </div>
+                                    </div> --%>
                                     <div class="col s6 m8 l4 input-field offset-m2">
                                         <input id="approval_for_payment" type="text" value="${LADetails.approval_for_payment }"
                                             name="approval_for_payment" class="validate datepicker mt-10">
@@ -652,7 +624,7 @@
 		                                	</c:forEach>
 	                                	</select>
                                     </div> 
-                                    <div class="col s12 m8 l4 input-field offset-m2">
+<%--                                     <div class="col s12 m8 l4 input-field offset-m2">
                                         <p class="searchable_label"> Payment Status </p>
                                         <select class="searchable" id="payment_status_fk" name="payment_status_fk">
                                             <option value="" selected>Select</option>
@@ -661,7 +633,7 @@
 													<c:if test="${LADetails.payment_status_fk eq obj.status }">selected</c:if>>${obj.status }</option>
 											</c:forEach>
                                         </select>
-                                    </div>                                    
+                                    </div>   --%>                                  
                                 </div>
                                 
                                 <div class="row">
@@ -846,7 +818,7 @@
                                 </div>
                        
                                 <div class="row">  
-                                	<div class="col s6 m4 l4 input-field offset-m2">
+<%--                                 	<div class="col s6 m4 l4 input-field offset-m2">
                                         <p class="searchable_label">Possession Status </p>
                                         <select class="searchable" id="forest_possession_status_fk"
                                             name="forest_possession_status_fk">
@@ -856,8 +828,8 @@
 													<c:if test="${LADetails.forest_possession_status_fk eq obj.status }">selected</c:if>>${obj.status }</option>
 											</c:forEach>
                                         </select>
-                                    </div>                                   
-                                    <div class="col s6 m4 l4 input-field">
+                                    </div> --%>                                   
+<%--                                     <div class="col s6 m4 l4 input-field">
                                         <p class="searchable_label">Payment Status </p>
                                         <select class="searchable" id="forest_payment_status_fk"
                                             name="forest_payment_status_fk">
@@ -867,7 +839,7 @@
 													<c:if test="${LADetails.forest_payment_status_fk eq obj.status }">selected</c:if>>${obj.status }</option>
 											</c:forEach>
                                         </select>
-                                    </div>
+                                    </div> --%>
                                     <div class="col s6 m4 l4 input-field offset-m2">
                                      <%--    <input id="forest_special_feature" name="forest_special_feature" type="text" value="${LADetails.forest_special_feature }"
                                             class="validate mt-10">
@@ -1053,20 +1025,25 @@
                                     	</div>
                                     	<div class="row">
                                     		<h6 class="center-align primary-text m0">Grievances Redressal </h6>
-	                                    	<div class="col s6 m4 l4 input-field offset-l2">
+	                                    	<div class="col s6 m6 l6 input-field">
 		                                        <input id="private_receipt_grievances" name="receipt_of_grievances" type="text" value="${LADetails.receipt_of_grievances }"
 		                                            class="validate datepicker">
 		                                        <label for="private_receipt_grievances">Receipt of Grievances </label>
 		                                        <button type="button" id="private_receipt_grievances_icon"
 		                                            class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                    	</div>
-	                                    	<div class="col s6 m4 l4 input-field">
+	                                    	<div class="col s6 m6 l6 input-field">
 		                                        <input id="private_disposal_grievances" name="disposal_of_grievances" type="text" value="${LADetails.disposal_of_grievances }"
 		                                            class="validate datepicker">
 		                                        <label for="private_disposal_grievances">Disposal of Grievances </label>
 		                                        <button type="button" id="private_disposal_grievances_icon"
 		                                            class="datepicker-button"><i class="fa fa-calendar"></i></button>
 	                                    	</div>
+	                                    </div>
+	                                    <div class="row" style="text-align:center;">
+	                                    	<div class="col s12 m12 input-field">
+		                                        <button type="button" id="btnIssues" name="btnIssues" class="btn btn-primary" onClick="openAddIssue();">Raise an Issue</button>
+	                                    	</div>	                                    	
                                     	</div>
                                     	<div class="row">
                                     	<h6 class="center-align primary-text m0">Acquisition notice under 20E </h6>
@@ -1310,7 +1287,7 @@
                                         <button type="button" id="private_possession_date_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>                                    
-                                    <div class="col s6 m4 l4 input-field">
+<%--                                     <div class="col s6 m4 l4 input-field">
                                         <p class="searchable_label">Possession Status</p>
                                         <select class="searchable" id="private_possession_status"
                                             name="private_possession_status_fk">
@@ -1320,7 +1297,7 @@
 													<c:if test="${LADetails.private_possession_status_fk eq obj.status }">selected</c:if>>${obj.status }</option>
 											</c:forEach>
                                         </select>
-                                    </div>  
+                                    </div>  --%> 
                                     <div class="col s12 m8 l4 input-field offset-m2"> 
                                         <input id="private_forest_tree_survey" name="forest_tree_survey" value="${LADetails.forest_tree_survey }"
                                             type="text" class="validate datepicker">
@@ -1342,7 +1319,7 @@
                                         <button type="button" id="private_forest_tree_valuation_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>   
-                                     <div class="col s6 m4 l4 input-field">
+<%--                                      <div class="col s6 m4 l4 input-field">
                                         <p class="searchable_label fs-sm-67rem"> Forest Tree Valuation Status </p>
                                         <select class="searchable" id="private_forest_tree_valuation_status"
                                             name="forest_tree_valuation_status_fk">
@@ -1352,7 +1329,7 @@
 													<c:if test="${LADetails.forest_tree_valuation_status_fk eq obj.status }">selected</c:if>>${obj.status }</option>
 											</c:forEach>
                                         </select>
-                                    </div>  
+                                    </div>  --%> 
                                        
                                     <div class="col s12 m8 l4 input-field offset-m2">
                                         <input id="private_horiculture_tree_survey"
@@ -1409,7 +1386,7 @@
                                         <button type="button" id="private_borewell_valuation_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>   
-                                    <div class="col s12 m8 l4 input-field offset-m2">
+<%--                                     <div class="col s12 m8 l4 input-field offset-m2">
                                         <p class="searchable_label">Horticulture Tree Valuation Status </p>
                                         <select class="searchable" id="private_horticulture_tree_valuation_status"
                                             name="horticulture_tree_valuation_status_fk">
@@ -1419,14 +1396,14 @@
 													<c:if test="${LADetails.horticulture_tree_valuation_status_fk eq obj.status }">selected</c:if>>${obj.status }</option>
 											</c:forEach>
                                         </select>
-                                    </div>                                  
+                                    </div>   --%>                                
                                 </div>
                                 <div class="row">                                     
                                     
                                                                          
                                 </div>
                                 <div class="row"> 
-                                    <div class="col s12 m4 l4 input-field offset-m2">
+<%--                                     <div class="col s12 m4 l4 input-field offset-m2">
                                         <p class="searchable_label"> Structure Valuation Status </p>
                                         <select class="searchable" id="private_structure_valuation_status"
                                             name="structure_valuation_status_fk">
@@ -1436,8 +1413,8 @@
 													<c:if test="${LADetails.structure_valuation_status_fk eq obj.status }">selected</c:if>>${obj.status }</option>
 											</c:forEach>
                                         </select>
-                                    </div> 
-                                    <div class="col s12 m4 l4 input-field">
+                                    </div>  --%>
+<%--                                     <div class="col s12 m4 l4 input-field">
                                         <p class="searchable_label">Borewell Valuation Status </p>
                                         <select class="searchable" id="private_borewell_valuation_status"
                                             name="borewell_valuation_status_fk">
@@ -1447,8 +1424,8 @@
 													<c:if test="${LADetails.borewell_valuation_status_fk eq obj.status }">selected</c:if>>${obj.status }</option>
 											</c:forEach>
                                         </select>
-                                    </div> 
-                                    <div class="col s12 m8 l4 input-field offset-m2">
+                                    </div> --%> 
+<%--                                     <div class="col s12 m8 l4 input-field offset-m2">
                                         <p class="searchable_label"> RFP to ADTP status </p>
                                         <select class="searchable" id="private_rfp_to_adtp_status"
                                             name="rfp_to_adtp_status_fk">
@@ -1458,7 +1435,7 @@
 													<c:if test="${LADetails.rfp_to_adtp_status_fk eq obj.status }">selected</c:if>>${obj.status }</option>
 											</c:forEach>
                                         </select>
-                                    </div>                                  
+                                    </div>     --%>                              
                                 </div>
                                 <div class="row">                                     
                                                                  
@@ -2284,7 +2261,7 @@
                                         <button type="button" id="railway_possession_date_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div> 
-                             		<div class="col s6 m4 l4 input-field">
+<%--                              		<div class="col s6 m4 l4 input-field">
                                         <p class="searchable_label">Possession Status </p>
                                         <select class="searchable" id="railway_possession_status"
                                             name="railway_possession_status">
@@ -2294,8 +2271,8 @@
 													<c:if test="${LADetails.railway_possession_status eq obj.status }">selected</c:if>>${obj.status }</option>
 											</c:forEach>
                                         </select>
-                                    </div>                                     
-                                    <div class="col s6 m8 l4 input-field offset-m2">
+                                    </div>  --%>                                    
+<%--                                     <div class="col s6 m8 l4 input-field offset-m2">
                                         <p class="searchable_label">Payment Status </p>
                                         <select class="searchable" id="railway_payment_status"
                                             name="railway_payment_status">
@@ -2305,7 +2282,7 @@
 													<c:if test="${LADetails.railway_payment_status eq obj.status }">selected</c:if>>${obj.status }</option>
 											</c:forEach>
                                         </select>
-                                    </div>
+                                    </div> --%>
                               <!--   </div>
                                 <div class="row">     -->                                 
                                                                    
@@ -2653,6 +2630,7 @@
 	<script src="/pmis/resources/js/datetimepicker.js"></script>
     <script>
     $(document).ready(function() {
+    	$('.modal').modal({ dismissible: false });
         $(".num").keypress(function() {
             if ($(this).val().length == $(this).attr("maxlength")) {
                 return false;
@@ -2740,7 +2718,13 @@
 		         event.stopPropagation();
 		         $('#'+id).focus().click();
 		     });
-		 });       
+		 });
+		 
+		 function openAddIssue()
+		 {
+			 window.open("add-issue-form?la_id="+$("#la_id").val(),
+	                    "_blank", "");
+		 }
         
         function selectFile(no){
 		    files = $("#laFiles"+no)[0].files;

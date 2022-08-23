@@ -472,6 +472,25 @@ public class LandAcquisitionController {
 		return model;
 	 }
 	
+	
+	@RequestMapping(value = "/ajax/getLADetails", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<LandAcquisition> getLADetails(@ModelAttribute LandAcquisition obj,HttpSession session) {
+		List<LandAcquisition> LADetails = null;
+		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			LADetails = service.getLADetails(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getLADetails : " + e.getMessage());
+		}
+		return LADetails;
+	}
+	
+	
 	@RequestMapping(value = "/get-land-acquisition/{la_id}", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView getLandAcquisitionFormForId(@ModelAttribute LandAcquisition obj,@PathVariable("la_id") String la_id  ,HttpSession session ){
 		ModelAndView model = new ModelAndView();

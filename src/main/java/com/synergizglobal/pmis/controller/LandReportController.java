@@ -400,12 +400,12 @@ public class LandReportController {
 			        cell2.setCellStyle(bluetyle);
 			        cell2.setCellValue(work_d+" Land Acquisition - Detail Report");
 			        
-			        for (int i = 1; i < 5; i++) {		        	
+			        for (int i = 1; i < 11; i++) {		        	
 				        cell2 = mainHeadingRow2.createCell(i);
 				        cell2.setCellStyle(bluetyle);
 						cell2.setCellValue("");
 					}	
-			        rrSheet2.addMergedRegion(new CellRangeAddress(1, 1, 0,4));
+			        rrSheet2.addMergedRegion(new CellRangeAddress(1, 1, 0,10));
 			        int rowNo2 = 3;
 				    // workBook.setSheetOrder(rrSheet1.getSheetName(), sheetNo++);	        	
 
@@ -413,7 +413,7 @@ public class LandReportController {
 
 	        /**********************************************************************/
 			String headerString2 = "Sr No.^LA ID^Survey Number^Type of Land^Sub Category of Land"
-					+ "^Village ID^Area to be Acquired (Ha)^Area Acquired (Ha)^Balance Land Acquisition (Ha)^Land Status";
+					+ "^Village^Area to be Acquired (Ha)^Area Acquired (Ha)^Balance Land Acquisition (Ha)^Land Status^Issue";
 	        String[] headerStringArr2 = headerString2.split("\\^");
 	        workId = null;x = 0;
 	        XSSFRow headingRow2 = rrSheet2.createRow(rowNo2);
@@ -476,7 +476,7 @@ public class LandReportController {
 				
 			    cell2 = row1.createCell(d++);
 				cell2.setCellStyle(activityNameStyle);
-				cell2.setCellValue(zObj.getVillage_id());
+				cell2.setCellValue(zObj.getVillage());
 				
 				cell2 = row1.createCell(d++);
 				cell2.setCellStyle(activityNameStyle2);

@@ -232,7 +232,8 @@ public class LandReportDaoImpl implements LandReportDao{
 		List<LandAcquisition> objsList = null;
 		try {
 			String qry = "SELECT la.work_id_fk,work_short_name,category_fk ,la_sub_category,CAST(sum(ISNULL(area_to_be_acquired,0))AS DECIMAL(10,2))"
-					+ "area_to_be_acquired,CAST(sum(ISNULL(area_acquired,0))AS DECIMAL(10,2))area_acquired,(CAST(sum(ISNULL(area_to_be_acquired,0)) - sum(ISNULL(area_acquired,0))AS DECIMAL(10,2))) as balance_area "+
+					+ "area_to_be_acquired,CAST(sum(ISNULL(area_acquired,0))AS DECIMAL(10,2))area_acquired,(CAST(sum(ISNULL(area_to_be_acquired,0)) - sum(ISNULL(area_acquired,0))AS DECIMAL(10,2))) as balance_area,(select string_agg(value,',') as issue_id from(\r\n" + 
+					"SELECT distinct value  FROM STRING_SPLIT((select string_agg(la_id,',') from issue where la_id=la.la_id), ',') where value!='') as issue_id) "+
 					"from la_land_identification la  "+
 					"left join work w on la.work_id_fk = w.work_id " + 
 					"left join project p on w.project_id_fk = p.project_id " + 
@@ -257,7 +258,7 @@ public class LandReportDaoImpl implements LandReportDao{
 				qry = qry + " and la_sub_category_fk = ?";
 				arrSize++;
 			}
-			qry = qry + " GROUP BY work_id_fk,work_short_name,category_fk,la_sub_category_fk,la_sub_category order by work_id_fk,category_fk";
+			qry = qry + " GROUP BY work_id_fk,work_short_name,category_fk,la_sub_category_fk,la_sub_category,la.la_id order by work_id_fk,category_fk";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			
@@ -281,7 +282,8 @@ public class LandReportDaoImpl implements LandReportDao{
 						"CAST(ISNULL(area_to_be_acquired,0)AS DECIMAL(10,2))area_to_be_acquired," + 
 						"CAST(ISNULL(area_acquired,0)AS DECIMAL(10,2))area_acquired," + 
 						"(CAST(ISNULL(area_to_be_acquired,0) - ISNULL(area_acquired,0)AS DECIMAL(10,2))) as balance_area " + 
-						",la_land_status_fk  " + 
+						",la_land_status_fk,(select string_agg(value,',') as issue_id from(\r\n" + 
+						"SELECT distinct value  FROM STRING_SPLIT((select string_agg(la_id,',') from issue where la_id=la.la_id), ',') where value!='') as issue_id)  " + 
 						"from la_land_identification la "+
 						"left join work w on la.work_id_fk = w.work_id " + 
 						"left join project p on w.project_id_fk = p.project_id " + 
@@ -305,6 +307,7 @@ public class LandReportDaoImpl implements LandReportDao{
 					qry2 = qry2 + " and la_sub_category_fk = ?";
 					arrSize1++;
 				}
+				qry = qry + " GROUP BY la.la_id ";
 				
 				Object[] pValues1 = new Object[arrSize1];
 				int j = 0;

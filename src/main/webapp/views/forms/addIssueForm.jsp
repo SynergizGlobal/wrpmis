@@ -90,7 +90,7 @@
                             <input id="hod_user_id_fk" name="hod_user_id_fk" type="hidden" />
                         	<input id="dy_hod_user_id_fk" name="dy_hod_user_id_fk" type="hidden" />
                             <div class="row">
-                                <!-- row 4 -->
+                                <input type="hidden" id="la_id" name="la_id" value="0" />
                                  
                                 <div class="col s6 offset-m2 m4 l4 input-field">
                                     <p class="searchable_label"> Project</p>                                    
@@ -451,8 +451,38 @@
 	    	resetWorksAndProjectsDropdowns();getIssueCategoryList();getIssueTitlesList();
 	    }
 	    
+	    var laid = getUrlVars()["la_id"];
+	    if(laid!="")
+	    {
+	    	 getLAData();
+	    	 $("#la_id").val(laid);
+	    }
 
+	    function getLAData()
+	    {
+            var myParams = { la_id: laid };
+            $.ajax({
+                url: "<%=request.getContextPath()%>/ajax/getLADetails",
+                data: myParams, cache: false,async:true,
+                success: function (data) {
+                    if (data.length > 0) {
+                        $.each(data, function (i, val) {
+                        	if(i==0)
+                        		{
+		                        	$("#project_id_fk").val(val.project_id_fk);
+		                        	$("#work_id_fk").val(val.work_id_fk);
+		                        	$("#category_fk").val("Land Acquisition");
+		                        	$("#title").val('Non acquisition of private  land');
+		                        	$("#location").val(val.village);
+                        		}
 
+                        });
+                    }
+                    $('.searchable').select2();
+                    $(".page-loader").hide();
+                }
+            });	    	
+	    }
 	    
 		var datePickerSelectAddClass = function () {
 		    var self = this;
@@ -702,6 +732,10 @@
                             $.each(data, function (i, val) {
                                $("#category_fk").append('<option value="' + val.category + '">' + $.trim(val.category)+ '</option>');
                             });
+                    	    if(laid!="")
+                    	    {
+                    	    	 getLAData();
+                    	    }
                         }
                         $('.searchable').select2();
                         $(".page-loader").hide();
@@ -725,6 +759,10 @@
                            $.each(data, function (i, val) {
                               $("#title").append('<option value="' + val.short_description + '">' + $.trim(val.short_description)+ '</option>');
                            });
+	                   	    if(laid!="")
+	                	    {
+	                	    	 getLAData();
+	                	    }
                        }
                        $('.searchable').select2();
                        $(".page-loader").hide();

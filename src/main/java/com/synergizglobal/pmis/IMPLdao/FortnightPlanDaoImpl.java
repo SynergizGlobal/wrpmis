@@ -809,6 +809,263 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 		return false;
 	}
 
+	@Override
+	public List<FortnightPlan> getFortnightQuarterlyPlanItemList() throws Exception {
+		List<FortnightPlan> objsList = new ArrayList<FortnightPlan>();
+		try {
+			String qry = "select item "
+					+ "from fortnight_quarterly_plan_items ";
+			
+			qry = qry + " order by item asc";
+			objsList = jdbcTemplate.query( qry,  new BeanPropertyRowMapper<FortnightPlan>(FortnightPlan.class));
+			
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<FortnightPlan> getFortnightQuarterlyPlanPeriodList() throws Exception {
+		List<FortnightPlan> objsList = new ArrayList<FortnightPlan>();
+		try {
+			String qry = "select period "
+					+ "from fortnight_quarterly_plan ";
+			
+			qry = qry + " order by period asc";
+			objsList = jdbcTemplate.query( qry,  new BeanPropertyRowMapper<FortnightPlan>(FortnightPlan.class));
+			
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public boolean insertQuarterlyPlan(FortnightPlan obj) throws Exception {
+		boolean flag = false;
+		TransactionDefinition def = new DefaultTransactionDefinition();
+		TransactionStatus status = transactionManager.getTransaction(def);
+		Connection connection = null;
+		PreparedStatement updateStmt = null;	
+
+		String query = " insert into fortnight_quarterly_plan (work_id_fk, period, structure, item, criticality, TDC, scope_of_work, cumulative_progress)"
+	               + " values (?,?,?, ?, ?, ?,?,?)";
+		
+
+		String queryChild = " insert into fortnight_quarterly_plan_activities (fortnight_quarterly_plan_id,fortnight,activity_name)"
+	               + " values (?,?,?)";
+
+	  PreparedStatement preparedStmt = null;
+	  PreparedStatement preparedStmtChild = null;
+	  Connection con = null;
+	  try
+	  {
+		  long Key=0;
+		con = dataSource.getConnection();
+		preparedStmt = con.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
+		preparedStmtChild = con.prepareStatement(queryChild);
+
+	      preparedStmt.setString(1, obj.getWork_id_fk());
+	      preparedStmt.setString(2, obj.getPeriod()!=null ?obj.getPeriod():null);
+	      preparedStmt.setString(3, obj.getStructure());
+	      preparedStmt.setString(4, obj.getItem());
+	      preparedStmt.setString(5, obj.getCriticality());
+	      preparedStmt.setString(6, obj.getTdc_calendar());
+	      preparedStmt.setString(7, obj.getScope_of_work_quarterly());
+	      preparedStmt.setString(8, obj.getCumulative_progress());
+	      preparedStmt.execute();
+	      
+			ResultSet generatedKeys = preparedStmt.getGeneratedKeys();
+			if (generatedKeys.next()) 
+			{
+				Key=generatedKeys.getLong(1);
+          }
+			if(preparedStmt != null){preparedStmt.close();}	      
+
+		
+
+		if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFortnight())) 
+		{
+			for (int i = 0; i < obj.getActivity().length; i++) 
+			{
+				preparedStmtChild.setLong(1, Key);
+				preparedStmtChild.setString(2, obj.getFortnight()[i]);
+				preparedStmtChild.setString(3, obj.getActivity()[i]);
+				preparedStmtChild.execute();
+			}
+		}
+		
+		if(preparedStmtChild != null){preparedStmtChild.close();}	
+
 	
+			FormHistory formHistory = new FormHistory();
+			formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
+			formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
+			formHistory.setModule_name_fk("FortnightPlan");
+			formHistory.setForm_name("Insert Fortnight Quarterly Plan ");
+			formHistory.setForm_action_type("Insert");
+			formHistory.setForm_details("Fortnight Quarterly Plan  "+obj.getFortnight_quarterly_plan_id() + " Updated");
+			formHistory.setWork_id_fk(obj.getWork_id_fk());
+			formHistory.setContract_id_fk(obj.getContract_id_fk());
+			
+			flag = formsHistoryDao.saveFormHistory(formHistory);
+			transactionManager.commit(status);
+		}
+		catch(Exception e){ 
+			e.printStackTrace();
+			transactionManager.rollback(status);
+			throw new Exception(e);
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(connection, updateStmt, null);
+		}		
+
+		return flag;
+	}
+
+	@Override
+	public List<FortnightPlan> getWorksListQuarterlyFilter(FortnightPlan obj) throws Exception {
+		List<FortnightPlan> objsList = null;
+		try {
+		
+			String qry = "SELECT w.work_id as work_id_fk,w.work_short_name  "
+					+ "from fortnight_quarterly_plan f "
+					+ "LEFT JOIN work w on f.work_id_fk =w.work_id "
+					+ "where f.work_id_fk is not null " ;			
+			
+			int arrSize =0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
+				arrSize++;
+			}
+			qry = qry+ " group by w.work_id,w.work_short_name ";
+			
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if (!StringUtils.isEmpty(obj)&& !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			objsList = jdbcTemplate.query(qry, pValues,new BeanPropertyRowMapper<FortnightPlan>(FortnightPlan.class));
+		} catch (Exception e) {
+			throw new Exception(e);
+		}
+		
+		return objsList;
+	}
+
+	@Override
+	public List<FortnightPlan> getPeriodListQuarterlyFilter(FortnightPlan obj) throws Exception {
+		List<FortnightPlan> objsList = null;
+		try {
+		
+			String qry = "SELECT distinct period  "
+					+ "from fortnight_quarterly_plan f "
+					+ "LEFT JOIN work w on f.work_id_fk =w.work_id "
+					+ "where period is not  null " ;			
+			
+			int arrSize =0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
+				arrSize++;
+			}
+			
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if (!StringUtils.isEmpty(obj)&& !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			objsList = jdbcTemplate.query(qry, pValues,new BeanPropertyRowMapper<FortnightPlan>(FortnightPlan.class));
+		} catch (Exception e) {
+			throw new Exception(e);
+		}
+		
+		return objsList;
+	}
+
+	@Override
+	public List<FortnightPlan> getItemListQuarterlyFilter(FortnightPlan obj) throws Exception {
+		List<FortnightPlan> objsList = null;
+		try {
+		
+			String qry = "SELECT distinct item  "
+					+ "from fortnight_quarterly_plan f "
+					+ "LEFT JOIN work w on f.work_id_fk =w.work_id "
+					+ "where item is not null " ;			
+			
+			int arrSize =0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
+				arrSize++;
+			}
+			
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if (!StringUtils.isEmpty(obj)&& !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			objsList = jdbcTemplate.query(qry, pValues,new BeanPropertyRowMapper<FortnightPlan>(FortnightPlan.class));
+		} catch (Exception e) {
+			throw new Exception(e);
+		}
+		
+		return objsList;
+	}
+
+	@Override
+	public List<FortnightPlan> getFortnightQuarterlyPlanList(FortnightPlan obj) throws Exception {
+		List<FortnightPlan> objsList = null;
+		try {
+			String qry = "SELECT fortnight_quarterly_plan_id,item,criticality,scope_of_work as scope_of_work_quarterly,TDC as tdc_calendar,cumulative_progress " + 
+					"from fortnight_quarterly_plan f \r\n" + 
+					"LEFT JOIN work w on f.work_id_fk =w.work_id \r\n" + 
+					"where 0=0 " ;
+			int arrSize = 0;
+			
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and f.work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getItem())) {
+				qry = qry + " and item = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCritical_item())) {
+				qry = qry + " and critical_item = ?";
+				arrSize++;
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getPeriod())) {
+				qry = qry + " and period = ?";
+				arrSize++;
+
+			}
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getItem())) {
+				pValues[i++] = obj.getItem();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCritical_item())) {
+				pValues[i++] = obj.getCritical_item();
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getPeriod())) {
+					pValues[i++] = obj.getPeriod();
+			}
+			
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<FortnightPlan>(FortnightPlan.class));	
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}	
 
 }

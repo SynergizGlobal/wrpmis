@@ -16,7 +16,7 @@ public class Issue {
 	
 	private String contract_hod_user_id,contract_dyhod_user_id,created_by_user_id_fk,created_date,created_by_email_id,
 	existing_status_fk,mail_body_header,existing_responsible_person,existing_escalated_to,issue_file_type_fk,issue_file_type,
-	issue_file_id,assigned_person_user_id_fk,total_issues,closed_issues,open_issues;
+	issue_file_id,assigned_person_user_id_fk,total_issues,closed_issues,open_issues,la_id;
 
 	private boolean readonlyForm = true;
 	private MultipartFile issueFile;
@@ -879,6 +879,14 @@ public class Issue {
 
 	public void setModified_date(String modified_date) {
 		this.modified_date = modified_date;
+	}
+
+	public String getLa_id() {
+		return la_id;
+	}
+
+	public void setLa_id(String la_id) {
+		this.la_id = la_id;
 	}
 	
 }

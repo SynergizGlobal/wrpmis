@@ -19,6 +19,7 @@ public interface LandAcquisitionService {
 	public List<LandAcquisition> getStatusList() throws Exception;
 
 	public LandAcquisition getLandAcquisitionForm(LandAcquisition obj) throws Exception;
+	public List<LandAcquisition> getLADetails(LandAcquisition obj) throws Exception;
 
 	public boolean addLandAcquisition(LandAcquisition obj) throws Exception;
 

@@ -66,5 +66,7 @@ public interface LandAcquisitionDao {
 
 	public boolean checkSurveyNumber(String survey_number, String village_id,String la_id) throws Exception;
 
+	public List<LandAcquisition> getLADetails(LandAcquisition dObj) throws Exception;
+
 
 }

@@ -2520,6 +2520,28 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 		return false;
 	}
 
+	@Override
+	public List<LandAcquisition> getLADetails(LandAcquisition dObj) throws Exception {
+		List<LandAcquisition> objList = null;
+		try {
+			String qry ="select distinct la_id,survey_number,li.remarks,li.area_to_be_acquired,c1.contract_id as contract_id_fk,li.area_acquired,li.category_fk as type_of_land,li.la_land_status_fk,li.work_id_fk,w.work_name,w.project_id_fk,p.project_name,ISNULL(li.category_fk,c.la_category) as type_of_land ,sc.la_sub_category as sub_category_of_land, w.work_short_name,village_id,la_sub_category_fk,village " + 
+					" from la_land_identification li " + 
+					"left join work w on li.work_id_fk = w.work_id "+
+					"left join contract c1 on c1.work_id_fk = w.work_id "
+					+ "left join land_executives le on li.work_id_fk = le.work_id_fk  "+
+					"left join project p on w.project_id_fk = p.project_id "
+					+"left join la_sub_category sc on li.la_sub_category_fk = sc.id "
+					+"left join la_category c on sc.la_category_fk = c.la_category "
+					+"where la_id is not null  and la_id=? ";			
+			objList = jdbcTemplate.query( qry, new Object[] {dObj.getLa_id()}, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));
+			
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objList;
+	}
+
 
 	
 

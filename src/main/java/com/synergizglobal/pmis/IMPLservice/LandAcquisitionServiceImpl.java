@@ -164,6 +164,11 @@ public class LandAcquisitionServiceImpl implements LandAcquisitionService{
 	@Override
 	public boolean checkSurveyNumber(String survey_number,String village_id,String la_id) throws Exception {
 		return dao.checkSurveyNumber(survey_number,village_id,la_id);
+	}
+
+	@Override
+	public List<LandAcquisition> getLADetails(LandAcquisition dObj) throws Exception {
+		return dao.getLADetails(dObj);
 	}	
 
 

@@ -355,12 +355,7 @@
                             <div class="row" style="margin-top: 20px;">
                                 <div class="col s6 m4 input-field">
                                     <p class="searchable_label"> Item <span class="required">*</span></p>
-                                    <select id="item" class="searchable" name="item">
-                                        <option value="">Select</option>
-                                       	<c:forEach var="obj" items="${FortnightPlanItemList }">
-                                      	   	<option value= "${obj.item}">${obj.item }</option>
-                                    	 </c:forEach>                                          
-                                    </select>
+                                    <input id="item" maxlength="30" data-length="30" name="item" type="text" class="validate w80 pdr4em" value="">
                                     <span id="itemError" class="error-msg" ></span>
                                 </div>
                                  <div class="col s6 m4 input-field">
@@ -379,16 +374,13 @@
                                              <label for="tdc_calendar_mrvc">TDC Calendar <span class="required">*</span></label>
                                              <span id="tdc_calendarError" class="error-msg" ></span>
                                 </div> 
+                            </div>
+                            <div class="row" style="margin-top: 20px;">
                                 <div class="col s6 m4 input-field">
                                     <textarea id="scope_of_work_quarterly" name="scope_of_work_quarterly" class="pmis-textarea pdr4em w85 my-valid-class" data-length="150" maxlength="150"></textarea>
                                      <label for="scope_of_work_quarterly">Scope Of Work <span class="required">*</span></label>
-                                     <span id="scope_of_work_quarterlyError" class="error-msg" ></span>
+                                     <BR><span id="scope_of_work_quarterlyError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 input-field">
-                                <textarea id="cumulative_progress" name="cumulative_progress" class="pmis-textarea pdr4em w85 my-valid-class" data-length="150" maxlength="150"></textarea>
-                                     <label for="cumulative_progress">Cumulative Progress <span class="required">*</span></label>
-                                     <span id="cumulative_progressError" class="error-msg" ></span>
-                                </div> 
                             </div>
 
                             
@@ -405,6 +397,8 @@
                                                     <tr>
                                                         <th class="w1em">S No </th>
                                                         <th class="w15em">Fortnight </th>
+                                                        <th class="w15em">Units </th>
+                                                        <th class="w15em">Cumulative Progress </th>
                                                         <th class="w20em">Activity </th>
                                                         <th class="w1em">Action</th>
                                                     </tr>
@@ -418,6 +412,12 @@
 						                                        <option value="">Select</option>
 						                                    </select>
                                                         </td>
+                                                        <td data-head="Units" class="input-field">
+                                                        <input type="text" id="units0" name="units" data-length="50" maxlength="50">
+                                                        </td>
+                                                        <td data-head="Activity" class="input-field">
+                                                        <input type="text" id="cumulative_progress0" name="cumulative_progress" data-length="150" maxlength="150">
+                                                        </td>                                                                                                                
                                                         <td data-head="Activity" class="input-field">
                                                         <textarea id="activity0" name="activity" class="pmis-textarea pdr4em w85 my-valid-class" data-length="200" maxlength="200"></textarea>
                                                         </td>
@@ -628,18 +628,6 @@
 				$("#scope_of_work_quarterlyError").html("");
 				$("#scope_of_work_quarterly").css('border-color', '');	   				
 			}
-			if($("#cumulative_progress").val()=="")
-			{
-   				$("#cumulative_progressError").html("Cumulative progress Required.");
-   				$("#cumulative_progress").css('border-color', 'red');
-   				return false;
-			}
-			else
-			{
-				$("#cumulative_progressError").html("");
-				$("#cumulative_progress").css('border-color', '');	   				
-			}			
-			
 			
 		   	   for(var r=0;r<$('#app_com_table tbody tr').length;r++)
 			   {
@@ -654,6 +642,31 @@
 			   				$("#errormsg").html("");
 			   				$("#fortnight"+r).css('border-color', '');	   				
 		   				}
+						
+						if($("#units"+r).val()=="")
+						{
+			   				$("#errormsg").html("Units Required.");
+			   				$("#units"+r).css('border-color', 'red');
+			   				return false;
+						}
+						else
+						{
+							$("#errormsg").html("");
+							$("#units"+r).css('border-color', '');	   				
+						}	
+						
+			   			
+						if($("#cumulative_progress"+r).val()=="")
+						{
+			   				$("#errormsg").html("Cumulative progress Required.");
+			   				$("#cumulative_progress"+r).css('border-color', 'red');
+			   				return false;
+						}
+						else
+						{
+							$("#errormsg").html("");
+							$("#cumulative_progress"+r).css('border-color', '');	   				
+						}						
 			   			
 			   			if($("#activity"+r).val()=="")
 			   			{
@@ -842,7 +855,7 @@
 
            +'<td data-head="Fortnight" class="input-field">'
            +'<select id="fortnight' + rNo + '" class="fortnight searchable"  name="fortnight" value="">' 
-           +'<option value="">Select</option></select></td>'
+           +'<option value="">Select</option></select></td><td><input type="text" id="units' + rNo + '" name="units"  data-length="50" maxlength="50"></td><td><input type="text" id="cumulative_progress' + rNo + '" name="cumulative_progress"  data-length="50" maxlength="50"></td>'
 
            +'<td data-head="Activity" class="input-field">'
            +'<textarea id="activity' + rNo +'" name="activity" class="pmis-textarea pdr4em w85 my-valid-class" data-length="200" maxlength="200"></textarea> </td>'

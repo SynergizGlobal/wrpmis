@@ -866,12 +866,12 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 		Connection connection = null;
 		PreparedStatement updateStmt = null;	
 
-		String query = " insert into fortnight_quarterly_plan (work_id_fk, period, structure, item, criticality, TDC, scope_of_work, cumulative_progress)"
-	               + " values (?,?,?, ?, ?, ?,?,?)";
+		String query = " insert into fortnight_quarterly_plan (work_id_fk, period, structure, item, criticality, TDC, scope_of_work)"
+	               + " values (?,?,?, ?, ?, ?,?)";
 		
 
-		String queryChild = " insert into fortnight_quarterly_plan_activities (fortnight_quarterly_plan_id,fortnight,activity_name)"
-	               + " values (?,?,?)";
+		String queryChild = " insert into fortnight_quarterly_plan_activities (fortnight_quarterly_plan_id,fortnight,activity_name,units,cumulative_progress)"
+	               + " values (?,?,?,?,?)";
 
 	  PreparedStatement preparedStmt = null;
 	  PreparedStatement preparedStmtChild = null;
@@ -890,7 +890,6 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 	      preparedStmt.setString(5, obj.getCriticality());
 	      preparedStmt.setString(6, obj.getTdc_calendar());
 	      preparedStmt.setString(7, obj.getScope_of_work_quarterly());
-	      preparedStmt.setString(8, obj.getCumulative_progress());
 	      preparedStmt.execute();
 	      
 			ResultSet generatedKeys = preparedStmt.getGeneratedKeys();
@@ -909,6 +908,8 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 				preparedStmtChild.setLong(1, Key);
 				preparedStmtChild.setString(2, obj.getFortnight()[i]);
 				preparedStmtChild.setString(3, obj.getActivity()[i]);
+				preparedStmtChild.setString(4, obj.getUnits()[i]);
+				preparedStmtChild.setString(5, obj.getCumulative_progress()[i]);				
 				preparedStmtChild.execute();
 			}
 		}
@@ -1032,7 +1033,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 	public List<FortnightPlan> getFortnightQuarterlyPlanList(FortnightPlan obj) throws Exception {
 		List<FortnightPlan> objsList = null;
 		try {
-			String qry = "SELECT fortnight_quarterly_plan_id,item,criticality,scope_of_work as scope_of_work_quarterly,TDC as tdc_calendar,cumulative_progress " + 
+			String qry = "SELECT fortnight_quarterly_plan_id,item,criticality,scope_of_work as scope_of_work_quarterly,TDC as tdc_calendar " + 
 					"from fortnight_quarterly_plan f \r\n" + 
 					"LEFT JOIN work w on f.work_id_fk =w.work_id \r\n" + 
 					"where 0=0 " ;

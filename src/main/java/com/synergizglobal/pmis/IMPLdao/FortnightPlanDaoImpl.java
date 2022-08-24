@@ -70,7 +70,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 					"cast(max(isnull(s_cum_actual_till_date,0)) as varchar) as cum_actual_last_st,\r\n" + 
 					"cast(max(isnull(s_planned_current_fortnight,0)) as varchar) as planned_current_st,\r\n" + 
 					"\r\n" + 
-					"cast(max(isnull(s_actual_current_fortnight,0)) as varchar)  as actual_current_st,0 as data_id,case when isnull([float],0)<=15 then 'red' when DATEDIFF(day,expected_finish,getdate())<=30 then 'orange' else 'white' end as color \r\n" + 
+					"cast(max(isnull(s_actual_current_fortnight,0)) as varchar)  as actual_current_st,0 as data_id,case when isnull([float],0)<=15 then 'red' when DATEDIFF(day,getdate(),expected_finish)<=30 then 'orange' else 'white' end as color \r\n" + 
 					"from fortnight_temp f \r\n" + 
 					"LEFT JOIN contract c ON c.contract_id  = f.contract_id_fk \r\n" + 
 					"LEFT JOIN work w on c.work_id_fk =w.work_id \r\n" + 

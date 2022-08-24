@@ -328,24 +328,25 @@
                             <div class="row">  
                                 <h5 class="center-align" style="margin-bottom: 40px;"></h5>
                                 <div class="col s6 m4 input-field">
-                                    <p class="searchable_label"> Work: </p>
+                                    <p class="searchable_label"> Work <span class="required">*</span></p>
                                      <select id="work_id_fk" class="searchable" name="work_id_fk">
                                         <option value="">Select</option>
                                        	<c:forEach var="obj" items="${FortnightPlanWorkList }">
                                       	   	<option value= "${obj.work_id_fk}">${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
                                     	 </c:forEach>                                          
                                     </select>
-                                    
+                                    <span id="workError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 input-field">
-                                    <p class="searchable_label"> Period: </p>
+                                    <p class="searchable_label"> Period <span class="required">*</span></p>
                                     <select id="period" class="searchable" name="period">
                                         <option value="">Select</option>
                                     </select>
+                                    <span id="periodError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <input id="structure" maxlength="30" data-length="30" name="structure" type="text" class="validate w80 pdr4em" value="">
-                                     <label for="structure">Structure</label>
+                                     <label for="structure">Structure<span class="required">*</span></label>
                                      <span id="structureError" class="error-msg" ></span>
                                 </div>  
                                 
@@ -353,37 +354,39 @@
                             </div>
                             <div class="row" style="margin-top: 20px;">
                                 <div class="col s6 m4 input-field">
-                                    <p class="searchable_label"> Item: </p>
+                                    <p class="searchable_label"> Item <span class="required">*</span></p>
                                     <select id="item" class="searchable" name="item">
                                         <option value="">Select</option>
                                        	<c:forEach var="obj" items="${FortnightPlanItemList }">
                                       	   	<option value= "${obj.item}">${obj.item }</option>
                                     	 </c:forEach>                                          
                                     </select>
+                                    <span id="itemError" class="error-msg" ></span>
                                 </div>
                                  <div class="col s6 m4 input-field">
-                                    <p class="searchable_label"> Criticality: </p>
+                                    <p class="searchable_label"> Criticality <span class="required">*</span></p>
                                     <select id="criticality" class="searchable" name="criticality">
                                         <option value="">Select</option>
                                          <option value="yes">Yes</option>
                                           <option value="no">No</option>
                                     </select>
+                                     <span id="criticalityError" class="error-msg" ></span>
                                 </div> 
                                 <div class="col s6 m4 input-field">
                                 	<input id="tdc_calendar" name="tdc_calendar" type="text" class="validate datepicker" value="">
                                              <button type="button" id="tdc_calendar_icon" class="datepicker-button"><i
                                                     class="fa fa-calendar"></i></button>
-                                             <label for="tdc_calendar_mrvc">TDC Calendar </label>
+                                             <label for="tdc_calendar_mrvc">TDC Calendar <span class="required">*</span></label>
                                              <span id="tdc_calendarError" class="error-msg" ></span>
                                 </div> 
                                 <div class="col s6 m4 input-field">
                                     <textarea id="scope_of_work_quarterly" name="scope_of_work_quarterly" class="pmis-textarea pdr4em w85 my-valid-class" data-length="150" maxlength="150"></textarea>
-                                     <label for="scope_of_work_quarterly">Scope Of Work</label>
+                                     <label for="scope_of_work_quarterly">Scope Of Work <span class="required">*</span></label>
                                      <span id="scope_of_work_quarterlyError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 input-field">
                                 <textarea id="cumulative_progress" name="cumulative_progress" class="pmis-textarea pdr4em w85 my-valid-class" data-length="150" maxlength="150"></textarea>
-                                     <label for="cumulative_progress">Cumulative Progress</label>
+                                     <label for="cumulative_progress">Cumulative Progress <span class="required">*</span></label>
                                      <span id="cumulative_progressError" class="error-msg" ></span>
                                 </div> 
                             </div>
@@ -416,13 +419,12 @@
 						                                    </select>
                                                         </td>
                                                         <td data-head="Activity" class="input-field">
-                                                        <textarea id="activity" name="activity" class="pmis-textarea pdr4em w85 my-valid-class" data-length="200" maxlength="200"></textarea>
+                                                        <textarea id="activity0" name="activity" class="pmis-textarea pdr4em w85 my-valid-class" data-length="200" maxlength="200"></textarea>
                                                         </td>
                                                         
                                                         
                                                         <td class="input-field mobile_btn_close">
-                                                            <a href="#" onclick="removeStActions('0');" class="btn waves-effect waves-light red t-c ">
-                                                                <i class="fa fa-close"></i></a>
+
                                                         </td>
                                                     </tr>
                                              
@@ -452,24 +454,24 @@
                                     </div>
                                 </div>
                              </div>
-                      
+                      <div id="errormsg" style="color:red;"></div>
                     </div>
-                            <!-- </div> -->
-                            <div class="container container-no-margin">
-                            <div class="row">
-                                <div class="col s12 m6 l6 mt-brdr ">
-                                    <div class="center-align m-1">
-                                        <input class="btn waves-effect waves-light bg-m" type="submit" value="Add" width="10%">
+ <div class="row">                                
+                                <div class="col s12 m6 right-align">
+	                                <div class="m-1">
+	                                     
+										  
+					                       <button type="button" onclick="addFortnightQuarterly();" class="btn waves-effect waves-light bg-m" style="min-width:90px">Add</button>
+										                                 
+	                                </div>
+                                </div>
+                                 <div class="col s12 m6">
+                                	<div class="m-1">
+                                     	 <button class="btn waves-effect waves-light bg-s">Cancel</button>
                                     </div>
                                 </div>
-                                <div class="col s12 m6 l6 mt-brdr ">
-                                    <div class="center-align m-1">
-                                        <button class="btn waves-effect waves-light bg-s">Cancel</button>
-                                    </div>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
-                        </div>
+                            </div>                   
+                      
                     </form>
                     <!-- form ends  -->
                 </div>
@@ -538,7 +540,140 @@
         $('#period').append('<option value="1st January,'+DateShort+'  - 31st March,'+DateShort+'">1st October,'+DateShort+'  - 31st December,'+DateShort+'</option>'); 
         
         getFortnights(0);
-    });    
+    });
+    
+    function addFortnightQuarterly()
+    {
+			if($("#work_id_fk").val()=="")
+			{
+   				$("#workError").html("Work ID Required.");
+   				$("#work_id_fk").css('border-color', 'red');
+   				return false;
+			}
+			else
+			{
+				$("#workError").html("");
+				$("#work_id_fk").css('border-color', '');	   				
+			} 
+			
+			if($("#period").val()=="")
+			{
+   				$("#periodError").html("Period Required.");
+   				$("#period").css('border-color', 'red');
+   				return false;
+			}
+			else
+			{
+				$("#periodError").html("");
+				$("#period").css('border-color', '');	   				
+			}
+			
+			if($("#structure").val()=="")
+			{
+   				$("#structureError").html("Structure Required.");
+   				$("#structure").css('border-color', 'red');
+   				return false;
+			}
+			else
+			{
+				$("#structureError").html("");
+				$("#structure").css('border-color', '');	   				
+			}
+			if($("#item").val()=="")
+			{
+   				$("#itemError").html("Item Required.");
+   				$("#item").css('border-color', 'red');
+   				return false;
+			}
+			else
+			{
+				$("#itemError").html("");
+				$("#item").css('border-color', '');	   				
+			}
+			
+			
+			
+			if($("#criticality").val()=="")
+			{
+   				$("#criticalityError").html("Select Criticality");
+   				$("#criticality").css('border-color', 'red');
+   				return false;
+			}
+			else
+			{
+				$("#criticalityError").html("");
+				$("#criticality").css('border-color', '');	   				
+			} 
+			
+			if($("#tdc_calendar").val()=="")
+			{
+   				$("#tdc_calendarError").html("TDC Required.");
+   				$("#tdc_calendar").css('border-color', 'red');
+   				return false;
+			}
+			else
+			{
+				$("#tdc_calendarError").html("");
+				$("#tdc_calendar").css('border-color', '');	   				
+			}
+			
+			if($("#scope_of_work_quarterly").val()=="")
+			{
+   				$("#scope_of_work_quarterlyError").html("Scope of Work Required.");
+   				$("#scope_of_work_quarterly").css('border-color', 'red');
+   				return false;
+			}
+			else
+			{
+				$("#scope_of_work_quarterlyError").html("");
+				$("#scope_of_work_quarterly").css('border-color', '');	   				
+			}
+			if($("#cumulative_progress").val()=="")
+			{
+   				$("#cumulative_progressError").html("Cumulative progress Required.");
+   				$("#cumulative_progress").css('border-color', 'red');
+   				return false;
+			}
+			else
+			{
+				$("#cumulative_progressError").html("");
+				$("#cumulative_progress").css('border-color', '');	   				
+			}			
+			
+			
+		   	   for(var r=0;r<$('#app_com_table tbody tr').length;r++)
+			   {
+			   			if($("#fortnight"+r).val()=="")
+			   			{
+			   				$("#errormsg").html("Select fortnight");
+			   				$("#fortnight"+r).css('border-color', 'red');
+			   				return false;
+			   			}
+			   			else
+		   				{
+			   				$("#errormsg").html("");
+			   				$("#fortnight"+r).css('border-color', '');	   				
+		   				}
+			   			
+			   			if($("#activity"+r).val()=="")
+			   			{
+			   				$("#errormsg").html("Activity Required.");
+			   				$("#activity"+r).css('border-color', 'red');
+			   				return false;
+			   			}
+			   			else
+		   				{
+			   				$("#errormsg").html("");
+			   				$("#activity"+r).css('border-color', '');	   				
+		   				}	
+			   }
+			
+			
+			
+			
+			
+    	document.getElementById('getForm').submit();
+    }
         
         function getFortnights(Iteration)
         {

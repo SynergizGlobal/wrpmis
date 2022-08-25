@@ -280,14 +280,14 @@
                                 </div>
                                 <div class="col s6 m4 input-field">
                                     <p class="searchable_label"> Period: </p>
-                                    <select id="period" class="searchable" name="period" class="period">
+                                    <select id="period" class="searchable" name="period" class="period" onChange="fortnightUpdateonSubjectiveActivities();">
                                        <option value="">Select</option>
                                    </select>
                                     <span id="periodError" class="error-msg" ></span>
                                 </div>  
                                  <div class="col s6 m4 input-field">
                                     <p class="searchable_label"> Fortnight: </p>
-                                    <select id="fortnight" class="searchable" name="fortnight" class="fortnight">
+                                    <select id="fortnight" class="searchable" name="fortnight" class="fortnight" onChange="fortnightUpdateonSubjectiveActivities();">
                                        <option value="">Select</option>
                                    </select>
                                 </div>
@@ -570,12 +570,18 @@
 		   {
 	   			$("#pending_progress"+rowNo).val("Completed");
 	   			$("#reason_for_shortfall"+rowNo).val("Completed");
+	   			
+	   			$("#pending_progress"+rowNo).prop("disabled",true);
+	   			$("#reason_for_shortfall"+rowNo).prop("disabled",true);
 	   			$('#chkcompletion_status'+rowNo).val("Yes");
 		   }
 	   	   else
    		   {
 	   			$("#pending_progress"+rowNo).val("Completed");
 	   			$("#reason_for_shortfall"+rowNo).val("Completed");
+	   			
+	   			$("#pending_progress"+rowNo).prop("disabled",false);
+	   			$("#reason_for_shortfall"+rowNo).prop("disabled",false);
 	   			$('#chkcompletion_status'+rowNo).val("No");
    		   }
    }

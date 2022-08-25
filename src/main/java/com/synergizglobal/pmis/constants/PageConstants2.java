@@ -23,6 +23,7 @@ public class PageConstants2 {
 	
 	public static final String addFortnightlyPlan = "forms/addFortnightPlan";
 	public static final String updateFortnightPlan = "forms/updateFortnightPlan";
+	public static final String updateQuarterlyPlan = "forms/updateQuarterlyPlan";
 	public static final String updateFortnighlytPlanManual = "forms/updateFortnighlytPlanManual";
 	
 	public static final String webLinks = "forms/webLinks";

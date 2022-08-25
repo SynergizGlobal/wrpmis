@@ -8,6 +8,7 @@ public interface FortnightPlanService {
 	
 	List<FortnightPlan> getFortnightPlanList(FortnightPlan obj) throws Exception;
 	List<FortnightPlan> getFortnightQuarterlyPlanList(FortnightPlan obj) throws Exception;
+	List<FortnightPlan> getfortnightActivities(FortnightPlan obj) throws Exception;
 
 	List<FortnightPlan> getFortnightPlanWorkList() throws Exception;
 	List<FortnightPlan> getFortnightQuarterlyPlanItemList() throws Exception;
@@ -26,6 +27,9 @@ public interface FortnightPlanService {
 
 	boolean updateFortnightPlan(FortnightPlan obj) throws Exception;
 	boolean updateFortnightlyPlan(FortnightPlan obj) throws Exception;
+	boolean updateQuarterlyPlanActivities(FortnightPlan obj) throws Exception;
+
+	
 	boolean insertQuarterlyPlan(FortnightPlan obj) throws Exception;
 
 	int getTotalRecords(FortnightPlan obj, String searchParameter) throws Exception;
@@ -44,6 +48,7 @@ public interface FortnightPlanService {
 	
 	public List<FortnightPlan> getWorksListQuarterlyFilter(FortnightPlan obj) throws Exception;
 	public List<FortnightPlan> getPeriodListQuarterlyFilter(FortnightPlan obj) throws Exception;
+	public List<FortnightPlan> getFortnightListQuarterlyFilter(FortnightPlan obj) throws Exception;
 	public List<FortnightPlan> getItemListQuarterlyFilter(FortnightPlan obj) throws Exception;	
 
 } 

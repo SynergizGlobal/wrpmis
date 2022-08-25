@@ -52,6 +52,12 @@ public interface FortnightPlanDao {
 	List<FortnightPlan> getPeriodListQuarterlyFilter(FortnightPlan obj) throws Exception;
 	List<FortnightPlan> getItemListQuarterlyFilter(FortnightPlan obj) throws Exception;
 
-	List<FortnightPlan> getFortnightQuarterlyPlanList(FortnightPlan obj) throws Exception;	
+	List<FortnightPlan> getFortnightQuarterlyPlanList(FortnightPlan obj) throws Exception;
+
+	List<FortnightPlan> getFortnightListQuarterlyFilter(FortnightPlan obj) throws Exception;
+
+	List<FortnightPlan> getfortnightActivities(FortnightPlan obj) throws Exception;
+
+	boolean updateQuarterlyPlanActivities(FortnightPlan obj) throws Exception;
 }
  

@@ -299,7 +299,6 @@
                                             <th class="pdla">Critical (Y/N)</th>
                                             <th class="pdla">Scope of Work</th>
                                             <th class="pdla">TDC</th>
-                                            <th class="pdla">Cumulative Progress</th>
                                             <th class="no-sort w10px">Action</th>
                                         </tr>
                                     </thead>
@@ -427,13 +426,7 @@
 	            }
           }
 		
-    	
-    	$('.close-message').delay(3000).fadeOut('slow');
-    	
     	 getFortnightQuarterlyPlanList();
-    	 if(pageNo == null){pageNo = 0;}else{pageNo = Number(pageNo);}
-         var oTable = $('#datatable-fortnightplan').dataTable();
-         oTable.fnPageChange( pageNo );
     });
 
     function clearFilter(){
@@ -444,8 +437,6 @@
     	window.localStorage.setItem("fortnightPlanFilters",'');
     	window.location.href="<%=request.getContextPath()%>/FortnightPlan"
     	//getFortnightQuarterlyPlanList();
-    	var table = $('#datatable-fortnightplan').DataTable();
-    	table.draw( true );
     	
     }
     
@@ -502,12 +493,13 @@
     		filters = filters + key +"="+filtersMap[key] + "^";
     		window.localStorage.setItem("fortnightPlanFilters", filters);
 			});
-   		table = $('#datatable-fortnightplan').DataTable();
+	
+    	table = $('#app_com_table').DataTable();
 		 
 		table.destroy();
 		
 		$.fn.dataTable.moment('DD-MMM-YYYY');
-		table = $('#datatable-fortnightplan').DataTable({
+		table = $('#app_com_table').DataTable({
      		"bStateSave": true,  
      		fixedHeader: true,
            
@@ -520,14 +512,7 @@
 					var info = table.page.info();
 					window.localStorage.setItem("fortnightplanPageNo", info.page);
 				},
-            columnDefs: [ 
-            	{targets: [2,3], className: 'hideCOl'},
-                { targets: [ 1,2,4], className: 'fw-12vw'  },
-                { targets: [ 5,6,7], className: 'fw-10vw'  },
-                { targets: [0,1], className: 'fw-111'  },
-                { "width": "20px", "targets": [0] },
-                { orderable: false, 'aTargets': ['no-sort'] } 
-            ],
+
             // "ScrollX": true,
             "sScrollX": "100%",
              "sScrollXInner": "100%",
@@ -559,15 +544,16 @@
 					$('.dataTables_filter div').append( $searchButton, $clearButton); 					
 				}
         }).rows().remove().draw();
-		table.state.clear();		
-	 
+		table.state.clear();
+    	
 	 	var myParams = {work_id_fk : work_id_fk, period : period, item:item,critical:critical};
 		$.ajax({url : "<%=request.getContextPath()%>/ajax/getFortnightQuarterlyPlanList",
     			type:"POST",
     			data:myParams,cache: false,async:false,
     			success : function(data)
     			{    	
-					if(data != null && data != '' && data.length > 0){    					
+					if(data != null && data != '' && data.length > 0){   
+						var i=0;
 	         		$.each(data,function(key,val){
 	         			var fortnight_quarterly_plan_id = val.fortnight_quarterly_plan_id;
 	         			var cname="";
@@ -575,17 +561,15 @@
 	                    var actions = '<a href="javascript:void(0);"  onclick=getFortnightPlan('+fortnight_quarterly_plan_id+'); class="btn waves-effect waves-light bg-m t-c mob-btn" title="Edit"><i class="fa fa-pencil"></i></a>';    	                   	
 	                   	var rowArray = [];    	                  
                         
-                                rowArray.push($.trim(key+1));
+	                   			rowArray.push($.trim(key+1));
         	                   	rowArray.push($.trim(val.item));
         	                   	rowArray.push($.trim(val.criticality));
         	                   	rowArray.push($.trim(val.scope_of_work_quarterly));
         	                   	rowArray.push($.trim(val.tdc_calendar));
-        	                   	rowArray.push($.trim(val.cumulative_progress));
         	                   	rowArray.push($.trim(actions));                               	
-                        
-	                   	rowArray.push($.trim(actions));    	                   	
 	                   	
 	                    table.row.add(rowArray).draw( true );
+	                    i++;
 	                    		                       
 					});
 	         		

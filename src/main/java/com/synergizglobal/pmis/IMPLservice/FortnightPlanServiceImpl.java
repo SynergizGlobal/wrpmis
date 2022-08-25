@@ -52,6 +52,10 @@ public class FortnightPlanServiceImpl implements FortnightPlanService {
 	public boolean updateFortnightlyPlan(FortnightPlan obj) throws Exception {
 		return fortnightPlanDao.updateFortnightlyPlan(obj);
 	}
+	@Override 
+	public boolean updateQuarterlyPlanActivities(FortnightPlan obj) throws Exception{
+		return fortnightPlanDao.updateQuarterlyPlanActivities(obj);
+	}
 	@Override
 	public boolean insertQuarterlyPlan(FortnightPlan obj) throws Exception {
 		return fortnightPlanDao.insertQuarterlyPlan(obj);
@@ -132,6 +136,16 @@ public class FortnightPlanServiceImpl implements FortnightPlanService {
 	@Override
 	public List<FortnightPlan> getFortnightQuarterlyPlanList(FortnightPlan obj) throws Exception {
 		return fortnightPlanDao.getFortnightQuarterlyPlanList(obj);
+	}
+	
+	public List<FortnightPlan> getFortnightListQuarterlyFilter(FortnightPlan obj) throws Exception
+	{
+		return fortnightPlanDao.getFortnightListQuarterlyFilter(obj);
+	}
+	
+	public List<FortnightPlan> getfortnightActivities(FortnightPlan obj) throws Exception
+	{
+		return fortnightPlanDao.getfortnightActivities(obj);
 	}
 	
 }

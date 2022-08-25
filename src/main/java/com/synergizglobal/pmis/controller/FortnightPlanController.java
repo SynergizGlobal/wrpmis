@@ -131,7 +131,20 @@ public class FortnightPlanController {
 			logger.error("FortnightQuarterlyPlan : " + e.getMessage());
 		}
 		return model;
-	}	
+	}
+	
+	@RequestMapping(value="/update-quarterly-plan",method=RequestMethod.GET)
+	public ModelAndView updateQuarterlyPlan(@ModelAttribute FortnightPlan obj,HttpSession session) {
+		ModelAndView model = new ModelAndView();
+		try {
+			model.setViewName(PageConstants2.updateQuarterlyPlan);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("updateQuarterlyPlan : " + e.getMessage());
+		}
+		return model;
+	}		
 	
 	@RequestMapping(value = "/add-quarterly-plan", method = {RequestMethod.GET})
 	public ModelAndView addQuarterlyPlan(@ModelAttribute Budget obj){
@@ -228,6 +241,19 @@ public class FortnightPlanController {
 		}
 		return fortnight;
 	}
+	
+	@RequestMapping(value = "/ajax/getFortnightListFilterInQuarterlyFortnight", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<FortnightPlan> getFortnightListFilterInQuarterlyFortnight(@ModelAttribute FortnightPlan obj) {
+		List<FortnightPlan> fortnight = null;
+		try {
+			fortnight = FortnightPlanService.getFortnightListQuarterlyFilter(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getPeriodListQuarterlyFilter : " + e.getMessage());
+		}
+		return fortnight;
+	}	
 	
 	@RequestMapping(value = "/ajax/getPeriodsListFilterInQuarterlyFortnight", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
@@ -443,6 +469,23 @@ public class FortnightPlanController {
 	}
 	
 	
+	@RequestMapping(value = "/ajax/getfortnightActivities", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<FortnightPlan> getfortnightActivities(@ModelAttribute FortnightPlan obj,HttpSession session) {
+		List<FortnightPlan> FortnightPlans = null;
+		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());			
+			FortnightPlans = FortnightPlanService.getfortnightActivities(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getfortnightActivities : " + e.getMessage());
+		}
+		return FortnightPlans;
+	}
+	
 	@RequestMapping(value = "/ajax/getFortnightQuarterlyPlanList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<FortnightPlan> getFortnightQuarterlyPlanList(@ModelAttribute FortnightPlan obj,HttpSession session) {
@@ -633,6 +676,32 @@ public class FortnightPlanController {
 		}
 		return model;
 	}
+
+	@RequestMapping(value="/update-quarterly_plan_activities",method=RequestMethod.POST)
+	public ModelAndView updateQuarterlyPlanActivities(@ModelAttribute FortnightPlan obj,HttpSession session,RedirectAttributes attributes) {
+		ModelAndView model = new ModelAndView();
+		try {
+			model.setViewName("redirect:/FortnightQuarterlyPlan");
+
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+
+			
+			boolean flag = FortnightPlanService.updateQuarterlyPlanActivities(obj);
+			if(flag) {
+				attributes.addFlashAttribute("success", "Update quarterly Fortnight Plan added successfully");
+			}else {
+				attributes.addFlashAttribute("error", "Updating quarterly Fortnight Plan is failed. Try again.");
+			}
+		} catch (Exception e) {
+			attributes.addFlashAttribute("error", commonError);
+			logger.error("updateQuarterlyPlanActivities : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	
 
 	@RequestMapping(value="/insert-fortnightly-plan",method=RequestMethod.POST)
 	public ModelAndView insertQuarterlyPlan(@ModelAttribute FortnightPlan obj,HttpSession session,RedirectAttributes attributes) {

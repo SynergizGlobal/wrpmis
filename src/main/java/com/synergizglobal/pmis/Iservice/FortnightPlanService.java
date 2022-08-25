@@ -24,6 +24,7 @@ public interface FortnightPlanService {
 
 	List<FortnightPlan> getFortnightPlan(FortnightPlan obj) throws Exception;
 	List<FortnightPlan> getFortnightPlanManual(FortnightPlan obj) throws Exception;
+	List<FortnightPlan> getQuarterlyPlanManual(FortnightPlan obj) throws Exception;
 
 	boolean updateFortnightPlan(FortnightPlan obj) throws Exception;
 	boolean updateFortnightlyPlan(FortnightPlan obj) throws Exception;

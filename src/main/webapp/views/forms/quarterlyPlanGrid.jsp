@@ -230,7 +230,7 @@
 											class="fa fa-plus-circle"></i> Add</strong></a>
 										<a href="#" onclick="exportFortnight();"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
-											class="fa fa-cloud-download"></i> Export</strong></a>
+											class="fa fa-cloud-download"></i></strong></a>
 										<a href="#" onclick="openUploadFortnightModal();"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
 											class="fa fa-cloud-upload"></i> Upload</strong></a>											
@@ -258,7 +258,7 @@
                                         </select>
                                     </div>
                                 	<div class="col s12 m2 input-field">
-	                                    <p>Critical</p>
+	                                    <p>Criticality</p>
 	                                    <p>
 	                                        <label>
 	                                            <input class="with-gap" name="criticality" id="critical1" type="radio" value="Yes" onchange="getFortnightQuarterlyPlanList();" />
@@ -558,7 +558,7 @@
 	         			var fortnight_quarterly_plan_id = val.fortnight_quarterly_plan_id;
 	         			var cname="";
 	         			
-	                    var actions = '<a href="javascript:void(0);"  onclick=getFortnightPlan('+fortnight_quarterly_plan_id+'); class="btn waves-effect waves-light bg-m t-c mob-btn" title="Edit"><i class="fa fa-pencil"></i></a>';    	                   	
+	                    var actions = '<a href="javascript:void(0);"  onclick=getFortnightPlan('+fortnight_quarterly_plan_id+'); class="btn waves-effect waves-light bg-m t-c mob-btn" title="View"><i class="fa fa-eye"></i></a>';    	                   	
 	                   	var rowArray = [];    	                  
                         
 	                   			rowArray.push($.trim(key+1));
@@ -708,14 +708,8 @@
     
     function getFortnightPlan(fortnightly_plan_id,cname,data_id) {
 		$("#fortnightly_plan_id").val(fortnightly_plan_id);
-			if(cname=="")
-			{
-				window.location.href="/pmis/updateFortnighlytPlanManual/"+data_id;
-			}
-			else
-			{
-				window.location.href="/pmis/get-FortnightPlan/"+fortnightly_plan_id;
-			}
+		window.location.href="/pmis/add-quarterly-plan/"+fortnightly_plan_id;
+
 	}
     
     function exportFortnight(){

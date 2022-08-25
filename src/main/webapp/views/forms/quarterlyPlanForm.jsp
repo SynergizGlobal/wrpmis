@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
 <%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
-
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 
@@ -318,7 +318,7 @@
                     <div class="center-align">
                         <span class="card-title headbg">
                             <div class="center-align p-2 bg-m">
-                                <h5>Add Quarterly Plan</h5>
+                                <h5 id="tleName">Add Quarterly Plan</h5>
                             </div>
                         </span>
                     </div>
@@ -419,7 +419,7 @@
                                                         <input type="text" id="cumulative_progress0" name="cumulative_progress" data-length="150" maxlength="150">
                                                         </td>                                                                                                                
                                                         <td data-head="Activity" class="input-field">
-                                                        <textarea id="activity0" name="activity" class="pmis-textarea pdr4em w85 my-valid-class" data-length="200" maxlength="200"></textarea>
+                                                        <input type="text" id="activity0" name="activity" data-length="200" maxlength="200">
                                                         </td>
                                                         
                                                         
@@ -433,12 +433,12 @@
                                              <table class="mdl-data-table table-add bd-none">
                                                 <tbody class="bd-none">
                                                     <tr class="bd-none">
-                                                        <td colspan="3" class="bd-none"><a
+                                                        <td colspan="3" class="bd-none"><button
                                                             type="button"
-                                                            class="btn waves-effect waves-light bg-m t-c add-align"
+                                                            class="btn waves-effect waves-light bg-m t-c add-align" id="add-align"
                                                             onclick="addStRow()"> <i
                                                                 class="fa fa-plus"></i>
-                                                        </a>
+                                                        </button>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -467,7 +467,7 @@
                                 </div>
                                  <div class="col s12 m6">
                                 	<div class="m-1">
-                                     	 <button class="btn waves-effect waves-light bg-s">Cancel</button>
+                                     	 <button class="btn waves-effect waves-light bg-s" id="btnCancel">Cancel</button>
                                     </div>
                                 </div>
                             </div>                   
@@ -512,6 +512,45 @@
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
     
     <script>
+    
+   
+	   $("#work_id_fk").val("${FortnightPlan[0].work_id_fk}");
+	   $("#structure").val("${FortnightPlan[0].structure}");
+	   $("#item").val("${FortnightPlan[0].item}");
+	   
+	   $("#criticality").val("${FortnightPlan[0].criticality}");
+	   $("#tdc_calendar").val("${FortnightPlan[0].tdc_calendar}");
+	   $("#scope_of_work_quarterly").val("${FortnightPlan[0].scope_of_work_quarterly}");	   
+	   
+	   
+   	if("${(fn:length(FortnightPlan))}">0)
+	{
+   		var i=0;	  			 
+ 		<c:forEach var="tempobj" items="${FortnightPlan}">
+	   		if(i>0)
+			   {
+	   			addStRow();
+	   	        $('#add-align').prop('disabled', true);
+	   	        $('.remove').prop('disabled', true);
+	   	     
+			   }	
+	   		
+ 	 		   $("#fortnight"+i).val("${tempobj.fortnight_date}");
+ 	 		   $("#units"+i).val("${tempobj.unit}");
+ 	 		   $("#cumulative_progress"+i).val("${tempobj.cum_progress}");
+ 	 		   $("#activity"+i).val("${tempobj.activity_name}");		   		
+
+ 		  i++;
+        </c:forEach> 
+        $('#getForm :input').prop('disabled', true);
+	    $('#btnCancel').prop('disabled', false);
+	    $('#tleName').html('Update Quarterly Plan');
+	    
+
+
+	}    
+    
+    
     $(document).ready(function() {
  	   $("[data-length]").each(function(i,val){
  	    	$('#'+val.id).characterCounter();
@@ -535,10 +574,10 @@
         	DateShort=DateShort.substring(2,4);
 
         $('#period').append('<option value="1st January,'+DateShort+'  - 31st March,'+DateShort+'">1st January,'+DateShort+'  - 31st March,'+DateShort+'</option>');
-        $('#period').append('<option value="1st January,'+DateShort+'  - 31st March,'+DateShort+'">1st April,'+DateShort+'  - 30th June,'+DateShort+'</option>'); 
-        $('#period').append('<option value="1st January,'+DateShort+'  - 31st March,'+DateShort+'">1st July,'+DateShort+'  - 30th September,'+DateShort+'</option>'); 
-        $('#period').append('<option value="1st January,'+DateShort+'  - 31st March,'+DateShort+'">1st October,'+DateShort+'  - 31st December,'+DateShort+'</option>'); 
-        
+        $('#period').append('<option value="1st April,'+DateShort+'  - 30th June,'+DateShort+'">1st April,'+DateShort+'  - 30th June,'+DateShort+'</option>'); 
+        $('#period').append('<option value="1st July,'+DateShort+'  - 30th September,'+DateShort+'">1st July,'+DateShort+'  - 30th September,'+DateShort+'</option>'); 
+        $('#period').append('<option value="1st October,'+DateShort+'  - 31st December,'+DateShort+'">1st October,'+DateShort+'  - 31st December,'+DateShort+'</option>'); 
+ 	    $("#period").val("${FortnightPlan[0].period}");
         getFortnights(0);
     });
     
@@ -860,7 +899,7 @@
            +'<td data-head="Activity" class="input-field">'
            +'<textarea id="activity' + rNo +'" name="activity" class="pmis-textarea pdr4em w85 my-valid-class" data-length="200" maxlength="200"></textarea> </td>'
 
-           +'<td class="input-field mobile_btn_close"><a onclick="removeStActions(' + rNo + ');" class="btn waves-effect waves-light red t-c remove"><i class="fa fa-close"></i></a></td>'
+           +'<td class="input-field mobile_btn_close"><button onclick="removeStActions(' + rNo + ');" class="btn waves-effect waves-light red t-c remove"><i class="fa fa-close"></i></button></td>'
            +'</tr>';
     
         $('#stBody').append(html);

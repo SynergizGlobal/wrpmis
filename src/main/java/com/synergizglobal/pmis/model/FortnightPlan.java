@@ -10,7 +10,7 @@ public class FortnightPlan {
 	cum_actual_last_structure, planned_current_structure, cum_planned_last_st, cum_actual_last_st, planned_current_st,user_id,user_role_code,work_id_fk,total_items,
 	designation,user_name,created_by_user_id_fk,module_name,work_name,work_short_name,department_fk,
 	contract_short_name,structure,user_type_fk,structure_type_fk,remarks,critical,activity_name,scope,status, uploaded_by_user_id_fk,item,tdc_calendar,criticality,color,
-	scope_of_work_quarterly,fortnight_quarterly_plan_id,fortnight_date;
+	scope_of_work_quarterly,fortnight_quarterly_plan_id,fortnight_date,unit,cum_progress;
 	
 	
 	private String [] activity,scope_of_work,critical_item,completion_status,planned_progress_on_last_fortnight, actual_progress_on_last_fortnight, plan_for_the_current_fortnight,
@@ -479,6 +479,22 @@ public class FortnightPlan {
 
 	public void setFortnight_quarterly_plan_activity_id(String [] fortnight_quarterly_plan_activity_id) {
 		Fortnight_quarterly_plan_activity_id = fortnight_quarterly_plan_activity_id;
+	}
+
+	public String getUnit() {
+		return unit;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+
+	public String getCum_progress() {
+		return cum_progress;
+	}
+
+	public void setCum_progress(String cum_progress) {
+		this.cum_progress = cum_progress;
 	}
 
 

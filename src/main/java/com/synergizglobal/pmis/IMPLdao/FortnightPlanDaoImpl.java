@@ -89,19 +89,19 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 			}			
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				qry = qry + " and f.contract_id_fk = ?";
+				qry = qry + " and f.contract_id_fk = ? ";
 				arrSize++;
 			}			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and c.work_id_fk = ?";
+				qry = qry + " and c.work_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCategory())) {
-				qry = qry + " and category = ?";
+				qry = qry + " and category = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCritical_item())) {
-				qry = qry + " and critical_item = ?";
+				qry = qry + " and critical_item = ? ";
 				arrSize++;
 			}
 			
@@ -109,13 +109,13 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 				String Str[]=obj.getPeriod().split("_");
 				if(Str.length==2)
 				{
-					qry = qry + " and fortnight_start = ? and fortnight_finish=?";
+					qry = qry + " and fortnight_start = ? and fortnight_finish=? ";
 					arrSize++;
 					arrSize++;
 				}
 				else
 				{
-					qry = qry + " and (cast(fortnight_start as varchar) = ? or cast(fortnight_finish as varchar)=?)";
+					qry = qry + " and (cast(fortnight_start as varchar) = ? or cast(fortnight_finish as varchar)=?) ";
 					arrSize++;
 					arrSize++;					
 				}
@@ -123,8 +123,15 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 			}
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCritical())) {
-				qry = qry + " and critical = ?";
-				arrSize++;
+				
+				if(obj.getCritical().compareTo("Yes")==0)
+				{
+					qry = qry + "  and isnull([float],0)<=15 ";
+				}
+				else if(obj.getCritical().compareTo("No")==0)
+				{
+					qry = qry + "  and isnull([float],0)>15 ";
+				}				
 			}			
 			
 			qry = qry + " group by category,contract_short_name,structure_type,structure,expected_finish,[float]  ";
@@ -168,7 +175,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 			}
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCritical())) {
-				pValues[i++] = obj.getCritical();
+				//pValues[i++] = obj.getCritical();
 			}				
 			
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<FortnightPlan>(FortnightPlan.class));	
@@ -1060,23 +1067,24 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 	public List<FortnightPlan> getFortnightQuarterlyPlanList(FortnightPlan obj) throws Exception {
 		List<FortnightPlan> objsList = null;
 		try {
-			String qry = "SELECT fortnight_quarterly_plan_id,item,criticality,scope_of_work as scope_of_work_quarterly,TDC as tdc_calendar " + 
-					"from fortnight_quarterly_plan f \r\n" + 
-					"LEFT JOIN work w on f.work_id_fk =w.work_id \r\n" + 
-					"where 0=0 " ;
+			String qry = "SELECT distinct p.fortnight_quarterly_plan_id as fortnight_quarterly_plan_id,work_id_fk,item,criticality,scope_of_work as scope_of_work_quarterly,TDC as tdc_calendar " + 
+					"from fortnight_quarterly_plan p\r\n" + 
+					"left join fortnight_quarterly_plan_activities a on a.fortnight_quarterly_plan_id=p.fortnight_quarterly_plan_id\r\n" + 
+					"LEFT JOIN work w on p.work_id_fk =w.work_id\r\n" + 
+					"where p.work_id_fk is not null and fortnight is not null and pending_progress is null and reason_for_shortfall is null ";
 			int arrSize = 0;
 			
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and f.work_id_fk = ?";
+				qry = qry + " and p.work_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getItem())) {
 				qry = qry + " and item = ?";
 				arrSize++;
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCritical_item())) {
-				qry = qry + " and critical_item = ?";
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCriticality())) {
+				qry = qry + " and criticality = ?";
 				arrSize++;
 			}
 			
@@ -1096,8 +1104,8 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getItem())) {
 				pValues[i++] = obj.getItem();
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCritical_item())) {
-				pValues[i++] = obj.getCritical_item();
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCriticality())) {
+				pValues[i++] = obj.getCriticality();
 			}
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getPeriod())) {
@@ -1242,6 +1250,25 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 		}		
 
 		return flag;
+	}
+
+	@Override
+	public List<FortnightPlan> getQuarterlyPlanManual(FortnightPlan obj) throws Exception {
+		List<FortnightPlan> objsList = null;
+		try {
+
+			String qry = "SELECT p.fortnight_quarterly_plan_id as fortnightly_plan_id,fortnight as fortnight_date,work_id_fk,period,structure,units as unit,cumulative_progress as cum_progress,activity_name,item,criticality,scope_of_work as scope_of_work_quarterly,TDC as tdc_calendar,isnull(pending_progress,'') as pending_progress,isnull(reason_for_shortfall,'')  as reason_for_shortfall " + 
+					"from fortnight_quarterly_plan p\r\n" + 
+					"left join fortnight_quarterly_plan_activities a on a.fortnight_quarterly_plan_id=p.fortnight_quarterly_plan_id\r\n" + 
+					"LEFT JOIN work w on p.work_id_fk =w.work_id\r\n" + 
+					"where p.work_id_fk is not null and fortnight is not null and pending_progress is null and reason_for_shortfall is null and p.fortnight_quarterly_plan_id="+obj.getFortnightly_plan_id();
+			
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<FortnightPlan>(FortnightPlan.class));	
+
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
 	}	
 
 }

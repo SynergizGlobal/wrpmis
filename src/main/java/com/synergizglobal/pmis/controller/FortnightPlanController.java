@@ -165,6 +165,33 @@ public class FortnightPlanController {
 				logger.error("addFortnightlyPlan : " + e.getMessage());
 		}
 		return model;
+	}
+	
+	@RequestMapping(value="/add-quarterly-plan/{FortnightPlan_id}",method= {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView addQuarterlyPlan(@ModelAttribute FortnightPlan obj,@PathVariable("FortnightPlan_id") String FortnightPlan_id,HttpSession session,RedirectAttributes attributes) {	
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName(PageConstants2.quarterlyPlanForm);
+			model.addObject("action", "add");
+			List<FortnightPlan> FortnightPlanWorkList = FortnightPlanService.getFortnightPlanWorkList();
+			model.addObject("FortnightPlanWorkList", FortnightPlanWorkList);
+			
+			List<FortnightPlan> FortnightPlanPeriodList = FortnightPlanService.getFortnightQuarterlyPlanPeriodList();
+			model.addObject("FortnightPlanPeriodList", FortnightPlanPeriodList);
+			
+			List<FortnightPlan> FortnightPlanItemList = FortnightPlanService.getFortnightQuarterlyPlanItemList();
+			model.addObject("FortnightPlanItemList", FortnightPlanItemList);
+			
+			obj.setFortnightly_plan_id(FortnightPlan_id);
+			
+			List<FortnightPlan> FortnightPlan = FortnightPlanService.getQuarterlyPlanManual(obj);
+			model.addObject("FortnightPlan", FortnightPlan);
+			
+			
+		}catch (Exception e) {
+				logger.error("addFortnightlyPlan : " + e.getMessage());
+		}
+		return model;
 	}	
 	
 	

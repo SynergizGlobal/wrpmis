@@ -577,8 +577,8 @@
 		   }
 	   	   else
    		   {
-	   			$("#pending_progress"+rowNo).val("Completed");
-	   			$("#reason_for_shortfall"+rowNo).val("Completed");
+	   			$("#pending_progress"+rowNo).val("");
+	   			$("#reason_for_shortfall"+rowNo).val("");
 	   			
 	   			$("#pending_progress"+rowNo).prop("disabled",false);
 	   			$("#reason_for_shortfall"+rowNo).prop("disabled",false);

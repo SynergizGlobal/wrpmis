@@ -626,11 +626,17 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));	
 			
 			if(!StringUtils.isEmpty(objsList) && objsList.size() > 0){
-					String qry2 ="SELECT CONCAT('"+obj.getWork_code()+"',SUBSTRING(la_id, 3,4),SUBSTRING(cast(MAX(replace(la_id,'"+obj.getWork_code()+"-LA-',''))+1 as varchar),0,"
+					/*String qry2 ="SELECT CONCAT('"+obj.getWork_code()+"',SUBSTRING(la_id, 3,4),SUBSTRING(cast(MAX(replace(la_id,'"+obj.getWork_code()+"-LA-',''))+1 as varchar),0,"
 							+ "IFNULL ((SELECT LEN(max(replace(la_id,'"+obj.getWork_code()+"-LA-','')))FROM la_land_identification "
 							+ " where la_id like '"+obj.getWork_code()+"-LA%' group by LEN(la_id) order by length(la_id) desc offset 0 rows  fetch next 1 rows only),2)) ) AS la_id "
 							+ "FROM la_land_identification WHERE la_id LIKE '"+obj.getWork_code()+"-LA-%' group by LEN(la_id) order by LEN(la_id) desc offset 0 rows  fetch next 1 rows only " ;
-					dObj = (LandAcquisition)jdbcTemplate.queryForObject(qry2, new Object[] {}, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));
+
+*/
+				String qry2="select CONCAT('"+obj.getWork_code()+"','-LA-',case when len(la_id)=3 then concat('0',la_id) when len(la_id)=2 then concat('00',la_id) when len(la_id)=1 then concat('000',la_id) end) as la_id from(\r\n" + 
+						"select Max(SUBSTRING( la_id , LEN(la_id) -  CHARINDEX('-',REVERSE(la_id)) + 2  , LEN(la_id)  ))+1 as la_id from la_land_identification where left(la_id,2) ='"+obj.getWork_code()+"') as a";
+						dObj = (LandAcquisition)jdbcTemplate.queryForObject(qry2, new Object[] {}, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));
+			
+				
 					laId = dObj.getLa_id();
 			}
 		}catch(Exception e){ 

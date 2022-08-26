@@ -913,7 +913,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 			for (int i = 0; i < obj.getActivity().length; i++) 
 			{
 				preparedStmtChild.setLong(1, Key);
-				preparedStmtChild.setString(2, obj.getFortnight()[i]);
+				preparedStmtChild.setString(2, obj.getFortnight()[i].replace("__", ","));
 				preparedStmtChild.setString(3, obj.getActivity()[i]);
 				preparedStmtChild.setString(4, obj.getUnits()[i]);
 				preparedStmtChild.setString(5, obj.getCumulative_progress()[i]);				

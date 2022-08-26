@@ -806,9 +806,16 @@
  			          break;
  			  }			
  			var strPeriod=dayNow+daySuffix+" "+monthNow+","+yearNow.toString().substring(yearNow.toString().length-2)+" - "+"15th"+" "+monthNow+","+yearNow.toString().substring(yearNow.toString().length-2);
- 			
- 			
- 			$('#fortnight'+Iteration).append('<option value="'+strPeriod+'">'+strPeriod+'</option>');
+ 			var strPeriodValue=dayNow+daySuffix+" "+monthNow+"__"+yearNow.toString().substring(yearNow.toString().length-2)+" - "+"15th"+" "+monthNow+"__"+yearNow.toString().substring(yearNow.toString().length-2);
+
+ 			if("${(fn:length(FortnightPlan))}">0)
+ 				{
+ 					$('#fortnight'+Iteration).append('<option value="'+strPeriod+'">'+strPeriod+'</option>');
+ 				}
+ 			else
+ 				{
+ 					$('#fortnight'+Iteration).append('<option value="'+strPeriodValue+'">'+strPeriod+'</option>');
+ 				}
  			$("#fortnight"+Iteration).val(strPeriod);
 
  			  var dateNow = from1;
@@ -862,7 +869,17 @@
  			  }			  
  			  
  			var strPeriod=dayNow+daySuffix+" "+monthNow+","+yearNow.toString().substring(yearNow.toString().length-2)+" - "+dayNow1+daySuffix1+" "+monthNow+","+yearNow.toString().substring(yearNow.toString().length-2);
- 			$('#fortnight'+Iteration).append('<option value="'+strPeriod+'">'+strPeriod+'</option>');
+ 			var strPeriodValue=dayNow+daySuffix+" "+monthNow+"__"+yearNow.toString().substring(yearNow.toString().length-2)+" - "+dayNow1+daySuffix1+" "+monthNow+"__"+yearNow.toString().substring(yearNow.toString().length-2);
+			
+ 			if("${(fn:length(FortnightPlan))}">0)
+ 				{
+ 				$('#fortnight'+Iteration).append('<option value="'+strPeriod+'">'+strPeriod+'</option>');
+        	}
+        	else
+        	{
+ 				$('#fortnight'+Iteration).append('<option value="'+strPeriodValue+'">'+strPeriod+'</option>');
+
+        	}
  			$("#fortnight"+Iteration).val(strPeriod);
   		   
         }

@@ -253,7 +253,7 @@
                                     </div>
                                     <div class="col s12 m3 input-field">
                                         <p class="searchable_label">Items</p>
-                                        <select id="item" class="searchable" name="item">
+                                        <select id="item" class="searchable" name="item" onchange="addInQueitem(this.value);getFortnightQuarterlyPlanList();" class="searchable">
                                             <option value="">Select</option>
                                         </select>
                                     </div>
@@ -565,7 +565,7 @@
 	                    var actions = '<a href="javascript:void(0);"  onclick=getFortnightPlan('+fortnight_quarterly_plan_id+'); class="btn waves-effect waves-light bg-m t-c mob-btn" title="View"><i class="fa fa-eye"></i></a>';    	                   	
 	                   	var rowArray = [];    	                  
                         
-	                   			rowArray.push($.trim(key+1));
+	                   			rowArray.push("");
         	                   	rowArray.push($.trim(val.item));
         	                   	rowArray.push($.trim(val.criticality));
         	                   	rowArray.push($.trim(val.scope_of_work_quarterly));
@@ -712,7 +712,10 @@
     
     function getFortnightPlan(fortnightly_plan_id,cname,data_id) {
 		$("#fortnightly_plan_id").val(fortnightly_plan_id);
-		window.location.href="/pmis/add-quarterly-plan/"+fortnightly_plan_id;
+		var url=window.location.href;
+		url=url.toString();
+		var SplitUrl=url.split("/");
+		window.location.href="/"+SplitUrl[3]+"/add-quarterly-plan/"+fortnightly_plan_id;
 
 	}
     

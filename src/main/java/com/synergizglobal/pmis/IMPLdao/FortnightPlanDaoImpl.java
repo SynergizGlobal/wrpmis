@@ -1083,7 +1083,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 				qry = qry + " and item = ?";
 				arrSize++;
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCriticality())) {
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCritical())) {
 				qry = qry + " and criticality = ?";
 				arrSize++;
 			}
@@ -1104,8 +1104,8 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getItem())) {
 				pValues[i++] = obj.getItem();
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCriticality())) {
-				pValues[i++] = obj.getCriticality();
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCritical())) {
+				pValues[i++] = obj.getCritical();
 			}
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getPeriod())) {

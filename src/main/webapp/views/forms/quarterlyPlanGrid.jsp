@@ -279,8 +279,10 @@
 										</select>
 									</div>
                                     <div class="col s12 m1">
-                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
-                                            style="margin-top: 20px;width: 100%;">Clear Filters</button>
+										<button
+											class="btn bg-m waves-effect waves-light t-c clear-filters"
+											style="width: 100%;"
+											onclick="clearFilter();">Clear Filters</button>
                                     </div>
                                 </div>
                             </div>
@@ -435,10 +437,12 @@
     	$("#item").val('');
     	$(".searchable").select2();
     	window.localStorage.setItem("fortnightPlanFilters",'');
-    	window.location.href="<%=request.getContextPath()%>/FortnightPlan"
-    	//getFortnightQuarterlyPlanList();
+    	window.location.href="<%=request.getContextPath()%>/FortnightQuarterlyPlan"
+    	//getFortnightlyPlanList();
+    	var table = $('#datatable-fortnightplan').DataTable();
+    	table.draw( true );
     	
-    }
+    }   
     
     function addInQueWork(work_id_fk){
       	Object.keys(filtersMap).forEach(function (key) {

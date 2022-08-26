@@ -1710,7 +1710,7 @@ public class AlertsDaoImpl implements AlertsDao{
 				}
 				userIdQry = userIdQry + ")";
 			}
-			userIdQry = userIdQry +  "group by user_id_fk";
+			userIdQry = userIdQry +  "group by user_id_fk,u2.email_id";
 			
 			
 			Object[] pValues = new Object[arrSize];

@@ -2159,7 +2159,7 @@ public class LandAcquisitionController {
 		        
 		        
 	            XSSFRow headingRow = Landsheet.createRow(0);
-	            String headerString = "Work ID^LA_ID^Survey Number^Type of Land^Sub Category of Land^Village ID^Area^Area to be Acquired^Area Acquired^Land Status^Chainage From"
+	            String headerString = "Work ID^LA_ID^Survey Number^Type of Land^Sub Category of Land^Area^Area to be Acquired^Area Acquired^Land Status^Chainage From"
 	            		+ "^Chainage To^Village^Taluka^Latitude^Longitude^Dy SLR^SDO^Collector^Proposal submission Date to collector^JM Fee Letter received Date^JM Fee Amount^JM Fee Paid Date^"
 	            		+ "JM Start Date^JM Completion Date^JM Sheet Date to SDO^JM Remarks^JM Approval^Special Feature^Remarks^Issues";
 	            
@@ -2906,10 +2906,6 @@ public class LandAcquisitionController {
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
 					cell.setCellValue(obj.getSub_category_of_land());
-					
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getVillage_id());
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);

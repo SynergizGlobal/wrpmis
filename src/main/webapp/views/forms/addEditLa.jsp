@@ -2668,7 +2668,10 @@
        	   if("${LADetails.la_land_status_fk}"=='Acquired')
     	   {
     	   	$("#area_acquired").prop("disabled",true);
+    	   	$('input[name=jm_approval][value=Done]').prop('checked', true);
     	   }
+       	   
+       	   
         
         
         

@@ -224,12 +224,12 @@ public class LandReportController {
 		        }
 		        cell.setCellValue(work_d+" Land Acquisition - Summary Report");
 		        
-		        for (int i = 1; i < 5; i++) {		        	
+		        for (int i = 1; i < 6; i++) {		        	
 			        cell = mainHeadingRow.createCell(i);
 			        cell.setCellStyle(bluetyle);
 					cell.setCellValue("");
 				}	
-		        rrSheet1.addMergedRegion(new CellRangeAddress(1, 1, 0,4));
+		        rrSheet1.addMergedRegion(new CellRangeAddress(1, 1, 0,5));
 		int rowNo = 3;
 
         XSSFRow structureRow = rrSheet1.createRow(rowNo);
@@ -438,12 +438,12 @@ public class LandReportController {
 			        cell.setCellStyle(greenStyle1);
 					cell.setCellValue(workId);
 					
-					for (int i = 1; i < 10; i++) {		        	
+					for (int i = 1; i < 11; i++) {		        	
 				        cell = row1.createCell(i);
 				        cell.setCellStyle(greenStyle1);
 						cell.setCellValue("");
 					}	
-					rrSheet2.addMergedRegion(new CellRangeAddress(rowNo2,rowNo2, 0,9));
+					rrSheet2.addMergedRegion(new CellRangeAddress(rowNo2,rowNo2, 0,10));
 					rowNo2++;
 					x++;
 					row1 = rrSheet2.createRow(rowNo2);

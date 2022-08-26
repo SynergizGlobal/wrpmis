@@ -117,7 +117,7 @@ public class LASubCategoryDaoImpl implements LASubCategoryDao{
 		List<TrainingType> objsList1 = null;
 		TrainingType sObj =null;
 		try {
-			String qry ="select STRING_AGG(id) id, STRING_AGG(la_sub_category) la_sub_category, la_category_fk from la_sub_category group by la_category_fk";
+			String qry ="select STRING_AGG(id,',') id, STRING_AGG(la_sub_category,',') la_sub_category, la_category_fk from la_sub_category group by la_category_fk";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 			obj.setdList1(objsList);

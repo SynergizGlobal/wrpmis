@@ -37,7 +37,7 @@ public class LandResponsibleExecutivesDaoImpl implements LandResponsibleExecutiv
 			String qry = "SELECT  work_id_fk, work_short_name, STRING_AGG(u.user_name , ',') user_name,STRING_AGG(u.user_id , ',') user_id FROM land_executives re "
 					+ "LEFT JOIN [user] u on re.executive_user_id_fk = u.user_id "
 					+ "left join work w on re.work_id_fk = w.work_id "
-					+ "GROUP BY work_id_fk;";
+					+ "GROUP BY work_id_fk,work_short_name;";
 			
 			objList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 
@@ -183,7 +183,7 @@ public class LandResponsibleExecutivesDaoImpl implements LandResponsibleExecutiv
 		List<TrainingType> objList = null;
 		try {
 			String qry = "SELECT  work_id_fk, w.work_short_name FROM la_land_identification la "
-					+ "left join  work w on la.work_id_fk = w.work_id group by work_id_fk ";
+					+ "left join  work w on la.work_id_fk = w.work_id group by work_id_fk,w.work_short_name ";
 			
 			objList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 

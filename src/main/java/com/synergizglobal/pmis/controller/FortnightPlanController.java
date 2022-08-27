@@ -708,7 +708,7 @@ public class FortnightPlanController {
 	public ModelAndView updateQuarterlyPlanActivities(@ModelAttribute FortnightPlan obj,HttpSession session,RedirectAttributes attributes) {
 		ModelAndView model = new ModelAndView();
 		try {
-			model.setViewName("redirect:/FortnightQuarterlyPlan");
+			model.setViewName("redirect:/update-quarterly-plan");
 
 			String user_Id = (String) session.getAttribute("USER_ID");
 			String userName = (String) session.getAttribute("USER_NAME");

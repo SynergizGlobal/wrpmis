@@ -307,11 +307,11 @@
                                                         <th class="w2em">fortnight </th>
                                                         <th class="w2em">TDC </th>
                                                         <th class="w2em">Units </th>
-                                                        <th class="w2em">Cumulative Progress </th>
                                                         <th class="w1em">Activity</th>
                                                         <th class="w20em">Completion Status</th>
-                                                        <th class="w20em">Pending Progress</th>
                                                         <th class="w20em">Reason for Shortfall</th>
+                                                        <th class="w20em">Corresponding Progress</th>
+                                                        
                                                     </tr>
                                                 </thead>
                                                 <tbody id="stBody">
@@ -547,7 +547,7 @@
                	if(data != null && data != '' && data.length > 0){  
                        $.each(data, function (i, val) {
                        	 var html='<tr><td>'+val.structure+'</td><td>'+val.item+'</td><td>'+val.tdc_calendar+'</td>';
-                       	 html+= '<td>'+val.units+'</td><td>'+val.cumulative_progress+'</td><td>'+val.activity_name+'</td>';
+                       	 html+= '<td>'+val.units+'</td><td>'+val.activity_name+'</td>';
                        	 var pendingprogress="";
                        	 var reasonforshortfall="";
                        	    if(val.pending_progress!=undefined)
@@ -559,7 +559,7 @@
                        	    	reasonforshortfall=val.reason_for_shortfall;
                       		 }
                        	    
-                       	 html+='<td><input type="hidden" name="fortnight_quarterly_plan_activity_id" id="fortnight_quarterly_plan_activity_id'+i+'" value="'+val.fortnightly_plan_id+'"><input type="checkbox" id="completion_status'+i+'" name="completion_status"  placeholder="Completion Status" onchange="checkRemarks('+i+');" value="No"></td><td><input type="text" name="pending_progress" id="pending_progress'+i+'" value="'+pendingprogress+'"></td><td><input type="text" name="reason_for_shortfall" id="reason_for_shortfall'+i+'" value="'+reasonforshortfall+'"></td></tr>';
+                       	 html+='<td><input type="hidden" name="fortnight_quarterly_plan_activity_id" id="fortnight_quarterly_plan_activity_id'+i+'" value="'+val.fortnightly_plan_id+'"><input type="checkbox" id="completion_status'+i+'" name="completion_status"  placeholder="Completion Status" onchange="checkRemarks('+i+');" value="No"></td><td><input type="text" name="reason_for_shortfall" id="reason_for_shortfall'+i+'" value="'+reasonforshortfall+'"></td><td><input type="text" name="pending_progress" id="pending_progress'+i+'" value="'+pendingprogress+'"></td></tr>';
 	                     $("#stBody").append(html);
                        });
                    }

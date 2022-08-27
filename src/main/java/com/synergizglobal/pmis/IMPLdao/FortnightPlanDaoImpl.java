@@ -1312,7 +1312,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 					"from fortnight_quarterly_plan p\r\n" + 
 					"left join fortnight_quarterly_plan_activities a on a.fortnight_quarterly_plan_id=p.fortnight_quarterly_plan_id\r\n" + 
 					"LEFT JOIN work w on p.work_id_fk =w.work_id\r\n" + 
-					"where p.work_id_fk is not null and fortnight is not null and pending_progress is null and reason_for_shortfall is null and p.fortnight_quarterly_plan_id="+obj.getFortnightly_plan_id();
+					"where p.work_id_fk is not null and fortnight is not null and isnull(pending_progress,'')!='Completed' and isnull(reason_for_shortfall,'')!='Completed' and p.fortnight_quarterly_plan_id="+obj.getFortnightly_plan_id();
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<FortnightPlan>(FortnightPlan.class));	
 

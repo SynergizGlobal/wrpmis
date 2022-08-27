@@ -10,11 +10,11 @@ public class FortnightPlan {
 	cum_actual_last_structure, planned_current_structure, cum_planned_last_st, cum_actual_last_st, planned_current_st,user_id,user_role_code,work_id_fk,total_items,
 	designation,user_name,created_by_user_id_fk,module_name,work_name,work_short_name,department_fk,
 	contract_short_name,structure,user_type_fk,structure_type_fk,remarks,critical,activity_name,scope,status, uploaded_by_user_id_fk,item,tdc_calendar,criticality,color,
-	scope_of_work_quarterly,fortnight_quarterly_plan_id,fortnight_date,unit,cum_progress;
+	scope_of_work_quarterly,fortnight_quarterly_plan_id,fortnight_date,unit,cum_progress,cumulative_progress;
 	
 	
 	private String [] activity,scope_of_work,critical_item,completion_status,planned_progress_on_last_fortnight, actual_progress_on_last_fortnight, plan_for_the_current_fortnight,
-	chkcompletion_status,fortnight,units,cumulative_progress,pending_progress,reason_for_shortfall,Fortnight_quarterly_plan_activity_id;
+	chkcompletion_status,fortnight,units,pending_progress,reason_for_shortfall,Fortnight_quarterly_plan_activity_id;
 
 
 	public String getFortnightly_plan_id() {
@@ -385,11 +385,11 @@ public class FortnightPlan {
 		this.item = item;
 	}
 
-	public String [] getCumulative_progress() {
+	public String getCumulative_progress() {
 		return cumulative_progress;
 	}
 
-	public void setCumulative_progress(String [] cumulative_progress) {
+	public void setCumulative_progress(String cumulative_progress) {
 		this.cumulative_progress = cumulative_progress;
 	}
 

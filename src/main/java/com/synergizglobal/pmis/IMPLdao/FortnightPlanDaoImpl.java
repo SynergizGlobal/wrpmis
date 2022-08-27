@@ -871,60 +871,111 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 		TransactionDefinition def = new DefaultTransactionDefinition();
 		TransactionStatus status = transactionManager.getTransaction(def);
 		Connection connection = null;
-		PreparedStatement updateStmt = null;	
-
-		String query = " insert into fortnight_quarterly_plan (work_id_fk, period, structure, item, criticality, TDC, scope_of_work)"
-	               + " values (?,?,?, ?, ?, ?,?)";
+		PreparedStatement updateStmt = null;
+		
 		
 
-		String queryChild = " insert into fortnight_quarterly_plan_activities (fortnight_quarterly_plan_id,fortnight,activity_name,units,cumulative_progress)"
-	               + " values (?,?,?,?,?)";
+
+		String query = " insert into fortnight_quarterly_plan (work_id_fk, period, structure, item, criticality, TDC, scope_of_work,cumulative_progress)"
+	               + " values (?,?,?, ?, ?, ?,?,?)";
+		
+		
+		String updateQuery = " update fortnight_quarterly_plan set work_id_fk=?, period=?, structure=?, item=?, criticality=?, TDC=?, scope_of_work=?,cumulative_progress=? "
+	               + " where fortnight_quarterly_plan_id=?";		
+
+		String queryChild = " insert into fortnight_quarterly_plan_activities (fortnight_quarterly_plan_id,fortnight,activity_name,units)"
+	               + " values (?,?,?,?)";
+		
+		String updateChild = " delete from fortnight_quarterly_plan_activities where fortnight_quarterly_plan_id=?";		
 
 	  PreparedStatement preparedStmt = null;
 	  PreparedStatement preparedStmtChild = null;
+	  PreparedStatement deleteChild = null;
+	  
 	  Connection con = null;
 	  try
 	  {
 		  long Key=0;
-		con = dataSource.getConnection();
-		preparedStmt = con.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
-		preparedStmtChild = con.prepareStatement(queryChild);
+		  con = dataSource.getConnection();		  
+			if(!StringUtils.isEmpty(obj) && StringUtils.isEmpty(obj.getFortnightly_plan_id())) 
+			{		  
 
-	      preparedStmt.setString(1, obj.getWork_id_fk());
-	      preparedStmt.setString(2, obj.getPeriod()!=null ?obj.getPeriod():null);
-	      preparedStmt.setString(3, obj.getStructure());
-	      preparedStmt.setString(4, obj.getItem());
-	      preparedStmt.setString(5, obj.getCriticality());
-	      preparedStmt.setString(6, obj.getTdc_calendar());
-	      preparedStmt.setString(7, obj.getScope_of_work_quarterly());
-	      preparedStmt.execute();
-	      
-			ResultSet generatedKeys = preparedStmt.getGeneratedKeys();
-			if (generatedKeys.next()) 
-			{
-				Key=generatedKeys.getLong(1);
-          }
-			if(preparedStmt != null){preparedStmt.close();}	      
-
-		
-
-		if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFortnight())) 
-		{
-			for (int i = 0; i < obj.getActivity().length; i++) 
-			{
-				preparedStmtChild.setLong(1, Key);
-				preparedStmtChild.setString(2, obj.getFortnight()[i].replace("__", ","));
-				preparedStmtChild.setString(3, obj.getActivity()[i]);
-				preparedStmtChild.setString(4, obj.getUnits()[i]);
-				preparedStmtChild.setString(5, obj.getCumulative_progress()[i]);				
-				preparedStmtChild.execute();
+			  preparedStmt = con.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
+			  preparedStmtChild = con.prepareStatement(queryChild);
+	
+		      preparedStmt.setString(1, obj.getWork_id_fk());
+		      preparedStmt.setString(2, obj.getPeriod()!=null ?obj.getPeriod():null);
+		      preparedStmt.setString(3, obj.getStructure());
+		      preparedStmt.setString(4, obj.getItem());
+		      preparedStmt.setString(5, obj.getCriticality());
+		      preparedStmt.setString(6, obj.getTdc_calendar());
+		      preparedStmt.setString(7, obj.getScope_of_work_quarterly());
+		      preparedStmt.setString(8, obj.getCumulative_progress());
+		      preparedStmt.execute();
+		      
+				ResultSet generatedKeys = preparedStmt.getGeneratedKeys();
+				if (generatedKeys.next()) 
+				{
+					Key=generatedKeys.getLong(1);
+				}
+			    if(preparedStmt != null){preparedStmt.close();}	      
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFortnight())) 
+				{
+					for (int i = 0; i < obj.getActivity().length; i++) 
+					{
+						preparedStmtChild.setLong(1, Key);
+						preparedStmtChild.setString(2, obj.getFortnight()[i].replace("__", ","));
+						preparedStmtChild.setString(3, obj.getActivity()[i]);
+						preparedStmtChild.setString(4, obj.getUnits()[i]);
+						preparedStmtChild.execute();
+					}
+				}
+				if(preparedStmtChild != null){preparedStmtChild.close();}	
 			}
-		}
+			else
+			{
+				  preparedStmt = con.prepareStatement(updateQuery);
+				  deleteChild = con.prepareStatement(updateChild);
+				  preparedStmtChild = con.prepareStatement(queryChild);
+
 		
-		if(preparedStmtChild != null){preparedStmtChild.close();}	
+			      preparedStmt.setString(1, obj.getWork_id_fk());
+			      preparedStmt.setString(2, obj.getPeriod()!=null ?obj.getPeriod():null);
+			      preparedStmt.setString(3, obj.getStructure());
+			      preparedStmt.setString(4, obj.getItem());
+			      preparedStmt.setString(5, obj.getCriticality());
+			      preparedStmt.setString(6, obj.getTdc_calendar());
+			      preparedStmt.setString(7, obj.getScope_of_work_quarterly());
+			      preparedStmt.setString(8, obj.getCumulative_progress());
+			      preparedStmt.setString(9, obj.getFortnightly_plan_id());
+			      preparedStmt.execute();
+				    if(preparedStmt != null){preparedStmt.close();}	
+				    
+				    preparedStmtChild = con.prepareStatement(queryChild);
+
+					
+				    deleteChild.setString(1, obj.getFortnightly_plan_id());
+				    deleteChild.execute();
+					if(deleteChild != null){deleteChild.close();}					    
+				    
+				    
+				    
+					if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFortnight())) 
+					{
+						for (int i = 0; i < obj.getActivity().length; i++) 
+						{
+							preparedStmtChild.setString(1, obj.getFortnightly_plan_id());
+							preparedStmtChild.setString(2, obj.getFortnight()[i].replace("__", ","));
+							preparedStmtChild.setString(3, obj.getActivity()[i]);
+							preparedStmtChild.setString(4, obj.getUnits()[i]);
+							preparedStmtChild.execute();
+						}
+					}
+					if(preparedStmtChild != null){preparedStmtChild.close();}					
+			}
 
 	
-			FormHistory formHistory = new FormHistory();
+			/*FormHistory formHistory = new FormHistory();
 			formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
 			formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
 			formHistory.setModule_name_fk("FortnightPlan");
@@ -934,7 +985,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 			formHistory.setWork_id_fk(obj.getWork_id_fk());
 			formHistory.setContract_id_fk(obj.getContract_id_fk());
 			
-			flag = formsHistoryDao.saveFormHistory(formHistory);
+			flag = formsHistoryDao.saveFormHistory(formHistory);*/
 			transactionManager.commit(status);
 		}
 		catch(Exception e){ 
@@ -1165,7 +1216,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 	public List<FortnightPlan> getfortnightActivities(FortnightPlan obj) throws Exception {
 		List<FortnightPlan> objsList = null;
 		try {
-			String qry = "SELECT p.fortnight_quarterly_plan_id as fortnightly_plan_id,structure,units,cumulative_progress,activity_name,item,criticality,scope_of_work as scope_of_work_quarterly,TDC as tdc_calendar,isnull(pending_progress,'') as pending_progress,isnull(reason_for_shortfall,'')  as reason_for_shortfall " + 
+			String qry = "SELECT fortnight_quarterly_plan_activity_id as fortnightly_plan_id,structure,units,cumulative_progress,activity_name,item,criticality,scope_of_work as scope_of_work_quarterly,TDC as tdc_calendar,isnull(pending_progress,'') as pending_progress,isnull(reason_for_shortfall,'')  as reason_for_shortfall " + 
 					"from fortnight_quarterly_plan p\r\n" + 
 					"left join fortnight_quarterly_plan_activities a on a.fortnight_quarterly_plan_id=p.fortnight_quarterly_plan_id\r\n" + 
 					"LEFT JOIN work w on p.work_id_fk =w.work_id\r\n" + 
@@ -1227,7 +1278,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 				flag=true;
 			}			
 
-				FormHistory formHistory = new FormHistory();
+				/*FormHistory formHistory = new FormHistory();
 				formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
 				formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
 				formHistory.setModule_name_fk("Quarterly Fortnight Plan");
@@ -1237,7 +1288,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 				formHistory.setWork_id_fk(obj.getWork_id_fk());
 				formHistory.setContract_id_fk(obj.getContract_id_fk());
 				
-				flag = formsHistoryDao.saveFormHistory(formHistory);
+				flag = formsHistoryDao.saveFormHistory(formHistory);*/
 
 			transactionManager.commit(status);
 		}

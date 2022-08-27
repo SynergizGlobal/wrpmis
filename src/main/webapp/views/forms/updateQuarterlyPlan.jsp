@@ -415,7 +415,16 @@
    				$("#work_id_fk").css('border-color', '');	   				
 			}
 			
-
+		   	   for(var r=0;r<$('#app_com_table tbody tr').length;r++)
+			   {
+			   	   if($('#completion_status'+r).is(':checked'))
+				   {
+			   			$("#pending_progress"+r).prop("disabled",false);
+			   			$("#reason_for_shortfall"+r).prop("disabled",false);
+				   }
+		   
+			  }
+   			
 	   	document.getElementById("getForm").submit();	
    }
    

@@ -339,7 +339,7 @@
                                 </div>
                                 <div class="col s6 m4 input-field">
                                     <p class="searchable_label"> Period <span class="required">*</span></p>
-                                    <select id="period" class="searchable" name="period">
+                                    <select id="period" class="searchable" name="period" onChange="getFortnights(0);">
                                         <option value="">Select</option>
                                     </select>
                                     <span id="periodError" class="error-msg" ></span>
@@ -381,6 +381,12 @@
                                      <label for="scope_of_work_quarterly">Scope Of Work <span class="required">*</span></label>
                                      <BR><span id="scope_of_work_quarterlyError" class="error-msg" ></span>
                                 </div>
+                                  <div class="col s6 m4 input-field">
+                                    <input type="text" id="cumulative_progress" name="cumulative_progress" data-length="150" maxlength="150">
+                                     <label for="cumulative_progressError">Cumulative Progress <span class="required">*</span></label>
+                                     <BR><span id="cumulative_progressError" class="error-msg" ></span>
+                                </div>                              
+                                
                             </div>
 
                             
@@ -398,7 +404,6 @@
                                                         <th class="w1em">S No </th>
                                                         <th class="w15em">Fortnight </th>
                                                         <th class="w15em">Units </th>
-                                                        <th class="w15em">Cumulative Progress </th>
                                                         <th class="w20em">Activity </th>
                                                         <th class="w1em">Action</th>
                                                     </tr>
@@ -415,9 +420,6 @@
                                                         <td data-head="Units" class="input-field">
                                                         <input type="text" id="units0" name="units" data-length="50" maxlength="50">
                                                         </td>
-                                                        <td data-head="Activity" class="input-field">
-                                                        <input type="text" id="cumulative_progress0" name="cumulative_progress" data-length="150" maxlength="150">
-                                                        </td>                                                                                                                
                                                         <td data-head="Activity" class="input-field">
                                                         <input type="text" id="activity0" name="activity" data-length="200" maxlength="200">
                                                         </td>
@@ -443,6 +445,8 @@
                                                 </tbody>
                                             </table>
                                                 
+                                                
+                                                <input type="hidden" id="fortnightly_plan_id"  name="fortnightly_plan_id" value="" />
                                                     
                                                         <input type="hidden" id="rowNo"  name="rowNo" value="" />
                                                     
@@ -461,7 +465,7 @@
 	                                <div class="m-1">
 	                                     
 										  
-					                       <button type="button" onclick="addFortnightQuarterly();" class="btn waves-effect waves-light bg-m" style="min-width:90px">Add</button>
+					                       <button type="button" onclick="addFortnightQuarterly();" class="btn waves-effect waves-light bg-m" style="min-width:90px" id="btnAdd">Add</button>
 										                                 
 	                                </div>
                                 </div>
@@ -499,7 +503,6 @@
     <jsp:include page="../layout/footer.jsp"></jsp:include>
     
  <form action="<%=request.getContextPath()%>/get-rr-bses" id="getForm" name="getForm" method="post" >
-  		<input type="hidden" name="rrbses_id" id="rrbses_id"/>
     </form>
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
@@ -520,7 +523,10 @@
 	   
 	   $("#criticality").val("${FortnightPlan[0].criticality}");
 	   $("#tdc_calendar").val("${FortnightPlan[0].tdc_calendar}");
-	   $("#scope_of_work_quarterly").val("${FortnightPlan[0].scope_of_work_quarterly}");	   
+	   $("#scope_of_work_quarterly").val("${FortnightPlan[0].scope_of_work_quarterly}");
+	   $("#cumulative_progress").val("${FortnightPlan[0].cum_progress}");
+	   $("#fortnightly_plan_id").val("${FortnightPlan[0].fortnightly_plan_id}");
+	   
 	   
 	   
    	if("${(fn:length(FortnightPlan))}">0)
@@ -530,24 +536,33 @@
 	   		if(i>0)
 			   {
 	   			addStRow();
+	   			
 	   	        $('#add-align').prop('disabled', true);
 	   	        $('.remove').prop('disabled', true);
 	   	     
 			   }	
 	   		
- 	 		   $("#fortnight"+i).val("${tempobj.fortnight_date}");
  	 		   $("#units"+i).val("${tempobj.unit}");
  	 		   $("#cumulative_progress"+i).val("${tempobj.cum_progress}");
  	 		   $("#activity"+i).val("${tempobj.activity_name}");		   		
 
  		  i++;
         </c:forEach> 
-        $('#getForm :input').prop('disabled', true);
-	    $('#btnCancel').prop('disabled', false);
-	    $('#tleName').html('Update Quarterly Plan');
-	    
-
-
+        
+        	if("${sessionScope.USER_ROLE_NAME}"!='IT Admin')
+        	{
+		        $('#getForm :input').prop('disabled', true);
+			    $('#btnCancel').prop('disabled', false);
+			    $('#tleName').html('Update Quarterly Plan');
+			    $('#btnAdd').html('Update');
+        	}
+        	else
+       		{
+		        $('#getForm :input').prop('disabled', false);
+			    $('#btnCancel').prop('disabled', false);
+			    $('#tleName').html('Update Quarterly Plan');
+			    $('#btnAdd').html('Update');       		
+       		}
 	}    
     
     
@@ -560,6 +575,15 @@
                 return false;
             }
         });
+        var today=new Date();
+        $('#tdc_calendar').datepicker({                   
+	    	  minDate: new Date(today.getTime() + 24 * 60 * 60 * 1000),
+	    	  format:'dd-mm-yyyy',
+	    	  //perform click event on done button
+	    	  onSelect: function () {
+	    	     alert("Hi");
+	    	  }
+	        });       
     });
  	 
  	 
@@ -578,7 +602,21 @@
         $('#period').append('<option value="1st July,'+DateShort+'  - 30th September,'+DateShort+'">1st July,'+DateShort+'  - 30th September,'+DateShort+'</option>'); 
         $('#period').append('<option value="1st October,'+DateShort+'  - 31st December,'+DateShort+'">1st October,'+DateShort+'  - 31st December,'+DateShort+'</option>'); 
  	    $("#period").val("${FortnightPlan[0].period}");
-        getFortnights(0);
+ 	    
+ 	   
+ 	   
+ 	   	if("${(fn:length(FortnightPlan))}">0)
+ 		{
+ 	   		var i=0;	  			 
+ 	 		<c:forEach var="tempobj" items="${FortnightPlan}">
+ 	 			getFortnights(i);
+ 	 			var SplitStr="${tempobj.fortnight_date}";
+ 	 			SplitStr=SplitStr.toString();
+ 	 			SplitStr=SplitStr.replace(/,/g, '__');
+  	 		   $("#fortnight"+i).val(SplitStr);
+ 	 		  i++;
+ 	        </c:forEach> 
+ 		} 	   
     });
     
     function addFortnightQuarterly()
@@ -668,6 +706,19 @@
 				$("#scope_of_work_quarterly").css('border-color', '');	   				
 			}
 			
+			if($("#cumulative_progress").val()=="")
+			{
+   				$("#cumulative_progressError").html("Cumulative Progress Required.");
+   				$("#cumulative_progress").css('border-color', 'red');
+   				return false;
+			}
+			else
+			{
+				$("#cumulative_progressError").html("");
+				$("#cumulative_progress").css('border-color', '');	   				
+			}			
+				
+			
 		   	   for(var r=0;r<$('#app_com_table tbody tr').length;r++)
 			   {
 			   			if($("#fortnight"+r).val()=="")
@@ -693,20 +744,7 @@
 							$("#errormsg").html("");
 							$("#units"+r).css('border-color', '');	   				
 						}	
-						
-			   			
-						if($("#cumulative_progress"+r).val()=="")
-						{
-			   				$("#errormsg").html("Cumulative progress Required.");
-			   				$("#cumulative_progress"+r).css('border-color', 'red');
-			   				return false;
-						}
-						else
-						{
-							$("#errormsg").html("");
-							$("#cumulative_progress"+r).css('border-color', '');	   				
-						}						
-			   			
+
 			   			if($("#activity"+r).val()=="")
 			   			{
 			   				$("#errormsg").html("Activity Required.");
@@ -726,164 +764,39 @@
 			
     	document.getElementById('getForm').submit();
     }
+    
+    
+    var fortnightArray=
+   	 [
+       	["1st January__22 - 15th January__22","16th January__22 - 31st January__22","1st February__22 - 15th February__22","16th February__22 - 31st February__22","1st March__22 - 15th March__22","16th March__22 - 31st March__22"],
+       	["1st April__22 - 15th April__22","16th April__22 - 31st April__22","1st May__22 - 15th May__22","16th May__22 - 31st May__22","1st June__22 - 15th June__22","16th June__22 - 31st June__22"],
+       	["1st July__22 - 15th July__22","16th July__22 - 31st July__22","1st August__22 - 15th August__22","16th August__22 - 31st August__22","1st September__22 - 15th September__22","16th September__22 - 31st September__22"],
+       	["1st October__22 - 15th October__22","16th October__22 - 31st October__22","1st November__22 - 15th November__22","16th November__22 - 31st November__22","1st December__22 - 15th December__22","16th December__22 - 31st December__22"]
+        ];    
         
         function getFortnights(Iteration)
         {
         
-        
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth() + 1;
-  
-        var yyyy = today.getFullYear();
-        
-        if (dd < 10) {
-            dd = '0' + dd;
-        }
-        if (mm < 10) {
-            mm = '0' + mm;
-        }
-        var today = dd + '/' + mm + '/' + yyyy;
-        
-        var dateFrom = "01/"+ mm + '/' + yyyy;
-        var dateTo = "15/"+ mm + '/' + yyyy;
-        
-        var dateFrom1 = "16/"+ mm + '/' + yyyy;
-        var dateTo1 = daysInMonth(mm,yyyy)+"/"+ mm + '/' + yyyy;  
-        
-        
-        
-        var dateCheck = today;
-
-        var d1 = dateFrom.split("/");
-        var d2 = dateTo.split("/");
-        var c = dateCheck.split("/");
-
-        var from = new Date(d1[2], parseInt(d1[1])-1, d1[0]);  
-        var to   = new Date(d2[2], parseInt(d2[1])-1, d2[0]);
-        var check = new Date(c[2], parseInt(c[1])-1, c[0]);
-        
-        
-        
-        var d11 = dateFrom1.split("/");
-        var d21 = dateTo1.split("/");
-        var c1 = dateCheck.split("/");
-
-        var from1 = new Date(d11[2], parseInt(d11[1])-1, d11[0]);  
-        var to1   = new Date(d21[2], parseInt(d21[1])-1, d21[0]);
-        var check = new Date(c1[2], parseInt(c1[1])-1, c1[0]);     
-
-        		
-        		var months = ["January", "February", "March", "April", "May", "June", "July",
-                 "August", "September", "October", "November", "December"];
-
-
-   
-
- 			
- 			  var dateNow = from;
- 			  var yearNow = dateNow.getFullYear();
- 			  var monthNow = months[dateNow.getMonth()];
- 			  var dayNow = dateNow.getDate();
- 			  var daySuffix;
-
- 			  switch (dayNow) {
- 			      case 1:
- 			      case 21:
- 			      case 31:
- 			          daySuffix = "st";
- 			          break;
- 			      case 2:
- 			      case 22:
- 			          daySuffix = "nd";
- 			          break;
- 			      case 3:
- 			      case 23:
- 			          daySuffix = "rd";
- 			          break;
- 			      default:
- 			          daySuffix = "th";
- 			          break;
- 			  }			
- 			var strPeriod=dayNow+daySuffix+" "+monthNow+","+yearNow.toString().substring(yearNow.toString().length-2)+" - "+"15th"+" "+monthNow+","+yearNow.toString().substring(yearNow.toString().length-2);
- 			var strPeriodValue=dayNow+daySuffix+" "+monthNow+"__"+yearNow.toString().substring(yearNow.toString().length-2)+" - "+"15th"+" "+monthNow+"__"+yearNow.toString().substring(yearNow.toString().length-2);
-
- 			if("${(fn:length(FortnightPlan))}">0)
- 				{
- 					$('#fortnight'+Iteration).append('<option value="'+strPeriod+'">'+strPeriod+'</option>');
- 				}
- 			else
- 				{
- 					$('#fortnight'+Iteration).append('<option value="'+strPeriodValue+'">'+strPeriod+'</option>');
- 				}
- 			$("#fortnight"+Iteration).val(strPeriod);
-
- 			  var dateNow = from1;
- 			  var yearNow = dateNow.getFullYear();
- 			  var monthNow = months[dateNow.getMonth()];
- 			  var dayNow = dateNow.getDate();
- 			  var daySuffix;
-
- 			  switch (dayNow) {
- 			      case 1:
- 			      case 21:
- 			      case 31:
- 			          daySuffix = "st";
- 			          break;
- 			      case 2:
- 			      case 22:
- 			          daySuffix = "nd";
- 			          break;
- 			      case 3:
- 			      case 23:
- 			          daySuffix = "rd";
- 			          break;
- 			      default:
- 			          daySuffix = "th";
- 			          break;
- 			  }	
- 			  
- 			  var dateNow1 = to1;
- 			  var yearNow1 = dateNow1.getFullYear();
- 			  var monthNow1 = months[dateNow1.getMonth()];
- 			  var dayNow1 = dateNow1.getDate();
- 			  var daySuffix1;
-
- 			  switch (dayNow1) {
- 			      case 1:
- 			      case 21:
- 			      case 31:
- 			          daySuffix1 = "st";
- 			          break;
- 			      case 2:
- 			      case 22:
- 			          daySuffix1 = "nd";
- 			          break;
- 			      case 3:
- 			      case 23:
- 			          daySuffix1 = "rd";
- 			          break;
- 			      default:
- 			          daySuffix1 = "th";
- 			          break;
- 			  }			  
- 			  
- 			var strPeriod=dayNow+daySuffix+" "+monthNow+","+yearNow.toString().substring(yearNow.toString().length-2)+" - "+dayNow1+daySuffix1+" "+monthNow+","+yearNow.toString().substring(yearNow.toString().length-2);
- 			var strPeriodValue=dayNow+daySuffix+" "+monthNow+"__"+yearNow.toString().substring(yearNow.toString().length-2)+" - "+dayNow1+daySuffix1+" "+monthNow+"__"+yearNow.toString().substring(yearNow.toString().length-2);
+        		if($("#period").val()!="")
+        			{
+			        	$('#fortnight'+Iteration+' option').not(':first').remove();
+			        	var periodIndex=$("select[name='period'] option:selected").index();
+			        	
+			        	periodIndex=periodIndex-1;
 			
- 			if("${(fn:length(FortnightPlan))}">0)
- 				{
- 				$('#fortnight'+Iteration).append('<option value="'+strPeriod+'">'+strPeriod+'</option>');
-        	}
-        	else
-        	{
- 				$('#fortnight'+Iteration).append('<option value="'+strPeriodValue+'">'+strPeriod+'</option>');
+			        	    for (var j = 0; j<fortnightArray[periodIndex].length; j++) 
+			        	    {
+			        	    		var fortnights=fortnightArray[periodIndex][j].replace(/__/g, ',');
+			     					$('#fortnight'+Iteration).append('<option value="'+fortnightArray[periodIndex][j]+'">'+fortnights+'</option>');
+			        	    }
+        	    
+        			}
 
-        	}
- 			$("#fortnight"+Iteration).val(strPeriod);
+        	
   		   
         }
        
+
 
 
  $(function() {
@@ -911,7 +824,7 @@
 
            +'<td data-head="Fortnight" class="input-field">'
            +'<select id="fortnight' + rNo + '" class="fortnight searchable"  name="fortnight" value="">' 
-           +'<option value="">Select</option></select></td><td><input type="text" id="units' + rNo + '" name="units"  data-length="50" maxlength="50"></td><td><input type="text" id="cumulative_progress' + rNo + '" name="cumulative_progress"  data-length="50" maxlength="50"></td>'
+           +'<option value="">Select</option></select></td><td><input type="text" id="units' + rNo + '" name="units"  data-length="50" maxlength="50"></td>'
 
            +'<td data-head="Activity" class="input-field">'
            +'<textarea id="activity' + rNo +'" name="activity" class="pmis-textarea pdr4em w85 my-valid-class" data-length="200" maxlength="200"></textarea> </td>'

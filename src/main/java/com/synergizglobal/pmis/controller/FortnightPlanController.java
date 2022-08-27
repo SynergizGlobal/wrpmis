@@ -734,15 +734,9 @@ public class FortnightPlanController {
 	public ModelAndView insertQuarterlyPlan(@ModelAttribute FortnightPlan obj,HttpSession session,RedirectAttributes attributes) {
 		ModelAndView model = new ModelAndView();
 		try {
+
+		    model.setViewName("redirect:/FortnightQuarterlyPlan");
 			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFortnightly_plan_id())) 
-			{
-				model.setViewName("redirect:/add-quarterly-plan/"+obj.getFortnightly_plan_id());
-			}
-			else
-			{
-				model.setViewName("redirect:/add-quarterly-plan/");
-			}
 			
 			String user_Id = (String) session.getAttribute("USER_ID");
 			String userName = (String) session.getAttribute("USER_NAME");

@@ -1036,12 +1036,12 @@ public class HomeDaoImpl implements HomeDao {
 	public List<Messages> getMessages(Messages mObj) throws Exception {
 		List<Messages> objsList = null;
 		try {
-			String qry ="select message_id, message, user_id_fk, redirect_url, created_date, created_date_24hr_format, read_time, message_type from (select message_id,message,user_id_fk,redirect_url,FORMAT(created_date,'%d-%m-%Y %h:%i %p') as created_date,created_date as created_date_24hr_format, "
+			String qry ="select message_id, message, user_id_fk, redirect_url, created_date, created_date_24hr_format, read_time, message_type from (select message_id,message,user_id_fk,redirect_url,FORMAT(created_date,'dd-MM-yyyy hh:mm tt') as created_date,created_date as created_date_24hr_format, "
 					+ "read_time,message_type "
 					+ "from messages where user_id_fk = ? "
 					+ " and ((read_time is null and created_date> (GETDATE() - 3)) or (read_time is not null and read_time > (GETDATE() - 1))) and message_type not in ('Risk') union all "
 				    + " select distinct (SELECT max(message_id) FROM messages m where m.redirect_url=redirect_url and left(m.created_date,10)=left(m2.created_date,10) "
-				    + "and m.message_type=m2.message_type and user_id_fk = ?) as message_id,message,user_id_fk,redirect_url,left(FORMAT(created_date,'%d-%m-%Y %h:%i %p'),10) as created_date,"
+				    + "and m.message_type=m2.message_type and user_id_fk = ?) as message_id,message,user_id_fk,redirect_url,left(FORMAT(created_date,'dd-MM-yyyy hh:mm tt'),10) as created_date,"
 				    + "(SELECT MAX(created_date) FROM messages m where m.redirect_url=redirect_url and left(m.created_date,10)=left(m2.created_date,10) "
 					+ "and m.message_type=m2.message_type and user_id_fk = ? "
 					+ ") as created_date_24hr_format, "

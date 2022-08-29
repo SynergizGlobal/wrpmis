@@ -30,7 +30,7 @@ public class FileFormatModel {
 	
 	public static List<String> getLAFileFormat() {
 		List<String> fileFormat = new ArrayList<String>();
-		String columns = "Work ID,LA_ID,Survey Number,Type of Land,Sub Category of Land,Village ID,Area,Area to be Acquired,Area Acquired,Land Status" + 
+		String columns = "Work ID,LA_ID,Survey Number,Type of Land,Sub Category of Land,Area,Area to be Acquired,Area Acquired,Land Status" + 
 				",Chainage From,Chainage To,Village,"
 				+ "Taluka,Lattitude,Longitude,Dy SLR,SDO,Collector,Proposal submission Date to collector,JM Fee Letter received Date,JM Fee Amount,JM Fee Paid Date,"
 				+ "JM Start Date,JM Completion Date,JM Sheet Date to SDO,JM Remarks,JM Approval,Special Feature,Remarks,Issues";

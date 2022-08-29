@@ -1007,7 +1007,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 			String qry = "select distinct w.work_id as work_id_fk,w.work_short_name from fortnight_quarterly_plan p\r\n" + 
 					"left join fortnight_quarterly_plan_activities a on a.fortnight_quarterly_plan_id=p.fortnight_quarterly_plan_id\r\n" + 
 					"LEFT JOIN work w on p.work_id_fk =w.work_id\r\n" + 
-					"where p.work_id_fk is not null and fortnight is not  null and isnull(pending_progress,'')!='Completed'  and isnull(reason_for_shortfall,'')!='Completed' " ;			
+					"where p.work_id_fk is not null and fortnight is not  null and isnull(pending_progress,'')!='Completed'   " ;			
 			
 			int arrSize =0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -1051,7 +1051,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 			String qry = "select distinct period from fortnight_quarterly_plan p\r\n" + 
 					"left join fortnight_quarterly_plan_activities a on a.fortnight_quarterly_plan_id=p.fortnight_quarterly_plan_id\r\n" + 
 					"LEFT JOIN work w on p.work_id_fk =w.work_id\r\n" + 
-					"where p.work_id_fk is not null and fortnight is not  null and isnull(pending_progress,'')!='Completed'  and isnull(reason_for_shortfall,'')!='Completed' " ;			
+					"where p.work_id_fk is not null and fortnight is not  null and isnull(pending_progress,'')!='Completed'   " ;			
 			
 			int arrSize =0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -1122,7 +1122,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 					"from fortnight_quarterly_plan p\r\n" + 
 					"left join fortnight_quarterly_plan_activities a on a.fortnight_quarterly_plan_id=p.fortnight_quarterly_plan_id\r\n" + 
 					"LEFT JOIN work w on p.work_id_fk =w.work_id\r\n" + 
-					"where p.work_id_fk is not null and fortnight is not null and isnull(pending_progress,'')!='Completed'  and isnull(reason_for_shortfall,'')!='Completed' ";
+					"where p.work_id_fk is not null and fortnight is not null and isnull(pending_progress,'')!='Completed'   ";
 			int arrSize = 0;
 			
 			
@@ -1178,7 +1178,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 			String qry = "select distinct fortnight from fortnight_quarterly_plan p\r\n" + 
 					"left join fortnight_quarterly_plan_activities a on a.fortnight_quarterly_plan_id=p.fortnight_quarterly_plan_id\r\n" + 
 					"LEFT JOIN work w on p.work_id_fk =w.work_id\r\n" + 
-					"where p.work_id_fk is not null and fortnight is not  null and isnull(pending_progress,'')!='Completed'  and isnull(reason_for_shortfall,'')!='Completed' " ;			
+					"where p.work_id_fk is not null and fortnight is not  null and isnull(pending_progress,'')!='Completed'   " ;			
 			
 			int arrSize =0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -1220,7 +1220,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 					"from fortnight_quarterly_plan p\r\n" + 
 					"left join fortnight_quarterly_plan_activities a on a.fortnight_quarterly_plan_id=p.fortnight_quarterly_plan_id\r\n" + 
 					"LEFT JOIN work w on p.work_id_fk =w.work_id\r\n" + 
-					"where p.work_id_fk is not null and fortnight is not null and isnull(pending_progress,'')!='Completed' and isnull(reason_for_shortfall,'')!='Completed' " ;
+					"where p.work_id_fk is not null and fortnight is not null and isnull(pending_progress,'')!='Completed'  " ;
 			int arrSize = 0;
 			
 			
@@ -1312,7 +1312,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 					"from fortnight_quarterly_plan p\r\n" + 
 					"left join fortnight_quarterly_plan_activities a on a.fortnight_quarterly_plan_id=p.fortnight_quarterly_plan_id\r\n" + 
 					"LEFT JOIN work w on p.work_id_fk =w.work_id\r\n" + 
-					"where p.work_id_fk is not null and fortnight is not null and isnull(pending_progress,'')!='Completed' and isnull(reason_for_shortfall,'')!='Completed' and p.fortnight_quarterly_plan_id="+obj.getFortnightly_plan_id();
+					"where p.work_id_fk is not null and fortnight is not null and isnull(pending_progress,'')!='Completed'  and p.fortnight_quarterly_plan_id="+obj.getFortnightly_plan_id();
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<FortnightPlan>(FortnightPlan.class));	
 

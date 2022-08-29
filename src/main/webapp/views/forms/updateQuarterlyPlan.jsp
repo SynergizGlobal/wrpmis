@@ -309,7 +309,7 @@
                                                         <th class="w2em">Units </th>
                                                         <th class="w1em">Activity</th>
                                                         <th class="w20em">Completion Status</th>
-                                                        <th class="w20em">Reason for Shortfall</th>
+                                                        <th class="w20em">Remarks</th>
                                                         <th class="w20em">Corresponding Progress</th>
                                                         
                                                     </tr>
@@ -319,6 +319,7 @@
 												 </tbody>												 
                                             </table>
                                         </div>
+                                        <div id="activityError" style="color:red;"></div>
                                     </div>
                                 </div>
                              </div>
@@ -420,9 +421,34 @@
 			   	   if($('#completion_status'+r).is(':checked'))
 				   {
 			   			$("#pending_progress"+r).prop("disabled",false);
-			   			$("#reason_for_shortfall"+r).prop("disabled",false);
+			   			//$("#reason_for_shortfall"+r).prop("disabled",false);
 				   }
-		   
+			   	   
+			   	   if($('#reason_for_shortfall'+r).val()=="")
+				   {
+		   				$("#activityError").html("Remarks Required.");
+		   				$("#reason_for_shortfall"+r).css('border-color', 'red');
+		   				return false;
+		   			}
+		   			else
+					{
+		   				$("#activityError").html("");
+		   				$("#reason_for_shortfall"+r).css('border-color', '');	   				
+					}
+			   	   
+			   	   if($('#pending_progress'+r).val()=="")
+				   {
+
+		   				$("#activityError").html("Corresponding Progress Required.");
+		   				$("#pending_progress"+r).css('border-color', 'red');
+		   				return false;
+		   			}
+		   			else
+					{
+		   				$("#activityError").html("");
+		   				$("#pending_progress"+r).css('border-color', '');	   				
+					}		   	   
+		   		
 			  }
    			
 	   	document.getElementById("getForm").submit();	
@@ -581,7 +607,7 @@
 	   			$("#reason_for_shortfall"+rowNo).val("Completed");
 	   			
 	   			$("#pending_progress"+rowNo).prop("disabled",true);
-	   			$("#reason_for_shortfall"+rowNo).prop("disabled",true);
+	   			$("#reason_for_shortfall"+rowNo).prop("disabled",false);
 	   			$('#chkcompletion_status'+rowNo).val("Yes");
 		   }
 	   	   else

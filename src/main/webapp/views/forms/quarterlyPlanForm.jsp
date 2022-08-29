@@ -355,7 +355,7 @@
                             <div class="row" style="margin-top: 20px;">
                                 <div class="col s6 m4 input-field">
                                     <p class="searchable_label"> Item <span class="required">*</span></p>
-                                    <input id="item" maxlength="30" data-length="30" name="item" type="text" class="validate w80 pdr4em" value="">
+                                    <input id="item" maxlength="150" data-length="150" name="item" type="text" class="validate w80 pdr4em" value="">
                                     <span id="itemError" class="error-msg" ></span>
                                 </div>
                                  <div class="col s6 m4 input-field">

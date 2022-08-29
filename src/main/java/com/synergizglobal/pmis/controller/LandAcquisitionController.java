@@ -993,9 +993,15 @@ public class LandAcquisitionController {
 							val = formatter.formatCellValue(row.getCell(4)).trim();
 							if(!StringUtils.isEmpty(val)) { la.setLa_sub_category_fk(val);}	
 							
-							val = formatter.formatCellValue(row.getCell(5)).trim();
-							if(!StringUtils.isEmpty(val)) { la.setVillage_id(val);}					
 							
+							val = formatter.formatCellValue(row.getCell(5)).trim();
+							if(!StringUtils.isEmpty(val)) { 
+								int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+								if(c != 2) {
+									val = getCellDataType(workbook,row.getCell(5));
+								}
+							
+								la.setArea_of_plot(val);}	
 							
 							val = formatter.formatCellValue(row.getCell(6)).trim();
 							if(!StringUtils.isEmpty(val)) { 
@@ -1003,8 +1009,7 @@ public class LandAcquisitionController {
 								if(c != 2) {
 									val = getCellDataType(workbook,row.getCell(6));
 								}
-							
-								la.setArea_of_plot(val);}	
+								la.setArea_to_be_acquired(val);}	
 							
 							val = formatter.formatCellValue(row.getCell(7)).trim();
 							if(!StringUtils.isEmpty(val)) { 
@@ -1012,7 +1017,7 @@ public class LandAcquisitionController {
 								if(c != 2) {
 									val = getCellDataType(workbook,row.getCell(7));
 								}
-								la.setArea_to_be_acquired(val);}	
+								la.setArea_acquired(val);}	
 							
 							val = formatter.formatCellValue(row.getCell(8)).trim();
 							if(!StringUtils.isEmpty(val)) { 
@@ -1020,39 +1025,37 @@ public class LandAcquisitionController {
 								if(c != 2) {
 									val = getCellDataType(workbook,row.getCell(8));
 								}
-								la.setArea_acquired(val);}	
-							
-							val = formatter.formatCellValue(row.getCell(9)).trim();
-							if(!StringUtils.isEmpty(val)) { 
-								int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
-								if(c != 2) {
-									val = getCellDataType(workbook,row.getCell(9));
-								}
 								la.setLa_land_status_fk(val);}	
 							
-							val = formatter.formatCellValue(row.getCell(10)).trim();
+							val = formatter.formatCellValue(row.getCell(9)).trim();
 							if(!StringUtils.isEmpty(val)) { la.setChainage_from(val);}	
 							
 							
-							val = formatter.formatCellValue(row.getCell(11)).trim();
+							val = formatter.formatCellValue(row.getCell(10)).trim();
 							if(!StringUtils.isEmpty(val)) { la.setChainage_to(val);}								
 							
-							val = formatter.formatCellValue(row.getCell(12)).trim();
+							val = formatter.formatCellValue(row.getCell(11)).trim();
 							if(!StringUtils.isEmpty(val)) { la.setVillage(val);}										
 							
-							val = formatter.formatCellValue(row.getCell(13)).trim();
+							val = formatter.formatCellValue(row.getCell(12)).trim();
 							if(!StringUtils.isEmpty(val)) { la.setTaluka(val);}
 							
+							val = formatter.formatCellValue(row.getCell(13)).trim();
+							if(!StringUtils.isEmpty(val)) { la.setLongitude(val);}							
+							
 							val = formatter.formatCellValue(row.getCell(14)).trim();
-							if(!StringUtils.isEmpty(val)) { la.setDy_slr(val);}
+							if(!StringUtils.isEmpty(val)) { la.setLatitude(val);}
 							
 							val = formatter.formatCellValue(row.getCell(15)).trim();
-							if(!StringUtils.isEmpty(val)) { la.setSdo(val);}	
+							if(!StringUtils.isEmpty(val)) { la.setDy_slr(val);}							
 							
 							val = formatter.formatCellValue(row.getCell(16)).trim();
-							if(!StringUtils.isEmpty(val)) { la.setCollector(val);}
+							if(!StringUtils.isEmpty(val)) { la.setSdo(val);}	
 							
 							val = formatter.formatCellValue(row.getCell(17)).trim();
+							if(!StringUtils.isEmpty(val)) { la.setCollector(val);}
+							
+							val = formatter.formatCellValue(row.getCell(18)).trim();
 							if(!StringUtils.isEmpty(val)) { 
 								if(val.contains("/")) {
 									
@@ -1060,7 +1063,7 @@ public class LandAcquisitionController {
 								}
 								la.setProposal_submission_date_to_collector(val);}
 							
-							val = formatter.formatCellValue(row.getCell(18)).trim();
+							val = formatter.formatCellValue(row.getCell(19)).trim();
 							if(!StringUtils.isEmpty(val)) { 
 								if(val.contains("/")) {
 									
@@ -1069,16 +1072,16 @@ public class LandAcquisitionController {
 								la.setJm_fee_letter_received_date(val);}
 							
 							
-							val = formatter.formatCellValue(row.getCell(19)).trim();
+							val = formatter.formatCellValue(row.getCell(20)).trim();
 							if(!StringUtils.isEmpty(val)) {
 								int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
 								if(c != 2) {
-									val = getCellDataType(workbook,row.getCell(19));
+									val = getCellDataType(workbook,row.getCell(20));
 								}
 								la.setJm_fee_amount(val);
 							}
 						
-							val = formatter.formatCellValue(row.getCell(20)).trim();
+							val = formatter.formatCellValue(row.getCell(21)).trim();
 							if(!StringUtils.isEmpty(val)) { 
 								if(val.contains("/")) {
 									
@@ -1086,7 +1089,7 @@ public class LandAcquisitionController {
 								}
 								la.setJm_fee_paid_date(val);}								
 							
-							val = formatter.formatCellValue(row.getCell(21)).trim();
+							val = formatter.formatCellValue(row.getCell(22)).trim();
 							if(!StringUtils.isEmpty(val)) { 
 								if(val.contains("/")) {
 									
@@ -1094,7 +1097,7 @@ public class LandAcquisitionController {
 								}
 								la.setJm_start_date(val);}	
 							
-							val = formatter.formatCellValue(row.getCell(22)).trim();
+							val = formatter.formatCellValue(row.getCell(23)).trim();
 							if(!StringUtils.isEmpty(val)) { 
 								if(val.contains("/")) {
 									
@@ -1102,7 +1105,7 @@ public class LandAcquisitionController {
 								}
 								la.setJm_completion_date(val);}	
 							
-							val = formatter.formatCellValue(row.getCell(23)).trim();
+							val = formatter.formatCellValue(row.getCell(24)).trim();
 							if(!StringUtils.isEmpty(val)) { 
 								if(val.contains("/")) {
 									
@@ -1110,24 +1113,24 @@ public class LandAcquisitionController {
 								}
 								la.setJm_sheet_date_to_sdo(val);}				
 							
-							val = formatter.formatCellValue(row.getCell(24)).trim();
+							val = formatter.formatCellValue(row.getCell(25)).trim();
 							if(!StringUtils.isEmpty(val)) { la.setJm_remarks(val);}										
 						
-							val = formatter.formatCellValue(row.getCell(25)).trim();
+							val = formatter.formatCellValue(row.getCell(26)).trim();
 							if(!StringUtils.isEmpty(val)) { 
 								int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
 								if(c != 2) {
-									val = getCellDataType(workbook,row.getCell(25));
+									val = getCellDataType(workbook,row.getCell(26));
 								}
 								la.setJm_approval(val);}
 							
-							val = formatter.formatCellValue(row.getCell(26)).trim();
+							val = formatter.formatCellValue(row.getCell(27)).trim();
 							if(!StringUtils.isEmpty(val)) { la.setSpecial_feature(val);}
 							
-							val = formatter.formatCellValue(row.getCell(27)).trim();
+							val = formatter.formatCellValue(row.getCell(28)).trim();
 							if(!StringUtils.isEmpty(val)) { la.setRemarks(val);}
 							
-							val = formatter.formatCellValue(row.getCell(28)).trim();
+							val = formatter.formatCellValue(row.getCell(29)).trim();
 							if(!StringUtils.isEmpty(val)) { la.setIssues(val);}
 					
 							la.setProposal_submission_date_to_collector(DateParser.parse(la.getProposal_submission_date_to_collector()));
@@ -2193,7 +2196,7 @@ public class LandAcquisitionController {
 				
 				XSSFRow headingRow2 = privateValSheet.createRow(0);
 	            String headerString2 = "LA_ID^Forest Tree Survey^Forest Tree Valuation^Horticulture Tree Survey^Horticulture Tree Valuation^Structure Survey^"
-	            		+ "Structure Valuation^Borewell Survey^Borewell Valuation^Date of RFP to ADTP^RFP to ADTP status^Date of Rate Fixation of Land^"
+	            		+ "Structure Valuation^Borewell Survey^Borewell Valuation^Date of RFP to ADTP^Date of Rate Fixation of Land^"
 	            		+ "SDO demand for payment^Date of Approval for Payment^Payment Amount^Payment Date";
 	            
 	            String[] thirdHeaderStringArr = headerString2.split("\\^");
@@ -2207,7 +2210,7 @@ public class LandAcquisitionController {
 	        	XSSFRow headingRow3 = privateLandSheet.createRow(0);
 	            String headerString3 = "LA_ID^Name of Owner^Basic Rate^100% Solatium^Extra 25%^Total Rate/m2^Land Compensation^Agriculture tree nos^"
 	            		+ "Agriculture tree rate^Agriculture tree compensation^Forest tree nos^Forest tree rate^Forest tree compensation^Structure compensation^"
-	            		+ "Borewell compensation^Total Compensation^Consent from Owner^Legal Search Report^Date of Registration^Date of Possession^Possession Status";
+	            		+ "Borewell compensation^Total Compensation^Consent from Owner^Legal Search Report^Date of Registration^Date of Possession";
 	            
 	            String[] fourthHeaderStringArr = headerString3.split("\\^");
 	            
@@ -2218,8 +2221,8 @@ public class LandAcquisitionController {
 				}
 	            
 	        	XSSFRow headingRow4 = govSheet.createRow(0);
-	            String headerString4 = "LA_ID^Proposal Submission^Proposal Submission Status^Valuation Date^Letter for Payment^Amount Demanded^LFP Status^"
-	            		+ "Approval for Payment^Payment date^Amount Paid^Payment Status^Possession Date^Possession Status";
+	            String headerString4 = "LA_ID^Proposal Submission^Valuation Date^Letter for Payment^Amount Demanded^"
+	            		+ "Approval for Payment^Payment date^Amount Paid^Possession Date";
 	            
 	            String[] fifthHeaderStringArr = headerString4.split("\\^");
 	            
@@ -2232,7 +2235,7 @@ public class LandAcquisitionController {
 	        	XSSFRow headingRow5 = forestSheet.createRow(0);
 	            String headerString5 = "LA_ID^On line Submission^Submission Date to DyCFO^Submission Date to CCF Thane^Submission Date to Nodal Officer/CCF Nagpur^"
 	            		+ "Submission Date to Revenue Secretary Mantralaya^Submission Date to Regional Office Nagpur^Date of Approval by Regional Office Nagpur^"
-	            		+ "Valuation by DyCFO^Demanded Amount^Approval for Payment^Payment Date^Payment Amount^Payment Status^Possession Date^Possession Status";
+	            		+ "Valuation by DyCFO^Demanded Amount^Approval for Payment^Payment Date^Payment Amount^Possession Date";
 	            
 	            String[] sixthHeaderStringArr = headerString5.split("\\^");
 	            
@@ -2245,7 +2248,7 @@ public class LandAcquisitionController {
 	            XSSFRow headingRow6 = railwaySheet.createRow(0);
 	            String headerString6 = "LA_ID^On line Submission^Submission Date to DyCFO^Submission Date to CCF Thane^Submission Date to Nodal Officer/CCF Nagpur^"
 	            		+ "Submission Date to Revenue Secretary Mantralaya^Submission Date to Regional Office Nagpur^Date of Approval by Regional Office Nagpur^"
-	            		+ "Valuation by DyCFO^Demanded Amount^Approval for Payment^Payment Date^Payment Amount^Payment Status^Possession Date^Possession Status";
+	            		+ "Valuation by DyCFO^Demanded Amount^Approval for Payment^Payment Date^Payment Amount^Possession Date";
 	            
 	            String[] seventhHeaderStringArr = headerString6.split("\\^");
 	            
@@ -2490,10 +2493,7 @@ public class LandAcquisitionController {
 						cell1.setCellStyle(sectionStyle);
 						cell1.setCellValue(obj.getDate_of_rfp_to_adtp());
 
-		                cell1 = row.createCell(b++);
-						cell1.setCellStyle(sectionStyle);
-						cell1.setCellValue(obj.getRfp_to_adtp_status_fk());
-						
+					
 		                cell1 = row.createCell(b++);
 						cell1.setCellStyle(sectionStyle);
 						cell1.setCellValue(obj.getDate_of_rate_fixation_of_land());
@@ -2616,10 +2616,7 @@ public class LandAcquisitionController {
 		                cell1 = row.createCell(b++);
 						cell1.setCellStyle(sectionStyle);
 						cell1.setCellValue(obj.getDate_of_possession());
-						
-						 cell1 = row.createCell(b++);
-							cell1.setCellStyle(sectionStyle);
-							cell1.setCellValue(obj.getPrivate_possession_status_fk());
+
 						rowNo4++;
 				    }
 		       }
@@ -2651,9 +2648,6 @@ public class LandAcquisitionController {
 						cell1.setCellStyle(sectionStyle);
 						cell1.setCellValue(obj.getProposal_submission());
 						
-		                cell1 = row.createCell(b++);
-						cell1.setCellStyle(sectionStyle);
-						cell1.setCellValue(obj.getProposal_submission_status_fk());
 						
 		                cell1 = row.createCell(b++);
 						cell1.setCellStyle(sectionStyle);
@@ -2667,9 +2661,6 @@ public class LandAcquisitionController {
 						cell1.setCellStyle(sectionStyle);
 						cell1.setCellValue(obj.getAmount_demanded());
 						
-		                cell1 = row.createCell(b++);
-						cell1.setCellStyle(sectionStyle);
-						cell1.setCellValue(obj.getLfp_status_fk());
 						
 		                cell1 = row.createCell(b++);
 						cell1.setCellStyle(sectionStyle);
@@ -2685,15 +2676,8 @@ public class LandAcquisitionController {
 
 		                cell1 = row.createCell(b++);
 						cell1.setCellStyle(sectionStyle);
-						cell1.setCellValue(obj.getPayment_status_fk());
-						
-		                cell1 = row.createCell(b++);
-						cell1.setCellStyle(sectionStyle);
 						cell1.setCellValue(obj.getPossession_date());
 
-		                cell1 = row.createCell(b++);
-						cell1.setCellStyle(sectionStyle);
-						cell1.setCellValue(obj.getPossession_status_fk());
 						rowNo5++;
 				    }
 		       }
@@ -2771,15 +2755,7 @@ public class LandAcquisitionController {
 
 		                cell1 = row.createCell(b++);
 						cell1.setCellStyle(sectionStyle);
-						cell1.setCellValue(obj.getForest_payment_status_fk());
-
-		                cell1 = row.createCell(b++);
-						cell1.setCellStyle(sectionStyle);
 						cell1.setCellValue(obj.getForest_possession_date());
-
-		                cell1 = row.createCell(b++);
-						cell1.setCellStyle(sectionStyle);
-						cell1.setCellValue(obj.getForest_possession_status_fk());
 
 						rowNo6++;
 				    }
@@ -2858,15 +2834,7 @@ public class LandAcquisitionController {
 
 		                cell1 = row.createCell(b++);
 						cell1.setCellStyle(sectionStyle);
-						cell1.setCellValue(obj.getRailway_payment_status());
-
-		                cell1 = row.createCell(b++);
-						cell1.setCellStyle(sectionStyle);
 						cell1.setCellValue(obj.getRailway_possession_date());
-
-		                cell1 = row.createCell(b++);
-						cell1.setCellStyle(sectionStyle);
-						cell1.setCellValue(obj.getRailway_possession_status());
 
 						rowNo7++;
 				    }

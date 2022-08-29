@@ -424,30 +424,34 @@
 			   			//$("#reason_for_shortfall"+r).prop("disabled",false);
 				   }
 			   	   
-			   	   if($('#reason_for_shortfall'+r).val()=="")
+			   	   if($('#completion_status'+r).is(':checked'))
 				   {
-		   				$("#activityError").html("Remarks Required.");
-		   				$("#reason_for_shortfall"+r).css('border-color', 'red');
-		   				return false;
-		   			}
-		   			else
-					{
-		   				$("#activityError").html("");
-		   				$("#reason_for_shortfall"+r).css('border-color', '');	   				
-					}
 			   	   
-			   	   if($('#pending_progress'+r).val()=="")
-				   {
-
-		   				$("#activityError").html("Corresponding Progress Required.");
-		   				$("#pending_progress"+r).css('border-color', 'red');
-		   				return false;
-		   			}
-		   			else
-					{
-		   				$("#activityError").html("");
-		   				$("#pending_progress"+r).css('border-color', '');	   				
-					}		   	   
+				   	   if($('#reason_for_shortfall'+r).val()=="")
+					   {
+			   				$("#activityError").html("Remarks Required.");
+			   				$("#reason_for_shortfall"+r).css('border-color', 'red');
+			   				return false;
+			   			}
+			   			else
+						{
+			   				$("#activityError").html("");
+			   				$("#reason_for_shortfall"+r).css('border-color', '');	   				
+						}
+				   	   
+				   	   if($('#pending_progress'+r).val()=="")
+					   {
+	
+			   				$("#activityError").html("Corresponding Progress Required.");
+			   				$("#pending_progress"+r).css('border-color', 'red');
+			   				return false;
+			   			}
+			   			else
+						{
+			   				$("#activityError").html("");
+			   				$("#pending_progress"+r).css('border-color', '');	   				
+						}	
+				   }
 		   		
 			  }
    			

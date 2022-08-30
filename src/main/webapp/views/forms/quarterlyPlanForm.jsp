@@ -362,8 +362,8 @@
                                     <p class="searchable_label"> Criticality <span class="required">*</span></p>
                                     <select id="criticality" class="searchable" name="criticality">
                                         <option value="">Select</option>
-                                         <option value="yes">Yes</option>
-                                          <option value="no">No</option>
+                                         <option value="Yes">Yes</option>
+                                          <option value="No">No</option>
                                     </select>
                                      <span id="criticalityError" class="error-msg" ></span>
                                 </div> 

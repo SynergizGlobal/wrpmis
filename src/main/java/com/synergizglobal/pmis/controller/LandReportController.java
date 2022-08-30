@@ -76,9 +76,16 @@ public class LandReportController {
 	public String dataExportNoData;
 	
 	@RequestMapping(value = "/la-report", method = { RequestMethod.GET, RequestMethod.POST })
-	public ModelAndView LandReport(@ModelAttribute LandAcquisition obj, RedirectAttributes attributes) {
+	public ModelAndView LandReport(@ModelAttribute LandAcquisition obj, RedirectAttributes attributes, HttpSession session) {
 		ModelAndView model = new ModelAndView(PageConstants.landReport);
 		try {
+			
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			
+			
 			List<LandAcquisition> projectsList = service.getProjectsFilterListInLandReport(obj);
 			model.addObject("projectsList", projectsList);
 
@@ -100,9 +107,13 @@ public class LandReportController {
 	@RequestMapping(value = "/ajax/getProjectListForLandReportForm", method = { RequestMethod.GET,
 			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<LandAcquisition> getProjectListForLandReportForm(@ModelAttribute LandAcquisition obj) {
+	public List<LandAcquisition> getProjectListForLandReportForm(@ModelAttribute LandAcquisition obj, HttpSession session) {
 		List<LandAcquisition> objList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());			
 			objList = service.getProjectsFilterListInLandReport(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -113,9 +124,13 @@ public class LandReportController {
 	@RequestMapping(value = "/ajax/getWorksListForLandReportForm", method = { RequestMethod.GET,
 			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<LandAcquisition> getWorksListForLandReportForm(@ModelAttribute LandAcquisition obj) {
+	public List<LandAcquisition> getWorksListForLandReportForm(@ModelAttribute LandAcquisition obj, HttpSession session) {
 		List<LandAcquisition> objList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());			
 			objList = service.getWorksFilterListInLandReport(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -127,9 +142,13 @@ public class LandReportController {
 	@RequestMapping(value = "/ajax/getTypeOfLandListForLAReportForm", method = { RequestMethod.GET,
 			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<LandAcquisition> getTypeOfLandListInLandReport(@ModelAttribute LandAcquisition obj) {
+	public List<LandAcquisition> getTypeOfLandListInLandReport(@ModelAttribute LandAcquisition obj, HttpSession session) {
 		List<LandAcquisition> objList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());			
 			objList = service.getTypeOfLandListInLandReport(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -141,9 +160,13 @@ public class LandReportController {
 	@RequestMapping(value = "/ajax/getSubCategoryOfLandsListForLAReportForm", method = { RequestMethod.GET,
 			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<LandAcquisition> getSubCategoryOfLandFilterListInLandReport(@ModelAttribute LandAcquisition obj) {
+	public List<LandAcquisition> getSubCategoryOfLandFilterListInLandReport(@ModelAttribute LandAcquisition obj, HttpSession session) {
 		List<LandAcquisition> objList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());			
 			objList = service.getSubCategoryOfLandFilterListInLandReport(obj);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -56,7 +56,7 @@ public class LandReportDaoImpl implements LandReportDao{
 				arrSize++;
 			}			
 			
-			qry = qry + " GROUP BY project_id,project_name";
+			qry = qry + " GROUP BY project_id,project_name order by project_id,project_name ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			
@@ -115,7 +115,7 @@ public class LandReportDaoImpl implements LandReportDao{
 				arrSize++;
 			}			
 			
-			qry = qry + " GROUP BY category_fk";
+			qry = qry + " GROUP BY category_fk order by category_fk";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			
@@ -175,7 +175,7 @@ public class LandReportDaoImpl implements LandReportDao{
 				arrSize++;
 			}				
 			
-			qry = qry + " GROUP BY la_sub_category_fk,la_sub_category";
+			qry = qry + " GROUP BY la_sub_category_fk,la_sub_category order by la_sub_category_fk";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			
@@ -234,7 +234,7 @@ public class LandReportDaoImpl implements LandReportDao{
 				arrSize++;
 			}			
 			
-			qry = qry + " GROUP BY la.work_id_fk,w.work_short_name";
+			qry = qry + " GROUP BY la.work_id_fk,w.work_short_name order by la.work_id_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			
@@ -293,7 +293,7 @@ public class LandReportDaoImpl implements LandReportDao{
 				arrSize++;
 			}
 			qry = qry + " GROUP BY work_id_fk,work_short_name,category_fk,la_sub_category_fk,la_sub_category,la.la_id) as a " + 
-					"					 group by  work_id_fk,work_short_name,category_fk,la_sub_category,issue_id order by work_id_fk,category_fk";
+					"					 group by  work_id_fk,work_short_name,category_fk,la_sub_category,issue_id order by work_id_fk,category_fk order by work_id_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			

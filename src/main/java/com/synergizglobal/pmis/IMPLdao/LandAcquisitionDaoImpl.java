@@ -2359,6 +2359,17 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
  				qry = qry + " and le.executive_user_id_fk = ? ";
  				arrSize++;
 			}
+ 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSearchStr())) {
+				qry = qry + " and (li.work_id_fk like ? or w.work_short_name like ? or survey_number like ? or village like ?"
+						+ " or c.la_category like ? or sc.la_sub_category like ? or area_of_plot like ?)";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			}			
  			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -2380,6 +2391,15 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				pValues[i++] = obj.getUser_id();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSearchStr())) {
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
 			}			
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));
 

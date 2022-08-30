@@ -405,9 +405,9 @@ public class AlertsDaoImpl implements AlertsDao{
 	
 			
 			String cvQryAlert6 = "select w.work_id,'Flag' as alert_level,'R&R' as alert_type,re.executive_user_id_fk as hod_user_id_fk,\r\n" + 
-					"concat(structure_id,' structures in ',location_name,' not updated in last ', DATEDIFF(day,CONVERT(date, getdate()), r.modified_date), ' days') as alert_value,\r\n" + 
+					"concat(structure_id,' structures in ',location_name,' not updated in last ', DATEDIFF(day,r.modified_date,CONVERT(date, getdate())), ' days') as alert_value,\r\n" + 
 					"concat('/get-rr/',r.rr_id) as redirect_url\r\n" + 
-					" from rr r left JOIN work w ON w.work_id=r.work_id left join rr_executives re on re.work_id_fk=r.work_id where DATEDIFF(day,CONVERT(date, getdate()), r.modified_date)>=90 and r.handed_over_to_execution is null ";
+					" from rr r left JOIN work w ON w.work_id=r.work_id left join rr_executives re on re.work_id_fk=r.work_id where DATEDIFF(day,r.modified_date,CONVERT(date, getdate()))>=90 and r.handed_over_to_execution is null ";
 	
 	
 			List<Alerts> cvQryAlert6List = jdbcTemplate.query( cvQryAlert6, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -417,10 +417,10 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			
 			String cvQryAlert7 = " select w.work_id,'Flag' as alert_level,'Land Acquisition' as alert_type,re.executive_user_id_fk as hod_user_id_fk,\r\n" + 
-					"concat('Land activity of for ',chainage_from,' to ',chainage_to,' not updated in last ', DATEDIFF(day,CONVERT(date, getdate()), r.modified_date), ' days') as alert_value,\r\n" + 
+					"concat('Land activity of for ',chainage_from,' to ',chainage_to,' not updated in last ', DATEDIFF(day,r.modified_date,CONVERT(date, getdate())), ' days') as alert_value,\r\n" + 
 					"concat('/get-land-acquisition/',r.la_id) as redirect_url\r\n" + 
 					" from la_land_identification r left JOIN work w ON w.work_id=r.work_id_fk left join land_executives re on re.work_id_fk=r.work_id_fk \r\n" + 
-					" where DATEDIFF(day,CONVERT(date, getdate()), r.modified_date)>=90 and r.la_land_status_fk <> 'Acquired'";
+					" where DATEDIFF(day,r.modified_date,CONVERT(date, getdate()))>=90 and r.la_land_status_fk <> 'Acquired'";
 	
 	
 			List<Alerts> cvQryAlert7List = jdbcTemplate.query( cvQryAlert7, new BeanPropertyRowMapper<Alerts>(Alerts.class));
@@ -452,7 +452,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			
 			String cvQryAlert10 = " select 'Flag' as alert_level,'Utility Shifting' as alert_type,concat(utility_shifting_id,' is not shifted by ', owner_name,' beyond ',\r\n" + 
-					" ISNULL(requirement_stage_fk,''),ISNULL(FORMAT(start_date,'dd-MM-yyyy'),'')) as alert_value,concat('/get-utility-shifting/',r.utility_shifting_id) as redirect_url,ue.executive_user_id_fk as hod_user_id_fk from utility_shifting r left join work w on w.work_id=r.work_id_fk  left join utility_shifting_executives ue on ue.work_id_fk=r.work_id_fk where DATEDIFF(day,CONVERT(date, getdate()), r.modified_date)>=90 and shifting_status_fk!='Completed' \r\n" + 
+					" ISNULL(requirement_stage_fk,''),ISNULL(FORMAT(start_date,'dd-MM-yyyy'),'')) as alert_value,concat('/get-utility-shifting/',r.utility_shifting_id) as redirect_url,ue.executive_user_id_fk as hod_user_id_fk from utility_shifting r left join work w on w.work_id=r.work_id_fk  left join utility_shifting_executives ue on ue.work_id_fk=r.work_id_fk where DATEDIFF(day,r.modified_date,CONVERT(date, getdate()))>=90 and shifting_status_fk!='Completed' \r\n" + 
 					"";
 	
 	

@@ -401,6 +401,7 @@
          <input type="hidden" name="village" id="exportVillage" />
          <input type="hidden" name="type_of_land" id="exportType_of_land" />
          <input type="hidden" name="sub_category_of_land" id="exportSub_category_of_land" />
+         <input type="hidden" name="searchStr" id="exportsearchStr" />
 	</form>
     <script>
     
@@ -1022,12 +1023,16 @@
         	var village = $("#village").val();
         	var type_of_land = $("#type_of_land").val();
         	var sub_category_of_land = $("#sub_category_of_land").val();
+        	var searchStrValue = $('[type=search]').val();
+        	
+        	
         	
         	 $("#exportLa_land_status_fk").val(la_land_status_fk);
           	 $("#exportWork_id_fk").val(work_id_fk);
         	 $("#exportVillage").val(village);
         	 $("#exportType_of_land").val(type_of_land);
         	 $("#exportSub_category_of_land").val(sub_category_of_land);
+        	 $("#exportsearchStr").val(searchStrValue);
           	 $("#exportLandAcquisitionForm").submit();
         }
     </script>

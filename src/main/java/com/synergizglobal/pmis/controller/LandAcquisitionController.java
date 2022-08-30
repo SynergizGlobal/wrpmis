@@ -1041,10 +1041,10 @@ public class LandAcquisitionController {
 							if(!StringUtils.isEmpty(val)) { la.setTaluka(val);}
 							
 							val = formatter.formatCellValue(row.getCell(13)).trim();
-							if(!StringUtils.isEmpty(val)) { la.setLongitude(val);}							
+							if(!StringUtils.isEmpty(val)) { la.setLatitude(val);}							
 							
 							val = formatter.formatCellValue(row.getCell(14)).trim();
-							if(!StringUtils.isEmpty(val)) { la.setLatitude(val);}
+							if(!StringUtils.isEmpty(val)) { la.setLongitude(val);}
 							
 							val = formatter.formatCellValue(row.getCell(15)).trim();
 							if(!StringUtils.isEmpty(val)) { la.setDy_slr(val);}							

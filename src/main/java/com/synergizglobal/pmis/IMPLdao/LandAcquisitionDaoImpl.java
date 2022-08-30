@@ -1955,19 +1955,19 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					+ "( la_id, work_id_fk, survey_number, village_id, la_sub_category_fk, village, taluka, dy_slr, sdo, collector, proposal_submission_date_to_collector,"
 					+ "area_of_plot, jm_fee_amount, chainage_from, chainage_to, jm_fee_letter_received_date, jm_fee_paid_date, jm_start_date, jm_completion_date, "
 					+ "jm_sheet_date_to_sdo, jm_remarks, jm_approval, issues, jm_fee_amount_units,special_feature,"
-					+ "area_acquired,private_land_process,la_land_status_fk,category_fk,area_to_be_acquired,remarks)"
+					+ "area_acquired,private_land_process,la_land_status_fk,category_fk,area_to_be_acquired,remarks,latitude,longitude)"
 					+ "VALUES"
 					+ "(:la_id, :work_id_fk, :survey_number, :village_id, :la_sub_category_fk, :village, :taluka, :dy_slr, :sdo, :collector, :proposal_submission_date_to_collector, "
 					+ ":area_of_plot, :jm_fee_amount, :chainage_from, :chainage_to, :jm_fee_letter_received_date, :jm_fee_paid_date, :jm_start_date, :jm_completion_date, "
 					+ ":jm_sheet_date_to_sdo, :jm_remarks, :jm_approval, :issues, :jm_fee_amount_units , :special_feature, :area_acquired, :private_land_process, "
-					+ ":la_land_status_fk, :category_fk, :area_to_be_acquired, :remarks)";
+					+ ":la_land_status_fk, :category_fk, :area_to_be_acquired, :remarks,:latitude,:longitude)";
 			
 			String updatetQry = "UPDATE la_land_identification SET "
 					+ "survey_number= :survey_number, village_id= :village_id,la_sub_category_fk= :la_sub_category_fk, village= :village, taluka= :taluka, dy_slr= :dy_slr, sdo= :sdo, collector= :collector, proposal_submission_date_to_collector= :proposal_submission_date_to_collector,"
 					+ "area_of_plot= :area_of_plot, jm_fee_amount = :jm_fee_amount, chainage_from= :chainage_from, chainage_to= :chainage_to, jm_fee_letter_received_date= :jm_fee_letter_received_date, jm_fee_paid_date= :jm_fee_paid_date, jm_start_date= :jm_start_date, jm_completion_date= :jm_completion_date, "
 					+ "jm_sheet_date_to_sdo= :jm_sheet_date_to_sdo, jm_remarks= :jm_remarks, jm_approval= :jm_approval, issues= :issues,  jm_fee_amount_units= :jm_fee_amount_units,"
 					+ "la_land_status_fk= :la_land_status_fk, special_feature= :special_feature,private_land_process= :private_land_process,area_acquired= :area_acquired,"
-					+ "category_fk= :category_fk,area_to_be_acquired= :area_to_be_acquired,remarks= :remarks,modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP    "
+					+ "category_fk= :category_fk,area_to_be_acquired= :area_to_be_acquired,remarks= :remarks,modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP,latitude=:latitude,longitude=:longitude    "
 					+ "where la_id= :la_id ";
 		//	int rNo = 0;
 			for (LandAcquisition obj : lasList) {

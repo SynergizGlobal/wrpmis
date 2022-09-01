@@ -346,7 +346,7 @@
                                 </div>
                                 <div class="col s12 m4 input-field">
                                     <input id="structure" maxlength="30" data-length="30" name="structure" type="text" class="validate w80 pdr4em" value="">
-                                     <label for="structure">Structure<span class="required">*</span></label>
+                                     <label for="structure">Category<span class="required">*</span></label>
                                      <span id="structureError" class="error-msg" ></span>
                                 </div>  
                                 

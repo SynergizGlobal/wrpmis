@@ -375,7 +375,7 @@
 									</c:if>								
 										 
 									<li class="item ${bgClass } row" >										
-										<a href="<%=request.getContextPath()%>${aObj.redirect_url }">
+										<a href="<%=request.getContextPath()%>${aObj.redirect_url }" target="_new">
 											<div class="col m2">
 												<span class="bl" class="icon"> <!-- <i class="material-icons">access_time</i> -->
 													${bgIcon } <span class="bl" class="icon-text">${aObj.alert_type_fk
@@ -437,7 +437,7 @@
 									</c:if>
 
 									<li class="item ${message_color_bg}">
-										<a href="<%=request.getContextPath()%>${obj.redirect_url}<c:if test="${fn:contains(obj.redirect_url, '?')}">&</c:if><c:if test="${not fn:contains(obj.redirect_url, '?')}">?</c:if>message_id=${obj.message_id }">
+										<a target="_new" href="<%=request.getContextPath()%>${obj.redirect_url}<c:if test="${fn:contains(obj.redirect_url, '?')}">&</c:if><c:if test="${not fn:contains(obj.redirect_url, '?')}">?</c:if>message_id=${obj.message_id }">
 											<div class="row col m12">
 												<div class="col m2">
 													<i class='fa fa-exclamation-triangle'></i> 
@@ -885,7 +885,7 @@
 									</c:if>								
 										 
 									<li class="item ${bgClass } row" >										
-										<a href="<%=request.getContextPath()%>${aObj.redirect_url }">
+										<a href="<%=request.getContextPath()%>${aObj.redirect_url }" target="_new">
 											<div class="col m2">
 												<span class="bl" class="icon"> <!-- <i class="material-icons">access_time</i> -->
 													${bgIcon } <span class="bl" class="icon-text">${aObj.alert_type_fk
@@ -942,7 +942,7 @@
 									</c:if>
 
 									<li class="item ${message_color_bg}">
-										<a href="<%=request.getContextPath()%>${obj.redirect_url}<c:if test="${fn:contains(obj.redirect_url, '?')}">&</c:if><c:if test="${not fn:contains(obj.redirect_url, '?')}">?</c:if>message_id=${obj.message_id }">
+										<a target="_new" href="<%=request.getContextPath()%>${obj.redirect_url}<c:if test="${fn:contains(obj.redirect_url, '?')}">&</c:if><c:if test="${not fn:contains(obj.redirect_url, '?')}">?</c:if>message_id=${obj.message_id }">
 											<div class="row col m12">
 												<div class="col m2">
 													<i class='fa fa-exclamation-triangle'></i> 
@@ -1305,7 +1305,7 @@
 					</c:if>
 
 					<li class="item ${message_color_bg}">
-					<a href="<%=request.getContextPath()%>${obj.redirect_url}<c:if test="${fn:contains(obj.redirect_url, '?')}">&</c:if><c:if test="${not fn:contains(obj.redirect_url, '?')}">?</c:if>message_id=${obj.message_id }">
+					<a target="_new" href="<%=request.getContextPath()%>${obj.redirect_url}<c:if test="${fn:contains(obj.redirect_url, '?')}">&</c:if><c:if test="${not fn:contains(obj.redirect_url, '?')}">?</c:if>message_id=${obj.message_id }">
 							<span class="icon"> <i class='fa fa-exclamation-triangle'></i>
 								<span class="icon-text">${obj.message_type }</span>
 						</span>
@@ -1559,7 +1559,7 @@
 			                    		  }
 			                    		  
 			                    		  html = html + '<li class="item '+bgClass + read_message_bg + ' row">'
-			                    		  		+ '<a href="<%=request.getContextPath()%>'+(val.redirect_url)+urlStringContains+'">'
+			                    		  		+ '<a target="_new" href="<%=request.getContextPath()%>'+(val.redirect_url)+urlStringContains+'">'
 			                    		  		/* +'<div class="col m2 s2 icon-holder">'
 			                    		  		+ '<span class="icon"> '+bgIcon+' <span class="icon-text">'+val.alert_type_fk+'</span> </span>'
 			                    		  		+'</div> <div class="col m10 s10 text-holder">'; */
@@ -1629,9 +1629,9 @@
 		                    		  }
 		                    		  html = html + '<li class="item '+message_color_bg+' row">';
 		                    		  		if($.trim(val.redirect_url) != ''){
-		                    		  			html = html + '<a href="<%=request.getContextPath()%>'+(val.redirect_url)+urlStringContains+'message_id='+val.message_id +'">'
+		                    		  			html = html + '<a target="_new" href="<%=request.getContextPath()%>'+(val.redirect_url)+urlStringContains+'message_id='+val.message_id +'">'
 		                    		  		}else{
-		                    		  			html = html + '<a href="javascript:void(0);">'
+		                    		  			html = html + '<a href="javascript:void(0);" target="_new">'
 		                    		  		}
 		                    		  		
 		                    		  		

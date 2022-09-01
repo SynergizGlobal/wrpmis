@@ -303,8 +303,8 @@
                                             <table id="app_com_table" class="mdl-data-table mobile_responsible_table auto-index" style="display:none;">
                                                 <thead>
                                                     <tr>
-                                                        <th class="w2em">Structure </th>
-                                                        <th class="w2em">fortnight </th>
+                                                        <th class="w2em">Category </th>
+                                                        <th class="w2em">Item </th>
                                                         <th class="w2em">TDC </th>
                                                         <th class="w2em">Units </th>
                                                         <th class="w1em">Activity</th>

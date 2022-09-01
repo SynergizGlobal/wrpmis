@@ -622,10 +622,10 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 		String laId = obj.getWork_code()+"-LA-01";
 		List<LandAcquisition> objsList = null;
 		try {
-			String qry ="SELECT la_id FROM la_land_identification where la_id like '"+obj.getWork_code()+"-LA%' " ;
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));	
+			//String qry ="SELECT la_id FROM la_land_identification where la_id like '"+obj.getWork_code()+"-LA%' " ;
+			//objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));	
 			
-			if(!StringUtils.isEmpty(objsList) && objsList.size() > 0){
+			//if(!StringUtils.isEmpty(objsList) && objsList.size() > 0){
 					/*String qry2 ="SELECT CONCAT('"+obj.getWork_code()+"',SUBSTRING(la_id, 3,4),SUBSTRING(cast(MAX(replace(la_id,'"+obj.getWork_code()+"-LA-',''))+1 as varchar),0,"
 							+ "IFNULL ((SELECT LEN(max(replace(la_id,'"+obj.getWork_code()+"-LA-','')))FROM la_land_identification "
 							+ " where la_id like '"+obj.getWork_code()+"-LA%' group by LEN(la_id) order by length(la_id) desc offset 0 rows  fetch next 1 rows only),2)) ) AS la_id "
@@ -638,7 +638,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			
 				
 					laId = dObj.getLa_id();
-			}
+			//}
 		}catch(Exception e){ 
 			e.printStackTrace();
 		}

@@ -2117,18 +2117,18 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					String privateInsertSubQry = "INSERT INTO la_private_land_valuation "
 					 		+ "(la_id_fk, forest_tree_survey, forest_tree_valuation, forest_tree_valuation_status_fk, horticulture_tree_survey, horticulture_tree_valuation, "
 					 		+ "structure_survey, structure_valuation, borewell_survey, borewell_valuation, horticulture_tree_valuation_status_fk, structure_valuation_status_fk, "
-					 		+ "borewell_valuation_status_fk, rfp_to_adtp_status_fk, date_of_rfp_to_adtp, date_of_rate_fixation_of_land, sdo_demand_for_payment, "
+					 		+ "borewell_valuation_status_fk,  date_of_rfp_to_adtp, date_of_rate_fixation_of_land, sdo_demand_for_payment, "
 					 		+ "date_of_approval_for_payment, payment_amount, payment_date, payment_amount_units)"
 					 		+ "VALUES"
 					 		+ "(:la_id, :forest_tree_survey, :forest_tree_valuation, :forest_tree_valuation_status_fk, :horticulture_tree_survey, :horticulture_tree_valuation,"
 					 		+ " :structure_survey, :structure_valuation, :borewell_survey, :borewell_valuation, :horticulture_tree_valuation_status_fk, :structure_valuation_status_fk,"
-					 		+ " :borewell_valuation_status_fk, :rfp_to_adtp_status_fk, :date_of_rfp_to_adtp, :date_of_rate_fixation_of_land, :sdo_demand_for_payment,"
+					 		+ " :borewell_valuation_status_fk, :date_of_rfp_to_adtp, :date_of_rate_fixation_of_land, :sdo_demand_for_payment,"
 					 		+ " :date_of_approval_for_payment, :payment_amount, :private_payment_date, :payment_amount_units)";
 					 
 					String privateUpdateSubQry = "UPDATE la_private_land_valuation SET "
 					 		+ " forest_tree_survey=:forest_tree_survey, forest_tree_valuation= :forest_tree_valuation, forest_tree_valuation_status_fk= :forest_tree_valuation_status_fk, horticulture_tree_survey= :horticulture_tree_survey, horticulture_tree_valuation= :horticulture_tree_valuation, "
 					 		+ "structure_survey= :structure_survey, structure_valuation= :structure_valuation, borewell_survey= :borewell_survey, borewell_valuation= :borewell_valuation, horticulture_tree_valuation_status_fk= :horticulture_tree_valuation_status_fk, structure_valuation_status_fk= :structure_valuation_status_fk, "
-					 		+ "borewell_valuation_status_fk=:borewell_valuation_status_fk, rfp_to_adtp_status_fk= :rfp_to_adtp_status_fk, date_of_rfp_to_adtp= :date_of_rfp_to_adtp, date_of_rate_fixation_of_land= :date_of_rate_fixation_of_land, sdo_demand_for_payment= :sdo_demand_for_payment, "
+					 		+ "borewell_valuation_status_fk=:borewell_valuation_status_fk, date_of_rfp_to_adtp= :date_of_rfp_to_adtp, date_of_rate_fixation_of_land= :date_of_rate_fixation_of_land, sdo_demand_for_payment= :sdo_demand_for_payment, "
 					 		+ "date_of_approval_for_payment= :date_of_approval_for_payment, payment_amount= :payment_amount, payment_date= :private_payment_date,payment_amount_units= :payment_amount_units  "
 					 		+ "where la_id_fk= :la_id";
 					
@@ -2151,17 +2151,17 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 				if(!StringUtils.isEmpty(obj.getGovList())) {
 					subRow = sheet4;
 					String govInsertQry = "INSERT INTO la_government_land_acquisition"
-							+ "( la_id_fk, proposal_submission, proposal_submission_status_fk, valuation_date, letter_for_payment, amount_demanded, "
-							+ "lfp_status_fk, approval_for_payment, payment_date, amount_paid, payment_status_fk, possession_date, possession_status_fk,"//special_feature
+							+ "( la_id_fk, proposal_submission,  valuation_date, letter_for_payment, amount_demanded, "
+							+ " approval_for_payment, payment_date, amount_paid, payment_status_fk, possession_date, possession_status_fk,"//special_feature
 							+ "amount_demanded_units, amount_paid_units)"
 							+ "VALUES"
-							+ "(:la_id, :proposal_submission, :proposal_submission_status_fk, :valuation_date, :letter_for_payment,:amount_demanded, "
-							+ " :lfp_status_fk, :approval_for_payment, :payment_date, :amount_paid, :payment_status_fk, :possession_date, :possession_status_fk," // :special_feature, 
+							+ "(:la_id, :proposal_submission,  :valuation_date, :letter_for_payment,:amount_demanded, "
+							+ "  :approval_for_payment, :payment_date, :amount_paid, :payment_status_fk, :possession_date, :possession_status_fk," // :special_feature, 
 							+ "  :amount_demanded_units, :amount_paid_units)";
 					
 					String govUpdateQry = "UPDATE  la_government_land_acquisition SET "
-							+ " proposal_submission= :proposal_submission, proposal_submission_status_fk= :proposal_submission_status_fk, valuation_date= :valuation_date, letter_for_payment= :letter_for_payment, amount_demanded= :amount_demanded, "
-							+ "lfp_status_fk= :lfp_status_fk, approval_for_payment= :approval_for_payment, payment_date= :payment_date, amount_paid= :amount_paid, payment_status_fk= :payment_status_fk, possession_date= :possession_date, possession_status_fk= :possession_status_fk,"
+							+ "  valuation_date= :valuation_date, letter_for_payment= :letter_for_payment, amount_demanded= :amount_demanded, "
+							+ " approval_for_payment= :approval_for_payment, payment_date= :payment_date, amount_paid= :amount_paid, payment_status_fk= :payment_status_fk, possession_date= :possession_date, possession_status_fk= :possession_status_fk,"
 							+ "amount_demanded_units= :amount_demanded_units, amount_paid_units= :amount_paid_units "
 							+ "where  la_id_fk= :la_id";
 					for (LandAcquisition obj4 : obj.getGovList()) {

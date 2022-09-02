@@ -1010,7 +1010,7 @@
 		 			+'<td data-head="Progress Date" class="input-field"> <input id="progress_date'+rNo+'" name="progress_dates" type="text" class="validate datepicker" '
 		 			+'placeholder="Progress Date"> <button type="button" id="progress_date'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> '											                              
         			+'<span id="progress_date'+rNo+'Error" class="error-msg" ></span>   </td>'
-   					+'<td data-head="Progress of Work" class="input-field"> <textarea id="progress_of_work'+rNo+'" maxlength="1000" data-length="1000" name ="progress_of_works pdr5em" class="pmis-textarea pdr4em" placeholder="Progress of Work"></textarea>'
+   					+'<td data-head="Progress of Work" class="input-field"> <textarea id="progress_of_work'+rNo+'" maxlength="1000" data-length="1000" name ="progress_of_works" class="pmis-textarea pdr4em" placeholder="Progress of Work"></textarea>'
    					+'<span id="progress_of_work'+rNo+'Error" class="error-msg"></span>  </td>'
    				<c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">
       				+'<td class="mobile_btn_close"> <a onclick="removeProgressDetailsRow('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a> </td>'

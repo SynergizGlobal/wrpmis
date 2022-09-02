@@ -262,7 +262,7 @@
                     <div class="center-align">
                         <span class="card-title headbg">
                             <div class="center-align p-2 bg-m">
-                                <h5>Update Fortnight Plan</h5>
+                                <h5>Progress Update for Current Fortnight</h5>
                             </div>
                         </span>
                     </div>
@@ -306,11 +306,11 @@
                                                         <th class="w2em">Category </th>
                                                         <th class="w2em">Item </th>
                                                         <th class="w2em">TDC </th>
+                                                        <th class="w1em">Planned Activity</th>
                                                         <th class="w2em">Units </th>
-                                                        <th class="w1em">Activity</th>
                                                         <th class="w20em">Completion Status</th>
-                                                        <th class="w20em">Remarks</th>
                                                         <th class="w20em">Corresponding Progress</th>
+                                                        <th class="w20em">Remarks</th>
                                                         
                                                     </tr>
                                                 </thead>
@@ -577,7 +577,7 @@
                	if(data != null && data != '' && data.length > 0){  
                        $.each(data, function (i, val) {
                        	 var html='<tr><td>'+val.structure+'</td><td>'+val.item+'</td><td>'+val.tdc_calendar+'</td>';
-                       	 html+= '<td>'+val.units+'</td><td>'+val.activity_name+'</td>';
+                       	 html+= '<td>'+val.activity_name+'</td><td>'+val.units+'</td>';
                        	 var pendingprogress="";
                        	 var reasonforshortfall="";
                        	    if(val.pending_progress!=undefined)
@@ -589,7 +589,7 @@
                        	    	reasonforshortfall=val.reason_for_shortfall;
                       		 }
                        	    
-                       	 html+='<td><input type="hidden" name="fortnight_quarterly_plan_activity_id" id="fortnight_quarterly_plan_activity_id'+i+'" value="'+val.fortnightly_plan_id+'"><input type="checkbox" id="completion_status'+i+'" name="completion_status"  placeholder="Completion Status" onchange="checkRemarks('+i+');" value="No"></td><td><input type="text" name="reason_for_shortfall" id="reason_for_shortfall'+i+'" value="'+reasonforshortfall+'"></td><td><input type="text" name="pending_progress" id="pending_progress'+i+'" value="'+pendingprogress+'"></td></tr>';
+                       	 html+='<td><input type="hidden" name="fortnight_quarterly_plan_activity_id" id="fortnight_quarterly_plan_activity_id'+i+'" value="'+val.fortnightly_plan_id+'"><input type="checkbox" id="completion_status'+i+'" name="completion_status"  placeholder="Completion Status" onchange="checkRemarks('+i+');" value="No"></td><td><input type="text" name="pending_progress" id="pending_progress'+i+'" value="'+pendingprogress+'"></td><td><input type="text" name="reason_for_shortfall" id="reason_for_shortfall'+i+'" value="'+reasonforshortfall+'"></td></tr>';
 	                     $("#stBody").append(html);
                        });
                    }

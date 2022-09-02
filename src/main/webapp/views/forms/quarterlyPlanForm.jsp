@@ -371,7 +371,7 @@
                                 	<input id="tdc_calendar" name="tdc_calendar" type="text" class="validate datepicker" value="">
                                              <button type="button" id="tdc_calendar_icon" class="datepicker-button"><i
                                                     class="fa fa-calendar"></i></button>
-                                             <label for="tdc_calendar_mrvc">TDC Calendar <span class="required">*</span></label>
+                                             <label for="tdc_calendar_mrvc">TDC</label>
                                              <span id="tdc_calendarError" class="error-msg" ></span>
                                 </div> 
                             </div>
@@ -403,9 +403,9 @@
                                                     <tr>
                                                         <th class="w1em">S No </th>
                                                         <th class="w15em">Fortnight </th>
+                                                        <th class="w20em">Planned Activity </th>
                                                         <th class="w15em">Units </th>
-                                                        <th class="w20em">Activity </th>
-                                                        <th class="w1em">Action</th>
+                                                        <th class="w1em"></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="stBody">
@@ -417,14 +417,12 @@
 						                                        <option value="">Select</option>
 						                                    </select>
                                                         </td>
-                                                        <td data-head="Units" class="input-field">
-                                                        <input type="text" id="units0" name="units" data-length="50" maxlength="50">
-                                                        </td>
                                                         <td data-head="Activity" class="input-field">
                                                         <input type="text" id="activity0" name="activity" data-length="200" maxlength="200">
                                                         </td>
-                                                        
-                                                        
+                                                        <td data-head="Units" class="input-field">
+                                                        <input type="text" id="units0" name="units" data-length="50" maxlength="50">
+                                                        </td>                                                        
                                                         <td class="input-field mobile_btn_close">
 
                                                         </td>
@@ -682,17 +680,6 @@
 				$("#criticality").css('border-color', '');	   				
 			} 
 			
-			if($("#tdc_calendar").val()=="")
-			{
-   				$("#tdc_calendarError").html("TDC Required.");
-   				$("#tdc_calendar").css('border-color', 'red');
-   				return false;
-			}
-			else
-			{
-				$("#tdc_calendarError").html("");
-				$("#tdc_calendar").css('border-color', '');	   				
-			}
 			
 			if($("#scope_of_work_quarterly").val()=="")
 			{
@@ -824,10 +811,10 @@
 
            +'<td data-head="Fortnight" class="input-field">'
            +'<select id="fortnight' + rNo + '" class="fortnight searchable"  name="fortnight" value="">' 
-           +'<option value="">Select</option></select></td><td><input type="text" id="units' + rNo + '" name="units"  data-length="50" maxlength="50"></td>'
+           +'<option value="">Select</option></select></td>'
 
            +'<td data-head="Activity" class="input-field">'
-           +'<textarea id="activity' + rNo +'" name="activity" class="pmis-textarea pdr4em w85 my-valid-class" data-length="200" maxlength="200"></textarea> </td>'
+           +'<textarea id="activity' + rNo +'" name="activity" class="pmis-textarea pdr4em w85 my-valid-class" data-length="200" maxlength="200"></textarea> </td><td><input type="text" id="units' + rNo + '" name="units"  data-length="50" maxlength="50"></td>'
 
            +'<td class="input-field mobile_btn_close"><button onclick="removeStActions(' + rNo + ');" class="btn waves-effect waves-light red t-c remove"><i class="fa fa-close"></i></button></td>'
            +'</tr>';

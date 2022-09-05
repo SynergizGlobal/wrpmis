@@ -60,6 +60,11 @@ public class LandAcquisitionServiceImpl implements LandAcquisitionService{
 	public List<LandAcquisition> getWorkListForLAForm(LandAcquisition obj) throws Exception {
 		return dao.getWorkListForLAForm(obj);
 	}
+	
+	@Override
+	public List<LandAcquisition> getCoordinates(LandAcquisition obj) throws Exception {
+		return dao.getCoordinates(obj);
+	}	
 
 	@Override
 	public List<LandAcquisition> getProjectsList(LandAcquisition obj) throws Exception {

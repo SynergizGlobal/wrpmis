@@ -394,7 +394,7 @@
 	<form name="getForm" action="<%=request.getContextPath()%>/get-land-acquisition"  id="getForm" method="post">
     	<input type="hidden" name="la_id" id="la_id" />
     </form>
-   <form action="<%=request.getContextPath() %>/export-land-acquisition" name="exportLandAcquisitionForm" id="exportLandAcquisitionForm" target="_blank" method="post">	
+   <form action="<%=request.getContextPath() %>/export-land" name="exportLandAcquisitionForm" id="exportLandAcquisitionForm" target="_blank" method="post">	
        
          <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
          <input type="hidden" name="la_land_status_fk" id="exportLa_land_status_fk" />

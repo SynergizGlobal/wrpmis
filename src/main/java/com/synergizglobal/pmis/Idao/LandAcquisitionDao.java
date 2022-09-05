@@ -68,5 +68,7 @@ public interface LandAcquisitionDao {
 
 	public List<LandAcquisition> getLADetails(LandAcquisition dObj) throws Exception;
 
+	public List<LandAcquisition> getCoordinates(LandAcquisition obj) throws Exception;
+
 
 }

@@ -24,6 +24,7 @@ public interface LandAcquisitionService {
 	public boolean addLandAcquisition(LandAcquisition obj) throws Exception;
 
 	public List<LandAcquisition> getWorkListForLAForm(LandAcquisition obj) throws Exception;
+	public List<LandAcquisition> getCoordinates(LandAcquisition obj) throws Exception;
 
 	public List<LandAcquisition> getProjectsList(LandAcquisition obj) throws Exception;
 

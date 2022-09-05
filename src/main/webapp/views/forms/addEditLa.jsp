@@ -392,12 +392,12 @@
                                     <label for="area_of_plot">Area of Plot (Ha)</label>
                                 </div> 
                                 <div class="col s6 m8 l4 input-field offset-m2">
-                                    <input id="latitude" maxlength="10" data-length="10" name="latitude" type="number" class="validate w80 pdr4em num" value="${LADetails.latitude }">
+                                    <input id="latitude" maxlength="40" data-length="40" name="latitude" type="number" class="validate w80 pdr4em num" value="${LADetails.latitude }">
                                     <label for="latitude">Latitude </label>
                                     <span id="latitudeError" class="error-msg" ></span>
                                 </div> 
                                 <div class="col s6 m8 l4 input-field offset-m2">
-                                    <input id="longitude" maxlength="10" data-length="10" name="longitude" type="number" class="validate w80 pdr4em num" value="${LADetails.longitude }">
+                                    <input id="longitude" maxlength="40" data-length="40" name="longitude" type="number" class="validate w80 pdr4em num" value="${LADetails.longitude }">
                                     <label for="longitude">Longitude </label>
                                     <span id="longitudeError" class="error-msg" ></span>
                                 </div>                               
@@ -436,13 +436,13 @@
                                	</div> --%>
                                	<!-- <div class="col m2 hide-on-small-only"></div> -->
                                	<div class="col s6 m8 l4 input-field offset-m2">
-                                    <input id="chainage_from" maxlength="10" data-length="10" name="chainage_from" type="number" class="validate num w80 pdr4em" value="${LADetails.chainage_from }">
+                                    <input id="chainage_from" maxlength="10" data-length="10" name="chainage_from" type="number" class="validate num w80 pdr4em" value="${LADetails.chainage_from }" onKeyup="getCoordinates();">
                                     <label for="chainage_from">Chainage From <span class="required">*</span></label>
                                     <span id="chainage_fromError" class="error-msg" ></span>
                                 </div>                               
                              
                             	<div class="col s6 m4 l4 input-field offset-m2">
-                                    <input id="chainage_to" maxlength="10" data-length="10" name="chainage_to" type="number" class="validate num w80 pdr4em" value="${LADetails.chainage_to }">
+                                    <input id="chainage_to" maxlength="10" data-length="10" name="chainage_to" type="number" class="validate num w80 pdr4em" value="${LADetails.chainage_to }" onKeyup="getCoordinates();" onblur="checkValues();">
                                     <label for="chainage_to"> Chainage To<span class="required">*</span> </label>
                                     <span id="chainage_toError" class="error-msg" ></span>
                                 </div>                                
@@ -2636,6 +2636,10 @@
                 return false;
             }
         });
+       
+ 
+
+        
         
         
         $('#payment_amount_units').val('1');
@@ -2746,6 +2750,63 @@
 			var fileIndex = Number(no)+1;
 			moreFiles(fileIndex);
 		}
+        
+        function checkValues()
+        {
+        		if(parseFloat($('#chainage_from').val())>parseFloat($('#chainage_to').val()))
+        		{
+        			alert("Chainage To should be greater than Chainage From");
+        		}
+        }
+        
+        
+        function getCoordinates()
+        {
+
+            var r1=$('#chainage_from').val();
+            var r2=$('#chainage_to').val();
+            
+            if(r1!="" && r2!="")
+            	{
+		            var c1=(parseFloat(r1)+parseFloat(r2))/2; 
+		            
+		        	var myParams = { chainage_from: c1 };
+		            $.ajax({
+		                url: "<%=request.getContextPath()%>/ajax/getCoordinates",
+		                data: myParams, cache: false,
+		                success: function (data) {
+		                    if (data.length > 0) 
+		                    {
+		                    	var splitChainage=data[0]["chainage_from"];
+		                    	splitChainage=splitChainage.toString();
+		                    	splitChainage=splitChainage.split(",");
+		
+		                    	var splitLatitude=data[0]["latitude"];
+		                    	splitLatitude=splitLatitude.toString();
+		                    	splitLatitude=splitLatitude.split(",");
+		                    	
+		                    	var splitLongitude=data[0]["longitude"];
+		                    	splitLongitude=splitLongitude.toString();
+		                    	splitLongitude=splitLongitude.split(",");                    	
+		                    	
+		                    	
+		                        var a1= splitChainage[0];    var x1=splitLatitude[0]; var y1=splitLongitude[0];
+		                        var b1=splitChainage[1];	 var x2=splitLatitude[1]; var y2=splitLongitude[1];
+		
+		                        var x3=0;   var y3=0;
+		
+		                        x3=parseFloat(x2)+parseFloat((((c1-b1)/(b1-a1))*(x2-x1)));
+		                        y3=parseFloat(y2)+parseFloat((((c1-b1)/(b1-a1))*(y2-y1)));
+		                        
+		                        
+		                        $('#latitude').val(x3);
+		                        $('#longitude').val(y3);
+		                        
+		                    }
+		                }
+		            });
+            	}
+        }       
         
         
 	    function doValidate(value){

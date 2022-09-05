@@ -2460,10 +2460,10 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 	public List<LandAcquisition> getPrivateLandList(String la_id) throws Exception {
 		List<LandAcquisition> objList = null;
 		try {
-			String qry = "select la_id_fk,lpa.basic_rate_units,lpa.agriculture_tree_rate_units,lpa.forest_tree_rate_units, lpa.name_of_the_owner, lpa.basic_rate, lpa.agriculture_tree_nos, lpa.agriculture_tree_rate, lpa.forest_tree_nos," + 
+			String qry = "select la_id_fk,lpa.basic_rate_units,lpa.agriculture_tree_rate_units,lpa.forest_tree_rate_units, lpa.name_of_the_owner, lpa.basic_rate, isnull(lpa.agriculture_tree_nos,0) as agriculture_tree_nos, lpa.agriculture_tree_rate, isnull(lpa.forest_tree_nos,0) as forest_tree_nos," + 
 					"lpa.forest_tree_rate,FORMAT(lpa.consent_from_owner,'dd-MM-yyyy') AS consent_from_owner, FORMAT(lpa.legal_search_report,'dd-MM-yyyy') AS legal_search_report, FORMAT(lpa.date_of_registration,'dd-MM-yyyy') AS date_of_registration, FORMAT(lpa.date_of_possession,'dd-MM-yyyy') AS date_of_possession, lpa.possession_status_fk as private_possession_status_fk," + 
-					"cast(lpa.hundred_percent_Solatium as CHAR) as hundred_percent_Solatium,cast(lpa.extra_25_percent as CHAR) as extra_25_percent, cast(lpa.total_rate_divide_m2 as CHAR) as total_rate_divide_m2,cast(lpa.land_compensation as CHAR) as land_compensation," + 
-					"cast(lpa.agriculture_tree_compensation as CHAR) as agriculture_tree_compensation,cast(lpa.forest_tree_compensation as CHAR) as forest_tree_compensation,cast(lpa.structure_compensation as CHAR) as structure_compensation,cast(lpa.borewell_compensation as CHAR) as borewell_compensation,cast(lpa.total_compensation as CHAR) as total_compensation" + 
+					"lpa.hundred_percent_Solatium,lpa.extra_25_percent, lpa.total_rate_divide_m2,lpa.land_compensation," + 
+					"lpa.agriculture_tree_compensation,lpa.forest_tree_compensation,lpa.structure_compensation,lpa.borewell_compensation,lpa.total_compensation" + 
 					" from la_private_land_acquisition lpa " + 
 					"left join la_land_identification li on lpa.la_id_fk = li.la_id  " + 
 					"where la_id_fk = ? ";
@@ -2566,6 +2566,23 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			throw new Exception(e);
 		}
 		return objList;
+	}
+
+	@Override
+	public List<LandAcquisition> getCoordinates(LandAcquisition obj) throws Exception {
+		
+		List<LandAcquisition> objList = null;
+		try {
+			String qry ="select string_agg(chainages,',') as chainage_from,string_agg(latitude,',') as latitude,string_agg(longitude,',') as longitude from chainages_master where id between (select min(id)-1 from chainages_master where chainages>=cast('"+obj.getChainage_from()+"' as decimal(18,2))) and (select min(id) from chainages_master where chainages>=cast('"+obj.getChainage_from()+"' as decimal(18,2)))";
+		
+			objList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));
+			
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objList;		
+		
 	}
 
 

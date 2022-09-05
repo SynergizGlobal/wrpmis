@@ -279,20 +279,6 @@
 		.select2-container--default .select2-selection--multiple .select2-selection__choice{
 			display: inherit;
 		}
-		/*.select2-selection__rendered li{
-			display: block;
-			float: left;
-		} */
-			#app_com_table {
-		counter-reset: serial-number;  /* Set the serial number counter to 0 */
-		}
-		#app_com_table td:first-child:before {
-		counter-increment: serial-number;  /* Increment the serial number counter */
-		content: counter(serial-number);  /* Display the counter */
-		}
-		#app_com_table .datepicker-table td:first-child:before {
-		    content: none !important;
-		}
 		@media(max-width: 575px){
 			.per-box-list li {
 			    width: 100%;
@@ -367,13 +353,17 @@
                                     </select>
                                      <span id="criticalityError" class="error-msg" ></span>
                                 </div> 
-                                <div class="col s6 m4 input-field">
+                                <div class="col s6 m2 input-field">
                                 	<input id="tdc_calendar" name="tdc_calendar" type="text" class="validate datepicker" value="">
                                              <button type="button" id="tdc_calendar_icon" class="datepicker-button"><i
                                                     class="fa fa-calendar"></i></button>
                                              <label for="tdc_calendar_mrvc">TDC</label>
                                              <span id="tdc_calendarError" class="error-msg" ></span>
-                                </div> 
+                                </div>
+							     <div class="col s6 m2 input-field">
+							         <a href="javascript:addTdc();" class="btn waves-effect waves-light bg-s t-c">
+                                     <strong>Add TDC</strong></a>
+							    </div>                                 
                             </div>
                             <div class="row" style="margin-top: 20px;">
                                 <div class="col s6 m4 input-field">
@@ -430,6 +420,63 @@
                                              
                                                 </tbody>
                                             </table>
+  
+    <!-- Modal Structure -->
+   <div id="tdcModal" class="modal">
+       <div class="modal-content">
+           <h5 class="modal-header"> TDC Revisions
+	           <span class="right modal-action modal-close">
+	           <span class="material-icons">close</span></span>
+           </h5>
+               <div class="row no-mar" id="amendment_not_required_in_contract_Div">
+                            <div class="container container-no-margin">
+                             <div class="row exe-box">
+                                <div class="col s12 m12">
+                                    <div class="row">
+                                       <!--  <h5 class="center-align marob">Appointment of Committee</h5> -->
+                                        <div class="table-inside">
+                                            <table id="app_com_table" class="mdl-data-table mobile_responsible_table">
+                                                <thead>
+                                                    <tr>
+                                                    	<th class="w1em">Revision No. </th>
+                                                        <th class="w1em">TDC Date </th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="stTDCBody">
+                                                       <tr>
+                                                       		<td style="width:100px;"><input id="revisionno0" name="revisionno" type="text" value="R1"></td>
+                                                        	<td style="width:300px;"><input id="tdc_revisiondate0" name="tdc_revisiondate" type="text" class="validate datepicker" value=""></td>
+                                                        	<td></td>
+                                                        </tr>
+                                            
+                                                </tbody>
+                                            </table>
+                                             <table class="mdl-data-table table-add bd-none">
+                                                <tbody class="bd-none">
+                                                    <tr class="bd-none">
+                                                        <td colspan="3" class="bd-none"><button
+                                                            type="button"
+                                                            class="btn waves-effect waves-light bg-m t-c add-align" id="add-align"
+                                                            onclick="addTDCRow()"> <i
+                                                                class="fa fa-plus"></i>
+                                                        </button>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                             </div>
+                         
+                    </div>
+                    
+
+               </div>        
+       </div>
+   </div>                                          
+                                            
                                              <table class="mdl-data-table table-add bd-none">
                                                 <tbody class="bd-none">
                                                     <tr class="bd-none">
@@ -482,6 +529,9 @@
         </div>
     </div>
 
+ 
+   
+   
 
 <div class="page-loader" style="display: none;">
 	  <div class="preloader-wrapper big active">
@@ -562,9 +612,15 @@
 			    $('#btnAdd').html('Update');       		
        		}
 	}    
+   	
+   	function addTdc()
+   	{
+   		$("#tdcModal").modal("open"); 
+   	}
     
     
     $(document).ready(function() {
+    	$('.modal').modal();
  	   $("[data-length]").each(function(i,val){
  	    	$('#'+val.id).characterCounter();
  	    });
@@ -616,6 +672,29 @@
  	        </c:forEach> 
  		} 	   
     });
+    
+    function addTDCRow()
+    {
+
+        var rowNo = $("#rowNo").val();
+        var rowNo1 = $("#sNo").val();
+        var rNo = Number(rowNo)+1;
+        var sNo = Number(rowNo1)+1;
+        var rowLr=$("#stTDCBody tr").length+1;
+        var html = '<tr id="actionStRow' + rNo + '"><td><input id="revisionno' + rNo + '" name="revisionno" type="text" value="R'+ rowLr + '"></td>'
+
+           +'<td data-head="Fortnight" class="input-field">'
+           +'<input id="tdc_revisiondate' + rNo + '" name="tdc_revisiondate" type="text" class="validate datepicker" value=""></td>'
+           +'<td class="input-field mobile_btn_close"><button onclick="removeStActions(' + rNo + ');" class="btn waves-effect waves-light red t-c remove"><i class="fa fa-close"></i></button></td>'
+           +'</tr>';
+    
+        $('#stTDCBody').append(html);
+        $("#rowNo").val(rNo);
+        var rowCount = $("#stBody tr").length;
+        $("#sNo").val(rowCount);    
+        $('.searchable').select2();
+    	
+    }
     
     function addFortnightQuarterly()
     {

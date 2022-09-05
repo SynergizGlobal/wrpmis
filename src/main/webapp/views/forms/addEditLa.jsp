@@ -393,12 +393,12 @@
                                 </div> 
                                 <div class="col s6 m8 l4 input-field offset-m2">
                                     <input id="latitude" maxlength="40" data-length="40" name="latitude" type="number" class="validate w80 pdr4em num" value="${LADetails.latitude }">
-                                    <label for="latitude">Latitude </label>
+                                    <label for="latitude" id="idLatitude">Latitude </label>
                                     <span id="latitudeError" class="error-msg" ></span>
                                 </div> 
                                 <div class="col s6 m8 l4 input-field offset-m2">
                                     <input id="longitude" maxlength="40" data-length="40" name="longitude" type="number" class="validate w80 pdr4em num" value="${LADetails.longitude }">
-                                    <label for="longitude">Longitude </label>
+                                    <label for="longitude" id="idLongitude">Longitude </label>
                                     <span id="longitudeError" class="error-msg" ></span>
                                 </div>                               
                             </div>
@@ -2798,7 +2798,9 @@
 		                        x3=parseFloat(x2)+parseFloat((((c1-b1)/(b1-a1))*(x2-x1)));
 		                        y3=parseFloat(y2)+parseFloat((((c1-b1)/(b1-a1))*(y2-y1)));
 		                        
-		                        
+		                        $('#idLatitude').html("");
+		                        $('#idLongitude').html("");		                        
+	                        
 		                        $('#latitude').val(x3);
 		                        $('#longitude').val(y3);
 		                        

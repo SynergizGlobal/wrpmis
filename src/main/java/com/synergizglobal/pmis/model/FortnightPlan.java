@@ -14,7 +14,7 @@ public class FortnightPlan {
 	
 	
 	private String [] activity,scope_of_work,critical_item,completion_status,planned_progress_on_last_fortnight, actual_progress_on_last_fortnight, plan_for_the_current_fortnight,
-	chkcompletion_status,fortnight,units,pending_progress,reason_for_shortfall,Fortnight_quarterly_plan_activity_id;
+	chkcompletion_status,fortnight,units,pending_progress,reason_for_shortfall,Fortnight_quarterly_plan_activity_id,revisionno,tdc_revisiondate;
 
 
 	public String getFortnightly_plan_id() {
@@ -495,6 +495,22 @@ public class FortnightPlan {
 
 	public void setCum_progress(String cum_progress) {
 		this.cum_progress = cum_progress;
+	}
+
+	public String [] getRevisionno() {
+		return revisionno;
+	}
+
+	public void setRevisionno(String [] revisionno) {
+		this.revisionno = revisionno;
+	}
+
+	public String [] getTdc_revisiondate() {
+		return tdc_revisiondate;
+	}
+
+	public void setTdc_revisiondate(String [] tdc_revisiondate) {
+		this.tdc_revisiondate = tdc_revisiondate;
 	}
 
 

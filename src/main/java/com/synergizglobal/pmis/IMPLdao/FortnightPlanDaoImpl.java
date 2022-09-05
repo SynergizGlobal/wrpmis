@@ -874,6 +874,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 		PreparedStatement updateStmt = null;
 		
 		
+		
 
 
 		String query = " insert into fortnight_quarterly_plan (work_id_fk, period, structure, item, criticality, TDC, scope_of_work,cumulative_progress)"
@@ -886,11 +887,19 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 		String queryChild = " insert into fortnight_quarterly_plan_activities (fortnight_quarterly_plan_id,fortnight,activity_name,units)"
 	               + " values (?,?,?,?)";
 		
-		String updateChild = " delete from fortnight_quarterly_plan_activities where fortnight_quarterly_plan_id=?";		
+		String updateChild = " delete from fortnight_quarterly_plan_activities where fortnight_quarterly_plan_id=?";
+		
+		String queryDeleteRevisions = " delete from fortnight_quarterly_plan_tdc_revisions where fortnight_quarterly_plan_id=?";
+		
+
+		String queryTdcRevisions = " insert into fortnight_quarterly_plan_tdc_revisions (fortnight_quarterly_plan_id,revision_no,tdc_date)"
+	               + " values (?,?,?)";
 
 	  PreparedStatement preparedStmt = null;
+	  PreparedStatement preparedStmtRevisions = null;
 	  PreparedStatement preparedStmtChild = null;
 	  PreparedStatement deleteChild = null;
+	  PreparedStatement preparedStmtDeleteRevisions = null;
 	  
 	  Connection con = null;
 	  try
@@ -902,6 +911,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 
 			  preparedStmt = con.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
 			  preparedStmtChild = con.prepareStatement(queryChild);
+			  preparedStmtRevisions = con.prepareStatement(queryTdcRevisions);
 	
 		      preparedStmt.setString(1, obj.getWork_id_fk());
 		      preparedStmt.setString(2, obj.getPeriod()!=null ?obj.getPeriod():null);
@@ -931,12 +941,29 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 					}
 				}
 				if(preparedStmtChild != null){preparedStmtChild.close();}	
+
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getRevisionno())) 
+				{
+					  
+					for (int i = 0; i < obj.getRevisionno().length; i++) 
+					{
+						preparedStmtRevisions.setLong(1, Key);
+						preparedStmtRevisions.setString(2, obj.getRevisionno()[i]);
+						preparedStmtRevisions.setString(3, obj.getTdc_calendar());
+						preparedStmtRevisions.execute();
+					}
+				}
+				if(preparedStmtRevisions != null){preparedStmtRevisions.close();}
+				
 			}
 			else
 			{
 				  preparedStmt = con.prepareStatement(updateQuery);
 				  deleteChild = con.prepareStatement(updateChild);
 				  preparedStmtChild = con.prepareStatement(queryChild);
+				  
+				  preparedStmtDeleteRevisions = con.prepareStatement(queryDeleteRevisions);
+				  preparedStmtRevisions = con.prepareStatement(queryTdcRevisions);
 
 		
 			      preparedStmt.setString(1, obj.getWork_id_fk());
@@ -956,7 +983,12 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 					
 				    deleteChild.setString(1, obj.getFortnightly_plan_id());
 				    deleteChild.execute();
-					if(deleteChild != null){deleteChild.close();}					    
+					if(deleteChild != null){deleteChild.close();}	
+					
+					
+					preparedStmtDeleteRevisions.setString(1, obj.getFortnightly_plan_id());
+					preparedStmtDeleteRevisions.execute();
+					if(deleteChild != null){preparedStmtDeleteRevisions.close();}						
 				    
 				    
 				    
@@ -971,7 +1003,21 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 							preparedStmtChild.execute();
 						}
 					}
-					if(preparedStmtChild != null){preparedStmtChild.close();}					
+					if(preparedStmtChild != null){preparedStmtChild.close();}	
+					
+					if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getRevisionno())) 
+					{
+						  
+						for (int i = 0; i < obj.getRevisionno().length; i++) 
+						{
+							preparedStmtRevisions.setLong(1, Key);
+							preparedStmtRevisions.setString(2, obj.getRevisionno()[i]);
+							preparedStmtRevisions.setString(3, obj.getTdc_calendar());
+							preparedStmtRevisions.execute();
+						}
+					}
+					if(preparedStmtRevisions != null){preparedStmtRevisions.close();}					
+					
 			}
 
 	

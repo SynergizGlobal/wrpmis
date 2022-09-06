@@ -562,8 +562,51 @@
 		
 	}
    
+   
+   function getColor(fortnight)
+   {
+	   var d = new Date();
+	   var month = d.getMonth();
+	   month=Number(month)+1;
+	   
+	   var splitStr=fortnight;
+	   splitStr=splitStr.toString();
+	   var hyphonStr=splitStr.split("-");
+	   var resultStr=hyphonStr[0];
+	   resultStr=resultStr.toString();
+	   var commaStr=resultStr.split(",");
+	   var resultComma=commaStr[0];
+	   
+	   resultComma=resultComma.toString();
+	   var spaceStr=resultComma.split(" ");
+	   var resultSpace=spaceStr[1];	   
+	   
+
+	   var monthsLong = {
+			   January: '1',
+			   February: '2',
+			   March: '3',
+			   April: '4',
+			   May: '5',
+			   June: '6',
+			   July: '7',
+			   August: '8',
+			   September: '9',
+			   October: '10',
+			   November: '11',
+			   December: '12',
+			 };
+	   
+	   return monthsLong[resultSpace];
+   }
+   
    function fortnightUpdateonSubjectiveActivities()
    {
+	   
+
+	   
+	   
+	   
 	 	var period = $("#period").val();
 	 	var work_id_fk = $("#work_id_fk").val();
 	 	var fortnight = $("#fortnight").val();
@@ -576,7 +619,19 @@
                success: function (data) {
                	if(data != null && data != '' && data.length > 0){  
                        $.each(data, function (i, val) {
-                       	 var html='<tr><td>'+val.structure+'</td><td>'+val.item+'</td><td>'+val.tdc_calendar+'</td>';
+                    	   
+                    	   
+                    	   var color="";
+                    	   
+                    	   //alert(getColor(fortnight)+"-----------------"+getColor(val.fortnight));
+                    	   
+                    	   	   if(getColor(fortnight)>getColor(val.fortnight))
+                    		   {
+                    	   			color="Orange";
+                    		   }
+                    	   
+                    	   
+                       	 var html='<tr style="color:'+color+'"><td>'+val.structure+'</td><td>'+val.item+'</td><td>'+val.tdc_calendar+'</td>';
                        	 html+= '<td>'+val.activity_name+'</td><td>'+val.units+'</td>';
                        	 var pendingprogress="";
                        	 var reasonforshortfall="";
@@ -589,7 +644,7 @@
                        	    	reasonforshortfall=val.reason_for_shortfall;
                       		 }
                        	    
-                       	 html+='<td><input type="hidden" name="fortnight_quarterly_plan_activity_id" id="fortnight_quarterly_plan_activity_id'+i+'" value="'+val.fortnightly_plan_id+'"><input type="checkbox" id="completion_status'+i+'" name="completion_status"  placeholder="Completion Status" onchange="checkRemarks('+i+');" value="No"></td><td><input type="text" name="pending_progress" id="pending_progress'+i+'" value="'+pendingprogress+'"></td><td><input type="text" name="reason_for_shortfall" id="reason_for_shortfall'+i+'" value="'+reasonforshortfall+'"></td></tr>';
+                       	 html+='<td><input type="hidden" id="chkcompletion_status'+i+'" name="chkcompletion_status" maxlength="100"><input type="hidden" name="fortnight_quarterly_plan_activity_id" id="fortnight_quarterly_plan_activity_id'+i+'" value="'+val.fortnightly_plan_id+'"><input type="checkbox" id="completion_status'+i+'" name="completion_status"  placeholder="Completion Status" onchange="checkRemarks('+i+');" value="No"></td><td><input type="text" name="pending_progress" id="pending_progress'+i+'" value="'+pendingprogress+'"></td><td><input type="text" name="reason_for_shortfall" id="reason_for_shortfall'+i+'" value="'+reasonforshortfall+'"></td></tr>';
 	                     $("#stBody").append(html);
                        });
                    }

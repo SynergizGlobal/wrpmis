@@ -10,7 +10,7 @@ public class FortnightPlan {
 	cum_actual_last_structure, planned_current_structure, cum_planned_last_st, cum_actual_last_st, planned_current_st,user_id,user_role_code,work_id_fk,total_items,
 	designation,user_name,created_by_user_id_fk,module_name,work_name,work_short_name,department_fk,
 	contract_short_name,structure,user_type_fk,structure_type_fk,remarks,critical,activity_name,scope,status, uploaded_by_user_id_fk,item,tdc_calendar,criticality,color,
-	scope_of_work_quarterly,fortnight_quarterly_plan_id,fortnight_date,unit,cum_progress,cumulative_progress;
+	scope_of_work_quarterly,fortnight_quarterly_plan_id,fortnight_date,unit,cum_progress,cumulative_progress,revision_no,tdc_date;
 	
 	
 	private String [] activity,scope_of_work,critical_item,completion_status,planned_progress_on_last_fortnight, actual_progress_on_last_fortnight, plan_for_the_current_fortnight,
@@ -511,6 +511,22 @@ public class FortnightPlan {
 
 	public void setTdc_revisiondate(String [] tdc_revisiondate) {
 		this.tdc_revisiondate = tdc_revisiondate;
+	}
+
+	public String getRevision_no() {
+		return revision_no;
+	}
+
+	public void setRevision_no(String revision_no) {
+		this.revision_no = revision_no;
+	}
+
+	public String getTdc_date() {
+		return tdc_date;
+	}
+
+	public void setTdc_date(String tdc_date) {
+		this.tdc_date = tdc_date;
 	}
 
 

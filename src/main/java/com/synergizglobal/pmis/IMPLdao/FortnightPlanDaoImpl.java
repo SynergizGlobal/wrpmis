@@ -1010,9 +1010,9 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 						  
 						for (int i = 0; i < obj.getRevisionno().length; i++) 
 						{
-							preparedStmtRevisions.setLong(1, Key);
+							preparedStmtRevisions.setString(1, obj.getFortnightly_plan_id());
 							preparedStmtRevisions.setString(2, obj.getRevisionno()[i]);
-							preparedStmtRevisions.setString(3, obj.getTdc_calendar());
+							preparedStmtRevisions.setString(3, obj.getTdc_revisiondate()[i]);
 							preparedStmtRevisions.execute();
 						}
 					}
@@ -1164,7 +1164,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 	public List<FortnightPlan> getFortnightQuarterlyPlanList(FortnightPlan obj) throws Exception {
 		List<FortnightPlan> objsList = null;
 		try {
-			String qry = "SELECT distinct p.fortnight_quarterly_plan_id as fortnight_quarterly_plan_id,work_id_fk,item,criticality,scope_of_work as scope_of_work_quarterly,TDC as tdc_calendar " + 
+			String qry = "SELECT distinct p.fortnight_quarterly_plan_id as fortnight_quarterly_plan_id,work_id_fk,structure,item,criticality,scope_of_work as scope_of_work_quarterly,TDC as tdc_calendar " + 
 					"from fortnight_quarterly_plan p\r\n" + 
 					"left join fortnight_quarterly_plan_activities a on a.fortnight_quarterly_plan_id=p.fortnight_quarterly_plan_id\r\n" + 
 					"LEFT JOIN work w on p.work_id_fk =w.work_id\r\n" + 
@@ -1262,7 +1262,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 	public List<FortnightPlan> getfortnightActivities(FortnightPlan obj) throws Exception {
 		List<FortnightPlan> objsList = null;
 		try {
-			String qry = "SELECT fortnight_quarterly_plan_activity_id as fortnightly_plan_id,structure,units,cumulative_progress,activity_name,item,criticality,scope_of_work as scope_of_work_quarterly,TDC as tdc_calendar,isnull(pending_progress,'') as pending_progress,isnull(reason_for_shortfall,'')  as reason_for_shortfall " + 
+			String qry = "SELECT fortnight_quarterly_plan_activity_id as fortnightly_plan_id,structure,units,cumulative_progress,activity_name,item,criticality,scope_of_work as scope_of_work_quarterly,TDC as tdc_calendar,isnull(pending_progress,'') as pending_progress,isnull(reason_for_shortfall,'')  as reason_for_shortfall,fortnight " + 
 					"from fortnight_quarterly_plan p\r\n" + 
 					"left join fortnight_quarterly_plan_activities a on a.fortnight_quarterly_plan_id=p.fortnight_quarterly_plan_id\r\n" + 
 					"LEFT JOIN work w on p.work_id_fk =w.work_id\r\n" + 
@@ -1271,15 +1271,15 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 			
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id_fk = ?";
+				qry = qry + " and work_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getPeriod())) {
-				qry = qry + " and period = ?";
+				qry = qry + " and period = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFortnight_date())) {
-				qry = qry + " and fortnight = ?";
+				qry = qry + " and fortnight_quarterly_plan_activity_id<=(select max(fortnight_quarterly_plan_activity_id) from fortnight_quarterly_plan_activities where fortnight = ? ) ";
 				arrSize++;
 			}
 
@@ -1311,7 +1311,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 		PreparedStatement updateStmt = null;		
 		try {
 			connection = dataSource.getConnection();
-			String qry = "UPDATE fortnight_quarterly_plan_activities SET pending_progress=?,reason_for_shortfall=? WHERE fortnight_quarterly_plan_activity_id = ? ";
+			String qry = "UPDATE fortnight_quarterly_plan_activities SET pending_progress=?,reason_for_shortfall=?,completion_status=? WHERE fortnight_quarterly_plan_activity_id = ? ";
 			
 			
 			for (int i = 0; i < obj.getPending_progress().length; i++) 
@@ -1319,7 +1319,9 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 				updateStmt = connection.prepareStatement(qry);
 				updateStmt.setString(1, obj.getPending_progress()[i]);
 				updateStmt.setString(2, obj.getReason_for_shortfall()[i]);
-				updateStmt.setString(3, obj.getFortnight_quarterly_plan_activity_id()[i]);
+				updateStmt.setString(3, obj.getChkcompletion_status()[i]);
+				updateStmt.setString(4, obj.getFortnight_quarterly_plan_activity_id()[i]);
+
 				updateStmt.executeUpdate();
 				flag=true;
 			}			
@@ -1360,6 +1362,20 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 					"LEFT JOIN work w on p.work_id_fk =w.work_id\r\n" + 
 					"where p.work_id_fk is not null and fortnight is not null and isnull(pending_progress,'')!='Completed'  and p.fortnight_quarterly_plan_id="+obj.getFortnightly_plan_id();
 			
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<FortnightPlan>(FortnightPlan.class));	
+
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<FortnightPlan> getTDCRevisions(FortnightPlan obj) throws Exception {
+		List<FortnightPlan> objsList = null;
+		try {
+
+			String qry = "select fortnight_quarterly_plan_id,revision_no,tdc_date from fortnight_quarterly_plan_tdc_revisions where fortnight_quarterly_plan_id="+obj.getFortnightly_plan_id();
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<FortnightPlan>(FortnightPlan.class));	
 
 		}catch(Exception e){ 

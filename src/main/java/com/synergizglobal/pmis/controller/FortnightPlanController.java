@@ -229,6 +229,21 @@ public class FortnightPlanController {
 		return fortnight;
 	}
 	
+	@RequestMapping(value = "/ajax/getTDCRevisions", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<FortnightPlan> getTDCRevisions(@ModelAttribute FortnightPlan obj) {
+		List<FortnightPlan> fortnight = null;
+		try {
+			fortnight = FortnightPlanService.getTDCRevisions(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getWorksListFilter : " + e.getMessage());
+		}
+		return fortnight;
+	}	
+	
+	
+	
 	@RequestMapping(value = "/ajax/getPeriodsListFilterInFortnight", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<FortnightPlan> getPeriodsListFilterInFortnight(@ModelAttribute FortnightPlan obj) {

@@ -228,9 +228,6 @@
     								<div class="m-n1">
     									<a href="add-quarterly-plan"	class="btn waves-effect waves-light bg-s t-c"> <strong><i
 											class="fa fa-plus-circle"></i> Add</strong></a>
-										<a href="#" onclick="exportFortnight();"
-										class="btn waves-effect waves-light bg-s t-c"> <strong><i
-											class="fa fa-cloud-download"></i></strong></a>
 										<a href="#" onclick="openUploadFortnightModal();"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
 											class="fa fa-cloud-upload"></i> Upload</strong></a>											
@@ -297,6 +294,7 @@
                                     <thead>
                                         <tr>
                                             <th class="w10px">S.No. </th>
+                                            <th class="pdla">Category </th>
                                             <th class="w20em">Items</th>
                                             <th class="pdla">Critical (Y/N)</th>
                                             <th class="pdla">Scope of Work</th>
@@ -566,6 +564,7 @@
 	                   	var rowArray = [];    	                  
                         
 	                   			rowArray.push("");
+	                   			rowArray.push($.trim(val.structure));
         	                   	rowArray.push($.trim(val.item));
         	                   	rowArray.push($.trim(val.criticality));
         	                   	rowArray.push($.trim(val.scope_of_work_quarterly));

@@ -107,7 +107,10 @@ public class FortnightPlanServiceImpl implements FortnightPlanService {
 	public List<FortnightPlan> getWorksListFilter(FortnightPlan obj) throws Exception {
 		return fortnightPlanDao.getWorksListFilter(obj);
 	}
-	
+	@Override
+	public List<FortnightPlan> getTDCRevisions(FortnightPlan obj) throws Exception {
+		return fortnightPlanDao.getTDCRevisions(obj);
+	}	
 	@Override
 	public List<FortnightPlan> getPeriodListFilter(FortnightPlan obj) throws Exception {
 		return fortnightPlanDao.getPeriodListFilter(obj);

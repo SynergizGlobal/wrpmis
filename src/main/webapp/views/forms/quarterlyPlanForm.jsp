@@ -375,7 +375,13 @@
                                     <input type="text" id="cumulative_progress" name="cumulative_progress" data-length="150" maxlength="150">
                                      <label for="cumulative_progressError">Cumulative Progress <span class="required">*</span></label>
                                      <BR><span id="cumulative_progressError" class="error-msg" ></span>
-                                </div>                              
+                                </div>
+                                
+                                   <div class="col s6 m4 input-field">
+                                    <input type="text" id="revised_tdc" name="revised_tdc" data-length="150" maxlength="150">
+                                     <label for="revised_tdcError" id="revisedtdc">Revised TDC </label>
+                                     <BR><span id="revised_tdcError" class="error-msg" ></span>
+                                </div>                                                               
                                 
                             </div>
 
@@ -401,7 +407,7 @@
                                                 <tbody id="stBody">
                                                 <input type="hidden" id="sNo" value="1">
                                                        <tr>
-                                                        <td data-head="S No">&nbsp;</td>
+                                                        <td data-head="S No">1</td>
                                                         <td data-head="Fortnight" class="input-field">
                                                             <select id="fortnight0" class="searchable" name="fortnight" class="fortnight">
 						                                        <option value="">Select</option>
@@ -420,6 +426,7 @@
                                              
                                                 </tbody>
                                             </table>
+
   
     <!-- Modal Structure -->
    <div id="tdcModal" class="modal">
@@ -435,7 +442,7 @@
                                     <div class="row">
                                        <!--  <h5 class="center-align marob">Appointment of Committee</h5> -->
                                         <div class="table-inside">
-                                            <table id="app_com_table" class="mdl-data-table mobile_responsible_table">
+                                            <table id="app_com_tableRevision" class="mdl-data-table mobile_responsible_table">
                                                 <thead>
                                                     <tr>
                                                     	<th class="w1em">Revision No. </th>
@@ -444,6 +451,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody id="stTDCBody">
+                                                <input type="hidden" id="sNoRevision" value="1">
                                                        <tr>
                                                        		<td style="width:100px;"><input id="revisionno0" name="revisionno" type="text" value="R1"></td>
                                                         	<td style="width:300px;"><input id="tdc_revisiondate0" name="tdc_revisiondate" type="text" class="validate datepicker" value=""></td>
@@ -464,7 +472,10 @@
                                                     </tr>
                                                 </tbody>
                                             </table>
-                                            
+                                            <div id="errorRevision" style="color:red;"></div>
+                                             <table>
+                                            	<tr><td><button type="button" name="btnRevision" id="btnRevision" onClick="addRevision();" class="btn btn-primary">Add</button></td></tr>
+                                            </table>                                           
                                         </div>
                                     </div>
                                 </div>
@@ -493,7 +504,7 @@
                                                 
                                                 <input type="hidden" id="fortnightly_plan_id"  name="fortnightly_plan_id" value="" />
                                                     
-                                                        <input type="hidden" id="rowNo"  name="rowNo" value="" />
+                                                        <input type="hidden" id="rowNoRevision"  name="rowNoRevision" value="0" />
                                                     
                                                         <input type="hidden" id="rowNo"  name="rowNo" value="0" />
                                                     
@@ -611,7 +622,36 @@
 			    $('#tleName').html('Update Quarterly Plan');
 			    $('#btnAdd').html('Update');       		
        		}
-	}    
+	}  
+   	
+   	function addRevision()
+   	{
+		var rowLr=$("#app_com_tableRevision tbody tr").length;
+		for(var k=0;k<rowLr;k++)
+		{
+			if($("#revisionno"+k).val()=="")
+			{
+				$("#errorRevision").html("Please enter Revision No.");
+				return false;
+			}
+			else
+			{
+				$("#errorRevision").html("");
+			}
+			if($("#tdc_revisiondate"+k).val()=="")
+			{
+				$("#errorRevision").html("Please enter Revision Date.");
+				return false;			
+			}
+			else
+			{
+				$("#errorRevision").html("");
+			}			
+		}
+		$("#revised_tdc").val($("#tdc_revisiondate"+$("#rowNoRevision").val()).val());
+		$("#revisedtdc").html("");
+		 $("#tdcModal").modal("close");
+   	}
    	
    	function addTdc()
    	{
@@ -635,7 +675,6 @@
 	    	  format:'dd-mm-yyyy',
 	    	  //perform click event on done button
 	    	  onSelect: function () {
-	    	     alert("Hi");
 	    	  }
 	        });       
     });
@@ -669,32 +708,69 @@
  	 			SplitStr=SplitStr.replace(/,/g, '__');
   	 		   $("#fortnight"+i).val(SplitStr);
  	 		  i++;
- 	        </c:forEach> 
+ 	        </c:forEach>
+ 	       getTDCRevisions();
  		} 	   
     });
     
     function addTDCRow()
     {
 
-        var rowNo = $("#rowNo").val();
-        var rowNo1 = $("#sNo").val();
+        var rowNo = $("#rowNoRevision").val();
+        var rowNo1 = $("#sNoRevision").val();
         var rNo = Number(rowNo)+1;
-        var sNo = Number(rowNo1)+1;
-        var rowLr=$("#stTDCBody tr").length+1;
-        var html = '<tr id="actionStRow' + rNo + '"><td><input id="revisionno' + rNo + '" name="revisionno" type="text" value="R'+ rowLr + '"></td>'
+        var sNoRevision = Number(rowNo1)+1;
+        var rowLr=Number(rNo)+1;
+        var html = '<tr id="actionRevisionStRow' + rNo + '"><td><input id="revisionno' + rNo + '" name="revisionno" type="text" value="R'+ rowLr + '"></td>'
 
            +'<td data-head="Fortnight" class="input-field">'
            +'<input id="tdc_revisiondate' + rNo + '" name="tdc_revisiondate" type="text" class="validate datepicker" value=""></td>'
-           +'<td class="input-field mobile_btn_close"><button onclick="removeStActions(' + rNo + ');" class="btn waves-effect waves-light red t-c remove"><i class="fa fa-close"></i></button></td>'
+           +'<td class="input-field mobile_btn_close"><button type="button" onclick="removeRevisionStActions(' + rNo + ');" class="btn waves-effect waves-light red t-c remove"><i class="fa fa-close"></i></button></td>'
            +'</tr>';
     
         $('#stTDCBody').append(html);
-        $("#rowNo").val(rNo);
-        var rowCount = $("#stBody tr").length;
-        $("#sNo").val(rowCount);    
+        $("#rowNoRevision").val(rNo);
+        var rowCount = $("#app_com_tableRevision tbody tr").length;
+        $("#sNoRevision").val(rowCount);    
         $('.searchable').select2();
     	
     }
+    
+    function removeStActions(rowNo)
+    {
+    	$("#actionStRow"+rowNo).remove();
+    }
+    
+    
+    function removeRevisionStActions(rowNoRevision)
+    {
+    	$("#actionRevisionStRow"+rowNoRevision).remove();
+    }   
+  
+    function getTDCRevisions()
+    {
+	        	var myParams = { fortnightly_plan_id:$("#fortnightly_plan_id").val()};
+	            $.ajax({
+	                url: "<%=request.getContextPath()%>/ajax/getTDCRevisions",
+	                data: myParams, cache: false,
+	                success: function (data) {
+	                    if (data.length > 0) 
+	                    {
+                        		for(var i=1;i<data.length;i++)
+                        		{
+                        			addTDCRow();
+                        		}
+                        		for(var i=1;i<data.length;i++)
+                        		{
+                        			$("#revisionno"+i).val(data[i]["revision_no"]);
+                        			$("#tdc_revisiondate"+i).val(data[i]["tdc_date"]);
+                        		}                       		
+	                    }
+	                }
+	            });
+        
+    }     
+    
     
     function addFortnightQuarterly()
     {
@@ -886,7 +962,7 @@
         var rowNo1 = $("#sNo").val();
         var rNo = Number(rowNo)+1;
         var sNo = Number(rowNo1)+1;
-        var html = '<tr id="actionStRow' + rNo + '"><td></td>'
+        var html = '<tr id="actionStRow' + rNo + '"><td>' + (rNo+1) + '</td>'
 
            +'<td data-head="Fortnight" class="input-field">'
            +'<select id="fortnight' + rNo + '" class="fortnight searchable"  name="fortnight" value="">' 
@@ -895,7 +971,7 @@
            +'<td data-head="Activity" class="input-field">'
            +'<textarea id="activity' + rNo +'" name="activity" class="pmis-textarea pdr4em w85 my-valid-class" data-length="200" maxlength="200"></textarea> </td><td><input type="text" id="units' + rNo + '" name="units"  data-length="50" maxlength="50"></td>'
 
-           +'<td class="input-field mobile_btn_close"><button onclick="removeStActions(' + rNo + ');" class="btn waves-effect waves-light red t-c remove"><i class="fa fa-close"></i></button></td>'
+           +'<td class="input-field mobile_btn_close"><button type="button" onclick="removeStActions(' + rNo + ');" class="btn waves-effect waves-light red t-c remove"><i class="fa fa-close"></i></button></td>'
            +'</tr>';
     
         $('#stBody').append(html);

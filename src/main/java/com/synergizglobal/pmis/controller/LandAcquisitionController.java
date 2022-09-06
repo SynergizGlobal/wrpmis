@@ -3113,6 +3113,10 @@ public class LandAcquisitionController {
 				workBook.setSheetOrder(govSheet.getSheetName(), 6);
 				workBook.setSheetOrder(forestSheet.getSheetName(), 7);
 				workBook.setSheetOrder(railwaySheet.getSheetName(), 8);
+				
+				CellStyle lockedStyle = workBook.createCellStyle();
+				lockedStyle.setLocked(true); 
+
 		        
 		        byte[] blueRGB = new byte[]{(byte)0, (byte)176, (byte)240};
 		        byte[] yellowRGB = new byte[]{(byte)255, (byte)192, (byte)0};
@@ -3833,6 +3837,8 @@ public class LandAcquisitionController {
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
 					cell.setCellValue(obj.getLa_id());
+					cell.setCellStyle(lockedStyle);
+
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
@@ -3948,7 +3954,7 @@ public class LandAcquisitionController {
 					
 	                rowNo++;
 	            }
-				
+	           
 	        	for(int columnIndex = 0; columnIndex < 29; columnIndex++) {
 	        		Landsheet.setColumnWidth(columnIndex, 25 * 200);
 				}

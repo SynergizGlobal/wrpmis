@@ -26,6 +26,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFDataFormat;
+import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -3395,7 +3396,9 @@ public class LandAcquisitionController {
 		        CellStyle yellowStyle = cellFormating(workBook,yellowRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,true,isItalicText,fontSize,fontName);
 		        CellStyle greenStyle = cellFormating(workBook,greenRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 		        CellStyle redStyle = cellFormating(workBook,redRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
-		        CellStyle whiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,false,isItalicText,fontSize,fontName);
+		        CellStyle whiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,false,isItalicText,fontSize,fontName);
+		        
+		        CellStyle whiteStyleRedFont = cellFormatingColor(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,false,isItalicText,fontSize,fontName);
 		        
 		        CellStyle indexWhiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 		        
@@ -3406,9 +3409,9 @@ public class LandAcquisitionController {
 		        XSSFRow headingInstructionRow = Instruction.createRow(0);
 		        Cell cell5 = headingInstructionRow.createCell(0);
 		        Instruction.addMergedRegion(new CellRangeAddress(0,0,0,3));
-		        cell5.setCellStyle(yellowStyle);
-				cell5.setCellValue("STEPS:  highlighted fields in yellow are to be filled Compulsory. (i) Add work ID at INPUT 1. (ii) Add Unique land ID at INPUT 2. (iii) Fill in type of land at INPUT 3. (iv). Enter Area to be acquired in Hectare at INPUT 4. (v). Enter Acquired Area in Hectare at INPUT 5.   (vi). Fill in land status at INPUT 6  (vii). Fill in Chainage from in meters at INPUT 7. (viii). Fill in Chainage To in meters at INPUT 8. (ix). Fill in Village Name at INPUT 9. (x). Fill in Taluka Name at INPUT 10.");
-	            String headerInstructionString = "SN^Sheet Name^Column Name^Description";
+		        cell5.setCellStyle(whiteStyleRedFont);
+				cell5.setCellValue("Note : User Should not Edit highlighed fields Marked in Red Color");
+	            String headerInstructionString = "SN^Sheet Name^Description^Column Name";
 	            String[] firstInstrHeaderStringArr = headerInstructionString.split("\\^");
 	            
 	            XSSFRow headingInstrRowHead = Instruction.createRow(1);
@@ -3429,19 +3432,39 @@ public class LandAcquisitionController {
 		        cell21.setCellStyle(whiteStyle);
 				cell21.setCellValue("Land Identification");
 				
-	        	Cell cell3 = headingInstrRow1.createCell(2);
-		        cell3.setCellStyle(whiteStyle);
-				cell3.setCellValue("Work ID");
 				
-	        	Cell cell4 = headingInstrRow1.createCell(3);
-		        cell4.setCellStyle(whiteStyle);
-				cell4.setCellValue("INPUT 1 : Work ID along with work name");				
+	        	Cell cell4 = headingInstrRow1.createCell(2);
+		        cell4.setCellStyle(whiteStyleRedFont);
+				cell4.setCellValue("Work ID along with work name (DO NOT MODIFY)");
+				
+	        	Cell cell3 = headingInstrRow1.createCell(3);
+		        cell3.setCellStyle(redStyle);
+				cell3.setCellValue("Work ID");				
+				
+	            XSSFRow headingInstrRow2v = Instruction.createRow(3);
 	            
-	            XSSFRow headingInstrRow2 = Instruction.createRow(3);
+	        	Cell cell51v = headingInstrRow2v.createCell(0);
+	        	cell51v.setCellStyle(whiteStyle);
+	        	cell51v.setCellValue(2);
+	        	
+	        	Cell cell6v = headingInstrRow2v.createCell(1);
+	        	cell6v.setCellStyle(whiteStyle);
+	        	cell6v.setCellValue("Land Identification");
+				
+	        	Cell cell8v = headingInstrRow2v.createCell(2);
+	        	cell8v.setCellStyle(whiteStyleRedFont);
+	        	cell8v.setCellValue("Land Acquisition Unique ID (DO NOT MODIFY)");	
+	        	
+	        	Cell cell7v = headingInstrRow2v.createCell(3);
+	        	cell7v.setCellStyle(redStyle);
+	        	cell7v.setCellValue("LA_ID");	        	
+				
+	            
+	            XSSFRow headingInstrRow2 = Instruction.createRow(4);
 	            
 	        	Cell cell51 = headingInstrRow2.createCell(0);
 	        	cell51.setCellStyle(whiteStyle);
-	        	cell51.setCellValue(2);
+	        	cell51.setCellValue(3);
 				
 	        	Cell cell6 = headingInstrRow2.createCell(1);
 	        	cell6.setCellStyle(whiteStyle);
@@ -3456,119 +3479,119 @@ public class LandAcquisitionController {
 	        	cell8.setCellValue("Survey Number");
 				
 				
-	            XSSFRow headingInstrRow3 = Instruction.createRow(4);
+	            XSSFRow headingInstrRow3 = Instruction.createRow(5);
 	            
 	        	Cell cell9 = headingInstrRow3.createCell(0);
 	        	cell9.setCellStyle(whiteStyle);
-	        	cell9.setCellValue(3);
+	        	cell9.setCellValue(4);
 				
 	        	Cell cell10 = headingInstrRow3.createCell(1);
 	        	cell10.setCellStyle(whiteStyle);
 	        	cell10.setCellValue("Land Identification");
 				
-	        	Cell cell111 = headingInstrRow3.createCell(2);
-	        	cell111.setCellStyle(whiteStyle);
-	        	cell111.setCellValue("Type of Land");
-				
-	        	Cell cell12 = headingInstrRow3.createCell(3);
-	        	cell12.setCellStyle(whiteStyle);
-	        	cell12.setCellValue("INPUT 3: Type of land     \r\n" + 
+	        	Cell cell12 = headingInstrRow3.createCell(2);
+	        	cell12.setCellStyle(whiteStyleRedFont);
+	        	cell12.setCellValue("INPUT 3: Type of land  (DO NOT MODIFY)    \r\n" + 
 	        			"(i). Private\r\n" + 
 	        			"(ii). Government\r\n" + 
 	        			"(iii). Forest\r\n" + 
-	        			"(iv). Railway");	            
+	        			"(iv). Railway");	
+	        	
+	        	Cell cell111 = headingInstrRow3.createCell(3);
+	        	cell111.setCellStyle(redStyle);
+	        	cell111.setCellValue("Type of Land");        	
 	            
-	            XSSFRow headingInstrRow4 = Instruction.createRow(5);
+	            XSSFRow headingInstrRow4 = Instruction.createRow(6);
 	            
 	        	Cell cell13 = headingInstrRow4.createCell(0);
 	        	cell13.setCellStyle(whiteStyle);
-	        	cell13.setCellValue(4);
+	        	cell13.setCellValue(5);
 				
 	        	Cell cell14 = headingInstrRow4.createCell(1);
 	        	cell14.setCellStyle(whiteStyle);
 	        	cell14.setCellValue("Land Identification");
 				
 	        	Cell cell15 = headingInstrRow4.createCell(2);
-	        	cell15.setCellStyle(whiteStyle);
-	        	cell15.setCellValue("Sub Category of Land");
+	        	cell15.setCellStyle(whiteStyleRedFont);
+	        	cell15.setCellValue("Sub Category of Land (DO NOT MODIFY)");
 				
 	        	Cell cell16 = headingInstrRow4.createCell(3);
-	        	cell16.setCellStyle(whiteStyle);
+	        	cell16.setCellStyle(redStyle);
 	        	cell16.setCellValue("Sub Category of Land");	            
 	            
 	            
-	            XSSFRow headingInstrRow5 = Instruction.createRow(6);
+	            XSSFRow headingInstrRow5 = Instruction.createRow(7);
 	            
 	        	Cell cell17 = headingInstrRow5.createCell(0);
 	        	cell17.setCellStyle(whiteStyle);
-	        	cell17.setCellValue(5);
+	        	cell17.setCellValue(6);
 				
 	        	Cell cell18 = headingInstrRow5.createCell(1);
 	        	cell18.setCellStyle(whiteStyle);
 	        	cell18.setCellValue("Land Identification");
 				
-	        	Cell cell19 = headingInstrRow5.createCell(2);
+	        	Cell cell19 = headingInstrRow5.createCell(3);
 	        	cell19.setCellStyle(whiteStyle);
 	        	cell19.setCellValue("Area (Ha.)");
 				
-	        	Cell cell20 = headingInstrRow5.createCell(3);
+	        	Cell cell20 = headingInstrRow5.createCell(2);
 	        	cell20.setCellStyle(whiteStyle);
 	        	cell20.setCellValue("Total Area of Plot (Ha.) ");	            
 	            
-	            XSSFRow headingInstrRow6 = Instruction.createRow(7);
+	            XSSFRow headingInstrRow6 = Instruction.createRow(8);
 	            
 	        	Cell cell211 = headingInstrRow6.createCell(0);
 	        	cell211.setCellStyle(whiteStyle);
-	        	cell211.setCellValue(6);
+	        	cell211.setCellValue(7);
 				
 	        	Cell cell22 = headingInstrRow6.createCell(1);
 	        	cell22.setCellStyle(whiteStyle);
 	        	cell22.setCellValue("Land Identification");
 				
-	        	Cell cell23 = headingInstrRow6.createCell(2);
+	        	Cell cell23 = headingInstrRow6.createCell(3);
 	        	cell23.setCellStyle(whiteStyle);
 	        	cell23.setCellValue("Area to be Acquired (Ha.)");
 				
-	        	Cell cell24 = headingInstrRow6.createCell(3);
+	        	Cell cell24 = headingInstrRow6.createCell(2);
 	        	cell24.setCellStyle(whiteStyle);
 	        	cell24.setCellValue("INPUT 4: \r\n" + 
 	        			"Total Area to be Acquired (Ha.)");	            
 	            
-	            XSSFRow headingInstrRow7 = Instruction.createRow(8);
+	            XSSFRow headingInstrRow7 = Instruction.createRow(9);
 	            
 	        	Cell cell25 = headingInstrRow7.createCell(0);
 	        	cell25.setCellStyle(whiteStyle);
-	        	cell25.setCellValue(7);
+	        	cell25.setCellValue(8);
 				
 	        	Cell cell26 = headingInstrRow7.createCell(1);
 	        	cell26.setCellStyle(whiteStyle);
 	        	cell26.setCellValue("Land Identification");
 				
-	        	Cell cell27 = headingInstrRow7.createCell(2);
+	        	Cell cell27 = headingInstrRow7.createCell(3);
 	        	cell27.setCellStyle(whiteStyle);
 	        	cell27.setCellValue("Area Acquired (Ha.)");
 				
-	        	Cell cell28 = headingInstrRow7.createCell(3);
+	        	Cell cell28 = headingInstrRow7.createCell(2);
 	        	cell28.setCellStyle(whiteStyle);
 	        	cell28.setCellValue("INPUT 5: \r\n" + 
 	        			"Area Acquired (Ha.)\r\n" + 
 	        			" If Land status is \"Acquired\", then it is treated as \"Area to be Acquired\", else \"enter acquired area\".");		            
 	            
-	            XSSFRow headingInstrRow8 = Instruction.createRow(9);
+	            XSSFRow headingInstrRow8 = Instruction.createRow(10);
 	            
 	        	Cell cell29 = headingInstrRow8.createCell(0);
 	        	cell29.setCellStyle(whiteStyle);
-	        	cell29.setCellValue(8);
+	        	cell29.setCellValue(9);
 				
 	        	Cell cell30 = headingInstrRow8.createCell(1);
 	        	cell30.setCellStyle(whiteStyle);
 	        	cell30.setCellValue("Land Identification");
 				
-	        	Cell cell31 = headingInstrRow8.createCell(2);
+	        	Cell cell31 = headingInstrRow8.createCell(3);
 	        	cell31.setCellStyle(whiteStyle);
 	        	cell31.setCellValue("Land Status");
 				
-	        	Cell cell32 = headingInstrRow8.createCell(3);
+	        	Cell cell32 = headingInstrRow8.createCell(2);
 	        	cell32.setCellStyle(whiteStyle);
 	        	cell32.setCellValue("INPUT 6: \r\n" + 
 	        			"(i). Acquired\r\n" + 
@@ -3576,125 +3599,125 @@ public class LandAcquisitionController {
 	        			"(iii). Forest Clearance Required");	            
 	            
 	            
-	            XSSFRow headingInstrRow9 = Instruction.createRow(10);
+	            XSSFRow headingInstrRow9 = Instruction.createRow(11);
 	            
 	        	Cell cell33 = headingInstrRow9.createCell(0);
 	        	cell33.setCellStyle(whiteStyle);
-	        	cell33.setCellValue(9);
+	        	cell33.setCellValue(10);
 				
 	        	Cell cell34 = headingInstrRow9.createCell(1);
 	        	cell34.setCellStyle(whiteStyle);
 	        	cell34.setCellValue("Land Identification");
 				
-	        	Cell cell35 = headingInstrRow9.createCell(2);
+	        	Cell cell35 = headingInstrRow9.createCell(3);
 	        	cell35.setCellStyle(whiteStyle);
 	        	cell35.setCellValue("Chainage From");
 				
-	        	Cell cell36 = headingInstrRow9.createCell(3);
+	        	Cell cell36 = headingInstrRow9.createCell(2);
 	        	cell36.setCellStyle(whiteStyle);
 	        	cell36.setCellValue("INPUT 7: \r\n" + 
 	        			"Chainage from (in Meter.)");	            
 	            
-	            XSSFRow headingInstrRow10 = Instruction.createRow(11);
+	            XSSFRow headingInstrRow10 = Instruction.createRow(12);
 	            
 	        	Cell cell37 = headingInstrRow10.createCell(0);
 	        	cell37.setCellStyle(whiteStyle);
-	        	cell37.setCellValue(10);
+	        	cell37.setCellValue(11);
 				
 	        	Cell cell38 = headingInstrRow10.createCell(1);
 	        	cell38.setCellStyle(whiteStyle);
 	        	cell38.setCellValue("Land Identification");
 				
-	        	Cell cell39 = headingInstrRow10.createCell(2);
+	        	Cell cell39 = headingInstrRow10.createCell(3);
 	        	cell39.setCellStyle(whiteStyle);
 	        	cell39.setCellValue("Chainage To");
 				
-	        	Cell cell40 = headingInstrRow10.createCell(3);
+	        	Cell cell40 = headingInstrRow10.createCell(2);
 	        	cell40.setCellStyle(whiteStyle);
 	        	cell40.setCellValue("INPUT 8: \r\n" + 
 	        			"Chainage To (in Meter.)");	            
 	            
 	            
-	            XSSFRow headingInstrRow11 = Instruction.createRow(12);
+	            XSSFRow headingInstrRow11 = Instruction.createRow(13);
 	            
-	        	Cell cell41 = headingInstrRow10.createCell(0);
+	        	Cell cell41 = headingInstrRow11.createCell(0);
 	        	cell41.setCellStyle(whiteStyle);
-	        	cell41.setCellValue(11);
+	        	cell41.setCellValue(12);
 				
-	        	Cell cell42 = headingInstrRow10.createCell(1);
+	        	Cell cell42 = headingInstrRow11.createCell(1);
 	        	cell42.setCellStyle(whiteStyle);
 	        	cell42.setCellValue("Land Identification");
-				
-	        	Cell cell43 = headingInstrRow10.createCell(2);
+					
+	        	Cell cell43 = headingInstrRow11.createCell(3);
 	        	cell43.setCellStyle(whiteStyle);
 	        	cell43.setCellValue("Village");
 				
-	        	Cell cell44 = headingInstrRow10.createCell(3);
+	        	Cell cell44 = headingInstrRow11.createCell(2);
 	        	cell44.setCellStyle(whiteStyle);
 	        	cell44.setCellValue("INPUT 9: \r\n" + 
 	        			"Village Name");			            
 	            
-	            XSSFRow headingInstrRow12 = Instruction.createRow(13);
+	            XSSFRow headingInstrRow12 = Instruction.createRow(14);
 	            
 	        	Cell cell45 = headingInstrRow12.createCell(0);
 	        	cell45.setCellStyle(whiteStyle);
-	        	cell45.setCellValue(12);
+	        	cell45.setCellValue(13);
 				
 	        	Cell cell46 = headingInstrRow12.createCell(1);
 	        	cell46.setCellStyle(whiteStyle);
 	        	cell46.setCellValue("Land Identification");
 				
-	        	Cell cell47 = headingInstrRow12.createCell(2);
+	        	Cell cell47 = headingInstrRow12.createCell(3);
 	        	cell47.setCellStyle(whiteStyle);
 	        	cell47.setCellValue("Taluka");
 				
-	        	Cell cell48 = headingInstrRow12.createCell(3);
+	        	Cell cell48 = headingInstrRow12.createCell(2);
 	        	cell48.setCellStyle(whiteStyle);
 	        	cell48.setCellValue("INPUT 10: \r\n" + 
 	        			"Taluka Name");		            
 	            
 	            
-	            XSSFRow headingInstrRow13 = Instruction.createRow(14);
+	            XSSFRow headingInstrRow13 = Instruction.createRow(15);
 	            
 	        	Cell cell49 = headingInstrRow13.createCell(0);
 	        	cell49.setCellStyle(whiteStyle);
-	        	cell49.setCellValue(13);
+	        	cell49.setCellValue(14);
 				
 	        	Cell cell50 = headingInstrRow13.createCell(1);
 	        	cell50.setCellStyle(whiteStyle);
 	        	cell50.setCellValue("Land Identification");
 				
-	        	Cell cell511 = headingInstrRow13.createCell(2);
+	        	Cell cell511 = headingInstrRow13.createCell(3);
 	        	cell511.setCellStyle(whiteStyle);
 	        	cell511.setCellValue("Latitude");
 				
-	        	Cell cell52 = headingInstrRow13.createCell(3);
+	        	Cell cell52 = headingInstrRow13.createCell(2);
 	        	cell52.setCellStyle(whiteStyle);
 	        	cell52.setCellValue("Latitude of Chainage");		            
 	            
-	            XSSFRow headingInstrRow14 = Instruction.createRow(15);
+	            XSSFRow headingInstrRow14 = Instruction.createRow(16);
 	            
 	        	Cell cell53 = headingInstrRow14.createCell(0);
 	        	cell53.setCellStyle(whiteStyle);
-	        	cell53.setCellValue(14);
+	        	cell53.setCellValue(15);
 				
 	        	Cell cell54 = headingInstrRow14.createCell(1);
 	        	cell54.setCellStyle(whiteStyle);
 	        	cell54.setCellValue("Land Identification");
 				
-	        	Cell cell55 = headingInstrRow14.createCell(2);
+	        	Cell cell55 = headingInstrRow14.createCell(3);
 	        	cell55.setCellStyle(whiteStyle);
 	        	cell55.setCellValue("Longitude");
 				
-	        	Cell cell56 = headingInstrRow14.createCell(3);
+	        	Cell cell56 = headingInstrRow14.createCell(2);
 	        	cell56.setCellStyle(whiteStyle);
 	        	cell56.setCellValue("Longitude of Chainage");	            
 	            
-	            XSSFRow headingInstrRow15 = Instruction.createRow(16);
+	            XSSFRow headingInstrRow15 = Instruction.createRow(17);
 	            
 	        	Cell cell57 = headingInstrRow15.createCell(0);
 	        	cell57.setCellStyle(whiteStyle);
-	        	cell57.setCellValue(15);
+	        	cell57.setCellValue(16);
 				
 	        	Cell cell58 = headingInstrRow15.createCell(1);
 	        	cell58.setCellStyle(whiteStyle);
@@ -3708,11 +3731,11 @@ public class LandAcquisitionController {
 	        	cell60.setCellStyle(whiteStyle);
 	        	cell60.setCellValue("Dy SLR");			            
 	            
-	            XSSFRow headingInstrRow16 = Instruction.createRow(17);
+	            XSSFRow headingInstrRow16 = Instruction.createRow(18);
 	            
 	        	Cell cell61 = headingInstrRow16.createCell(0);
 	        	cell61.setCellStyle(whiteStyle);
-	        	cell61.setCellValue(16);
+	        	cell61.setCellValue(17);
 				
 	        	Cell cell62 = headingInstrRow16.createCell(1);
 	        	cell62.setCellStyle(whiteStyle);
@@ -3727,11 +3750,11 @@ public class LandAcquisitionController {
 	        	cell64.setCellValue("SDO");
 				
 				
-	            XSSFRow headingInstrRow17 = Instruction.createRow(18);
+	            XSSFRow headingInstrRow17 = Instruction.createRow(19);
 	            
 	        	Cell cell65 = headingInstrRow17.createCell(0);
 	        	cell65.setCellStyle(whiteStyle);
-	        	cell65.setCellValue(17);
+	        	cell65.setCellValue(18);
 				
 	        	Cell cell66 = headingInstrRow17.createCell(1);
 	        	cell66.setCellStyle(whiteStyle);
@@ -3745,179 +3768,179 @@ public class LandAcquisitionController {
 	        	cell68.setCellStyle(whiteStyle);
 	        	cell68.setCellValue("Collector");            
 	            
-	            XSSFRow headingInstrRow18 = Instruction.createRow(19);
+	            XSSFRow headingInstrRow18 = Instruction.createRow(20);
 	            
-	        	Cell cell69 = headingInstrRow17.createCell(0);
+	        	Cell cell69 = headingInstrRow18.createCell(0);
 	        	cell69.setCellStyle(whiteStyle);
-	        	cell69.setCellValue(17);
+	        	cell69.setCellValue(19);
 				
-	        	Cell cell70 = headingInstrRow17.createCell(1);
+	        	Cell cell70 = headingInstrRow18.createCell(1);
 	        	cell70.setCellStyle(whiteStyle);
 	        	cell70.setCellValue("Land Identification");
 				
-	        	Cell cell71 = headingInstrRow17.createCell(2);
+	        	Cell cell71 = headingInstrRow18.createCell(3);
 	        	cell71.setCellStyle(whiteStyle);
 	        	cell71.setCellValue("Proposal submission Date to collector");
 				
-	        	Cell cell72 = headingInstrRow17.createCell(3);
+	        	Cell cell72 = headingInstrRow18.createCell(2);
 	        	cell72.setCellStyle(whiteStyle);
 	        	cell72.setCellValue("Date of Proposal submission Date to collector 'DD/MM/YYYY'");               
 	            
-	            XSSFRow headingInstrRow19 = Instruction.createRow(20);
+	            XSSFRow headingInstrRow19 = Instruction.createRow(21);
 	            
 	        	Cell cell73 = headingInstrRow19.createCell(0);
 	        	cell73.setCellStyle(whiteStyle);
-	        	cell73.setCellValue(19);
+	        	cell73.setCellValue(20);
 				
 	        	Cell cell74 = headingInstrRow19.createCell(1);
 	        	cell74.setCellStyle(whiteStyle);
 	        	cell74.setCellValue("Land Identification");
 				
-	        	Cell cell75 = headingInstrRow19.createCell(2);
+	        	Cell cell75 = headingInstrRow19.createCell(3);
 	        	cell75.setCellStyle(whiteStyle);
 	        	cell75.setCellValue("JM Fee Letter received Date");
 				
-	        	Cell cell76 = headingInstrRow19.createCell(3);
+	        	Cell cell76 = headingInstrRow19.createCell(2);
 	        	cell76.setCellStyle(whiteStyle);
 	        	cell76.setCellValue("Date of JM Fee Letter received Date 'DD/MM/YYYY'");   	            
 	            
 	            
-	            XSSFRow headingInstrRow20 = Instruction.createRow(21);
+	            XSSFRow headingInstrRow20 = Instruction.createRow(22);
 	            
 	        	Cell cell77 = headingInstrRow20.createCell(0);
 	        	cell77.setCellStyle(whiteStyle);
-	        	cell77.setCellValue(20);
+	        	cell77.setCellValue(21);
 				
 	        	Cell cell78 = headingInstrRow20.createCell(1);
 	        	cell78.setCellStyle(whiteStyle);
 	        	cell78.setCellValue("Land Identification");
 				
-	        	Cell cell79 = headingInstrRow20.createCell(2);
+	        	Cell cell79 = headingInstrRow20.createCell(3);
 	        	cell79.setCellStyle(whiteStyle);
 	        	cell79.setCellValue("JM Fee Amount");
 				
-	        	Cell cell80 = headingInstrRow20.createCell(3);
+	        	Cell cell80 = headingInstrRow20.createCell(2);
 	        	cell80.setCellStyle(whiteStyle);
 	        	cell80.setCellValue("Joint Measurement Fee amount (Rs)");   	            
 	            
-	            XSSFRow headingInstrRow21 = Instruction.createRow(22);
+	            XSSFRow headingInstrRow21 = Instruction.createRow(23);
 	            
 	        	Cell cell81 = headingInstrRow21.createCell(0);
 	        	cell81.setCellStyle(whiteStyle);
-	        	cell81.setCellValue(21);
+	        	cell81.setCellValue(22);
 				
 	        	Cell cell82 = headingInstrRow21.createCell(1);
 	        	cell82.setCellStyle(whiteStyle);
 	        	cell82.setCellValue("Land Identification");
 				
-	        	Cell cell83 = headingInstrRow21.createCell(2);
+	        	Cell cell83 = headingInstrRow21.createCell(3);
 	        	cell83.setCellStyle(whiteStyle);
 	        	cell83.setCellValue("JM Fee Paid Date");
 				
-	        	Cell cell84 = headingInstrRow21.createCell(3);
+	        	Cell cell84 = headingInstrRow21.createCell(2);
 	        	cell84.setCellStyle(whiteStyle);
 	        	cell84.setCellValue("Joint Measurement Fee Paid date 'DD/MM/YYYY'");   	            
 	            
-	            XSSFRow headingInstrRow22 = Instruction.createRow(23);
+	            XSSFRow headingInstrRow22 = Instruction.createRow(24);
 	            
 	        	Cell cell85 = headingInstrRow22.createCell(0);
 	        	cell85.setCellStyle(whiteStyle);
-	        	cell85.setCellValue(22);
+	        	cell85.setCellValue(23);
 				
 	        	Cell cell86 = headingInstrRow22.createCell(1);
 	        	cell86.setCellStyle(whiteStyle);
 	        	cell86.setCellValue("Land Identification");
 				
-	        	Cell cell87 = headingInstrRow22.createCell(2);
+	        	Cell cell87 = headingInstrRow22.createCell(3);
 	        	cell87.setCellStyle(whiteStyle);
 	        	cell87.setCellValue("JM Start Date");
 				
-	        	Cell cell88 = headingInstrRow22.createCell(3);
+	        	Cell cell88 = headingInstrRow22.createCell(2);
 	        	cell88.setCellStyle(whiteStyle);
 	        	cell88.setCellValue("Joint Measurement Start date 'DD/MM/YYYY'");   		            
 	            
 	            
-	            XSSFRow headingInstrRow23 = Instruction.createRow(24);
+	            XSSFRow headingInstrRow23 = Instruction.createRow(25);
 	            
 	        	Cell cell89 = headingInstrRow23.createCell(0);
 	        	cell89.setCellStyle(whiteStyle);
-	        	cell89.setCellValue(23);
+	        	cell89.setCellValue(24);
 				
 	        	Cell cell90 = headingInstrRow23.createCell(1);
 	        	cell90.setCellStyle(whiteStyle);
 	        	cell90.setCellValue("Land Identification");
 				
-	        	Cell cell91 = headingInstrRow23.createCell(2);
+	        	Cell cell91 = headingInstrRow23.createCell(3);
 	        	cell91.setCellStyle(whiteStyle);
 	        	cell91.setCellValue("JM Completion Date");
 				
-	        	Cell cell92 = headingInstrRow23.createCell(3);
+	        	Cell cell92 = headingInstrRow23.createCell(2);
 	        	cell92.setCellStyle(whiteStyle);
 	        	cell92.setCellValue("Joint Measurement Completion date 'DD/MM/YYYY'");   		            
 	            
 	            
-	            XSSFRow headingInstrRow24 = Instruction.createRow(25);
+	            XSSFRow headingInstrRow24 = Instruction.createRow(26);
 	            
 	        	Cell cell93 = headingInstrRow24.createCell(0);
 	        	cell93.setCellStyle(whiteStyle);
-	        	cell93.setCellValue(24);
+	        	cell93.setCellValue(25);
 				
 	        	Cell cell94 = headingInstrRow24.createCell(1);
 	        	cell94.setCellStyle(whiteStyle);
 	        	cell94.setCellValue("Land Identification");
 				
-	        	Cell cell95 = headingInstrRow24.createCell(2);
+	        	Cell cell95 = headingInstrRow24.createCell(3);
 	        	cell95.setCellStyle(whiteStyle);
 	        	cell95.setCellValue("JM Sheet Date to SDO");
 				
-	        	Cell cell96 = headingInstrRow24.createCell(3);
+	        	Cell cell96 = headingInstrRow24.createCell(2);
 	        	cell96.setCellStyle(whiteStyle);
 	        	cell96.setCellValue("Joint Measurement sheet to SDO date 'DD/MM/YYYY'");   		            
 	            
-	            XSSFRow headingInstrRow25 = Instruction.createRow(26);
+	            XSSFRow headingInstrRow25 = Instruction.createRow(27);
 	            
-	        	Cell cell97 = headingInstrRow17.createCell(0);
+	        	Cell cell97 = headingInstrRow25.createCell(0);
 	        	cell97.setCellStyle(whiteStyle);
-	        	cell97.setCellValue(25);
+	        	cell97.setCellValue(26);
 				
 	        	Cell cell98 = headingInstrRow25.createCell(1);
 	        	cell98.setCellStyle(whiteStyle);
 	        	cell98.setCellValue("Land Identification");
 				
-	        	Cell cell99 = headingInstrRow25.createCell(2);
+	        	Cell cell99 = headingInstrRow25.createCell(3);
 	        	cell99.setCellStyle(whiteStyle);
 	        	cell99.setCellValue("JM Remarks");
 				
-	        	Cell cell100 = headingInstrRow25.createCell(3);
+	        	Cell cell100 = headingInstrRow25.createCell(2);
 	        	cell100.setCellStyle(whiteStyle);
 	        	cell100.setCellValue("Joint Measurement Remarks");   
 				
-	            XSSFRow headingInstrRow26 = Instruction.createRow(27);
+	            XSSFRow headingInstrRow26 = Instruction.createRow(28);
 	            
 	        	Cell cell101 = headingInstrRow26.createCell(0);
 	        	cell101.setCellStyle(whiteStyle);
-	        	cell101.setCellValue(26);
+	        	cell101.setCellValue(27);
 				
 	        	Cell cell102 = headingInstrRow26.createCell(1);
 	        	cell102.setCellStyle(whiteStyle);
 	        	cell102.setCellValue("Land Identification");
 				
-	        	Cell cell103 = headingInstrRow26.createCell(2);
+	        	Cell cell103 = headingInstrRow26.createCell(3);
 	        	cell103.setCellStyle(whiteStyle);
 	        	cell103.setCellValue("JM Approval");
 				
-	        	Cell cell104 = headingInstrRow26.createCell(3);
+	        	Cell cell104 = headingInstrRow26.createCell(2);
 	        	cell104.setCellStyle(whiteStyle);
 	        	cell104.setCellValue("JM Approval\r\n" + 
 	        			"(i). Accept\r\n" + 
 	        			"(ii). Reject");   
 				
 				
-	            XSSFRow headingInstrRow27 = Instruction.createRow(28);
+	            XSSFRow headingInstrRow27 = Instruction.createRow(29);
 	            
 	        	Cell cell105 = headingInstrRow27.createCell(0);
 	        	cell105.setCellStyle(whiteStyle);
-	        	cell105.setCellValue(27);
+	        	cell105.setCellValue(28);
 				
 	        	Cell cell106 = headingInstrRow27.createCell(1);
 	        	cell106.setCellStyle(whiteStyle);
@@ -3931,11 +3954,11 @@ public class LandAcquisitionController {
 	        	cell108.setCellStyle(whiteStyle);
 	        	cell108.setCellValue("Special Feature");   	            
 	            
-	            XSSFRow headingInstrRow28 = Instruction.createRow(29);
+	            XSSFRow headingInstrRow28 = Instruction.createRow(30);
 	            
 	        	Cell cell109 = headingInstrRow28.createCell(0);
 	        	cell109.setCellStyle(whiteStyle);
-	        	cell109.setCellValue(28);
+	        	cell109.setCellValue(29);
 				
 	        	Cell cell110 = headingInstrRow28.createCell(1);
 	        	cell110.setCellStyle(whiteStyle);
@@ -3949,34 +3972,45 @@ public class LandAcquisitionController {
 	        	cell113.setCellStyle(whiteStyle);
 	        	cell113.setCellValue("Remarks");
 	        	
-	            XSSFRow headingInstrRow29 = Instruction.createRow(30);
+	            XSSFRow headingInstrRow29 = Instruction.createRow(31);
 	            
-	        	Cell cell114 = headingInstrRow28.createCell(0);
+	        	Cell cell114 = headingInstrRow29.createCell(0);
 	        	cell114.setCellStyle(whiteStyle);
-	        	cell114.setCellValue(29);
+	        	cell114.setCellValue(30);
 				
-	        	Cell cell115 = headingInstrRow28.createCell(1);
+	        	Cell cell115 = headingInstrRow29.createCell(1);
 	        	cell115.setCellStyle(whiteStyle);
 	        	cell115.setCellValue("Land Identification");
 				
-	        	Cell cell116 = headingInstrRow28.createCell(2);
+	        	Cell cell116 = headingInstrRow29.createCell(3);
 	        	cell116.setCellStyle(whiteStyle);
 	        	cell116.setCellValue("Issues");
 				
-	        	Cell cell117 = headingInstrRow28.createCell(3);
+	        	Cell cell117 = headingInstrRow29.createCell(2);
 	        	cell117.setCellStyle(whiteStyle);
-	        	cell117.setCellValue("Issues in Land Acquisition"); 	        	
-            
-		        
+	        	cell117.setCellValue("Issues in Land Acquisition"); 
+	        	
+	        	Instruction.setColumnWidth(0, 25 * 100);
+	        	Instruction.setColumnWidth(1, 25 * 300);
+	        	Instruction.setColumnWidth(2, 25 * 600);
+	        	Instruction.setColumnWidth(3, 25 * 600);
 		        
 	            XSSFRow headingRow = Landsheet.createRow(1);
 	            String headerString = "Work ID^LA_ID^Survey Number^Type of Land^Sub Category of Land^Area^Area to be Acquired^Area Acquired^Land Status^Chainage From^Chainage To^Village^Taluka^Latitude^Longitude^Dy SLR^SDO^Collector^Proposal submission Date to collector^JM Fee Letter received Date^JM Fee Amount^JM Fee Paid Date^JM Start Date^JM Completion Date^JM Sheet Date to SDO^JM Remarks^JM Approval^Special Feature^Remarks^Issues";
 	            
 	            String[] firstHeaderStringArr = headerString.split("\\^");
 	            
-	            for (int i = 0; i < firstHeaderStringArr.length; i++) {		        	
+	            for (int i = 0; i < firstHeaderStringArr.length; i++) {	
+	            	
 		        	Cell cell = headingRow.createCell(i);
-			        cell.setCellStyle(greenStyle);
+		        	if(i==0 || i==1 || i==3 || i==4)
+		        	{
+		        		cell.setCellStyle(redStyle);
+		        	}
+		        	else
+		        	{
+		        		cell.setCellStyle(greenStyle);
+		        	}
 					cell.setCellValue(firstHeaderStringArr[i]);
 				}
 	            
@@ -4885,4 +4919,36 @@ public class LandAcquisitionController {
         
         return style;
 	}
+	
+	private CellStyle cellFormatingColor(XSSFWorkbook workBook,byte[] rgb,HorizontalAlignment hAllign, VerticalAlignment vAllign, boolean isWrapText,boolean isBoldText,boolean isItalicText,int fontSize,String fontName) {
+		CellStyle style = workBook.createCellStyle();
+		//Setting Background color  
+		//style.setFillBackgroundColor(IndexedColors.AQUA.getIndex());
+		style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+		
+		if (style instanceof XSSFCellStyle) {
+		   XSSFCellStyle xssfcellcolorstyle = (XSSFCellStyle)style;
+		   xssfcellcolorstyle.setFillForegroundColor(new XSSFColor(rgb, null));
+		}
+		//style.setFillPattern(FillPatternType.ALT_BARS);
+		style.setBorderBottom(BorderStyle.MEDIUM);
+		style.setBorderTop(BorderStyle.MEDIUM);
+		style.setBorderLeft(BorderStyle.MEDIUM);
+		style.setBorderRight(BorderStyle.MEDIUM);
+		style.setAlignment(hAllign);
+		style.setVerticalAlignment(vAllign);
+		style.setWrapText(isWrapText);
+		
+		Font font = workBook.createFont();
+        font.setColor(HSSFColor.HSSFColorPredefined.RED.getIndex());
+        font.setFontHeightInPoints((short)fontSize);  
+        font.setFontName(fontName);  //"Times New Roman"
+        
+        font.setItalic(isItalicText); 
+        font.setBold(isBoldText);
+        // Applying font to the style  
+        style.setFont(font); 
+        
+        return style;
+	}	
 }

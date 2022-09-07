@@ -291,7 +291,7 @@ public class LandReportDaoImpl implements LandReportDao{
 				qry = qry + " and la_sub_category_fk = ?";
 				arrSize++;
 			}
-			qry = qry + " GROUP BY work_id_fk,work_short_name,category_fk,la_sub_category_fk,la_sub_category,la.la_id) as a group by  work_id_fk,work_short_name,category_fk,la_sub_category order by work_id_fk,category_fk ";
+			qry = qry + " GROUP BY work_id_fk,work_short_name,category_fk,la_sub_category_fk,la_sub_category) as a group by  work_id_fk,work_short_name,category_fk,la_sub_category order by work_id_fk,category_fk ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			

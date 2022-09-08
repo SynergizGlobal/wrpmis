@@ -1980,7 +1980,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 				obj.setLa_sub_category_fk(sub_category_no);
 				row++;sheet = 1;
 				if(!StringUtils.isEmpty(obj.getLa_id())) {
-					obj.setLa_id(obj.getLa_id());
+					obj.setLa_id(la_id);
 					//System.out.println(rNo++);
 					if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 						if(checkWorkinLA(obj.getWork_id_fk(),obj.getCreated_by_user_id_fk())>0)
@@ -2048,7 +2048,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					
 					for (LandAcquisition obj1 : obj.getPrivateIRAList()) {
 						String table_name1 = "la_private_ira";
-						String la_id1 = obj.getLa_id();
+						String la_id1 = checkLAIdMethod(obj1,table_name1);
 						sheet = 2;subRow++;
 						if(!StringUtils.isEmpty(la_id1)) {
 							obj.setLa_id(la_id1);
@@ -2071,20 +2071,20 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					subRow = sheet2;
 					String  privateLAInsertQry = "INSERT INTO la_private_land_acquisition "
 					 		+ "(la_id_fk, name_of_the_owner, basic_rate, agriculture_tree_nos,agriculture_tree_rate, forest_tree_nos,"
-					 		+ " forest_tree_rate, consent_from_owner, legal_search_report, date_of_registration, date_of_possession, possession_status_fk, "
+					 		+ " forest_tree_rate, consent_from_owner, legal_search_report, date_of_registration, date_of_possession,  "
 					 		+ " hundred_percent_Solatium, extra_25_percent, total_rate_divide_m2,"
 					 		+ " land_compensation, agriculture_tree_compensation, forest_tree_compensation, structure_compensation, borewell_compensation, total_compensation,"
 					 		+ " basic_rate_units, agriculture_tree_rate_units, forest_tree_rate_units)"
 					 		+ "VALUES"
 					 		+ "(:la_id, :name_of_the_owner, :basic_rate,  :agriculture_tree_nos, :agriculture_tree_rate, :forest_tree_nos,"
-					 		+ " :forest_tree_rate, :consent_from_owner, :legal_search_report, :date_of_registration, :date_of_possession, :private_possession_status_fk, "//:private_special_feature, 
+					 		+ " :forest_tree_rate, :consent_from_owner, :legal_search_report, :date_of_registration, :date_of_possession, "//:private_special_feature, 
 					 		+ "  :hundred_percent_Solatium, :extra_25_percent, :total_rate_divide_m2,"
 					 		+ " :land_compensation, :agriculture_tree_compensation, :forest_tree_compensation, :structure_compensation, :borewell_compensation, :total_compensation,"
 					 		+ "  :basic_rate_units, :agriculture_tree_rate_units, :forest_tree_rate_units)";
 					 
 					String  privateLAUpdateQry = "UPDATE la_private_land_acquisition SET "
 					 		+ " name_of_the_owner= :name_of_the_owner, basic_rate= :basic_rate,  agriculture_tree_nos= :agriculture_tree_nos, agriculture_tree_rate= :agriculture_tree_rate, forest_tree_nos= :forest_tree_nos,"
-					 		+ "forest_tree_rate= :forest_tree_rate, consent_from_owner= :consent_from_owner, legal_search_report= :legal_search_report, date_of_registration= :date_of_registration, date_of_possession= :date_of_possession, possession_status_fk= :private_possession_status_fk, "//special_feature= :private_special_feature, 
+					 		+ "forest_tree_rate= :forest_tree_rate, consent_from_owner= :consent_from_owner, legal_search_report= :legal_search_report, date_of_registration= :date_of_registration, date_of_possession= :date_of_possession,  "//special_feature= :private_special_feature, 
 					 		+ " hundred_percent_Solatium= :hundred_percent_Solatium, extra_25_percent= :extra_25_percent, total_rate_divide_m2= :total_rate_divide_m2,"
 					 		+ "land_compensation= :land_compensation, agriculture_tree_compensation= :agriculture_tree_compensation, forest_tree_compensation= :forest_tree_compensation, structure_compensation= :structure_compensation, borewell_compensation= :borewell_compensation, "
 					 		+ "total_compensation= :total_compensation,basic_rate_units= :basic_rate_units,agriculture_tree_rate_units= :agriculture_tree_rate_units,forest_tree_rate_units= :forest_tree_rate_units  "
@@ -2094,7 +2094,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					for (LandAcquisition obj2 : obj.getPrivateLAList()) {
 						sheet = 4;subRow++;
 						String table_name2 = "la_private_land_acquisition";
-						String la_id2 = obj.getLa_id();
+						String la_id2 = checkLAIdMethod(obj2,table_name2);
 						obj.setType_of_land("Private");
 						if(!StringUtils.isEmpty(la_id2)) {
 							obj.setLa_id(la_id2);
@@ -2136,7 +2136,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					for (LandAcquisition obj3 : obj.getPrivateLVList()) {
 						sheet = 3;subRow++;
 						String table_name3 = "la_private_land_valuation";
-						String la_id3 = obj.getLa_id();
+						String la_id3 = checkLAIdMethod(obj3,table_name3);
 						obj.setType_of_land("Private");
 						if(!StringUtils.isEmpty(la_id3)) {
 							obj.setLa_id(la_id3);
@@ -2153,22 +2153,22 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					subRow = sheet4;
 					String govInsertQry = "INSERT INTO la_government_land_acquisition"
 							+ "( la_id_fk, proposal_submission,  valuation_date, letter_for_payment, amount_demanded, "
-							+ " approval_for_payment, payment_date, amount_paid, payment_status_fk, possession_date, possession_status_fk,"//special_feature
+							+ " approval_for_payment, payment_date, amount_paid,  possession_date,"//special_feature
 							+ "amount_demanded_units, amount_paid_units)"
 							+ "VALUES"
 							+ "(:la_id, :proposal_submission,  :valuation_date, :letter_for_payment,:amount_demanded, "
-							+ "  :approval_for_payment, :payment_date, :amount_paid, :payment_status_fk, :possession_date, :possession_status_fk," // :special_feature, 
+							+ "  :approval_for_payment, :payment_date, :amount_paid,  :possession_date, " // :special_feature, 
 							+ "  :amount_demanded_units, :amount_paid_units)";
 					
 					String govUpdateQry = "UPDATE  la_government_land_acquisition SET "
 							+ "  valuation_date= :valuation_date, letter_for_payment= :letter_for_payment, amount_demanded= :amount_demanded, "
-							+ " approval_for_payment= :approval_for_payment, payment_date= :payment_date, amount_paid= :amount_paid, payment_status_fk= :payment_status_fk, possession_date= :possession_date, possession_status_fk= :possession_status_fk,"
+							+ " approval_for_payment= :approval_for_payment, payment_date= :payment_date, amount_paid= :amount_paid,  possession_date= :possession_date, "
 							+ "amount_demanded_units= :amount_demanded_units, amount_paid_units= :amount_paid_units "
 							+ "where  la_id_fk= :la_id";
 					for (LandAcquisition obj4 : obj.getGovList()) {
 						sheet = 5;subRow++;
 						String table_name4 = "la_government_land_acquisition";
-						String la_id4 = obj.getLa_id();
+						String la_id4 = checkLAIdMethod(obj4,table_name4);
 						obj.setType_of_land("Government");
 						if(!StringUtils.isEmpty(la_id4)) {
 							obj.setLa_id(la_id4);
@@ -2186,25 +2186,25 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					String forestInsertSubQry = "INSERT INTO la_forest_land_acquisition "
 					 		+ "( la_id_fk, on_line_submission, submission_date_to_dycfo, submission_date_to_ccf_thane, submission_date_to_nodal_officer, "
 					 		+ "submission_date_to_revenue_secretary_mantralaya, submission_date_to_regional_office_nagpur, date_of_approval_by_regional_office_nagpur, valuation_by_dycfo, "
-					 		+ "demanded_amount, payment_amount, approval_for_payment, payment_date, possession_date, possession_status_fk, payment_status_fk, survey_number,"//, special_feature
+					 		+ "demanded_amount, payment_amount, approval_for_payment, payment_date, possession_date, survey_number,"//, special_feature
 					 		+ " demanded_amount_units, payment_amount_units)"
 					 		+ "VALUES"
 					 		+ "( :la_id, :forest_online_submission, :forest_submission_date_to_dycfo, :forest_submission_date_to_ccf_thane, :forest_submission_date_to_nodal_officer, "
 					 		+ ":forest_submission_date_to_revenue_secretary_mantralaya, :forest_submission_date_to_regional_office_nagpur, :forest_date_of_approval_by_regional_office_nagpur, :forest_valuation_by_dycfo,"
-					 		+ ":forest_demanded_amount, :forest_payment_amount, :forest_approval_for_payment, :forest_payment_date, :forest_possession_date, :forest_possession_status_fk, :forest_payment_status_fk, :survey_number, "// :forest_special_feature,
+					 		+ ":forest_demanded_amount, :forest_payment_amount, :forest_approval_for_payment, :forest_payment_date, :forest_possession_date, :survey_number, "// :forest_special_feature,
 					 		+ ":demanded_amount_units_forest, :payment_amount_units_forest)";
 					
 					String forestUpdateSubQry = "UPDATE la_forest_land_acquisition SET "
 					 		+ " on_line_submission= :forest_online_submission, submission_date_to_dycfo= :forest_submission_date_to_dycfo, submission_date_to_ccf_thane= :forest_submission_date_to_ccf_thane, submission_date_to_nodal_officer= :forest_submission_date_to_nodal_officer, "
 					 		+ "submission_date_to_revenue_secretary_mantralaya= :forest_submission_date_to_revenue_secretary_mantralaya, submission_date_to_regional_office_nagpur= :forest_submission_date_to_regional_office_nagpur, date_of_approval_by_regional_office_nagpur= :forest_date_of_approval_by_regional_office_nagpur, valuation_by_dycfo= :forest_valuation_by_dycfo, "
-					 		+ "demanded_amount= :forest_demanded_amount, payment_amount= :forest_payment_amount, approval_for_payment= :forest_approval_for_payment, payment_date= :forest_payment_date, possession_date= :forest_possession_date, possession_status_fk= :forest_possession_status_fk, payment_status_fk=:forest_payment_status_fk,"//, special_feature= :forest_special_feature
+					 		+ "demanded_amount= :forest_demanded_amount, payment_amount= :forest_payment_amount, approval_for_payment= :forest_approval_for_payment, payment_date= :forest_payment_date, possession_date= :forest_possession_date,  "//, special_feature= :forest_special_feature
 					 		+ " demanded_amount_units= :demanded_amount_units_forest,payment_amount_units= :payment_amount_units_forest   "
 					 		+ " where la_id_fk= :la_id ";
 
 					for (LandAcquisition obj5 : obj.getForestList()) {
 						sheet = 6;subRow++;
 						String table_name5 = "la_forest_land_acquisition";
-						String la_id5 = obj.getLa_id();
+						String la_id5 = checkLAIdMethod(obj5,table_name5);
 						obj.setType_of_land("Forest");
 						if(!StringUtils.isEmpty(la_id5)) {
 							obj.setLa_id(la_id5);
@@ -2223,26 +2223,26 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					 		+ "(la_id_fk, online_submission, submission_date_to_DyCFO, "
 					 		+ "submission_date_to_CCF_Thane, [submission_date_to_nodal_officer/CCF Nagpur], submission_date_to_revenue_secretary_mantralaya, "
 					 		+ "submission_date_to_regional_office_nagpur, date_of_approval_by_Rregional_Office_agpur, valuation_by_DyCFO, demanded_amount, "
-					 		+ "approval_for_payment, payment_date, payment_amount, payment_status, possession_date, possession_status, "
+					 		+ "approval_for_payment, payment_date, payment_amount, possession_date, "
 					 		+ "  demanded_amount_units, payment_amount_units)"
 					 		+ "VALUES"
 					 		+ "(:la_id, :railway_online_submission, :railway_submission_date_to_DyCFO, "
 					 		+ ":railway_submission_date_to_CCF_Thane, :railway_submission_date_to_nodal_officer_CCF_Nagpur, :railway_submission_date_to_revenue_secretary_mantralaya, "
 					 		+ ":railway_submission_date_to_regional_office_nagpur, :railway_date_of_approval_by_Rregional_Office_agpur, :railway_valuation_by_DyCFO, :railway_demanded_amount, "
-					 		+ ":railway_approval_for_payment, :railway_payment_date, :railway_payment_amount, :railway_payment_status, :railway_possession_date, :railway_possession_status, "//, :railway_special_feature
+					 		+ ":railway_approval_for_payment, :railway_payment_date, :railway_payment_amount,  :railway_possession_date "//, :railway_special_feature
 					 		+ "  :demanded_amount_units, :payment_amount_units_railway)";
 					
 					String railwayUpdateSubQry = " UPDATE la_railway_land_acquisition SET "
 					 		+ "survey_number= :survey_number, online_submission= :railway_online_submission, submission_date_to_DyCFO= :railway_submission_date_to_DyCFO, "
 					 		+ "submission_date_to_CCF_Thane= :railway_submission_date_to_CCF_Thane, [submission_date_to_nodal_officer/CCF Nagpur]= :railway_submission_date_to_nodal_officer_CCF_Nagpur, submission_date_to_revenue_secretary_mantralaya= :railway_submission_date_to_revenue_secretary_mantralaya,  "
 					 		+ "submission_date_to_regional_office_nagpur= :railway_submission_date_to_regional_office_nagpur,date_of_approval_by_Rregional_Office_agpur= :railway_date_of_approval_by_Rregional_Office_agpur, valuation_by_DyCFO= :railway_valuation_by_DyCFO, demanded_amount= :railway_demanded_amount, "
-					 		+ "approval_for_payment= :railway_approval_for_payment, payment_date= :railway_payment_date, payment_amount= :railway_payment_amount, payment_status= :railway_payment_status, possession_date= :railway_possession_date, possession_status= :railway_possession_status, "//special_feature= :railway_special_feature, 
+					 		+ "approval_for_payment= :railway_approval_for_payment, payment_date= :railway_payment_date, payment_amount= :railway_payment_amount,  possession_date= :railway_possession_date,  "//special_feature= :railway_special_feature, 
 					 		+ "demanded_amount_units= :demanded_amount_units, payment_amount_units= :payment_amount_units_railway   "
 					 		+ "where la_id_fk= :la_id ";
 					for (LandAcquisition obj6 : obj.getRailwayList()) {
 						sheet = 7;subRow++;
 						String table_name6 = "la_railway_land_acquisition";
-						String la_id6 = obj.getLa_id();
+						String la_id6 = checkLAIdMethod(obj6,table_name6);
 						obj.setType_of_land("Railway");
 						if(!StringUtils.isEmpty(la_id6)) {
 							obj.setLa_id(la_id6);

@@ -1198,12 +1198,12 @@ public class LandAcquisitionController {
 						List<LandAcquisition> fObjList = new ArrayList<LandAcquisition>();
 						List<LandAcquisition> rObjList = new ArrayList<LandAcquisition>();
 						
-									XSSFSheet laPrivateSheet = workbook.getSheetAt(3);
-									XSSFSheet laPrivateLVSheet = workbook.getSheetAt(4);
-									XSSFSheet laprivateLASheet = workbook.getSheetAt(5);
-									XSSFSheet GovSheet = workbook.getSheetAt(6);
-									XSSFSheet forestSheet = workbook.getSheetAt(7);
-									XSSFSheet railwaySheet = workbook.getSheetAt(8);
+									XSSFSheet laPrivateSheet = workbook.getSheetAt(4);
+									XSSFSheet laPrivateLVSheet = workbook.getSheetAt(5);
+									XSSFSheet laprivateLASheet = workbook.getSheetAt(6);
+									XSSFSheet GovSheet = workbook.getSheetAt(7);
+									XSSFSheet forestSheet = workbook.getSheetAt(8);
+									XSSFSheet railwaySheet = workbook.getSheetAt(9);
 
 									XSSFRow privateIRA = laPrivateSheet.getRow(1);
 									XSSFRow privateLV = laPrivateLVSheet.getRow(1);

@@ -53,12 +53,12 @@ public class HomeNewDaoImpl implements HomeNewDao{
 		try {
 			String projectQry = "select project_id,pink_book_item_number,project_name,plan_head_number,remarks,project_status,attachment,benefits from project where project_id = ?";
 			
-			String projectDetailsQry = "select sum(wr.sanctioned_estimated_cost) as sanctioned_estimated_cost,max(wr.sanctioned_year_fk) as sanctioned_year_fk,"
+			String projectDetailsQry = "select case when wr.project_id_fk='P04' then 10947 else sum(wr.sanctioned_estimated_cost) end as sanctioned_estimated_cost,max(wr.sanctioned_year_fk) as sanctioned_year_fk,"
 					+ "sum(wr.completion_cost) as completion_cost,max(wr.year_of_completion) as year_of_completion, "
 					+ "(SELECT (CASE WHEN MONTH(wr.projected_completion) >= 4 THEN concat(YEAR(wr.projected_completion), '-',SUBSTRING(cast(YEAR(wr.projected_completion)+1 as varchar),3,2)) ELSE concat(YEAR(wr.projected_completion)-1,'-', SUBSTRING(cast(YEAR(wr.projected_completion) as varchar),3,2)) END) AS financial_year) as projected_completion_year," 
 					//+ "max(wr.projected_completion) as projected_completion_year,"
 					+ "(SELECT sum(y.latest_revised_cost) FROM work_yearly_sanction y left join work w on w.work_id = y.work_id_fk  WHERE y.financial_year = (SELECT MAX(z.financial_year) FROM work_yearly_sanction z WHERE z.work_id_fk = y.work_id_fk) and w.project_id_fk = ? group by w.project_id_fk) as latest_revised_cost " 
-					+ "from work wr where wr.project_id_fk = ? GROUP BY projected_completion";
+					+ "from work wr where wr.project_id_fk = ? GROUP BY projected_completion,wr.project_id_fk";
 			
 			String workQry = "select wr.work_id,wr.work_short_name,wr.sanctioned_estimated_cost as sanctioned_estimated_cost,wr.sanctioned_year_fk as sanctioned_year_fk,"
 					+ "wr.sanctioned_completion_cost as sanctioned_completion_cost,wr.year_of_completion as year_of_completion, " 

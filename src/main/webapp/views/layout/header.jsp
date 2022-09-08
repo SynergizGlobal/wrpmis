@@ -298,7 +298,8 @@
 	<div class="nav-wrapper blue lighten-1">
 		<div class="">
 			<a href="<%=request.getContextPath() %>/home" class="brand-logo fs"><img
-				src="/pmis/resources/images/mrvclogo(1).png" alt="Logo"> <span class="brand-text">MRVC PMIS</span> <span id="CurrentDate"></span>
+				src="/pmis/resources/images/mrvclogo(1).png" alt="Logo"> <span class="brand-text">MRVC PMIS &nbsp;8-Sep-2022</span> 
+				<!-- <span id="CurrentDate"></span> -->
 			</a> 
 			<a href="<%=request.getContextPath() %>/home"
 				data-target="mobile-demo" class="sidenav-trigger"> 

@@ -1279,7 +1279,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFortnight_date())) {
-				qry = qry + " and fortnight_quarterly_plan_activity_id<=(select max(fortnight_quarterly_plan_activity_id) from fortnight_quarterly_plan_activities where fortnight = ? ) ";
+				qry = qry + " and fortnight=? ";
 				arrSize++;
 			}
 

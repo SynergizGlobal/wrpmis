@@ -1980,7 +1980,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 				obj.setLa_sub_category_fk(sub_category_no);
 				row++;sheet = 1;
 				if(!StringUtils.isEmpty(obj.getLa_id())) {
-					obj.setLa_id(la_id);
+					obj.setLa_id(obj.getLa_id());
 					//System.out.println(rNo++);
 					if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 						if(checkWorkinLA(obj.getWork_id_fk(),obj.getCreated_by_user_id_fk())>0)
@@ -2048,7 +2048,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					
 					for (LandAcquisition obj1 : obj.getPrivateIRAList()) {
 						String table_name1 = "la_private_ira";
-						String la_id1 = checkLAIdMethod(obj1,table_name1);
+						String la_id1 = obj.getLa_id();
 						sheet = 2;subRow++;
 						if(!StringUtils.isEmpty(la_id1)) {
 							obj.setLa_id(la_id1);
@@ -2094,7 +2094,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					for (LandAcquisition obj2 : obj.getPrivateLAList()) {
 						sheet = 4;subRow++;
 						String table_name2 = "la_private_land_acquisition";
-						String la_id2 = checkLAIdMethod(obj2,table_name2);
+						String la_id2 = obj.getLa_id();
 						obj.setType_of_land("Private");
 						if(!StringUtils.isEmpty(la_id2)) {
 							obj.setLa_id(la_id2);
@@ -2136,7 +2136,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					for (LandAcquisition obj3 : obj.getPrivateLVList()) {
 						sheet = 3;subRow++;
 						String table_name3 = "la_private_land_valuation";
-						String la_id3 = checkLAIdMethod(obj3,table_name3);
+						String la_id3 = obj.getLa_id();
 						obj.setType_of_land("Private");
 						if(!StringUtils.isEmpty(la_id3)) {
 							obj.setLa_id(la_id3);
@@ -2168,7 +2168,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					for (LandAcquisition obj4 : obj.getGovList()) {
 						sheet = 5;subRow++;
 						String table_name4 = "la_government_land_acquisition";
-						String la_id4 = checkLAIdMethod(obj4,table_name4);
+						String la_id4 = obj.getLa_id();
 						obj.setType_of_land("Government");
 						if(!StringUtils.isEmpty(la_id4)) {
 							obj.setLa_id(la_id4);
@@ -2204,7 +2204,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					for (LandAcquisition obj5 : obj.getForestList()) {
 						sheet = 6;subRow++;
 						String table_name5 = "la_forest_land_acquisition";
-						String la_id5 = checkLAIdMethod(obj5,table_name5);
+						String la_id5 = obj.getLa_id();
 						obj.setType_of_land("Forest");
 						if(!StringUtils.isEmpty(la_id5)) {
 							obj.setLa_id(la_id5);
@@ -2242,7 +2242,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					for (LandAcquisition obj6 : obj.getRailwayList()) {
 						sheet = 7;subRow++;
 						String table_name6 = "la_railway_land_acquisition";
-						String la_id6 = checkLAIdMethod(obj6,table_name6);
+						String la_id6 = obj.getLa_id();
 						obj.setType_of_land("Railway");
 						if(!StringUtils.isEmpty(la_id6)) {
 							obj.setLa_id(la_id6);

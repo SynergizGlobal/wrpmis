@@ -562,8 +562,8 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					"FORMAT(lpa.consent_from_owner,'dd-MM-yyyy') AS consent_from_owner, FORMAT(lpa.legal_search_report,'dd-MM-yyyy') AS legal_search_report, \r\n" + 
 					"FORMAT(lpa.date_of_registration,'dd-MM-yyyy') AS date_of_registration, FORMAT(lpa.date_of_possession,'dd-MM-yyyy') AS date_of_possession,\r\n" + 
 					"lpa.possession_status_fk as private_possession_status_fk, lpa.hundred_percent_Solatium as hundred_percent_Solatium,\r\n" + 
-					"lpa.extra_25_percent as extra_25_percent, cast(lpa.total_rate_divide_m2 as CHAR) as total_rate_divide_m2,cast(lpa.land_compensation as CHAR) as land_compensation, \r\n" + 
-					"lpa.agriculture_tree_compensation as agriculture_tree_compensation,cast(lpa.forest_tree_compensation as CHAR) as forest_tree_compensation,\r\n" + 
+					"lpa.extra_25_percent as extra_25_percent, lpa.total_rate_divide_m2 as total_rate_divide_m2,lpa.land_compensation as land_compensation, \r\n" + 
+					"lpa.agriculture_tree_compensation as agriculture_tree_compensation,lpa.forest_tree_compensation as forest_tree_compensation,\r\n" + 
 					"lpa.structure_compensation as structure_compensation,lpa.borewell_compensation as borewell_compensation,lpa.total_compensation as total_compensation,\r\n" + 
 					"lpv.payment_amount_units,FORMAT(lpv.forest_tree_survey ,'dd-MM-yyyy') AS forest_tree_survey,FORMAT(lpv.forest_tree_valuation ,'dd-MM-yyyy') AS forest_tree_valuation, \r\n" + 
 					"lpv.forest_tree_valuation_status_fk,FORMAT(lpv.horticulture_tree_survey ,'dd-MM-yyyy') AS horticulture_tree_survey,\r\n" + 
@@ -2229,7 +2229,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					 		+ "(:la_id, :railway_online_submission, :railway_submission_date_to_DyCFO, "
 					 		+ ":railway_submission_date_to_CCF_Thane, :railway_submission_date_to_nodal_officer_CCF_Nagpur, :railway_submission_date_to_revenue_secretary_mantralaya, "
 					 		+ ":railway_submission_date_to_regional_office_nagpur, :railway_date_of_approval_by_Rregional_Office_agpur, :railway_valuation_by_DyCFO, :railway_demanded_amount, "
-					 		+ ":railway_approval_for_payment, :railway_payment_date, :railway_payment_amount,  :railway_possession_date "//, :railway_special_feature
+					 		+ ":railway_approval_for_payment, :railway_payment_date, :railway_payment_amount,  :railway_possession_date, "//, :railway_special_feature
 					 		+ "  :demanded_amount_units, :payment_amount_units_railway)";
 					
 					String railwayUpdateSubQry = " UPDATE la_railway_land_acquisition SET "

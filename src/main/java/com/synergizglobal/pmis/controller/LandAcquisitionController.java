@@ -4479,7 +4479,7 @@ public class LandAcquisitionController {
 	        	cell167.setCellValue("Collector");	
 	        	
 	        	
-	            XSSFRow headingInstrRow32 = Instruction.createRow(34);
+  			XSSFRow headingInstrRow32 = Instruction.createRow(34);
 	            
 	        	Cell cell168 = headingInstrRow32.createCell(0);
 	        	cell168.setCellStyle(whiteStyle);
@@ -4496,6 +4496,2139 @@ public class LandAcquisitionController {
 	        	Cell cell171 = headingInstrRow32.createCell(2);
 	        	cell171.setCellStyle(whiteStyle);
 	        	cell171.setCellValue("Date 'DD/MM/YYYY'");
+	        	
+	        	
+	        	
+	        	
+	            XSSFRow headingInstrRow33 = Instruction.createRow(35);
+	            
+	        	Cell cell172 = headingInstrRow33.createCell(0);
+	        	cell172.setCellStyle(whiteStyle);
+	        	cell172.setCellValue(34);
+				
+	        	Cell cell173 = headingInstrRow33.createCell(1);
+	        	cell173.setCellStyle(whiteStyle);
+	        	cell173.setCellValue("Private (Indian Railway Act)");
+				
+	        	Cell cell174 = headingInstrRow33.createCell(3);
+	        	cell174.setCellStyle(whiteStyle);
+	        	cell174.setCellValue("Declaration of Special Railway project  - Approval of GM");
+				
+	        	Cell cell175 = headingInstrRow33.createCell(2);
+	        	cell175.setCellStyle(whiteStyle);
+	        	cell175.setCellValue("Date 'DD/MM/YYYY'");
+
+
+				XSSFRow headingInstrRow34 = Instruction.createRow(36);
+	            
+	        	Cell cell176 = headingInstrRow34.createCell(0);
+	        	cell176.setCellStyle(whiteStyle);
+	        	cell176.setCellValue(35);
+				
+	        	Cell cell177 = headingInstrRow34.createCell(1);
+	        	cell177.setCellStyle(whiteStyle);
+	        	cell177.setCellValue("Private (Indian Railway Act)");
+				
+	        	Cell cell178 = headingInstrRow34.createCell(3);
+	        	cell178.setCellStyle(whiteStyle);
+	        	cell178.setCellValue("Declaration of Special Railway project  - Draft Letter to CE/Con for Approval");
+				
+	        	Cell cell179 = headingInstrRow34.createCell(2);
+	        	cell179.setCellStyle(whiteStyle);
+	        	cell179.setCellValue("Date 'DD/MM/YYYY'");
+
+
+				XSSFRow headingInstrRow35 = Instruction.createRow(37);
+	            
+	        	Cell cell180 = headingInstrRow35.createCell(0);
+	        	cell180.setCellStyle(whiteStyle);
+	        	cell180.setCellValue(36);
+				
+	        	Cell cell181 = headingInstrRow35.createCell(1);
+	        	cell181.setCellStyle(whiteStyle);
+	        	cell181.setCellValue("Private (Indian Railway Act)");
+				
+	        	Cell cell182 = headingInstrRow35.createCell(3);
+	        	cell182.setCellStyle(whiteStyle);
+	        	cell182.setCellValue("Declaration of Special Railway project  - Date of Approval of CE/Construction");
+				
+	        	Cell cell183 = headingInstrRow35.createCell(2);
+	        	cell183.setCellStyle(whiteStyle);
+	        	cell183.setCellValue("Date 'DD/MM/YYYY'");
+
+
+				XSSFRow headingInstrRow36 = Instruction.createRow(38);
+	            
+	        	Cell cell184 = headingInstrRow36.createCell(0);
+	        	cell184.setCellStyle(whiteStyle);
+	        	cell184.setCellValue(37);
+				
+	        	Cell cell185 = headingInstrRow36.createCell(1);
+	        	cell185.setCellStyle(whiteStyle);
+	        	cell185.setCellValue("Private (Indian Railway Act)");
+				
+	        	Cell cell186 = headingInstrRow36.createCell(3);
+	        	cell186.setCellStyle(whiteStyle);
+	        	cell186.setCellValue("Declaration of Special Railway project  - Date of Uploading of  Gazette notification");
+				
+	        	Cell cell187 = headingInstrRow36.createCell(2);
+	        	cell187.setCellStyle(whiteStyle);
+	        	cell187.setCellValue("Date 'DD/MM/YYYY'");
+
+
+				XSSFRow headingInstrRow37 = Instruction.createRow(39);
+	            
+	        	Cell cell188 = headingInstrRow37.createCell(0);
+	        	cell188.setCellStyle(whiteStyle);
+	        	cell188.setCellValue(38);
+				
+	        	Cell cell189 = headingInstrRow37.createCell(1);
+	        	cell189.setCellStyle(whiteStyle);
+	        	cell189.setCellValue("Private (Indian Railway Act)");
+				
+	        	Cell cell190 = headingInstrRow37.createCell(3);
+	        	cell190.setCellStyle(whiteStyle);
+	        	cell190.setCellValue("Declaration of Special Railway project  - Publication in gazette");
+				
+	        	Cell cell191 = headingInstrRow37.createCell(2);
+	        	cell191.setCellStyle(whiteStyle);
+	        	cell191.setCellValue("Date 'DD/MM/YYYY'");
+
+
+
+			XSSFRow headingInstrRow38 = Instruction.createRow(40);
+	            
+	        	Cell cell192 = headingInstrRow38.createCell(0);
+	        	cell192.setCellStyle(whiteStyle);
+	        	cell192.setCellValue(39);
+				
+	        	Cell cell193 = headingInstrRow38.createCell(1);
+	        	cell193.setCellStyle(whiteStyle);
+	        	cell193.setCellValue("Private (Indian Railway Act)");
+				
+	        	Cell cell194 = headingInstrRow38.createCell(3);
+	        	cell194.setCellStyle(whiteStyle);
+	        	cell194.setCellValue("Nomination of competent Authority - Date of Proposal to DC for nomination");
+				
+	        	Cell cell195 = headingInstrRow38.createCell(2);
+	        	cell195.setCellStyle(whiteStyle);
+	        	cell195.setCellValue("Date 'DD/MM/YYYY'");
+
+
+
+				XSSFRow headingInstrRow39 = Instruction.createRow(41);
+	            
+	        	Cell cell196 = headingInstrRow39.createCell(0);
+	        	cell196.setCellStyle(whiteStyle);
+	        	cell196.setCellValue(40);
+				
+	        	Cell cell197 = headingInstrRow39.createCell(1);
+	        	cell197.setCellStyle(whiteStyle);
+	        	cell197.setCellValue("Private (Indian Railway Act)");
+				
+	        	Cell cell198 = headingInstrRow39.createCell(3);
+	        	cell198.setCellStyle(whiteStyle);
+	        	cell198.setCellValue("Nomination of competent Authority - Date of Nomination of competent Authority.");
+				
+	        	Cell cell199 = headingInstrRow39.createCell(2);
+	        	cell199.setCellStyle(whiteStyle);
+	        	cell199.setCellValue("Date 'DD/MM/YYYY'");
+
+
+
+				XSSFRow headingInstrRow40 = Instruction.createRow(42);
+	            
+	        	Cell cell200 = headingInstrRow40.createCell(0);
+	        	cell200.setCellStyle(whiteStyle);
+	        	cell200.setCellValue(41);
+				
+	        	Cell cell201 = headingInstrRow40.createCell(1);
+	        	cell201.setCellStyle(whiteStyle);
+	        	cell201.setCellValue("Private (Indian Railway Act)");
+				
+	        	Cell cell202 = headingInstrRow40.createCell(3);
+	        	cell202.setCellStyle(whiteStyle);
+	        	cell202.setCellValue("Nomination of competent Authority - Draft Letter to CE/Con for Approval");
+				
+	        	Cell cell203 = headingInstrRow40.createCell(2);
+	        	cell203.setCellStyle(whiteStyle);
+	        	cell203.setCellValue("Date 'DD/MM/YYYY'");
+
+
+
+				XSSFRow headingInstrRow41 = Instruction.createRow(43);
+	            
+	        	Cell cell204 = headingInstrRow41.createCell(0);
+	        	cell204.setCellStyle(whiteStyle);
+	        	cell204.setCellValue(42);
+				
+	        	Cell cell205 = headingInstrRow41.createCell(1);
+	        	cell205.setCellStyle(whiteStyle);
+	        	cell205.setCellValue("Private (Indian Railway Act)");
+				
+	        	Cell cell206 = headingInstrRow41.createCell(3);
+	        	cell206.setCellStyle(whiteStyle);
+	        	cell206.setCellValue("Nomination of competent Authority - Date of Approval of CE/Construction");
+				
+	        	Cell cell207 = headingInstrRow41.createCell(2);
+	        	cell207.setCellStyle(whiteStyle);
+	        	cell207.setCellValue("Date 'DD/MM/YYYY'");
+
+
+				XSSFRow headingInstrRow42 = Instruction.createRow(44);
+	            
+	        	Cell cell208 = headingInstrRow42.createCell(0);
+	        	cell208.setCellStyle(whiteStyle);
+	        	cell208.setCellValue(43);
+				
+	        	Cell cell209 = headingInstrRow42.createCell(1);
+	        	cell209.setCellStyle(whiteStyle);
+	        	cell209.setCellValue("Private (Indian Railway Act)");
+				
+	        	Cell cell210 = headingInstrRow42.createCell(3);
+	        	cell210.setCellStyle(whiteStyle);
+	        	cell210.setCellValue("Nomination of competent Authority - Date of Uploading of  Gazette notification");
+				
+	        	Cell cell311 = headingInstrRow42.createCell(2);
+	        	cell311.setCellStyle(whiteStyle);
+	        	cell311.setCellValue("Date 'DD/MM/YYYY'");
+
+
+				XSSFRow headingInstrRow43 = Instruction.createRow(45);
+	            
+	        	Cell cell212 = headingInstrRow43.createCell(0);
+	        	cell212.setCellStyle(whiteStyle);
+	        	cell212.setCellValue(44);
+				
+	        	Cell cell213 = headingInstrRow43.createCell(1);
+	        	cell213.setCellStyle(whiteStyle);
+	        	cell213.setCellValue("Private (Indian Railway Act)");
+				
+	        	Cell cell214 = headingInstrRow43.createCell(3);
+	        	cell214.setCellStyle(whiteStyle);
+	        	cell214.setCellValue("Publication in gazette");
+				
+	        	Cell cell215 = headingInstrRow43.createCell(2);
+	        	cell215.setCellStyle(whiteStyle);
+	        	cell215.setCellValue("Date 'DD/MM/YYYY'");
+
+
+				XSSFRow headingInstrRow44 = Instruction.createRow(46);
+	            
+	        	Cell cell216 = headingInstrRow44.createCell(0);
+	        	cell216.setCellStyle(whiteStyle);
+	        	cell216.setCellValue(45);
+				
+	        	Cell cell217 = headingInstrRow44.createCell(1);
+	        	cell217.setCellStyle(whiteStyle);
+	        	cell217.setCellValue("Private (Indian Railway Act)");
+				
+	        	Cell cell218 = headingInstrRow44.createCell(3);
+	        	cell218.setCellStyle(whiteStyle);
+	        	cell218.setCellValue("Publication of notification under 20 A - Date of Submission of draft notification to CALA");
+				
+	        	Cell cell219 = headingInstrRow44.createCell(2);
+	        	cell219.setCellStyle(whiteStyle);
+	        	cell219.setCellValue("Date 'DD/MM/YYYY'");
+
+
+				XSSFRow headingInstrRow45 = Instruction.createRow(47);
+	            
+	        	Cell cell220 = headingInstrRow45.createCell(0);
+	        	cell220.setCellStyle(whiteStyle);
+	        	cell220.setCellValue(46);
+				
+	        	Cell cell221 = headingInstrRow45.createCell(1);
+	        	cell221.setCellStyle(whiteStyle);
+	        	cell221.setCellValue("Private (Indian Railway Act)");
+				
+	        	Cell cell222 = headingInstrRow45.createCell(3);
+	        	cell222.setCellStyle(whiteStyle);
+	        	cell222.setCellValue("Publication of notification under 20 A - Approval of CALA");
+				
+	        	Cell cell223 = headingInstrRow45.createCell(2);
+	        	cell223.setCellStyle(whiteStyle);
+	        	cell223.setCellValue("Date 'DD/MM/YYYY'");
+
+
+
+				XSSFRow headingInstrRow46 = Instruction.createRow(48);
+	            
+	        	Cell cell224 = headingInstrRow46.createCell(0);
+	        	cell224.setCellStyle(whiteStyle);
+	        	cell224.setCellValue(47);
+				
+	        	Cell cell225 = headingInstrRow46.createCell(1);
+	        	cell225.setCellStyle(whiteStyle);
+	        	cell225.setCellValue("Private (Indian Railway Act)");
+				
+	        	Cell cell226 = headingInstrRow46.createCell(3);
+	        	cell226.setCellStyle(whiteStyle);
+	        	cell226.setCellValue("Publication of notification under 20 A - Draft Letter to CE/Con for Approval");
+				
+	        	Cell cell227 = headingInstrRow46.createCell(2);
+	        	cell227.setCellStyle(whiteStyle);
+	        	cell227.setCellValue("Date 'DD/MM/YYYY'");
+
+
+				XSSFRow headingInstrRow47 = Instruction.createRow(49);
+	            
+	        	Cell cell228 = headingInstrRow47.createCell(0);
+	        	cell228.setCellStyle(whiteStyle);
+	        	cell228.setCellValue(48);
+				
+	        	Cell cell229 = headingInstrRow47.createCell(1);
+	        	cell229.setCellStyle(whiteStyle);
+	        	cell229.setCellValue("Private (Indian Railway Act)");
+				
+	        	Cell cell230 = headingInstrRow47.createCell(3);
+	        	cell230.setCellStyle(whiteStyle);
+	        	cell230.setCellValue("Publication of notification under 20 A - Date of Approval of CE/Construction");
+				
+	        	Cell cell231 = headingInstrRow47.createCell(2);
+	        	cell231.setCellStyle(whiteStyle);
+	        	cell231.setCellValue("Date 'DD/MM/YYYY'");
+
+
+				XSSFRow headingInstrRow48 = Instruction.createRow(50);
+	            
+	        	Cell cell232 = headingInstrRow48.createCell(0);
+	        	cell232.setCellStyle(whiteStyle);
+	        	cell232.setCellValue(49);
+				
+	        	Cell cell233 = headingInstrRow48.createCell(1);
+	        	cell233.setCellStyle(whiteStyle);
+	        	cell233.setCellValue("Private (Indian Railway Act)");
+				
+	        	Cell cell234 = headingInstrRow48.createCell(3);
+	        	cell234.setCellStyle(whiteStyle);
+	        	cell234.setCellValue("Publication of notification under 20 A - Date of Uploading of  Gazette notification");
+				
+	        	Cell cell235 = headingInstrRow48.createCell(2);
+	        	cell235.setCellStyle(whiteStyle);
+	        	cell235.setCellValue("Date 'DD/MM/YYYY'");
+
+
+				XSSFRow headingInstrRow49 = Instruction.createRow(51);
+	            
+	        	Cell cell236 = headingInstrRow48.createCell(0);
+	        	cell236.setCellStyle(whiteStyle);
+	        	cell236.setCellValue(50);
+				
+	        	Cell cell237 = headingInstrRow48.createCell(1);
+	        	cell237.setCellStyle(whiteStyle);
+	        	cell237.setCellValue("Private (Indian Railway Act)");
+				
+	        	Cell cell238 = headingInstrRow48.createCell(3);
+	        	cell238.setCellStyle(whiteStyle);
+	        	cell238.setCellValue("Publication of notification under 20 A - Publication in gazette");
+				
+	        	Cell cell239 = headingInstrRow48.createCell(2);
+	        	cell239.setCellStyle(whiteStyle);
+	        	cell239.setCellValue("Date 'DD/MM/YYYY'");
+
+
+
+				XSSFRow headingInstrRow50 = Instruction.createRow(52);
+	            
+	        	Cell cell240 = headingInstrRow50.createCell(0);
+	        	cell240.setCellStyle(whiteStyle);
+	        	cell240.setCellValue(51);
+				
+	        	Cell cell241 = headingInstrRow50.createCell(1);
+	        	cell241.setCellStyle(whiteStyle);
+	        	cell241.setCellValue("Private (Indian Railway Act)");
+				
+	        	Cell cell242 = headingInstrRow50.createCell(3);
+	        	cell242.setCellStyle(whiteStyle);
+	        	cell242.setCellValue("Publication of notification under 20 A - Publication in 2 Local Newspapers");
+				
+	        	Cell cell243 = headingInstrRow50.createCell(2);
+	        	cell243.setCellStyle(whiteStyle);
+	        	cell243.setCellValue("Date 'DD/MM/YYYY'");
+				
+
+
+				XSSFRow headingInstrRow51 = Instruction.createRow(53);
+	            
+	        	Cell cell244 = headingInstrRow51.createCell(0);
+	        	cell244.setCellStyle(whiteStyle);
+	        	cell244.setCellValue(52);
+				
+	        	Cell cell245 = headingInstrRow51.createCell(1);
+	        	cell245.setCellStyle(whiteStyle);
+	        	cell245.setCellValue("Private (Indian Railway Act)");
+				
+	        	Cell cell246 = headingInstrRow51.createCell(3);
+	        	cell246.setCellStyle(whiteStyle);
+	        	cell246.setCellValue("Publication of notification under 20 A - Pasting of notification in villages");
+				
+	        	Cell cell247 = headingInstrRow51.createCell(2);
+	        	cell247.setCellStyle(whiteStyle);
+	        	cell247.setCellValue("Date 'DD/MM/YYYY'");
+				
+
+
+				XSSFRow headingInstrRow52 = Instruction.createRow(54);
+	            
+	        	Cell cell248 = headingInstrRow52.createCell(0);
+	        	cell248.setCellStyle(whiteStyle);
+	        	cell248.setCellValue(53);
+				
+	        	Cell cell249 = headingInstrRow52.createCell(1);
+	        	cell249.setCellStyle(whiteStyle);
+	        	cell249.setCellValue("Private (Indian Railway Act)");
+				
+	        	Cell cell250 = headingInstrRow52.createCell(3);
+	        	cell250.setCellStyle(whiteStyle);
+	        	cell250.setCellValue("Grievances Redressal - Receipt of Grievances");
+				
+	        	Cell cell251 = headingInstrRow52.createCell(2);
+	        	cell251.setCellStyle(whiteStyle);
+	        	cell251.setCellValue("Date 'DD/MM/YYYY'");
+
+
+
+				XSSFRow headingInstrRow53 = Instruction.createRow(55);
+	            
+	        	Cell cell252 = headingInstrRow53.createCell(0);
+	        	cell252.setCellStyle(whiteStyle);
+	        	cell252.setCellValue(54);
+				
+	        	Cell cell253 = headingInstrRow53.createCell(1);
+	        	cell253.setCellStyle(whiteStyle);
+	        	cell253.setCellValue("Private (Indian Railway Act)");
+				
+	        	Cell cell254 = headingInstrRow53.createCell(3);
+	        	cell254.setCellStyle(whiteStyle);
+	        	cell254.setCellValue("Grievances Redressal - Disposal of Grievances");
+				
+	        	Cell cell255 = headingInstrRow53.createCell(2);
+	        	cell255.setCellStyle(whiteStyle);
+	        	cell255.setCellValue("Date 'DD/MM/YYYY'");
+				
+
+
+				XSSFRow headingInstrRow54 = Instruction.createRow(56);
+	            
+	        	Cell cell256 = headingInstrRow54.createCell(0);
+	        	cell256.setCellStyle(whiteStyle);
+	        	cell256.setCellValue(55);
+				
+	        	Cell cell257 = headingInstrRow54.createCell(1);
+	        	cell257.setCellStyle(whiteStyle);
+	        	cell257.setCellValue("Private (Indian Railway Act)");
+				
+	        	Cell cell258 = headingInstrRow54.createCell(3);
+	        	cell258.setCellStyle(whiteStyle);
+	        	cell258.setCellValue("Acquisition notice under 20E - Date of Submission of draft notification to CALA");
+				
+	        	Cell cell259 = headingInstrRow54.createCell(2);
+	        	cell259.setCellStyle(whiteStyle);
+	        	cell259.setCellValue("Date 'DD/MM/YYYY'");
+
+				
+				XSSFRow headingInstrRow55 = Instruction.createRow(57);
+	            
+	        	Cell cell260 = headingInstrRow55.createCell(0);
+	        	cell260.setCellStyle(whiteStyle);
+	        	cell260.setCellValue(56);
+				
+	        	Cell cell261 = headingInstrRow55.createCell(1);
+	        	cell261.setCellStyle(whiteStyle);
+	        	cell261.setCellValue("Private (Indian Railway Act)");
+				
+	        	Cell cell262 = headingInstrRow55.createCell(3);
+	        	cell262.setCellStyle(whiteStyle);
+	        	cell262.setCellValue("Acquisition notice under 20E - Approval of CALA");
+				
+	        	Cell cell263 = headingInstrRow55.createCell(2);
+	        	cell263.setCellStyle(whiteStyle);
+	        	cell263.setCellValue("Date 'DD/MM/YYYY'");
+
+
+				
+				XSSFRow headingInstrRow56 = Instruction.createRow(58);
+	            
+	        	Cell cell264 = headingInstrRow56.createCell(0);
+	        	cell264.setCellStyle(whiteStyle);
+	        	cell264.setCellValue(57);
+				
+	        	Cell cell265 = headingInstrRow56.createCell(1);
+	        	cell265.setCellStyle(whiteStyle);
+	        	cell265.setCellValue("Private (Indian Railway Act)");
+				
+	        	Cell cell266 = headingInstrRow56.createCell(3);
+	        	cell266.setCellStyle(whiteStyle);
+	        	cell266.setCellValue("Acquisition notice under 20E - Draft Letter to CE/Con for Approval");
+				
+	        	Cell cell267 = headingInstrRow56.createCell(2);
+	        	cell267.setCellStyle(whiteStyle);
+	        	cell267.setCellValue("Date 'DD/MM/YYYY'");
+				
+
+				
+				XSSFRow headingInstrRow57 = Instruction.createRow(59);
+	            
+	        	Cell cell268 = headingInstrRow57.createCell(0);
+	        	cell268.setCellStyle(whiteStyle);
+	        	cell268.setCellValue(58);
+				
+	        	Cell cell269 = headingInstrRow57.createCell(1);
+	        	cell269.setCellStyle(whiteStyle);
+	        	cell269.setCellValue("Private (Indian Railway Act)");
+				
+	        	Cell cell270 = headingInstrRow57.createCell(3);
+	        	cell270.setCellStyle(whiteStyle);
+	        	cell270.setCellValue("Acquisition notice under 20E - Date of Approval of CE/Construction");
+				
+	        	Cell cell271 = headingInstrRow57.createCell(2);
+	        	cell271.setCellStyle(whiteStyle);
+	        	cell271.setCellValue("Date 'DD/MM/YYYY'");
+
+
+				
+				XSSFRow headingInstrRow58 = Instruction.createRow(60);
+	            
+	        	Cell cell272 = headingInstrRow58.createCell(0);
+	        	cell272.setCellStyle(whiteStyle);
+	        	cell272.setCellValue(59);
+				
+	        	Cell cell273 = headingInstrRow58.createCell(1);
+	        	cell273.setCellStyle(whiteStyle);
+	        	cell273.setCellValue("Private (Indian Railway Act)");
+				
+	        	Cell cell274 = headingInstrRow58.createCell(3);
+	        	cell274.setCellStyle(whiteStyle);
+	        	cell274.setCellValue("Acquisition notice under 20E - Date of Uploading of  Gazette notification");
+				
+	        	Cell cell275 = headingInstrRow58.createCell(2);
+	        	cell275.setCellStyle(whiteStyle);
+	        	cell275.setCellValue("Date 'DD/MM/YYYY'");
+
+
+				
+				XSSFRow headingInstrRow59 = Instruction.createRow(61);
+	            
+	        	Cell cell276 = headingInstrRow59.createCell(0);
+	        	cell276.setCellStyle(whiteStyle);
+	        	cell276.setCellValue(60);
+				
+	        	Cell cell277 = headingInstrRow59.createCell(1);
+	        	cell277.setCellStyle(whiteStyle);
+	        	cell277.setCellValue("Private (Indian Railway Act)");
+				
+	        	Cell cell278 = headingInstrRow59.createCell(3);
+	        	cell278.setCellStyle(whiteStyle);
+	        	cell278.setCellValue("Acquisition notice under 20E - Publication in gazette");
+				
+	        	Cell cell279 = headingInstrRow59.createCell(2);
+	        	cell279.setCellStyle(whiteStyle);
+	        	cell279.setCellValue("Date 'DD/MM/YYYY'");
+
+
+				
+				XSSFRow headingInstrRow60 = Instruction.createRow(62);
+	            
+	        	Cell cell280 = headingInstrRow60.createCell(0);
+	        	cell280.setCellStyle(whiteStyle);
+	        	cell280.setCellValue(61);
+				
+	        	Cell cell281 = headingInstrRow60.createCell(1);
+	        	cell281.setCellStyle(whiteStyle);
+	        	cell281.setCellValue("Private (Indian Railway Act)");
+				
+	        	Cell cell282 = headingInstrRow60.createCell(3);
+	        	cell282.setCellStyle(whiteStyle);
+	        	cell282.setCellValue("Acquisition notice under 20E - Publication of notice in 2 Local News papers ");
+				
+	        	Cell cell283 = headingInstrRow60.createCell(2);
+	        	cell283.setCellStyle(whiteStyle);
+	        	cell283.setCellValue("Date 'DD/MM/YYYY'");
+
+
+				
+				XSSFRow headingInstrRow61 = Instruction.createRow(63);
+	            
+	        	Cell cell284 = headingInstrRow61.createCell(0);
+	        	cell284.setCellStyle(whiteStyle);
+	        	cell284.setCellValue(62);
+				
+	        	Cell cell285 = headingInstrRow61.createCell(1);
+	        	cell285.setCellStyle(whiteStyle);
+	        	cell285.setCellValue("Private (Indian Railway Act)");
+				
+	        	Cell cell286 = headingInstrRow61.createCell(3);
+	        	cell286.setCellStyle(whiteStyle);
+	        	cell286.setCellValue("Acquisition notice under 20F - Date of Submission of draft notification to CALA");
+				
+	        	Cell cell287 = headingInstrRow61.createCell(2);
+	        	cell287.setCellStyle(whiteStyle);
+	        	cell287.setCellValue("Date 'DD/MM/YYYY'");
+
+
+				
+				XSSFRow headingInstrRow62 = Instruction.createRow(64);
+	            
+	        	Cell cell288 = headingInstrRow62.createCell(0);
+	        	cell288.setCellStyle(whiteStyle);
+	        	cell288.setCellValue(63);
+				
+	        	Cell cell289 = headingInstrRow62.createCell(1);
+	        	cell289.setCellStyle(whiteStyle);
+	        	cell289.setCellValue("Private (Indian Railway Act)");
+				
+	        	Cell cell290 = headingInstrRow62.createCell(3);
+	        	cell290.setCellStyle(whiteStyle);
+	        	cell290.setCellValue("Acquisition notice under 20F - Approval of CALA");
+				
+	        	Cell cell291 = headingInstrRow62.createCell(2);
+	        	cell291.setCellStyle(whiteStyle);
+	        	cell291.setCellValue("Date 'DD/MM/YYYY'");
+
+
+				
+				XSSFRow headingInstrRow63 = Instruction.createRow(65);
+	            
+	        	Cell cell292 = headingInstrRow63.createCell(0);
+	        	cell292.setCellStyle(whiteStyle);
+	        	cell292.setCellValue(64);
+				
+	        	Cell cell293 = headingInstrRow63.createCell(1);
+	        	cell293.setCellStyle(whiteStyle);
+	        	cell293.setCellValue("Private (Indian Railway Act)");
+				
+	        	Cell cell294 = headingInstrRow63.createCell(3);
+	        	cell294.setCellStyle(whiteStyle);
+	        	cell294.setCellValue("Acquisition notice under 20F - Draft Letter to CE/Con for Approval");
+				
+	        	Cell cell295 = headingInstrRow63.createCell(2);
+	        	cell295.setCellStyle(whiteStyle);
+	        	cell295.setCellValue("Date 'DD/MM/YYYY'");
+
+
+				
+				XSSFRow headingInstrRow64 = Instruction.createRow(66);
+	            
+	        	Cell cell296 = headingInstrRow64.createCell(0);
+	        	cell296.setCellStyle(whiteStyle);
+	        	cell296.setCellValue(65);
+				
+	        	Cell cell297 = headingInstrRow64.createCell(1);
+	        	cell297.setCellStyle(whiteStyle);
+	        	cell297.setCellValue("Private (Indian Railway Act)");
+				
+	        	Cell cell298 = headingInstrRow64.createCell(3);
+	        	cell298.setCellStyle(whiteStyle);
+	        	cell298.setCellValue("Acquisition notice under 20F - Date of Approval of CE/Construction");
+				
+	        	Cell cell299 = headingInstrRow64.createCell(2);
+	        	cell299.setCellStyle(whiteStyle);
+	        	cell299.setCellValue("Date 'DD/MM/YYYY'");
+
+				
+				XSSFRow headingInstrRow65 = Instruction.createRow(67);
+	            
+	        	Cell cell300 = headingInstrRow65.createCell(0);
+	        	cell300.setCellStyle(whiteStyle);
+	        	cell300.setCellValue(66);
+				
+	        	Cell cell301 = headingInstrRow65.createCell(1);
+	        	cell301.setCellStyle(whiteStyle);
+	        	cell301.setCellValue("Private (Indian Railway Act)");
+				
+	        	Cell cell302 = headingInstrRow65.createCell(3);
+	        	cell302.setCellStyle(whiteStyle);
+	        	cell302.setCellValue("Acquisition notice under 20F - Date of Uploading of  Gazette notification");
+				
+	        	Cell cell303 = headingInstrRow65.createCell(2);
+	        	cell303.setCellStyle(whiteStyle);
+	        	cell303.setCellValue("Date 'DD/MM/YYYY'");
+
+
+				
+				XSSFRow headingInstrRow66 = Instruction.createRow(68);
+	            
+	        	Cell cell304 = headingInstrRow66.createCell(0);
+	        	cell304.setCellStyle(whiteStyle);
+	        	cell304.setCellValue(67);
+				
+	        	Cell cell305 = headingInstrRow66.createCell(1);
+	        	cell305.setCellStyle(whiteStyle);
+	        	cell305.setCellValue("Private (Indian Railway Act)");
+				
+	        	Cell cell306 = headingInstrRow66.createCell(3);
+	        	cell306.setCellStyle(whiteStyle);
+	        	cell306.setCellValue("Acquisition notice under 20F - Publication in gazette");
+				
+	        	Cell cell307 = headingInstrRow66.createCell(2);
+	        	cell307.setCellStyle(whiteStyle);
+	        	cell307.setCellValue("Date 'DD/MM/YYYY'");
+
+
+				
+				XSSFRow headingInstrRow67 = Instruction.createRow(69);
+	            
+	        	Cell cell308 = headingInstrRow67.createCell(0);
+	        	cell308.setCellStyle(whiteStyle);
+	        	cell308.setCellValue(68);
+				
+	        	Cell cell309 = headingInstrRow67.createCell(1);
+	        	cell309.setCellStyle(whiteStyle);
+	        	cell309.setCellValue("Private (Indian Railway Act)");
+				
+	        	Cell cell310 = headingInstrRow67.createCell(3);
+	        	cell310.setCellStyle(whiteStyle);
+	        	cell310.setCellValue("Acquisition notice under 20F - Publication of notice in 2 Local News papers ");
+				
+	        	Cell cell411 = headingInstrRow67.createCell(2);
+	        	cell411.setCellStyle(whiteStyle);
+	        	cell411.setCellValue("Date 'DD/MM/YYYY'");
+				
+
+				
+				XSSFRow headingInstrRow68 = Instruction.createRow(70);
+	            
+	        	Cell cell312 = headingInstrRow68.createCell(0);
+	        	cell312.setCellStyle(whiteStyle);
+	        	cell312.setCellValue(69);
+				
+	        	Cell cell313 = headingInstrRow68.createCell(1);
+	        	cell313.setCellStyle(whiteStyle);
+	        	cell313.setCellValue("Private Land valuation");
+				
+	        	Cell cell314 = headingInstrRow68.createCell(3);
+	        	cell314.setCellStyle(whiteStyle);
+	        	cell314.setCellValue("LA_ID");
+				
+	        	Cell cell315 = headingInstrRow68.createCell(2);
+	        	cell315.setCellStyle(whiteStyle);
+	        	cell315.setCellValue("");
+
+				
+				XSSFRow headingInstrRow69 = Instruction.createRow(71);
+	            
+	        	Cell cell316 = headingInstrRow69.createCell(0);
+	        	cell316.setCellStyle(whiteStyle);
+	        	cell316.setCellValue(70);
+				
+	        	Cell cell317 = headingInstrRow69.createCell(1);
+	        	cell317.setCellStyle(whiteStyle);
+	        	cell317.setCellValue("Private Land valuation");
+				
+	        	Cell cell318 = headingInstrRow69.createCell(3);
+	        	cell318.setCellStyle(whiteStyle);
+	        	cell318.setCellValue("Forest Tree Survey");
+				
+	        	Cell cell319 = headingInstrRow69.createCell(2);
+	        	cell319.setCellStyle(whiteStyle);
+	        	cell319.setCellValue("Date 'DD/MM/YYYY'");
+
+				
+				
+				XSSFRow headingInstrRow70 = Instruction.createRow(72);
+	            
+	        	Cell cell320 = headingInstrRow70.createCell(0);
+	        	cell320.setCellStyle(whiteStyle);
+	        	cell320.setCellValue(71);
+				
+	        	Cell cell321 = headingInstrRow70.createCell(1);
+	        	cell321.setCellStyle(whiteStyle);
+	        	cell321.setCellValue("Private Land valuation");
+				
+	        	Cell cell322 = headingInstrRow70.createCell(3);
+	        	cell322.setCellStyle(whiteStyle);
+	        	cell322.setCellValue("Forest Tree Valuation");
+				
+	        	Cell cell323 = headingInstrRow70.createCell(2);
+	        	cell323.setCellStyle(whiteStyle);
+	        	cell323.setCellValue("Date 'DD/MM/YYYY'");
+
+				
+				
+				XSSFRow headingInstrRow71 = Instruction.createRow(73);
+	            
+	        	Cell cell324 = headingInstrRow71.createCell(0);
+	        	cell324.setCellStyle(whiteStyle);
+	        	cell324.setCellValue(72);
+				
+	        	Cell cell325 = headingInstrRow71.createCell(1);
+	        	cell325.setCellStyle(whiteStyle);
+	        	cell325.setCellValue("Private Land valuation");
+				
+	        	Cell cell326 = headingInstrRow71.createCell(3);
+	        	cell326.setCellStyle(whiteStyle);
+	        	cell326.setCellValue("Horticulture Tree Survey");
+				
+	        	Cell cell327 = headingInstrRow71.createCell(2);
+	        	cell327.setCellStyle(whiteStyle);
+	        	cell327.setCellValue("Date 'DD/MM/YYYY'");
+
+				
+				
+				XSSFRow headingInstrRow72 = Instruction.createRow(74);
+	            
+	        	Cell cell328 = headingInstrRow72.createCell(0);
+	        	cell328.setCellStyle(whiteStyle);
+	        	cell328.setCellValue(73);
+				
+	        	Cell cell329 = headingInstrRow72.createCell(1);
+	        	cell329.setCellStyle(whiteStyle);
+	        	cell329.setCellValue("Private Land valuation");
+				
+	        	Cell cell330 = headingInstrRow72.createCell(3);
+	        	cell330.setCellStyle(whiteStyle);
+	        	cell330.setCellValue("Horticulture Tree Valuation");
+				
+	        	Cell cell331 = headingInstrRow72.createCell(2);
+	        	cell331.setCellStyle(whiteStyle);
+	        	cell331.setCellValue("Date 'DD/MM/YYYY'");
+
+				
+				
+				XSSFRow headingInstrRow73 = Instruction.createRow(75);
+	            
+	        	Cell cell332 = headingInstrRow73.createCell(0);
+	        	cell332.setCellStyle(whiteStyle);
+	        	cell332.setCellValue(74);
+				
+	        	Cell cell333 = headingInstrRow73.createCell(1);
+	        	cell333.setCellStyle(whiteStyle);
+	        	cell333.setCellValue("Private Land valuation");
+				
+	        	Cell cell334 = headingInstrRow73.createCell(3);
+	        	cell334.setCellStyle(whiteStyle);
+	        	cell334.setCellValue("Structure Survey");
+				
+	        	Cell cell335 = headingInstrRow73.createCell(2);
+	        	cell335.setCellStyle(whiteStyle);
+	        	cell335.setCellValue("Date 'DD/MM/YYYY'");
+
+				
+				
+				XSSFRow headingInstrRow74 = Instruction.createRow(76);
+	            
+	        	Cell cell336 = headingInstrRow74.createCell(0);
+	        	cell336.setCellStyle(whiteStyle);
+	        	cell336.setCellValue(75);
+				
+	        	Cell cell337 = headingInstrRow74.createCell(1);
+	        	cell337.setCellStyle(whiteStyle);
+	        	cell337.setCellValue("Private Land valuation");
+				
+	        	Cell cell338 = headingInstrRow74.createCell(3);
+	        	cell338.setCellStyle(whiteStyle);
+	        	cell338.setCellValue("Structure Valuation");
+				
+	        	Cell cell339 = headingInstrRow74.createCell(2);
+	        	cell339.setCellStyle(whiteStyle);
+	        	cell339.setCellValue("Date 'DD/MM/YYYY'");
+
+				
+				
+				XSSFRow headingInstrRow75 = Instruction.createRow(77);
+	            
+	        	Cell cell340 = headingInstrRow75.createCell(0);
+	        	cell340.setCellStyle(whiteStyle);
+	        	cell340.setCellValue(76);
+				
+	        	Cell cell341 = headingInstrRow75.createCell(1);
+	        	cell341.setCellStyle(whiteStyle);
+	        	cell341.setCellValue("Private Land valuation");
+				
+	        	Cell cell342 = headingInstrRow75.createCell(3);
+	        	cell342.setCellStyle(whiteStyle);
+	        	cell342.setCellValue("Borewell Survey");
+				
+	        	Cell cell343 = headingInstrRow75.createCell(2);
+	        	cell343.setCellStyle(whiteStyle);
+	        	cell343.setCellValue("Date 'DD/MM/YYYY'");
+
+				
+				
+				XSSFRow headingInstrRow76 = Instruction.createRow(78);
+	            
+	        	Cell cell344 = headingInstrRow76.createCell(0);
+	        	cell344.setCellStyle(whiteStyle);
+	        	cell344.setCellValue(77);
+				
+	        	Cell cell345 = headingInstrRow76.createCell(1);
+	        	cell345.setCellStyle(whiteStyle);
+	        	cell345.setCellValue("Private Land valuation");
+				
+	        	Cell cell346 = headingInstrRow76.createCell(3);
+	        	cell346.setCellStyle(whiteStyle);
+	        	cell346.setCellValue("Borewell Valuation");
+				
+	        	Cell cell347 = headingInstrRow76.createCell(2);
+	        	cell347.setCellStyle(whiteStyle);
+	        	cell347.setCellValue("Date 'DD/MM/YYYY'");
+
+				
+				
+				XSSFRow headingInstrRow77 = Instruction.createRow(79);
+	            
+	        	Cell cell348 = headingInstrRow77.createCell(0);
+	        	cell348.setCellStyle(whiteStyle);
+	        	cell348.setCellValue(78);
+				
+	        	Cell cell349 = headingInstrRow77.createCell(1);
+	        	cell349.setCellStyle(whiteStyle);
+	        	cell349.setCellValue("Private Land valuation");
+				
+	        	Cell cell350 = headingInstrRow77.createCell(3);
+	        	cell350.setCellStyle(whiteStyle);
+	        	cell350.setCellValue("Date of RFP to ADTP");
+				
+	        	Cell cell351 = headingInstrRow77.createCell(2);
+	        	cell351.setCellStyle(whiteStyle);
+	        	cell351.setCellValue("Date 'DD/MM/YYYY'");
+
+				
+				
+				XSSFRow headingInstrRow78 = Instruction.createRow(80);
+	            
+	        	Cell cell352 = headingInstrRow78.createCell(0);
+	        	cell352.setCellStyle(whiteStyle);
+	        	cell352.setCellValue(79);
+				
+	        	Cell cell353 = headingInstrRow78.createCell(1);
+	        	cell353.setCellStyle(whiteStyle);
+	        	cell353.setCellValue("Private Land valuation");
+				
+	        	Cell cell354 = headingInstrRow78.createCell(3);
+	        	cell354.setCellStyle(whiteStyle);
+	        	cell354.setCellValue("Date of Rate Fixation of Land");
+				
+	        	Cell cell355 = headingInstrRow78.createCell(2);
+	        	cell355.setCellStyle(whiteStyle);
+	        	cell355.setCellValue("Date 'DD/MM/YYYY'");
+
+				
+				
+				XSSFRow headingInstrRow79 = Instruction.createRow(81);
+	            
+	        	Cell cell356 = headingInstrRow79.createCell(0);
+	        	cell356.setCellStyle(whiteStyle);
+	        	cell356.setCellValue(80);
+				
+	        	Cell cell357 = headingInstrRow79.createCell(1);
+	        	cell357.setCellStyle(whiteStyle);
+	        	cell357.setCellValue("Private Land valuation");
+				
+	        	Cell cell358 = headingInstrRow79.createCell(3);
+	        	cell358.setCellStyle(whiteStyle);
+	        	cell358.setCellValue("SDO demand for payment");
+				
+	        	Cell cell359 = headingInstrRow79.createCell(2);
+	        	cell359.setCellStyle(whiteStyle);
+	        	cell359.setCellValue("Date 'DD/MM/YYYY'");
+
+				
+				
+				XSSFRow headingInstrRow80 = Instruction.createRow(82);
+	            
+	        	Cell cell360 = headingInstrRow80.createCell(0);
+	        	cell360.setCellStyle(whiteStyle);
+	        	cell360.setCellValue(81);
+				
+	        	Cell cell361 = headingInstrRow80.createCell(1);
+	        	cell361.setCellStyle(whiteStyle);
+	        	cell361.setCellValue("Private Land valuation");
+				
+	        	Cell cell362 = headingInstrRow80.createCell(3);
+	        	cell362.setCellStyle(whiteStyle);
+	        	cell362.setCellValue("Date of Approval for Payment");
+				
+	        	Cell cell363 = headingInstrRow80.createCell(2);
+	        	cell363.setCellStyle(whiteStyle);
+	        	cell363.setCellValue("Date 'DD/MM/YYYY'");
+
+				
+				
+				XSSFRow headingInstrRow81 = Instruction.createRow(83);
+	            
+	        	Cell cell364 = headingInstrRow81.createCell(0);
+	        	cell364.setCellStyle(whiteStyle);
+	        	cell364.setCellValue(82);
+				
+	        	Cell cell365 = headingInstrRow81.createCell(1);
+	        	cell365.setCellStyle(whiteStyle);
+	        	cell365.setCellValue("Private Land valuation");
+				
+	        	Cell cell366 = headingInstrRow81.createCell(3);
+	        	cell366.setCellStyle(whiteStyle);
+	        	cell366.setCellValue("Payment Amount");
+				
+	        	Cell cell367 = headingInstrRow81.createCell(2);
+	        	cell367.setCellStyle(whiteStyle);
+	        	cell367.setCellValue("Payment amount in Rupees");
+
+				
+				
+				XSSFRow headingInstrRow82 = Instruction.createRow(84);
+	            
+	        	Cell cell368 = headingInstrRow82.createCell(0);
+	        	cell368.setCellStyle(whiteStyle);
+	        	cell368.setCellValue(83);
+				
+	        	Cell cell369 = headingInstrRow82.createCell(1);
+	        	cell369.setCellStyle(whiteStyle);
+	        	cell369.setCellValue("Private Land valuation");
+				
+	        	Cell cell370 = headingInstrRow82.createCell(3);
+	        	cell370.setCellStyle(whiteStyle);
+	        	cell370.setCellValue("Payment Date");
+				
+	        	Cell cell371 = headingInstrRow82.createCell(2);
+	        	cell371.setCellStyle(whiteStyle);
+	        	cell371.setCellValue("Date 'DD/MM/YYYY'");
+
+				
+				
+				XSSFRow headingInstrRow83 = Instruction.createRow(85);
+	            
+	        	Cell cell372 = headingInstrRow83.createCell(0);
+	        	cell372.setCellStyle(whiteStyle);
+	        	cell372.setCellValue(84);
+				
+	        	Cell cell373 = headingInstrRow83.createCell(1);
+	        	cell373.setCellStyle(whiteStyle);
+	        	cell373.setCellValue("Private Land Acquisition");
+				
+	        	Cell cell374 = headingInstrRow83.createCell(3);
+	        	cell374.setCellStyle(whiteStyle);
+	        	cell374.setCellValue("LA_ID");
+				
+	        	Cell cell375 = headingInstrRow83.createCell(2);
+	        	cell375.setCellStyle(whiteStyle);
+	        	cell375.setCellValue("INPUT 2: Land Acquisition Unique ID ");
+
+				
+				
+				XSSFRow headingInstrRow84 = Instruction.createRow(86);
+	            
+	        	Cell cell376 = headingInstrRow84.createCell(0);
+	        	cell376.setCellStyle(whiteStyle);
+	        	cell376.setCellValue(85);
+				
+	        	Cell cell377 = headingInstrRow84.createCell(1);
+	        	cell377.setCellStyle(whiteStyle);
+	        	cell377.setCellValue("Private Land Acquisition");
+				
+	        	Cell cell378 = headingInstrRow84.createCell(3);
+	        	cell378.setCellStyle(whiteStyle);
+	        	cell378.setCellValue("Name of Owner");
+				
+	        	Cell cell379 = headingInstrRow84.createCell(2);
+	        	cell379.setCellStyle(whiteStyle);
+	        	cell379.setCellValue("Name of Owner");
+
+				
+				
+				XSSFRow headingInstrRow85 = Instruction.createRow(87);
+	            
+	        	Cell cell380 = headingInstrRow85.createCell(0);
+	        	cell380.setCellStyle(whiteStyle);
+	        	cell380.setCellValue(86);
+				
+	        	Cell cell381 = headingInstrRow85.createCell(1);
+	        	cell381.setCellStyle(whiteStyle);
+	        	cell381.setCellValue("Private Land Acquisition");
+				
+	        	Cell cell382 = headingInstrRow85.createCell(3);
+	        	cell382.setCellStyle(whiteStyle);
+	        	cell382.setCellValue("Basic Rate");
+				
+	        	Cell cell383 = headingInstrRow85.createCell(2);
+	        	cell383.setCellStyle(whiteStyle);
+	        	cell383.setCellValue("Amount in Rupees");
+
+				
+				
+				XSSFRow headingInstrRow86 = Instruction.createRow(88);
+	            
+	        	Cell cell384 = headingInstrRow86.createCell(0);
+	        	cell384.setCellStyle(whiteStyle);
+	        	cell384.setCellValue(87);
+				
+	        	Cell cell385 = headingInstrRow86.createCell(1);
+	        	cell385.setCellStyle(whiteStyle);
+	        	cell385.setCellValue("Private Land Acquisition");
+				
+	        	Cell cell386 = headingInstrRow86.createCell(3);
+	        	cell386.setCellStyle(whiteStyle);
+	        	cell386.setCellValue("100% Solatium");
+				
+	        	Cell cell387 = headingInstrRow86.createCell(2);
+	        	cell387.setCellStyle(whiteStyle);
+	        	cell387.setCellValue("Amount in Rupees");
+
+				
+				
+				XSSFRow headingInstrRow87 = Instruction.createRow(89);
+	            
+	        	Cell cell388 = headingInstrRow87.createCell(0);
+	        	cell388.setCellStyle(whiteStyle);
+	        	cell388.setCellValue(88);
+				
+	        	Cell cell389 = headingInstrRow87.createCell(1);
+	        	cell389.setCellStyle(whiteStyle);
+	        	cell389.setCellValue("Private Land Acquisition");
+				
+	        	Cell cell390= headingInstrRow87.createCell(3);
+	        	cell390.setCellStyle(whiteStyle);
+	        	cell390.setCellValue("Extra 25%");
+				
+	        	Cell cell391 = headingInstrRow87.createCell(2);
+	        	cell391.setCellStyle(whiteStyle);
+	        	cell391.setCellValue("Amount in Rupees");
+
+				
+				
+				XSSFRow headingInstrRow88 = Instruction.createRow(90);
+	            
+	        	Cell cell392 = headingInstrRow88.createCell(0);
+	        	cell392.setCellStyle(whiteStyle);
+	        	cell392.setCellValue(89);
+				
+	        	Cell cell393 = headingInstrRow88.createCell(1);
+	        	cell393.setCellStyle(whiteStyle);
+	        	cell393.setCellValue("Private Land Acquisition");
+				
+	        	Cell cell394= headingInstrRow88.createCell(3);
+	        	cell394.setCellStyle(whiteStyle);
+	        	cell394.setCellValue("Total Rate/m2");
+				
+	        	Cell cell395 = headingInstrRow88.createCell(2);
+	        	cell395.setCellStyle(whiteStyle);
+	        	cell395.setCellValue("Amount in Rupees");
+				
+				
+				
+				XSSFRow headingInstrRow89 = Instruction.createRow(91);
+	            
+	        	Cell cell396 = headingInstrRow89.createCell(0);
+	        	cell396.setCellStyle(whiteStyle);
+	        	cell396.setCellValue(90);
+				
+	        	Cell cell397 = headingInstrRow89.createCell(1);
+	        	cell397.setCellStyle(whiteStyle);
+	        	cell397.setCellValue("Private Land Acquisition");
+				
+	        	Cell cell398= headingInstrRow89.createCell(3);
+	        	cell398.setCellStyle(whiteStyle);
+	        	cell398.setCellValue("Land Compensation");
+				
+	        	Cell cell399 = headingInstrRow89.createCell(2);
+	        	cell399.setCellStyle(whiteStyle);
+	        	cell399.setCellValue("Amount in Rupees");
+
+				
+				
+				XSSFRow headingInstrRow90 = Instruction.createRow(92);
+	            
+	        	Cell cell400 = headingInstrRow90.createCell(0);
+	        	cell400.setCellStyle(whiteStyle);
+	        	cell400.setCellValue(91);
+				
+	        	Cell cell401 = headingInstrRow90.createCell(1);
+	        	cell401.setCellStyle(whiteStyle);
+	        	cell401.setCellValue("Private Land Acquisition");
+				
+	        	Cell cell402 = headingInstrRow90.createCell(3);
+	        	cell402.setCellStyle(whiteStyle);
+	        	cell402.setCellValue("Agriculture tree nos");
+				
+	        	Cell cell403 = headingInstrRow90.createCell(2);
+	        	cell403.setCellStyle(whiteStyle);
+	        	cell403.setCellValue("Number of trees");
+
+				
+				
+				XSSFRow headingInstrRow91 = Instruction.createRow(93);
+	            
+	        	Cell cell404 = headingInstrRow91.createCell(0);
+	        	cell404.setCellStyle(whiteStyle);
+	        	cell404.setCellValue(92);
+				
+	        	Cell cell405 = headingInstrRow91.createCell(1);
+	        	cell405.setCellStyle(whiteStyle);
+	        	cell405.setCellValue("Private Land Acquisition");
+				
+	        	Cell cell406 = headingInstrRow91.createCell(3);
+	        	cell406.setCellStyle(whiteStyle);
+	        	cell406.setCellValue("Agriculture tree rate");
+				
+	        	Cell cell407 = headingInstrRow91.createCell(2);
+	        	cell407.setCellStyle(whiteStyle);
+	        	cell407.setCellValue("Amount in Rupees");
+
+				
+				
+				XSSFRow headingInstrRow92 = Instruction.createRow(94);
+	            
+	        	Cell cell408 = headingInstrRow92.createCell(0);
+	        	cell408.setCellStyle(whiteStyle);
+	        	cell408.setCellValue(93);
+				
+	        	Cell cell409 = headingInstrRow92.createCell(1);
+	        	cell409.setCellStyle(whiteStyle);
+	        	cell409.setCellValue("Private Land Acquisition");
+				
+	        	Cell cell410 = headingInstrRow92.createCell(3);
+	        	cell410.setCellStyle(whiteStyle);
+	        	cell410.setCellValue("Agriculture tree compensation");
+				
+	        	Cell cell5111 = headingInstrRow92.createCell(2);
+	        	cell5111.setCellStyle(whiteStyle);
+	        	cell5111.setCellValue("Amount in Rupees");
+
+				
+				
+				XSSFRow headingInstrRow93 = Instruction.createRow(95);
+	            
+	        	Cell cell412 = headingInstrRow93.createCell(0);
+	        	cell412.setCellStyle(whiteStyle);
+	        	cell412.setCellValue(94);
+				
+	        	Cell cell413 = headingInstrRow93.createCell(1);
+	        	cell413.setCellStyle(whiteStyle);
+	        	cell413.setCellValue("Private Land Acquisition");
+				
+	        	Cell cell414 = headingInstrRow93.createCell(3);
+	        	cell414.setCellStyle(whiteStyle);
+	        	cell414.setCellValue("Forest tree nos");
+				
+	        	Cell cell415 = headingInstrRow93.createCell(2);
+	        	cell415.setCellStyle(whiteStyle);
+	        	cell415.setCellValue("Number of trees");
+
+				
+				
+				XSSFRow headingInstrRow94 = Instruction.createRow(96);
+	            
+	        	Cell cell416 = headingInstrRow94.createCell(0);
+	        	cell416.setCellStyle(whiteStyle);
+	        	cell416.setCellValue(95);
+				
+	        	Cell cell417 = headingInstrRow94.createCell(1);
+	        	cell417.setCellStyle(whiteStyle);
+	        	cell417.setCellValue("Private Land Acquisition");
+				
+	        	Cell cell418 = headingInstrRow94.createCell(3);
+	        	cell418.setCellStyle(whiteStyle);
+	        	cell418.setCellValue("Forest tree rate");
+				
+	        	Cell cell419 = headingInstrRow94.createCell(2);
+	        	cell419.setCellStyle(whiteStyle);
+	        	cell419.setCellValue("Amount in Rupees");
+				
+				
+				
+				XSSFRow headingInstrRow95 = Instruction.createRow(97);
+	            
+	        	Cell cell420 = headingInstrRow95.createCell(0);
+	        	cell420.setCellStyle(whiteStyle);
+	        	cell420.setCellValue(96);
+				
+	        	Cell cell421 = headingInstrRow95.createCell(1);
+	        	cell421.setCellStyle(whiteStyle);
+	        	cell421.setCellValue("Private Land Acquisition");
+				
+	        	Cell cell422 = headingInstrRow95.createCell(3);
+	        	cell422.setCellStyle(whiteStyle);
+	        	cell422.setCellValue("Forest tree compensation");
+				
+	        	Cell cell423 = headingInstrRow95.createCell(2);
+	        	cell423.setCellStyle(whiteStyle);
+	        	cell423.setCellValue("Amount in Rupees");
+
+
+				
+				
+				XSSFRow headingInstrRow96 = Instruction.createRow(98);
+	            
+	        	Cell cell424 = headingInstrRow96.createCell(0);
+	        	cell424.setCellStyle(whiteStyle);
+	        	cell424.setCellValue(97);
+				
+	        	Cell cell425 = headingInstrRow96.createCell(1);
+	        	cell425.setCellStyle(whiteStyle);
+	        	cell425.setCellValue("Private Land Acquisition");
+				
+	        	Cell cell426 = headingInstrRow96.createCell(3);
+	        	cell426.setCellStyle(whiteStyle);
+	        	cell426.setCellValue("Structure compensation");
+				
+	        	Cell cell427 = headingInstrRow96.createCell(2);
+	        	cell427.setCellStyle(whiteStyle);
+	        	cell427.setCellValue("Amount in Rupees");
+
+
+				
+				
+				XSSFRow headingInstrRow97 = Instruction.createRow(99);
+	            
+	        	Cell cell428 = headingInstrRow97.createCell(0);
+	        	cell428.setCellStyle(whiteStyle);
+	        	cell428.setCellValue(98);
+				
+	        	Cell cell429 = headingInstrRow97.createCell(1);
+	        	cell429.setCellStyle(whiteStyle);
+	        	cell429.setCellValue("Private Land Acquisition");
+				
+	        	Cell cell430 = headingInstrRow97.createCell(3);
+	        	cell430.setCellStyle(whiteStyle);
+	        	cell430.setCellValue("Borewell compensation");
+				
+	        	Cell cell431 = headingInstrRow97.createCell(2);
+	        	cell431.setCellStyle(whiteStyle);
+	        	cell431.setCellValue("Amount in Rupees");
+
+
+				
+				
+				XSSFRow headingInstrRow98 = Instruction.createRow(100);
+	            
+	        	Cell cell432 = headingInstrRow98.createCell(0);
+	        	cell432.setCellStyle(whiteStyle);
+	        	cell432.setCellValue(99);
+				
+	        	Cell cell433 = headingInstrRow98.createCell(1);
+	        	cell433.setCellStyle(whiteStyle);
+	        	cell433.setCellValue("Private Land Acquisition");
+				
+	        	Cell cell434 = headingInstrRow98.createCell(3);
+	        	cell434.setCellStyle(whiteStyle);
+	        	cell434.setCellValue("Total Compensation");
+				
+	        	Cell cell435 = headingInstrRow98.createCell(2);
+	        	cell435.setCellStyle(whiteStyle);
+	        	cell435.setCellValue("Amount in Rupees");
+
+
+				
+				
+				XSSFRow headingInstrRow99 = Instruction.createRow(101);
+	            
+	        	Cell cell436 = headingInstrRow99.createCell(0);
+	        	cell436.setCellStyle(whiteStyle);
+	        	cell436.setCellValue(100);
+				
+	        	Cell cell437 = headingInstrRow99.createCell(1);
+	        	cell437.setCellStyle(whiteStyle);
+	        	cell437.setCellValue("Private Land Acquisition");
+				
+	        	Cell cell438 = headingInstrRow99.createCell(3);
+	        	cell438.setCellStyle(whiteStyle);
+	        	cell438.setCellValue("Consent from Owner");
+				
+	        	Cell cell439 = headingInstrRow99.createCell(2);
+	        	cell439.setCellStyle(whiteStyle);
+	        	cell439.setCellValue("Date 'DD/MM/YYYY'");
+
+
+				
+				
+				XSSFRow headingInstrRow100 = Instruction.createRow(102);
+	            
+	        	Cell cell440 = headingInstrRow100.createCell(0);
+	        	cell440.setCellStyle(whiteStyle);
+	        	cell440.setCellValue(101);
+				
+	        	Cell cell441 = headingInstrRow100.createCell(1);
+	        	cell441.setCellStyle(whiteStyle);
+	        	cell441.setCellValue("Private Land Acquisition");
+				
+	        	Cell cell442 = headingInstrRow100.createCell(3);
+	        	cell442.setCellStyle(whiteStyle);
+	        	cell442.setCellValue("Legal Search Report");
+				
+	        	Cell cell443 = headingInstrRow100.createCell(2);
+	        	cell443.setCellStyle(whiteStyle);
+	        	cell443.setCellValue("Date 'DD/MM/YYYY'");
+
+				
+				
+				XSSFRow headingInstrRow101 = Instruction.createRow(103);
+	            
+	        	Cell cell444 = headingInstrRow101.createCell(0);
+	        	cell444.setCellStyle(whiteStyle);
+	        	cell444.setCellValue(102);
+				
+	        	Cell cell445 = headingInstrRow101.createCell(1);
+	        	cell445.setCellStyle(whiteStyle);
+	        	cell445.setCellValue("Private Land Acquisition");
+				
+	        	Cell cell446 = headingInstrRow101.createCell(3);
+	        	cell446.setCellStyle(whiteStyle);
+	        	cell446.setCellValue("Date of Registration");
+				
+	        	Cell cell447 = headingInstrRow101.createCell(2);
+	        	cell447.setCellStyle(whiteStyle);
+	        	cell447.setCellValue("Date 'DD/MM/YYYY'");
+
+				
+				
+				XSSFRow headingInstrRow102 = Instruction.createRow(104);
+	            
+	        	Cell cell448 = headingInstrRow102.createCell(0);
+	        	cell448.setCellStyle(whiteStyle);
+	        	cell448.setCellValue(103);
+				
+	        	Cell cell449 = headingInstrRow102.createCell(1);
+	        	cell449.setCellStyle(whiteStyle);
+	        	cell449.setCellValue("Private Land Acquisition");
+				
+	        	Cell cell450 = headingInstrRow102.createCell(3);
+	        	cell450.setCellStyle(whiteStyle);
+	        	cell450.setCellValue("Date of Possession");
+				
+	        	Cell cell451 = headingInstrRow102.createCell(2);
+	        	cell451.setCellStyle(whiteStyle);
+	        	cell451.setCellValue("Date 'DD/MM/YYYY'");
+
+				
+				
+				XSSFRow headingInstrRow103 = Instruction.createRow(105);
+	            
+	        	Cell cell452 = headingInstrRow103.createCell(0);
+	        	cell452.setCellStyle(whiteStyle);
+	        	cell452.setCellValue(104);
+				
+	        	Cell cell453 = headingInstrRow103.createCell(1);
+	        	cell453.setCellStyle(whiteStyle);
+	        	cell453.setCellValue("Government Land Acquisition");
+				
+	        	Cell cell454 = headingInstrRow103.createCell(3);
+	        	cell454.setCellStyle(whiteStyle);
+	        	cell454.setCellValue("LA_ID");
+				
+	        	Cell cell455 = headingInstrRow103.createCell(2);
+	        	cell455.setCellStyle(whiteStyle);
+	        	cell455.setCellValue("INPUT 2: Land Acquisition Unique ID ");
+
+				
+				
+				XSSFRow headingInstrRow104 = Instruction.createRow(106);
+	            
+	        	Cell cell456 = headingInstrRow104.createCell(0);
+	        	cell456.setCellStyle(whiteStyle);
+	        	cell456.setCellValue(105);
+				
+	        	Cell cell457 = headingInstrRow104.createCell(1);
+	        	cell457.setCellStyle(whiteStyle);
+	        	cell457.setCellValue("Government Land Acquisition");
+				
+	        	Cell cell458 = headingInstrRow104.createCell(3);
+	        	cell458.setCellStyle(whiteStyle);
+	        	cell458.setCellValue("Proposal Submission");
+				
+	        	Cell cell459 = headingInstrRow104.createCell(2);
+	        	cell459.setCellStyle(whiteStyle);
+	        	cell459.setCellValue("Date 'DD/MM/YYYY'");
+
+				
+				
+				XSSFRow headingInstrRow105 = Instruction.createRow(107);
+	            
+	        	Cell cell460 = headingInstrRow105.createCell(0);
+	        	cell460.setCellStyle(whiteStyle);
+	        	cell460.setCellValue(106);
+				
+	        	Cell cell461 = headingInstrRow105.createCell(1);
+	        	cell461.setCellStyle(whiteStyle);
+	        	cell461.setCellValue("Government Land Acquisition");
+				
+	        	Cell cell462 = headingInstrRow105.createCell(3);
+	        	cell462.setCellStyle(whiteStyle);
+	        	cell462.setCellValue("Valuation Date");
+				
+	        	Cell cell463 = headingInstrRow105.createCell(2);
+	        	cell463.setCellStyle(whiteStyle);
+	        	cell463.setCellValue("Date 'DD/MM/YYYY'");
+
+				
+				
+				XSSFRow headingInstrRow106 = Instruction.createRow(108);
+	            
+	        	Cell cell464 = headingInstrRow106.createCell(0);
+	        	cell464.setCellStyle(whiteStyle);
+	        	cell464.setCellValue(107);
+				
+	        	Cell cell465 = headingInstrRow106.createCell(1);
+	        	cell465.setCellStyle(whiteStyle);
+	        	cell465.setCellValue("Government Land Acquisition");
+				
+	        	Cell cell466 = headingInstrRow106.createCell(3);
+	        	cell466.setCellStyle(whiteStyle);
+	        	cell466.setCellValue("Letter for Payment");
+				
+	        	Cell cell467 = headingInstrRow106.createCell(2);
+	        	cell467.setCellStyle(whiteStyle);
+	        	cell467.setCellValue("Date 'DD/MM/YYYY'");
+
+				
+				
+				XSSFRow headingInstrRow107 = Instruction.createRow(109);
+	            
+	        	Cell cell468 = headingInstrRow107.createCell(0);
+	        	cell468.setCellStyle(whiteStyle);
+	        	cell468.setCellValue(108);
+				
+	        	Cell cell469 = headingInstrRow107.createCell(1);
+	        	cell469.setCellStyle(whiteStyle);
+	        	cell469.setCellValue("Government Land Acquisition");
+				
+	        	Cell cell470 = headingInstrRow107.createCell(3);
+	        	cell470.setCellStyle(whiteStyle);
+	        	cell470.setCellValue("Amount Demanded");
+				
+	        	Cell cell471 = headingInstrRow107.createCell(2);
+	        	cell471.setCellStyle(whiteStyle);
+	        	cell471.setCellValue("Amount in Rupees");
+
+				
+				
+				XSSFRow headingInstrRow108 = Instruction.createRow(110);
+	            
+	        	Cell cell472 = headingInstrRow108.createCell(0);
+	        	cell472.setCellStyle(whiteStyle);
+	        	cell472.setCellValue(109);
+				
+	        	Cell cell473 = headingInstrRow108.createCell(1);
+	        	cell473.setCellStyle(whiteStyle);
+	        	cell473.setCellValue("Government Land Acquisition");
+				
+	        	Cell cell474 = headingInstrRow108.createCell(3);
+	        	cell474.setCellStyle(whiteStyle);
+	        	cell474.setCellValue("Approval for Payment");
+				
+	        	Cell cell475 = headingInstrRow108.createCell(2);
+	        	cell475.setCellStyle(whiteStyle);
+	        	cell475.setCellValue("Date 'DD/MM/YYYY'");
+
+				
+				
+				XSSFRow headingInstrRow109 = Instruction.createRow(111);
+	            
+	        	Cell cell476 = headingInstrRow109.createCell(0);
+	        	cell476.setCellStyle(whiteStyle);
+	        	cell476.setCellValue(110);
+				
+	        	Cell cell477 = headingInstrRow109.createCell(1);
+	        	cell477.setCellStyle(whiteStyle);
+	        	cell477.setCellValue("Government Land Acquisition");
+				
+	        	Cell cell478 = headingInstrRow109.createCell(3);
+	        	cell478.setCellStyle(whiteStyle);
+	        	cell478.setCellValue("Payment date");
+				
+	        	Cell cell479 = headingInstrRow109.createCell(2);
+	        	cell479.setCellStyle(whiteStyle);
+	        	cell479.setCellValue("Date 'DD/MM/YYYY'");
+
+				
+				
+				XSSFRow headingInstrRow110 = Instruction.createRow(112);
+	            
+	        	Cell cell480 = headingInstrRow110.createCell(0);
+	        	cell480.setCellStyle(whiteStyle);
+	        	cell480.setCellValue(111);
+				
+	        	Cell cell481 = headingInstrRow110.createCell(1);
+	        	cell481.setCellStyle(whiteStyle);
+	        	cell481.setCellValue("Government Land Acquisition");
+				
+	        	Cell cell482 = headingInstrRow110.createCell(3);
+	        	cell482.setCellStyle(whiteStyle);
+	        	cell482.setCellValue("Amount Paid");
+				
+	        	Cell cell483 = headingInstrRow110.createCell(2);
+	        	cell483.setCellStyle(whiteStyle);
+	        	cell483.setCellValue("Amount in Rupees");
+
+				
+				
+				XSSFRow headingInstrRow111 = Instruction.createRow(113);
+	            
+	        	Cell cell484 = headingInstrRow111.createCell(0);
+	        	cell484.setCellStyle(whiteStyle);
+	        	cell484.setCellValue(112);
+				
+	        	Cell cell485 = headingInstrRow111.createCell(1);
+	        	cell485.setCellStyle(whiteStyle);
+	        	cell485.setCellValue("Government Land Acquisition");
+				
+	        	Cell cell486 = headingInstrRow111.createCell(3);
+	        	cell486.setCellStyle(whiteStyle);
+	        	cell486.setCellValue("Possession Date");
+				
+	        	Cell cell487 = headingInstrRow111.createCell(2);
+	        	cell487.setCellStyle(whiteStyle);
+	        	cell487.setCellValue("Date 'DD/MM/YYYY'");
+
+				
+				
+				XSSFRow headingInstrRow112 = Instruction.createRow(114);
+	            
+	        	Cell cell488 = headingInstrRow112.createCell(0);
+	        	cell488.setCellStyle(whiteStyle);
+	        	cell488.setCellValue(113);
+				
+	        	Cell cell489 = headingInstrRow112.createCell(1);
+	        	cell489.setCellStyle(whiteStyle);
+	        	cell489.setCellValue("Forest  Land Acquisition");
+				
+	        	Cell cell490 = headingInstrRow112.createCell(3);
+	        	cell490.setCellStyle(whiteStyle);
+	        	cell490.setCellValue("LA_ID");
+				
+	        	Cell cell491 = headingInstrRow112.createCell(2);
+	        	cell491.setCellStyle(whiteStyle);
+	        	cell491.setCellValue("INPUT 2: Land Acquisition Unique ID ");
+
+				
+				
+				XSSFRow headingInstrRow113 = Instruction.createRow(115);
+	            
+	        	Cell cell492 = headingInstrRow113.createCell(0);
+	        	cell492.setCellStyle(whiteStyle);
+	        	cell492.setCellValue(114);
+				
+	        	Cell cell493 = headingInstrRow113.createCell(1);
+	        	cell493.setCellStyle(whiteStyle);
+	        	cell493.setCellValue("Forest  Land Acquisition");
+				
+	        	Cell cell494 = headingInstrRow113.createCell(3);
+	        	cell494.setCellStyle(whiteStyle);
+	        	cell494.setCellValue("On line Submission");
+				
+	        	Cell cell495 = headingInstrRow113.createCell(2);
+	        	cell495.setCellStyle(whiteStyle);
+	        	cell495.setCellValue("Date 'DD/MM/YYYY'");
+
+				
+				
+				XSSFRow headingInstrRow114 = Instruction.createRow(116);
+	            
+	        	Cell cell496 = headingInstrRow114.createCell(0);
+	        	cell496.setCellStyle(whiteStyle);
+	        	cell496.setCellValue(115);
+				
+	        	Cell cell497 = headingInstrRow114.createCell(1);
+	        	cell497.setCellStyle(whiteStyle);
+	        	cell497.setCellValue("Forest  Land Acquisition");
+				
+	        	Cell cell498 = headingInstrRow114.createCell(3);
+	        	cell498.setCellStyle(whiteStyle);
+	        	cell498.setCellValue("Submission Date to DyCFO");
+				
+	        	Cell cell499 = headingInstrRow114.createCell(2);
+	        	cell499.setCellStyle(whiteStyle);
+	        	cell499.setCellValue("Date 'DD/MM/YYYY'");
+
+				
+				
+				XSSFRow headingInstrRow115 = Instruction.createRow(117);
+	            
+	        	Cell cell500 = headingInstrRow115.createCell(0);
+	        	cell500.setCellStyle(whiteStyle);
+	        	cell500.setCellValue(116);
+				
+	        	Cell cell501 = headingInstrRow115.createCell(1);
+	        	cell501.setCellStyle(whiteStyle);
+	        	cell501.setCellValue("Forest  Land Acquisition");
+				
+	        	Cell cell502 = headingInstrRow115.createCell(3);
+	        	cell502.setCellStyle(whiteStyle);
+	        	cell502.setCellValue("Submission Date to CCF Thane");
+				
+	        	Cell cell503 = headingInstrRow115.createCell(2);
+	        	cell503.setCellStyle(whiteStyle);
+	        	cell503.setCellValue("Date 'DD/MM/YYYY'");
+
+				
+				
+				XSSFRow headingInstrRow116 = Instruction.createRow(118);
+	            
+	        	Cell cell504 = headingInstrRow116.createCell(0);
+	        	cell504.setCellStyle(whiteStyle);
+	        	cell504.setCellValue(117);
+				
+	        	Cell cell505 = headingInstrRow116.createCell(1);
+	        	cell505.setCellStyle(whiteStyle);
+	        	cell505.setCellValue("Forest  Land Acquisition");
+				
+	        	Cell cell506 = headingInstrRow116.createCell(3);
+	        	cell506.setCellStyle(whiteStyle);
+	        	cell506.setCellValue("Submission Date to Nodal Officer/CCF Nagpur");
+				
+	        	Cell cell507 = headingInstrRow116.createCell(2);
+	        	cell507.setCellStyle(whiteStyle);
+	        	cell507.setCellValue("Date 'DD/MM/YYYY'");
+
+				
+				
+				XSSFRow headingInstrRow117 = Instruction.createRow(119);
+	            
+	        	Cell cell508 = headingInstrRow117.createCell(0);
+	        	cell508.setCellStyle(whiteStyle);
+	        	cell508.setCellValue(118);
+				
+	        	Cell cell509 = headingInstrRow117.createCell(1);
+	        	cell509.setCellStyle(whiteStyle);
+	        	cell509.setCellValue("Forest  Land Acquisition");
+				
+	        	Cell cell510 = headingInstrRow117.createCell(3);
+	        	cell510.setCellStyle(whiteStyle);
+	        	cell510.setCellValue("Submission Date to Revenue Secretary Mantralaya");
+				
+	        	Cell cell5211 = headingInstrRow117.createCell(2);
+	        	cell5211.setCellStyle(whiteStyle);
+	        	cell5211.setCellValue("Date 'DD/MM/YYYY'");
+
+				
+				
+				XSSFRow headingInstrRow118 = Instruction.createRow(120);
+	            
+	        	Cell cell512 = headingInstrRow118.createCell(0);
+	        	cell512.setCellStyle(whiteStyle);
+	        	cell512.setCellValue(119);
+				
+	        	Cell cell513 = headingInstrRow118.createCell(1);
+	        	cell513.setCellStyle(whiteStyle);
+	        	cell513.setCellValue("Forest  Land Acquisition");
+				
+	        	Cell cell514 = headingInstrRow118.createCell(3);
+	        	cell514.setCellStyle(whiteStyle);
+	        	cell514.setCellValue("Submission Date to Regional Office Nagpur");
+				
+	        	Cell cell515 = headingInstrRow118.createCell(2);
+	        	cell515.setCellStyle(whiteStyle);
+	        	cell515.setCellValue("Date 'DD/MM/YYYY'");
+
+				
+				
+				XSSFRow headingInstrRow119 = Instruction.createRow(121);
+	            
+	        	Cell cell516 = headingInstrRow119.createCell(0);
+	        	cell516.setCellStyle(whiteStyle);
+	        	cell516.setCellValue(120);
+				
+	        	Cell cell517 = headingInstrRow119.createCell(1);
+	        	cell517.setCellStyle(whiteStyle);
+	        	cell517.setCellValue("Forest  Land Acquisition");
+				
+	        	Cell cell518 = headingInstrRow119.createCell(3);
+	        	cell518.setCellStyle(whiteStyle);
+	        	cell518.setCellValue("Date of Approval by Regional Office Nagpur");
+				
+	        	Cell cell519 = headingInstrRow119.createCell(2);
+	        	cell519.setCellStyle(whiteStyle);
+	        	cell519.setCellValue("Date 'DD/MM/YYYY'");
+
+				
+				
+				XSSFRow headingInstrRow120 = Instruction.createRow(122);
+	            
+	        	Cell cell520 = headingInstrRow120.createCell(0);
+	        	cell520.setCellStyle(whiteStyle);
+	        	cell520.setCellValue(121);
+				
+	        	Cell cell521 = headingInstrRow120.createCell(1);
+	        	cell521.setCellStyle(whiteStyle);
+	        	cell521.setCellValue("Forest  Land Acquisition");
+				
+	        	Cell cell522 = headingInstrRow120.createCell(3);
+	        	cell522.setCellStyle(whiteStyle);
+	        	cell522.setCellValue("Valuation by DyCFO");
+				
+	        	Cell cell523 = headingInstrRow120.createCell(2);
+	        	cell523.setCellStyle(whiteStyle);
+	        	cell523.setCellValue("Date 'DD/MM/YYYY'");
+
+				
+				
+				XSSFRow headingInstrRow121 = Instruction.createRow(123);
+	            
+	        	Cell cell524 = headingInstrRow121.createCell(0);
+	        	cell524.setCellStyle(whiteStyle);
+	        	cell524.setCellValue(122);
+				
+	        	Cell cell525 = headingInstrRow121.createCell(1);
+	        	cell525.setCellStyle(whiteStyle);
+	        	cell525.setCellValue("Forest  Land Acquisition");
+				
+	        	Cell cell526 = headingInstrRow121.createCell(3);
+	        	cell526.setCellStyle(whiteStyle);
+	        	cell526.setCellValue("Demanded Amount");
+				
+	        	Cell cell527 = headingInstrRow121.createCell(2);
+	        	cell527.setCellStyle(whiteStyle);
+	        	cell527.setCellValue("Amount in Rupees");
+
+				
+				
+				XSSFRow headingInstrRow122 = Instruction.createRow(124);
+	            
+	        	Cell cell528 = headingInstrRow122.createCell(0);
+	        	cell528.setCellStyle(whiteStyle);
+	        	cell528.setCellValue(123);
+				
+	        	Cell cell529 = headingInstrRow122.createCell(1);
+	        	cell529.setCellStyle(whiteStyle);
+	        	cell529.setCellValue("Forest  Land Acquisition");
+				
+	        	Cell cell530 = headingInstrRow122.createCell(3);
+	        	cell530.setCellStyle(whiteStyle);
+	        	cell530.setCellValue("Approval for Payment");
+				
+	        	Cell cell531 = headingInstrRow122.createCell(2);
+	        	cell531.setCellStyle(whiteStyle);
+	        	cell531.setCellValue("Date 'DD/MM/YYYY'");
+
+				
+				
+				XSSFRow headingInstrRow123 = Instruction.createRow(125);
+	            
+	        	Cell cell532 = headingInstrRow123.createCell(0);
+	        	cell532.setCellStyle(whiteStyle);
+	        	cell532.setCellValue(124);
+				
+	        	Cell cell533 = headingInstrRow123.createCell(1);
+	        	cell533.setCellStyle(whiteStyle);
+	        	cell533.setCellValue("Forest  Land Acquisition");
+				
+	        	Cell cell534 = headingInstrRow123.createCell(3);
+	        	cell534.setCellStyle(whiteStyle);
+	        	cell534.setCellValue("Payment Date");
+				
+	        	Cell cell535 = headingInstrRow123.createCell(2);
+	        	cell535.setCellStyle(whiteStyle);
+	        	cell535.setCellValue("Date 'DD/MM/YYYY'");
+
+				
+				
+				XSSFRow headingInstrRow124 = Instruction.createRow(126);
+	            
+	        	Cell cell536 = headingInstrRow124.createCell(0);
+	        	cell536.setCellStyle(whiteStyle);
+	        	cell536.setCellValue(125);
+				
+	        	Cell cell537 = headingInstrRow124.createCell(1);
+	        	cell537.setCellStyle(whiteStyle);
+	        	cell537.setCellValue("Forest  Land Acquisition");
+				
+	        	Cell cell538 = headingInstrRow124.createCell(3);
+	        	cell538.setCellStyle(whiteStyle);
+	        	cell538.setCellValue("Payment Amount");
+				
+	        	Cell cell539 = headingInstrRow124.createCell(2);
+	        	cell539.setCellStyle(whiteStyle);
+	        	cell539.setCellValue("Amount in Rupees");
+
+				
+				
+				XSSFRow headingInstrRow125 = Instruction.createRow(127);
+	            
+	        	Cell cell540 = headingInstrRow125.createCell(0);
+	        	cell540.setCellStyle(whiteStyle);
+	        	cell540.setCellValue(126);
+				
+	        	Cell cell541 = headingInstrRow125.createCell(1);
+	        	cell541.setCellStyle(whiteStyle);
+	        	cell541.setCellValue("Forest  Land Acquisition");
+				
+	        	Cell cell542 = headingInstrRow125.createCell(3);
+	        	cell542.setCellStyle(whiteStyle);
+	        	cell542.setCellValue("Possession Date");
+				
+	        	Cell cell543 = headingInstrRow125.createCell(2);
+	        	cell543.setCellStyle(whiteStyle);
+	        	cell543.setCellValue("Date 'DD/MM/YYYY'");
+
+				
+				XSSFRow headingInstrRow126 = Instruction.createRow(128);
+	            
+	        	Cell cell544 = headingInstrRow126.createCell(0);
+	        	cell544.setCellStyle(whiteStyle);
+	        	cell544.setCellValue(127);
+				
+	        	Cell cell545 = headingInstrRow126.createCell(1);
+	        	cell545.setCellStyle(whiteStyle);
+	        	cell545.setCellValue("Railway Land Aquisition");
+				
+	        	Cell cell546 = headingInstrRow126.createCell(3);
+	        	cell546.setCellStyle(whiteStyle);
+	        	cell546.setCellValue("LA_ID");
+				
+	        	Cell cell547 = headingInstrRow126.createCell(2);
+	        	cell547.setCellStyle(whiteStyle);
+	        	cell547.setCellValue("INPUT 2: Land Acquisition Unique ID ");
+
+
+				
+				XSSFRow headingInstrRow127 = Instruction.createRow(129);
+	            
+	        	Cell cell548 = headingInstrRow127.createCell(0);
+	        	cell548.setCellStyle(whiteStyle);
+	        	cell548.setCellValue(128);
+				
+	        	Cell cell549 = headingInstrRow127.createCell(1);
+	        	cell549.setCellStyle(whiteStyle);
+	        	cell549.setCellValue("Railway Land Aquisition");
+				
+	        	Cell cell550 = headingInstrRow127.createCell(3);
+	        	cell550.setCellStyle(whiteStyle);
+	        	cell550.setCellValue("On line Submission");
+				
+	        	Cell cell551 = headingInstrRow127.createCell(2);
+	        	cell551.setCellStyle(whiteStyle);
+	        	cell551.setCellValue("Date 'DD/MM/YYYY'");
+
+
+				
+				XSSFRow headingInstrRow128 = Instruction.createRow(130);
+	            
+	        	Cell cell552 = headingInstrRow128.createCell(0);
+	        	cell552.setCellStyle(whiteStyle);
+	        	cell552.setCellValue(129);
+				
+	        	Cell cell553 = headingInstrRow128.createCell(1);
+	        	cell553.setCellStyle(whiteStyle);
+	        	cell553.setCellValue("Railway Land Aquisition");
+				
+	        	Cell cell554 = headingInstrRow128.createCell(3);
+	        	cell554.setCellStyle(whiteStyle);
+	        	cell554.setCellValue("Submission Date to DyCFO");
+				
+	        	Cell cell555 = headingInstrRow128.createCell(2);
+	        	cell555.setCellStyle(whiteStyle);
+	        	cell555.setCellValue("Date 'DD/MM/YYYY'");
+
+
+				
+				XSSFRow headingInstrRow129 = Instruction.createRow(131);
+	            
+	        	Cell cell556 = headingInstrRow129.createCell(0);
+	        	cell556.setCellStyle(whiteStyle);
+	        	cell556.setCellValue(130);
+				
+	        	Cell cell557 = headingInstrRow129.createCell(1);
+	        	cell557.setCellStyle(whiteStyle);
+	        	cell557.setCellValue("Railway Land Aquisition");
+				
+	        	Cell cell558 = headingInstrRow129.createCell(3);
+	        	cell558.setCellStyle(whiteStyle);
+	        	cell558.setCellValue("Submission Date to CCF Thane");
+				
+	        	Cell cell559 = headingInstrRow129.createCell(2);
+	        	cell559.setCellStyle(whiteStyle);
+	        	cell559.setCellValue("Date 'DD/MM/YYYY'");
+
+
+				
+				XSSFRow headingInstrRow130 = Instruction.createRow(132);
+	            
+	        	Cell cell560 = headingInstrRow130.createCell(0);
+	        	cell560.setCellStyle(whiteStyle);
+	        	cell560.setCellValue(131);
+				
+	        	Cell cell561 = headingInstrRow130.createCell(1);
+	        	cell561.setCellStyle(whiteStyle);
+	        	cell561.setCellValue("Railway Land Aquisition");
+				
+	        	Cell cell562 = headingInstrRow130.createCell(3);
+	        	cell562.setCellStyle(whiteStyle);
+	        	cell562.setCellValue("Submission Date to Nodal Officer/CCF Nagpur");
+				
+	        	Cell cell563 = headingInstrRow130.createCell(2);
+	        	cell563.setCellStyle(whiteStyle);
+	        	cell563.setCellValue("Date 'DD/MM/YYYY'");
+
+
+				
+				XSSFRow headingInstrRow131 = Instruction.createRow(133);
+	            
+	        	Cell cell564 = headingInstrRow131.createCell(0);
+	        	cell564.setCellStyle(whiteStyle);
+	        	cell564.setCellValue(132);
+				
+	        	Cell cell565 = headingInstrRow131.createCell(1);
+	        	cell565.setCellStyle(whiteStyle);
+	        	cell565.setCellValue("Railway Land Aquisition");
+				
+	        	Cell cell566 = headingInstrRow131.createCell(3);
+	        	cell566.setCellStyle(whiteStyle);
+	        	cell566.setCellValue("Submission Date to Revenue Secretary Mantralaya");
+				
+	        	Cell cell567 = headingInstrRow131.createCell(2);
+	        	cell567.setCellStyle(whiteStyle);
+	        	cell567.setCellValue("Date 'DD/MM/YYYY'");
+				
+
+				
+				XSSFRow headingInstrRow132 = Instruction.createRow(134);
+	            
+	        	Cell cell568 = headingInstrRow132.createCell(0);
+	        	cell568.setCellStyle(whiteStyle);
+	        	cell568.setCellValue(133);
+				
+	        	Cell cell569 = headingInstrRow132.createCell(1);
+	        	cell569.setCellStyle(whiteStyle);
+	        	cell569.setCellValue("Railway Land Aquisition");
+				
+	        	Cell cell570 = headingInstrRow132.createCell(3);
+	        	cell570.setCellStyle(whiteStyle);
+	        	cell570.setCellValue("Submission Date to Regional Office Nagpur");
+				
+	        	Cell cell571 = headingInstrRow132.createCell(2);
+	        	cell571.setCellStyle(whiteStyle);
+	        	cell571.setCellValue("Date 'DD/MM/YYYY'");
+
+
+				
+				XSSFRow headingInstrRow133 = Instruction.createRow(135);
+	            
+	        	Cell cell572 = headingInstrRow133.createCell(0);
+	        	cell572.setCellStyle(whiteStyle);
+	        	cell572.setCellValue(134);
+				
+	        	Cell cell573 = headingInstrRow133.createCell(1);
+	        	cell573.setCellStyle(whiteStyle);
+	        	cell573.setCellValue("Railway Land Aquisition");
+				
+	        	Cell cell574 = headingInstrRow133.createCell(3);
+	        	cell574.setCellStyle(whiteStyle);
+	        	cell574.setCellValue("Date of Approval by Regional Office Nagpur");
+				
+	        	Cell cell575 = headingInstrRow133.createCell(2);
+	        	cell575.setCellStyle(whiteStyle);
+	        	cell575.setCellValue("Date 'DD/MM/YYYY'");
+
+
+				
+				XSSFRow headingInstrRow134 = Instruction.createRow(136);
+	            
+	        	Cell cell576 = headingInstrRow134.createCell(0);
+	        	cell576.setCellStyle(whiteStyle);
+	        	cell576.setCellValue(135);
+				
+	        	Cell cell577 = headingInstrRow134.createCell(1);
+	        	cell577.setCellStyle(whiteStyle);
+	        	cell577.setCellValue("Railway Land Aquisition");
+				
+	        	Cell cell578 = headingInstrRow134.createCell(3);
+	        	cell578.setCellStyle(whiteStyle);
+	        	cell578.setCellValue("Valuation by DyCFO");
+				
+	        	Cell cell579 = headingInstrRow134.createCell(2);
+	        	cell579.setCellStyle(whiteStyle);
+	        	cell579.setCellValue("Date 'DD/MM/YYYY'");
+
+
+				
+				XSSFRow headingInstrRow135 = Instruction.createRow(137);
+	            
+	        	Cell cell580 = headingInstrRow135.createCell(0);
+	        	cell580.setCellStyle(whiteStyle);
+	        	cell580.setCellValue(136);
+				
+	        	Cell cell581 = headingInstrRow135.createCell(1);
+	        	cell581.setCellStyle(whiteStyle);
+	        	cell581.setCellValue("Railway Land Aquisition");
+				
+	        	Cell cell582 = headingInstrRow135.createCell(3);
+	        	cell582.setCellStyle(whiteStyle);
+	        	cell582.setCellValue("Demanded Amount");
+				
+	        	Cell cell583 = headingInstrRow135.createCell(2);
+	        	cell583.setCellStyle(whiteStyle);
+	        	cell583.setCellValue("Amount in Rupees");
+				
+
+				
+				XSSFRow headingInstrRow136 = Instruction.createRow(138);
+	            
+	        	Cell cell584 = headingInstrRow136.createCell(0);
+	        	cell584.setCellStyle(whiteStyle);
+	        	cell584.setCellValue(137);
+				
+	        	Cell cell585 = headingInstrRow136.createCell(1);
+	        	cell585.setCellStyle(whiteStyle);
+	        	cell585.setCellValue("Railway Land Aquisition");
+				
+	        	Cell cell586 = headingInstrRow136.createCell(3);
+	        	cell586.setCellStyle(whiteStyle);
+	        	cell586.setCellValue("Approval for Payment");
+				
+	        	Cell cell587 = headingInstrRow136.createCell(2);
+	        	cell587.setCellStyle(whiteStyle);
+	        	cell587.setCellValue("Date 'DD/MM/YYYY'");
+				
+
+				
+				XSSFRow headingInstrRow137 = Instruction.createRow(139);
+	            
+	        	Cell cell588 = headingInstrRow137.createCell(0);
+	        	cell588.setCellStyle(whiteStyle);
+	        	cell588.setCellValue(138);
+				
+	        	Cell cell589 = headingInstrRow137.createCell(1);
+	        	cell589.setCellStyle(whiteStyle);
+	        	cell589.setCellValue("Railway Land Aquisition");
+				
+	        	Cell cell590 = headingInstrRow137.createCell(3);
+	        	cell590.setCellStyle(whiteStyle);
+	        	cell590.setCellValue("Payment Date");
+				
+	        	Cell cell591 = headingInstrRow137.createCell(2);
+	        	cell591.setCellStyle(whiteStyle);
+	        	cell591.setCellValue("Date 'DD/MM/YYYY'");
+				
+
+
+				
+				XSSFRow headingInstrRow138 = Instruction.createRow(140);
+	            
+	        	Cell cell592 = headingInstrRow138.createCell(0);
+	        	cell592.setCellStyle(whiteStyle);
+	        	cell592.setCellValue(139);
+				
+	        	Cell cell593 = headingInstrRow138.createCell(1);
+	        	cell593.setCellStyle(whiteStyle);
+	        	cell593.setCellValue("Railway Land Aquisition");
+				
+	        	Cell cell594 = headingInstrRow138.createCell(3);
+	        	cell594.setCellStyle(whiteStyle);
+	        	cell594.setCellValue("Payment Amount");
+				
+	        	Cell cell595 = headingInstrRow138.createCell(2);
+	        	cell595.setCellStyle(whiteStyle);
+	        	cell595.setCellValue("Amount in Rupees");
+	
+
+
+				
+				XSSFRow headingInstrRow139 = Instruction.createRow(141);
+	            
+	        	Cell cell596 = headingInstrRow139.createCell(0);
+	        	cell596.setCellStyle(whiteStyle);
+	        	cell596.setCellValue(140);
+				
+	        	Cell cell597 = headingInstrRow139.createCell(1);
+	        	cell597.setCellStyle(whiteStyle);
+	        	cell597.setCellValue("Railway Land Aquisition");
+				
+	        	Cell cell598 = headingInstrRow139.createCell(3);
+	        	cell598.setCellStyle(whiteStyle);
+	        	cell598.setCellValue("Possession Date");
+				
+	        	Cell cell599 = headingInstrRow139.createCell(2);
+	        	cell599.setCellStyle(whiteStyle);
+	        	cell599.setCellValue("Date 'DD/MM/YYYY'");
 	        	
 	        	
 	        	

@@ -637,13 +637,13 @@
                                 </div>
                                 
                                 <div class="row">
-                                    <div class="col s6 m4 l4 input-field offset-m2">
+<%--                                     <div class="col s6 m4 l4 input-field offset-m2">
                                         <input id="planned_date_of_possession" name="planned_date_of_possession" type="text" value="${LADetails.planned_date_of_possession }"
                                             class="validate datepicker">
                                         <label for="planned_date_of_possession">Planned Date of Possession </label>
                                         <button type="button" id="planned_date_of_possession_icon" class="datepicker-button"><i
                                                 class="fa fa-calendar"></i></button>
-                                    </div>   
+                                    </div>  --%>  
                                     <div class="col s6 m4 l4 input-field">
                                         <input id="possession_date" name="possession_date" type="text" value="${LADetails.possession_date }"
                                             class="validate datepicker mt-10">

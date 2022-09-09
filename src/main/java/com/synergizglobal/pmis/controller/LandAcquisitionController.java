@@ -2045,15 +2045,8 @@ public class LandAcquisitionController {
 											
 											if(!StringUtils.isEmpty(val)) {pObj2.setDate_of_rfp_to_adtp(dateString26);}
 											
-											val = formatter.formatCellValue(row2.getCell(10)).trim();
-											if(!StringUtils.isEmpty(val)) { 
-												int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
-												if(c != 2) {
-													val = getCellDataType(workbook,row2.getCell(10));
-												}
-												pObj2.setRfp_to_adtp_status_fk(val);}
 											
-											val = formatter.formatCellValue(row2.getCell(11)).trim();
+											val = formatter.formatCellValue(row2.getCell(10)).trim();
 											
 											Date date27 = null;
 											String dateString27 = null;
@@ -2062,7 +2055,7 @@ public class LandAcquisitionController {
 											
 											if(!StringUtils.isEmpty(val)) {pObj2.setDate_of_rate_fixation_of_land(dateString27);}
 											
-											val = formatter.formatCellValue(row2.getCell(12)).trim();
+											val = formatter.formatCellValue(row2.getCell(11)).trim();
 
 											Date date28 = null;
 											String dateString28 = null;
@@ -2071,7 +2064,7 @@ public class LandAcquisitionController {
 											
 											if(!StringUtils.isEmpty(val)) { pObj2.setSdo_demand_for_payment(dateString28);}
 											
-											val = formatter.formatCellValue(row2.getCell(13)).trim();
+											val = formatter.formatCellValue(row2.getCell(12)).trim();
 
 											Date date29 = null;
 											String dateString29 = null;
@@ -2080,15 +2073,15 @@ public class LandAcquisitionController {
 											
 											if(!StringUtils.isEmpty(val)) { pObj2.setDate_of_approval_for_payment(dateString29);}
 											
-											val = formatter.formatCellValue(row2.getCell(14)).trim();
+											val = formatter.formatCellValue(row2.getCell(13)).trim();
 											if(!StringUtils.isEmpty(val)) { 
 												int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
 												if(c != 2) {
-													val = getCellDataType(workbook,row2.getCell(14));
+													val = getCellDataType(workbook,row2.getCell(13));
 												}
 												pObj2.setPayment_amount(val);}
 											
-											val = formatter.formatCellValue(row2.getCell(15)).trim();
+											val = formatter.formatCellValue(row2.getCell(14)).trim();
 											
 											Date date30 = null;
 											String dateString30 = null;
@@ -2415,21 +2408,44 @@ public class LandAcquisitionController {
 											
 											val = formatter.formatCellValue(row2.getCell(7)).trim();
 
-											Date date14 = null;
-											String dateString14 = null;
-											date14 = formatter1.parse(val);
-											dateString14 = formatter2.format(date14);
+											Date date51 = null;
+											String dateString51 = null;
+											date51 = formatter1.parse(val);
+											dateString51 = formatter2.format(date51);
 											
-											if(!StringUtils.isEmpty(val)) {railways.setRailway_date_of_approval_by_Rregional_Office_agpur(dateString14);}
+											if(!StringUtils.isEmpty(val)) {railways.setRailway_date_of_approval_by_Rregional_Office_agpur(dateString51);}											
+											
+											
 											
 											val = formatter.formatCellValue(row2.getCell(8)).trim();
-											if(!StringUtils.isEmpty(val)) {railways.setRailway_valuation_by_DyCFO(val);}
+	
+											Date date67 = null;
+											String dateString67 = null;
+											date67 = formatter1.parse(val);
+											dateString67 = formatter2.format(date67);											
+											
+											
+											if(!StringUtils.isEmpty(val)) {railways.setRailway_valuation_by_DyCFO(dateString67);}
+											
+											
 											
 											val = formatter.formatCellValue(row2.getCell(9)).trim();
-											if(!StringUtils.isEmpty(val)) {railways.setRailway_demanded_amount(val);}
+											
+											if(!StringUtils.isEmpty(val)) { 
+												int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+												if(c != 2) {
+													val = getCellDataType(workbook,row2.getCell(9));
+												}
+												railways.setRailway_demanded_amount(val);}											
 											
 											val = formatter.formatCellValue(row2.getCell(10)).trim();
-											if(!StringUtils.isEmpty(val)) { railways.setRailway_approval_for_payment(val);}
+											
+											Date date68 = null;
+											String dateString68 = null;
+											date68 = formatter1.parse(val);
+											dateString68 = formatter2.format(date68);											
+											
+											if(!StringUtils.isEmpty(val)) { railways.setRailway_approval_for_payment(dateString68);}
 											
 											val = formatter.formatCellValue(row2.getCell(11)).trim();
 											
@@ -2441,18 +2457,17 @@ public class LandAcquisitionController {
 											
 											if(!StringUtils.isEmpty(val)) {railways.setRailway_payment_date(dateString15);}
 											
-											val = formatter.formatCellValue(row2.getCell(12)).trim();
-											if(!StringUtils.isEmpty(val)) {railways.setRailway_payment_amount(val);}
+
 											
-											val = formatter.formatCellValue(row2.getCell(13)).trim();
+											val = formatter.formatCellValue(row2.getCell(12)).trim();
 											if(!StringUtils.isEmpty(val)) { 
 												int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
 												if(c != 2) {
-													val = getCellDataType(workbook,row2.getCell(13));
+													val = getCellDataType(workbook,row2.getCell(12));
 												}
-												railways.setRailway_payment_status(val);}
+												railways.setRailway_payment_amount(val);}
 											
-											val = formatter.formatCellValue(row2.getCell(14)).trim();
+											val = formatter.formatCellValue(row2.getCell(13)).trim();
 											
 											Date date16 = null;
 											String dateString16 = null;
@@ -4422,6 +4437,72 @@ public class LandAcquisitionController {
 	        	Cell cell117 = headingInstrRow29.createCell(2);
 	        	cell117.setCellStyle(whiteStyle);
 	        	cell117.setCellValue("Issues in Land Acquisition"); 
+	        	
+	        	
+	        	
+	            XSSFRow headingInstrRow30 = Instruction.createRow(32);
+	            
+	        	Cell cell160 = headingInstrRow30.createCell(0);
+	        	cell160.setCellStyle(whiteStyle);
+	        	cell160.setCellValue(31);
+				
+	        	Cell cell161 = headingInstrRow30.createCell(1);
+	        	cell161.setCellStyle(whiteStyle);
+	        	cell161.setCellValue("Private (Indian Railway Act)");
+				
+	        	Cell cell162 = headingInstrRow30.createCell(3);
+	        	cell162.setCellStyle(whiteStyle);
+	        	cell162.setCellValue("LA_ID");
+				
+	        	Cell cell163 = headingInstrRow30.createCell(2);
+	        	cell163.setCellStyle(whiteStyle);
+	        	cell163.setCellValue("INPUT 2: \r\n" + 
+	        			"Land Acquisition Unique ID "); 
+	        	
+	        	
+	            XSSFRow headingInstrRow31 = Instruction.createRow(33);
+	            
+	        	Cell cell164 = headingInstrRow31.createCell(0);
+	        	cell164.setCellStyle(whiteStyle);
+	        	cell164.setCellValue(32);
+				
+	        	Cell cell165 = headingInstrRow31.createCell(1);
+	        	cell165.setCellStyle(whiteStyle);
+	        	cell165.setCellValue("Private (Indian Railway Act)");
+				
+	        	Cell cell166 = headingInstrRow31.createCell(3);
+	        	cell166.setCellStyle(whiteStyle);
+	        	cell166.setCellValue("Collector");
+				
+	        	Cell cell167 = headingInstrRow31.createCell(2);
+	        	cell167.setCellStyle(whiteStyle);
+	        	cell167.setCellValue("Collector");	
+	        	
+	        	
+	            XSSFRow headingInstrRow32 = Instruction.createRow(34);
+	            
+	        	Cell cell168 = headingInstrRow32.createCell(0);
+	        	cell168.setCellStyle(whiteStyle);
+	        	cell168.setCellValue(33);
+				
+	        	Cell cell169 = headingInstrRow32.createCell(1);
+	        	cell169.setCellStyle(whiteStyle);
+	        	cell169.setCellValue("Private (Indian Railway Act)");
+				
+	        	Cell cell170 = headingInstrRow32.createCell(3);
+	        	cell170.setCellStyle(whiteStyle);
+	        	cell170.setCellValue("Declaration of Special Railway project  - Submission of Proposal to GM.");
+				
+	        	Cell cell171 = headingInstrRow32.createCell(2);
+	        	cell171.setCellStyle(whiteStyle);
+	        	cell171.setCellValue("Date 'DD/MM/YYYY'");
+	        	
+	        	
+	        	
+	        	
+	        	
+	        	
+	        	
 	        	
 	        	Instruction.setColumnWidth(0, 25 * 100);
 	        	Instruction.setColumnWidth(1, 25 * 300);

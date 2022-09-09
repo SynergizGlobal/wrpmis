@@ -1952,6 +1952,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 		TransactionStatus status = transactionManager.getTransaction(def);
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+			
 			String insertQry = "INSERT INTO la_land_identification"
 					+ "( la_id, work_id_fk, survey_number, village_id, la_sub_category_fk, village, taluka, dy_slr, sdo, collector, proposal_submission_date_to_collector,"
 					+ "area_of_plot, jm_fee_amount, chainage_from, chainage_to, jm_fee_letter_received_date, jm_fee_paid_date, jm_start_date, jm_completion_date, "
@@ -1972,7 +1973,52 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					+ "where la_id= :la_id ";
 		//	int rNo = 0;
 			for (LandAcquisition obj : lasList) {
+				
 				String [] codes = {"Private", "Government", "Railway", "Forest"};
+				
+				double r1=Double.parseDouble(obj.getChainage_from());	
+				double r2=Double.parseDouble(obj.getChainage_to());
+				
+				double c1=(r1+r2)/2;
+				
+				List<LandAcquisition> getChainageCoordinates=getCoordinates(obj);
+				
+				String splitChainage=getChainageCoordinates.get(0).getChainage_from();
+				String splitChainage1=splitChainage.toString();
+				String[] splitChainage2=splitChainage1.split(",");
+					
+				String splitLatitude=getChainageCoordinates.get(0).getLatitude();
+				String splitLatitude1=splitLatitude.toString();
+				String[] splitLatitude2=splitLatitude1.split(",");
+            	
+				String splitLongitude=getChainageCoordinates.get(0).getLongitude();
+				String splitLongitude1=splitLongitude.toString();
+				String[] splitLongitude2=splitLongitude1.split(",");                    	
+            	
+            	
+				String a1= splitChainage2[0];    String x1=splitLatitude2[0]; String y1=splitLongitude2[0];
+				String b1=splitChainage2[1];	 String x2=splitLatitude2[1]; String y2=splitLongitude2[1];
+
+				double x3=0;   double y3=0;
+
+                x3=Double.parseDouble(x2)+(((c1-Double.parseDouble(b1))/(Double.parseDouble(b1)-Double.parseDouble(a1)))*(Double.parseDouble(x2)-Double.parseDouble(x1)));
+                y3=Double.parseDouble(y2)+(((c1-Double.parseDouble(b1))/(Double.parseDouble(b1)-Double.parseDouble(a1)))*(Double.parseDouble(y2)-Double.parseDouble(y1)));				
+				
+				obj.setLatitude(String.valueOf(x3));
+				obj.setLongitude(String.valueOf(y3));
+				
+				if(obj.getLa_land_status_fk().compareTo("Acquired")==0)
+				{
+					
+					obj.setJm_approval("Done");
+					obj.setArea_acquired(obj.getArea_to_be_acquired());
+				}
+				else
+				{
+
+					obj.setArea_acquired("0");
+				}
+				
 				if(Arrays.asList(codes).contains(obj.getCategory_fk())) {
 				String table_name = "la_land_identification";
 				String la_id = checkLAIdMethod(obj,table_name);
@@ -2585,8 +2631,52 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 		return objList;		
 		
 	}
+	
+	private String getChainageFrom(String chainage_from) {
+		String chainagefrom = null;
+		LandAcquisition dObj = null;
+		try {
+			String qry ="select string_agg(chainages,',') as chainage_from from chainages_master where id between (select min(id)-1 from chainages_master where chainages>=cast('"+chainage_from+"' as decimal(18,2))) and (select min(id) from chainages_master where chainages>=cast('"+chainage_from+"' as decimal(18,2)))";
+			dObj = (LandAcquisition)jdbcTemplate.queryForObject(qry,  new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));
+			chainagefrom = dObj.getChainage_from();
+			return chainagefrom;
+		}
+		catch(Exception e){ 
+			chainage_from = null;
+			return chainagefrom;
+		}
+	}	
 
-
+	private String getLatitude(String chainage_from, String chainage_to) {
+		String Latitude = null;
+		LandAcquisition dObj = null;
+		try {
+			String qry ="select string_agg(latitude,',') as latitude from chainages_master where id between (select min(id)-1 from chainages_master where chainages>=cast('"+chainage_from+"' as decimal(18,2))) and (select min(id) from chainages_master where chainages>=cast('"+chainage_from+"' as decimal(18,2)))";
+			dObj = (LandAcquisition)jdbcTemplate.queryForObject(qry,  new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));
+			Latitude = dObj.getLatitude();
+			return Latitude;
+		}
+		catch(Exception e){ 
+			Latitude = null;
+			return Latitude;
+		}
+	}
+	
+	
+	private String getLongitude(String chainage_from, String chainage_to) {
+		String Longitude = null;
+		LandAcquisition dObj = null;
+		try {
+			String qry ="select string_agg(longitude,',') as longitude from chainages_master where id between (select min(id)-1 from chainages_master where chainages>=cast('"+chainage_from+"' as decimal(18,2))) and (select min(id) from chainages_master where chainages>=cast('"+chainage_from+"' as decimal(18,2)))";
+			dObj = (LandAcquisition)jdbcTemplate.queryForObject(qry,  new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));
+			Longitude = dObj.getLongitude();
+			return Longitude;
+		}
+		catch(Exception e){ 
+			Longitude = null;
+			return Longitude;
+		}
+	}	
 	
 
 }

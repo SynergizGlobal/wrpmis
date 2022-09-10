@@ -83,7 +83,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 						+ "or structure in (select structure from structure_contract_responsible_people s inner join structure s1 on s1.structure_id=s.structure_id_fk where s.contract_id_fk in(select contract_id from contract where (hod_user_id_fk = ? or dy_hod_user_id_fk = ?) group by contract_id) group by structure_id_fk) "
 						+ "or structure in (select structure from structure_contract_responsible_people s inner join structure s1 on s1.structure_id=s.structure_id_fk where s.contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk) group by structure_id_fk) "
 						+ "or structure in (select structure from structure_contract_responsible_people s inner join structure s1 on s1.structure_id=s.structure_id_fk where s.responsible_people_id_fk = ? group by structure_id_fk) "
-						+ ") group by a.contract_id_fk ORDER BY a.contract_id_fk ASC "
+						+ ") group by a.contract_id_fk "
 						+ ")";
 				arrSize++;
 				arrSize++;
@@ -1671,7 +1671,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 						+ "or structure in (select fob_id_fk from fob_contract_responsible_people where contract_id_fk in(select contract_id from contract where (hod_user_id_fk = ? or dy_hod_user_id_fk = ?) group by contract_id) group by fob_id_fk) "
 						+ "or structure in (select fob_id_fk from fob_contract_responsible_people where contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk) group by fob_id_fk) "
 						+ "or structure in (select fob_id_fk from fob_contract_responsible_people where responsible_people_id_fk = ? group by fob_id_fk) "
-						+ ") group by a.contract_id_fk ORDER BY a.contract_id_fk ASC "
+						+ ") group by a.contract_id_fk "
 						+ ")";
 				arrSize++;
 				arrSize++;

@@ -778,11 +778,11 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 						String JMStatus="";
 						if(obj.getJm_approval().compareTo("Done")==0)
 						{
-							JMStatus="Approved";
+							JMStatus="Aceept";
 						}
 						else
 						{
-							JMStatus="Rejected";
+							JMStatus="Reject";
 						}
 						msgObj.setMessage("A new Land Acquisition against "+getWorkName(obj.getWork_id_fk())+" has been JM "+JMStatus);
 						msgObj.setRedirect_url("/get-land-acquisition/"+la_id);
@@ -1412,11 +1412,11 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 							String JMStatus="";
 							if(obj.getJm_approval().compareTo("Done")==0)
 							{
-								JMStatus="Approved";
+								JMStatus="Accept";
 							}
 							else
 							{
-								JMStatus="Rejected";
+								JMStatus="Reject";
 							}							
 							for(int i=0;i<SplitStr.length;i++)
 							{

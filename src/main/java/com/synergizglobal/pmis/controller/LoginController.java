@@ -266,8 +266,17 @@ public class LoginController {
 		User userDetails = null;
 		ModelAndView model = new ModelAndView();
 		try{
-			
-			if(!StringUtils.isEmpty(user.getUser_id()) && !StringUtils.isEmpty(user.getNewPassword())){
+			String UserId=null;
+			if(!StringUtils.isEmpty(user.getEmail_id()))
+			{
+				List<User> UserDetails = loginService.getUserId(user.getEmail_id());
+				UserId=UserDetails.get(0).getUser_id();
+			}
+			else
+			{
+				UserId=user.getUser_id();
+			}
+			if(!StringUtils.isEmpty(UserId) && !StringUtils.isEmpty(user.getNewPassword())){
 				if(!StringUtils.isEmpty(user)) 
 				{
 					String temp = loginService.resetPassword(user);
@@ -529,6 +538,18 @@ public class LoginController {
 			logger.error("getModulesCount : " + e.getMessage());
 		}
 		return cnt;
+	}	
+	
+	@RequestMapping(value = "/ajax/getUserId", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<User> getUserId(@ModelAttribute User obj,HttpSession session) throws Exception {
+		List<User> User = null;
+		try {
+			User = loginService.getUserId(obj.getEmail_id());
+		} catch (SQLException e) {
+			logger.error("getUserId : " + e.getMessage());
+		}
+		return User;
 	}	
 	
 	@RequestMapping(value = "/ajax/checkUserEmail", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)

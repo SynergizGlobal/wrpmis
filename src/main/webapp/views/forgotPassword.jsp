@@ -365,6 +365,20 @@
 			    }
 			});
 			
+			function GetUserId()
+			{
+		      	 $.ajax({
+		            url: "<%=request.getContextPath()%>/ajax/getUserId",
+		            data: {email_id:$("#email_id").val()},
+ 	    			type:"POST",
+ 	    			cache: false,async:false,
+		            success: function (data) 
+		            {
+						$("#user_id").val(data[0].user_id);
+		            }
+		        });  				
+			}
+			
 
 			
 			function login() {
@@ -463,6 +477,10 @@
 							 		
 									 if(checkLoggedInUserEmail()==true)
 									 {
+										 
+										 
+									//GetUserId();	 
+										 
 		                    	 	$("#user_id").prop("readonly", true);
 		                    	 	$("#email_id").prop("readonly", true);	
 		                    	 

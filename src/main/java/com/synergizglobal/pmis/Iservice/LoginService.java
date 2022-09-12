@@ -1,6 +1,7 @@
 package com.synergizglobal.pmis.Iservice;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import com.synergizglobal.pmis.exceptions.NoKeyException;
 import com.synergizglobal.pmis.exceptions.NotEnabledTestEnv;
@@ -28,5 +29,6 @@ public interface LoginService {
 	public String getUserNameByEmail(String Email) throws Exception;
 
 	public int encryptUserPasswords() throws Exception;
+	public List<User> getUserId(String Email) throws Exception;
 	
 }

@@ -1,6 +1,7 @@
 package com.synergizglobal.pmis.Idao;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import com.synergizglobal.pmis.exceptions.NoKeyException;
 import com.synergizglobal.pmis.exceptions.NotEnabledTestEnv;
@@ -30,6 +31,8 @@ public interface LoginDao {
 	public String getEmailbyUserId(String userId) throws Exception;
 
 	public String getUserNameByEmail(String email) throws Exception;
+
+	public List<User> getUserId(String email) throws Exception;
 }
 
 

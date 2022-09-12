@@ -1,6 +1,7 @@
 package com.synergizglobal.pmis.IMPLservice;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -90,5 +91,11 @@ public class LoginServiceImpl implements LoginService {
 	{
 		return loginDao.getUserNameByEmail(Email);
 	}	
+	
+	@Override
+	public List<User> getUserId(String Email) throws Exception
+	{
+		return loginDao.getUserId(Email);
+	}
 	
 }

@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -1024,7 +1025,8 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 			    	//String UpdatedScope=getUpdatedScopeValue(obj.getActivity_ids()[i]);
 			    	
 			    	String Str2[]=obj.getScope().split(",");
-			    	Double Str=Double.parseDouble(Str2[i]);
+			    	DecimalFormat decimalFormat = new DecimalFormat("0.00");
+			    	String Str=decimalFormat.format(Double.parseDouble(Str2[i]));
 
 			    	boolean insertFlag=false;		
 			    	if((Str1.compareTo(String.valueOf(Str))!=0) || (obj.getActualScopes()[i]!=null && obj.getActualScopes()[i]!="") || (obj.getPlanned_start()!=null) || (obj.getPlanned_finish()!=null))
@@ -1075,7 +1077,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					  {
 						  //insertStmt.addBatch();
 						  
-						  if((obj.getActualScopes()[i]!=null && obj.getActualScopes()[i]!="" && Double.parseDouble(obj.getActualScopes()[i])>0)) 
+						  if((obj.getActualScopes()[i]!=null && obj.getActualScopes()[i]!="" && Double.parseDouble(obj.getActualScopes()[i])>0) || (Str1.compareTo(String.valueOf(Str))!=0)) 
 						  {
 							  insertStmt.executeUpdate();
 							  

@@ -337,8 +337,13 @@
 	                                    <label for="type_of_land"> Type of Land <span class="required">*</span></label>	                                    
 	                                </div>
 	                                <div class="col s6 m4 l4 input-field">
-	                                    <input type="text"  id="sub_category_of_land" value="${LADetails.sub_category_of_land }" readonly/>
-	                                    <label for="sub_category_of_land" class="fs-sm-8rem"> Sub Category of Land <span class="required">*</span></label>
+	                                <p class="searchable_label fs-sm-67rem"> Sub Category of Land <span class="required">*</span></p>
+                                    <select class="searchable validate-dropdown" id="sub_category_of_land" name="id" onchange="getLandsList();">
+                                        <option value="" selected>Select</option>
+                                       <c:forEach var="obj" items="${subCategorysList }">
+	                                      	   <option value= "${obj.id}" <c:if test="${LADetails.sub_category_of_land eq obj.sub_category_of_land}">selected</c:if>>${obj.sub_category_of_land}</option>
+	                                     </c:forEach>
+                                    </select>	                                
 	                                </div>
 	                                <div class="col s12 m4 l4 offset-m2 input-field">
                                        <input id="area_acquired" maxlength="10" data-length="10" name="area_acquired" type="number" step="any" onkeyup="doValidateAquired(this.value)" value="${LADetails.area_acquired }"

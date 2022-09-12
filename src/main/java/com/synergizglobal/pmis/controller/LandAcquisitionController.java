@@ -1225,7 +1225,7 @@ public class LandAcquisitionController {
 												if(!StringUtils.isEmpty(val)) { pObj.setLa_id(val);}
 												
 												val = formatter.formatCellValue(row2.getCell(1)).trim();
-												if(!StringUtils.isEmpty(val)) { pObj.setCollector(val);}
+												if(!StringUtils.isEmpty(val)) { pObj.setPrivate_ira_collector(val);}
 												//Declaration of Special Railway project 
 												val = formatter.formatCellValue(row2.getCell(2)).trim();
 												
@@ -2088,7 +2088,7 @@ public class LandAcquisitionController {
 											date30 = formatter1.parse(val);
 											dateString30 = formatter2.format(date30);											
 											
-											if(!StringUtils.isEmpty(val)) { pObj2.setPayment_date(dateString30);}
+											if(!StringUtils.isEmpty(val)) { pObj2.setPrivate_payment_date(dateString30);}
 						
 											
 											pObj2.setForest_tree_survey(DateParser.parse(pObj2.getForest_tree_survey()));
@@ -2295,7 +2295,14 @@ public class LandAcquisitionController {
 												fObj.setForest_demanded_amount(val);}
 
 											val = formatter.formatCellValue(row2.getCell(10)).trim();
-											if(!StringUtils.isEmpty(val)) {fObj.setApproval_for_payment(val);}
+											
+											Date date71 = null;
+											String dateString71 = null;
+											date71 = formatter1.parse(val);
+											dateString71 = formatter2.format(date71);	
+											
+											
+											if(!StringUtils.isEmpty(val)) {fObj.setForest_approval_for_payment(dateString71);}
 
 											val = formatter.formatCellValue(row2.getCell(11)).trim();
 											

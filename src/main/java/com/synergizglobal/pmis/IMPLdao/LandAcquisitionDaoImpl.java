@@ -580,7 +580,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					"FORMAT(date_of_uploading_of_gazette_notification_rp ,'dd-MM-yyyy') AS date_of_uploading_of_gazette_notification_rp,\r\n" + 
 					"FORMAT(publication_in_gazette_rp ,'dd-MM-yyyy') AS publication_in_gazette_rp,\r\n" + 
 					"FORMAT(date_of_proposal_to_DC_for_nomination ,'dd-MM-yyyy') AS  date_of_proposal_to_DC_for_nomination, \r\n" + 
-					"FORMAT(date_of_nomination_of_competenta_authority ,'dd-MM-yyyy') AS date_of_nomination_of_competenta_authority,longitude,latitude  "
+					"FORMAT(date_of_nomination_of_competenta_authority ,'dd-MM-yyyy') AS date_of_nomination_of_competenta_authority,longitude,latitude,draft_letter_to_con_for_approval_ca,date_of_approval_of_construction_ca,date_of_uploading_of_gazette_notification_ca,publication_in_gazette_ca,date_of_submission_of_draft_notification_to_CALA,approval_of_CALA_20a,draft_letter_to_con_for_approval_20a,date_of_approval_of_construction_20a,date_of_uploading_of_gazette_notification_20a,publication_in_gazette_20a,publication_in_2_local_news_papers_20a,pasting_of_notification_in_villages_20a,receipt_of_grievances,disposal_of_grievances,date_of_submission_of_draft_notification_to_CALA_20e,approval_of_CALA_20e,publication_of_notice_in_2_local_news_papers_20e,date_of_submission_of_draft_notification_to_CALA_20f,approval_of_CALA_20f,draft_letter_to_con_for_approval_20f,date_of_approval_of_construction_20f,date_of_uploading_of_gazette_notification_20f,publication_in_gazette_20f,publication_of_notice_in_2_local_news_papers_20f  "
 					+"from la_land_identification li "
 					+"left join la_government_land_acquisition lg on li.la_id = lg.la_id_fk " 
 					+"left join la_forest_land_acquisition lf on li.la_id = lf.la_id_fk " 

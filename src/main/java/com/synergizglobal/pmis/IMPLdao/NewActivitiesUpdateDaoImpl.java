@@ -882,6 +882,18 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 		}		
 		return Scope;
 	}
+	private String getUpdatedScopeValue(String activity_id) throws Exception
+	{
+		String completedscope="";
+		try {
+			String qry = "select sum(isnull(completed_scope,0)) as completed_scope from p6_activity_progress where p6_activity_id_fk=?";
+			completedscope = (String) jdbcTemplate.queryForObject(qry, new Object[] { activity_id }, String.class);
+		} catch (Exception e) {
+			throw new Exception(e);
+		}		
+		return completedscope;
+	}	
+	
 	
 	private String getPlannedStart(String activity_id) throws Exception
 	{
@@ -986,7 +998,6 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					arraySize = obj.getActualScopes().length;
 				}
 			}
-			
 			  if( !StringUtils.isEmpty(obj.getActivity_ids()) && obj.getActivity_ids().length > 0) 
 			  {
 				 obj.setActivity_ids(CommonMethods.replaceEmptyByNullInSringArray(obj.getActivity_ids())); if(arraySize < obj.getActivity_ids().length) 
@@ -998,6 +1009,8 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 			String[] SplitScope=obj.getScope().split(",");
 			String Message="Scope";
 			int loopTimes=0;
+			List<String> generatedIds = new ArrayList<String>();
+
 			
 			for (int i = 0; i < arraySize; i++) 
 			{				
@@ -1007,6 +1020,9 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 			    {
 			    	
 			    	String Str1=getScopeValue(obj.getActivity_ids()[i]);
+			    	
+			    	//String UpdatedScope=getUpdatedScopeValue(obj.getActivity_ids()[i]);
+			    	
 			    	String Str2[]=obj.getScope().split(",");
 			    	Float Str=Float.parseFloat(Str2[i]);
 
@@ -1058,8 +1074,21 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					  if(insertFlag==true)
 					  {
 						  //insertStmt.addBatch();
-						  insertStmt.executeUpdate();
-						  loopTimes++;
+						  
+						  if(obj.getActualScopes()[i]!=null && obj.getActualScopes()[i]!="" && Double.parseDouble(obj.getActualScopes()[i])>0) 
+						  {
+							  insertStmt.executeUpdate();
+							  
+								ResultSet rs = insertStmt.getGeneratedKeys();
+						        if (rs != null) {
+						            while (rs.next()) {
+						                int generatedId = rs.getInt(1);
+						                generatedIds.add(String.valueOf(generatedId));
+						            }
+						        }						  
+							  
+							  loopTimes++;
+						  }
 					  }
 			    	}
 			    }
@@ -1103,6 +1132,14 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					  {
 						  //insertStmt.addBatch();
 						  insertStmt.executeUpdate();
+						  
+							ResultSet rs = insertStmt.getGeneratedKeys();
+					        if (rs != null) {
+					            while (rs.next()) {
+					                int generatedId = rs.getInt(1);
+					                generatedIds.add(String.valueOf(generatedId));
+					            }
+					        }						  
 						  loopTimes++;
 					  }					    			    	
 			    	
@@ -1112,14 +1149,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 			NamedParameterJdbcTemplate template1 = new NamedParameterJdbcTemplate(dataSource);			
 			if(loopTimes > 0) {
 				flag = true;
-				List<String> generatedIds = new ArrayList<String>();
-				ResultSet rs = insertStmt.getGeneratedKeys();
-		        if (rs != null) {
-		            while (rs.next()) {
-		                int generatedId = rs.getInt(1);
-		                generatedIds.add(String.valueOf(generatedId));
-		            }
-		        }
+
 		        DBConnectionHandler.closeJDBCResoucrs(null, insertStmt, null);
 		        
 		        String qry = "INSERT INTO p6_validation_dyhod(dyhod_user_id_fk, progress_id_fk)values(?,?)";

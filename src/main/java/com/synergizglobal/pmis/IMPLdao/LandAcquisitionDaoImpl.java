@@ -778,7 +778,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 						String JMStatus="";
 						if(obj.getJm_approval().compareTo("Done")==0)
 						{
-							JMStatus="Aceept";
+							JMStatus="Accept";
 						}
 						else
 						{

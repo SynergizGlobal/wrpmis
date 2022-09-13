@@ -64,13 +64,13 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 				contractsQry = contractsQry + " and f.structure_type_fk = ?";
 				arrSize++;
 			}
-			/*contractsQry = contractsQry + " GROUP BY contract_id,c.work_id_fk,contract_name,contract_short_name,contractor_id_fk, work_name,work_short_name,contractor_name,f.work_status_fk,f.structure_type_fk ORDER BY case when a.component='New FOB site on PF' then 1 \r\n" + 
-					"		 when a.component='PF and service buildings' then 2\r\n" + 
-					"		 when a.component='New Constructed FOB' then 3\r\n" + 
-					"		 when a.component='New Constructed  FOB' then 4\r\n" + 
-					"		 when a.component='PF sheds Under new FOB' then 5\r\n" + 
-					"		 when a.component='Dismantling of old & unservicable FOB' then 6\r\n" + 
-					"		 when a.component='PF s cover shed of dismantalling FOB' then 7\r\n" + 
+			/*contractsQry = contractsQry + " GROUP BY contract_id,c.work_id_fk,contract_name,contract_short_name,contractor_id_fk, work_name,work_short_name,contractor_name,f.work_status_fk,f.structure_type_fk ORDER BY case when a.component='New FOB site on PF' then 1 " + 
+					"		 when a.component='PF and service buildings' then 2" + 
+					"		 when a.component='New Constructed FOB' then 3" + 
+					"		 when a.component='New Constructed  FOB' then 4" + 
+					"		 when a.component='PF sheds Under new FOB' then 5" + 
+					"		 when a.component='Dismantling of old & unservicable FOB' then 6" + 
+					"		 when a.component='PF s cover shed of dismantalling FOB' then 7" + 
 					"		 when a.component='Station' then 8 end asc";*/
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -146,17 +146,18 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 				/**********************************************************************************************************************************/				
 				
 				for (ActivitiesProgressReport contractProgressStructure : contractProgressStructuresList) {
-					String contractProgressDatesQry = "select distinct p6_activity_name as activity_name,component_id,FORMAT(baseline_start,'dd-MM-yyyy') AS planned_start,FORMAT(baseline_finish,'dd-MM-yyyy') AS planned_finish,case \r\n" + 
-							"	   when (ISNULL(NULLIF(completed, '' ), 0)=0 or completed is null) then ''\r\n" + 
-							"	   when ISNULL(NULLIF(completed, '' ), 0)>=ISNULL(NULLIF(scope, '' ), 0) then (select FORMAT(min(progress_date),'dd-MM-yyyy') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id)\r\n" + 
-							"	   else (select FORMAT(min(progress_date),'dd-MM-yyyy') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id) end as actual_start,case \r\n" + 
-							"	   when (ISNULL(NULLIF(completed, '' ), 0)=0 or completed is null) then ''\r\n" + 
-							"	   when ISNULL(NULLIF(completed, '' ), 0)>=ISNULL(NULLIF(scope, '' ), 0) then (select FORMAT(max(progress_date),'dd-MM-yyyy') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id)\r\n" + 
-							"	   else '' end as actual_finish,unit,ISNULL(NULLIF(scope, '' ), 0) AS scope,ISNULL(NULLIF(completed, '' ), 0) AS completed,a.contract_id_fk,work_id,project_id,project_name "
-							+ "from  p6_activities a left join structure s on s.structure_id = a.structure_id_fk "
-							+ "LEFT JOIN contract c on a.contract_id_fk = c.contract_id "
-							+ "LEFT JOIN work w on c.work_id_fk = w.work_id "  
-							+ "LEFT JOIN project p on w.project_id_fk = p.project_id " 
+					String contractProgressDatesQry = "select distinct p6_activity_name as activity_name,component_id,FORMAT(baseline_start,'dd-MM-yyyy') AS planned_start,FORMAT(baseline_finish,'dd-MM-yyyy') AS planned_finish,case " + 
+							"	   when (ISNULL(completed, 0)=0 or completed is null) then ''" + 
+							"	   when ISNULL(completed, 0)>=ISNULL(scope, 0) then (select FORMAT(min(progress_date),'dd-MM-yyyy') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id)" + 
+							"	   else (select FORMAT(min(progress_date),'dd-MM-yyyy') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id) end as actual_start,case " + 
+							"	   when (ISNULL(completed, 0)=0 or completed is null) then ''" + 
+							"	   when ISNULL(completed, 0)>=ISNULL(scope, 0) then (select FORMAT(max(progress_date),'dd-MM-yyyy') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id)" + 
+							"	   else '' end as actual_finish,unit,ISNULL(scope, 0) AS scope,ISNULL(completed, 0) AS completed,a.contract_id_fk,work_id,project_id,project_name " + 
+							"	   from  p6_activities a " + 
+							"	   left join structure s on s.structure_id = a.structure_id_fk " + 
+							"	   LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
+							"	   LEFT JOIN work w on c.work_id_fk = w.work_id " + 
+							"	   LEFT JOIN project p on w.project_id_fk = p.project_id " 
 							+ "where a.scope>0 and a.contract_id_fk = ? and s.structure_type_fk<>'FOB' ";
 					
 					arrSize = 1;
@@ -246,13 +247,13 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 			
 			/*
 			 * qry = qry +
-			 * " GROUP BY p.project_id,p.project_name ORDER BY case when a.component='New FOB site on PF' then 1 \r\n"
-			 * + "		 when a.component='PF and service buildings' then 2\r\n" +
-			 * "		 when a.component='New Constructed FOB' then 3\r\n" +
-			 * "		 when a.component='New Constructed  FOB' then 4\r\n" +
-			 * "		 when a.component='PF sheds Under new FOB' then 5\r\n" +
-			 * "		 when a.component='Dismantling of old & unservicable FOB' then 6\r\n"
-			 * + "		 when a.component='PF s cover shed of dismantalling FOB' then 7\r\n"
+			 * " GROUP BY p.project_id,p.project_name ORDER BY case when a.component='New FOB site on PF' then 1 "
+			 * + "		 when a.component='PF and service buildings' then 2" +
+			 * "		 when a.component='New Constructed FOB' then 3" +
+			 * "		 when a.component='New Constructed  FOB' then 4" +
+			 * "		 when a.component='PF sheds Under new FOB' then 5" +
+			 * "		 when a.component='Dismantling of old & unservicable FOB' then 6"
+			 * + "		 when a.component='PF s cover shed of dismantalling FOB' then 7"
 			 * + "		 when a.component='Station' then 8 end asc";
 			 */
 			
@@ -450,60 +451,60 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 				arrSize++;
 			}
 			
-			/*qry = qry + "  ORDER BY case when u.designation='ED Civil' then 1 \r\n" + 
-					"   when u.designation='CPM I' then 2 \r\n" + 
-					"   when u.designation='CPM II' then 3\r\n" + 
-					"   when u.designation='CPM III' then 4 \r\n" + 
-					"   when u.designation='CPM V' then 5\r\n" + 
-					"   when u.designation='CE' then 6 \r\n" + 
-					"   when u.designation='ED S&T' then 7 \r\n" + 
-					"   when u.designation='CSTE' then 8\r\n" + 
-					"   when u.designation='GM Electrical' then 9\r\n" + 
-					"   when u.designation='CEE Project I' then 10\r\n" + 
-					"   when u.designation='CEE Project II' then 11\r\n" + 
-					"   when u.designation='ED Finance & Planning' then 12\r\n" + 
-					"   when u.designation='AGM Civil' then 13\r\n" + 
-					"   when u.designation='DyCPM Civil' then 14\r\n" + 
-					"   when u.designation='DyCPM III' then 15\r\n" + 
-					"   when u.designation='DyCPM V' then 16\r\n" + 
-					"   when u.designation='DyCE EE' then 17\r\n" + 
-					"   when u.designation='DyCE Badlapur' then 18\r\n" + 
-					"   when u.designation='DyCPM Pune' then 19\r\n" + 
-					"   when u.designation='DyCE Proj' then 20\r\n" + 
-					"   when u.designation='DyCEE I' then 21\r\n" + 
-					"   when u.designation='DyCEE Projects' then 22\r\n" + 
-					"   when u.designation='DyCEE PSI' then 23\r\n" + 
-					"   when u.designation='DyCSTE I' then 24\r\n" + 
-					"   when u.designation='DyCSTE IT' then 25\r\n" + 
-					"   when u.designation='DyCSTE Projects' then 26\r\n" + 
-					"   when u.designation='XEN Consultant' then 27\r\n" + 
-					"   when u.designation='AEN Adhoc' then 28\r\n" + 
-					"   when u.designation='AEN Project' then 29\r\n" + 
-					"   when u.designation='AEN P-Way' then 30\r\n" + 
-					"   when u.designation='AEN' then 31\r\n" + 
-					"   when u.designation='Sr Manager Signal' then 32 \r\n" + 
-					"   when u.designation='Manager Signal' then 33\r\n" + 
-					"   when u.designation='Manager Civil' then 34 \r\n" + 
-					"   when u.designation='Manager OHE' then 35\r\n" + 
-					"   when u.designation='Manager GS' then 36\r\n" + 
-					"   when u.designation='Manager Finance' then 37\r\n" + 
-					"   when u.designation='Planning Manager' then 38\r\n" + 
-					"   when u.designation='Manager Project' then 39\r\n" + 
-					"   when u.designation='Manager' then 40 \r\n" + 
-					"   when u.designation='SSE' then 41\r\n" + 
-					"   when u.designation='SSE Project' then 42\r\n" + 
-					"   when u.designation='SSE Works' then 43\r\n" + 
-					"   when u.designation='SSE Drg' then 44\r\n" + 
-					"   when u.designation='SSE BR' then 45\r\n" + 
-					"   when u.designation='SSE P-Way' then 46\r\n" + 
-					"   when u.designation='SSE OHE' then 47\r\n" + 
-					"   when u.designation='SPE' then 48\r\n" + 
-					"   when u.designation='PE' then 49\r\n" + 
-					"   when u.designation='JE' then 50\r\n" + 
-					"   when u.designation='Demo-HOD-Elec' then 51\r\n" + 
-					"   when u.designation='Demo-HOD-Engg' then 52\r\n" + 
-					"   when u.designation='Demo-HOD-S&T' then 53\r\n" + 
-					"\r\n" + 
+			/*qry = qry + "  ORDER BY case when u.designation='ED Civil' then 1 " + 
+					"   when u.designation='CPM I' then 2 " + 
+					"   when u.designation='CPM II' then 3" + 
+					"   when u.designation='CPM III' then 4 " + 
+					"   when u.designation='CPM V' then 5" + 
+					"   when u.designation='CE' then 6 " + 
+					"   when u.designation='ED S&T' then 7 " + 
+					"   when u.designation='CSTE' then 8" + 
+					"   when u.designation='GM Electrical' then 9" + 
+					"   when u.designation='CEE Project I' then 10" + 
+					"   when u.designation='CEE Project II' then 11" + 
+					"   when u.designation='ED Finance & Planning' then 12" + 
+					"   when u.designation='AGM Civil' then 13" + 
+					"   when u.designation='DyCPM Civil' then 14" + 
+					"   when u.designation='DyCPM III' then 15" + 
+					"   when u.designation='DyCPM V' then 16" + 
+					"   when u.designation='DyCE EE' then 17" + 
+					"   when u.designation='DyCE Badlapur' then 18" + 
+					"   when u.designation='DyCPM Pune' then 19" + 
+					"   when u.designation='DyCE Proj' then 20" + 
+					"   when u.designation='DyCEE I' then 21" + 
+					"   when u.designation='DyCEE Projects' then 22" + 
+					"   when u.designation='DyCEE PSI' then 23" + 
+					"   when u.designation='DyCSTE I' then 24" + 
+					"   when u.designation='DyCSTE IT' then 25" + 
+					"   when u.designation='DyCSTE Projects' then 26" + 
+					"   when u.designation='XEN Consultant' then 27" + 
+					"   when u.designation='AEN Adhoc' then 28" + 
+					"   when u.designation='AEN Project' then 29" + 
+					"   when u.designation='AEN P-Way' then 30" + 
+					"   when u.designation='AEN' then 31" + 
+					"   when u.designation='Sr Manager Signal' then 32 " + 
+					"   when u.designation='Manager Signal' then 33" + 
+					"   when u.designation='Manager Civil' then 34 " + 
+					"   when u.designation='Manager OHE' then 35" + 
+					"   when u.designation='Manager GS' then 36" + 
+					"   when u.designation='Manager Finance' then 37" + 
+					"   when u.designation='Planning Manager' then 38" + 
+					"   when u.designation='Manager Project' then 39" + 
+					"   when u.designation='Manager' then 40 " + 
+					"   when u.designation='SSE' then 41" + 
+					"   when u.designation='SSE Project' then 42" + 
+					"   when u.designation='SSE Works' then 43" + 
+					"   when u.designation='SSE Drg' then 44" + 
+					"   when u.designation='SSE BR' then 45" + 
+					"   when u.designation='SSE P-Way' then 46" + 
+					"   when u.designation='SSE OHE' then 47" + 
+					"   when u.designation='SPE' then 48" + 
+					"   when u.designation='PE' then 49" + 
+					"   when u.designation='JE' then 50" + 
+					"   when u.designation='Demo-HOD-Elec' then 51" + 
+					"   when u.designation='Demo-HOD-Engg' then 52" + 
+					"   when u.designation='Demo-HOD-S&T' then 53" + 
+					"" + 
 					"   end,user_id,user_name asc" ;*/
 
 			

@@ -61,7 +61,11 @@ public class ContractDaoImpl implements ContractDao {
 	public List<Contract> contractList(Contract obj)throws Exception{
 		List<Contract> objsList = null;
 		try {
-			String qry ="select distinct w.work_name,w.work_short_name, String_agg(dt.department_name,',') as department_name,w.project_id_fk,p.project_name," + 
+			String qry ="select distinct w.work_name,w.work_short_name, (select String_agg(department_name,',') as department_name from (select distinct department_name from contract_executive ce\r\n" + 
+					"\r\n" + 
+					"left join department dt on ce.department_id_fk = dt.department \r\n" + 
+					"\r\n" + 
+					"where contract_id_fk=c.contract_id) as a) as department_name,w.project_id_fk,p.project_name," + 
 					"u.designation,us.designation as dy_hod_designation,u.user_name,c.work_id_fk,contract_type_fk," + 
 					"c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name," + 
 					"c.hod_user_id_fk,c.dy_hod_user_id_fk," + 

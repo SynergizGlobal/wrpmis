@@ -340,9 +340,6 @@
 	                                <p class="searchable_label fs-sm-67rem"> Sub Category of Land <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="sub_category_of_land" name="id" onchange="getLandsList();">
                                         <option value="" selected>Select</option>
-                                       <c:forEach var="obj" items="${subCategorysList }">
-	                                      	   <option value= "${obj.id}" <c:if test="${LADetails.sub_category_of_land eq obj.sub_category_of_land}">selected</c:if>>${obj.sub_category_of_land}</option>
-	                                     </c:forEach>
                                     </select>	                                
 	                                </div>
 	                                <div class="col s12 m4 l4 offset-m2 input-field">
@@ -2643,7 +2640,12 @@
         });
        
  
+        	if("${LADetails}"!="" && "${LADetails}"!=null)
+        	{
+        		getSubCategorysList();
+            }
 
+        
         
         
         

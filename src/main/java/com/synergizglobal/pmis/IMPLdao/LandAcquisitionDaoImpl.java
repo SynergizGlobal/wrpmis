@@ -1974,7 +1974,6 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 		//	int rNo = 0;
 			for (LandAcquisition obj : lasList) {
 				
-				String [] codes = {"Private", "Government", "Railway", "Forest"};
 				
 				double r1=Double.parseDouble(obj.getChainage_from());	
 				double r2=Double.parseDouble(obj.getChainage_to());
@@ -2019,7 +2018,6 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					obj.setArea_acquired("0");
 				}
 				
-				if(Arrays.asList(codes).contains(obj.getCategory_fk())) {
 				String table_name = "la_land_identification";
 				String la_id = checkLAIdMethod(obj,table_name);
 				String sub_category_no = getSubCategoryNo(obj);
@@ -2302,7 +2300,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					sheet6 = sheet6 + obj.getRailwayList().size();
 				}
 				count = lasList.size();
-			   }
+			   
 			}
 		   
 		   transactionManager.commit(status);

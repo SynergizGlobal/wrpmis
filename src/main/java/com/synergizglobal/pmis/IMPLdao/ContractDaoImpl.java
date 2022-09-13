@@ -75,7 +75,7 @@ public class ContractDaoImpl implements ContractDao {
 					"left join [user] us on c.dy_hod_user_id_fk = us.user_id "+
 					"left join contract_executive ce on c.contract_id = ce.contract_id_fk "
 					+"left join department dt on ce.department_id_fk = dt.department "
-					+"where contract_id is not null and contract_id_fk not like '%MS%' ";
+					+"where contract_id is not null ";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {

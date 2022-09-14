@@ -1001,7 +1001,8 @@ public class LandAcquisitionController {
 		Writer w = null;
 		int count = 0;
 
-		SimpleDateFormat formatter1 = new SimpleDateFormat("MM/dd/yy");
+		SimpleDateFormat formatter1 = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat formatter3 = new SimpleDateFormat("MM/dd/yy");
 		SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");
 		
 		try {	
@@ -2127,21 +2128,64 @@ public class LandAcquisitionController {
 										
 											val = formatter.formatCellValue(row2.getCell(2)).trim();
 											
-											Date date15 = null;
-											String dateString15 = null;
-											date15 = formatter1.parse(val);
-											dateString15 = formatter2.format(date15);											
+										
 											
-											if(!StringUtils.isEmpty(val)) {gov.setValuation_date(dateString15);}
+											if(!StringUtils.isEmpty(val)) {
+												
+												if(val.contains("/")) 
+												{
+													Date date15 = null;
+													String dateString15 = null;
+													date15 = formatter3.parse(val);
+													dateString15 = formatter2.format(date15);													
+													
+													gov.setValuation_date(dateString15);
+
+												 
+												}
+												else
+												{
+													Date date15 = null;
+													String dateString15 = null;
+													date15 = formatter1.parse(val);
+													dateString15 = formatter2.format(date15);														
+													
+													gov.setValuation_date(dateString15);
+												}												
+												
+												
+												
+											
+											
+											
+											}
 											
 											val = formatter.formatCellValue(row2.getCell(3)).trim();
 											
-											Date date16 = null;
-											String dateString16 = null;
-											date16 = formatter1.parse(val);
-											dateString16 = formatter2.format(date16);	
+
 											
-											if(!StringUtils.isEmpty(val)) { gov.setLetter_for_payment(dateString16);}
+											if(!StringUtils.isEmpty(val)) { 
+												
+
+												if(val.contains("/")) 
+												{
+													Date date16 = null;
+													String dateString16 = null;
+													date16 = formatter3.parse(val);
+													dateString16 = formatter2.format(date16);													
+													
+													gov.setLetter_for_payment(dateString16);
+												}
+												else
+												{
+													Date date16 = null;
+													String dateString16 = null;
+													date16 = formatter1.parse(val);
+													dateString16 = formatter2.format(date16);														
+													gov.setLetter_for_payment(dateString16);
+												}
+											
+											}
 											
 											val = formatter.formatCellValue(row2.getCell(4)).trim();
 											if(!StringUtils.isEmpty(val)) {
@@ -2156,21 +2200,59 @@ public class LandAcquisitionController {
 											
 											val = formatter.formatCellValue(row2.getCell(5)).trim();
 											
-											Date date17 = null;
-											String dateString17 = null;
-											date17 = formatter1.parse(val);
-											dateString17 = formatter2.format(date17);											
+										
 											
-											if(!StringUtils.isEmpty(val)) {gov.setApproval_for_payment(dateString17);}
+											if(!StringUtils.isEmpty(val)) {
+												
+												if(val.contains("/")) 
+												{
+													Date date17 = null;
+													String dateString17 = null;
+													date17 = formatter3.parse(val);
+													dateString17 = formatter2.format(date17);														
+													
+													gov.setApproval_for_payment(dateString17);
+												}
+												else
+												{
+													Date date17 = null;
+													String dateString17 = null;
+													date17 = formatter1.parse(val);
+													dateString17 = formatter2.format(date17);															
+													gov.setApproval_for_payment(dateString17);
+												}
+
+											}
 											
 											val = formatter.formatCellValue(row2.getCell(6)).trim();
 											
-											Date date18 = null;
-											String dateString18 = null;
-											date18 = formatter1.parse(val);
-											dateString18 = formatter2.format(date18);												
 											
-											if(!StringUtils.isEmpty(val)) {gov.setPayment_date(dateString18);}
+											
+											if(!StringUtils.isEmpty(val)) 
+											{
+
+												if(val.contains("/")) 
+												{
+													Date date18 = null;
+													String dateString18 = null;
+													date18 = formatter3.parse(val);
+													dateString18 = formatter2.format(date18);														
+													
+													gov.setPayment_date(dateString18);
+												}
+												else
+												{
+													Date date18 = null;
+													String dateString18 = null;
+													date18 = formatter1.parse(val);
+													dateString18 = formatter2.format(date18);															
+													gov.setPayment_date(dateString18);
+												}
+												
+												
+												
+												
+											}
 											
 											val = formatter.formatCellValue(row2.getCell(7)).trim();
 											if(!StringUtils.isEmpty(val)) {
@@ -2182,12 +2264,31 @@ public class LandAcquisitionController {
 											
 											val = formatter.formatCellValue(row2.getCell(8)).trim();
 											
-											Date date19 = null;
-											String dateString19 = null;
-											date19 = formatter1.parse(val);
-											dateString19 = formatter2.format(date19);												
 											
-											if(!StringUtils.isEmpty(val)) { gov.setPossession_date(dateString19);}
+											
+											if(!StringUtils.isEmpty(val)) { 
+												
+												if(val.contains("/")) 
+												{
+													Date date19 = null;
+													String dateString19 = null;
+													date19 = formatter3.parse(val);
+													dateString19 = formatter2.format(date19);															
+													
+													gov.setPossession_date(dateString19);
+												}
+												else
+												{
+													Date date19 = null;
+													String dateString19 = null;
+													date19 = formatter1.parse(val);
+													dateString19 = formatter2.format(date19);																
+													gov.setPossession_date(dateString19);
+												}												
+												
+												
+											
+											}
 											
 							
 											
@@ -2221,70 +2322,213 @@ public class LandAcquisitionController {
 											
 											val = formatter.formatCellValue(row2.getCell(2)).trim();
 											
-											Date date = null;
-											String dateString = null;
-											date = formatter1.parse(val);
-											dateString = formatter2.format(date);
+											if(val.contains("/")) {
+													Date date = null;
+													String dateString = null;
+													date = formatter3.parse(val);
+													dateString = formatter2.format(date);												
+													if(!StringUtils.isEmpty(val)) {fObj.setForest_submission_date_to_dycfo(dateString);}
+												 
+											}
+											else
+											{
 											
-											if(!StringUtils.isEmpty(val)) {fObj.setForest_submission_date_to_dycfo(dateString);}
+												Date date = null;
+												String dateString = null;
+												date = formatter1.parse(val);
+												dateString = formatter2.format(date);
+												if(!StringUtils.isEmpty(val)) {fObj.setForest_submission_date_to_dycfo(dateString);}
+												
+											}
+											
 											
 											val = formatter.formatCellValue(row2.getCell(3)).trim();
 											
 											
-											Date date1 = null;
-											String dateString1 = null;
-											date1 = formatter1.parse(val);
-											dateString1 = formatter2.format(date1);											
+	
 											
 											
-											if(!StringUtils.isEmpty(val)) {fObj.setForest_submission_date_to_ccf_thane(dateString1);}
+											if(val.contains("/")) 
+											{
+												Date date1 = null;
+												String dateString1 = null;
+												date1 = formatter3.parse(val);
+												dateString1 = formatter2.format(date1);												
+												if(!StringUtils.isEmpty(val)) {fObj.setForest_submission_date_to_ccf_thane(dateString1);}
+
+											 
+											}
+											else
+											{
+											
+												Date date1 = null;
+												String dateString1 = null;
+												date1 = formatter1.parse(val);
+												dateString1 = formatter2.format(date1);	
+												if(!StringUtils.isEmpty(val)) {fObj.setForest_submission_date_to_ccf_thane(dateString1);}
+											}											
+											
+											
+											
 											
 											val = formatter.formatCellValue(row2.getCell(4)).trim();
 											
-											Date date2 = null;
-											String dateString2 = null;
-											date2 = formatter1.parse(val);
-											dateString2 = formatter2.format(date2);	
-											
-											
-											if(!StringUtils.isEmpty(val)) { 	fObj.setForest_submission_date_to_nodal_officer(dateString2);}
+
+											if(!StringUtils.isEmpty(val)) { 	
+												
+												
+												if(val.contains("/")) 
+												{
+													Date date2 = null;
+													String dateString2 = null;
+													date2 = formatter3.parse(val);
+													dateString2 = formatter2.format(date2);													
+													
+													fObj.setForest_submission_date_to_nodal_officer(dateString2);
+
+												 
+												}
+												else
+												{
+												
+													Date date2 = null;
+													String dateString2 = null;
+													date2 = formatter1.parse(val);
+													dateString2 = formatter2.format(date2);													
+													
+													fObj.setForest_submission_date_to_nodal_officer(dateString2);
+												}
+										}
+												
+
 											
 											val = formatter.formatCellValue(row2.getCell(5)).trim();
 											
-											Date date3 = null;
-											String dateString3 = null;
-											date3 = formatter1.parse(val);
-											dateString3 = formatter2.format(date3);	
+
 											
-											if(!StringUtils.isEmpty(val)) {fObj.setForest_submission_date_to_revenue_secretary_mantralaya(dateString3);}
+											if(!StringUtils.isEmpty(val)) {
+												
+
+												if(val.contains("/")) 
+												{
+													Date date3 = null;
+													String dateString3 = null;
+													date3 = formatter3.parse(val);
+													dateString3 = formatter2.format(date3);													
+													fObj.setForest_submission_date_to_revenue_secretary_mantralaya(dateString3);
+
+												 
+												}
+												else
+												{
+												
+													Date date3 = null;
+													String dateString3 = null;
+													date3 = formatter1.parse(val);
+													dateString3 = formatter2.format(date3);													
+													fObj.setForest_submission_date_to_revenue_secretary_mantralaya(dateString3);
+												}
+												
+												
+									}	
+
 											
 											val = formatter.formatCellValue(row2.getCell(6)).trim();
 											
-											Date date4 = null;
-											String dateString4 = null;
-											date4 = formatter1.parse(val);
-											dateString4 = formatter2.format(date4);	
+
 											
-											if(!StringUtils.isEmpty(val)) {fObj.setForest_submission_date_to_regional_office_nagpur(dateString4);}
+											if(!StringUtils.isEmpty(val)) {
+												
+												
+												
+												if(val.contains("/")) 
+												{
+													Date date4 = null;
+													String dateString4 = null;
+													date4 = formatter3.parse(val);
+													dateString4 = formatter3.format(date4);													
+													
+													fObj.setForest_submission_date_to_regional_office_nagpur(dateString4);
+
+												 
+												}
+												else
+												{
+												
+													Date date4 = null;
+													String dateString4 = null;
+													date4 = formatter1.parse(val);
+													dateString4 = formatter2.format(date4);													
+													
+													fObj.setForest_submission_date_to_regional_office_nagpur(dateString4);
+												}												
+												
+												
+
+											}
 											
 											val = formatter.formatCellValue(row2.getCell(7)).trim();
 											
-											Date date5 = null;
-											String dateString5 = null;
-											date5 = formatter1.parse(val);
-											dateString5 = formatter2.format(date5);	
+
 											
 											
-											if(!StringUtils.isEmpty(val)) {fObj.setForest_date_of_approval_by_regional_office_nagpur(dateString5);}
+											if(!StringUtils.isEmpty(val)) {
+												
+												
+												if(val.contains("/")) 
+												{
+													Date date5 = null;
+													String dateString5 = null;
+													date5 = formatter3.parse(val);
+													dateString5 = formatter3.format(date5);													
+													
+													fObj.setForest_date_of_approval_by_regional_office_nagpur(dateString5);
+
+												 
+												}
+												else
+												{
+													Date date5 = null;
+													String dateString5 = null;
+													date5 = formatter1.parse(val);
+													dateString5 = formatter2.format(date5);													
+													
+													fObj.setForest_date_of_approval_by_regional_office_nagpur(dateString5);
+												}													
+												
+
+											}
 											
 											val = formatter.formatCellValue(row2.getCell(8)).trim();
 											
-											Date date6 = null;
-											String dateString6 = null;
-											date6 = formatter1.parse(val);
-											dateString6 = formatter2.format(date6);	
+
 											
-											if(!StringUtils.isEmpty(val)) {fObj.setForest_valuation_by_dycfo(dateString6);}
+											if(!StringUtils.isEmpty(val)) {
+												
+												
+												if(val.contains("/")) 
+												{
+													Date date6 = null;
+													String dateString6 = null;
+													date6 = formatter3.parse(val);
+													dateString6 = formatter2.format(date6);													
+													
+													fObj.setForest_valuation_by_dycfo(dateString6);
+
+												 
+												}
+												else
+												{
+													Date date6 = null;
+													String dateString6 = null;
+													date6 = formatter1.parse(val);
+													dateString6 = formatter2.format(date6);													
+													
+													fObj.setForest_valuation_by_dycfo(dateString6);
+												}													
+												
+
+										}
 											
 											val = formatter.formatCellValue(row2.getCell(9)).trim();
 											if(!StringUtils.isEmpty(val)) {
@@ -2296,22 +2540,71 @@ public class LandAcquisitionController {
 
 											val = formatter.formatCellValue(row2.getCell(10)).trim();
 											
-											Date date71 = null;
-											String dateString71 = null;
-											date71 = formatter1.parse(val);
-											dateString71 = formatter2.format(date71);	
+
 											
 											
-											if(!StringUtils.isEmpty(val)) {fObj.setForest_approval_for_payment(dateString71);}
+											if(!StringUtils.isEmpty(val)) {
+												
+												
+												if(val.contains("/")) 
+												{
+													Date date71 = null;
+													String dateString71 = null;
+													date71 = formatter3.parse(val);
+													dateString71 = formatter2.format(date71);													
+													
+													
+													fObj.setForest_approval_for_payment(dateString71);
+
+												 
+												}
+												else
+												{
+													Date date71 = null;
+													String dateString71 = null;
+													date71 = formatter1.parse(val);
+													dateString71 = formatter2.format(date71);													
+													
+													
+													fObj.setForest_approval_for_payment(dateString71);
+												}												
+												
+
+											}
 
 											val = formatter.formatCellValue(row2.getCell(11)).trim();
 											
-											Date date7 = null;
-											String dateString7 = null;
-											date7 = formatter1.parse(val);
-											dateString7 = formatter2.format(date7);												
 											
-											if(!StringUtils.isEmpty(val)) { fObj.setForest_payment_date(dateString7);}
+											
+											if(!StringUtils.isEmpty(val)) { 
+												
+												if(val.contains("/")) 
+												{
+													Date date7 = null;
+													String dateString7 = null;
+													date7 = formatter3.parse(val);
+													dateString7 = formatter2.format(date7);													
+													
+													
+													
+													fObj.setForest_payment_date(dateString7);
+
+												 
+												}
+												else
+												{
+													Date date7 = null;
+													String dateString7 = null;
+													date7 = formatter1.parse(val);
+													dateString7 = formatter2.format(date7);													
+													
+													
+													
+													fObj.setForest_payment_date(dateString7);
+												}												
+												
+
+											}
 
 											val = formatter.formatCellValue(row2.getCell(12)).trim();
 											if(!StringUtils.isEmpty(val)) { 
@@ -2326,12 +2619,39 @@ public class LandAcquisitionController {
 
 											val = formatter.formatCellValue(row2.getCell(13)).trim();
 											
-											Date date8 = null;
-											String dateString8 = null;
-											date8 = formatter1.parse(val);
-											dateString8 = formatter2.format(date8);													
+												
 											
-											if(!StringUtils.isEmpty(val)) {fObj.setForest_possession_date(dateString8);}
+											if(!StringUtils.isEmpty(val)) {
+												
+												
+												
+												if(val.contains("/")) 
+												{
+													Date date8 = null;
+													String dateString8 = null;
+													date8 = formatter3.parse(val);
+													dateString8 = formatter2.format(date8);													
+													
+													
+													
+													fObj.setForest_possession_date(dateString8);
+
+												 
+												}
+												else
+												{
+													Date date8 = null;
+													String dateString8 = null;
+													date8 = formatter1.parse(val);
+													dateString8 = formatter2.format(date8);													
+													
+													
+													
+													fObj.setForest_possession_date(dateString8);
+												}													
+												
+
+										}
 
 
 											
@@ -2366,73 +2686,216 @@ public class LandAcquisitionController {
 											if(!StringUtils.isEmpty(val)) {railways.setRailway_online_submission(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(2)).trim();
+
+											if(!StringUtils.isEmpty(val)) {
+												
+												
+												if(val.contains("/")) 
+												{
+														Date date9 = null;
+														String dateString9 = null;
+														date9 = formatter3.parse(val);
+														dateString9 = formatter2.format(date9);													
+														railways.setRailway_submission_date_to_DyCFO(dateString9);
+													 
+												}
+												else
+												{
+												
+													Date date9 = null;
+													String dateString9 = null;
+													date9 = formatter1.parse(val);
+													dateString9 = formatter2.format(date9);	
+													railways.setRailway_submission_date_to_DyCFO(dateString9);
+													
+												}												
+
 											
-											Date date9 = null;
-											String dateString9 = null;
-											date9 = formatter1.parse(val);
-											dateString9 = formatter2.format(date9);												
-											
-											
-											if(!StringUtils.isEmpty(val)) {railways.setRailway_submission_date_to_DyCFO(dateString9);}
+											}
 											
 											val = formatter.formatCellValue(row2.getCell(3)).trim();
 
-											Date date10 = null;
-											String dateString10 = null;
-											date10 = formatter1.parse(val);
-											dateString10 = formatter2.format(date10);
+
 											
 											
-											if(!StringUtils.isEmpty(val)) {railways.setRailway_submission_date_to_CCF_Thane(dateString10);}
+											if(!StringUtils.isEmpty(val)) {
+												
+												if(val.contains("/")) 
+												{
+														Date date10 = null;
+														String dateString10 = null;
+														date10 = formatter3.parse(val);
+														dateString10 = formatter2.format(date10);											
+														railways.setRailway_submission_date_to_CCF_Thane(dateString10);
+													 
+												}
+												else
+												{
+												
+													Date date10 = null;
+													String dateString10 = null;
+													date10 = formatter1.parse(val);
+													dateString10 = formatter2.format(date10);
+													railways.setRailway_submission_date_to_CCF_Thane(dateString10);
+													
+												}												
+												
+												
+												
+											}
 											
 											val = formatter.formatCellValue(row2.getCell(4)).trim();
 											
-											Date date11 = null;
-											String dateString11 = null;
-											date11 = formatter1.parse(val);
-											dateString11 = formatter2.format(date11);
+
 											
-											if(!StringUtils.isEmpty(val)) {railways.setRailway_submission_date_to_nodal_officer_CCF_Nagpur(dateString11);}
+											if(!StringUtils.isEmpty(val)) {
+												
+												if(val.contains("/")) 
+												{
+													Date date11 = null;
+													String dateString11 = null;
+													date11 = formatter3.parse(val);
+													dateString11 = formatter2.format(date11);											
+													railways.setRailway_submission_date_to_nodal_officer_CCF_Nagpur(dateString11);
+													 
+												}
+												else
+												{
+												
+													Date date11 = null;
+													String dateString11 = null;
+													date11 = formatter1.parse(val);
+													dateString11 = formatter2.format(date11);
+													railways.setRailway_submission_date_to_nodal_officer_CCF_Nagpur(dateString11);
+													
+												}													
+												
+										}
 											
 											val = formatter.formatCellValue(row2.getCell(5)).trim();
 											
-											Date date12 = null;
-											String dateString12 = null;
-											date12 = formatter1.parse(val);
-											dateString12 = formatter2.format(date12);
+
 											
 											
-											if(!StringUtils.isEmpty(val)) {railways.setRailway_submission_date_to_revenue_secretary_mantralaya(dateString12);}
+											if(!StringUtils.isEmpty(val)) {
+												
+												if(val.contains("/")) 
+												{
+													Date date12 = null;
+													String dateString12 = null;
+													date12 = formatter3.parse(val);
+													dateString12 = formatter2.format(date12);										
+													railways.setRailway_submission_date_to_revenue_secretary_mantralaya(dateString12);
+													 
+												}
+												else
+												{
+												
+													Date date12 = null;
+													String dateString12 = null;
+													date12 = formatter1.parse(val);
+													dateString12 = formatter2.format(date12);
+													railways.setRailway_submission_date_to_revenue_secretary_mantralaya(dateString12);
+													
+												}												
+											}
 											
 											val = formatter.formatCellValue(row2.getCell(6)).trim();
 
-											Date date13 = null;
-											String dateString13 = null;
-											date13 = formatter1.parse(val);
-											dateString13 = formatter2.format(date13);
 											
-											if(!StringUtils.isEmpty(val)) {railways.setRailway_submission_date_to_regional_office_nagpur(dateString13);}
+											if(!StringUtils.isEmpty(val)) {
+												
+												
+												if(val.contains("/")) 
+												{
+
+													Date date13 = null;
+													String dateString13 = null;
+													date13 = formatter3.parse(val);
+													dateString13 = formatter2.format(date13);									
+													railways.setRailway_submission_date_to_regional_office_nagpur(dateString13);
+													 
+												}
+												else
+												{
+												
+
+													Date date13 = null;
+													String dateString13 = null;
+													date13 = formatter1.parse(val);
+													dateString13 = formatter2.format(date13);
+													railways.setRailway_submission_date_to_regional_office_nagpur(dateString13);
+													
+												}												
+												
+												
+											}
 											
 											val = formatter.formatCellValue(row2.getCell(7)).trim();
 
-											Date date51 = null;
-											String dateString51 = null;
-											date51 = formatter1.parse(val);
-											dateString51 = formatter2.format(date51);
+
 											
-											if(!StringUtils.isEmpty(val)) {railways.setRailway_date_of_approval_by_Rregional_Office_agpur(dateString51);}											
+											if(!StringUtils.isEmpty(val)) {
+												
+
+												if(val.contains("/")) 
+												{
+
+													Date date51 = null;
+													String dateString51 = null;
+													date51 = formatter3.parse(val);
+													dateString51 = formatter2.format(date51);								
+													railways.setRailway_date_of_approval_by_Rregional_Office_agpur(dateString51);
+													 
+												}
+												else
+												{
+												
+
+													Date date51 = null;
+													String dateString51 = null;
+													date51 = formatter1.parse(val);
+													dateString51 = formatter2.format(date51);
+													railways.setRailway_date_of_approval_by_Rregional_Office_agpur(dateString51);
+													
+												}
+
+											}											
 											
 											
 											
 											val = formatter.formatCellValue(row2.getCell(8)).trim();
 	
-											Date date67 = null;
-											String dateString67 = null;
-											date67 = formatter1.parse(val);
-											dateString67 = formatter2.format(date67);											
+										
 											
 											
-											if(!StringUtils.isEmpty(val)) {railways.setRailway_valuation_by_DyCFO(dateString67);}
+											if(!StringUtils.isEmpty(val)) {
+												
+												if(val.contains("/")) 
+												{
+
+													Date date67 = null;
+													String dateString67 = null;
+													date67 = formatter3.parse(val);
+													dateString67 = formatter2.format(date67);								
+													railways.setRailway_valuation_by_DyCFO(dateString67);
+													 
+												}
+												else
+												{
+												
+													Date date67 = null;
+													String dateString67 = null;
+													date67 = formatter1.parse(val);
+													dateString67 = formatter2.format(date67);	
+													railways.setRailway_valuation_by_DyCFO(dateString67);
+													
+												}												
+												
+												
+												
+											
+											}
 											
 											
 											
@@ -2447,22 +2910,69 @@ public class LandAcquisitionController {
 											
 											val = formatter.formatCellValue(row2.getCell(10)).trim();
 											
-											Date date68 = null;
-											String dateString68 = null;
-											date68 = formatter1.parse(val);
-											dateString68 = formatter2.format(date68);											
 											
-											if(!StringUtils.isEmpty(val)) { railways.setRailway_approval_for_payment(dateString68);}
+											
+											if(!StringUtils.isEmpty(val)) { 
+												
+												if(val.contains("/")) 
+												{
+
+													Date date68 = null;
+													String dateString68 = null;
+													date68 = formatter3.parse(val);
+													dateString68 = formatter2.format(date68);							
+													railways.setRailway_approval_for_payment(dateString68);
+													 
+												}
+												else
+												{
+												
+													Date date68 = null;
+													String dateString68 = null;
+													date68 = formatter1.parse(val);
+													dateString68 = formatter2.format(date68);
+													railways.setRailway_approval_for_payment(dateString68);
+													
+												}													
+												
+												
+												
+											
+											}
 											
 											val = formatter.formatCellValue(row2.getCell(11)).trim();
 											
-											Date date15 = null;
-											String dateString15 = null;
-											date15 = formatter1.parse(val);
-											dateString15 = formatter2.format(date15);
+
 											
 											
-											if(!StringUtils.isEmpty(val)) {railways.setRailway_payment_date(dateString15);}
+											if(!StringUtils.isEmpty(val)) {
+												
+												
+												if(val.contains("/")) 
+												{
+
+													Date date15 = null;
+													String dateString15 = null;
+													date15 = formatter3.parse(val);
+													dateString15 = formatter2.format(date15);							
+													railways.setRailway_payment_date(dateString15);
+													 
+												}
+												else
+												{
+												
+													Date date15 = null;
+													String dateString15 = null;
+													date15 = formatter1.parse(val);
+													dateString15 = formatter2.format(date15);
+													railways.setRailway_payment_date(dateString15);
+													
+												}													
+												
+												
+												
+											
+											}
 											
 
 											
@@ -2476,12 +2986,36 @@ public class LandAcquisitionController {
 											
 											val = formatter.formatCellValue(row2.getCell(13)).trim();
 											
-											Date date16 = null;
-											String dateString16 = null;
-											date16 = formatter1.parse(val);
-											dateString16 = formatter2.format(date16);											
+										
 											
-											if(!StringUtils.isEmpty(val)) { railways.setRailway_possession_date(dateString16);}
+											if(!StringUtils.isEmpty(val)) { 
+												
+												
+												if(val.contains("/")) 
+												{
+
+													Date date16 = null;
+													String dateString16 = null;
+													date16 = formatter3.parse(val);
+													dateString16 = formatter2.format(date16);							
+													railways.setRailway_possession_date(dateString16);
+													 
+												}
+												else
+												{
+												
+													Date date16 = null;
+													String dateString16 = null;
+													date16 = formatter1.parse(val);
+													dateString16 = formatter2.format(date16);	
+													railways.setRailway_possession_date(dateString16);
+													
+												}													
+												
+												
+												
+											
+											}
 											
 
 											

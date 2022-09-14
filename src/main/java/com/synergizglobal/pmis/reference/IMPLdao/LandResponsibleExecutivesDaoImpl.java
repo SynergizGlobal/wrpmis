@@ -182,8 +182,7 @@ public class LandResponsibleExecutivesDaoImpl implements LandResponsibleExecutiv
 	public List<TrainingType> getWorkDetails(TrainingType obj) throws Exception {
 		List<TrainingType> objList = null;
 		try {
-			String qry = "SELECT  work_id_fk, w.work_short_name FROM la_land_identification la "
-					+ "left join  work w on la.work_id_fk = w.work_id group by work_id_fk,w.work_short_name ";
+			String qry = "SELECT  work_id as work_id_fk, work_short_name FROM work ";
 			
 			objList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 

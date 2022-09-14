@@ -2040,7 +2040,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 				else
 				{
 
-					obj.setArea_acquired("0");
+					obj.setArea_acquired(obj.getArea_acquired());
 				}
 				
 				String table_name = "la_land_identification";

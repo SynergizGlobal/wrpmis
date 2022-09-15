@@ -2691,6 +2691,17 @@
     	   	$('input[name=jm_approval][value=Done]').prop('checked', true);
     	   }
        	   
+       	 	 if("${LADetails.la_land_status_fk}"!="" && "${LADetails.la_land_status_fk}"!=null)
+       		 {
+       	 			if("${LADetails.jm_approval}"=="Reject")
+       	 			{
+       	 				$('input[name=jm_approval][value=Rejected]').prop('checked', true);
+       	 			}
+       	 			else if("${LADetails.jm_approval}"=="Accept")
+       	 			{
+       	 				$('input[name=jm_approval][value=Done]').prop('checked', true);
+       	 			}
+       		 }
        	   
         
         

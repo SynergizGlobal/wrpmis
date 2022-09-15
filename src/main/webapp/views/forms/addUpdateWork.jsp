@@ -393,7 +393,7 @@
 	                                     <span id="work_nameError"></span>
 	                                  </div>
 	                                  <div class="col s12 m3 l3 input-field">
-		                                    <input id="work_code" maxlength="10" data-length="10" type="text" class="validate w75 pdr4em"  style="text-transform:uppercase"  onkeyup="workCodeVerify()"
+		                                    <input id="work_code" maxlength="2" data-length="2" type="text" class="validate w75 pdr4em"  style="text-transform:uppercase"  onkeyup="workCodeVerify()"
 		                                    maxlength="2" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
 		                                    name="work_code" value="${workDetails.work_code }">
 		                                    <label for="work_code">Work Code<span class="required">*</span></label>

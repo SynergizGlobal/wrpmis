@@ -690,6 +690,16 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					+ ":jm_sheet_date_to_sdo, :jm_remarks, :jm_approval, :issues, :jm_fee_amount_units , :special_feature, :area_acquired, :private_land_process, "
 					+ ":la_land_status_fk, :category_fk, :area_to_be_acquired, :remarks, :created_by_user_id_fk, CURRENT_TIMESTAMP,:latitude,:longitude)";
 			
+			
+			if(obj.getJm_approval().compareTo("Done")==0)
+			{
+				obj.setJm_approval("Accept");
+			}
+			else if(obj.getJm_approval().compareTo("Rejected")==0)
+			{
+				obj.setJm_approval("Reject");
+			}			
+			
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
 			if(count > 0) {
@@ -2000,6 +2010,16 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			for (LandAcquisition obj : lasList) {
 				
 				
+				if(obj.getJm_approval().compareTo("Accept")==0)
+				{
+					obj.setJm_approval("Accept");
+				}
+				else if(obj.getJm_approval().compareTo("Reject")==0)
+				{
+					obj.setJm_approval("Reject");
+				}					
+				
+				
 				double r1=Double.parseDouble(obj.getChainage_from());	
 				double r2=Double.parseDouble(obj.getChainage_to());
 				
@@ -2034,7 +2054,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 				if(obj.getLa_land_status_fk().compareTo("Acquired")==0)
 				{
 					
-					obj.setJm_approval("Done");
+					obj.setJm_approval("Accept");
 					obj.setArea_acquired(obj.getArea_to_be_acquired());
 				}
 				else

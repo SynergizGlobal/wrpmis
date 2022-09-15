@@ -2341,13 +2341,33 @@ public class LandAcquisitionController {
 											
 											val = formatter.formatCellValue(row2.getCell(18)).trim();
 											
-											Date date15 = null;
-											String dateString15 = null;
-											date15 = formatter1.parse(val);
-											dateString15 = formatter2.format(date15);
+
 											
 											
-											if(!StringUtils.isEmpty(val)) { pObj1.setDate_of_registration(dateString15);}
+											if(!StringUtils.isEmpty(val)) { 
+												
+												if(val.contains("/")) 
+												{
+													Date date15 = null;
+													String dateString15 = null;
+													date15 = formatter3.parse(val);
+													dateString15 = formatter2.format(date15);
+													pObj1.setDate_of_registration(dateString15);
+													 
+												}
+												else
+												{
+												
+													Date date15 = null;
+													String dateString15 = null;
+													date15 = formatter1.parse(val);
+													dateString15 = formatter2.format(date15);
+													pObj1.setDate_of_registration(dateString15);
+												}													
+												
+												
+											
+											}
 											val = formatter.formatCellValue(row2.getCell(19)).trim();
 
 											
@@ -2865,7 +2885,33 @@ public class LandAcquisitionController {
 											if(!StringUtils.isEmpty(val)) { gov.setLa_id(val);}
 									
 											val = formatter.formatCellValue(row2.getCell(1)).trim();
-											if(!StringUtils.isEmpty(val)) { gov.setProposal_submission(val);}
+											if(!StringUtils.isEmpty(val)) { 
+												
+												if(val.contains("/")) 
+												{
+													Date date15 = null;
+													String dateString15 = null;
+													date15 = formatter3.parse(val);
+													dateString15 = formatter2.format(date15);													
+													
+													gov.setProposal_submission(dateString15);
+
+												 
+												}
+												else
+												{
+													Date date15 = null;
+													String dateString15 = null;
+													date15 = formatter1.parse(val);
+													dateString15 = formatter2.format(date15);														
+													
+													gov.setProposal_submission(dateString15);
+												}												
+												
+												
+												
+												
+											}
 											
 										
 											val = formatter.formatCellValue(row2.getCell(2)).trim();

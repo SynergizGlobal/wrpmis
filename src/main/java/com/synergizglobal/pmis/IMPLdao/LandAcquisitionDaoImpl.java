@@ -690,15 +690,17 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					+ ":jm_sheet_date_to_sdo, :jm_remarks, :jm_approval, :issues, :jm_fee_amount_units , :special_feature, :area_acquired, :private_land_process, "
 					+ ":la_land_status_fk, :category_fk, :area_to_be_acquired, :remarks, :created_by_user_id_fk, CURRENT_TIMESTAMP,:latitude,:longitude)";
 			
-			
-			if(obj.getJm_approval().compareTo("Done")==0)
+			if (!StringUtils.isEmpty(obj.getJm_approval())) 
 			{
-				obj.setJm_approval("Accept");
+				if(obj.getJm_approval().compareTo("Done")==0)
+				{
+					obj.setJm_approval("Accept");
+				}
+				else if(obj.getJm_approval().compareTo("Rejected")==0)
+				{
+					obj.setJm_approval("Reject");
+				}
 			}
-			else if(obj.getJm_approval().compareTo("Rejected")==0)
-			{
-				obj.setJm_approval("Reject");
-			}			
 			
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
@@ -811,13 +813,16 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 						Messages msgObj = new Messages();
 						msgObj.setUser_id_fk(SplitStr[i]);
 						String JMStatus="";
-						if(obj.getJm_approval().compareTo("Done")==0)
+						if (!StringUtils.isEmpty(obj.getJm_approval())) 
 						{
-							JMStatus="Accept";
-						}
-						else
-						{
-							JMStatus="Reject";
+							if(obj.getJm_approval().compareTo("Done")==0)
+							{
+								JMStatus="Accept";
+							}
+							else
+							{
+								JMStatus="Reject";
+							}
 						}
 						msgObj.setMessage("A new Land Acquisition against "+getWorkName(obj.getWork_id_fk())+" has been JM "+JMStatus);
 						msgObj.setRedirect_url("/get-land-acquisition/"+la_id);

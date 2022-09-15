@@ -704,6 +704,14 @@
                                         <button type="button" id="forest_submission_ccf_icon"
                                             class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     </div>
+                                       <div class="col s12 m4 l4 input-field">
+                                        <input id="forest_submission_date_to_nodal_officer" name="forest_submission_date_to_nodal_officer" value="${LADetails.forest_submission_date_to_nodal_officer }"
+                                            type="text" class="validate datepicker">
+                                        <label for="forest_submission_revenue_sec" class="fs-sm-8rem wd-wrap"> Submission Date to Nodal Officer/CCF Nagpur </label>
+                                        <button type="button" id="forest_submission_date_to_nodal_officer_icon"
+                                            class="datepicker-button" class="white"><i
+                                                class="fa fa-calendar"></i></button>
+                                    </div>                                    
                                      <div class="col s12 m4 l4 input-field">
                                         <input id="forest_submission_revenue_sec" name="forest_submission_date_to_revenue_secretary_mantralaya" value="${LADetails.forest_submission_date_to_revenue_secretary_mantralaya }"
                                             type="text" class="validate datepicker">
@@ -713,6 +721,7 @@
                                             class="datepicker-button" class="white"><i
                                                 class="fa fa-calendar"></i></button>
                                     </div>
+                                  
                                     <div class="col s12 m4 l4 input-field offset-m2">
                                         <input id="forest_submission_regional_office"
                                             name="forest_submission_date_to_regional_office_nagpur" type="text" value="${LADetails.forest_submission_date_to_regional_office_nagpur }"

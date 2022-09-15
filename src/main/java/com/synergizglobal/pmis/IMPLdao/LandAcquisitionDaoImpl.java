@@ -2010,14 +2010,17 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			for (LandAcquisition obj : lasList) {
 				
 				
-				if(obj.getJm_approval().compareTo("Accept")==0)
+				if(!StringUtils.isEmpty(obj.getJm_approval()))
 				{
-					obj.setJm_approval("Accept");
+					if(obj.getJm_approval().compareTo("Accept")==0)
+					{
+						obj.setJm_approval("Accept");
+					}
+					else if(obj.getJm_approval().compareTo("Reject")==0)
+					{
+						obj.setJm_approval("Reject");
+					}	
 				}
-				else if(obj.getJm_approval().compareTo("Reject")==0)
-				{
-					obj.setJm_approval("Reject");
-				}					
 				
 				
 				double r1=Double.parseDouble(obj.getChainage_from());	
@@ -2051,6 +2054,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 				obj.setLatitude(String.valueOf(x3));
 				obj.setLongitude(String.valueOf(y3));
 				
+
 				if(obj.getLa_land_status_fk().compareTo("Acquired")==0)
 				{
 					
@@ -2061,7 +2065,8 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 				{
 
 					obj.setArea_acquired(obj.getArea_acquired());
-				}
+				}					
+				
 				
 				String table_name = "la_land_identification";
 				String la_id = checkLAIdMethod(obj,table_name);

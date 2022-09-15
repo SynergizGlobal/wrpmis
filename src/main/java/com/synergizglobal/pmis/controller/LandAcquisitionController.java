@@ -2335,9 +2335,60 @@ public class LandAcquisitionController {
 												pObj1.setTotal_compensation(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(16)).trim();
-											if(!StringUtils.isEmpty(val)) {pObj1.setConsent_from_owner(val);}
+											if(!StringUtils.isEmpty(val)) {
+												
+												
+												if(val.contains("/")) 
+												{
+													Date date215 = null;
+													String dateString215 = null;
+													date215 = formatter3.parse(val);
+													dateString215 = formatter2.format(date215);
+													pObj1.setConsent_from_owner(dateString215);
+													 
+												}
+												else
+												{
+													Date date215 = null;
+													String dateString215 = null;
+													date215 = formatter1.parse(val);
+													dateString215 = formatter2.format(date215);
+													pObj1.setConsent_from_owner(dateString215);
+												}												
+												
+												
+												
+												
+												
+											
+											}
 											val = formatter.formatCellValue(row2.getCell(17)).trim();
-											if(!StringUtils.isEmpty(val)) {pObj1.setLegal_search_report(val);}
+											if(!StringUtils.isEmpty(val)) {
+												
+												
+												if(val.contains("/")) 
+												{
+													Date date216 = null;
+													String dateString216 = null;
+													date216 = formatter3.parse(val);
+													dateString216 = formatter2.format(date216);
+													pObj1.setLegal_search_report(dateString216);
+													 
+												}
+												else
+												{
+													Date date216 = null;
+													String dateString216 = null;
+													date216 = formatter1.parse(val);
+													dateString216 = formatter2.format(date216);
+													pObj1.setLegal_search_report(dateString216);
+												}													
+												
+												
+												
+												
+											
+											}
 											
 											val = formatter.formatCellValue(row2.getCell(18)).trim();
 											
@@ -3106,7 +3157,32 @@ public class LandAcquisitionController {
 											if(!StringUtils.isEmpty(val)) { fObj.setLa_id(val);}
 											
 											val = formatter.formatCellValue(row2.getCell(1)).trim();
-											if(!StringUtils.isEmpty(val)) { fObj.setForest_online_submission(val);}
+											if(!StringUtils.isEmpty(val)) { 
+												
+												if(val.contains("/")) {
+													Date date = null;
+													String dateString = null;
+													date = formatter3.parse(val);
+													dateString = formatter2.format(date);												
+													fObj.setForest_online_submission(dateString);
+												 
+											}
+											else
+											{
+											
+												Date date = null;
+												String dateString = null;
+												date = formatter1.parse(val);
+												dateString = formatter2.format(date);
+												fObj.setForest_online_submission(dateString);
+												
+											}												
+												
+												
+												
+												
+											
+											}
 											
 											val = formatter.formatCellValue(row2.getCell(2)).trim();
 											
@@ -3234,7 +3310,7 @@ public class LandAcquisitionController {
 													Date date4 = null;
 													String dateString4 = null;
 													date4 = formatter3.parse(val);
-													dateString4 = formatter3.format(date4);													
+													dateString4 = formatter2.format(date4);													
 													
 													fObj.setForest_submission_date_to_regional_office_nagpur(dateString4);
 
@@ -3268,7 +3344,7 @@ public class LandAcquisitionController {
 													Date date5 = null;
 													String dateString5 = null;
 													date5 = formatter3.parse(val);
-													dateString5 = formatter3.format(date5);													
+													dateString5 = formatter2.format(date5);													
 													
 													fObj.setForest_date_of_approval_by_regional_office_nagpur(dateString5);
 

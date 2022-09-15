@@ -1212,7 +1212,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			//String landstatus=getJMApprovalandLandStatus("la_land_status_fk",obj.getLa_id());
 			
 			String insertQry = "UPDATE la_land_identification SET "
-					+ "survey_number= :survey_number, village_id= :village_id, village= :village, taluka= :taluka, dy_slr= :dy_slr, sdo= :sdo, collector= :collector, proposal_submission_date_to_collector= :proposal_submission_date_to_collector,"
+					+ "survey_number= :survey_number,la_sub_category_fk=:id, village_id= :village_id, village= :village, taluka= :taluka, dy_slr= :dy_slr, sdo= :sdo, collector= :collector, proposal_submission_date_to_collector= :proposal_submission_date_to_collector,"
 					+ "area_of_plot= :area_of_plot, jm_fee_amount = :jm_fee_amount, chainage_from= :chainage_from, chainage_to= :chainage_to, jm_fee_letter_received_date= :jm_fee_letter_received_date, jm_fee_paid_date= :jm_fee_paid_date, jm_start_date= :jm_start_date, jm_completion_date= :jm_completion_date, "
 					+ "jm_sheet_date_to_sdo= :jm_sheet_date_to_sdo, jm_remarks= :jm_remarks, jm_approval= :jm_approval, issues= :issues, jm_fee_amount_units= :jm_fee_amount_units,"
 					+ "la_land_status_fk= :la_land_status_fk, special_feature= :special_feature,private_land_process= :private_land_process,area_acquired= :area_acquired,"

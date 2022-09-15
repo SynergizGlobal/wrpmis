@@ -77,7 +77,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					"left join project p on w.project_id_fk = p.project_id "
 					+"left join la_sub_category sc on li.la_sub_category_fk = sc.id "
 					+"left join la_category c on sc.la_category_fk = c.la_category "
-					+"where la_id is not null  ";
+					+"where  c.la_category is not null and c.la_category <> '' and la_id is not null  ";
 			int arrSize = 0;
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLa_land_status_fk())) {
@@ -176,7 +176,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 					"left join project p on w.project_id_fk = p.project_id "
 					+"left join la_sub_category sc on li.la_sub_category_fk = sc.id "
 					+"left join la_category c on sc.la_category_fk = c.la_category "
-					+"where la_id is not null  ";
+					+"where  c.la_category is not null and c.la_category <> '' and la_id is not null  ";
 			int arrSize = 0;
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLa_land_status_fk())) {

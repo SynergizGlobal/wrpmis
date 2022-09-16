@@ -195,12 +195,12 @@
 
                             <div class="row">                                
                                 <div class="col s6 m4 l4 input-field">
-                                    <input id="latitude" name="latitude" type="text" class="validate" value="${safety.latitude }" maxlength="15" data-length="15">
+                                    <input id="latitude" name="latitude" type="text" value="${safety.latitude }" maxlength="40" data-length="40">
                                     <label for="latitude">Latitude </label>
                                     <span id="latitudeError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 l4 input-field">
-                                    <input id="longitude" name="longitude" type="text" class="validate" value="${safety.longitude }" maxlength="15" data-length="15">
+                                    <input id="longitude" name="longitude" type="text" value="${safety.longitude }" maxlength="40" data-length="40">
                                     <label for="longitude">Longitude </label>
                                     <span id="longitudeError" class="error-msg" ></span>
                                 </div>
@@ -551,7 +551,7 @@
        	 	$('input[name^=safety_incident][value="Yes"]').prop("checked",true);
        	 	$("#nominatedDiv").show();
 		    $("#status_fk").prop("disabled",false);
-		    $("#status_fk").val("");   
+		   // $("#status_fk").val("");   
          	 	
        	}
        	else if("${safety.safety_incident}"=="No")

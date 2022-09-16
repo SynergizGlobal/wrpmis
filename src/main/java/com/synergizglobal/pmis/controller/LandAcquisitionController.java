@@ -3186,12 +3186,13 @@ public class LandAcquisitionController {
 											
 											val = formatter.formatCellValue(row2.getCell(2)).trim();
 											
+											if(!StringUtils.isEmpty(val)) { 
 											if(val.contains("/")) {
 													Date date = null;
 													String dateString = null;
 													date = formatter3.parse(val);
 													dateString = formatter2.format(date);												
-													if(!StringUtils.isEmpty(val)) {fObj.setForest_submission_date_to_dycfo(dateString);}
+													fObj.setForest_submission_date_to_dycfo(dateString);
 												 
 											}
 											else
@@ -3201,8 +3202,9 @@ public class LandAcquisitionController {
 												String dateString = null;
 												date = formatter1.parse(val);
 												dateString = formatter2.format(date);
-												if(!StringUtils.isEmpty(val)) {fObj.setForest_submission_date_to_dycfo(dateString);}
+												fObj.setForest_submission_date_to_dycfo(dateString);
 												
+											}
 											}
 											
 											
@@ -3211,26 +3213,27 @@ public class LandAcquisitionController {
 											
 	
 											
-											
-											if(val.contains("/")) 
-											{
-												Date date1 = null;
-												String dateString1 = null;
-												date1 = formatter3.parse(val);
-												dateString1 = formatter2.format(date1);												
-												if(!StringUtils.isEmpty(val)) {fObj.setForest_submission_date_to_ccf_thane(dateString1);}
-
-											 
+											if(!StringUtils.isEmpty(val)) { 
+												if(val.contains("/")) 
+												{
+													Date date1 = null;
+													String dateString1 = null;
+													date1 = formatter3.parse(val);
+													dateString1 = formatter2.format(date1);												
+													fObj.setForest_submission_date_to_ccf_thane(dateString1);
+	
+												 
+												}
+												else
+												{
+												
+													Date date1 = null;
+													String dateString1 = null;
+													date1 = formatter1.parse(val);
+													dateString1 = formatter2.format(date1);	
+													fObj.setForest_submission_date_to_ccf_thane(dateString1);
+												}
 											}
-											else
-											{
-											
-												Date date1 = null;
-												String dateString1 = null;
-												date1 = formatter1.parse(val);
-												dateString1 = formatter2.format(date1);	
-												if(!StringUtils.isEmpty(val)) {fObj.setForest_submission_date_to_ccf_thane(dateString1);}
-											}											
 											
 											
 											

@@ -2600,6 +2600,9 @@
                                 </c:if>
                             </div>
  							</c:if> --%>
+ 							
+ 							
+ 							
                             <div class="row">                                
                                 <div class="col s6 m4 l6 mt-brdr center-align offset-m2">
 	                                <div class="m-1">

@@ -210,6 +210,7 @@
                                     <span id="reported_byError" class="error-msg" ></span>
                                 </div>
                             </div>
+                            <br><hr>
                             <div id="safetyYesNoDiv">
                             <div class="row">                                
                                  <div class="col s12 m8 l6 input-field" style="padding-top: 4px;">
@@ -284,7 +285,7 @@
 								    </div> --%>
 	                            </div>
 	                            </div>
-	                            
+	                            <br><hr>
 	                            <div id="secondDiv" style="display:none;">
 	                            <div class="row">                             
 	                                 <div class="col s12 m6 l6 input-field">
@@ -336,6 +337,7 @@
 	                            </div> 
 	                           </div>                         
 							</div>
+							<br><hr>
                             <div class="row" id="divApproveCorrectiveMeasure">                                
                                  <div class="col s12 m8 l6 input-field" style="padding-top: 4px;">
                                     <p class="prio">Approve Corrective Measure</p>
@@ -351,7 +353,8 @@
                                         </label>
                                     </p>
                                 </div>                               
-                            </div>							
+                            </div>
+                            <br><hr>							
                             <div class="row">
                             	<div class="col s12 m12 l12 input-field">
 									<c:set var="existingsafetyFilesLength" value="${fn:length(safety.safetyFilesList )}"></c:set>

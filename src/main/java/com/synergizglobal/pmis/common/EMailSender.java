@@ -1154,7 +1154,7 @@ public class EMailSender {
 			  //message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(mail.getMailTo()));
 			  message.setSubject(mail.getMailSubject());
 			  
-			  //Transport.send(message);
+			  Transport.send(message);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception(e);

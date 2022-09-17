@@ -663,7 +663,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 				arrSize++;
 			}
 			
-			qry = qry + " GROUP BY c.contractor_id_fk ORDER BY c.contractor_id_fk ASC";
+			qry = qry + " GROUP BY c.contractor_id_fk,contractor_id,contractor_name ORDER BY c.contractor_id_fk ASC";
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -867,7 +867,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 						arrSize++;
 					}
 					
-					contractProgressDatesQry = contractProgressDatesQry + " ORDER BY progress_date DESC";
+					contractProgressDatesQry = contractProgressDatesQry + " group by p6_activity_id_fk,a.contract_id_fk,contract_short_name,work_id,project_id,project_name,a.unit,s.structure_type_fk ORDER BY progress_date DESC";
 					
 					pValues = new Object[arrSize];
 					
@@ -1079,7 +1079,7 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 	public List<ActivitiesProgressReport> getContarctDetaisl(ActivitiesProgressReport obj) throws Exception {
 		List<ActivitiesProgressReport> objsList = null;
 		try {
-			String qry = "SELECT contract_id,contract_short_name,w.work_id ,c.work_id_fk,w.work_name,w.work_short_name,u1.designation as hod_designation,u.designation as dyhod_designation,cr.contractor_name,c.dy_hod_user_id_fk as dyhod ,c.hod_user_id_fk as hod,c.contractor_id_fk as contractor_id,s.structure_type_fk "+
+			String qry = "SELECT distinct contract_id,contract_short_name,w.work_id ,c.work_id_fk,w.work_name,w.work_short_name,u1.designation as hod_designation,u.designation as dyhod_designation,cr.contractor_name,c.dy_hod_user_id_fk as dyhod ,c.hod_user_id_fk as hod,c.contractor_id_fk as contractor_id "+
 					"from p6_activities a left join structure s on s.structure_id = a.structure_id_fk " +
 					"LEFT JOIN contract c on a.contract_id_fk = c.contract_id " + 
 					"LEFT JOIN [user] u on c.dy_hod_user_id_fk = u.user_id " +

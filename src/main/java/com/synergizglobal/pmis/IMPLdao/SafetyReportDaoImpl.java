@@ -304,7 +304,7 @@ public class SafetyReportDaoImpl implements SafetyReportDao{
 					+ "LEFT OUTER JOIN work w ON c.work_id_fk  = w.work_id "
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk  = p.project_id "
 					+ "LEFT OUTER JOIN department d ON c.department_fk  = d.department "
-					+ "where safety_id is not null " ;
+					+ "where safety_id is not null and isnull(safety_incident,'')='Yes' " ;
 			int arrSize = 0;
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {

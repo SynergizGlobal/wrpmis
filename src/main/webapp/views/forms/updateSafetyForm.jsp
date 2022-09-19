@@ -956,6 +956,7 @@
 	  					$('#committee_member_nameError').html("");
 	  					
   				}
+	  			$("#status_fk").prop("disabled",false);
     			document.getElementById("safetyForm").submit();			
     	 	}
     	}

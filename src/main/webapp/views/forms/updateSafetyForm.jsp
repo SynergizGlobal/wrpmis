@@ -547,8 +547,16 @@
         	
         		if(hod_user_id == logged_in_user_id)
         		{
+        			$("#nominatedDiv *").attr("disabled",false);
+        			$("#safetyYesNoDiv *").attr("disabled",false);
         			$("#hidden_date").show();
         		}
+        		else
+        			{
+        				$("#safetyYesNoDiv *").attr("disabled",true);
+        			
+        				$("#nominatedDiv *").attr("disabled",true);
+        			}
 
        	if("${safety.safety_incident}"=="Yes")
        	{

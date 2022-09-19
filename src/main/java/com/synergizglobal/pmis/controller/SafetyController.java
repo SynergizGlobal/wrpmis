@@ -721,10 +721,7 @@ public class SafetyController {
 				        
 				        
 			            XSSFRow headingRow = sheet.createRow(0);
-			            String headerString = "Safety ID^Project ID^Work ID^Contract ID^Title^Description^Date^Location^Latitude^Longitude"
-			            		+ "^Reported By^Responsible Person^Department^Category^Status^Impact^Root Cause^LTI Hours^Equipment Impact^"
-			            		+ "People Impact^Work Impact^Committee Formed^Committee Requried^Investigation Completed^Corrective Measure Short Term^"
-			            		+ "Corrective Measure long Term^Status Remark^Compensation^Unit^Payment Date^Remarks";
+			            String headerString = "Work^Contract Short Description^Description^Date of Incident^Category^Impact^Root Cause^Safety Incident (Yes/No)^Status^Location^Latitude^Longitude^Reported By^Responsible Person^Committee Required^Name of Committee members^Nominated Authority^LTI Hours^Equipment Impact^People Impact^Work Impact^Corrective Measure Short Term^Corrective Measure long Term^Investigation Completion Date^Compensation^Payment Date^Remarks";
 			            
 			            String[] firstHeaderStringArr = headerString.split("\\^");
 			            
@@ -741,31 +738,39 @@ public class SafetyController {
 			                
 			                Cell cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
-							cell.setCellValue(obj.getSafety_id());
-							
-							cell = row.createCell(c++);
-							cell.setCellStyle(sectionStyle);
-							cell.setCellValue(obj.getProject_id_fk());
-							
-			                cell = row.createCell(c++);
-							cell.setCellStyle(sectionStyle);
 							cell.setCellValue(obj.getWork_id_fk());
 							
 							cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
-							cell.setCellValue(obj.getContract_id_fk());
+							cell.setCellValue(obj.getContract_short_name());
 							
-							cell = row.createCell(c++);
-							cell.setCellStyle(sectionStyle);
-							cell.setCellValue(obj.getTitle());
-							
-							cell = row.createCell(c++);
+			                cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
 							cell.setCellValue(obj.getDescription());
 							
 							cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
 							cell.setCellValue(obj.getDate());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getCategory_fk());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getImpact_fk());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getRoot_cause_fk());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getSafety_incident());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getStatus_fk());
 							
 							cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
@@ -782,14 +787,6 @@ public class SafetyController {
 							cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
 							cell.setCellValue(obj.getReported_by());
-							
-							cell = row.createCell(c++);
-							cell.setCellStyle(sectionStyle);
-							cell.setCellValue(obj.getResponsible_person());
-							
-							cell = row.createCell(c++);
-							cell.setCellStyle(sectionStyle);
-							cell.setCellValue(obj.getDepartment_name());
 							
 							cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);

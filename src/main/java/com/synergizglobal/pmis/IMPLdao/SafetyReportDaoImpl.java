@@ -33,7 +33,7 @@ public class SafetyReportDaoImpl implements SafetyReportDao{
 					+ "from safety s "
 					+ "LEFT JOIN contract c on s.contract_id_fk = c.contract_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
-					+ " where work_id_fk is not null and work_id_fk <> '' ";
+					+ " where work_id_fk is not null and work_id_fk <> '' and isnull(safety_incident,'')='Yes' ";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -84,7 +84,7 @@ public class SafetyReportDaoImpl implements SafetyReportDao{
 					+ "from safety s "
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
-					+ "where contract_id_fk is not null and contract_id_fk <> '' ";
+					+ "where contract_id_fk is not null and contract_id_fk <> '' and isnull(safety_incident,'')='Yes' ";
 					
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -136,7 +136,7 @@ public class SafetyReportDaoImpl implements SafetyReportDao{
 			String qry = "SELECT status_fk from safety s "
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
-					+ " where status_fk is not null and status_fk <> '' ";
+					+ " where status_fk is not null and status_fk <> '' and isnull(safety_incident,'')='Yes' ";
 					
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -189,7 +189,7 @@ public class SafetyReportDaoImpl implements SafetyReportDao{
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
 					+ "LEFT OUTER JOIN [user] u ON s.hod_user_id_fk= u.user_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
-					+ "where s.hod_user_id_fk is not null and s.hod_user_id_fk <> '' and designation  <> '' ";
+					+ "where s.hod_user_id_fk is not null and s.hod_user_id_fk <> '' and designation  <> '' and isnull(safety_incident,'')='Yes' ";
 					
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -365,27 +365,27 @@ public class SafetyReportDaoImpl implements SafetyReportDao{
 					+ "LEFT OUTER JOIN work w ON c.work_id_fk  = w.work_id "
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk  = p.project_id "
 					+ "LEFT OUTER JOIN department d ON c.department_fk  = d.department "
-					+ "where safety_id is not null " ;
+					+ "where safety_id is not null and isnull(safety_incident,'')='Yes' " ;
 			int arrSize = 0;
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				qry = qry + " and contract_id_fk = ?";
+				qry = qry + " and contract_id_fk = ? ";
 				arrSize++;
 			}			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id_fk = ?";
+				qry = qry + " and work_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
-				qry = qry + " and s.hod_user_id_fk = ?";
+				qry = qry + " and s.hod_user_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
-				qry = qry + " and status_fk = ?";
+				qry = qry + " and status_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSafety_id())) {
-				qry = qry + " and s.safety_id = ?";
+				qry = qry + " and s.safety_id = ? ";
 				arrSize++;
 			}			
 			qry = qry + " ORDER BY s.date DESC";

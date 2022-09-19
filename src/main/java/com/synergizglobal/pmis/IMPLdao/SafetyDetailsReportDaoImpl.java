@@ -29,7 +29,7 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 			String qry = "SELECT contract_id_fk,c.contract_id,contract_name,contract_short_name from safety s "
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
-					+ "where contract_id_fk is not null and contract_id_fk <> '' ";
+					+ "where contract_id_fk is not null and contract_id_fk <> '' and isnull(safety_incident,'')='Yes' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and work_id_fk = ?";
@@ -81,7 +81,7 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
 					+ "LEFT OUTER JOIN [user] u ON c.hod_user_id_fk= u.user_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
-					+ "where c.hod_user_id_fk is not null and c.hod_user_id_fk <> '' ";
+					+ "where c.hod_user_id_fk is not null and c.hod_user_id_fk <> '' and isnull(safety_incident,'')='Yes' ";
 					
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -190,7 +190,7 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 					+ "from safety s "
 					+ "LEFT JOIN contract c on s.contract_id_fk = c.contract_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
-					+ "where work_id_fk is not null and work_id_fk <> '' ";
+					+ "where work_id_fk is not null and work_id_fk <> '' and isnull(safety_incident,'')='Yes' ";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -241,7 +241,7 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 					+ "from safety s "
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
-					+ "where status_fk is not null and status_fk <> '' ";
+					+ "where status_fk is not null and status_fk <> '' and isnull(safety_incident,'')='Yes' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and work_id_fk = ?";
@@ -292,7 +292,7 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 					+ "from safety s "
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
-					+ "where location is not null and location <> '' ";
+					+ "where location is not null and location <> '' and isnull(safety_incident,'')='Yes' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and work_id_fk = ?";
@@ -343,7 +343,7 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 					+ "from safety s "
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
-					+ "where title is not null and title <> '' ";
+					+ "where title is not null and title <> '' and isnull(safety_incident,'')='Yes' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and work_id_fk = ?";
@@ -407,7 +407,7 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 					+ "from safety s "
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
-					+ "where category_fk is not null and category_fk <> '' ";
+					+ "where category_fk is not null and category_fk <> '' and isnull(safety_incident,'')='Yes' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and work_id_fk = ?";
@@ -502,11 +502,10 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 				qry = qry + " and location = ? ";
 				arrSize++;
 			}
-			qry=qry+" group by safety_id,contract_id_fk,s.hod_user_id_fk,c.hod_user_id_fk,u.designation,contract_short_name,\r\n" + 
-					"work_short_name,title,description,date,location,latitude,longitude,reported_by,responsible_person,c.department_fk,department_name,contractor_id_fk,contractor_name,\r\n" + 
-					"dy_hod_user_id_fk,u2.designation,u.designation,u1.designation,category_fk,impact_fk,root_cause_fk,status_fk,closure_date,lti_hours,equipment_impact,people_impact,work_impact,committee_formed_fk,\r\n" + 
-					"committee_required_fk,investigation_completed,corrective_measure_short_term,corrective_measure_long_term,compensation,compensation_units,payment_date,s.remarks,c.contract_name,c.work_id_fk\r\n" + 
-					",w.work_name,w.project_id_fk,p.project_name ";
+			qry=qry+" group by safety_id,contract_id_fk,s.hod_user_id_fk,u.designation,contract_short_name,c.hod_user_id_fk,w.work_short_name,title,description,date,location,\r\n" + 
+					"latitude,longitude,reported_by,responsible_person,c.department_fk,department_name,contractor_id_fk,contractor_name,dy_hod_user_id_fk,u1.designation,category_fk,impact_fk,\r\n" + 
+					"root_cause_fk,status_fk,closure_date,lti_hours,equipment_impact,people_impact,work_impact,committee_formed_fk,committee_required_fk,investigation_completed,corrective_measure_short_term,\r\n" + 
+					"corrective_measure_long_term,compensation,compensation_units,payment_date,s.remarks,c.contract_name,c.work_id_fk,w.work_name,w.project_id_fk,p.project_name ";
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;

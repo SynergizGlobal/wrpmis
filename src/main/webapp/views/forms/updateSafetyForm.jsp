@@ -210,8 +210,9 @@
                                     <span id="reported_byError" class="error-msg" ></span>
                                 </div>
                             </div>
-                            <br><hr>
+                            
                             <div id="safetyYesNoDiv">
+                            <br><hr style="height: 2px;background: black;">
                             <div class="row">                                
                                  <div class="col s12 m8 l6 input-field" style="padding-top: 4px;">
                                     <p class="prio">Safety Incident</p>
@@ -272,20 +273,10 @@
 	                                    </select>
 	                                    <span id="nominated_authorityError" class="error-msg" ></span>
 	                                </div>								    
-						    
-	<%-- 							    <div class="col s6 m4 l4 hidden input-field mti-5" id="committee_formed_div" style="display:none;">
-		                                 <p>
-										      <label>
-										        <input type="checkbox" id="committee_formed" name="committee_formed" <c:if test="${safety.committee_formed_fk eq 'Yes'}">checked</c:if>/>
-										        <span>Committee Formed</span>
-										      </label>
-										      
-									    </p>
-									    <input type="hidden" id="committee_formed_fk" name="committee_formed_fk" value="No"/>
-								    </div> --%>
 	                            </div>
+	                            
 	                            </div>
-	                            <br><hr>
+	                            <br><hr style="height: 2px;background: black;">
 	                            <div id="secondDiv" style="display:none;">
 	                            <div class="row">                             
 	                                 <div class="col s12 m6 l6 input-field">
@@ -337,8 +328,9 @@
 	                            </div> 
 	                           </div>                         
 							</div>
-							<br><hr>
-                            <div class="row" id="divApproveCorrectiveMeasure">                                
+							 
+                            <div class="row" id="divApproveCorrectiveMeasure">  
+                            <br><hr style="height: 2px;background: black;">                              
                                  <div class="col s12 m8 l6 input-field" style="padding-top: 4px;">
                                     <p class="prio">Approve Corrective Measure</p>
                                     <p class="radiogroup">
@@ -352,9 +344,10 @@
                                             <span>Not Accepted</span>
                                         </label>
                                     </p>
-                                </div>                               
+                                </div>
+                                <br><br><br><hr style="height: 2px;background: black;">	   	                             
                             </div>
-                            <br><hr>							
+                            					
                             <div class="row">
                             	<div class="col s12 m12 l12 input-field">
 									<c:set var="existingsafetyFilesLength" value="${fn:length(safety.safetyFilesList )}"></c:set>
@@ -509,6 +502,9 @@
 
     		} 
         	
+        	var hod_user_id = '${safety.hod_user_id_fk}';
+        	var logged_in_user_id = '${sessionScope.USER_ID}';
+        	
         	if('${sessionScope.USER_ROLE_NAME}'=="IT Admin" || "${safety.responsible_person}"=='${sessionScope.USER_ID}' || arrayCommittee.indexOf('${sessionScope.USER_ID}')!=-1 || ("${safety.nominated_authority}"=='${sessionScope.USER_ID}' && "${safety.nominated_authority}"!=""))
         	{
         		$("#divApproveCorrectiveMeasure").show();
@@ -547,7 +543,12 @@
            		$("#secondDiv").hide();
     			$("#hidden_date").hide();
       			$("#divPayment").hide(); 
-       		}       	
+       		} 
+        	
+        		if(hod_user_id == logged_in_user_id)
+        		{
+        			$("#hidden_date").show();
+        		}
 
        	if("${safety.safety_incident}"=="Yes")
        	{

@@ -266,7 +266,7 @@ public class SafetyDetailsReportController {
 
 	@RequestMapping(value = "/generate-and-download-safety-details-report", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView generateAndDownloadIssueDetailsReport(@ModelAttribute Safety obj,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
-		ModelAndView model = new ModelAndView("redirect:/safety-details-report");
+		ModelAndView model = new ModelAndView(PageConstants2.safetyDetailsReport);
 		try{            
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 			SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");

@@ -45,7 +45,7 @@
 	                                        <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" onchange="addInQueWork(this.value);getContractsListInSafetyDetailsReport(this.value);getLocationsListInSafetyDetailsReport();getCategoriesListInSafetyDetailsReport();getStatusListInSafetyDetailsReport();getTitlesListInSafetyDetailsReport();getSafetyDetailsReport();">
 	                                            <option value="">Select </option>
 	                                            <c:forEach var="obj" items="${worksList }">
-                                                    <option  value="${obj.work_id_fk }"> <c:if test="${ empty obj.work_short_name}"> ${obj.work_id_fk } </c:if>${obj.work_short_name }</option>
+                                                    <option  value="${obj.work_id_fk }"> <c:if test="${ empty obj.work_short_name}"> ${obj.work_id_fk } </c:if>${obj.work_id_fk } - ${obj.work_short_name }</option>
                                                 </c:forEach>
 	                                        </select>
 	                                        <span id="work_id_fkError" class="error-msg" ></span>
@@ -55,7 +55,7 @@
 	                                        <select class="searchable validate-dropdown" id="contract_id_fk" name="contract_id_fk" onchange="addInQueContract(this.value);getHODListInSafetyDetailsReport(this.value);getStatusListInSafetyDetailsReport();getLocationsListInSafetyDetailsReport();getCategoriesListInSafetyDetailsReport();getTitlesListInSafetyDetailsReport();getSafetyDetailsReport()">
 	                                            <option value="">Select </option>
 	                                            <c:forEach var="obj" items="${contractsList }">
-                                                    <option workId="${obj.work_id_fk }" value="${obj.contract_id_fk }"><c:if test="${ empty obj.contract_short_name}"> ${obj.contract_id_fk } </c:if> ${obj.contract_short_name }</option>
+                                                    <option workId="${obj.work_id_fk }" value="${obj.contract_id_fk }"><c:if test="${ empty obj.contract_short_name}"> ${obj.contract_id_fk } </c:if> ${obj.contract_id_fk } - ${obj.contract_short_name }</option>
                                                 </c:forEach>
 	                                        </select>
 	                                        <span id="contract_id_fkError" class="error-msg" ></span>
@@ -113,21 +113,17 @@
 	                                        <span id="safety_idError" class="error-msg" ></span>
 	                                    </div> 
 	                                    
-	                                </div>    
-	                                <div class="row">	                                	
-	                                    <div class="col s5 m4  input-field offset-m2">
-	                                        <button class="btn bg-s waves-effect waves-light t-c" type="button"
-	                                            style="margin-top: 6px; font-weight: 600;"
-	                                            onclick="clearFilter()">Clear Filter</button>
-	                                    </div>
-	                                   
-	                                     <div class="col s7 m4  input-field mob-center">
-	                                        <button class="btn bg-s waves-effect waves-light t-c clear-filters"
-	                                            style="margin-top: 6px; font-weight: 600;"
-	                                            onclick="generateAndDownloadSafetyDetailsReport()">Generate Report</button>
-	                                    </div> 
-	                                    
-	                                </div>                            
+	                                </div>
+
+			    			<div class="row">	                                	
+                                <div class="col s7 m4 l3 input-field center-align offset-l3 offset-m2">
+                                    <button type="button" class="btn bg-m waves-effe ct waves-light t-c clear-filters" style="margin-top: 6px;min-width:160px%; font-weight: 600;" onclick="generateAndDownloadSafetyDetailsReport();">Generate Report</button>
+                                </div>
+                                <div class="col s5 m4 l3 input-field left-align ">
+                                    <button class="btn bg-s waves-effect waves-light t-c" type="button" style="margin-top: 6px; font-weight: 600; min-width:120px" onclick="clearFilter()">Reset</button>
+                                </div>                                
+                             </div>	                                
+                          
                                 </form>
                             </div>
 

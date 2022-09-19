@@ -89,19 +89,14 @@
 	                                    </div> -->
 	                                </div>
 	                                
-	                                <div class="row">	     
-	                                    <div class="col s6 m6 l4 offset-l1 input-field mob-center desk-right ">
-	                                        <button class="btn bg-s waves-effect waves-light t-c" type="button"
-	                                            style="margin-top: 6px; font-weight: 600; min-width:160px"
-	                                            onclick="clearFilter()">Clear Filter</button>
-	                                    </div>
-	                                    <div class="col s6 m6 l4 offset-l1 input-field mob-center">
-	                                        <button class="btn bg-s waves-effect waves-light t-c clear-filters"
-	                                            style="margin-top: 6px;min-width:160px%; font-weight: 600;"
-	                                            onclick="generateReport()">Generate Report</button>
-	                                    </div>
-	                                </div>
-                                
+			    			<div class="row">	                                	
+                                <div class="col s7 m4 l3 input-field center-align offset-l3 offset-m2">
+                                    <button type="button" class="btn bg-m waves-effe ct waves-light t-c clear-filters" style="margin-top: 6px;min-width:160px%; font-weight: 600;" onclick="generateReport();">Generate Report</button>
+                                </div>
+                                <div class="col s5 m4 l3 input-field left-align ">
+                                    <button class="btn bg-s waves-effect waves-light t-c" type="button" style="margin-top: 6px; font-weight: 600; min-width:120px" onclick="clearFilter()">Reset</button>
+                                </div>                                
+                             </div>	                                
                                 </form>
                             </div>
                         </div>

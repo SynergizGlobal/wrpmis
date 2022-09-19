@@ -478,28 +478,28 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 					+ "LEFT OUTER JOIN [user] u2 ON sc.committee_member_name= u2.user_id "
 					+ "LEFT OUTER JOIN work w ON c.work_id_fk  = w.work_id "
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk  = p.project_id "
-					+ "where safety_id = ? ";
+					+ "where safety_id = ? and isnull(safety_incident,'')='Yes' ";
 			
 			int arrSize = 2;
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id_fk = ?";
+				qry = qry + " and work_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				qry = qry + " and contract_id_fk = ?";
+				qry = qry + " and contract_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
-				qry = qry + " and c.hod_user_id_fk = ?";
+				qry = qry + " and c.hod_user_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
-				qry = qry + " and status_fk = ?";
+				qry = qry + " and status_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLocation())) {
-				qry = qry + " and location = ?";
+				qry = qry + " and location = ? ";
 				arrSize++;
 			}
 			qry=qry+" group by safety_id,contract_id_fk,s.hod_user_id_fk,c.hod_user_id_fk,u.designation,contract_short_name,\r\n" + 

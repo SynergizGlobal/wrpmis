@@ -308,22 +308,22 @@ public class SafetyReportDaoImpl implements SafetyReportDao{
 			int arrSize = 0;
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				qry = qry + " and contract_id_fk = ?";
+				qry = qry + " and contract_id_fk = ? ";
 				arrSize++;
 			}			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id_fk = ?";
+				qry = qry + " and work_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
-				qry = qry + " and s.hod_user_id_fk = ?";
+				qry = qry + " and s.hod_user_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
-				qry = qry + " and status_fk = ?";
+				qry = qry + " and status_fk = ? ";
 				arrSize++;
 			}
-			qry = qry + " ORDER BY s.date DESC";
+			qry = qry + " ORDER BY s.date DESC ";
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;

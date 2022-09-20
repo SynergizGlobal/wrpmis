@@ -60,16 +60,17 @@ public class SafetyDaoImpl implements SafetyDao {
 	public List<Safety> getSafetyList(Safety obj) throws Exception {
 		List<Safety> objsList = null;
 		try {
-			String qry = "SELECT safety_id,contract_id_fk,s.hod_user_id_fk,u.designation,c.contract_short_name,title,d.department_name,description,FORMAT(date,'dd-MM-yyyy') AS date,location,latitude,longitude,reported_by,responsible_person,u.department_fk,"
+			String qry = "SELECT safety_id,contract_id_fk,w.work_short_name,safety_incident,u8.user_name as nominated_authority,s.hod_user_id_fk,u.designation,c.contract_short_name,title,d.department_name,description,FORMAT(date,'dd-MM-yyyy') AS date,location,latitude,longitude,reported_by,responsible_person,u.department_fk,"
 					+ "category_fk,impact_fk,root_cause_fk,status_fk,FORMAT(closure_date,'dd-MM-yyyy') AS closure_date,lti_hours,equipment_impact,people_impact,work_impact,committee_formed_fk,committee_required_fk,"
 					+ "FORMAT(investigation_completed,'dd-MM-yyyy') AS investigation_completed,corrective_measure_short_term,corrective_measure_long_term,compensation,FORMAT(payment_date,'dd-MM-yyyy') AS payment_date,s.remarks,contract_name,work_id_fk,work_name,project_id_fk,project_name, "
-					+ "compensation_units,m.unit as compensation_unit,s.modified_by,FORMAT(s.modified_date,'dd-MM-yyyy') as modified_date,reported_by,u2.designation as responsible_person "
+					+ "compensation_units,m.unit as compensation_unit,s.modified_by,FORMAT(s.modified_date,'dd-MM-yyyy') as modified_date,reported_by,u2.designation as responsible_person,(select STRING_AGG(user_name,',') from safety_committee_members cmb left join [user] u7 on cmb.committee_member_name = u7.user_id where safety_id_fk = s.safety_id) as committe_members "
 					+ "from safety s "
 					+ "left outer join [user] u2 on s.responsible_person = u2.user_id "
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
 					+ "left outer join [user] u ON c.hod_user_id_fk= u.user_id "
 					+ "LEFT OUTER JOIN work w ON c.work_id_fk  = w.work_id "
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk  = p.project_id "
+					+ "left outer join [user] u8 on s.nominated_authority = u8.user_id "
 					+ "LEFT OUTER JOIN department d ON c.department_fk  = d.department "
 					+ "LEFT OUTER JOIN money_unit m ON s.compensation_units  = m.value  "
 					+ "where safety_id is not null " ;

@@ -721,7 +721,7 @@ public class SafetyController {
 				        
 				        
 			            XSSFRow headingRow = sheet.createRow(0);
-			            String headerString = "Work^Contract Short Description^Description^Date of Incident^Category^Impact^Root Cause^Safety Incident (Yes/No)^Status^Location^Latitude^Longitude^Reported By^Responsible Person^Committee Required^Name of Committee members^Nominated Authority^LTI Hours^Equipment Impact^People Impact^Work Impact^Corrective Measure Short Term^Corrective Measure long Term^Investigation Completion Date^Compensation^Payment Date^Remarks";
+			            String headerString = "Work^Contract^Short Description^Description^Date of Incident^Category^Impact^Root Cause^Safety Incident (Yes/No)^Status^Location^Latitude^Longitude^Reported By^Responsible Person^Committee Required^Name of Committee members^Nominated Authority^LTI Hours^Equipment Impact^People Impact^Work Impact^Corrective Measure Short Term^Corrective Measure long Term^Investigation Completion Date^Compensation (Rs.)^Payment Date^Remarks";
 			            
 			            String[] firstHeaderStringArr = headerString.split("\\^");
 			            
@@ -738,11 +738,15 @@ public class SafetyController {
 			                
 			                Cell cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
-							cell.setCellValue(obj.getWork_id_fk());
+							cell.setCellValue(obj.getWork_id_fk()+'-'+obj.getWork_short_name());
 							
 							cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
-							cell.setCellValue(obj.getContract_short_name());
+							cell.setCellValue(obj.getContract_id_fk()+'-'+obj.getContract_short_name());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getTitle());							
 							
 			                cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
@@ -790,19 +794,19 @@ public class SafetyController {
 							
 							cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
-							cell.setCellValue(obj.getCategory_fk());
+							cell.setCellValue(obj.getResponsible_person());
 							
 							cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
-							cell.setCellValue(obj.getStatus_fk());
+							cell.setCellValue(obj.getCommittee_required_fk());
 							
 							cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
-							cell.setCellValue(obj.getImpact_fk());
+							cell.setCellValue(obj.getCommitte_members());
 							
 							cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
-							cell.setCellValue(obj.getRoot_cause_fk());
+							cell.setCellValue(obj.getNominated_authority());
 							
 							cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
@@ -822,18 +826,6 @@ public class SafetyController {
 							
 							cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
-							cell.setCellValue(obj.getCommittee_formed_fk());
-							
-							cell = row.createCell(c++);
-							cell.setCellStyle(sectionStyle);
-							cell.setCellValue(obj.getCommittee_required_fk());
-							
-							cell = row.createCell(c++);
-							cell.setCellStyle(sectionStyle);
-							cell.setCellValue(obj.getInvestigation_completed());
-							
-							cell = row.createCell(c++);
-							cell.setCellStyle(sectionStyle);
 							cell.setCellValue(obj.getCorrective_measure_short_term());
 							
 							cell = row.createCell(c++);
@@ -842,15 +834,11 @@ public class SafetyController {
 							
 							cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
-							cell.setCellValue(obj.getStatus_remark_fk());
+							cell.setCellValue(obj.getInvestigation_completed());
 							
 							cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
 							cell.setCellValue(obj.getCompensation());
-							
-							cell = row.createCell(c++);
-							cell.setCellStyle(sectionStyle);
-							cell.setCellValue(obj.getCompensation_unit());
 							
 							cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);

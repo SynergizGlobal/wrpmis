@@ -504,59 +504,89 @@
         	
         	var hod_user_id = '${safety.hod_user_id_fk}';
         	var logged_in_user_id = '${sessionScope.USER_ID}';
+        	var dy_hod_user_id = '${safety.dy_hod_user_id_fk}';
         	
-        	if('${sessionScope.USER_ROLE_NAME}'=="IT Admin" || "${safety.responsible_person}"=='${sessionScope.USER_ID}' || arrayCommittee.indexOf('${sessionScope.USER_ID}')!=-1 || ("${safety.nominated_authority}"=='${sessionScope.USER_ID}' && "${safety.nominated_authority}"!=""))
-        	{
-        		$("#divApproveCorrectiveMeasure").show();
-           		$("#secondDiv").show();
-    			$("#hidden_date").show();
-      			$("#divPayment").show(); 
-    			if(("${safety.nominated_authority}"=='${sessionScope.USER_ID}' && "${safety.nominated_authority}"!="") || '${sessionScope.USER_ROLE_NAME}'=="IT Admin")
-    			{
-    				$("#secondDiv *").attr("disabled",true);
-    				$("#hidden_date *").attr("disabled",true);
-    				$("#divPayment *").attr("disabled",true);
-    				
-					if('${safety.corrective_measure_short_term }'=="")
-					{
-	    				$("#divApproveCorrectiveMeasure *").attr("disabled",true);
-					}
-	    			else
-	   				{
-	    				$("#divApproveCorrectiveMeasure *").attr("disabled",false);
-	   				}
-    				
-    			}
-    			else if('${sessionScope.USER_ROLE_NAME}'=="IT Admin" || "${safety.responsible_person}"=='${sessionScope.USER_ID}' || arrayCommittee.indexOf('${sessionScope.USER_ID}')!=-1)
-    			{
-    				$("#secondDiv *").attr("disabled",false);
-    				$("#hidden_date *").attr("disabled",false);
-    				$("#divPayment *").attr("disabled",false);
-        			$('input[name^=approve_corrective_measure][value="Yes"]').prop("checked",false);
-        			$('input[name^=approve_corrective_measure][value="No"]').prop("checked",false);
-    			}    			
-
-        	}
-        	else
-       		{
-        		$("#divApproveCorrectiveMeasure").hide();
-           		$("#secondDiv").hide();
-    			$("#hidden_date").hide();
-      			$("#divPayment").hide(); 
-       		} 
-        	
-        		if(hod_user_id == logged_in_user_id)
+        	if('${sessionScope.USER_ROLE_NAME}'!="IT Admin")
         		{
-        			$("#nominatedDiv *").attr("disabled",false);
-        			$("#safetyYesNoDiv *").attr("disabled",false);
-        			$("#hidden_date").show();
+		        	if("${safety.responsible_person}"=='${sessionScope.USER_ID}' || arrayCommittee.indexOf('${sessionScope.USER_ID}')!=-1 || ("${safety.nominated_authority}"=='${sessionScope.USER_ID}' && "${safety.nominated_authority}"!=""))
+		        	{
+		        		$("#divApproveCorrectiveMeasure").show();
+		           		$("#secondDiv").show();
+		    			$("#hidden_date").show();
+		      			$("#divPayment").show(); 
+		    			if(("${safety.nominated_authority}"=='${sessionScope.USER_ID}' && "${safety.nominated_authority}"!="" && arrayCommittee.indexOf('${sessionScope.USER_ID}')==-1) ||  arrayCommittee.indexOf('${sessionScope.USER_ID}')==-1)
+		    			{
+		    				$("#secondDiv *").attr("disabled",true);
+		    				$("#hidden_date *").attr("disabled",true);
+		    				$("#divPayment *").attr("disabled",true);
+		    				
+							if('${safety.corrective_measure_short_term }'=="")
+							{
+			    				$("#divApproveCorrectiveMeasure *").attr("disabled",true);
+							}
+			    			else
+			   				{
+			    				$("#divApproveCorrectiveMeasure *").attr("disabled",false);
+			   				}
+		    				
+		    			}
+		    			else if('${sessionScope.USER_ROLE_NAME}'=="IT Admin" || "${safety.responsible_person}"=='${sessionScope.USER_ID}' || arrayCommittee.indexOf('${sessionScope.USER_ID}')!=-1)
+		    			{
+		    				$("#secondDiv *").attr("disabled",false);
+		    				$("#hidden_date *").attr("disabled",false);
+		    				$("#divPayment *").attr("disabled",false);
+		        			$('input[name^=approve_corrective_measure][value="Yes"]').prop("checked",false);
+		        			$('input[name^=approve_corrective_measure][value="No"]').prop("checked",false);
+
+			        		if(hod_user_id == logged_in_user_id || dy_hod_user_id == logged_in_user_id)
+			        		{
+			        			$("#nominatedDiv *").attr("disabled",false);
+			        			$("#safetyYesNoDiv *").attr("disabled",false);
+			        			$("#hidden_date").show();
+			        		}
+			        		else
+		        			{
+		        				$("#hidden_date").show();
+		        				$("#safetyYesNoDiv *").attr("disabled",false);
+		        				$("#nominatedDiv *").attr("disabled",true);
+		        				
+		        			}
+		        			
+		    			}    			
+		
+		        	}
+		        	else
+		       		{
+		        		$("#divApproveCorrectiveMeasure").hide();
+		           		$("#secondDiv").hide();
+		    			$("#hidden_date").hide();
+		      			$("#divPayment").hide(); 
+		      			
+		        		if(hod_user_id == logged_in_user_id || dy_hod_user_id == logged_in_user_id)
+		        		{
+		        			$("#nominatedDiv *").attr("disabled",false);
+		        			$("#safetyYesNoDiv *").attr("disabled",false);
+		        			$("#hidden_date").show();
+		        		}
+		        		else
+	        			{
+	        				$("#safetyYesNoDiv *").attr("disabled",true);
+	        				$("#hidden_date").show();
+	        				$("#nominatedDiv *").attr("disabled",true);
+	        			}		        		
+		       		} 
         		}
-        		else
-        			{
-        				$("#safetyYesNoDiv *").attr("disabled",true);
-        			
-        				$("#nominatedDiv *").attr("disabled",true);
-        			}
+        	else
+        		{
+	           		$("#secondDiv").show();
+	    			$("#hidden_date").show();
+	      			$("#divPayment").show();         		
+					$("#secondDiv *").attr("disabled",false);
+					$("#hidden_date *").attr("disabled",false);
+					$("#divPayment *").attr("disabled",false);
+        		}
+
+        	
 
        	if("${safety.safety_incident}"=="Yes")
        	{

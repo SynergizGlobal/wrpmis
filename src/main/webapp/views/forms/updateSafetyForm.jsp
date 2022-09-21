@@ -213,7 +213,7 @@
                             
                             <div id="safetyYesNoDiv">
                             <br><hr style="height: 2px;background: black;">
-                            <div class="row">                                
+                            <div class="row" id="radioDiv">                                
                                  <div class="col s12 m8 l6 input-field" style="padding-top: 4px;">
                                     <p class="prio">Safety Incident</p>
                                     <p class="radiogroup">
@@ -462,20 +462,6 @@
                 return false;
             }
         });
-        
-        	if('${sessionScope.USER_ROLE_NAME}'=="IT Admin" || '${sessionScope.USER_TYPE}'=="HOD" || '${sessionScope.USER_TYPE}'=="DyHOD")
-        	{
-        		$("#nominated_authority").prop("disabled",false);
-        		$("#committee_required").prop("disabled",false);
-        		$("#committee_member_name").prop("disabled",false);
-        		
-        	}
-        	else
-       		{
-        		$("#nominated_authority").prop("disabled",true);
-        		$("#committee_required").prop("disabled",true);
-        		$("#committee_member_name").prop("disabled",true);
-       		}
         	
         	var arrayCommittee=new Array();
         	if("${(fn:length(safety.safetyCommitteeMembersList))>0}")
@@ -486,6 +472,8 @@
                 </c:forEach>           					  			 
 
     		} 
+        	
+  	
         	
         	var hod_user_id = '${safety.hod_user_id_fk}';
         	var logged_in_user_id = '${sessionScope.USER_ID}';
@@ -501,22 +489,61 @@
 		      			$("#divPayment").show(); 
 		    			if(("${safety.nominated_authority}"=='${sessionScope.USER_ID}' && "${safety.nominated_authority}"!="" && arrayCommittee.indexOf('${sessionScope.USER_ID}')==-1) ||  arrayCommittee.indexOf('${sessionScope.USER_ID}')==-1)
 		    			{
-		    				$("#secondDiv *").attr("disabled",true);
-		    				$("#hidden_date *").attr("disabled",true);
-		    				$("#divPayment *").attr("disabled",true);
-		    				
-							if('${safety.corrective_measure_short_term }'=="")
-							{
-			    				$("#divApproveCorrectiveMeasure *").attr("disabled",true);
-							}
-			    			else
-			   				{
-			    				$("#divApproveCorrectiveMeasure *").attr("disabled",false);
-			   				}
+		    					if("${safety.responsible_person}"!='${sessionScope.USER_ID}')
+		    					{
+		    						$("#radioDiv *").attr("disabled",true);
+				    				$("#secondDiv *").attr("disabled",true);
+				    				$("#hidden_date *").attr("disabled",true);
+				    				$("#divPayment *").attr("disabled",true);
+				    				
+			        				$("#committee_required").attr("disabled",true);
+			        				$("#committee_member_name").attr("disabled",true);
+			        				$("#responsible_person").attr("disabled",true);
+			        				$("#nominated_authority").attr("disabled",true);				    				
+				    				
+									if('${safety.corrective_measure_short_term }'=="")
+									{
+					    				$("#divApproveCorrectiveMeasure *").attr("disabled",true);
+									}
+					    			else
+					   				{
+					    				$("#divApproveCorrectiveMeasure *").attr("disabled",false);
+					   				}
+									if("${safety.nominated_authority}"=='${sessionScope.USER_ID}')
+									{
+										$("#status_fk option[value='Closed']").remove();
+									}
+		    					}
+		    					else
+	    						{
+				    				$("#secondDiv *").attr("disabled",false);
+				    				$("#hidden_date *").attr("disabled",false);
+				    				$("#divPayment *").attr("disabled",false);
+				        			$('input[name^=approve_corrective_measure][value="Yes"]').prop("checked",false);
+				        			$('input[name^=approve_corrective_measure][value="No"]').prop("checked",false);	   
+					        		if(hod_user_id == logged_in_user_id || dy_hod_user_id == logged_in_user_id)
+					        		{
+					        			$("#nominatedDiv *").attr("disabled",false);
+					        			$("#radioDiv *").attr("disabled",false);
+					        			$("#hidden_date").show();
+					        		}
+					        		else
+				        			{
+				        				$("#hidden_date").show();
+				        				$("#radioDiv *").attr("disabled",true);
+				        				$("#committee_required").attr("disabled",true);
+				        				$("#committee_member_name").attr("disabled",true);
+				        				$("#responsible_person").attr("disabled",true);
+				        				$("#nominated_authority").attr("disabled",true);
+				        				
+				        			}				        			
+				        			
+	    						}
 		    				
 		    			}
 		    			else if('${sessionScope.USER_ROLE_NAME}'=="IT Admin" || "${safety.responsible_person}"=='${sessionScope.USER_ID}' || arrayCommittee.indexOf('${sessionScope.USER_ID}')!=-1)
 		    			{
+		    				$("#radioDiv *").attr("disabled",true);
 		    				$("#secondDiv *").attr("disabled",false);
 		    				$("#hidden_date *").attr("disabled",false);
 		    				$("#divPayment *").attr("disabled",false);
@@ -526,14 +553,17 @@
 			        		if(hod_user_id == logged_in_user_id || dy_hod_user_id == logged_in_user_id)
 			        		{
 			        			$("#nominatedDiv *").attr("disabled",false);
-			        			$("#safetyYesNoDiv *").attr("disabled",false);
+			        			$("#radioDiv *").attr("disabled",false);
 			        			$("#hidden_date").show();
 			        		}
 			        		else
 		        			{
 		        				$("#hidden_date").show();
-		        				$("#safetyYesNoDiv *").attr("disabled",false);
-		        				$("#nominatedDiv *").attr("disabled",true);
+		        				$("#radioDiv *").attr("disabled",true);
+		        				$("#committee_required").attr("disabled",true);
+		        				$("#committee_member_name").attr("disabled",true);
+		        				$("#responsible_person").attr("disabled",true);
+		        				$("#nominated_authority").attr("disabled",true);
 		        				
 		        			}
 		        			
@@ -547,28 +577,46 @@
 		    			$("#hidden_date").hide();
 		      			$("#divPayment").hide(); 
 		      			
+		      			
 		        		if(hod_user_id == logged_in_user_id || dy_hod_user_id == logged_in_user_id)
 		        		{
 		        			$("#nominatedDiv *").attr("disabled",false);
-		        			$("#safetyYesNoDiv *").attr("disabled",false);
+		        			$("#radioDiv *").attr("disabled",false);
 		        			$("#hidden_date").show();
 		        		}
 		        		else
 	        			{
-	        				$("#safetyYesNoDiv *").attr("disabled",true);
+	        				$("#radioDiv *").attr("disabled",true);
 	        				$("#hidden_date").show();
-	        				$("#nominatedDiv *").attr("disabled",true);
+	        				$("#committee_required").attr("disabled",true);
+	        				$("#committee_member_name").attr("disabled",true);
+	        				$("#responsible_person").attr("disabled",true);
+	        				$("#nominated_authority").attr("disabled",true);
 	        			}		        		
 		       		} 
         		}
         	else
         		{
+        		
 	           		$("#secondDiv").show();
 	    			$("#hidden_date").show();
 	      			$("#divPayment").show();         		
 					$("#secondDiv *").attr("disabled",false);
 					$("#hidden_date *").attr("disabled",false);
 					$("#divPayment *").attr("disabled",false);
+					
+	        		if(hod_user_id == logged_in_user_id || dy_hod_user_id == logged_in_user_id)
+	        		{
+	        			$("#secondDiv").hide();
+	        			$("#divApproveCorrectiveMeasure").hide();
+	        			$("#divPayment").hide();   
+	        		}
+	        		
+					if(dy_hod_user_id == logged_in_user_id)
+					{
+						$("#status_fk option[value='Closed']").remove();
+					}	        		
+			
         		}
 
         	
@@ -708,7 +756,16 @@
             	{
             	 	$('#committee_member_div').hide();
             	}
-            if(user_type == 'HOD' || user_role == 'IT Admin'){
+            if(user_type == 'HOD' || user_role == 'IT Admin' || user_type == 'DyHOD'){
+            	
+               	if("${safety.approve_corrective_measure}"!="")
+               	{
+               		
+               	}
+               	else
+            	{
+               		$("#status_fk option[value='Closed']").remove();
+            	} 
             	
             }
             else{
@@ -980,6 +1037,12 @@
 	  					
   				}
 	  			$("#status_fk").prop("disabled",false);
+	  			$("#radioDiv *").attr("disabled",false);
+	  			$("#secondDiv *").attr("disabled",false);
+				$("#committee_required_fk").attr("disabled",false);
+				$("#committee_member_name").attr("disabled",false);
+				$("#responsible_person").attr("disabled",false);
+				$("#nominated_authority").attr("disabled",false);	  			
     			document.getElementById("safetyForm").submit();			
     	 	}
     	}

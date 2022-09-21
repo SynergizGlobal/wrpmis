@@ -1822,10 +1822,7 @@ public class SafetyDaoImpl implements SafetyDao {
 			}
 			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				qry = qry + " or c.contract_id in(select distinct contract_id from( " + 
-						"SELECT distinct contract_id FROM contract where hod_user_id_fk='"+obj.getUser_id()+"' or dy_hod_user_id_fk='"+obj.getUser_id()+"' " + 
-						"union all " + 
-						"SELECT distinct contract_id FROM contract where hod_user_id_fk=(select reporting_to_id_srfk from [user] where user_id='"+obj.getUser_id()+"')  " + 
-						"or dy_hod_user_id_fk=(select reporting_to_id_srfk from [user] where user_id='"+obj.getUser_id()+"')) as a)) ";				
+						"SELECT distinct contract_id FROM contract where hod_user_id_fk='"+obj.getUser_id()+"' or dy_hod_user_id_fk='"+obj.getUser_id()+"') as a)) ";				
 			}			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
 				qry = qry + " and c.hod_user_id_fk = ?";

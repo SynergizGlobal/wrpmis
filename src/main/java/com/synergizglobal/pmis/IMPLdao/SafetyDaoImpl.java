@@ -639,11 +639,14 @@ public class SafetyDaoImpl implements SafetyDao {
 					+ "where safety_id = ? ";
 			
 			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				qry = qry + " and c.contract_id in(select distinct contract_id from( " + 
+				qry = qry + " and ((s.reported_by = '"+obj.getUser_id()+"' or s.nominated_authority = '"+obj.getUser_id()+"' or s.responsible_person = '"+obj.getUser_id()+"' or s.created_by = '"+obj.getUser_id()+"' or c.hod_user_id_fk = '"+obj.getUser_id()+"' or c.dy_hod_user_id_fk = '"+obj.getUser_id()+"' "
+						+ "or s.safety_id in(select safety_id_fk from safety_committee_members where committee_member_name = '"+obj.getUser_id()+"'))";
+				
+				qry = qry + "or c.contract_id in(select distinct contract_id from( " + 
 						"SELECT distinct contract_id FROM contract where hod_user_id_fk='"+obj.getUser_id()+"' or dy_hod_user_id_fk='"+obj.getUser_id()+"' " + 
 						"union all " + 
 						"SELECT distinct contract_id FROM contract where hod_user_id_fk=(select reporting_to_id_srfk from [user] where user_id='"+obj.getUser_id()+"')  " + 
-						"or dy_hod_user_id_fk=(select reporting_to_id_srfk from [user] where user_id='"+obj.getUser_id()+"')) as a) ";				
+						"or dy_hod_user_id_fk=(select reporting_to_id_srfk from [user] where user_id='"+obj.getUser_id()+"')) as a) )";				
 			}	
 			
 			sobj = (Safety)jdbcTemplate.queryForObject( qry, new Object[]{obj.getSafety_id(),obj.getSafety_id()}, new BeanPropertyRowMapper<Safety>(Safety.class));	

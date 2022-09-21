@@ -328,6 +328,25 @@
 	                            </div> 
 	                           </div>                         
 							</div>
+							
+                            <div class="row" id="divPayment">                               
+                                <div class="col s12 m6 l6 input-field">
+                                    <input id="payment_date" name="payment_date" type="text" class="validate datepicker" value="${safety.payment_date }">
+                                    <label for="payment_date">Payment Date</label>
+                                    <button type="button" id="payment_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
+                                    <span id="payment_dateError" class="error-msg" ></span>
+                                </div>
+                                <div class="col s12 m6 l6 input-field amount-dropdown dp">
+                                	<i class="material-icons amount-symbol center-align">₹</i>
+                                    <input id="compensation" name="compensation" type="number" min="0.01" step="0.01" max="1000000000" class="validate pdl-2em" value="${safety.compensation }">
+                                    <label for="compensation" class="pdl-2em"> Compensation </label>
+                                    <span id="compensationError" class="error-msg" ></span>
+                                	<span id="compensation_unitsError" class="error-msg right" ></span>
+                                	<select class="validate-dropdown" id="compensation_units" name="compensation_units">
+                                		<option value="1">Rs</option>
+                                	</select>
+                                </div>
+                            </div> 							
 							 
                             <div class="row" id="divApproveCorrectiveMeasure">  
                             <br><hr style="height: 2px;background: black;">                              
@@ -387,40 +406,6 @@
                                     <span id="remarksError" class="error-msg" ></span>
                                 </div>
                             </div>
-                            
-                            <div class="row" id="divPayment">                               
-                                <div class="col s12 m6 l6 input-field">
-                                    <input id="payment_date" name="payment_date" type="text" class="validate datepicker" value="${safety.payment_date }">
-                                    <label for="payment_date">Payment Date</label>
-                                    <button type="button" id="payment_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
-                                    <span id="payment_dateError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s12 m6 l6 input-field amount-dropdown dp">
-                                	<i class="material-icons amount-symbol center-align">₹</i>
-                                    <input id="compensation" name="compensation" type="number" min="0.01" step="0.01" max="1000000000" class="validate pdl-2em" value="${safety.compensation }">
-                                    <label for="compensation" class="pdl-2em"> Compensation </label>
-                                    <span id="compensationError" class="error-msg" ></span>
-                                	<span id="compensation_unitsError" class="error-msg right" ></span>
-                                    <!-- <div class="col s4 m2 l2 input-field pt-10"> -->
-                                	<!-- <p class="searchable_label">Unit</p> -->
-                                	<select class="units validate-dropdown" id="compensation_units" name="compensation_units">
-                                		<!-- <option value="">Units</option> -->
-                                		<c:forEach var="obj" items="${unitsList }">
-	                                      <option value="${obj.value }" <c:if test="${safety.compensation_units eq obj.value }">selected</c:if> >${obj.unit }</option>
-	                                	</c:forEach>
-                                	</select>
-                                </div>
-                                <%-- <div class="col s4 m2 l2 input-field pt-10">
-                                	<p class="searchable_label">Unit</p>
-                                	<select class="units searchable validate-dropdown" id="compensation_units" name="compensation_units">
-                                		<option value="">Select</option>
-                                		<c:forEach var="obj" items="${unitsList }">
-	                                      <option value="${obj.value }" <c:if test="${safety.compensation_units eq obj.value }">selected</c:if> >${obj.unit }</option>
-	                                	</c:forEach>
-                                	</select>
-                                	<span id="compensation_unitsError" class="error-msg" ></span>
-                               	</div>  --%>
-                            </div>                            
 
 							 <div class="row">
 								 <div class="col s6 m6 l6 input-field">

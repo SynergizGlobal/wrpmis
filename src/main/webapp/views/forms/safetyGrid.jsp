@@ -919,10 +919,6 @@
 	                       if (data.length > 0) {
 	                           $.each(data, function (i, val) {
 	                        	    var selectedFlag = (hod_user_id == val.hod_user_id_fk)?'selected':'';
-	                             	if($.trim(selectedFlag) == ''){
-	                             		var user_id  = '${sessionScope.USER_ID}';
-	                                	selectedFlag = (user_id == val.hod_user_id_fk)?'selected':'';
-	                             	}
 	                        	   $("#hod_user_id_fk").append('<option value="' + $.trim(val.hod_user_id_fk) + '" '+selectedFlag+'>' + $.trim(val.designation) +'</option>');
 	                           });
 	                       }

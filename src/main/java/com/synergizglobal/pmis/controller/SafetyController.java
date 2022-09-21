@@ -421,6 +421,12 @@ public class SafetyController {
 		try {
 			model.setViewName(PageConstants.addSafetyForm);
 			
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String user_role_code = (String) session.getAttribute("USER_ROLE_CODE");
+			
+			obj.setUser_id(user_Id);
+			obj.setUser_role_code(user_role_code);			
+			
 			List<Safety> projectsList = safetyService.getProjectsListForSafetyForm(obj);
 			model.addObject("projectsList", projectsList);
 			
@@ -463,9 +469,14 @@ public class SafetyController {
 	
 	@RequestMapping(value = "/ajax/getProjectsListForSafetyForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Safety> getProjectsListForSafetyForm(@ModelAttribute Safety obj) {
+	public List<Safety> getProjectsListForSafetyForm(HttpSession session,@ModelAttribute Safety obj) {
 		List<Safety> objsList = null;
 		try {
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String user_role_code = (String) session.getAttribute("USER_ROLE_CODE");
+			
+			obj.setUser_id(user_Id);
+			obj.setUser_role_code(user_role_code);				
 			objsList = safetyService.getProjectsListForSafetyForm(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -476,9 +487,14 @@ public class SafetyController {
 	
 	@RequestMapping(value = "/ajax/getWorkListForSafetyForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Safety> getWorkListForSafetyForm(@ModelAttribute Safety obj) {
+	public List<Safety> getWorkListForSafetyForm(HttpSession session,@ModelAttribute Safety obj) {
 		List<Safety> objsList = null;
 		try {
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String user_role_code = (String) session.getAttribute("USER_ROLE_CODE");
+			
+			obj.setUser_id(user_Id);
+			obj.setUser_role_code(user_role_code);			
 			objsList = safetyService.getWorkListForSafetyForm(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -493,7 +509,12 @@ public class SafetyController {
 		List<Safety> objsList = null;
 		try {
 			User uObj = (User) session.getAttribute("user");
-			obj.setDepartment_fk(uObj.getDepartment_fk());				
+			obj.setDepartment_fk(uObj.getDepartment_fk());
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String user_role_code = (String) session.getAttribute("USER_ROLE_CODE");
+			
+			obj.setUser_id(user_Id);
+			obj.setUser_role_code(user_role_code);	
 			objsList = safetyService.getContractsListForSafetyForm(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -547,6 +568,12 @@ public class SafetyController {
 		try {
 			model.setViewName(PageConstants2.updateSafetyForm);
 			
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String user_role_code = (String) session.getAttribute("USER_ROLE_CODE");
+			
+			obj.setUser_id(user_Id);
+			obj.setUser_role_code(user_role_code);			
+			
 			List<Project> projectsList = homeService.getProjectsList();
 			model.addObject("projectsList", projectsList);
 			
@@ -589,6 +616,12 @@ public class SafetyController {
 		ModelAndView model = new ModelAndView();
 		try {
 			model.setViewName(PageConstants2.updateSafetyForm);
+			
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String user_role_code = (String) session.getAttribute("USER_ROLE_CODE");
+			
+			obj.setUser_id(user_Id);
+			obj.setUser_role_code(user_role_code);			
 			
 			List<Project> projectsList = homeService.getProjectsList();
 			model.addObject("projectsList", projectsList);
@@ -635,7 +668,10 @@ public class SafetyController {
 			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
 			
 			obj.setCreated_by_user_id_fk(user_Id);
+			String user_role_code = (String) session.getAttribute("USER_ROLE_CODE");
+			
 			obj.setUser_id(user_Id);
+			obj.setUser_role_code(user_role_code);
 			obj.setUser_name(userName);
 			obj.setDesignation(userDesignation);
 			/*User user = (User)session.getAttribute("user");

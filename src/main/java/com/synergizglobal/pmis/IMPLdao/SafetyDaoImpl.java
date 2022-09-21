@@ -98,16 +98,24 @@ public class SafetyDaoImpl implements SafetyDao {
 				arrSize++;
 			}
 			
-			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_DATA_ADMIN.equals(obj.getUser_role_code())
-					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				
-				qry = qry + " and (s.responsible_person = ? or s.created_by = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ? "
+				qry = qry + " and (s.reported_by = ? or s.nominated_authority = ? or s.responsible_person = ? or s.created_by = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ? "
 						+ "or s.safety_id in(select safety_id_fk from safety_committee_members where committee_member_name = ?))";
+				
+				qry = qry + "and c.contract_id in(select distinct contract_id from( " + 
+						"SELECT distinct contract_id FROM contract where hod_user_id_fk='"+obj.getUser_id()+"' or dy_hod_user_id_fk='"+obj.getUser_id()+"' " + 
+						"union all " + 
+						"SELECT distinct contract_id FROM contract where hod_user_id_fk=(select reporting_to_id_srfk from [user] where user_id='"+obj.getUser_id()+"')  " + 
+						"or dy_hod_user_id_fk=(select reporting_to_id_srfk from [user] where user_id='"+obj.getUser_id()+"')) as a) ";	
+				
 				arrSize++;
 				arrSize++;
 				arrSize++;
 				arrSize++;
 				arrSize++;
+				arrSize++;
+				arrSize++;				
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
 				qry = qry + " and c.hod_user_id_fk = ?";
@@ -135,8 +143,9 @@ public class SafetyDaoImpl implements SafetyDao {
 				pValues[i++] = obj.getDepartment_fk();
 			}
 			
-			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_DATA_ADMIN.equals(obj.getUser_role_code())
-					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();				
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
@@ -246,7 +255,7 @@ public class SafetyDaoImpl implements SafetyDao {
 					}
 				}			
 
-				sendEmailWithSafetyStatusAlert(safety_id, "Add", null, null, null);
+				sendEmailWithSafetyStatusAlert(obj.getUser_id(),safety_id, "Add", null, null, null);
 				
 				FormHistory formHistory = new FormHistory();
 				formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
@@ -270,7 +279,7 @@ public class SafetyDaoImpl implements SafetyDao {
 	}
 	
 	
-	public void sendEmailWithSafetyStatusAlert(String safety_id, String action_type,String existing_status_fk, String existing_responsible_person, String existing_committe_members)
+	public void sendEmailWithSafetyStatusAlert(String userid,String safety_id, String action_type,String existing_status_fk, String existing_responsible_person, String existing_committe_members)
 			throws Exception {
 
 		try {
@@ -294,9 +303,10 @@ public class SafetyDaoImpl implements SafetyDao {
 					+ "left outer join [user] u7 on i.modified_by = u7.user_id "
 					+ "left outer join [user] u8 on i.nominated_authority = u8.user_id "
 					+ "LEFT OUTER JOIN work w ON c.work_id_fk  = w.work_id "
-					+ "where safety_id = ? ";
+					+ "where safety_id = ?   ";
 
 			Object[] pValues = new Object[] { safety_id };
+			
 
 			Safety iObj = (Safety) jdbcTemplate.queryForObject(emailsQry, pValues,new BeanPropertyRowMapper<Safety>(Safety.class));
 			
@@ -628,6 +638,13 @@ public class SafetyDaoImpl implements SafetyDao {
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk  = p.project_id "
 					+ "where safety_id = ? ";
 			
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and c.contract_id in(select distinct contract_id from( " + 
+						"SELECT distinct contract_id FROM contract where hod_user_id_fk='"+obj.getUser_id()+"' or dy_hod_user_id_fk='"+obj.getUser_id()+"' " + 
+						"union all " + 
+						"SELECT distinct contract_id FROM contract where hod_user_id_fk=(select reporting_to_id_srfk from [user] where user_id='"+obj.getUser_id()+"')  " + 
+						"or dy_hod_user_id_fk=(select reporting_to_id_srfk from [user] where user_id='"+obj.getUser_id()+"')) as a) ";				
+			}	
 			
 			sobj = (Safety)jdbcTemplate.queryForObject( qry, new Object[]{obj.getSafety_id(),obj.getSafety_id()}, new BeanPropertyRowMapper<Safety>(Safety.class));	
 			
@@ -758,7 +775,7 @@ public class SafetyDaoImpl implements SafetyDao {
 				String existing_status_fk = obj.getExisting_status_fk();
 				String existing_responsible_person = obj.getExisting_responsible_person();
 				
-				sendEmailWithSafetyStatusAlert(safety_id, "Update", existing_status_fk,existing_responsible_person, obj.getExisting_committe_members());
+				sendEmailWithSafetyStatusAlert(obj.getUser_id(),safety_id, "Update", existing_status_fk,existing_responsible_person, obj.getExisting_committe_members());
 				
 				FormHistory formHistory = new FormHistory();
 				formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
@@ -848,17 +865,27 @@ public class SafetyDaoImpl implements SafetyDao {
 				arrSize++;
 			}
 			
-			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_DATA_ADMIN.equals(obj.getUser_role_code())
-					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				
-				qry = qry + " and (s.responsible_person = ? or s.created_by = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ? "
+				qry = qry + " and (s.reported_by = ? or s.nominated_authority = ? or s.responsible_person = ? or s.created_by = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ? "
 						+ "or s.safety_id in(select safety_id_fk from safety_committee_members where committee_member_name = ?))";
 				arrSize++;
 				arrSize++;
 				arrSize++;
 				arrSize++;
 				arrSize++;
+				arrSize++;
+				arrSize++;				
 			}
+			
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and c.contract_id in(select distinct contract_id from( " + 
+						"SELECT distinct contract_id FROM contract where hod_user_id_fk='"+obj.getUser_id()+"' or dy_hod_user_id_fk='"+obj.getUser_id()+"' " + 
+						"union all " + 
+						"SELECT distinct contract_id FROM contract where hod_user_id_fk=(select reporting_to_id_srfk from [user] where user_id='"+obj.getUser_id()+"')  " + 
+						"or dy_hod_user_id_fk=(select reporting_to_id_srfk from [user] where user_id='"+obj.getUser_id()+"')) as a) ";				
+			}
+			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
 				qry = qry + " and c.hod_user_id_fk = ?";
 				arrSize++;
@@ -886,8 +913,9 @@ public class SafetyDaoImpl implements SafetyDao {
 				pValues[i++] = obj.getDepartment_fk();
 			}
 			
-			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_DATA_ADMIN.equals(obj.getUser_role_code())
-					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();				
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
@@ -916,7 +944,7 @@ public class SafetyDaoImpl implements SafetyDao {
 					+ "LEFT OUTER JOIN work w ON c.work_id_fk  = w.work_id "
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk  = p.project_id "
 					+ "LEFT OUTER JOIN department d ON u.department_fk  = d.department "
-					+ "where u.department_fk is not null and u.department_fk <> '' ";
+					+ "where u.department_fk is not null and u.department_fk <> ''  ";
 			int arrSize = 0;
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -941,17 +969,26 @@ public class SafetyDaoImpl implements SafetyDao {
 				arrSize++;
 			}
 			
-			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_DATA_ADMIN.equals(obj.getUser_role_code())
-					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				
-				qry = qry + " and (s.responsible_person = ? or s.created_by = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ? "
+				qry = qry + " and (s.reported_by = ? or s.nominated_authority = ? or s.responsible_person = ? or s.created_by = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ? "
 						+ "or s.safety_id in(select safety_id_fk from safety_committee_members where committee_member_name = ?))";
 				arrSize++;
 				arrSize++;
 				arrSize++;
 				arrSize++;
 				arrSize++;
+				arrSize++;
+				arrSize++;				
 			}
+			
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and c.contract_id in(select distinct contract_id from( " + 
+						"SELECT distinct contract_id FROM contract where hod_user_id_fk='"+obj.getUser_id()+"' or dy_hod_user_id_fk='"+obj.getUser_id()+"' " + 
+						"union all " + 
+						"SELECT distinct contract_id FROM contract where hod_user_id_fk=(select reporting_to_id_srfk from [user] where user_id='"+obj.getUser_id()+"')  " + 
+						"or dy_hod_user_id_fk=(select reporting_to_id_srfk from [user] where user_id='"+obj.getUser_id()+"')) as a) ";				
+			}			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
 				qry = qry + " and c.hod_user_id_fk = ?";
 				arrSize++;
@@ -979,8 +1016,9 @@ public class SafetyDaoImpl implements SafetyDao {
 				pValues[i++] = obj.getDepartment_fk();
 			}
 			
-			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_DATA_ADMIN.equals(obj.getUser_role_code())
-					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();				
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
@@ -1008,7 +1046,7 @@ public class SafetyDaoImpl implements SafetyDao {
 					+ "LEFT OUTER JOIN work w ON c.work_id_fk  = w.work_id "
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk  = p.project_id "
 					+ "LEFT OUTER JOIN department d ON u.department_fk  = d.department "
-					+ " where category_fk is not null and category_fk <> '' ";
+					+ " where category_fk is not null and category_fk <> ''  ";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -1033,17 +1071,26 @@ public class SafetyDaoImpl implements SafetyDao {
 				arrSize++;
 			}
 			
-			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_DATA_ADMIN.equals(obj.getUser_role_code())
-					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				
-				qry = qry + " and (s.responsible_person = ? or s.created_by = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ? "
+				qry = qry + " and (s.reported_by = ? or s.nominated_authority = ? or s.responsible_person = ? or s.created_by = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ? "
 						+ "or s.safety_id in(select safety_id_fk from safety_committee_members where committee_member_name = ?))";
 				arrSize++;
 				arrSize++;
 				arrSize++;
 				arrSize++;
 				arrSize++;
+				arrSize++;
+				arrSize++;				
 			}
+			
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and c.contract_id in(select distinct contract_id from( " + 
+						"SELECT distinct contract_id FROM contract where hod_user_id_fk='"+obj.getUser_id()+"' or dy_hod_user_id_fk='"+obj.getUser_id()+"' " + 
+						"union all " + 
+						"SELECT distinct contract_id FROM contract where hod_user_id_fk=(select reporting_to_id_srfk from [user] where user_id='"+obj.getUser_id()+"')  " + 
+						"or dy_hod_user_id_fk=(select reporting_to_id_srfk from [user] where user_id='"+obj.getUser_id()+"')) as a) ";				
+			}			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
 				qry = qry + " and c.hod_user_id_fk = ?";
 				arrSize++;
@@ -1071,8 +1118,9 @@ public class SafetyDaoImpl implements SafetyDao {
 				pValues[i++] = obj.getDepartment_fk();
 			}
 			
-			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_DATA_ADMIN.equals(obj.getUser_role_code())
-					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();				
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
@@ -1101,7 +1149,7 @@ public class SafetyDaoImpl implements SafetyDao {
 					+ "LEFT OUTER JOIN work w ON c.work_id_fk  = w.work_id "
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk  = p.project_id "
 					+ "LEFT OUTER JOIN department d ON u.department_fk  = d.department "
-					+ " where status_fk is not null and status_fk <> '' ";
+					+ " where status_fk is not null and status_fk <> ''  ";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -1126,17 +1174,27 @@ public class SafetyDaoImpl implements SafetyDao {
 				arrSize++;
 			}
 			
-			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_DATA_ADMIN.equals(obj.getUser_role_code())
-					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				
-				qry = qry + " and (s.responsible_person = ? or s.created_by = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ? "
+				qry = qry + " and (s.reported_by = ? or s.nominated_authority = ? or s.responsible_person = ? or s.created_by = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ? "
 						+ "or s.safety_id in(select safety_id_fk from safety_committee_members where committee_member_name = ?))";
 				arrSize++;
 				arrSize++;
 				arrSize++;
 				arrSize++;
 				arrSize++;
+				arrSize++;
+				arrSize++;				
 			}
+			
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and c.contract_id in(select distinct contract_id from( " + 
+						"SELECT distinct contract_id FROM contract where hod_user_id_fk='"+obj.getUser_id()+"' or dy_hod_user_id_fk='"+obj.getUser_id()+"' " + 
+						"union all " + 
+						"SELECT distinct contract_id FROM contract where hod_user_id_fk=(select reporting_to_id_srfk from [user] where user_id='"+obj.getUser_id()+"')  " + 
+						"or dy_hod_user_id_fk=(select reporting_to_id_srfk from [user] where user_id='"+obj.getUser_id()+"')) as a) ";				
+			}
+			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
 				qry = qry + " and c.hod_user_id_fk = ?";
 				arrSize++;
@@ -1164,8 +1222,9 @@ public class SafetyDaoImpl implements SafetyDao {
 				pValues[i++] = obj.getDepartment_fk();
 			}
 			
-			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_DATA_ADMIN.equals(obj.getUser_role_code())
-					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();				
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
@@ -1193,7 +1252,7 @@ public class SafetyDaoImpl implements SafetyDao {
 					+ "LEFT OUTER JOIN work w ON c.work_id_fk  = w.work_id "
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk  = p.project_id "
 					+ "LEFT OUTER JOIN department d ON u.department_fk  = d.department "
-					+ " where work_id_fk is not null and work_id_fk <> '' ";
+					+ " where work_id_fk is not null and work_id_fk <> ''  ";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -1218,17 +1277,27 @@ public class SafetyDaoImpl implements SafetyDao {
 				arrSize++;
 			}
 			
-			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_DATA_ADMIN.equals(obj.getUser_role_code())
-					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				
-				qry = qry + " and (s.responsible_person = ? or s.created_by = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ? "
+				qry = qry + " and (s.reported_by = ? or s.nominated_authority = ? or s.responsible_person = ? or s.created_by = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ? "
 						+ "or s.safety_id in(select safety_id_fk from safety_committee_members where committee_member_name = ?)) ";
 				arrSize++;
 				arrSize++;
 				arrSize++;
 				arrSize++;
 				arrSize++;
+				arrSize++;
+				arrSize++;				
 			}
+
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and c.contract_id in(select distinct contract_id from( " + 
+						"SELECT distinct contract_id FROM contract where hod_user_id_fk='"+obj.getUser_id()+"' or dy_hod_user_id_fk='"+obj.getUser_id()+"' " + 
+						"union all " + 
+						"SELECT distinct contract_id FROM contract where hod_user_id_fk=(select reporting_to_id_srfk from [user] where user_id='"+obj.getUser_id()+"')  " + 
+						"or dy_hod_user_id_fk=(select reporting_to_id_srfk from [user] where user_id='"+obj.getUser_id()+"')) as a) ";				
+			}
+			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
 				qry = qry + " and c.hod_user_id_fk = ?";
 				arrSize++;
@@ -1256,8 +1325,9 @@ public class SafetyDaoImpl implements SafetyDao {
 				pValues[i++] = obj.getDepartment_fk();
 			}
 			
-			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_DATA_ADMIN.equals(obj.getUser_role_code())
-					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();				
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
@@ -1287,7 +1357,7 @@ public class SafetyDaoImpl implements SafetyDao {
 					+ "LEFT OUTER JOIN work w ON c.work_id_fk  = w.work_id "
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk  = p.project_id "
 					+ "LEFT OUTER JOIN department d ON u.department_fk  = d.department "
-					+ "where c.hod_user_id_fk is not null and c.hod_user_id_fk <> '' ";
+					+ "where c.hod_user_id_fk is not null and c.hod_user_id_fk <> ''  ";
 					
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -1312,76 +1382,84 @@ public class SafetyDaoImpl implements SafetyDao {
 				arrSize++;
 			}
 			
-			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_DATA_ADMIN.equals(obj.getUser_role_code())
-					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				
-				qry = qry + " and (s.responsible_person = ? or s.created_by = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ? "
+				qry = qry + " and (s.reported_by = ? or s.nominated_authority = ? or s.responsible_person = ? or s.created_by = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ? "
 						+ "or s.safety_id in(select safety_id_fk from safety_committee_members where committee_member_name = ?))";
 				arrSize++;
 				arrSize++;
 				arrSize++;
 				arrSize++;
 				arrSize++;
+				arrSize++;
+				arrSize++;				
 			}
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and c.contract_id in(select distinct contract_id from( " + 
+						"SELECT distinct contract_id FROM contract where hod_user_id_fk='"+obj.getUser_id()+"' or dy_hod_user_id_fk='"+obj.getUser_id()+"' " + 
+						"union all " + 
+						"SELECT distinct contract_id FROM contract where hod_user_id_fk=(select reporting_to_id_srfk from [user] where user_id='"+obj.getUser_id()+"')  " + 
+						"or dy_hod_user_id_fk=(select reporting_to_id_srfk from [user] where user_id='"+obj.getUser_id()+"')) as a) ";				
+			}			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
 				qry = qry + " and c.hod_user_id_fk = ?";
 				arrSize++;
 			}
 			
-			qry = qry + " GROUP BY c.hod_user_id_fk,u.designation,u.user_name,u.designation ORDER BY case when u.designation='ED Civil' then 1 \r\n" + 
-					"   when u.designation='CPM I' then 2 \r\n" + 
-					"   when u.designation='CPM II' then 3\r\n" + 
-					"   when u.designation='CPM III' then 4 \r\n" + 
-					"   when u.designation='CPM V' then 5\r\n" + 
-					"   when u.designation='CE' then 6 \r\n" + 
-					"   when u.designation='ED S&T' then 7 \r\n" + 
-					"   when u.designation='CSTE' then 8\r\n" + 
-					"   when u.designation='GM Electrical' then 9\r\n" + 
-					"   when u.designation='CEE Project I' then 10\r\n" + 
-					"   when u.designation='CEE Project II' then 11\r\n" + 
-					"   when u.designation='ED Finance & Planning' then 12\r\n" + 
-					"   when u.designation='AGM Civil' then 13\r\n" + 
-					"   when u.designation='DyCPM Civil' then 14\r\n" + 
-					"   when u.designation='DyCPM III' then 15\r\n" + 
-					"   when u.designation='DyCPM V' then 16\r\n" + 
-					"   when u.designation='DyCE EE' then 17\r\n" + 
-					"   when u.designation='DyCE Badlapur' then 18\r\n" + 
-					"   when u.designation='DyCPM Pune' then 19\r\n" + 
-					"   when u.designation='DyCE Proj' then 20\r\n" + 
-					"   when u.designation='DyCEE I' then 21\r\n" + 
-					"   when u.designation='DyCEE Projects' then 22\r\n" + 
-					"   when u.designation='DyCEE PSI' then 23\r\n" + 
-					"   when u.designation='DyCSTE I' then 24\r\n" + 
-					"   when u.designation='DyCSTE IT' then 25\r\n" + 
-					"   when u.designation='DyCSTE Projects' then 26\r\n" + 
-					"   when u.designation='XEN Consultant' then 27\r\n" + 
-					"   when u.designation='AEN Adhoc' then 28\r\n" + 
-					"   when u.designation='AEN Project' then 29\r\n" + 
-					"   when u.designation='AEN P-Way' then 30\r\n" + 
-					"   when u.designation='AEN' then 31\r\n" + 
-					"   when u.designation='Sr Manager Signal' then 32 \r\n" + 
-					"   when u.designation='Manager Signal' then 33\r\n" + 
-					"   when u.designation='Manager Civil' then 34 \r\n" + 
-					"   when u.designation='Manager OHE' then 35\r\n" + 
-					"   when u.designation='Manager GS' then 36\r\n" + 
-					"   when u.designation='Manager Finance' then 37\r\n" + 
-					"   when u.designation='Planning Manager' then 38\r\n" + 
-					"   when u.designation='Manager Project' then 39\r\n" + 
-					"   when u.designation='Manager' then 40 \r\n" + 
-					"   when u.designation='SSE' then 41\r\n" + 
-					"   when u.designation='SSE Project' then 42\r\n" + 
-					"   when u.designation='SSE Works' then 43\r\n" + 
-					"   when u.designation='SSE Drg' then 44\r\n" + 
-					"   when u.designation='SSE BR' then 45\r\n" + 
-					"   when u.designation='SSE P-Way' then 46\r\n" + 
-					"   when u.designation='SSE OHE' then 47\r\n" + 
-					"   when u.designation='SPE' then 48\r\n" + 
-					"   when u.designation='PE' then 49\r\n" + 
-					"   when u.designation='JE' then 50\r\n" + 
-					"   when u.designation='Demo-HOD-Elec' then 51\r\n" + 
-					"   when u.designation='Demo-HOD-Engg' then 52\r\n" + 
-					"   when u.designation='Demo-HOD-S&T' then 53\r\n" + 
-					"\r\n" + 
+			qry = qry + " GROUP BY c.hod_user_id_fk,u.designation,u.user_name,u.designation ORDER BY case when u.designation='ED Civil' then 1  " + 
+					"   when u.designation='CPM I' then 2  " + 
+					"   when u.designation='CPM II' then 3 " + 
+					"   when u.designation='CPM III' then 4  " + 
+					"   when u.designation='CPM V' then 5 " + 
+					"   when u.designation='CE' then 6  " + 
+					"   when u.designation='ED S&T' then 7  " + 
+					"   when u.designation='CSTE' then 8 " + 
+					"   when u.designation='GM Electrical' then 9 " + 
+					"   when u.designation='CEE Project I' then 10 " + 
+					"   when u.designation='CEE Project II' then 11 " + 
+					"   when u.designation='ED Finance & Planning' then 12 " + 
+					"   when u.designation='AGM Civil' then 13 " + 
+					"   when u.designation='DyCPM Civil' then 14 " + 
+					"   when u.designation='DyCPM III' then 15 " + 
+					"   when u.designation='DyCPM V' then 16 " + 
+					"   when u.designation='DyCE EE' then 17 " + 
+					"   when u.designation='DyCE Badlapur' then 18 " + 
+					"   when u.designation='DyCPM Pune' then 19 " + 
+					"   when u.designation='DyCE Proj' then 20 " + 
+					"   when u.designation='DyCEE I' then 21 " + 
+					"   when u.designation='DyCEE Projects' then 22 " + 
+					"   when u.designation='DyCEE PSI' then 23 " + 
+					"   when u.designation='DyCSTE I' then 24 " + 
+					"   when u.designation='DyCSTE IT' then 25 " + 
+					"   when u.designation='DyCSTE Projects' then 26 " + 
+					"   when u.designation='XEN Consultant' then 27 " + 
+					"   when u.designation='AEN Adhoc' then 28 " + 
+					"   when u.designation='AEN Project' then 29 " + 
+					"   when u.designation='AEN P-Way' then 30 " + 
+					"   when u.designation='AEN' then 31 " + 
+					"   when u.designation='Sr Manager Signal' then 32  " + 
+					"   when u.designation='Manager Signal' then 33 " + 
+					"   when u.designation='Manager Civil' then 34  " + 
+					"   when u.designation='Manager OHE' then 35 " + 
+					"   when u.designation='Manager GS' then 36 " + 
+					"   when u.designation='Manager Finance' then 37 " + 
+					"   when u.designation='Planning Manager' then 38 " + 
+					"   when u.designation='Manager Project' then 39 " + 
+					"   when u.designation='Manager' then 40  " + 
+					"   when u.designation='SSE' then 41 " + 
+					"   when u.designation='SSE Project' then 42 " + 
+					"   when u.designation='SSE Works' then 43 " + 
+					"   when u.designation='SSE Drg' then 44 " + 
+					"   when u.designation='SSE BR' then 45 " + 
+					"   when u.designation='SSE P-Way' then 46 " + 
+					"   when u.designation='SSE OHE' then 47 " + 
+					"   when u.designation='SPE' then 48 " + 
+					"   when u.designation='PE' then 49 " + 
+					"   when u.designation='JE' then 50 " + 
+					"   when u.designation='Demo-HOD-Elec' then 51 " + 
+					"   when u.designation='Demo-HOD-Engg' then 52 " + 
+					"   when u.designation='Demo-HOD-S&T' then 53 " + 
+					" " + 
 					"   end asc" ;
 			Object[] pValues = new Object[arrSize];
 			
@@ -1404,8 +1482,9 @@ public class SafetyDaoImpl implements SafetyDao {
 				pValues[i++] = obj.getDepartment_fk();
 			}
 			
-			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_DATA_ADMIN.equals(obj.getUser_role_code())
-					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();				
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
@@ -1427,7 +1506,21 @@ public class SafetyDaoImpl implements SafetyDao {
 	public List<Safety> getProjectsListForSafetyForm(Safety obj) throws Exception {
 		List<Safety> objsList = null;
 		try {
-			String qry = "select project_id as project_id_fk,project_name from project order by project_id asc";
+			String qry = "select distinct project_id as project_id_fk,project_name "
+					+ "from work w "
+					+ "LEFT OUTER JOIN project p ON project_id_fk = project_id "
+					+ "LEFT OUTER JOIN contract c ON w.work_id  = c.work_id_fk "
+					+ "left outer join [user] u ON c.hod_user_id_fk= u.user_id "
+					+ "where work_id is not null  ";
+			
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and c.contract_id in(select distinct contract_id from( " + 
+						"SELECT distinct contract_id FROM contract where hod_user_id_fk='"+obj.getUser_id()+"' or dy_hod_user_id_fk='"+obj.getUser_id()+"' " + 
+						"union all " + 
+						"SELECT distinct contract_id FROM contract where hod_user_id_fk=(select reporting_to_id_srfk from [user] where user_id='"+obj.getUser_id()+"')  " + 
+						"or dy_hod_user_id_fk=(select reporting_to_id_srfk from [user] where user_id='"+obj.getUser_id()+"')) as a) ";				
+			}
+			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Safety>(Safety.class));			
 		}catch(Exception e){ 
 			throw new Exception(e);
@@ -1439,10 +1532,20 @@ public class SafetyDaoImpl implements SafetyDao {
 	public List<Safety> getWorkListForSafetyForm(Safety obj) throws Exception {
 		List<Safety> objsList = new ArrayList<Safety>();
 		try {
-			String qry = "select work_id as work_id_fk,work_name,work_short_name,project_id_fk,project_name "
+			String qry = "select distinct work_id as work_id_fk,work_name,work_short_name "
 					+ "from work w "
 					+ "LEFT OUTER JOIN project p ON project_id_fk = project_id "
-					+ "where work_id is not null ";
+					+ "LEFT OUTER JOIN contract c ON w.work_id  = c.work_id_fk "
+					+ "left outer join [user] u ON c.hod_user_id_fk= u.user_id "
+					+ "where work_id is not null  ";
+			
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and c.contract_id in(select distinct contract_id from( " + 
+						"SELECT distinct contract_id FROM contract where hod_user_id_fk='"+obj.getUser_id()+"' or dy_hod_user_id_fk='"+obj.getUser_id()+"' " + 
+						"union all " + 
+						"SELECT distinct contract_id FROM contract where hod_user_id_fk=(select reporting_to_id_srfk from [user] where user_id='"+obj.getUser_id()+"')  " + 
+						"or dy_hod_user_id_fk=(select reporting_to_id_srfk from [user] where user_id='"+obj.getUser_id()+"')) as a) ";				
+			}			
 					
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
@@ -1478,13 +1581,20 @@ public class SafetyDaoImpl implements SafetyDao {
 					+ "left join [user] u ON c.hod_user_id_fk= u.user_id "
 					+ "where c.contract_id is not null ";
 			
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and c.contract_id in(select distinct contract_id from( " + 
+						"SELECT distinct contract_id FROM contract where hod_user_id_fk='"+obj.getUser_id()+"' or dy_hod_user_id_fk='"+obj.getUser_id()+"' " + 
+						"union all " + 
+						"SELECT distinct contract_id FROM contract where hod_user_id_fk=(select reporting_to_id_srfk from [user] where user_id='"+obj.getUser_id()+"')  " + 
+						"or dy_hod_user_id_fk=(select reporting_to_id_srfk from [user] where user_id='"+obj.getUser_id()+"')) as a) ";				
+			}			
+			
 			int arrSize = 0;			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and c.work_id_fk = ?";
 				arrSize++;
 			}
-			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) 
-			{			
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {			
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 					qry = qry + " and c1.department_id_fk = ? and u.department_fk = ?";
 					arrSize++;
@@ -1499,8 +1609,7 @@ public class SafetyDaoImpl implements SafetyDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
 			}
-			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) 
-			{			
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {			
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 					pValues[i++] = obj.getDepartment_fk();
 					pValues[i++] = obj.getDepartment_fk();
@@ -1546,6 +1655,16 @@ public class SafetyDaoImpl implements SafetyDao {
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk  = p.project_id "
 					+ "LEFT OUTER JOIN department d ON u.department_fk  = d.department "
 					+ "where safety_id is not null " ;
+			
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and c.contract_id in(select distinct contract_id from( " + 
+						"SELECT distinct contract_id FROM contract where hod_user_id_fk='"+obj.getUser_id()+"' or dy_hod_user_id_fk='"+obj.getUser_id()+"' " + 
+						"union all " + 
+						"SELECT distinct contract_id FROM contract where hod_user_id_fk=(select reporting_to_id_srfk from [user] where user_id='"+obj.getUser_id()+"')  " + 
+						"or dy_hod_user_id_fk=(select reporting_to_id_srfk from [user] where user_id='"+obj.getUser_id()+"')) as a) ";				
+			}
+			
+			
 			int arrSize = 0;
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -1570,16 +1689,17 @@ public class SafetyDaoImpl implements SafetyDao {
 				arrSize++;
 			}
 			
-			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_DATA_ADMIN.equals(obj.getUser_role_code())
-					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				
-				qry = qry + " and (s.responsible_person = ? or s.created_by = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ? "
+				qry = qry + " and (s.reported_by = ? or s.nominated_authority = ? or s.responsible_person = ? or s.created_by = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ? "
 						+ "or s.safety_id in(select safety_id_fk from safety_committee_members where committee_member_name = ?))";
 				arrSize++;
 				arrSize++;
 				arrSize++;
 				arrSize++;
 				arrSize++;
+				arrSize++;
+				arrSize++;				
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
 				qry = qry + " and c.hod_user_id_fk = ?";
@@ -1618,8 +1738,9 @@ public class SafetyDaoImpl implements SafetyDao {
 				pValues[i++] = obj.getDepartment_fk();
 			}
 			
-			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_DATA_ADMIN.equals(obj.getUser_role_code())
-					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();				
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
@@ -1686,16 +1807,24 @@ public class SafetyDaoImpl implements SafetyDao {
 				arrSize++;
 			}
 			
-			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_DATA_ADMIN.equals(obj.getUser_role_code())
-					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				qry = qry + " and (s.responsible_person = ? or s.created_by = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ? "
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and (s.reported_by = ? or s.nominated_authority = ? or s.responsible_person = ? or s.created_by = ? or c.hod_user_id_fk = ? or c.dy_hod_user_id_fk = ? "
 						+ "or s.safety_id in(select safety_id_fk from safety_committee_members where committee_member_name = ?))";
 				arrSize++;
 				arrSize++;
 				arrSize++;
 				arrSize++;
 				arrSize++;
+				arrSize++;
+				arrSize++;				
 			}
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry = qry + " and c.contract_id in(select distinct contract_id from( " + 
+						"SELECT distinct contract_id FROM contract where hod_user_id_fk='"+obj.getUser_id()+"' or dy_hod_user_id_fk='"+obj.getUser_id()+"' " + 
+						"union all " + 
+						"SELECT distinct contract_id FROM contract where hod_user_id_fk=(select reporting_to_id_srfk from [user] where user_id='"+obj.getUser_id()+"')  " + 
+						"or dy_hod_user_id_fk=(select reporting_to_id_srfk from [user] where user_id='"+obj.getUser_id()+"')) as a) ";				
+			}			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
 				qry = qry + " and c.hod_user_id_fk = ?";
 				arrSize++;
@@ -1738,8 +1867,9 @@ public class SafetyDaoImpl implements SafetyDao {
 				pValues[i++] = obj.getDepartment_fk();
 			}
 			
-			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_DATA_ADMIN.equals(obj.getUser_role_code())
-					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();				
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
@@ -1825,7 +1955,7 @@ public class SafetyDaoImpl implements SafetyDao {
 	public List<Safety> getUersList(Safety obj) throws Exception {
 		List<Safety> objsList = null;
 		try {
-			String qry = "SELECT user_id,user_name,designation,user_type_fk FROM [user] where user_type_fk in ('HOD','DyHOD') ORDER BY case when user_type_fk='HOD' then 1\r\n" + 
+			String qry = "SELECT user_id,user_name,designation,user_type_fk FROM [user] where user_type_fk in ('HOD','DyHOD') ORDER BY case when user_type_fk='HOD' then 1 " + 
 					"when user_type_fk='DyHOD' then 2  end asc ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Safety>(Safety.class));			
 		}catch(Exception e){ 

@@ -442,7 +442,7 @@ public class SafetyDaoImpl implements SafetyDao {
 						if(!StringUtils.isEmpty(nominated_authority)) {
 							Messages msgObj = new Messages();
 							msgObj.setUser_id_fk(nominated_authority);
-							msgObj.setMessage(message5);
+							msgObj.setMessage(message4);
 							msgObj.setRedirect_url(redirect_url);
 							msgObj.setMessage_type(message_type);
 							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
@@ -464,7 +464,7 @@ public class SafetyDaoImpl implements SafetyDao {
 							if(exst_flag)message = message3; else message = message2;
 							Messages msgObj = new Messages();
 							msgObj.setUser_id_fk(user_id);
-							msgObj.setMessage(message);
+							msgObj.setMessage(message3);
 							msgObj.setRedirect_url(redirect_url);
 							msgObj.setMessage_type(message_type);
 							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
@@ -476,7 +476,7 @@ public class SafetyDaoImpl implements SafetyDao {
 							
 							Messages msgObj = new Messages();
 							msgObj.setUser_id_fk(responsible_person_user_id);
-							msgObj.setMessage(message6);
+							msgObj.setMessage(message3);
 							msgObj.setRedirect_url(redirect_url);
 							msgObj.setMessage_type(message_type);
 							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
@@ -503,7 +503,7 @@ public class SafetyDaoImpl implements SafetyDao {
 						if(!StringUtils.isEmpty(nominated_authority)) {
 							Messages msgObj = new Messages();
 							msgObj.setUser_id_fk(nominated_authority);
-							msgObj.setMessage(message5);
+							msgObj.setMessage(message3);
 							msgObj.setRedirect_url(redirect_url);
 							msgObj.setMessage_type(message_type);
 							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);

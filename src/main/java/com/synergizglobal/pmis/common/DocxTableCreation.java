@@ -746,7 +746,7 @@ public class DocxTableCreation {
 					
 						addTableCell(factory, wordMLPackage, contentRow, pObj.getRoot_cause_fk(),
 								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);					
-						addTableCell(factory, wordMLPackage, contentRow, pObj.getCommittee_formed_fk(),
+						addTableCell(factory, wordMLPackage, contentRow, pObj.getCommittee_required_fk(),
 								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
 						addTableCell(factory, wordMLPackage, contentRow, pObj.getStatus_fk(),
 								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);				

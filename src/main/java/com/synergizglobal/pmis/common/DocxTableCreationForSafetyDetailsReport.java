@@ -277,13 +277,13 @@ public class DocxTableCreationForSafetyDetailsReport {
 					JcEnumeration.LEFT, false, null);
 			
 			if(safetyDeailsReport.getCommittee_required_fk().equalsIgnoreCase("Yes")) {
-				addTableCell(factory, wordMLPackage, titleTableRow, "Committee Formed", garamondBoldRPr,
+				addTableCell(factory, wordMLPackage, titleTableRow, "Committee Required", garamondBoldRPr,
 						JcEnumeration.LEFT, true, "ecf2ff");
 				addTableCell(factory, wordMLPackage, titleTableRow, "e", garamondRPr,JcEnumeration.LEFT, false, null);
-				addTableCell(factory, wordMLPackage, titleTableRow, safetyDeailsReport.getCommittee_formed_fk(), garamondRPr,
+				addTableCell(factory, wordMLPackage, titleTableRow, safetyDeailsReport.getCommittee_required_fk(), garamondRPr,
 						JcEnumeration.LEFT, false, null);
-				addTableCell(factory, wordMLPackage, titleTableRow, safetyDeailsReport.getCommittee_formed_fk(), garamondRPr,JcEnumeration.LEFT, false, null);
-				if(safetyDeailsReport.getCommittee_formed_fk().equalsIgnoreCase("Yes")) {
+				addTableCell(factory, wordMLPackage, titleTableRow, safetyDeailsReport.getCommittee_required_fk(), garamondRPr,JcEnumeration.LEFT, false, null);
+				if(safetyDeailsReport.getCommittee_required_fk().equalsIgnoreCase("Yes")) {
 					addTableCell(factory, wordMLPackage, titleTableRow, "Committee Members Name", garamondBoldRPr,
 							JcEnumeration.LEFT, true, "ecf2ff");
 					addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,JcEnumeration.LEFT, false, null);

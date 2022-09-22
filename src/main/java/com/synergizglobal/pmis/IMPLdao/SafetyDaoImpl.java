@@ -331,11 +331,14 @@ public class SafetyDaoImpl implements SafetyDao {
 
 
 				
-				String message1 = "An incident against " + iObj.getContract_short_name() + " has been assigned to you.";
+				String message1 = "An incident against " + iObj.getContract_short_name() + " has been raised.";
 				
 				String message2 = "An incident against " + iObj.getContract_short_name() + " has been assigned to you as a Committee member.";
 
 				String message3 = "An incident against " + iObj.getContract_short_name() + " has been updated";
+				String message5 = "An incident against " + iObj.getContract_short_name() + " has been nominated to you";
+				
+				String message6 = "An incident against " + iObj.getContract_short_name() + " has been assigned to you as a Responsible Person";
 				
 				String message4 = "An incident against " + iObj.getContract_short_name() + " has been " + iObj.getStatus_fk();
 
@@ -343,15 +346,44 @@ public class SafetyDaoImpl implements SafetyDao {
 				String dy_hod_user_id = iObj.getContract_dyhod_user_id();
 				String responsible_person_user_id = iObj.getResponsible_person_user_id();
 				String reported_by_user_id = iObj.getReported_by_user_id();
+				String nominated_authority = iObj.getNominated_authority();
+				
 				
 				String redirect_url = "/get-safety?safety_id=" + iObj.getSafety_id();
 				
 				String message_type = "Safety";
 				
 				if(!"Update".equals(action_type)){		
+					if(!StringUtils.isEmpty(hod_user_id)) {
+						Messages msgObj = new Messages();
+						msgObj.setUser_id_fk(hod_user_id);
+						msgObj.setMessage(message1);
+						msgObj.setRedirect_url(redirect_url);
+						msgObj.setMessage_type(message_type);
+						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
+						template.update(issueMessageQry, paramSource);
+					}
+					if(!StringUtils.isEmpty(dy_hod_user_id)) {
+						Messages msgObj = new Messages();
+						msgObj.setUser_id_fk(dy_hod_user_id);
+						msgObj.setMessage(message1);
+						msgObj.setRedirect_url(redirect_url);
+						msgObj.setMessage_type(message_type);
+						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
+						template.update(issueMessageQry, paramSource);
+					}
 					if(!StringUtils.isEmpty(responsible_person_user_id)) {
 						Messages msgObj = new Messages();
 						msgObj.setUser_id_fk(responsible_person_user_id);
+						msgObj.setMessage(message1);
+						msgObj.setRedirect_url(redirect_url);
+						msgObj.setMessage_type(message_type);
+						BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
+						template.update(issueMessageQry, paramSource);
+					}
+					if(!StringUtils.isEmpty(reported_by_user_id)) {
+						Messages msgObj = new Messages();
+						msgObj.setUser_id_fk(reported_by_user_id);
 						msgObj.setMessage(message1);
 						msgObj.setRedirect_url(redirect_url);
 						msgObj.setMessage_type(message_type);
@@ -407,6 +439,15 @@ public class SafetyDaoImpl implements SafetyDao {
 							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
 							template.update(issueMessageQry, paramSource);
 						}
+						if(!StringUtils.isEmpty(nominated_authority)) {
+							Messages msgObj = new Messages();
+							msgObj.setUser_id_fk(nominated_authority);
+							msgObj.setMessage(message5);
+							msgObj.setRedirect_url(redirect_url);
+							msgObj.setMessage_type(message_type);
+							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
+							template.update(issueMessageQry, paramSource);
+						}						
 					}else if(!StringUtils.isEmpty(iObj.getStatus_fk())
 							&& iObj.getStatus_fk().equals(existing_status_fk)) {
 						for (String user_id : committe_users) {
@@ -435,13 +476,103 @@ public class SafetyDaoImpl implements SafetyDao {
 							
 							Messages msgObj = new Messages();
 							msgObj.setUser_id_fk(responsible_person_user_id);
-							msgObj.setMessage(message);
+							msgObj.setMessage(message6);
 							msgObj.setRedirect_url(redirect_url);
 							msgObj.setMessage_type(message_type);
 							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
 							template.update(issueMessageQry, paramSource);
 						}
+						if(!StringUtils.isEmpty(hod_user_id)) {
+							Messages msgObj = new Messages();
+							msgObj.setUser_id_fk(hod_user_id);
+							msgObj.setMessage(message3);
+							msgObj.setRedirect_url(redirect_url);
+							msgObj.setMessage_type(message_type);
+							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
+							template.update(issueMessageQry, paramSource);
+						}
+						if(!StringUtils.isEmpty(dy_hod_user_id)) {
+							Messages msgObj = new Messages();
+							msgObj.setUser_id_fk(dy_hod_user_id);
+							msgObj.setMessage(message3);
+							msgObj.setRedirect_url(redirect_url);
+							msgObj.setMessage_type(message_type);
+							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
+							template.update(issueMessageQry, paramSource);
+						}
+						if(!StringUtils.isEmpty(nominated_authority)) {
+							Messages msgObj = new Messages();
+							msgObj.setUser_id_fk(nominated_authority);
+							msgObj.setMessage(message5);
+							msgObj.setRedirect_url(redirect_url);
+							msgObj.setMessage_type(message_type);
+							BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
+							template.update(issueMessageQry, paramSource);
+						}						
+						
 					}
+					else if(!StringUtils.isEmpty(iObj.getCorrective_measure_short_term()))
+							{
+								for (String user_id : committe_users) {
+									boolean exst_flag = false;
+									if(!StringUtils.isEmpty(existing_committe_members_arr)) {
+										for (String existing_committe_member : existing_committe_members_arr) {
+											if(!StringUtils.isEmpty(user_id) && !StringUtils.isEmpty(existing_committe_member) && 
+													user_id.equals(existing_committe_member)) {
+												exst_flag = true;
+											}
+										}
+									}
+									String message = "";
+									if(exst_flag)message = message3; else message = message2;
+									Messages msgObj = new Messages();
+									msgObj.setUser_id_fk(user_id);
+									msgObj.setMessage(message3);
+									msgObj.setRedirect_url(redirect_url);
+									msgObj.setMessage_type(message_type);
+									BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
+									template.update(issueMessageQry, paramSource);
+								}
+								if(!StringUtils.isEmpty(responsible_person_user_id)) {
+									String message = "";
+									if(responsible_person_user_id.equals(existing_responsible_person))message = message3; else message = message1;
+									
+									Messages msgObj = new Messages();
+									msgObj.setUser_id_fk(responsible_person_user_id);
+									msgObj.setMessage(message3);
+									msgObj.setRedirect_url(redirect_url);
+									msgObj.setMessage_type(message_type);
+									BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
+									template.update(issueMessageQry, paramSource);
+								}
+								if(!StringUtils.isEmpty(hod_user_id)) {
+									Messages msgObj = new Messages();
+									msgObj.setUser_id_fk(hod_user_id);
+									msgObj.setMessage(message3);
+									msgObj.setRedirect_url(redirect_url);
+									msgObj.setMessage_type(message_type);
+									BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
+									template.update(issueMessageQry, paramSource);
+								}
+								if(!StringUtils.isEmpty(dy_hod_user_id)) {
+									Messages msgObj = new Messages();
+									msgObj.setUser_id_fk(dy_hod_user_id);
+									msgObj.setMessage(message3);
+									msgObj.setRedirect_url(redirect_url);
+									msgObj.setMessage_type(message_type);
+									BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
+									template.update(issueMessageQry, paramSource);
+								}
+								if(!StringUtils.isEmpty(nominated_authority)) {
+									Messages msgObj = new Messages();
+									msgObj.setUser_id_fk(nominated_authority);
+									msgObj.setMessage(message3);
+									msgObj.setRedirect_url(redirect_url);
+									msgObj.setMessage_type(message_type);
+									BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(msgObj);
+									template.update(issueMessageQry, paramSource);
+								}						
+							}
 					
 				}
 

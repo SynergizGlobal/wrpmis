@@ -509,7 +509,7 @@
 					   				{
 					    				$("#divApproveCorrectiveMeasure *").attr("disabled",false);
 					   				}
-									if("${safety.nominated_authority}"=='${sessionScope.USER_ID}')
+									if("${safety.nominated_authority}"=='${sessionScope.USER_ID}' || "${safety.responsible_person}"=='${sessionScope.USER_ID}' || arrayCommittee.indexOf('${sessionScope.USER_ID}')!=-1 || dy_hod_user_id == logged_in_user_id)
 									{
 										$("#status_fk option[value='Closed']").remove();
 									}

@@ -459,7 +459,17 @@ public class AlertsDaoImpl implements AlertsDao{
 			List<Alerts> cvQryAlert10List = jdbcTemplate.query( cvQryAlert10, new BeanPropertyRowMapper<Alerts>(Alerts.class));
 			if(!StringUtils.isEmpty(cvQryAlert10List) && cvQryAlert10List.size() > 0) {
 				list.addAll(cvQryAlert10List);
-			}			
+			}
+			
+			
+			String cvQryAlert11 = "select 'Flag' as alert_level,'Safety' as alert_type,concat(title,'-',contract_id_fk,' is not updated by ', hod_user_id_fk,' beyond 90 days') as alert_value,\r\n" + 
+					"concat('/get-safety/',r.safety_id) as redirect_url,hod_user_id_fk from safety r  where DATEDIFF(day,r.modified_date,CONVERT(date, getdate()))>=90";
+	
+	
+			List<Alerts> cvQryAlert11List = jdbcTemplate.query( cvQryAlert11, new BeanPropertyRowMapper<Alerts>(Alerts.class));
+			if(!StringUtils.isEmpty(cvQryAlert11List) && cvQryAlert11List.size() > 0) {
+				list.addAll(cvQryAlert11List);
+			}				
 			
 			
 			/*************************Alerts insertion********************************************/

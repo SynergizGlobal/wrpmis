@@ -661,8 +661,11 @@ public class DocxTableCreation {
 		List<String> lList = Arrays.asList(sArray);
 		
 		for (int i2 = 0; i2 < lList.size(); i2++) 
-		{	
-			
+		{
+			if(i2>0)
+			{
+			addPageBreak(t);
+			}
 			Tbl tableHead = factory.createTbl();
 			setLandscapeTableAlign(factory, tableHead, JcEnumeration.CENTER);
 			
@@ -723,6 +726,7 @@ public class DocxTableCreation {
 				int sNo = 1;
 				for (Safety pObj : safetyData) 
 				{
+					
 					if(lList.get(i2).compareTo(pObj.getStatus_fk())==0)
 					{
 						boolean hasBgColor = false;
@@ -1486,14 +1490,18 @@ public class DocxTableCreation {
 	
 	
 	private static void addPageBreak(MainDocumentPart documentPart) {
-		 ObjectFactory objectFactory = new ObjectFactory();
-	        //P p = objectFactory.createP();
-	        R r = objectFactory.createR();
-	        //p.getContent().add(r);
-	        Br br = objectFactory.createBr();
-	        r.getContent().add(br);
-	        br.setType(org.docx4j.wml.STBrType.PAGE);
-	        documentPart.addObject(br);
+		ObjectFactory objectFactory = new ObjectFactory();
+		//P paragraph = objectFactory.createP();
+		//R run = objectFactory.createR();
+		P p = objectFactory.createP();
+		// Create object for r
+		R r = objectFactory.createR();
+		p.getContent().add(r);
+		// Create object for br
+		Br br = objectFactory.createBr();
+		r.getContent().add(br);
+		br.setType(org.docx4j.wml.STBrType.PAGE);
+		documentPart.addObject(p);
 	}
 	
 	public static RPr getRPr(ObjectFactory factory, String fontFamily,

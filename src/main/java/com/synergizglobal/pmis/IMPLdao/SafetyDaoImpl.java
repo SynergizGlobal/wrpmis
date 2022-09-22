@@ -346,7 +346,7 @@ public class SafetyDaoImpl implements SafetyDao {
 				String dy_hod_user_id = iObj.getContract_dyhod_user_id();
 				String responsible_person_user_id = iObj.getResponsible_person_user_id();
 				String reported_by_user_id = iObj.getReported_by_user_id();
-				String nominated_authority = iObj.getNominated_authority();
+				String nominated_authority = iObj.getNominated_authority_email_id();
 				
 				
 				String redirect_url = "/get-safety?safety_id=" + iObj.getSafety_id();

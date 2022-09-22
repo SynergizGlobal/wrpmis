@@ -462,7 +462,7 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 		Safety sobj = null;
 		try {
 			String qry = "SELECT safety_id,contract_id_fk,s.hod_user_id_fk,u.designation,c.contract_short_name,c.hod_user_id_fk,w.work_short_name,title,description,FORMAT(date,'dd-MMM-yy') AS date,"
-					+ "location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,responsible_person,c.department_fk,d.department_name,"
+					+ "location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,(select top 1 user_name from [user] where user_id=responsible_person) as responsible_person,c.department_fk,d.department_name,"
 					+ "c.contractor_id_fk,cr.contractor_name,c.hod_user_id_fk,c.dy_hod_user_id_fk,u.designation as hod_designation,u1.designation as dyhod_designation,category_fk,impact_fk,root_cause_fk,status_fk,FORMAT(closure_date,'dd-MMM-yy') AS closure_date,"
 					+ "cast(lti_hours as CHAR) as lti_hours,equipment_impact,people_impact,work_impact,ISNULL(committee_formed_fk,'') as committee_formed_fk,ISNULL(committee_required_fk,'') as committee_required_fk,"
 					+ "FORMAT(investigation_completed,'dd-MMM-yy') AS investigation_completed,corrective_measure_short_term,corrective_measure_long_term,cast(compensation * compensation_units as CHAR) as compensation,FORMAT(payment_date,'dd-MMM-yy') AS payment_date,s.remarks,contract_name,work_id_fk,work_name,project_id_fk,project_name,"

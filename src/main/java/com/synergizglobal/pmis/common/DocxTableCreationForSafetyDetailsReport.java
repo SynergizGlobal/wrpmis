@@ -277,10 +277,10 @@ public class DocxTableCreationForSafetyDetailsReport {
 					JcEnumeration.LEFT, false, null);
 			
 			if(safetyDeailsReport.getCommittee_required_fk().equalsIgnoreCase("Yes")) {
-				addTableCell(factory, wordMLPackage, titleTableRow, "Committee Required", garamondBoldRPr,
+				addTableCell(factory, wordMLPackage, titleTableRow, "Responsible Person", garamondBoldRPr,
 						JcEnumeration.LEFT, true, "ecf2ff");
 				addTableCell(factory, wordMLPackage, titleTableRow, "e", garamondRPr,JcEnumeration.LEFT, false, null);
-				addTableCell(factory, wordMLPackage, titleTableRow, safetyDeailsReport.getCommittee_required_fk(), garamondRPr,
+				addTableCell(factory, wordMLPackage, titleTableRow, safetyDeailsReport.getResponsible_person(), garamondRPr,
 						JcEnumeration.LEFT, false, null);
 				addTableCell(factory, wordMLPackage, titleTableRow, safetyDeailsReport.getCommittee_required_fk(), garamondRPr,JcEnumeration.LEFT, false, null);
 				if(safetyDeailsReport.getCommittee_required_fk().equalsIgnoreCase("Yes")) {

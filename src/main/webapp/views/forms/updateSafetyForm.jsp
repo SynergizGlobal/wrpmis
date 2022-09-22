@@ -509,10 +509,13 @@
 					   				{
 					    				$("#divApproveCorrectiveMeasure *").attr("disabled",false);
 					   				}
-									if("${safety.nominated_authority}"=='${sessionScope.USER_ID}' || "${safety.responsible_person}"=='${sessionScope.USER_ID}' || arrayCommittee.indexOf('${sessionScope.USER_ID}')!=-1 || dy_hod_user_id == logged_in_user_id)
-									{
-										$("#status_fk option[value='Closed']").remove();
-									}
+							       	if("${safety.safety_incident}"=="Yes")
+							       	{
+										if("${safety.nominated_authority}"=='${sessionScope.USER_ID}' || "${safety.responsible_person}"=='${sessionScope.USER_ID}' || arrayCommittee.indexOf('${sessionScope.USER_ID}')!=-1 || dy_hod_user_id == logged_in_user_id)
+										{
+											$("#status_fk option[value='Closed']").remove();
+										}
+							       	}
 		    					}
 		    					else
 	    						{
@@ -536,7 +539,14 @@
 				        				$("#responsible_person").attr("disabled",true);
 				        				$("#nominated_authority").attr("disabled",true);
 				        				
-				        			}				        			
+				        			}	
+							       	if("${safety.safety_incident}"=="Yes")
+							       	{
+										if("${safety.nominated_authority}"=='${sessionScope.USER_ID}' || "${safety.responsible_person}"=='${sessionScope.USER_ID}' || arrayCommittee.indexOf('${sessionScope.USER_ID}')!=-1 || dy_hod_user_id == logged_in_user_id)
+										{
+											$("#status_fk option[value='Closed']").remove();
+										}
+							       	}					        		
 				        			
 	    						}
 		    				
@@ -566,7 +576,13 @@
 		        				$("#nominated_authority").attr("disabled",true);
 		        				
 		        			}
-		        			
+					       	if("${safety.safety_incident}"=="Yes")
+					       	{
+								if("${safety.nominated_authority}"=='${sessionScope.USER_ID}' || "${safety.responsible_person}"=='${sessionScope.USER_ID}' || arrayCommittee.indexOf('${sessionScope.USER_ID}')!=-1 || dy_hod_user_id == logged_in_user_id)
+								{
+									$("#status_fk option[value='Closed']").remove();
+								}
+					       	}			        			
 		    			}    			
 		
 		        	}
@@ -592,7 +608,14 @@
 	        				$("#committee_member_name").attr("disabled",true);
 	        				$("#responsible_person").attr("disabled",true);
 	        				$("#nominated_authority").attr("disabled",true);
-	        			}		        		
+	        			}	
+				       	if("${safety.safety_incident}"=="Yes")
+				       	{
+							if("${safety.nominated_authority}"=='${sessionScope.USER_ID}' || "${safety.responsible_person}"=='${sessionScope.USER_ID}' || arrayCommittee.indexOf('${sessionScope.USER_ID}')!=-1 || dy_hod_user_id == logged_in_user_id)
+							{
+								$("#status_fk option[value='Closed']").remove();
+							}
+				       	}			        		
 		       		} 
         		}
         	else
@@ -612,10 +635,13 @@
 	        			$("#divPayment").hide();   
 	        		}
 	        		
-					if(dy_hod_user_id == logged_in_user_id)
-					{
-						$("#status_fk option[value='Closed']").remove();
-					}	        		
+			       	if("${safety.safety_incident}"=="Yes")
+			       	{
+						if("${safety.nominated_authority}"=='${sessionScope.USER_ID}' || "${safety.responsible_person}"=='${sessionScope.USER_ID}' || arrayCommittee.indexOf('${sessionScope.USER_ID}')!=-1 || dy_hod_user_id == logged_in_user_id)
+						{
+							$("#status_fk option[value='Closed']").remove();
+						}
+			       	}	        		
 			
         		}
 

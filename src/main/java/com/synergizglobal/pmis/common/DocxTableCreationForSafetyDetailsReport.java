@@ -401,7 +401,11 @@ public class DocxTableCreationForSafetyDetailsReport {
 				
 			  	count++;
 				 /*===========================================================*/
-			  
+			  	if(!StringUtils.isEmpty(safetyDeailsReport.getApprove_corrective_measure()))
+			  	{
+			  		
+			  		if(safetyDeailsReport.getApprove_corrective_measure().compareTo("Yes")==0)
+			  		{
 			  	 titleTableRow = factory.createTr();	
 				addTableCell(factory, wordMLPackage, titleTableRow, "Short term CM ", garamondBoldRPr,
 						JcEnumeration.LEFT, true, "ecf2ff");
@@ -440,6 +444,8 @@ public class DocxTableCreationForSafetyDetailsReport {
 				titleTable.getContent().add(titleTableRow);	
 				mergeCellsHorizontal(titleTable, count, 1, 8);
 				count++;
+			  		}
+			  	}
 				 /*===========================================================*/
 				/*===========================================================*/
 			  	 titleTableRow = factory.createTr();	

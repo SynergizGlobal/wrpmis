@@ -1009,8 +1009,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 		try {
 			String qry = "select distinct work_id,work_name,work_short_name,work_code,project_id_fk,project_name "
 					+ "from work w "
-					+ "left join la_land_identification u on u.work_id_fk = w.work_id  "
-					+ "left join land_executives us on u.work_id_fk = us.work_id_fk  "
+					+ "left join land_executives us on w.work_id = us.work_id_fk   "
 					+ "LEFT OUTER JOIN project p ON project_id_fk = project_id "
 					+ "where work_id is not null ";
 					
@@ -1052,8 +1051,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 			String qry = "select distinct project_id,project_name "
 					+ "from project p "
 					+ "LEFT JOIN work w on w.project_id_fk = p.project_id "
-					+ "left join la_land_identification u on u.work_id_fk = w.work_id  "
-					+ "left join land_executives us on u.work_id_fk = us.work_id_fk  "
+					+ "left join land_executives us on w.work_id = us.work_id_fk   "
 					+ "where project_id is not null ";
 					
 			int arrSize = 0;

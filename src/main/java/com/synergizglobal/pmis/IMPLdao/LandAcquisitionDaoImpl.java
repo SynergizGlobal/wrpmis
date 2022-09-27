@@ -2031,6 +2031,17 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 				
 				double c1=(r1+r2)/2;
 				
+				String checkWorkID=obj.getWork_id_fk();
+				if(checkWorkID.indexOf("-")==-1)
+				{
+					
+				}
+				else
+				{
+					String[] workidval=checkWorkID.split("-");
+					obj.setWork_id_fk(workidval[0]);
+				}
+				
 				List<LandAcquisition> getChainageCoordinates=getCoordinates(obj);
 				
 				String splitChainage=getChainageCoordinates.get(0).getChainage_from();

@@ -14,7 +14,7 @@ public class Work {
 	sanctioned_estimated_cost_unit,sanctioned_completion_cost_unit,anticipated_cost_unit,completion_cost_unit,latest_revised_cost_unit,unit,value,
 	estimated_cost_unit,sanctioned_cost_unit,anticipated_unit,completion_unti,revision_unit,user_name,designation,user_id,work_type_fk,
 	budget_grant_current_fy,expenditure_end_of_fy,expenditure_current_fy,cumulative_total_expenditure,financial_progress,physical_progress,
-	target_completion_date,uploaded_by_user_id_fk,chainage_from, chainage_to,latitude,longitude,Created_by_user_id_fk,Uploaded_file,Work_data_id,uploaded_on;
+	target_completion_date,uploaded_by_user_id_fk,chainages,latitude,longitude,Created_by_user_id_fk,Uploaded_file,Work_data_id,uploaded_on,srno;
 
 
 	private MultipartFile WorkChainagesFile;
@@ -909,23 +909,6 @@ public class Work {
 	public void setUploaded_by_user_id_fk(String uploaded_by_user_id_fk) {
 		this.uploaded_by_user_id_fk = uploaded_by_user_id_fk;
 	}
-
-	public String getChainage_from() {
-		return chainage_from;
-	}
-
-	public void setChainage_from(String chainage_from) {
-		this.chainage_from = chainage_from;
-	}
-
-	public String getChainage_to() {
-		return chainage_to;
-	}
-
-	public void setChainage_to(String chainage_to) {
-		this.chainage_to = chainage_to;
-	}
-
 	public String getLatitude() {
 		return latitude;
 	}
@@ -980,6 +963,22 @@ public class Work {
 
 	public void setWorkChainageFilesList(List<Work> workChainageFilesList) {
 		this.workChainageFilesList = workChainageFilesList;
+	}
+
+	public String getChainages() {
+		return chainages;
+	}
+
+	public void setChainages(String chainages) {
+		this.chainages = chainages;
+	}
+
+	public String getSrno() {
+		return srno;
+	}
+
+	public void setSrno(String srno) {
+		this.srno = srno;
 	}
 	
 }

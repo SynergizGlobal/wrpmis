@@ -770,16 +770,16 @@ public class WorkController {
 						work = new Work();
 						String val = null;
 						if(!StringUtils.isEmpty(row)) 
-						{		
+						{	
+							val = formatter.formatCellValue(row.getCell(0)).trim();
+							if(!StringUtils.isEmpty(val)) { work.setSrno(val);}							
 							val = formatter.formatCellValue(row.getCell(1)).trim();
 							if(!StringUtils.isEmpty(val)) { work.setWork_id(val);}
 							val = formatter.formatCellValue(row.getCell(2)).trim();
-							if(!StringUtils.isEmpty(val)) { work.setChainage_from(val);}
+							if(!StringUtils.isEmpty(val)) { work.setChainages(val);}
 							val = formatter.formatCellValue(row.getCell(3)).trim();
-							if(!StringUtils.isEmpty(val)) { work.setChainage_to(val);}
-							val = formatter.formatCellValue(row.getCell(4)).trim();
 							if(!StringUtils.isEmpty(val)) { work.setLatitude(val);}
-							val = formatter.formatCellValue(row.getCell(5)).trim();
+							val = formatter.formatCellValue(row.getCell(4)).trim();
 							if(!StringUtils.isEmpty(val)) { work.setLongitude(val);}							
 						}
 				

@@ -1083,17 +1083,17 @@ public class WorkDaoImpl implements WorkDao {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			con = dataSource.getConnection();
 			
-			String deleteWorkChainageQry = "delete from work_wise_chainages where work_id = ?";
+			String deleteWorkChainageQry = "delete from chainages_master where work_id = ?";
 			stmt = con.prepareStatement(deleteWorkChainageQry); 
 			stmt.setString(1,work.getWork_id());
 			count = stmt.executeUpdate();
 			if(stmt != null){stmt.close();}			
 			
 			
-			String qry = "INSERT INTO work_wise_chainages"
-					+ "(work_id, chainage_from, chainage_to, Latitude, Longitude) "
+			String qry = "INSERT INTO chainages_master"
+					+ "(srno,work_id, chainages, latitude, longitude) "
 					+ "VALUES "
-					+ "( :work_id, :chainage_from, :chainage_to, :Latitude,:Longitude)";
+					+ "(:srno,:work_id, :chainages, :Latitude,:Longitude)";
 			
 			for (Work obj : workChainagesList) {
 				

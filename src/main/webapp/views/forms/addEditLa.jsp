@@ -2800,7 +2800,7 @@
             	{
 		            var c1=(parseFloat(r1)+parseFloat(r2))/2; 
 		            
-		        	var myParams = { chainage_from: c1 };
+		        	var myParams = { chainage_from: c1,work_id_fk:$("#work_id_fk").val() };
 		            $.ajax({
 		                url: "<%=request.getContextPath()%>/ajax/getCoordinates",
 		                data: myParams, cache: false,

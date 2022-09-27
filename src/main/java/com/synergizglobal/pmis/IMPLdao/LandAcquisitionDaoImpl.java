@@ -2671,7 +2671,7 @@ public class LandAcquisitionDaoImpl implements LandAcquisitionDao{
 		
 		List<LandAcquisition> objList = null;
 		try {
-			String qry ="select string_agg(chainages,',') as chainage_from,string_agg(latitude,',') as latitude,string_agg(longitude,',') as longitude from chainages_master where id between (select min(id)-1 from chainages_master where chainages>=cast('"+obj.getChainage_from()+"' as decimal(18,2))) and (select min(id) from chainages_master where chainages>=cast('"+obj.getChainage_from()+"' as decimal(18,2)))";
+			String qry ="select string_agg(chainages,',') as chainage_from,string_agg(latitude,',') as latitude,string_agg(longitude,',') as longitude from chainages_master where work_id='"+obj.getWork_id_fk()+"' and id between (select min(id)-1 from chainages_master where work_id='"+obj.getWork_id_fk()+"' and chainages>=cast('"+obj.getChainage_from()+"' as decimal(18,2))) and (select min(id) from chainages_master where chainages>=cast('"+obj.getChainage_from()+"' as decimal(18,2)))";
 		
 			objList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<LandAcquisition>(LandAcquisition.class));
 			

@@ -63,7 +63,7 @@ public class FileFormatModel {
 	
 	public static List<String> getWorkChainagesFileFormat() {
 		List<String> fileFormat = new ArrayList<String>();
-		String columns = "S.No,Work ID,Chainage from (KM),Chainage to (KM),Latitude,Longitude";
+		String columns = "S.No,Work ID,Chainages(m),Latitude,Longitude";
 		String[] convertedColumnsArray = columns.split(",");
 		for (String column : convertedColumnsArray) {
 			fileFormat.add(column.trim());

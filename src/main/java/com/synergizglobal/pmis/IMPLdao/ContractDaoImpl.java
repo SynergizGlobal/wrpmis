@@ -558,11 +558,11 @@ public class ContractDaoImpl implements ContractDao {
 
 					for (int i = 0; i < contract.getRevisionno().length; i++) 
 					{
-						preparedStmtRevisions.setString(1, contract.getContract_id_fk());
+						preparedStmtRevisions.setString(1, contract_id);
 						preparedStmtRevisions.setString(2, contract.getRevisionno()[i]);
 						preparedStmtRevisions.setString(3, contract.getRevision_estimated_cost()[i]);
-						preparedStmtRevisions.setString(2, contract.getRevision_planned_date_of_award()[i]);
-						preparedStmtRevisions.setString(3, contract.getRevision_planned_date_of_completion()[i]);						
+						preparedStmtRevisions.setString(4, contract.getRevision_planned_date_of_award()[i]);
+						preparedStmtRevisions.setString(5, contract.getRevision_planned_date_of_completion()[i]);						
 						preparedStmtRevisions.execute();
 					}
 				}
@@ -1911,11 +1911,11 @@ public class ContractDaoImpl implements ContractDao {
 
 						for (int i = 0; i < contract.getRevisionno().length; i++) 
 						{
-							preparedStmtRevisions.setString(1, contract.getContract_id_fk());
+							preparedStmtRevisions.setString(1, contract.getContract_id());
 							preparedStmtRevisions.setString(2, contract.getRevisionno()[i]);
 							preparedStmtRevisions.setString(3, contract.getRevision_estimated_cost()[i]);
-							preparedStmtRevisions.setString(2, contract.getRevision_planned_date_of_award()[i]);
-							preparedStmtRevisions.setString(3, contract.getRevision_planned_date_of_completion()[i]);						
+							preparedStmtRevisions.setString(4, contract.getRevision_planned_date_of_award()[i]);
+							preparedStmtRevisions.setString(5, contract.getRevision_planned_date_of_completion()[i]);						
 							preparedStmtRevisions.execute();
 						}
 					}

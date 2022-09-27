@@ -617,28 +617,6 @@
 			                            </div>        
 			                    </div>
 							</div>
-
-                            <div class="row">
-                                <div class="col s6 m4 l6 mt-brdr center-align offset-m2">
-                                    <div class="m-1">
-                                        <button type="button" onclick="addContract();" class="btn waves-effect waves-light bg-m" style="min-width:90px;">Add</button>
-                                    </div>
-                                </div>
-                                <div class="col s6 m4 l6 mt-brdr center-align">
-                                    <div class="m-1">
-                                        <a href="<%=request.getContextPath()%>/contract"class="btn waves-effect waves-light bg-s">Cancel</a>
-                                    </div>
-                                </div>
-                            </div>
-                       </div>
-                        </form>
-                    </div>
-                    <!-- form ends  -->
-                </div>
-
-            </div>
-        </div>
-
 <input type="text" id="rowNoRevision" name="rowNoRevision">
 
    <div id="revisionsModal" class="modal">
@@ -648,13 +626,12 @@
 	           <span class="material-icons">close</span></span>
            </h5>
                <div class="row no-mar" id="amendment_not_required_in_contract_Div">
-                            <div class="container container-no-margin">
+                            <div class="container container-no-margin" style="margin:0px;">
                              <div class="row exe-box">
                                 <div class="col s12 m12">
                                     <div class="row">
-                                       <!--  <h5 class="center-align marob">Appointment of Committee</h5> -->
                                         <div class="table-inside">
-                                            <table id="app_com_tableRevision" class="mdl-data-table mobile_responsible_table">
+                                            <table id="app_com_tableRevision" class="mdl-data-table" style="width:auto;">
                                                 <thead>
                                                     <tr>
                                                     	<th class="w1em">Revision No. </th>
@@ -676,13 +653,13 @@
                                             
                                                 </tbody>
                                             </table>
-                                             <table class="mdl-data-table mobile_responsible_table">
-                                                <tbody class="bd-none">
-                                                    <tr class="bd-none">
-                                                        <td colspan="5" class="bd-none"><button type="button" class="btn waves-effect waves-light bg-m t-c add-align" id="add-align" onclick="addContractRevisionsRow()"> <i class="fa fa-plus"></i></button>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                                            <div>
+	                                             <table>
+	                                                    <tr>
+	                                                        <td><button type="button" id="add-align" onclick="addContractRevisionsRow()" class="btn btn-primary"> <i class="fa fa-plus"></i></button>
+	                                                    </tr>
+	                                            </table>
+                                            </div>
                                             <div id="errorRevision" style="color:red;"></div>
                                              <table>
                                             	<tr><td><button type="button" name="btnRevision" id="btnRevision" onClick="addRevision();" class="btn btn-primary">Add</button></td></tr>
@@ -698,6 +675,28 @@
                </div>        
        </div>
    </div>
+                            <div class="row">
+                                <div class="col s6 m4 l6 mt-brdr center-align offset-m2">
+                                    <div class="m-1">
+                                        <button type="button" onclick="addContract();" class="btn waves-effect waves-light bg-m" style="min-width:90px;">Add</button>
+                                    </div>
+                                </div>
+                                <div class="col s6 m4 l6 mt-brdr center-align">
+                                    <div class="m-1">
+                                        <a href="<%=request.getContextPath()%>/contract"class="btn waves-effect waves-light bg-s">Cancel</a>
+                                    </div>
+                                </div>
+                            </div>
+                       </div>
+                        </form>
+                    </div>
+                    <!-- form ends  -->
+                </div>
+
+            </div>
+        </div>
+
+
 
 
 

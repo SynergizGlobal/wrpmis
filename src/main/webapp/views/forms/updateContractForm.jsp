@@ -950,7 +950,12 @@
 		                                    <button type="button" id="planned_date_of_completion_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 		                                </div>
 	                                </div>
-	                              	
+	                                <div class="row">
+									     <div class="col s6 m2 input-field">
+									         <a href="javascript:addRevisions();" class="btn waves-effect waves-light bg-s t-c">
+		                                     <strong><i class="fa fa-plus"></i></strong></a>
+									    </div>  	                                
+	                                </div>	                              	
 	                            </div>
 	                            <div class="row">
 	                                <div class="col s12 m12 l12 input-field ">
@@ -2314,6 +2319,66 @@
 	        
 	</div>
 </div>
+
+<input type="text" id="rowNoRevision" name="rowNoRevision">
+
+   <div id="revisionsModal" class="modal">
+       <div class="modal-content">
+           <h5 class="modal-header">Revisions
+	           <span class="right modal-action modal-close">
+	           <span class="material-icons">close</span></span>
+           </h5>
+               <div class="row no-mar" id="amendment_not_required_in_contract_Div">
+                            <div class="container container-no-margin">
+                             <div class="row exe-box">
+                                <div class="col s12 m12">
+                                    <div class="row">
+                                       <!--  <h5 class="center-align marob">Appointment of Committee</h5> -->
+                                        <div class="table-inside">
+                                            <table id="app_com_tableRevision" class="mdl-data-table mobile_responsible_table">
+                                                <thead>
+                                                    <tr>
+                                                    	<th class="w1em">Revision No. </th>
+                                                        <th class="w1em">Detailed Estimated cost</th>
+                                                        <th class="w1em">Planned date of award</th>
+                                                        <th class="w1em">Planned date of completion</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="stTDCBody">
+                                                <input type="hidden" id="sNoRevision" value="1">
+                                                       <tr>
+                                                       		<td style="width:100px;"><input id="revisionno0" name="revisionno" type="text" value="R1"></td>
+                                                        	<td style="width:300px;"><input id="revision_estimated_cost0" name="revision_estimated_cost" type="text"></td>
+                                                       		<td style="width:100px;"><input id="revision_planned_date_of_award0" name="revision_planned_date_of_award" type="text" class="validate datepicker"></td>
+                                                        	<td style="width:300px;"><input id="revision_planned_date_of_completion0" name="revision_planned_date_of_completion" type="text" class="validate datepicker"></td>                                                        	
+                                                        	<td></td>
+                                                        </tr>
+                                            
+                                                </tbody>
+                                            </table>
+                                             <table class="mdl-data-table mobile_responsible_table">
+                                                <tbody class="bd-none">
+                                                    <tr class="bd-none">
+                                                        <td colspan="5" class="bd-none"><button type="button" class="btn waves-effect waves-light bg-m t-c add-align" id="add-align" onclick="addContractRevisionsRow()"> <i class="fa fa-plus"></i></button>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div id="errorRevision" style="color:red;"></div>
+                                             <table>
+                                            	<tr><td><button type="button" name="btnRevision" id="btnRevision" onClick="addRevision();" class="btn btn-primary">Add</button></td></tr>
+                                            </table>                                           
+                                        </div>
+                                    </div>
+                                </div>
+                             </div>
+                         
+                    </div>
+                    
+
+               </div>        
+       </div>
+   </div>
     <!-- footer  -->
  <jsp:include page="../layout/footer.jsp"></jsp:include>
  
@@ -2383,6 +2448,8 @@
 		 });         
 		 
         $(document).ready(function () {	
+        	
+        	$('.modal').modal();
         	        	
         	$('select:not(.searchable):not(.units)').formSelect();
             $('.searchable').select2();
@@ -4510,6 +4577,86 @@
                 } 
 			}
 		}
+			
+	      	function addRevisions()
+	      	{
+	      		$("#revisionsModal").modal("open"); 
+	      	}        
+	      	
+	       	function addRevision()
+	       	{
+	    		var rowLr=$("#app_com_tableRevision tbody tr").length;
+	    		for(var k=0;k<rowLr;k++)
+	    		{
+	    			if($("#revisionno"+k).val()=="")
+	    			{
+	    				$("#errorRevision").html("Please enter Revision No.");
+	    				return false;
+	    			}
+	    			else
+	    			{
+	    				$("#errorRevision").html("");
+	    			}
+	    			if($("#revision_estimated_cost"+k).val()=="")
+	    			{
+	    				$("#errorRevision").html("Please enter Estimated Cost.");
+	    				return false;			
+	    			}
+	    			else
+	    			{
+	    				$("#errorRevision").html("");
+	    			}	
+	    			if($("#revision_planned_date_of_award"+k).val()=="")
+	    			{
+	    				$("#errorRevision").html("Please enter Planned date of award");
+	    				return false;			
+	    			}
+	    			else
+	    			{
+	    				$("#errorRevision").html("");
+	    			}
+	    			if($("#revision_planned_date_of_completion"+k).val()=="")
+	    			{
+	    				$("#errorRevision").html("Please enter Planned date of completion");
+	    				return false;			
+	    			}
+	    			else
+	    			{
+	    				$("#errorRevision").html("");
+	    			}   			
+	    		}
+	    		 $("#revisionsModal").modal("close");
+	       	} 	
+	       	
+	        function addContractRevisionsRow()
+	        {
+
+	            var rowNo = $("#rowNoRevision").val();
+	            var rowNo1 = $("#sNoRevision").val();
+	            var rNo = Number(rowNo)+1;
+	            var sNoRevision = Number(rowNo1)+1;
+	            var rowLr=Number(rNo)+1;
+	            var html = '<tr id="actionRevisionStRow' + rNo + '"><td><input id="revisionno' + rNo + '" name="revisionno" type="text" value="R'+ rowLr + '"></td>'
+
+	               +'<td data-head="Fortnight" class="input-field">'
+	               +'<input id="revision_estimated_cost' + rNo + '" name="revision_estimated_cost" type="text"></td>'
+	               +'<td><input id="revision_planned_date_of_award' + rNo + '" name="revision_planned_date_of_award" type="text" class="validate datepicker" value=""></td>'
+	               +'<td><input id="revision_planned_date_of_completion' + rNo + '" name="revision_planned_date_of_completion" type="text" class="validate datepicker" value=""></td>'
+	               +'<td class="input-field mobile_btn_close"><button type="button" onclick="removeRevisionStActions(' + rNo + ');" class="btn waves-effect waves-light red t-c remove"><i class="fa fa-close"></i></button></td>'
+	               +'</tr>';
+	        
+	            $('#stTDCBody').append(html);
+	            $("#rowNoRevision").val(rNo);
+	            var rowCount = $("#app_com_tableRevision tbody tr").length;
+	            $("#sNoRevision").val(rowCount);    
+	            $('.searchable').select2();
+	        	
+	        }
+	        
+	    	function removeRevisionStActions(rowNo){
+	    		$("#rowNoRevision").val(Number(rowNo)-1);
+	    		$("#actionRevisionStRow"+rowNo).remove();
+	    	}	        
 		
 	  </script>
 

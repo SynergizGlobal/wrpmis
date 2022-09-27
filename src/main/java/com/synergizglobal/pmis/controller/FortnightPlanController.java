@@ -30,6 +30,7 @@ import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.WorkbookUtil;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
@@ -62,6 +63,7 @@ import com.synergizglobal.pmis.Iservice.FortnightPlanService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.constants.PageConstants2;
+import com.synergizglobal.pmis.model.ActivitiesProgressReport;
 import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.Design;
 import com.synergizglobal.pmis.model.FOB;
@@ -132,6 +134,211 @@ public class FortnightPlanController {
 		}
 		return model;
 	}
+	
+	@RequestMapping(value="/fortnight-report",method=RequestMethod.GET)
+	public ModelAndView fortnightReport(@ModelAttribute FortnightPlan obj,HttpSession session) {
+		ModelAndView model = new ModelAndView();
+		try {
+			model.setViewName(PageConstants2.fortnightReport);
+
+			List<FortnightPlan> FortnightPlanProjectList = FortnightPlanService.getFortnightPlanProjectList();
+			model.addObject("FortnightPlanProjectList", FortnightPlanProjectList);
+			
+			List<FortnightPlan> FortnightPlanWorkList = FortnightPlanService.getFortnightPlanWorkList();
+			model.addObject("FortnightPlanWorkList", FortnightPlanWorkList);
+
+			List<FortnightPlan> FortnightPlanContractList = FortnightPlanService.getFortnightPlanContractList();
+			model.addObject("FortnightPlanContractList", FortnightPlanContractList);
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("FortnightReport : " + e.getMessage());
+		}
+		return model;
+	}	
+	
+	
+	@RequestMapping(value = "/generate-fortnight-report", method = {RequestMethod.GET,RequestMethod.POST})
+	public void generateFortnightReport(@ModelAttribute FortnightPlan obj,HttpServletRequest request, HttpServletResponse response,HttpSession session,RedirectAttributes attributes){
+		try{
+
+			
+			FortnightPlan reportData = FortnightPlanService.generateFortnightReport(obj);
+			
+			XSSFWorkbook  workBook = new XSSFWorkbook();
+			
+			/***************************************************************************/
+	        
+			byte[] blueRGB = new byte[]{(byte)180, (byte)198, (byte)231};
+			byte[] yellowRGB = new byte[]{(byte)255, (byte)255, (byte)153};
+	        byte[] greenRGB = new byte[]{(byte)146, (byte)208, (byte)80};
+	        byte[] whiteRGB = new byte[]{(byte)255, (byte)255, (byte)255};
+	        byte[] orangeLightRGB = new byte[]{(byte)255, (byte)201, (byte)163};
+	        
+	        
+	        boolean isWrapText = true;boolean isBoldText = true;boolean isItalicText = false; int fontSize = 11;String fontName = "Garamond";
+	        CellStyle blueStyle = cellFormating(workBook,blueRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle greenStyle = cellFormating(workBook,greenRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        
+	        CellStyle indexWhiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        
+	        CellStyle structureStyle = cellFormating(workBook,orangeLightRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+
+	        CellStyle cellStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle centerStyle = cellFormating(workBook,blueRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+
+	        CellStyle componentStyle = cellFormating(workBook,yellowRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        isWrapText = true;isBoldText = false;isItalicText = false; fontSize = 11;fontName = "Garamond";
+	        CellStyle sectionStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle numberStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle activityNameStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+
+	        /********************************************************/
+
+            /********************************************************/
+	        int sheetNo = 0;
+	        if(!(StringUtils.isEmpty(reportData))) {
+	        	
+			        XSSFSheet dprSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Fortnight Report"));
+			        workBook.setSheetOrder(dprSheet.getSheetName(), sheetNo++);
+			        
+			        
+			        XSSFRow dateRow = dprSheet.createRow(2);
+			        
+			        
+			        Cell cell = dateRow.createCell(0);
+			      
+			        	
+			        XSSFRow mainHeadingRow = dprSheet.createRow(1);
+			        
+			        cell = mainHeadingRow.createCell(0);
+			        cell.setCellStyle(centerStyle);
+					cell.setCellValue("Fortnight Report ");
+			        for (int i = 1; i < 7; i++) {		        	
+				        cell = mainHeadingRow.createCell(i);
+				        cell.setCellStyle(greenStyle);
+						cell.setCellValue("");
+					}	
+			        dprSheet.addMergedRegion(new CellRangeAddress(1, 1, 0,6));
+					/********************************************************/	
+			        
+			        /********************************************************/	
+			        XSSFRow deatilsRow = dprSheet.createRow(2);
+			   
+			        cell = deatilsRow.createCell(0);
+			        cell.setCellStyle(indexWhiteStyle);
+					cell.setCellValue("Work ");
+					
+					cell = deatilsRow.createCell(1);
+			        cell.setCellStyle(indexWhiteStyle);
+					cell.setCellValue(reportData.getWork_id_fk() + " - " + (!StringUtils.isEmpty(reportData.getWork_short_name())?reportData.getWork_short_name():reportData.getWork_name()));
+					
+					for (int i = 2; i < 7; i++) {		        	
+				        cell = deatilsRow.createCell(i);
+				        cell.setCellStyle(indexWhiteStyle);
+						cell.setCellValue("");
+					}	
+					dprSheet.addMergedRegion(new CellRangeAddress(2, 2, 1,6));
+			        
+					/********************************************************/
+			        
+					/********************************************************/	
+			        deatilsRow = dprSheet.createRow(3);
+			        
+			        cell = deatilsRow.createCell(0);
+			        cell.setCellStyle(indexWhiteStyle);
+					cell.setCellValue("Contract ");
+					
+					cell = deatilsRow.createCell(1);
+			        cell.setCellStyle(indexWhiteStyle);
+					cell.setCellValue(reportData.getContract_id_fk() + " - " + (!StringUtils.isEmpty(reportData.getContract_short_name())));
+			        
+					for (int i = 2; i < 7; i++) {		        	
+				        cell = deatilsRow.createCell(i);
+				        cell.setCellStyle(indexWhiteStyle);
+						cell.setCellValue("");
+					}	
+					dprSheet.addMergedRegion(new CellRangeAddress(3,3, 1,6));
+					
+					/********************************************************/
+					
+					/********************************************************/	
+			        deatilsRow = dprSheet.createRow(4);
+			        
+			        cell = deatilsRow.createCell(0);
+			        cell.setCellStyle(indexWhiteStyle);
+					cell.setCellValue("Contractor ");
+					
+					cell = deatilsRow.createCell(1);
+			        cell.setCellStyle(indexWhiteStyle);
+					cell.setCellValue(reportData.getContractor_name());
+					
+					for (int i = 2; i < 7; i++) {		        	
+				        cell = deatilsRow.createCell(i);
+				        cell.setCellStyle(indexWhiteStyle);
+						cell.setCellValue("");
+					}	
+					dprSheet.addMergedRegion(new CellRangeAddress(4,4, 1,6));
+			        
+
+							
+ 
+	        		 
+				
+				
+	        }else {
+	        	XSSFSheet dprSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("No Data"));
+		        workBook.setSheetOrder(dprSheet.getSheetName(), sheetNo++);
+	        }
+            /*******************************************************************************/
+            
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
+            Date date = new Date();
+            String fileName = "Structure_Status_Report_"+dateFormat.format(date);
+            
+            try{
+                /*FileOutputStream fos = new FileOutputStream(fileDirectory +fileName+".xls");
+                workBook.write(fos);
+                fos.flush();*/
+            	
+               response.setContentType("application/.csv");
+ 			   response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+ 			   response.setContentType("application/vnd.ms-excel");
+ 			   // add response header
+ 			   response.addHeader("Content-Disposition", "attachment; filename=" + fileName+".xlsx");
+ 			   
+ 			    //copies all bytes from a file to an output stream
+ 			   workBook.write(response.getOutputStream()); // Write workbook to response.
+	           workBook.close();
+ 			    //flushes output stream
+ 			    response.getOutputStream().flush();
+            	
+                
+                //attributes.addFlashAttribute("success",dataExportSucess);
+            	//response.setContentType("application/vnd.ms-excel");
+            	//response.setHeader("Content-Disposition", "attachment; filename=filename.xls");
+            	//XSSFWorkbook  workbook = new XSSFWorkbook ();
+            	// ...
+            	// Now populate workbook the usual way.
+            	// ...
+            	//workbook.write(response.getOutputStream()); // Write workbook to response.
+            	//workbook.close();
+            }catch(FileNotFoundException e){
+                e.printStackTrace();
+                logger.error("generateStripChartDPRReport : " + e.getMessage());
+                //attributes.addFlashAttribute("error",dataExportInvalid);
+            }catch(IOException e){
+                e.printStackTrace();
+                logger.error("generateStripChartDPRReport : " + e.getMessage());
+                //attributes.addFlashAttribute("error",dataExportError);
+            }
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("generateStripChartDPRReport : " + e.getMessage());
+		}
+		//return model;
+    }	
 	
 	@RequestMapping(value="/update-quarterly-plan",method=RequestMethod.GET)
 	public ModelAndView updateQuarterlyPlan(@ModelAttribute FortnightPlan obj,HttpSession session) {

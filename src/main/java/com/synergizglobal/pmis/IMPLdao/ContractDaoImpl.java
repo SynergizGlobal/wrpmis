@@ -538,6 +538,35 @@ public class ContractDaoImpl implements ContractDao {
 			    c = stmt.executeBatch();
 				if(stmt != null){stmt.close();}
 				
+				PreparedStatement stmtRevision = null;
+				
+				String deleteQryRevision = "DELETE from contract_revisions where contract_id_fk = ?";		 
+				stmtRevision = con.prepareStatement(deleteQryRevision);
+				stmtRevision.setString(1,contract.getContract_id()); 
+				stmtRevision.executeUpdate();
+				if(stmtRevision != null){stmtRevision.close();}					
+				
+				
+				PreparedStatement preparedStmtRevisions = null;
+				String queryTdcRevisions = " insert into contract_revisions (contract_id_fk,revision_no,revision_estimated_cost,revision_planned_date_of_award,revision_planned_date_of_completion)"
+			               + " values (?,?,?,?,?)";				
+				
+				preparedStmtRevisions = con.prepareStatement(queryTdcRevisions);
+
+				if(!StringUtils.isEmpty(contract) && !StringUtils.isEmpty(contract.getRevisionno())) 
+				{
+
+					for (int i = 0; i < contract.getRevisionno().length; i++) 
+					{
+						preparedStmtRevisions.setString(1, contract.getContract_id_fk());
+						preparedStmtRevisions.setString(2, contract.getRevisionno()[i]);
+						preparedStmtRevisions.setString(3, contract.getRevision_estimated_cost()[i]);
+						preparedStmtRevisions.setString(2, contract.getRevision_planned_date_of_award()[i]);
+						preparedStmtRevisions.setString(3, contract.getRevision_planned_date_of_completion()[i]);						
+						preparedStmtRevisions.execute();
+					}
+				}
+				if(preparedStmtRevisions != null){preparedStmtRevisions.close();}				
 				
 				
 				String Insurence_qry = "INSERT into  insurance (insurance_type_fk,issuing_agency,agency_address,"
@@ -1861,6 +1890,37 @@ public class ContractDaoImpl implements ContractDao {
 					c = stmt.executeBatch();
 					int[] updateCount = updateStmt.executeBatch();
 					if(stmt != null || updateStmt != null ){stmt.close();updateStmt.close();}
+					
+					PreparedStatement stmtRevision = null;
+					
+					String deleteQryRevision = "DELETE from contract_revisions where contract_id_fk = ?";		 
+					stmtRevision = con.prepareStatement(deleteQryRevision);
+					stmtRevision.setString(1,contract.getContract_id()); 
+					stmtRevision.executeUpdate();
+					if(stmtRevision != null){stmtRevision.close();}					
+					
+					
+					PreparedStatement preparedStmtRevisions = null;
+					String queryTdcRevisions = " insert into contract_revisions (contract_id_fk,revision_no,revision_estimated_cost,revision_planned_date_of_award,revision_planned_date_of_completion)"
+				               + " values (?,?,?,?,?)";				
+					
+					preparedStmtRevisions = con.prepareStatement(queryTdcRevisions);
+
+					if(!StringUtils.isEmpty(contract) && !StringUtils.isEmpty(contract.getRevisionno())) 
+					{
+
+						for (int i = 0; i < contract.getRevisionno().length; i++) 
+						{
+							preparedStmtRevisions.setString(1, contract.getContract_id_fk());
+							preparedStmtRevisions.setString(2, contract.getRevisionno()[i]);
+							preparedStmtRevisions.setString(3, contract.getRevision_estimated_cost()[i]);
+							preparedStmtRevisions.setString(2, contract.getRevision_planned_date_of_award()[i]);
+							preparedStmtRevisions.setString(3, contract.getRevision_planned_date_of_completion()[i]);						
+							preparedStmtRevisions.execute();
+						}
+					}
+					if(preparedStmtRevisions != null){preparedStmtRevisions.close();}					
+					
 				
 					deleteQry = "DELETE from contract_revision where contract_id_fk = ?";		 
 					stmt = con.prepareStatement(deleteQry);

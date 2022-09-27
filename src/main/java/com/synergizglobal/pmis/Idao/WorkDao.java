@@ -47,4 +47,8 @@ public interface WorkDao {
 
 	public List<Work> getworkCodeList(Work obj) throws Exception;
 
+	public boolean saveWorkChainagesDataUploadFile(Work obj) throws Exception;
+
+	public String[] uploadWorkChainagesData(List<Work> workChainagesList, Work work) throws Exception;
+
 }

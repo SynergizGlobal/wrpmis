@@ -38,6 +38,8 @@ import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.common.Mail;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
+import com.synergizglobal.pmis.model.ActivitiesProgressReport;
+import com.synergizglobal.pmis.model.Budget;
 import com.synergizglobal.pmis.model.Design;
 import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.Issue;
@@ -1378,6 +1380,88 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 			String qry = "select fortnight_quarterly_plan_id,revision_no,tdc_date from fortnight_quarterly_plan_tdc_revisions where fortnight_quarterly_plan_id="+obj.getFortnightly_plan_id();
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<FortnightPlan>(FortnightPlan.class));	
 
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<FortnightPlan> getFortnightPlanProjectList() throws Exception {
+		List<FortnightPlan> objsList = null;
+		try {
+			String qry = "select project_id,project_name from project order by project_id asc";
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<FortnightPlan>(FortnightPlan.class));			
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<FortnightPlan> getFortnightPlanContractList() throws Exception {
+		List<FortnightPlan> objsList = new ArrayList<FortnightPlan>();
+		try {
+			String qry = "select contract_id as contract_id_fk,contract_name,contract_short_name "
+					+ "from project p "
+					+ "LEFT OUTER JOIN work w ON w.project_id_fk = p.project_id "
+					+ "LEFT OUTER JOIN contract c ON c.work_id_fk = w.work_id "
+					+ "where work_id is not null ";
+			
+			qry = qry + " order by work_id asc";
+			objsList = jdbcTemplate.query( qry,  new BeanPropertyRowMapper<FortnightPlan>(FortnightPlan.class));
+			
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public FortnightPlan generateFortnightReport(FortnightPlan obj) throws Exception {
+		FortnightPlan objsList = null;
+		try {
+			String qry = "SELECT distinct min(F.ID) as fortnightly_plan_id,contract_id,contract_short_name,w.work_id ,c.work_id_fk,w.work_name,w.work_short_name,category,contract_short_name,structure_type as structure_type_fk,structure,\r\n" + 
+					"cast(max(isnull(s_cum_planned_till_date,0)) as varchar) as cum_planned_last_st,\r\n" + 
+					"cast(max(isnull(s_cum_actual_till_date,0)) as varchar) as cum_actual_last_st,\r\n" + 
+					"cast(max(isnull(s_planned_current_fortnight,0)) as varchar) as planned_current_st,\r\n" + 
+					"\r\n" + 
+					"cast(max(isnull(s_actual_current_fortnight,0)) as varchar)  as actual_current_st,0 as data_id,case when isnull([float],0)<=15 then 'red' when DATEDIFF(day,getdate(),expected_finish)<=30 then 'orange' else 'black' end as color \r\n" + 
+					"from fortnight_temp f \r\n" + 
+					"LEFT JOIN contract c ON c.contract_id  = f.contract_id_fk \r\n" + 
+					"LEFT JOIN work w on c.work_id_fk =w.work_id \r\n" + 
+					"where f.status='Active' " ;
+			
+			int arrSize = 0;
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id())) {
+				qry = qry + " and w.project_id_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and c.work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and c.contract_id = ?";
+				arrSize++;
+			}
+			qry = qry + " group by category,contract_short_name,structure_type,structure,expected_finish,[float]  ";
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id())) {
+				pValues[i++] = obj.getProject_id();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			objsList = (FortnightPlan) jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<FortnightPlan>(FortnightPlan.class));
+					
 		}catch(Exception e){ 
 			throw new Exception(e);
 		}

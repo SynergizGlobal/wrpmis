@@ -912,9 +912,10 @@ public class StructureStatusReportDaoImpl implements StructureStatusReportDao{
 							arrSize++;
 						}
 						
-						/*
-						 * progressQry = progressQry + " group by ap.p6_activity_id_fk";
-						 */						
+						
+						 progressQry = progressQry + " group by progress_date,p6_activity_id_fk,p6_activity_id,a.contract_id_fk,s2.structure_type_fk,a.component_id,component,a.p6_activity_name,a.unit,s2.structure,a.scope,a.completed,\r\n" + 
+						 		"c.contract_name,c.contract_short_name";
+						 					
 						pValues = new Object[arrSize];
 						
 						i = 0;

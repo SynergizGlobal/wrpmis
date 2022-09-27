@@ -105,4 +105,16 @@ public class WorkServiceImpl implements WorkService {
 	public List<Work> getworkCodeList(Work obj) throws Exception {
 		return workDao.getworkCodeList(obj);
 	}
+	
+	@Override
+	public boolean saveWorkChainagesDataUploadFile(Work obj) throws Exception
+	{
+		return workDao.saveWorkChainagesDataUploadFile(obj);
+	}
+	
+	@Override
+	public String[] uploadWorkChainagesData(List<Work> workChainagesList, Work work) throws Exception {
+		return workDao.uploadWorkChainagesData(workChainagesList,work);
+	}	
+	
 }

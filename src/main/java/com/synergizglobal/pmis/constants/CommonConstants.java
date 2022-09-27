@@ -84,6 +84,8 @@ public class CommonConstants {
 	public final static String TEMPLATE_OLD_FILEPATH = base_path+"/TEMPLATES_OLD/";
 	public final static String STRUCTURE_UPLOADED_FILE_SAVING_PATH = base_path+"/STRUCTURE_UPLOADED_FILES/";
 	public final static String RR_UPLOADED_FILE_SAVING_PATH = base_path+"/RR_UPLOADED_FILES/";
+	public final static String WORK_CHAINAGES_UPLOADED_FILE_SAVING_PATH = base_path+"/WORK_CHAINAGES_UPLOADED_FILES/";
+	
 	public final static String UTILITY_UPLOADED_FILE_SAVING_PATH = base_path+"/UTILITY_UPLOADED_FILES/";
 
 	/*********** LOCAL ****************************************************/	

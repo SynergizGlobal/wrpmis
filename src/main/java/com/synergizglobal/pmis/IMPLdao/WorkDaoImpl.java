@@ -14,7 +14,14 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -42,7 +49,8 @@ public class WorkDaoImpl implements WorkDao {
 	
 	@Autowired
 	JdbcTemplate jdbcTemplate ;
-	
+	@Autowired
+	DataSourceTransactionManager transactionManager;	
 	@Autowired
 	MessagesDao messagesDao;
 	@Autowired
@@ -131,6 +139,8 @@ public class WorkDaoImpl implements WorkDao {
 				work.setRailwayAgencyList(getRailwayAgencyList(work.getWork_id(),connection));
 				work.setExecutedByList(getExecutedByList(work.getWork_id(),connection));
 				work.setWorkFilesList(getWorkFilesList(work.getWork_id(),connection));
+				work.setWorkChainageFilesList(getWorkChainagesFilesList(work.getWork_id(),connection));
+				
 			}
 		}catch(Exception e){ 
 			e.printStackTrace();
@@ -141,6 +151,35 @@ public class WorkDaoImpl implements WorkDao {
 		}
 		return work;
 	}
+	
+
+	private List<Work> getWorkChainagesFilesList(String work_id, Connection connection) throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet resultSet = null;
+		List<Work> objsList = new ArrayList<Work>();
+		Work obj = null;
+		try {
+			String qry ="SELECT uploaded_file,format(uploaded_on,'d-MM-yyyy') as uploaded_on from work_chainages_upload_data  where work_chainage_id='"+work_id+"'";
+			
+		
+			stmt = connection.prepareStatement(qry);
+			resultSet = stmt.executeQuery();
+			while(resultSet.next()) {
+				obj = new Work();
+				obj.setUploaded_file(resultSet.getString("uploaded_file"));
+				obj.setUploaded_on(resultSet.getString("uploaded_on"));
+				objsList.add(obj);
+			}
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+		}
+		return objsList;
+	}
+	
 	
 	private List<Work> getWorkFilesList(String work_id, Connection connection) throws Exception {
 		PreparedStatement stmt = null;
@@ -1029,6 +1068,113 @@ public class WorkDaoImpl implements WorkDao {
 			throw new Exception(e);
 		}
 		return objsList;
+	}
+
+	@Override
+	public String[] uploadWorkChainagesData(List<Work> workChainagesList, Work work) throws Exception {
+		int count = 0,row =1,sheet = 1,subRow = 1,cnt=0;
+		String errMsg = null;
+		TransactionDefinition def = new DefaultTransactionDefinition();
+		TransactionStatus status = transactionManager.getTransaction(def);
+		
+		Connection con = null;
+		PreparedStatement stmt = null;
+		try {
+			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+			con = dataSource.getConnection();
+			
+			String deleteWorkChainageQry = "delete from work_wise_chainages where work_id = ?";
+			stmt = con.prepareStatement(deleteWorkChainageQry); 
+			stmt.setString(1,work.getWork_id());
+			count = stmt.executeUpdate();
+			if(stmt != null){stmt.close();}			
+			
+			
+			String qry = "INSERT INTO work_wise_chainages"
+					+ "(work_id, chainage_from, chainage_to, Latitude, Longitude) "
+					+ "VALUES "
+					+ "( :work_id, :chainage_from, :chainage_to, :Latitude,:Longitude)";
+			
+			for (Work obj : workChainagesList) {
+				
+				String work_id = obj.getWork_id();
+				row++;sheet = 1;
+				if(!StringUtils.isEmpty(work_id)) 
+				{
+						obj.setWork_id(work_id);
+						SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
+					    count = namedParamJdbcTemplate.update(qry, paramSource);
+					    cnt=cnt+1;
+					
+				}
+			}
+			count=cnt;
+			transactionManager.commit(status);
+		}catch(Exception e){ 
+			transactionManager.rollback(status);
+			e.printStackTrace();
+			errMsg = e.getMessage();
+		}
+		String arr[] = new String[5];
+		arr[0] = errMsg;
+	    arr[1] = String.valueOf(count);
+	    arr[2] = String.valueOf(row);
+	    arr[3] = String.valueOf(sheet);
+	    arr[4] = String.valueOf(subRow);
+		return arr;
+	}
+
+	@Override
+	public boolean saveWorkChainagesDataUploadFile(Work obj) throws Exception {
+		boolean flag = false;
+		TransactionDefinition def = new DefaultTransactionDefinition();
+		TransactionStatus status = transactionManager.getTransaction(def);
+		String work_data_id = null;
+		Connection con = null;
+		PreparedStatement stmt = null;
+		
+		try {
+			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);	
+			con = dataSource.getConnection();
+			
+			String deleteWorkChainageQry = "delete from work_chainages_upload_data where work_chainage_id = ?";
+			stmt = con.prepareStatement(deleteWorkChainageQry); 
+			stmt.setString(1,obj.getWork_id());
+			int count1 = stmt.executeUpdate();
+			if(stmt != null){stmt.close();}	
+			
+			
+			String qry = "INSERT INTO work_chainages_upload_data"
+					+ "(uploaded_file, status, remarks, uploaded_by_user_id_fk, uploaded_on,work_chainage_id) "
+					+ "VALUES "
+					+ "( :uploaded_file, :status, :remarks, :uploaded_by_user_id_fk,CURRENT_TIMESTAMP,:work_id)";	
+			
+			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
+			KeyHolder keyHolder = new GeneratedKeyHolder();
+		    int count = template.update(qry, paramSource, keyHolder);
+			if(count > 0) {
+				work_data_id = String.valueOf(keyHolder.getKey().intValue());
+				obj.setWork_data_id(work_data_id);
+				flag = true;
+				
+				MultipartFile file = obj.getWorkChainagesFile();
+				if (null != file && !file.isEmpty() && file.getSize() > 0){
+					String saveDirectory = CommonConstants.WORK_CHAINAGES_UPLOADED_FILE_SAVING_PATH ;
+					String fileName = work_data_id + "_" +file.getOriginalFilename();
+					FileUploads.singleFileSaving(file, saveDirectory, fileName);
+					
+					obj.setUploaded_file(fileName);
+					String updateQry = "UPDATE work_chainages_upload_data set uploaded_file= :uploaded_file where work_chainage_id= :work_id ";
+					BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(obj);		
+					template.update(updateQry, paramSource1);
+				}
+			}
+			transactionManager.commit(status);
+		}catch(Exception e){ 
+			transactionManager.rollback(status);
+			throw new Exception(e);
+		}
+		return flag;
 	}
 
 	/**

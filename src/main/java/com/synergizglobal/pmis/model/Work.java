@@ -13,10 +13,12 @@ public class Work {
 	work_yearly_sanction_id,  pink_book_item_number,projected_completion_date,work_file_id,work_file_type,work_file_type_fk,work_status_fk,existing_work_status_fk,
 	sanctioned_estimated_cost_unit,sanctioned_completion_cost_unit,anticipated_cost_unit,completion_cost_unit,latest_revised_cost_unit,unit,value,
 	estimated_cost_unit,sanctioned_cost_unit,anticipated_unit,completion_unti,revision_unit,user_name,designation,user_id,work_type_fk,
-	budget_grant_current_fy,expenditure_end_of_fy,expenditure_current_fy,cumulative_total_expenditure,financial_progress,physical_progress,target_completion_date;
+	budget_grant_current_fy,expenditure_end_of_fy,expenditure_current_fy,cumulative_total_expenditure,financial_progress,physical_progress,
+	target_completion_date,uploaded_by_user_id_fk,chainage_from, chainage_to,latitude,longitude,Created_by_user_id_fk,Uploaded_file,Work_data_id,uploaded_on;
 
 
-
+	private MultipartFile WorkChainagesFile;
+	
 	private String[] financial_years,latest_revised_costs,latest_revised_costs_units,
 	year_of_revisions,revision_numbers,remarkss,workFileNames,work_file_ids,work_file_types,latest_revised_cost_units;
 
@@ -27,7 +29,10 @@ public class Work {
 	private List<Work> executedByList,workDocs;
 
 	private List<MultipartFile> workFile;
+	
 	private List<Work> workFilesList;
+	private List<Work> workChainageFilesList;
+	
 	private MultipartFile[] workFiles;
 	
 	private List<WorkFeatures> workDetails;
@@ -887,6 +892,94 @@ public class Work {
 
 	public void setTarget_completion_date(String target_completion_date) {
 		this.target_completion_date = target_completion_date;
+	}
+
+	public MultipartFile getWorkChainagesFile() {
+		return WorkChainagesFile;
+	}
+
+	public void setWorkChainagesFile(MultipartFile workChainagesFile) {
+		WorkChainagesFile = workChainagesFile;
+	}
+
+	public String getUploaded_by_user_id_fk() {
+		return uploaded_by_user_id_fk;
+	}
+
+	public void setUploaded_by_user_id_fk(String uploaded_by_user_id_fk) {
+		this.uploaded_by_user_id_fk = uploaded_by_user_id_fk;
+	}
+
+	public String getChainage_from() {
+		return chainage_from;
+	}
+
+	public void setChainage_from(String chainage_from) {
+		this.chainage_from = chainage_from;
+	}
+
+	public String getChainage_to() {
+		return chainage_to;
+	}
+
+	public void setChainage_to(String chainage_to) {
+		this.chainage_to = chainage_to;
+	}
+
+	public String getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+
+	public String getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+
+	public String getCreated_by_user_id_fk() {
+		return Created_by_user_id_fk;
+	}
+
+	public void setCreated_by_user_id_fk(String created_by_user_id_fk) {
+		Created_by_user_id_fk = created_by_user_id_fk;
+	}
+
+	public String getUploaded_file() {
+		return Uploaded_file;
+	}
+
+	public void setUploaded_file(String uploaded_file) {
+		Uploaded_file = uploaded_file;
+	}
+
+	public String getWork_data_id() {
+		return Work_data_id;
+	}
+
+	public void setWork_data_id(String work_data_id) {
+		Work_data_id = work_data_id;
+	}
+
+	public String getUploaded_on() {
+		return uploaded_on;
+	}
+
+	public void setUploaded_on(String uploaded_on) {
+		this.uploaded_on = uploaded_on;
+	}
+
+	public List<Work> getWorkChainageFilesList() {
+		return workChainageFilesList;
+	}
+
+	public void setWorkChainageFilesList(List<Work> workChainageFilesList) {
+		this.workChainageFilesList = workChainageFilesList;
 	}
 	
 }

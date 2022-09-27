@@ -61,6 +61,16 @@ public class FileFormatModel {
 		return fileFormat;
 	}
 	
+	public static List<String> getWorkChainagesFileFormat() {
+		List<String> fileFormat = new ArrayList<String>();
+		String columns = "S.No,Work ID,Chainage from (KM),Chainage to (KM),Latitude,Longitude";
+		String[] convertedColumnsArray = columns.split(",");
+		for (String column : convertedColumnsArray) {
+			fileFormat.add(column.trim());
+		}
+		return fileFormat;
+	}	
+	
 	public static List<String> getUtilityShiftingFileFormat() {
 		List<String> fileFormat = new ArrayList<String>();
 		String columns = "Work,Contract,Utility Shifting ID,Identification,Location Name,Reference Number,Chainage,Utility Description,Utility Type,"

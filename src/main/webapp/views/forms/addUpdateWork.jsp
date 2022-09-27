@@ -620,6 +620,60 @@
 	                                <input type="hidden" id="existing_work_status_fk" name="existing_work_status_fk" value="${workDetails.work_status_fk }"/> 
                                 </c:if> --%>
                             </div>
+                            <div class="row">
+                            	<h5 class="center-align">Chainage wise Coordinates</h5>
+ 								<div class="col s12 m12 center-align exportButton">
+	    							<div class="m-n1">
+	    								<a href="/pmis/Chainage_wise_Coordinates_Template.xlsx" download="" class="template-btn" title="Click to Download Chainage wise Coordinates Template">
+											<i class="material-icons-outlined">download_for_offline</i>
+										</a>
+	    							 	<a href="javascript:void(0);" onclick="openUploadChainageModal();" class="btn waves-effect waves-light bg-s t-c"> <strong><i class="fa fa-arrow-circle-up"></i> Upload</strong></a>  
+  
+	    							</div>
+    							</div>                           	
+                            </div>
+                            <br><br>
+
+                            <div class="row" style="margin-bottom:20px;">
+								<div class="col l12 m12 s12">
+									<div class="row fixed-width">
+										<div class="table-inside">
+											<table class="mdl-data-table update-table mobile_responsible_table">
+												<thead>
+													<tr>
+														<th>S. No</th>
+														<th>File Name</th>
+														<th>Last Updated On</th>
+													</tr>
+												</thead>
+												<tbody id="workFilesBody">
+													<c:choose>
+														<c:when	test="${not empty workDetails.workChainageFilesList && fn:length(workDetails.workChainageFilesList) gt 0 }">
+															<c:forEach var="iObj" items="${workDetails.workChainageFilesList }" varStatus="index">
+																<tr id="actionRow${index.count }">
+																	<td>1</td>
+			                                                      	<td>
+			                                                      		
+			                                                      		<a href="<%=CommonConstants2.WORK_CHAINAGES_UPLOADED_FILES%>${iObj.uploaded_file} " class="filevalue" download>${iObj.uploaded_file}</a>
+			                                                      	</td>
+																	<td class="mobile_btn_close">
+																		${iObj.uploaded_on}
+																	</td>
+																</tr>															
+															</c:forEach>
+														</c:when>
+													</c:choose>
+													
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+                            
+                                                        
+                            
+                            
                             <div class="row">                              
                              
                                 <%-- <div class="col s4 m1 l1 input-field">
@@ -1081,6 +1135,55 @@
         </div>
     </div>
 
+
+	<div id="upload_template" class="modal">
+		<div class="modal-content">
+			<div class="center-align p-2 bg-m modal-title headbg">
+				<h6>Upload Chainages </h6>
+			</div>
+			<!-- form start-->
+			<div class="container">
+				<form action="<%=request.getContextPath()%>/upload-chainages"
+					method="post" enctype="multipart/form-data">
+					<div class="row no-mar">
+						<div class="col s12 m12 input-field center-align">
+							<div class="row">
+								<div class="col m2 hide-on-small-only"></div>
+								<div class="col m8 s12">
+									<div class="file-field input-field">
+										<div class="btn bg-m">
+											<span>Attachment</span> <input type="file" id="WorkChainagesFile"
+												name="WorkChainagesFile" required="required">
+										</div>
+										<div class="file-path-wrapper">
+											<input class="file-path validate" type="text">
+										</div>
+									</div>
+								</div>
+								<div class="col m2 hide-on-small-only"></div>
+							</div>
+						</div>
+					</div>
+					<input id="work_data_id" type="hidden" class="form-control" name="work_id" value="${workDetails.work_id }" >  
+					
+					<div class="row no-mar">
+						<div class="col s12 m6">
+							<div class="center-align m-1">
+								<button type="submit" class="btn waves-effect waves-light bg-m"
+									style="width: 100%;">Upload</button>
+							</div>
+						</div>
+						<div class="col s12 m6">
+							<div class="center-align m-1">
+								<button type="button" class="btn waves-effect waves-light bg-s"
+									style="width: 100%;" onclick="closeUploadLAModal();">Cancel</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 	<div class="page-loader" style="display: none;">
 	  <div class="preloader-wrapper big active">
 	    <div class="spinner-layer spinner-blue-only">
@@ -1143,7 +1246,17 @@
    	   	          	  getErrorMessage(jqXHR, exception);
    	   	     	  }
                });
-    	 }    
+    	 } 
+    
+    	function openUploadChainageModal() {
+			$("#WorkChainagesFile").val('');
+			$("#upload_template").modal('open');
+		}  
+    	
+		function closeUploadLAModal() {
+			$("#WorkChainagesFile").val('');
+			$("#upload_template").modal('close');
+		}   	
     
     
 		function addWorkFileRow(){
@@ -1230,6 +1343,7 @@
 	    });
  */
         $(document).ready(function () {
+        	$('.modal').modal();
         	$('select:not(.searchable):not(.units)').formSelect();
             $('.searchable').select2();
             $('.units').select2({

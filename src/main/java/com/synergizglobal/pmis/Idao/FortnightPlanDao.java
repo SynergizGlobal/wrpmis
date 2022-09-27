@@ -62,5 +62,11 @@ public interface FortnightPlanDao {
 	boolean updateQuarterlyPlanActivities(FortnightPlan obj) throws Exception;
 
 	List<FortnightPlan> getTDCRevisions(FortnightPlan obj) throws Exception;
+
+	List<FortnightPlan> getFortnightPlanProjectList() throws Exception;
+
+	List<FortnightPlan> getFortnightPlanContractList() throws Exception;
+
+	FortnightPlan generateFortnightReport(FortnightPlan obj) throws Exception;
 }
  

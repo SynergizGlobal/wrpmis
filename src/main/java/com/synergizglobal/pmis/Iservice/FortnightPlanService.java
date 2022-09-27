@@ -10,7 +10,12 @@ public interface FortnightPlanService {
 	List<FortnightPlan> getFortnightQuarterlyPlanList(FortnightPlan obj) throws Exception;
 	List<FortnightPlan> getfortnightActivities(FortnightPlan obj) throws Exception;
 
+	List<FortnightPlan> getFortnightPlanProjectList() throws Exception;
 	List<FortnightPlan> getFortnightPlanWorkList() throws Exception;
+	List<FortnightPlan> getFortnightPlanContractList() throws Exception;
+	FortnightPlan generateFortnightReport(FortnightPlan obj) throws Exception;
+	
+	
 	List<FortnightPlan> getFortnightQuarterlyPlanItemList() throws Exception;
 	List<FortnightPlan> getFortnightQuarterlyPlanPeriodList() throws Exception;
 

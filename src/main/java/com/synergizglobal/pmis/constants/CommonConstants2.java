@@ -40,6 +40,7 @@ public class CommonConstants2 {
 	public static final String ISSUE_FILES = "/"+context_path+"/ISSUE_FILES/";
 	public static final String SAFETY_FILES = "/"+context_path+"/SAFETY_FILES/";
 	public static final String WORK_FILES = "/"+context_path+"/WORK_FILES/";
+	public static final String WORK_CHAINAGES_UPLOADED_FILES = "/"+context_path+"/WORK_CHAINAGES_UPLOADED_FILES/";
 	public static final String DESIGN_FILES = "/"+context_path+"/DESIGN_FILES/";
 	public static final String P6_FILES = "/"+context_path+"/P6_FILES/";
 	public static final String STRIPCHART_FILES = "/"+context_path+"/STRIPCHART_FILES/";

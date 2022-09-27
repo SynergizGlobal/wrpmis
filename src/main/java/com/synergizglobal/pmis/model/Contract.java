@@ -23,7 +23,9 @@ public class Contract {
 	private String[] bg_type_fks,issuing_banks,revision_amounts_statuss,bank_addresss,bg_numbers,bg_values,bg_valid_uptos,remarkss,bank_revisions,bankStatus,insuranceStatus,codes, bg_dates, release_dates,released_fks,
 	 insurance_type_fks, issuing_agencys, agency_addresss, insurance_numbers, insurance_values,insurence_valid_uptos,insurence_remarks,insurance_revisions,revision_statuss,
 	 contract_milestones_ids, milestone_names, milestone_dates, actual_dates, revisions,mile_remarks,
-	 contract_revision_ids, revision_numbers, revision_dates, revised_amounts,hod_designations, revised_docs,revision_remarks,contract_file_type_fks,contract_file_ids,contract_file_types;
+	 contract_revision_ids, revision_numbers, revision_dates, revised_amounts,hod_designations, revised_docs,revision_remarks,contract_file_type_fks,contract_file_ids,contract_file_types,
+	 
+	 revisionno,revision_estimated_cost,revision_planned_date_of_award,revision_planned_date_of_completion;
 	
 	private String contractor_id, contractor_specilization_fk, address,
 	primary_contact_name, phone_number, pan_number, gst_number, bank_name, account_number, ifsc_code,target_doc,structure_type_per,total;
@@ -1881,6 +1883,38 @@ public class Contract {
 
 	public void setPlanned_date_of_completion(String planned_date_of_completion) {
 		this.planned_date_of_completion = planned_date_of_completion;
+	}
+
+	public String[] getRevisionno() {
+		return revisionno;
+	}
+
+	public void setRevisionno(String[] revisionno) {
+		this.revisionno = revisionno;
+	}
+
+	public String[] getRevision_estimated_cost() {
+		return revision_estimated_cost;
+	}
+
+	public void setRevision_estimated_cost(String[] revision_estimated_cost) {
+		this.revision_estimated_cost = revision_estimated_cost;
+	}
+
+	public String[] getRevision_planned_date_of_award() {
+		return revision_planned_date_of_award;
+	}
+
+	public void setRevision_planned_date_of_award(String[] revision_planned_date_of_award) {
+		this.revision_planned_date_of_award = revision_planned_date_of_award;
+	}
+
+	public String[] getRevision_planned_date_of_completion() {
+		return revision_planned_date_of_completion;
+	}
+
+	public void setRevision_planned_date_of_completion(String[] revision_planned_date_of_completion) {
+		this.revision_planned_date_of_completion = revision_planned_date_of_completion;
 	}
 	
 }

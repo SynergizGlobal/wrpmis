@@ -1063,7 +1063,7 @@ public class ActivitiesProgressReportDaoImpl implements ActivitiesProgressReport
 				arrSize++;
 			}
 			
-			qry = qry + " GROUP BY contract_id ";
+			//qry = qry + " GROUP BY contract_id ";
 			
 			Object[] pValues = new Object[arrSize];
 			

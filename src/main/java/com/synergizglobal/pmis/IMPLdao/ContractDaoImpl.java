@@ -4209,9 +4209,6 @@ public class ContractDaoImpl implements ContractDao {
 				
 			for (Contract cObj : objsList) {
 				String awarded_cost = cObj.getAwarded_cost();
-				if("Not Awarded".equals(cObj.getContract_status_fk())) {
-					awarded_cost = cObj.getEstimated_cost();
-				}
 				String awarded_cost_value = "";
 				if(!StringUtils.isEmpty(awarded_cost)) {
 					double val = (Double.parseDouble(awarded_cost))/10000000;

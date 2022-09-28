@@ -793,7 +793,12 @@ width: 90%;
 				                   	rowArray.push($.trim(lp));
 				                   	rowArray.push($.trim(val.contract_status_fk));
 				                   	rowArray.push($.trim(conractName));
-				                   	rowArray.push($.trim(awarded_cost));
+				                   	var concat=$.trim(awarded_cost);
+				                   	if(val.revisionnumber!=null && val.revisionnumber!="")
+				                   		{
+				                   		concat=$.trim(awarded_cost)+'('+val.revisionnumber+')';
+				                   		}
+				                   	rowArray.push(concat);
 				                   	rowArray.push($.trim(val.cumulative_expenditure));
 				                   	rowArray.push($.trim(val.physical_progress));
 				                   	rowArray.push($.trim(loa_date));

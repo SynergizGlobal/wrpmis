@@ -860,7 +860,12 @@
 									    	         					html=html+'<tr '+contractstatuscolor+'>';
 								    	         						html=html+'<td class="fw-5p fs16rem">'+$.trim(t1)+'</td>';
 								    	         						html=html+'<td class="fw-42p fs16rem">'+val1.contract_short_name+'</td>';
-								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr">'+val1.estimated_cost+'</td>';
+								    	         						var gh="R0";
+								    	         						if(val1.revisionnumber!=null)
+								    	         							{
+								    	         								gh=val1.revisionnumber;
+								    	         							}
+								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr">'+val1.estimated_cost+'('+gh+')</td>';
 								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr">'+val1.awarded_cost+'</td>';
 								    	         						html=html+'<td class="fw-15p fs16rem txt-cntr">'+val1.last_financial_progress+'</td>';
 								    	         						html=html+'<td class="fw-15p fs16rem txt-cntr">'+val1.actual_financial_progress+'</td>';

@@ -148,10 +148,10 @@ public class ProjectOverviewReportDaoImpl implements ProjectOverviewReportDao{
 					 
 					"					case when (select count(*) from contract_revisions where contract_id_fk=c.contract_id)>0  " + 
 					 
-					"					then (select cast(isnull(revision_estimated_cost,0) as varchar(20))+'( '+(select Max(revision_no) from contract_revisions where contract_id_fk=c.contract_id)+' )' from contract_revisions where contract_id_fk=c.contract_id and revision_no=(select Max(revision_no) from contract_revisions where contract_id_fk=c.contract_id)) else  " + 
+					"					then (select isnull(revision_estimated_cost,0) from contract_revisions where contract_id_fk=c.contract_id and revision_no=(select Max(revision_no) from contract_revisions where contract_id_fk=c.contract_id)) else  " + 
 					 
 					 
-					"					cast(isnull(estimated_cost,0) as varchar(20)) end as estimated_cost, " + 
+					"					cast(isnull(estimated_cost,0) as varchar(20)) end as estimated_cost,(select Max(revision_no) from contract_revisions where contract_id_fk=c.contract_id) as revisionnumber, " + 
 					 
 					 
 					"case when (case when cr.revised_amount is null then awarded_cost*awarded_cost_units else revised_amount*revised_amount_units end) is null  " + 

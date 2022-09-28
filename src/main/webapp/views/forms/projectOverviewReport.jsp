@@ -872,7 +872,7 @@
 	    	
 	        if ($.trim(department_fk) == "") {
 	        	$("#department_fk option:not(:first)").remove();
-	    	 	var myParams = { department_fk : department_fk, work_id_fk : work_id_fk};
+	    	 	var myParams = { department_fk : department_fk, work_id_fk : cid};
 	            $.ajax({
 	                url: "<%=request.getContextPath()%>/ajax/getDepartmentFilterListInPOR",
 	                data: myParams, cache: false,async: false,

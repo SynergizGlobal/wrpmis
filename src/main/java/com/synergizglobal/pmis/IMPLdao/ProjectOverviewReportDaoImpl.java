@@ -104,25 +104,25 @@ public class ProjectOverviewReportDaoImpl implements ProjectOverviewReportDao{
 	public List<Contract> getDepartmentFilterListInPOR(Contract obj) throws Exception {
 		List<Contract> objsList = null;
 		try {
-			String qry = "select distinct dt.department as department_fk,dt.department_name   " + 
+			String qry = "select * from(select distinct hoddt.department as department_fk,hoddt.department_name   " + 
 					"from contract c      " + 
 					"left join work w on c.work_id_fk = w.work_id       " + 
 					"left join contractor cr on c.contractor_id_fk = cr.contractor_id      " + 
 					"left join project p on w.project_id_fk = p.project_id      " + 
 					"left join [user] u on c.hod_user_id_fk = u.user_id    " + 
 					"left join department hoddt on u.department_fk = hoddt.department    " + 
-					"left join [user] us on c.dy_hod_user_id_fk = us.user_id    " + 
-					"left join department dt on us.department_fk = dt.department    " + 
-					"where contract_id is not null and dt.department_name is not null ";
+					"where contract_id is not null and hoddt.department_name is not null ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and c.work_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and dt.department = ? ";
+				qry = qry + " and hoddt.department = ? ";
 				arrSize++;
 			}
+			qry=qry+"  ) as a ORDER BY case when department_name='Engineering' then 1 when department_name='Electrical' then 2 when department_name='Signalling & Telecom' then 3 when department_name='Planning' then 4 end asc ";
+
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -172,7 +172,7 @@ public class ProjectOverviewReportDaoImpl implements ProjectOverviewReportDao{
 				arrSize++;
 			}
 	
-			qry=qry+"  ORDER BY case when department_name='Engineering' then 1 when department_name='Electrical' then 2 when department_name='Signalling & Telecom' then 3 end asc ";
+			qry=qry+"  ORDER BY case when department_name='Engineering' then 1 when department_name='Electrical' then 2 when department_name='Signalling & Telecom' then 3 when department_name='Planning' then 4 end asc ";
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;

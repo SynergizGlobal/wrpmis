@@ -540,10 +540,39 @@
 		                                </div>
 	                                </div>
 	                                <div class="row">
-									     <div class="col s6 m2 input-field">
-									         <a href="javascript:addRevisions();" class="btn waves-effect waves-light bg-s t-c">
-		                                     <strong><i class="fa fa-plus"></i></strong></a>
-									    </div>  	                                
+	                                <h5 class="center-align"><span class="div-header">Contract Revisions</span></h5>  
+										<input type="hidden" id="rowNoRevision" name="rowNoRevision">
+                                            <table id="app_com_tableRevision" class="mdl-data-table" style="width:100%;">
+                                                <thead>
+                                                    <tr>
+                                                    	<th class="w1em">Revision No. </th>
+                                                        <th class="w1em">Detailed Estimated cost</th>
+                                                        <th class="w1em">Planned date of award</th>
+                                                        <th class="w1em">Planned date of completion</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="stTDCBody">
+                                                <input type="hidden" id="sNoRevision" value="1">
+                                                       <tr>
+                                                       		<td style="width:10%;"><input id="revisionno0" name="revisionno" type="text" value="R1"></td>
+                                                        	<td style="width:30%"><input id="revision_estimated_cost0" name="revision_estimated_cost" type="text"></td>
+                                                       		<td style="width:30%"><input id="revision_planned_date_of_award0" name="revision_planned_date_of_award" type="text" class="validate datepicker"></td>
+                                                        	<td style="width:30%;"><input id="revision_planned_date_of_completion0" name="revision_planned_date_of_completion" type="text" class="validate datepicker"></td>                                                        	
+                                                        	<td></td>
+                                                        </tr>
+                                            
+                                                </tbody>
+                                            </table>
+                                            <div>
+	                                             <table>
+	                                                    <tr>
+	                                                        <td><button type="button" id="add-align" onclick="addContractRevisionsRow()" class="btn btn-primary"> <i class="fa fa-plus"></i></button>
+	                                                    </tr>
+	                                            </table>
+                                            </div>
+                                            <div id="errorRevision" style="color:red;"></div>
+                                         
 	                                </div>
 		                            
 		                            <div class="row">
@@ -617,64 +646,7 @@
 			                            </div>        
 			                    </div>
 							</div>
-<input type="text" id="rowNoRevision" name="rowNoRevision">
 
-   <div id="revisionsModal" class="modal">
-       <div class="modal-content">
-           <h5 class="modal-header">Revisions
-	           <span class="right modal-action modal-close">
-	           <span class="material-icons">close</span></span>
-           </h5>
-               <div class="row no-mar" id="amendment_not_required_in_contract_Div">
-                            <div class="container container-no-margin" style="margin:0px;">
-                             <div class="row exe-box">
-                                <div class="col s12 m12">
-                                    <div class="row">
-                                        <div class="table-inside">
-                                            <table id="app_com_tableRevision" class="mdl-data-table" style="width:auto;">
-                                                <thead>
-                                                    <tr>
-                                                    	<th class="w1em">Revision No. </th>
-                                                        <th class="w1em">Detailed Estimated cost</th>
-                                                        <th class="w1em">Planned date of award</th>
-                                                        <th class="w1em">Planned date of completion</th>
-                                                        <th></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="stTDCBody">
-                                                <input type="hidden" id="sNoRevision" value="1">
-                                                       <tr>
-                                                       		<td style="width:100px;"><input id="revisionno0" name="revisionno" type="text" value="R1"></td>
-                                                        	<td style="width:300px;"><input id="revision_estimated_cost0" name="revision_estimated_cost" type="text"></td>
-                                                       		<td style="width:100px;"><input id="revision_planned_date_of_award0" name="revision_planned_date_of_award" type="text" class="validate datepicker"></td>
-                                                        	<td style="width:300px;"><input id="revision_planned_date_of_completion0" name="revision_planned_date_of_completion" type="text" class="validate datepicker"></td>                                                        	
-                                                        	<td></td>
-                                                        </tr>
-                                            
-                                                </tbody>
-                                            </table>
-                                            <div>
-	                                             <table>
-	                                                    <tr>
-	                                                        <td><button type="button" id="add-align" onclick="addContractRevisionsRow()" class="btn btn-primary"> <i class="fa fa-plus"></i></button>
-	                                                    </tr>
-	                                            </table>
-                                            </div>
-                                            <div id="errorRevision" style="color:red;"></div>
-                                             <table>
-                                            	<tr><td><button type="button" name="btnRevision" id="btnRevision" onClick="addRevision();" class="btn btn-primary">Add</button></td></tr>
-                                            </table>                                           
-                                        </div>
-                                    </div>
-                                </div>
-                             </div>
-                         
-                    </div>
-                    
-
-               </div>        
-       </div>
-   </div>
                             <div class="row">
                                 <div class="col s6 m4 l6 mt-brdr center-align offset-m2">
                                     <div class="m-1">
@@ -766,56 +738,6 @@
 			 hideContractDetails();
 			 
         });
-        
-      	function addRevisions()
-      	{
-      		$("#revisionsModal").modal("open"); 
-      	}        
-      	
-       	function addRevision()
-       	{
-    		var rowLr=$("#app_com_tableRevision tbody tr").length;
-    		for(var k=0;k<rowLr;k++)
-    		{
-    			if($("#revisionno"+k).val()=="")
-    			{
-    				$("#errorRevision").html("Please enter Revision No.");
-    				return false;
-    			}
-    			else
-    			{
-    				$("#errorRevision").html("");
-    			}
-    			if($("#revision_estimated_cost"+k).val()=="")
-    			{
-    				$("#errorRevision").html("Please enter Estimated Cost.");
-    				return false;			
-    			}
-    			else
-    			{
-    				$("#errorRevision").html("");
-    			}	
-    			if($("#revision_planned_date_of_award"+k).val()=="")
-    			{
-    				$("#errorRevision").html("Please enter Planned date of award");
-    				return false;			
-    			}
-    			else
-    			{
-    				$("#errorRevision").html("");
-    			}
-    			if($("#revision_planned_date_of_completion"+k).val()=="")
-    			{
-    				$("#errorRevision").html("Please enter Planned date of completion");
-    				return false;			
-    			}
-    			else
-    			{
-    				$("#errorRevision").html("");
-    			}   			
-    		}
-    		 $("#revisionsModal").modal("close");
-       	}     	
         
         function getStatusLIst(){
 		  	$(".page-loader").show();

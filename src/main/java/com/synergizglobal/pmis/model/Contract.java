@@ -28,7 +28,9 @@ public class Contract {
 	 revisionno,revision_estimated_cost,revision_planned_date_of_award,revision_planned_date_of_completion;
 	
 	private String contractor_id, contractor_specilization_fk, address,
-	primary_contact_name, phone_number, pan_number, gst_number, bank_name, account_number, ifsc_code,target_doc,structure_type_per,total;
+	primary_contact_name, phone_number, pan_number, gst_number, bank_name, account_number, ifsc_code,target_doc,structure_type_per,total,last_financial_progress,
+	
+	revisionnumber,revisionestimatedcost,revisionplanneddateofaward,revisionplanneddateofcompletion;
 	
 	private MultipartFile contractFile;
 	
@@ -40,6 +42,7 @@ public class Contract {
 	private List<Contract> bankGauranree;
 	private List<Contract> insurence;
 	private List<Contract> milestones;
+	private List<Contract> contract_revisions;
 	private List<Contract> contract_revision;
 	private List<Contract> contractDocuments;
 	private List<Contract> contractKeyPersonnels;
@@ -1915,6 +1918,54 @@ public class Contract {
 
 	public void setRevision_planned_date_of_completion(String[] revision_planned_date_of_completion) {
 		this.revision_planned_date_of_completion = revision_planned_date_of_completion;
+	}
+
+	public List<Contract> getContract_revisions() {
+		return contract_revisions;
+	}
+
+	public void setContract_revisions(List<Contract> contract_revisions) {
+		this.contract_revisions = contract_revisions;
+	}
+
+	public String getRevisionnumber() {
+		return revisionnumber;
+	}
+
+	public void setRevisionnumber(String revisionnumber) {
+		this.revisionnumber = revisionnumber;
+	}
+
+	public String getRevisionestimatedcost() {
+		return revisionestimatedcost;
+	}
+
+	public void setRevisionestimatedcost(String revisionestimatedcost) {
+		this.revisionestimatedcost = revisionestimatedcost;
+	}
+
+	public String getRevisionplanneddateofaward() {
+		return revisionplanneddateofaward;
+	}
+
+	public void setRevisionplanneddateofaward(String revisionplanneddateofaward) {
+		this.revisionplanneddateofaward = revisionplanneddateofaward;
+	}
+
+	public String getRevisionplanneddateofcompletion() {
+		return revisionplanneddateofcompletion;
+	}
+
+	public void setRevisionplanneddateofcompletion(String revisionplanneddateofcompletion) {
+		this.revisionplanneddateofcompletion = revisionplanneddateofcompletion;
+	}
+
+	public String getLast_financial_progress() {
+		return last_financial_progress;
+	}
+
+	public void setLast_financial_progress(String last_financial_progress) {
+		this.last_financial_progress = last_financial_progress;
 	}
 	
 }

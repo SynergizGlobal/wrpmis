@@ -964,15 +964,29 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody id="stTDCBody">
+                                        <c:choose>
+                                        <c:when test="${not empty contractDeatils.contract_revisions  && fn:length(contractDeatils.contract_revisions ) gt 0 }"> 
+                                         <c:forEach var="revObj1" items="${contractDeatils.contract_revisions }" varStatus="index">                                                
                                                 <input type="hidden" id="sNoRevision" value="1">
                                                        <tr>
-                                                       		<td style="width:10%;"><input id="revisionno0" name="revisionno" type="text" value="R1"></td>
+                                                       		<td style="width:10%;"><input id="revisionno0" name="revisionno" type="text" value="${revObj1.revisionnumber }" ></td>
+                                                        	<td style="width:30%"><input id="revision_estimated_cost0" name="revision_estimated_cost" type="text" value="${revObj1.revisionestimatedcost }"></td>
+                                                       		<td style="width:30%"><input id="revision_planned_date_of_award0" name="revision_planned_date_of_award" type="text" class="validate datepicker" value="${revObj1.revisionplanneddateofaward }"></td>
+                                                        	<td style="width:30%;"><input id="revision_planned_date_of_completion0" name="revision_planned_date_of_completion" type="text" class="validate datepicker" value="${revObj1.revisionplanneddateofcompletion }"></td>                                                        	
+                                                        	<td></td>
+                                                        </tr>
+                                         </c:forEach>
+                                          </c:when>
+                                          <c:otherwise>
+                                                        <tr>
+                                                       		<td style="width:10%;"><input id="revisionno0" name="revisionno" type="text" value="R1" ></td>
                                                         	<td style="width:30%"><input id="revision_estimated_cost0" name="revision_estimated_cost" type="text"></td>
                                                        		<td style="width:30%"><input id="revision_planned_date_of_award0" name="revision_planned_date_of_award" type="text" class="validate datepicker"></td>
                                                         	<td style="width:30%;"><input id="revision_planned_date_of_completion0" name="revision_planned_date_of_completion" type="text" class="validate datepicker"></td>                                                        	
                                                         	<td></td>
-                                                        </tr>
-                                            
+                                                        </tr>                                         
+                                          </c:otherwise>
+                                         </c:choose>                                              
                                                 </tbody>
                                             </table>
                                             <div>
@@ -1886,15 +1900,6 @@
 					                                	</select>
 					                                	<span id="units${index.count }Error" class="my-error right"></span>
                                                  </td>
-                                               <%--   <td class="responsive_units  ">
-					                                	<select class="units validate-dropdown" id="revised_amounts_units${index.count }" name="revised_amount_unitss">
-					                                		<option value="">Select</option>
-					                                		<c:forEach var="obj" items="${unitsList }">
-		                                    			      <option value="${obj.value }" <c:if test="${revObj.revised_amount_units eq obj.value}">selected</c:if>>${obj.unit }</option>
-		                                     			    </c:forEach>
-					                                	</select>
-					                                	<span id="units${index.count }Error" class="my-error"></span>
-                                                </td> --%>
                                                  <td data-head="Current" class="input-field  p-h-0">	
                                                  	<p>
                                                  	<label> 
@@ -2564,6 +2569,16 @@
             getDyHodList();
                        
             hideContractDetails();
+            
+            
+            if("${fn:length(contractDeatils.contract_revisions)}">0)
+            	{
+            		var rlength=Number("${fn:length(contractDeatils.contract_revisions)}")-1;
+            		$("#rowNoRevision").val(rlength);
+            	}
+            
+            
+            
             
             $("input[name=contract_status]").click(function(){
             	var contract_status = $(this).val();

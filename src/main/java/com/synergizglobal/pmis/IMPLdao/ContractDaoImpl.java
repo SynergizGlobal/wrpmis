@@ -1119,7 +1119,8 @@ public class ContractDaoImpl implements ContractDao {
 
 				contract.setBankGauranree(getBankGauranree(contract.getContract_id(),con));	
 				contract.setInsurence(getInsurence(contract.getContract_id(),con));	
-				contract.setMilestones(getMilestones(contract.getContract_id(),con));	
+				contract.setMilestones(getMilestones(contract.getContract_id(),con));
+				contract.setContract_revisions(getContract_revisions(contract.getContract_id(),con));
 				contract.setContract_revision(getContract_revision(contract.getContract_id(),con));	
 				
 				contract.setContractKeyPersonnels(getContractKeyPersonnels(contract.getContract_id(),con));	
@@ -1324,6 +1325,35 @@ public class ContractDaoImpl implements ContractDao {
 		}
 		return objsList;
 	}
+	
+	private List<Contract> getContract_revisions(String contract_id, Connection con) throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet resultSet = null;
+		List<Contract> contract_revisions = new ArrayList<Contract>();
+		Contract obj = null;
+		try {
+			String qry ="select revision_no as revisionnumber,revision_estimated_cost as revisionestimatedcost,revision_planned_date_of_award as revisionplanneddateofaward,revision_planned_date_of_completion as revisionplanneddateofcompletion from contract_revisions  "
+					+ " where contract_id_fk = ?";
+			stmt = con.prepareStatement(qry);
+			stmt.setString(1, contract_id);
+			resultSet = stmt.executeQuery();
+			while(resultSet.next()) {
+				obj = new Contract();
+				obj.setRevisionnumber(resultSet.getString("revisionnumber"));
+				obj.setRevisionestimatedcost(resultSet.getString("revisionestimatedcost"));
+				obj.setRevisionplanneddateofaward(resultSet.getString("revisionplanneddateofaward"));
+				obj.setRevisionplanneddateofcompletion(resultSet.getString("revisionplanneddateofcompletion"));
+				contract_revisions.add(obj);
+			}
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, resultSet);
+		}
+		return contract_revisions;
+	}	
 
 	private List<Contract> getContract_revision(String contract_id, Connection con) throws Exception {
 		PreparedStatement stmt = null;

@@ -497,7 +497,6 @@ width: 90%;
 										<th class="fs16rem" style="background-color: #162D6E;width:10%;">Expenditure<br>(Cr)</th>
 										<th class="fs16rem" style="background-color: #162D6E;width:10%;">Physical <br>Progress</th>
 										<th class="fs16rem" style="background-color: #162D6E;width:10%;">LOA <br>Date</th>
-										<th class="fs16rem" style="background-color: #162D6E;width:10%;">Completion<br> Date</th>
 										<th class="fs16rem" style="background-color: #162D6E;width:20%">Remarks</th>
 									</tr>
 								</thead>
@@ -505,7 +504,6 @@ width: 90%;
 									<tr>
 										<td></td>
 										<td></td>	
-										<td></td>
 										<td></td>
 										<td></td>
 										<td></td>
@@ -797,12 +795,12 @@ width: 90%;
 				                   	if(val.revisionnumber!=null && val.revisionnumber!="")
 				                   		{
 				                   		concat=$.trim(awarded_cost)+'('+val.revisionnumber+')';
+				                   		concat = '<span style="color:red;">'+concat+'</span>'
 				                   		}
 				                   	rowArray.push(concat);
 				                   	rowArray.push($.trim(val.cumulative_expenditure));
 				                   	rowArray.push($.trim(val.physical_progress));
 				                   	rowArray.push($.trim(loa_date));
-				                   	rowArray.push($.trim(val.actual_completion_date));
 				                   	rowArray.push($.trim(val.remarks));   	                   	
 				                   	
 				                    table.row.add(rowArray).draw( true );

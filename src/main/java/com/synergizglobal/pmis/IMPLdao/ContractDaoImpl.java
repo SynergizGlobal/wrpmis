@@ -538,7 +538,13 @@ public class ContractDaoImpl implements ContractDao {
 			    c = stmt.executeBatch();
 				if(stmt != null){stmt.close();}
 				
-				if(!StringUtils.isEmpty(contract.getRevision_estimated_cost()) && contract.getRevision_estimated_cost().length>0 && contract.getRevision_estimated_cost()!=null)
+				if((!StringUtils.isEmpty(contract.getRevision_estimated_cost()) && contract.getRevision_estimated_cost().length>0 && contract.getRevision_estimated_cost()!=null) || 
+						
+						(!StringUtils.isEmpty(contract.getRevision_planned_date_of_award()) && contract.getRevision_planned_date_of_award().length>0 && contract.getRevision_planned_date_of_award()!=null)
+						
+						|| (!StringUtils.isEmpty(contract.getRevision_planned_date_of_completion()) && contract.getRevision_planned_date_of_completion().length>0 && contract.getRevision_planned_date_of_completion()!=null)
+
+						)
 				{
 					PreparedStatement stmtRevision = null;
 					
@@ -1924,7 +1930,13 @@ public class ContractDaoImpl implements ContractDao {
 					int[] updateCount = updateStmt.executeBatch();
 					if(stmt != null || updateStmt != null ){stmt.close();updateStmt.close();}
 					
-					if(!StringUtils.isEmpty(contract.getRevision_estimated_cost()) && contract.getRevision_estimated_cost().length>0 && contract.getRevision_estimated_cost()!=null)
+					if((!StringUtils.isEmpty(contract.getRevision_estimated_cost()) && contract.getRevision_estimated_cost().length>0 && contract.getRevision_estimated_cost()!=null) || 
+							
+							(!StringUtils.isEmpty(contract.getRevision_planned_date_of_award()) && contract.getRevision_planned_date_of_award().length>0 && contract.getRevision_planned_date_of_award()!=null)
+							
+							|| (!StringUtils.isEmpty(contract.getRevision_planned_date_of_completion()) && contract.getRevision_planned_date_of_completion().length>0 && contract.getRevision_planned_date_of_completion()!=null)
+
+							)
 					{
 					
 						PreparedStatement stmtRevision = null;

@@ -218,6 +218,13 @@ public class ProjectOverviewReportDaoImpl implements ProjectOverviewReportDao{
 				}
 				cObj.setActual_financial_progress(actual_financial_progress);
 				
+				String last_financial_progress = "0";
+				if(!StringUtils.isEmpty(cObj.getLast_financial_progress())) {
+					double val = (Double.parseDouble(cObj.getLast_financial_progress()))/10000000;
+					last_financial_progress = numberFormatter.format(val);
+				}
+				cObj.setLast_financial_progress(last_financial_progress);				
+				
 				String actual_physical_progress = "0";
 				if(!StringUtils.isEmpty(cObj.getActual_physical_progress())) {
 					double val = (Double.parseDouble(cObj.getActual_physical_progress()))/10000000;

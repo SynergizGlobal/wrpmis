@@ -388,14 +388,8 @@ width: 90%;
      text-align: center !important
      white-space: nowrap;
 }
-.mdl-data-table td:nth-child(8) {
-     text-align: center !important;
-     white-space: nowrap;
-}
-	
-.mdl-data-table th:nth-child(7) {
-     text-align: center !important;
-}	
+
+
 	
     </style>
 </head>
@@ -487,7 +481,8 @@ width: 90%;
 						</div>
 						<div class="col m12 s12">
 						<p class="right tab-p"><b>Figures in <span class="red1">red</span> are Estimated</b></p>
-							<table id="datatable-contract-details" class="mdl-data-table" style="background-color:#162D6E;">
+							<table id="datatable-contract-details" class="mdl-data-table" style="background-color:#162D6E;overflow-x: hidden;
+  max-width: 100%;">
 								<thead>
 									<tr id="topDivCss">
 										<th class="fs16rem" style="background-color: #162D6E;width:5%">S.No</th>

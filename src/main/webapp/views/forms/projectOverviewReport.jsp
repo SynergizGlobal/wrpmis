@@ -848,11 +848,11 @@
 								    	         					html=html+'<tr '+contractstatuscolor+'>';
 								    	         						html=html+'<td class="fw-5p fs16rem">'+$.trim(t1)+'</td>';
 								    	         						html=html+'<td class="fw-42p fs16rem">'+val1.contract_short_name+'</td>';
-								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr" style="color:red;"></td>';
-								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr" style="color:red;">'+val1.awarded_cost+'</td>';
-								    	         						html=html+'<td class="fw-15p fs16rem txt-cntr" style="color:red;">'+val1.last_financial_progress+'</td>';
-								    	         						html=html+'<td class="fw-15p fs16rem txt-cntr" style="color:red;">'+val1.actual_financial_progress+'</td>';
-								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr" style="color:red;">'+val1.cumulative_expenditure+'</td>';
+								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr" style="color:red;">'+parseFloat(val1.estimated_cost).toFixed(2)+'</td>';
+								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr" style="color:red;">'+parseFloat(val1.awarded_cost).toFixed(2)+'</td>';
+								    	         						html=html+'<td class="fw-15p fs16rem txt-cntr" style="color:red;">'+parseFloat(val1.last_financial_progress).toFixed(2)+'</td>';
+								    	         						html=html+'<td class="fw-15p fs16rem txt-cntr" style="color:red;">'+parseFloat(val1.actual_financial_progress).toFixed(2)+'</td>';
+								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr" style="color:red;">'+parseFloat(val1.cumulative_expenditure).toFixed(2)+'</td>';
 								    	         					html=html+'</tr>';
 				    	         								}
 				    	         							else
@@ -865,11 +865,11 @@
 								    	         							{
 								    	         								gh=val1.revisionnumber;
 								    	         							}
-								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr">'+val1.estimated_cost+'('+gh+')</td>';
-								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr">'+val1.awarded_cost+'</td>';
-								    	         						html=html+'<td class="fw-15p fs16rem txt-cntr">'+val1.last_financial_progress+'</td>';
-								    	         						html=html+'<td class="fw-15p fs16rem txt-cntr">'+val1.actual_financial_progress+'</td>';
-								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr">'+val1.cumulative_expenditure+'</td>';
+								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr">'+parseFloat(val1.estimated_cost).toFixed(2)+'('+gh+')</td>';
+								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr">'+parseFloat(val1.awarded_cost).toFixed(2)+'</td>';
+								    	         						html=html+'<td class="fw-15p fs16rem txt-cntr">'+parseFloat(val1.last_financial_progress).toFixed(2)+'</td>';
+								    	         						html=html+'<td class="fw-15p fs16rem txt-cntr">'+parseFloat(val1.actual_financial_progress).toFixed(2)+'</td>';
+								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr">'+parseFloat(val1.cumulative_expenditure).toFixed(2)+'</td>';
 								    	         					html=html+'</tr>';			    	         								
 				    	         								}
 					    	         							t1++;

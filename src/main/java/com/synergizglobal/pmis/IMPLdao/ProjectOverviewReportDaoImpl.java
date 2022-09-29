@@ -146,23 +146,18 @@ public class ProjectOverviewReportDaoImpl implements ProjectOverviewReportDao{
 			String qry = "select * from (SELECT distinct contract_short_name,work_short_name,ISNULL((select sum(e1.gross_work_done*e1.gross_work_done_units) from expenditure e1  					where contract_id_fk=c.contract_id  and voucher_type=(SELECT CASE WHEN MONTH(CONVERT(date, getdate())) >= 4 THEN concat(YEAR(CONVERT(date, getdate()))-1, '-',SUBSTRING(cast(YEAR(CONVERT(date, getdate())) as varchar),3,2)) ELSE concat(cast(YEAR(CONVERT(date, getdate()))-1 as varchar),'-', SUBSTRING(cast(YEAR(CONVERT(date, getdate())) as varchar),3,2)) END)  					)  					 ,0) as last_financial_progress,  " + 
 					 
 					 
-					"					case when (select count(*) from contract_revisions where contract_id_fk=c.contract_id)>0  " + 
+					"					isnull(cast(isnull(c.estimated_cost,0)*c.estimated_cost_units as CHAR),0) as estimated_cost,\r\n" + 
+					"										isnull((case when  (contract_status_fk='Not Awarded' and (select count(*) from contract_revisions where contract_id_fk=c.contract_id)>0 )\r\n" + 
+					"						then\r\n" + 
+					"(select isnull(revision_estimated_cost,0) from contract_revisions where contract_id_fk=c.contract_id\r\n" + 
+					"and revision_no=(select Max(revision_no) from contract_revisions where contract_id_fk=c.contract_id))\r\n" + 
+					"						 else \r\n" + 
+					"							cast(c.awarded_cost*c.awarded_cost_units as CHAR)\r\n" + 
+					"						 \r\n" + 
+					"						 end),0)  as awarded_cost,(select Max(revision_no) from contract_revisions where contract_id_fk=c.contract_id) as revisionnumber, " + 
 					 
-					"					then (select isnull(revision_estimated_cost,0) from contract_revisions where contract_id_fk=c.contract_id and revision_no=(select Max(revision_no) from contract_revisions where contract_id_fk=c.contract_id)) else  " + 
-					 
-					 
-					"					cast(isnull(estimated_cost,0) as varchar(20)) end as estimated_cost,(select Max(revision_no) from contract_revisions where contract_id_fk=c.contract_id) as revisionnumber, " + 
-					 
-					 
-					"case when (case when cr.revised_amount is null then awarded_cost*awarded_cost_units else revised_amount*revised_amount_units end) is null  " + 
-					 
-					 
-					 
-					"then (estimated_cost*estimated_cost_units) else (case when cr.revised_amount is null then awarded_cost*awarded_cost_units else revised_amount*revised_amount_units end) end as awarded_cost,  " + 
-					 
-					 
-					 
-					"SUM((e.gross_work_done * e.gross_work_done_units)) cumulative_expenditure,w.work_id,  					                    ISNULL((select sum(e1.gross_work_done*e1.gross_work_done_units) from expenditure e1  					where contract_id_fk=c.contract_id  					and voucher_type=(SELECT CASE WHEN MONTH(CONVERT(date, getdate())) >= 4 THEN concat(YEAR(CONVERT(date, getdate())), '-',SUBSTRING(cast(YEAR(CONVERT(date, getdate()))+1 as varchar),3,2)) ELSE concat(cast(YEAR(CONVERT(date, getdate()))-1 as varchar),'-', SUBSTRING(cast(YEAR(CONVERT(date, getdate())) as varchar),3,2)) END)  					)  					 ,0) as actual_financial_progress,d1.department as department,  					                    ISNULL((case when (case when cr.revised_amount is null then awarded_cost*awarded_cost_units else revised_amount*revised_amount_units end) is null then (estimated_cost*estimated_cost_units) else (case when cr.revised_amount is null then awarded_cost*awarded_cost_units else revised_amount*revised_amount_units end) end),0)-ISNULL((SUM((e.gross_work_done * e.gross_work_done_units))),0) AS actual_physical_progress,case when c.contract_id like '%null%' and (contract_name like '%Miscellaneous-%' or contract_name like '%Land-%') then 'Non Bank Funds' else d1.department_name end department_name   										,contract_status_fk from contract c   										LEFT JOIN work w on c.work_id_fk = w.work_id  										LEFT JOIN project p on w.project_id_fk = p.project_id  						LEFT JOIN [user] u ON c.hod_user_id_fk = u.user_id 	left join department d1 on d1.department=u.department_fk                     left join contract_revision cr on cr.contract_id_fk = c.contract_id and cr.revision_amounts_status = 'Yes'  					                    left join expenditure e on e.contract_id_fk= c.contract_id  					LEFT join money_unit mu1 ON c.estimated_cost_units = mu1.value LEFT join money_unit mu2 ON c.awarded_cost_units = mu2.value LEFT join money_unit mu3 ON c.completed_cost_units = mu3.value 	where work_id_fk is not null and work_id_fk <> ''     					 					group by work_id,contract_id,contract_name,department,contract_status_fk,department_name,contract_short_name,work_short_name,revised_amount,awarded_cost,					revised_amount_units,estimated_cost,estimated_cost_units,awarded_cost_units,revised_amount_units ) as a  " + 
+
+					"isnull(SUM((e.gross_work_done * e.gross_work_done_units)),0) cumulative_expenditure,w.work_id,  					                    ISNULL((select sum(e1.gross_work_done*e1.gross_work_done_units) from expenditure e1  					where contract_id_fk=c.contract_id  					and voucher_type=(SELECT CASE WHEN MONTH(CONVERT(date, getdate())) >= 4 THEN concat(YEAR(CONVERT(date, getdate())), '-',SUBSTRING(cast(YEAR(CONVERT(date, getdate()))+1 as varchar),3,2)) ELSE concat(cast(YEAR(CONVERT(date, getdate()))-1 as varchar),'-', SUBSTRING(cast(YEAR(CONVERT(date, getdate())) as varchar),3,2)) END)  					)  					 ,0) as actual_financial_progress,d1.department as department,  					                    ISNULL((case when (case when cr.revised_amount is null then awarded_cost*awarded_cost_units else revised_amount*revised_amount_units end) is null then (estimated_cost*estimated_cost_units) else (case when cr.revised_amount is null then awarded_cost*awarded_cost_units else revised_amount*revised_amount_units end) end),0)-ISNULL((SUM((e.gross_work_done * e.gross_work_done_units))),0) AS actual_physical_progress,case when c.contract_id like '%null%' and (contract_name like '%Miscellaneous-%' or contract_name like '%Land-%') then 'Non Bank Funds' else d1.department_name end department_name   										,contract_status_fk from contract c   										LEFT JOIN work w on c.work_id_fk = w.work_id  										LEFT JOIN project p on w.project_id_fk = p.project_id  						LEFT JOIN [user] u ON c.hod_user_id_fk = u.user_id 	left join department d1 on d1.department=u.department_fk                     left join contract_revision cr on cr.contract_id_fk = c.contract_id and cr.revision_amounts_status = 'Yes'  					                    left join expenditure e on e.contract_id_fk= c.contract_id  					LEFT join money_unit mu1 ON c.estimated_cost_units = mu1.value LEFT join money_unit mu2 ON c.awarded_cost_units = mu2.value LEFT join money_unit mu3 ON c.completed_cost_units = mu3.value 	where work_id_fk is not null and work_id_fk <> ''     					 					group by work_id,contract_id,contract_name,department,contract_status_fk,department_name,contract_short_name,work_short_name,revised_amount,awarded_cost,					revised_amount_units,estimated_cost,estimated_cost_units,awarded_cost_units,revised_amount_units ) as a  " + 
 					 
 					 
 					"where 0=0 " ; 
@@ -193,7 +188,7 @@ public class ProjectOverviewReportDaoImpl implements ProjectOverviewReportDao{
 			for (Contract cObj : objsList) {
 				
 				String estimated_cost = cObj.getEstimated_cost();
-				String estimated_cost_value = "";
+				String estimated_cost_value = "0";
 				if(!StringUtils.isEmpty(estimated_cost)) {
 					double val = (Double.parseDouble(estimated_cost))/10000000;
 					estimated_cost_value = numberFormatter.format(val);
@@ -201,28 +196,29 @@ public class ProjectOverviewReportDaoImpl implements ProjectOverviewReportDao{
 				cObj.setEstimated_cost(estimated_cost_value);				
 				
 				String awarded_cost = cObj.getAwarded_cost();
-				String awarded_cost_value = "";
+				String awarded_cost_value = "0";
 				if(!StringUtils.isEmpty(awarded_cost)) {
 					double val = (Double.parseDouble(awarded_cost))/10000000;
 					awarded_cost_value = numberFormatter.format(val);
 				}
 				cObj.setAwarded_cost(awarded_cost_value);
 				
-				String cumulative_expenditure_value = "";
-				if(!StringUtils.isEmpty(cObj.getCumulative_expenditure())) {
-					double val = (Double.parseDouble(cObj.getCumulative_expenditure()))/10000000;
+				String cumulative_expenditure = cObj.getCumulative_expenditure();
+				String cumulative_expenditure_value = "0";
+				if(!StringUtils.isEmpty(cumulative_expenditure)) {
+					double val = (Double.parseDouble(cumulative_expenditure))/10000000;
 					cumulative_expenditure_value = numberFormatter.format(val);
 				}
-				cObj.setCumulative_expenditure(cumulative_expenditure_value);
+				cObj.setCumulative_expenditure(cumulative_expenditure_value);				
 				
-				String actual_financial_progress = "";
+				String actual_financial_progress = "0";
 				if(!StringUtils.isEmpty(cObj.getActual_financial_progress())) {
 					double val = (Double.parseDouble(cObj.getActual_financial_progress()))/10000000;
 					actual_financial_progress = numberFormatter.format(val);
 				}
 				cObj.setActual_financial_progress(actual_financial_progress);
 				
-				String actual_physical_progress = "";
+				String actual_physical_progress = "0";
 				if(!StringUtils.isEmpty(cObj.getActual_physical_progress())) {
 					double val = (Double.parseDouble(cObj.getActual_physical_progress()))/10000000;
 					actual_physical_progress = numberFormatter.format(val);

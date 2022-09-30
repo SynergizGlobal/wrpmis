@@ -1568,7 +1568,7 @@
        if ($.trim(projectId) != "") {
            var myParams = { project_id_fk: projectId };
            $.ajax({
-               url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInRR",
+               url: "<%=request.getContextPath()%>/ajax/getWorkListForRRForm",
                data: myParams, cache: false,
                success: function (data) {
                    if (data.length > 0) {

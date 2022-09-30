@@ -67,27 +67,27 @@ public class RandRMainDaoImpl implements RandRMainDao{
 					"where r.work_id is not null and r.work_id <> '' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and r.work_id = ?";
+				qry = qry + " and r.work_id = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLocation_name())) {
-				qry = qry + " and location_name = ?";
+				qry = qry + " and location_name = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getPhase())) {
-				qry = qry + " and phase = ?";
+				qry = qry + " and phase = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_id())) {
-				qry = qry + " and structure_id = ?";
+				qry = qry + " and structure_id = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getBoundary_wall_status())) {
-				qry = qry + " and boundary_wall_status = ?";
+				qry = qry + " and boundary_wall_status = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getType_of_use())) {
-				qry = qry + " and type_of_use = ?";
+				qry = qry + " and type_of_use = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
@@ -137,27 +137,27 @@ public class RandRMainDaoImpl implements RandRMainDao{
 			int arrSize = 0;
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and r.work_id = ?";
+				qry = qry + " and r.work_id = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLocation_name())) {
-				qry = qry + " and location_name = ?";
+				qry = qry + " and location_name = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getPhase())) {
-				qry = qry + " and phase = ?";
+				qry = qry + " and phase = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_id())) {
-				qry = qry + " and structure_id = ?";
+				qry = qry + " and structure_id = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getBoundary_wall_status())) {
-				qry = qry + " and boundary_wall_status = ?";
+				qry = qry + " and boundary_wall_status = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getType_of_use())) {
-				qry = qry + " and type_of_use = ?";
+				qry = qry + " and type_of_use = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
@@ -207,27 +207,27 @@ public class RandRMainDaoImpl implements RandRMainDao{
 			int arrSize = 0;
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and r.work_id = ?";
+				qry = qry + " and r.work_id = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLocation_name())) {
-				qry = qry + " and location_name = ?";
+				qry = qry + " and location_name = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getPhase())) {
-				qry = qry + " and phase = ?";
+				qry = qry + " and phase = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_id())) {
-				qry = qry + " and structure_id = ?";
+				qry = qry + " and structure_id = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getBoundary_wall_status())) {
-				qry = qry + " and boundary_wall_status = ?";
+				qry = qry + " and boundary_wall_status = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getType_of_use())) {
-				qry = qry + " and type_of_use = ?";
+				qry = qry + " and type_of_use = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
@@ -277,27 +277,27 @@ public class RandRMainDaoImpl implements RandRMainDao{
 			int arrSize = 0;
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and r.work_id = ?";
+				qry = qry + " and r.work_id = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLocation_name())) {
-				qry = qry + " and location_name = ?";
+				qry = qry + " and location_name = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getPhase())) {
-				qry = qry + " and phase = ?";
+				qry = qry + " and phase = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_id())) {
-				qry = qry + " and structure_id = ?";
+				qry = qry + " and structure_id = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getBoundary_wall_status())) {
-				qry = qry + " and boundary_wall_status = ?";
+				qry = qry + " and boundary_wall_status = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getType_of_use())) {
-				qry = qry + " and type_of_use = ?";
+				qry = qry + " and type_of_use = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
@@ -347,27 +347,27 @@ public class RandRMainDaoImpl implements RandRMainDao{
 			int arrSize = 0;
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and r.work_id = ?";
+				qry = qry + " and r.work_id = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLocation_name())) {
-				qry = qry + " and location_name = ?";
+				qry = qry + " and location_name = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getPhase())) {
-				qry = qry + " and phase = ?";
+				qry = qry + " and phase = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_id())) {
-				qry = qry + " and structure_id = ?";
+				qry = qry + " and structure_id = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getBoundary_wall_status())) {
-				qry = qry + " and boundary_wall_status = ?";
+				qry = qry + " and boundary_wall_status = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getType_of_use())) {
-				qry = qry + " and type_of_use = ?";
+				qry = qry + " and type_of_use = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
@@ -417,27 +417,27 @@ public class RandRMainDaoImpl implements RandRMainDao{
 			int arrSize = 0;
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and r.work_id = ?";
+				qry = qry + " and r.work_id = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLocation_name())) {
-				qry = qry + " and location_name = ?";
+				qry = qry + " and location_name = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getPhase())) {
-				qry = qry + " and phase = ?";
+				qry = qry + " and phase = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_id())) {
-				qry = qry + " and structure_id = ?";
+				qry = qry + " and structure_id = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getBoundary_wall_status())) {
-				qry = qry + " and boundary_wall_status = ?";
+				qry = qry + " and boundary_wall_status = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getType_of_use())) {
-				qry = qry + " and type_of_use = ?";
+				qry = qry + " and type_of_use = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
@@ -487,27 +487,27 @@ public class RandRMainDaoImpl implements RandRMainDao{
 			int arrSize = 0;
 
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and r.work_id = ?";
+				qry = qry + " and r.work_id = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLocation_name())) {
-				qry = qry + " and location_name = ?";
+				qry = qry + " and location_name = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getPhase())) {
-				qry = qry + " and phase = ?";
+				qry = qry + " and phase = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_id())) {
-				qry = qry + " and structure_id = ?";
+				qry = qry + " and structure_id = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getBoundary_wall_status())) {
-				qry = qry + " and boundary_wall_status = ?";
+				qry = qry + " and boundary_wall_status = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getType_of_use())) {
-				qry = qry + " and type_of_use = ?";
+				qry = qry + " and type_of_use = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
@@ -581,27 +581,27 @@ public class RandRMainDaoImpl implements RandRMainDao{
 			int arrSize = 0;
 
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and r.work_id = ?";
+				qry = qry + " and r.work_id = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLocation_name())) {
-				qry = qry + " and location_name = ?";
+				qry = qry + " and location_name = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getPhase())) {
-				qry = qry + " and phase = ?";
+				qry = qry + " and phase = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_id())) {
-				qry = qry + " and structure_id = ?";
+				qry = qry + " and structure_id = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getBoundary_wall_status())) {
-				qry = qry + " and boundary_wall_status = ?";
+				qry = qry + " and boundary_wall_status = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getType_of_use())) {
-				qry = qry + " and type_of_use = ?";
+				qry = qry + " and type_of_use = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
@@ -689,10 +689,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 				qry = qry + " and r.executive_user_id_fk = ? ";
 				arrSize++;
 			}			
-			
-			
-			qry = qry + " order by work_id asc";
-			
+
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
@@ -724,14 +721,13 @@ public class RandRMainDaoImpl implements RandRMainDao{
 					
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
-				qry = qry + "and project_id_fk = ?";
+				qry = qry + "and project_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				qry = qry + " and r.executive_user_id_fk = ? ";
 				arrSize++;
 			}				
-			qry = qry + " order by work_id asc";
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -1263,19 +1259,22 @@ public class RandRMainDaoImpl implements RandRMainDao{
 						+ "VALUES" + "(:message,:user_id_fk,:redirect_url,CURRENT_TIMESTAMP,:message_type)";	
 				String executives=getRRExecutives(obj.getWork_id());
 				String executivesEmail=getRRExecutivesEmail(obj.getWork_id());
-				String [] SplitStr=executives.split(",");
-				String [] SplitEmail=executivesEmail.split(",");
-					
-				for(int i=0;i<SplitStr.length;i++)
+				if(!StringUtils.isEmpty(executives) && !StringUtils.isEmpty(executivesEmail))
 				{
-					Messages msgObj = new Messages();
-					msgObj.setUser_id_fk(SplitStr[i]);
-					msgObj.setMessage("A new R & R against "+obj.getWork_id()+" has been added");
-					msgObj.setRedirect_url("/get-rr/"+rr_id);
-					msgObj.setMessage_type("R & R");	
-					BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(msgObj);
-					template.update(messageQry, paramSource1);						
-				}
+					String [] SplitStr=executives.split(",");
+					String [] SplitEmail=executivesEmail.split(",");
+						
+					for(int i=0;i<SplitStr.length;i++)
+					{
+						Messages msgObj = new Messages();
+						msgObj.setUser_id_fk(SplitStr[i]);
+						msgObj.setMessage("A new R & R against "+obj.getWork_id()+" has been added");
+						msgObj.setRedirect_url("/get-rr/"+rr_id);
+						msgObj.setMessage_type("R & R");	
+						BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(msgObj);
+						template.update(messageQry, paramSource1);						
+					}
+				
 				
 				
 				/*********************************************************************************************/
@@ -1343,7 +1342,8 @@ public class RandRMainDaoImpl implements RandRMainDao{
 					emailSender.sendEmailWithRandRAlert(mail, sobj, today_date, current_year);
 					logger.error("sendEmailWithRandRAlert() >> Sending mail to " + mailTo + ": end ");
 					logger.error("sendEmailWithRandRAlert() >> Sending mail CC " + mailCC + ": end ");
-				}				
+				}
+				}
 				
 			}
 			//transactionManager.commit(status);
@@ -1386,15 +1386,14 @@ public class RandRMainDaoImpl implements RandRMainDao{
 		String laId = obj.getWork_code()+"-RR-01";
 		List<RandRMain> objsList = null;
 		try {
-			String qry ="SELECT rr_id FROM rr where rr_id like '"+obj.getWork_code()+"-RR%' " ;
+			String qry ="SELECT rr_id FROM rr where rr_id like '"+obj.getWork_code()+"'" ;
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));	
 			
 			if(!StringUtils.isEmpty(objsList) && objsList.size() > 0){
-					String qry2 ="SELECT CONCAT('"+obj.getWork_code()+"',SUBSTRING(rr_id, 3,4),SUBSTRING(cast(MAX(replace(rr_id,'"+obj.getWork_code()+"-RR-',''))+1 as varchar),0,"
-							+ "IFNULL ((SELECT LEN(max(replace(rr_id,'"+obj.getWork_code()+"-RR-','')))FROM rr "
-							+ " where rr_id like '"+obj.getWork_code()+"-RR%' group by LEN(rr_id) order by LEN(rr_id) desc offset 0 rows  fetch next 1 rows only),2)) ) AS rr_id "
-							+ "FROM rr WHERE rr_id LIKE '"+obj.getWork_code()+"-RR-%' group by LEN(rr_id) order by LEN(rr_id) desc offset 0 rows  fetch next 1 rows only " ;
-					dObj = (RandRMain)jdbcTemplate.queryForObject(qry2, new Object[] {}, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));
+				String qry2="select CONCAT('"+obj.getWork_code()+"','-LA-',case when len(rr_id)=3 then concat('0',rr_id) when len(rr_id)=2 then concat('00',rr_id) when len(rr_id)=1 then concat('000',rr_id) end) as rr_id from(" + 
+						"select (case when (select count(*) from rr where left(rr_id,2) ='"+obj.getWork_code()+"')>0 then Max(SUBSTRING( rr_id , LEN(rr_id) -  CHARINDEX('-',REVERSE(rr_id)) + 2  , LEN(rr_id)  ))+1 else 1 end )as rr_id from rr where left(rr_id,2) ='"+obj.getWork_code()+"') as a";
+						dObj = (RandRMain)jdbcTemplate.queryForObject(qry2, new Object[] {}, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));
+
 					laId = dObj.getRr_id();
 			}
 		}catch(Exception e){ 
@@ -1795,27 +1794,27 @@ public class RandRMainDaoImpl implements RandRMainDao{
 					" WHERE rr_id is not null ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and r.work_id = ?";
+				qry = qry + " and r.work_id = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLocation_name())) {
-				qry = qry + " and location_name = ?";
+				qry = qry + " and location_name = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getPhase())) {
-				qry = qry + " and phase = ?";
+				qry = qry + " and phase = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_id())) {
-				qry = qry + " and structure_id = ?";
+				qry = qry + " and structure_id = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getBoundary_wall_status())) {
-				qry = qry + " and boundary_wall_status = ?";
+				qry = qry + " and boundary_wall_status = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getType_of_use())) {
-				qry = qry + " and type_of_use = ?";
+				qry = qry + " and type_of_use = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
@@ -1864,7 +1863,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 					+ "WHERE rr_id_fk is not null ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(rr_id) ) {
-				qry = qry + " and rr_id_fk  = ?";
+				qry = qry + " and rr_id_fk  = ? ";
 				arrSize++;
 			}
 			Object[] pValues = new Object[arrSize];
@@ -1891,7 +1890,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 					+ "WHERE rr_id_fk is not null ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(rr_id) ) {
-				qry = qry + " and rr_id_fk  = ?";
+				qry = qry + " and rr_id_fk  = ? ";
 				arrSize++;
 			}
 			Object[] pValues = new Object[arrSize];
@@ -1918,7 +1917,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 					+ "WHERE rr_id_fk is not null ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(rr_id) ) {
-				qry = qry + " and rr_id_fk  = ?";
+				qry = qry + " and rr_id_fk  = ? ";
 				arrSize++;
 			}
 			Object[] pValues = new Object[arrSize];

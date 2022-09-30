@@ -127,6 +127,22 @@ public class RandRMainController {
 		return worksList;
 	}
 	
+	@RequestMapping(value = "/ajax/getWorkListForRRForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<RandRMain> getWorkListForRRForm(@ModelAttribute RandRMain obj, HttpSession session) {
+		List<RandRMain> worksList = null;
+		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			worksList = service.getWorkListForRRForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getWorksList : " + e.getMessage());
+		}
+		return worksList;
+	}	
 	@RequestMapping(value = "/ajax/getPhasesFilterListInRR", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<RandRMain> getPhasesFilterListInRR(@ModelAttribute RandRMain obj, HttpSession session) {

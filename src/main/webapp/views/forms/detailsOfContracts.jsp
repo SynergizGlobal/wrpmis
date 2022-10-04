@@ -295,8 +295,8 @@
 	        	min-width:150px !important;
        		 }
        		 .fw-155{
-	        	width:100px !important;
-	        	min-width:100px !important;
+	        	width:150px !important;
+	        	min-width:150px !important;
 	        }
 	        .m-n1{
 	        	margin: -3rem auto 0;
@@ -342,14 +342,14 @@
 } */	
 
 .textalignment{
-   	width:360px !important;
-   	min-width:360px !important;
+   	width:260px !important;
+   	min-width:260px !important;
 	text-align: left  !important;
 }
 
 .textalignment2{
-   	width:280px !important;
-   	min-width:280px !important;
+   	width:200px !important;
+   	min-width:200px !important;
 	text-align: left  !important;
 }
 
@@ -357,6 +357,11 @@
 	text-align: center  !important;
 }
 
+.textalignment4{
+	text-align: center  !important;
+   	width:70px !important;
+   	min-width:70px !important;	
+}
 
 .mdl-data-table {
     position: relative;
@@ -429,23 +434,23 @@ width: 90%;
 									</c:if>
 								</div>
 							</div>
-							<div class="col m12 l8 offset-l2 s12">
+							<div class="col m12 l10">
 								<div class="row no-mar">
-									<div class="col s6 m4 l3 input-field">
+									<div class="col s6 m3 l3 input-field">
 										<p class="searchable_label fs16rem" style="color:#000000;">Work</p><br>
 										<select id="work_id_fk" name="work_id_fk"
 											onchange="addInQueWork(this.value);getContractDetailList();" class="searchable">
 											<option value="">Select</option>										
 										</select> 
 									</div>		
-									<div class="col s6 m4 l3 input-field">
+									<div class="col s6 m3 l3 input-field">
 										<p class="searchable_label fs16rem" style="color:#000000;">Contract Status</p><br>
 										<select id="contract_status_fk" name="contract_status_fk"
 											onchange="addInQueContractStatus(this.value);getContractDetailList();" class="searchable">
 											<option value="">Select</option>
 										</select>
 									</div>
-									<div class="col s6 m4 l3 input-field">
+									<div class="col s6 m3 l3 input-field">
 										<p class="searchable_label fs16rem" style="color:#000000;">Department</p><br>
 										<select id="department_fk" name="department_fk"
 											onchange="addInQueDepartment(this.value);getContractDetailList();" class="searchable">
@@ -453,10 +458,17 @@ width: 90%;
 										</select>
 									</div>
 								
-								<div class="col s6 m12 l3 center-align">
+								<div class="col s6 m3 l3 center-align">
 									<button class="btn bg-m waves-effect waves-light t-c"
 										style="margin-top: 6px;" onclick="clearFilter();">Clear
 										Filters</button>
+								</div>
+								<div class="col s6 m3 l3 input-field">
+									L.C.P=Latest Contract Price
+									<br>
+									OCD=Original Completion Date
+									<br>
+									RCD=Revised Completion Date
 								</div>
 							</div>
 						</div>
@@ -487,11 +499,11 @@ width: 90%;
 									<tr id="topDivCss">
 										<th class="fs16rem" style="background-color: #162D6E;width:5%">S.No</th>
 										<th class="fs16rem" style="background-color: #162D6E;">Contract Status</th>
-										<th class="fs16rem" style="background-color: #162D6E;width:25%">Contract</th>
-										<th class="fs16rem" style="background-color: #162D6E;width:10%;">L.C.P (Cr)</th>
-										<th class="fs16rem" style="background-color: #162D6E;width:10%;">Exp. (Cr)</th>
+										<th class="fs16rem" style="background-color: #162D6E;width:15%">Contract</th>
+										<th class="fs16rem" style="background-color: #162D6E;width:15%;">L.C.P (Cr)</th>
+										<th class="fs16rem" style="background-color: #162D6E;width:15%;">Exp. (Cr)</th>
 										<th class="fs16rem" style="background-color: #162D6E;width:10%;">% Progress</th>
-										<th class="fs16rem" style="background-color: #162D6E;width:10%;">LOA <br>Date</th>
+										<th class="fs16rem" style="background-color: #162D6E;width:10%;">LOA Date</th>
 										<th class="fs16rem" style="background-color: #162D6E;width:10%;">OCD</th>
 										<th class="fs16rem" style="background-color: #162D6E;width:10%;">RCD</th>
 										<th class="fs16rem" style="background-color: #162D6E;width:20%">Remarks</th>
@@ -705,11 +717,12 @@ width: 90%;
                 {targets: [0],className: 'w50px'},
                 {targets: [1, 3,  4, 5, 7],className: 'hideCOl'},
                 {targets: [0, 3, 3, 4, 6],className: 'textalignment3'},
+                {targets: [0],className: 'textalignment4'},
                 //{targets: [5],className: 'red'},
                 //{targets: [6],className: 'fw-200'},
                 {targets: [5,6],className: 'fw-155'},
                 {targets: [2],className: 'textalignment'},
-                {targets: [7],className: 'textalignment2'},
+                {targets: [6,7,8],className: 'textalignment2'},
                 { orderable: false, 'aTargets': ['nosort'] }
             ],
             // "ScrollX": true,

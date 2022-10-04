@@ -778,47 +778,62 @@
 				         			var html=conHtm+"<li>", class_name='', internal_text='';
 				         			if(val.department_name=="Engineering") {
 				         				class_name="engineering";
-				         				var yji=sumVal2+sumVal3;
+				         				var yji1=sumVal2-sumVal3;
+				         				var yji=yji1+sumVal3;
+				         				
+				         				
 				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13.6%;width:17.6%;">'+sumVal5.toFixed(1)+'</span>';
 				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13.6%;width:17.6%;">'+sumVal1.toFixed(1)+'</span>';
-					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13%;width:17%;">'+sumVal2.toFixed(1)+'</span>';
+					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13%;width:17%;">'+yji1.toFixed(1)+'</span>';
 					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:22%;width:25%;">'+sumVal3.toFixed(1)+'</span>';
 					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:9%;width:11%;">'+yji.toFixed(1)+'</span>';
 
 				         			}
 				         			else if(val.department_name=="Electrical") {
 				         				class_name="electrical";
-				         				var yui=sumVal22+sumVal33;
+				         				var yui1=sumVal22-sumVal33;
+				         				var yui=yui1+sumVal33;
+				         				
+				         				
 				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13.6%;width:13.6%;">'+sumVal55.toFixed(1)+'</span>';
 				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13.6%;width:13.6%;">'+sumVal11.toFixed(1)+'</span>';
-					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13%;width:13%;">'+sumVal22.toFixed(1)+'</span>';
+					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13%;width:13%;">'+yui1.toFixed(1)+'</span>';
 					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:22%;width:22%;">'+sumVal33.toFixed(1)+'</span>';
 					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:9%;width:9%;">'+yui.toFixed(1)+'</span>';  
 			         				}
 				         			else if(val.department_name=="Signalling & Telecom") {
 				         				class_name="sandt";
-				         				var fgh=sumVal222+sumVal333;
+				         				var fgh1=sumVal222-sumVal333;
+				         				var fgh=fgh1+sumVal333;
+				         				
+				         				
 				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13.6%;width:13.6%;">'+sumVal555.toFixed(1)+'</span>';
 				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13.6%;width:13.6%;">'+sumVal111.toFixed(1)+'</span>';
-					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13%;width:13%;">'+sumVal222.toFixed(1)+'</span>';
+					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13%;width:13%;">'+fgh1.toFixed(1)+'</span>';
 					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:22%;width:22%;">'+sumVal333.toFixed(1)+'</span>';
 					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:9%;width:9%;">'+fgh.toFixed(1)+'</span>'; 
 			         				}
 				         			else if(val.department_name=="Non Bank Funds") {
 				         				class_name="nbf";
-				         				var wer=sumVal2222+sumVal3333;
+				         				var wer1=sumVal2222+sumVal3333;
+				         				var wer=wer1+sumVal3333;
+				         				
+				         				
 				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13.6%;width:13.6%;">'+sumVal5555.toFixed(1)+'</span>';
 				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13.6%;width:13.6%;">'+sumVal1111.toFixed(1)+'</span>';
-					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13%;width:13%;">'+sumVal2222.toFixed(1)+'</span>';
+					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13%;width:13%;">'+wer1.toFixed(1)+'</span>';
 					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:22%;width:22%;">'+sumVal3333.toFixed(1)+'</span>';
 					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:9%;width:9%;">'+wer.toFixed(1)+'</span>'; 
 			         				}
 				         			else if(val.department_name=="Planning") {
 				         				class_name="pln";
-				         				var cvb=sumVal22222+sumVal33333;
+				         				var cvb1=sumVal22222-sumVal33333;
+				         				var cvb=cvb1+sumVal33333;
+
+				         				
 				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13.6%;width:13.6%;">'+sumVal55555.toFixed(1)+'</span>';
 				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13.6%;width:13.6%;">'+sumVal11111.toFixed(1)+'</span>';
-					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13%;width:13%;">'+sumVal22222.toFixed(1)+'</span>';
+					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13%;width:13%;">'+cvb1.toFixed(1)+'</span>';
 					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:22%;width:22%;">'+sumVal33333.toFixed(1)+'</span>';
 					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:9%;width:9%;">'+cvb.toFixed(1)+'</span>'; 
 			         				}					         			
@@ -827,6 +842,9 @@
 				         				cumVal=sumVal1+sumVal11+sumVal111+sumVal1111+sumVal11111;
 										cumVal1=sumVal2+sumVal22+sumVal222+sumVal2222+sumVal22222;
 				         				cumVal2=sumVal3+sumVal33+sumVal333+sumVal3333+sumVal33333;
+										var ttty=cumVal1-cumVal2;
+										cumVal1=ttty;
+										
 				         				cumVal3=cumVal1+cumVal2;
 				         				cumVal4=sumVal5+sumVal55+sumVal555+sumVal5555+sumVal55555;
 				         				

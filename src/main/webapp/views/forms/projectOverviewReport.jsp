@@ -256,6 +256,10 @@
         .nbf {
             background-color: #7e7579 !important;
         }
+         .box.pln,
+        .pln {
+            background-color: #BDD7EE !important;
+        }       
         .aw{background-color: #8fcb95 !important;}
         .naw{background color: #fff;}
         .fw-5p{
@@ -498,10 +502,10 @@
 										<th class="fw-5p fs16r">S. No.</th>
 										<th class="fw-15p fs16r">Description</th>
 										<th class="fw-10p fs16r">Estimated Costs</th>
-										<th class="fw-10p fs16r">Latest Contract Price</th>
-										<th class="fw-15p fs16r">Expenditure till Last FY</th>
-										<th class="fw-15p fs16r">Expenditure this FY</th>
-										<th class="fw-15p fs16r">Expenditure till Date</th>
+										<th class="fw-10p fs16r">LCP</th>
+										<th class="fw-15p fs16r">Exp. till Last FY</th>
+										<th class="fw-15p fs16r">Exp. this FY</th>
+										<th class="fw-15p fs16r">Exp. till Date</th>
 									</tr>
 								</thead>
 								</table>							
@@ -774,52 +778,57 @@
 				         			var html=conHtm+"<li>", class_name='', internal_text='';
 				         			if(val.department_name=="Engineering") {
 				         				class_name="engineering";
+				         				var yji=sumVal2+sumVal3;
 				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13.6%;width:17.6%;">'+sumVal5.toFixed(1)+'</span>';
 				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13.6%;width:17.6%;">'+sumVal1.toFixed(1)+'</span>';
 					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13%;width:17%;">'+sumVal2.toFixed(1)+'</span>';
 					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:22%;width:25%;">'+sumVal3.toFixed(1)+'</span>';
-					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:9%;width:11%;">'+sumVal4.toFixed(1)+'</span>';
+					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:9%;width:11%;">'+yji.toFixed(1)+'</span>';
 
 				         			}
 				         			else if(val.department_name=="Electrical") {
 				         				class_name="electrical";
+				         				var yui=sumVal22+sumVal33;
 				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13.6%;width:13.6%;">'+sumVal55.toFixed(1)+'</span>';
 				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13.6%;width:13.6%;">'+sumVal11.toFixed(1)+'</span>';
 					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13%;width:13%;">'+sumVal22.toFixed(1)+'</span>';
 					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:22%;width:22%;">'+sumVal33.toFixed(1)+'</span>';
-					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:9%;width:9%;">'+sumVal44.toFixed(1)+'</span>';  
+					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:9%;width:9%;">'+yui.toFixed(1)+'</span>';  
 			         				}
 				         			else if(val.department_name=="Signalling & Telecom") {
 				         				class_name="sandt";
+				         				var fgh=sumVal222+sumVal333;
 				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13.6%;width:13.6%;">'+sumVal555.toFixed(1)+'</span>';
 				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13.6%;width:13.6%;">'+sumVal111.toFixed(1)+'</span>';
 					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13%;width:13%;">'+sumVal222.toFixed(1)+'</span>';
 					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:22%;width:22%;">'+sumVal333.toFixed(1)+'</span>';
-					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:9%;width:9%;">'+sumVal444.toFixed(1)+'</span>'; 
+					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:9%;width:9%;">'+fgh.toFixed(1)+'</span>'; 
 			         				}
 				         			else if(val.department_name=="Non Bank Funds") {
 				         				class_name="nbf";
+				         				var wer=sumVal2222+sumVal3333;
 				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13.6%;width:13.6%;">'+sumVal5555.toFixed(1)+'</span>';
 				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13.6%;width:13.6%;">'+sumVal1111.toFixed(1)+'</span>';
 					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13%;width:13%;">'+sumVal2222.toFixed(1)+'</span>';
 					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:22%;width:22%;">'+sumVal3333.toFixed(1)+'</span>';
-					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:9%;width:9%;">'+sumVal4444.toFixed(1)+'</span>'; 
+					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:9%;width:9%;">'+wer.toFixed(1)+'</span>'; 
 			         				}
 				         			else if(val.department_name=="Planning") {
 				         				class_name="pln";
+				         				var cvb=sumVal22222+sumVal33333;
 				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13.6%;width:13.6%;">'+sumVal55555.toFixed(1)+'</span>';
 				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13.6%;width:13.6%;">'+sumVal11111.toFixed(1)+'</span>';
 					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13%;width:13%;">'+sumVal22222.toFixed(1)+'</span>';
 					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:22%;width:22%;">'+sumVal33333.toFixed(1)+'</span>';
-					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:9%;width:9%;">'+sumVal44444.toFixed(1)+'</span>'; 
+					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:9%;width:9%;">'+cvb.toFixed(1)+'</span>'; 
 			         				}					         			
 				         			
 				         			
-				         				cumVal=sumVal1+sumVal11+sumVal111+sumVal1111;
-										cumVal1=sumVal2+sumVal22+sumVal222+sumVal2222;
-				         				cumVal2=sumVal3+sumVal33+sumVal333+sumVal3333;
-				         				cumVal3=sumVal4+sumVal44+sumVal444+sumVal4444;
-				         				cumVal4=sumVal5+sumVal55+sumVal555+sumVal5555;
+				         				cumVal=sumVal1+sumVal11+sumVal111+sumVal1111+sumVal11111;
+										cumVal1=sumVal2+sumVal22+sumVal222+sumVal2222+sumVal22222;
+				         				cumVal2=sumVal3+sumVal33+sumVal333+sumVal3333+sumVal33333;
+				         				cumVal3=cumVal1+cumVal2;
+				         				cumVal4=sumVal5+sumVal55+sumVal555+sumVal5555+sumVal55555;
 				         				
 			         								         			
 				         			
@@ -843,6 +852,10 @@
 			    	         							}
 														if(val1.contract_short_name.indexOf("Demo")=="-1")
 															{
+																var mnb=parseFloat(val1.last_financial_progress);
+																var mnf=parseFloat(val1.actual_financial_progress);
+																var rty=mnb+mnf;
+																
 					    	         							if(val1.contract_status_fk=="Not Awarded")
 				    	         								{
 								    	         					html=html+'<tr '+contractstatuscolor+'>';
@@ -852,7 +865,7 @@
 								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr" style="color:red;">'+parseFloat(val1.awarded_cost).toFixed(1)+'</td>';
 								    	         						html=html+'<td class="fw-15p fs16rem txt-cntr" style="color:red;">'+parseFloat(val1.last_financial_progress).toFixed(1)+'</td>';
 								    	         						html=html+'<td class="fw-15p fs16rem txt-cntr" style="color:red;">'+parseFloat(val1.actual_financial_progress).toFixed(1)+'</td>';
-								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr" style="color:red;">'+parseFloat(val1.cumulative_expenditure).toFixed(1)+'</td>';
+								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr" style="color:red;">'+parseFloat(rty).toFixed(1)+'</td>';
 								    	         					html=html+'</tr>';
 				    	         								}
 				    	         							else
@@ -869,7 +882,7 @@
 								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr">'+parseFloat(val1.awarded_cost).toFixed(1)+'</td>';
 								    	         						html=html+'<td class="fw-15p fs16rem txt-cntr">'+parseFloat(val1.last_financial_progress).toFixed(1)+'</td>';
 								    	         						html=html+'<td class="fw-15p fs16rem txt-cntr">'+parseFloat(val1.actual_financial_progress).toFixed(1)+'</td>';
-								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr">'+parseFloat(val1.cumulative_expenditure).toFixed(1)+'</td>';
+								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr">'+parseFloat(rty).toFixed(1)+'</td>';
 								    	         					html=html+'</tr>';			    	         								
 				    	         								}
 					    	         							t1++;

@@ -255,7 +255,7 @@
                                 <table id="datatable-safety" class="mdl-data-table">
                                     <thead>
                                         <tr>
-                                            <!-- <th>ID</th> -->
+                                            <th>ID</th>
                                             <th class="fw-300">Contract</th>
                                             <th class="fw-200">Short Description </th>
                                             <th>Location </th>
@@ -555,6 +555,9 @@
     							"bDestroy" : true,
     							"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/getSafetyList?"+myParams,
     		        "aoColumns": [
+      		         	{ "mData": function(data,type,row){
+                            if($.trim(data.safety_id) == ''){ return '-'; }else{ return data.safety_id ; }
+     		            } },   		        	
       		         	{ "mData": function(data,type,row){
       		         		 var contractName = '';
                              if ($.trim(data.contract_short_name) != '') { contractName = ' - ' + $.trim(data.contract_short_name) }

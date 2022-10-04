@@ -488,12 +488,12 @@ width: 90%;
 										<th class="fs16rem" style="background-color: #162D6E;width:5%">S.No</th>
 										<th class="fs16rem" style="background-color: #162D6E;">Contract Status</th>
 										<th class="fs16rem" style="background-color: #162D6E;width:25%">Contract</th>
-										<th class="fs16rem" style="background-color: #162D6E;width:10%;">Latest Contract Price<br>(Cr)</th>
-										<th class="fs16rem" style="background-color: #162D6E;width:10%;">Expenditure<br>(Cr)</th>
+										<th class="fs16rem" style="background-color: #162D6E;width:10%;">L.C.P (Cr)</th>
+										<th class="fs16rem" style="background-color: #162D6E;width:10%;">Exp. (Cr)</th>
 										<th class="fs16rem" style="background-color: #162D6E;width:10%;">% Progress</th>
 										<th class="fs16rem" style="background-color: #162D6E;width:10%;">LOA <br>Date</th>
-										<th class="fs16rem" style="background-color: #162D6E;width:10%;">Original Completion <br>Date</th>
-										<th class="fs16rem" style="background-color: #162D6E;width:10%;">Revised Completion <br>Date</th>
+										<th class="fs16rem" style="background-color: #162D6E;width:10%;">OCD</th>
+										<th class="fs16rem" style="background-color: #162D6E;width:10%;">RCD</th>
 										<th class="fs16rem" style="background-color: #162D6E;width:20%">Remarks</th>
 									</tr>
 								</thead>

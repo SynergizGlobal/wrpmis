@@ -498,7 +498,7 @@
 										<th class="fw-5p fs16r">S. No.</th>
 										<th class="fw-15p fs16r">Description</th>
 										<th class="fw-10p fs16r">Estimated Costs</th>
-										<th class="fw-10p fs16r">Awarded Costs</th>
+										<th class="fw-10p fs16r">Latest Contract Price</th>
 										<th class="fw-15p fs16r">Expenditure till Last FY</th>
 										<th class="fw-15p fs16r">Expenditure this FY</th>
 										<th class="fw-15p fs16r">Expenditure till Date</th>
@@ -848,11 +848,11 @@
 								    	         					html=html+'<tr '+contractstatuscolor+'>';
 								    	         						html=html+'<td class="fw-5p fs16rem">'+$.trim(t1)+'</td>';
 								    	         						html=html+'<td class="fw-42p fs16rem">'+val1.contract_short_name+'</td>';
-								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr" style="color:red;">'+parseFloat(val1.estimated_cost).toFixed(2)+'</td>';
-								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr" style="color:red;">'+parseFloat(val1.awarded_cost).toFixed(2)+'</td>';
-								    	         						html=html+'<td class="fw-15p fs16rem txt-cntr" style="color:red;">'+parseFloat(val1.last_financial_progress).toFixed(2)+'</td>';
-								    	         						html=html+'<td class="fw-15p fs16rem txt-cntr" style="color:red;">'+parseFloat(val1.actual_financial_progress).toFixed(2)+'</td>';
-								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr" style="color:red;">'+parseFloat(val1.cumulative_expenditure).toFixed(2)+'</td>';
+								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr" style="color:red;">'+parseFloat(val1.estimated_cost).toFixed(1)+'</td>';
+								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr" style="color:red;">'+parseFloat(val1.awarded_cost).toFixed(1)+'</td>';
+								    	         						html=html+'<td class="fw-15p fs16rem txt-cntr" style="color:red;">'+parseFloat(val1.last_financial_progress).toFixed(1)+'</td>';
+								    	         						html=html+'<td class="fw-15p fs16rem txt-cntr" style="color:red;">'+parseFloat(val1.actual_financial_progress).toFixed(1)+'</td>';
+								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr" style="color:red;">'+parseFloat(val1.cumulative_expenditure).toFixed(1)+'</td>';
 								    	         					html=html+'</tr>';
 				    	         								}
 				    	         							else
@@ -865,11 +865,11 @@
 								    	         							{
 								    	         								gh=val1.revisionnumber;
 								    	         							}
-								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr">'+parseFloat(val1.estimated_cost).toFixed(2)+'('+gh+')</td>';
-								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr">'+parseFloat(val1.awarded_cost).toFixed(2)+'</td>';
-								    	         						html=html+'<td class="fw-15p fs16rem txt-cntr">'+parseFloat(val1.last_financial_progress).toFixed(2)+'</td>';
-								    	         						html=html+'<td class="fw-15p fs16rem txt-cntr">'+parseFloat(val1.actual_financial_progress).toFixed(2)+'</td>';
-								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr">'+parseFloat(val1.cumulative_expenditure).toFixed(2)+'</td>';
+								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr">'+parseFloat(val1.estimated_cost).toFixed(1)+'('+gh+')</td>';
+								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr">'+parseFloat(val1.awarded_cost).toFixed(1)+'</td>';
+								    	         						html=html+'<td class="fw-15p fs16rem txt-cntr">'+parseFloat(val1.last_financial_progress).toFixed(1)+'</td>';
+								    	         						html=html+'<td class="fw-15p fs16rem txt-cntr">'+parseFloat(val1.actual_financial_progress).toFixed(1)+'</td>';
+								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr">'+parseFloat(val1.cumulative_expenditure).toFixed(1)+'</td>';
 								    	         					html=html+'</tr>';			    	         								
 				    	         								}
 					    	         							t1++;

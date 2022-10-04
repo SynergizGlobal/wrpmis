@@ -46,7 +46,7 @@ public class RrResponsibleExecutivesDaoImpl implements RrResponsibleExecutivesDa
 			String qry = "SELECT  work_id_fk, work_short_name, STRING_AGG(u.user_name , ',') user_name,STRING_AGG(u.user_id , ',') user_id FROM rr_executives re "
 					+ "left join [user] u on re.executive_user_id_fk = u.user_id "
 					+ "left join work w on re.work_id_fk = w.work_id "
-					+ "GROUP BY work_id_fk;";
+					+ "GROUP BY work_id_fk,work_short_name";
 			
 			objList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 
@@ -213,8 +213,10 @@ public class RrResponsibleExecutivesDaoImpl implements RrResponsibleExecutivesDa
 	public List<TrainingType> getWorkDetails(TrainingType obj) throws Exception {
 		List<TrainingType> objList = null;
 		try {
-			String qry = "SELECT  r.work_id as work_id_fk, w.work_short_name FROM rr r "
-					+ "left join work w on r.work_id = w.work_id group by r.work_id  ";
+			String qry = "select id,title_fk,work_id_fk,dashboard_url,soft_delete_status_fk,title_fk as title,work_id,work_short_name \r\n" + 
+					"					from work_details \r\n" + 
+					"					LEFT JOIN work ON work_id_fk = work_id 		\r\n" + 
+					"					WHERE title_fk IS NOT NULL  ";
 			
 			objList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 		}catch(Exception e){ 

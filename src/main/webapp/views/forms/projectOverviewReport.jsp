@@ -425,13 +425,13 @@
 								<!-- <h6 class="hide-on-med-and-down">Update Contract</h6> -->
 								<h6 class="mob-mar fs16rm">Project Overview Report</h6>	
 								<div class="col s12 m12 right-align exportButton">
-								<c:if test="${(sessionScope.USER_ROLE_CODE eq 'DA') or (sessionScope.USER_ROLE_CODE eq 'RU') or (sessionScope.USER_ROLE_CODE eq 'IT')}">
+<%-- 								<c:if test="${(sessionScope.USER_ROLE_CODE eq 'DA') or (sessionScope.USER_ROLE_CODE eq 'RU') or (sessionScope.USER_ROLE_CODE eq 'IT')}">
     								<div class="m-n1">
     									<a href="javascript:exportProjectOverviewDetails();" class="btn waves-effect waves-light bg-s t-c"> 
     									<strong><i class="fa fa-arrow-circle-down v-align-mid"></i> Download</strong>
     									</a>										
     								</div>
-    							</c:if>
+    							</c:if> --%>
     							</div>	
 							</div>
 						</span>

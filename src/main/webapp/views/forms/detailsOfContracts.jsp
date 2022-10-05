@@ -413,13 +413,13 @@ width: 90%;
 								<!-- <h6 class="hide-on-med-and-down">Update Contract</h6> -->
 								<h6 class="mob-mar">Contract Details</h6>	
 								<div class="col s12 m12 right-align exportButton">
- 								<c:if test="${(sessionScope.USER_ROLE_CODE eq 'DA') or (sessionScope.USER_ROLE_CODE eq 'RU') or (sessionScope.USER_ROLE_CODE eq 'IT')}">
+<%--  								<c:if test="${(sessionScope.USER_ROLE_CODE eq 'DA') or (sessionScope.USER_ROLE_CODE eq 'RU') or (sessionScope.USER_ROLE_CODE eq 'IT')}">
     								<div class="m-n1">
     									<a href="javascript:exportContractDetails();" class="btn waves-effect waves-light bg-s t-c"> 
     									<strong><i class="fa fa-arrow-circle-down v-align-mid"></i> Download</strong>
     									</a>										
     								</div>
-    							</c:if>   								
+    							</c:if>  --%>  								
     							</div>	
 							</div>
 						</span>
@@ -434,42 +434,44 @@ width: 90%;
 									</c:if>
 								</div>
 							</div>
-							<div class="col m12 l10">
+							<div class="col m12 l12">
 								<div class="row no-mar">
-									<div class="col s6 m3 l3 input-field">
+									<div class="col s12 m3 l3 input-field">
 										<p class="searchable_label fs16rem" style="color:#000000;">Work</p><br>
 										<select id="work_id_fk" name="work_id_fk"
 											onchange="addInQueWork(this.value);getContractDetailList();" class="searchable">
 											<option value="">Select</option>										
 										</select> 
 									</div>		
-									<div class="col s6 m3 l3 input-field">
+									<div class="col s12 m3 l3 input-field">
 										<p class="searchable_label fs16rem" style="color:#000000;">Contract Status</p><br>
 										<select id="contract_status_fk" name="contract_status_fk"
 											onchange="addInQueContractStatus(this.value);getContractDetailList();" class="searchable">
 											<option value="">Select</option>
 										</select>
 									</div>
-									<div class="col s6 m3 l3 input-field">
+									<div class="col s12 m2 l2 input-field">
 										<p class="searchable_label fs16rem" style="color:#000000;">Department</p><br>
 										<select id="department_fk" name="department_fk"
 											onchange="addInQueDepartment(this.value);getContractDetailList();" class="searchable">
 											<option value="">Select</option>
 										</select>
 									</div>
+									<div class="col s12 m2 l2 center-align">
+										<button class="btn bg-m waves-effect waves-light t-c"
+											style="margin-top: 6px;" onclick="clearFilter();">Clear
+											Filters</button>
+									</div>									
+									<div class="col s12 m2 l2 input-field">
+										<p class="searchable_label fs16rem" style="color:#000000;"></p><br>
+										L.C.P=Latest Contract Price
+										<br>
+										OCD=Original Completion Date
+										<br>
+										RCD=Revised Completion Date										
+									</div>									
 								
-								<div class="col s6 m3 l3 center-align">
-									<button class="btn bg-m waves-effect waves-light t-c"
-										style="margin-top: 6px;" onclick="clearFilter();">Clear
-										Filters</button>
-								</div>
-								<div class="col s6 m3 l3 input-field">
-									L.C.P=Latest Contract Price
-									<br>
-									OCD=Original Completion Date
-									<br>
-									RCD=Revised Completion Date
-								</div>
+
 							</div>
 						</div>
 					</div>
@@ -497,16 +499,16 @@ width: 90%;
   max-width: 100%;">
 								<thead>
 									<tr id="topDivCss">
-										<th class="fs16rem" style="background-color: #162D6E;width:5%">S.No</th>
+										<th class="fs16rem" style="background-color: #162D6E;width:5%;white-space:nowrap;">S.No</th>
 										<th class="fs16rem" style="background-color: #162D6E;">Contract Status</th>
-										<th class="fs16rem" style="background-color: #162D6E;width:15%">Contract</th>
-										<th class="fs16rem" style="background-color: #162D6E;width:15%;">L.C.P (Cr)</th>
-										<th class="fs16rem" style="background-color: #162D6E;width:15%;">Exp. (Cr)</th>
-										<th class="fs16rem" style="background-color: #162D6E;width:10%;">% Progress</th>
-										<th class="fs16rem" style="background-color: #162D6E;width:10%;">LOA Date</th>
-										<th class="fs16rem" style="background-color: #162D6E;width:10%;">OCD</th>
-										<th class="fs16rem" style="background-color: #162D6E;width:10%;">RCD</th>
-										<th class="fs16rem" style="background-color: #162D6E;width:20%">Remarks</th>
+										<th class="fs16rem" style="background-color: #162D6E;width:15%;white-space:nowrap;">Contract</th>
+										<th class="fs16rem" style="background-color: #162D6E;width:15%;white-space:nowrap;">L.C.P (Cr)</th>
+										<th class="fs16rem" style="background-color: #162D6E;width:15%;white-space:nowrap;">Exp. (Cr)</th>
+										<th class="fs16rem" style="background-color: #162D6E;width:10%;white-space:nowrap;">% Progress</th>
+										<th class="fs16rem" style="background-color: #162D6E;width:10%;white-space:nowrap;">LOA Date</th>
+										<th class="fs16rem" style="background-color: #162D6E;width:10%;white-space:nowrap;">OCD</th>
+										<th class="fs16rem" style="background-color: #162D6E;width:10%;white-space:nowrap;">RCD</th>
+										<th class="fs16rem" style="background-color: #162D6E;width:10%;white-space:nowrap;">Remarks</th>
 									</tr>
 								</thead>
 								<tbody class="fs16rem" style="background-color: #162D6E;">
@@ -628,13 +630,13 @@ width: 90%;
     
     
     function clearFilter(){
-    	$("#work_id_fk").val("");
+    	//$("#work_id_fk").val("");
     	$("#contract_status_fk").val("");
     	$("#department_fk").val("");    	
     	$('.searchable').select2();
     	
     	window.localStorage.setItem("contractDetailsFilters",'');
-    	window.location.href= "<%=request.getContextPath()%>/details-of-contracts"; 
+    	window.location.href= "<%=request.getContextPath()%>/details-of-contracts?work_id="+$("#work_id_fk").val(); 
     	
     	var table = $('#datatable-contract-details').DataTable();
     	table.draw( true );
@@ -679,9 +681,6 @@ width: 90%;
     	if($.trim(work_id_fk) == '' ){
     		work_id_fk = '${work_id}';
     	}
-    	if($.trim(work_id_fk) == '' ){
-    		work_id_fk = 'P04W01';
-    	}
     	var department_fk = $("#department_fk").val();
     	var contract_status_fk = $("#contract_status_fk").val();
 
@@ -716,13 +715,13 @@ width: 90%;
                 {targets: [1],className: 'hide-column'},
                 {targets: [0],className: 'w50px'},
                 {targets: [1, 3,  4, 5, 7],className: 'hideCOl'},
-                {targets: [0, 3, 3, 4, 6],className: 'textalignment3'},
+                {targets: [0, 3, 4, 6],className: 'textalignment3'},
                 {targets: [0],className: 'textalignment4'},
                 //{targets: [5],className: 'red'},
                 //{targets: [6],className: 'fw-200'},
-                {targets: [5,6],className: 'fw-155'},
+                {targets: [3,5,6],className: 'fw-155'},
                 {targets: [2],className: 'textalignment'},
-                {targets: [6,7,8],className: 'textalignment2'},
+                {targets: [6,7,8,9],className: 'textalignment2'},
                 { orderable: false, 'aTargets': ['nosort'] }
             ],
             // "ScrollX": true,
@@ -842,9 +841,6 @@ width: 90%;
 	    	if($.trim(work_id_fk) == '' ){
 	    		work_id_fk = '${work_id}';
 	    	}
-	    	if($.trim(work_id_fk) == '' ){
-	    		work_id_fk = 'P04W01';
-	    	}
 	    	var department_fk = $("#department_fk").val();
 	    	var contract_status_fk = $("#contract_status_fk").val();
 	        if ($.trim(department_fk) == "") {
@@ -877,9 +873,6 @@ width: 90%;
 		 	var work_id_fk = $("#work_id_fk").val();
 		 	if($.trim(work_id_fk) == '' ){
 	    		work_id_fk = '${work_id}';
-	    	}
-	    	if($.trim(work_id_fk) == '' ){
-	    		work_id_fk = 'P04W01';
 	    	}
 	    	var department_fk = $("#department_fk").val();
 	    	var contract_status_fk = $("#contract_status_fk").val();
@@ -920,9 +913,7 @@ width: 90%;
 	    	if($.trim(work_id_fk) == '' ){
 	    		work_id_fk = '${work_id}';
 	    	}
-	    	if($.trim(work_id_fk) == '' ){
-	    		work_id_fk = 'P04W01';
-	    	}
+
 	    	$("#work_id_fk option:not(:first)").remove();
 		 	var myParams = {department_fk : department_fk, work_id_fk : work_id_fk, contract_status_fk : contract_status_fk};
             $.ajax({

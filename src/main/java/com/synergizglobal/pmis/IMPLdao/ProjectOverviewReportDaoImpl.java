@@ -143,11 +143,11 @@ public class ProjectOverviewReportDaoImpl implements ProjectOverviewReportDao{
 		List<Contract> objsList = null;
 		NumberFormat numberFormatter = new DecimalFormat("#0.00");
 		try {
-			String qry = "select * from (SELECT distinct contract_short_name,work_short_name,ISNULL((select sum(e1.gross_work_done*e1.gross_work_done_units) from expenditure e1  					where contract_id_fk=c.contract_id  and voucher_type=(SELECT CASE WHEN MONTH(CONVERT(date, getdate())) >= 4 THEN concat(YEAR(CONVERT(date, getdate()))-1, '-',SUBSTRING(cast(YEAR(CONVERT(date, getdate())) as varchar),3,2)) ELSE concat(cast(YEAR(CONVERT(date, getdate()))-1 as varchar),'-', SUBSTRING(cast(YEAR(CONVERT(date, getdate())) as varchar),3,2)) END)  					)  					 ,0) as last_financial_progress,  " + 
+			String qry = "select * from (SELECT distinct contract_short_name,work_short_name,ISNULL((select sum(e1.gross_work_done*e1.gross_work_done_units) from expenditure e1  					where contract_id_fk=c.contract_id  and voucher_type!='2022-23'  					)  					 ,0) as last_financial_progress,  " + 
 					 
 					 
 					"					isnull(cast(isnull(c.estimated_cost,0)*c.estimated_cost_units as CHAR),0) as estimated_cost,\r\n" + 
-					"										(case when  (contract_status_fk='In Progress' or  contract_status_fk='Completed'  and (select count(*) from contract_revision where contract_id_fk=c.contract_id)>0)\r\n" + 
+					"										(case when  ((select count(*) from contract_revision where contract_id_fk=c.contract_id)>0)\r\n" + 
 					"					\r\n" + 
 					"						then\r\n" + 
 					"						\r\n" + 

@@ -632,12 +632,12 @@
     
     
     function clearFilter(){
-    	$("#work_id_fk").val("");
+    	//$("#work_id_fk").val("");
     	$("#department_fk").val("");    	
     	$('.searchable').select2();
     	
     	window.localStorage.setItem("projectOverviewDetailsFilters",'');
-    	window.location.href= "<%=request.getContextPath()%>/project-overview-report";
+    	window.location.href= "<%=request.getContextPath()%>/project-overview-report?work_id="+$("#work_id_fk").val();
     	
     	var table = $('#datatable-project-overview-details').DataTable();
     	table.draw( true );

@@ -13,7 +13,7 @@ public class Safety {
 	contractor_name,safety_id_fk,compensation_units,id, unit, value,compensation_unit,hod_designation,dyhod_designation,reported_by_email_id,responsible_person_email_id,existing_status_fk,
 	existing_responsible_person,existing_escalated_to,contract_hod_user_id,contract_dyhod_user_id,created_by_user_id_fk,responsible_person_user_id,contract_hod_email_id,
 	contract_dyhod_email_id,created_by_email_id,user_role_code,modified_by,modified_date,reported_by_user_id,committe_members,existing_committe_members,nominated_authority,nominated_authority_email_id,
-	approve_corrective_measure,safety_incident;
+	approve_corrective_measure,safety_incident,work_code,safety_seq_id;
 
 	private MultipartFile safetyFile;
 	
@@ -751,6 +751,22 @@ public class Safety {
 
 	public void setNominated_authority_email_id(String nominated_authority_email_id) {
 		this.nominated_authority_email_id = nominated_authority_email_id;
+	}
+
+	public String getWork_code() {
+		return work_code;
+	}
+
+	public void setWork_code(String work_code) {
+		this.work_code = work_code;
+	}
+
+	public String getSafety_seq_id() {
+		return safety_seq_id;
+	}
+
+	public void setSafety_seq_id(String safety_seq_id) {
+		this.safety_seq_id = safety_seq_id;
 	}
 	
 }

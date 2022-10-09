@@ -803,24 +803,14 @@
                                         <p class="alignleft w150">Physical Progress (%)</p>
                                         <p class="aligncenter">:</p>
                                         <p class="alignleft pdlr20px">
-                                            <c:if
-                                                test="${projectOverview.project_status eq 'Closed' }">
-                                                Completed </c:if>
-                                            <c:if
-                                                test="${projectOverview.project_status eq 'Open' }">
-                                            </c:if>
+                                           ${projectOverview.physical_progress}
                                         </p>
                                     </div>
                                     <div class="line">
                                         <p class="alignleft w150">Financial Progress (%)</p>
                                         <p class="aligncenter">:</p>
                                         <p class="alignleft pdlr20px">
-                                            <c:if
-                                                test="${projectOverview.project_status eq 'Closed' }">
-                                                Completed </c:if>
-                                            <c:if
-                                                test="${projectOverview.project_status eq 'Open' }">
-                                            </c:if>
+                                            ${projectOverview.financial_progress}
                                         </p>
 
                                     </div>
@@ -972,12 +962,7 @@
                                                     <p class="alignleft">Physical Progress (%)</p>
                                                     <p class="aligncenter">:</p>
                                                     <p class="alignleft pdlr20px">
-                                                        <%-- <c:if
-                                                            test="${wObj.project_status eq 'Closed' }">
-                                                            </c:if> --%>
-                                                            <c:if
-                                                                test="${not empty wObj.year_of_completion or not empty wObj.completion_cost}">
-                                                                100% </c:if>
+                                                        ${wObj.physical_progress}
                                                     </p>
 
                                                 </div>
@@ -985,12 +970,7 @@
                                                     <p class="alignleft">Financial Progress (%)</p>
                                                     <p class="aligncenter">:</p>
                                                     <p class="alignleft pdlr20px">
-                                                        <%-- <c:if
-                                                            test="${wObj.project_status eq 'Closed' }">
-                                                            100% </c:if> --%>
-                                                            <c:if
-                                                                test="${not empty wObj.year_of_completion or not empty wObj.completion_cost}">
-                                                                100% </c:if>
+                                                        ${wObj.financial_progress}
                                                     </p>
 
                                                 </div>

@@ -131,6 +131,90 @@ public class ExecutionOverviewReportController {
 		return contractFilterList;
 	}
 	
+	@RequestMapping(value = "/ajax/getStructureTypesbyWorkId", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<StripChart> getStructureTypesbyWorkId(@ModelAttribute StripChart obj,HttpSession session) {
+		List<StripChart> contracts = null;
+		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			contracts = executionOverviewReportService.getStructureTypesbyWorkId(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getStructureTypesbyWorkId : " + e.getMessage());
+		}
+		return contracts;
+	}
+	
+	@RequestMapping(value = "/ajax/getStructuresByWorkId", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<StripChart> getStructuresByWorkId(@ModelAttribute StripChart obj,HttpSession session) {
+		List<StripChart> contracts = null;
+		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			contracts = executionOverviewReportService.getStructuresByWorkId(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getStructuresByWorkId : " + e.getMessage());
+		}
+		return contracts;
+	}
+	
+	@RequestMapping(value = "/ajax/getComponentsByWorkId", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<StripChart> getComponentsByWorkId(@ModelAttribute StripChart obj,HttpSession session) {
+		List<StripChart> contracts = null;
+		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			contracts = executionOverviewReportService.getComponentsByWorkId(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getComponentsByWorkId : " + e.getMessage());
+		}
+		return contracts;
+	}
+	@RequestMapping(value = "/ajax/getComponentIDsByWorkId", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<StripChart> getComponentIDsByWorkId(@ModelAttribute StripChart obj,HttpSession session) {
+		List<StripChart> contracts = null;
+		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			contracts = executionOverviewReportService.getComponentIDsByWorkId(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getComponentIDsByWorkId : " + e.getMessage());
+		}
+		return contracts;
+	}	
+	
+	@RequestMapping(value = "/ajax/getActivitiesByWorkId", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<StripChart> getActivitiesByWorkId(@ModelAttribute StripChart obj,HttpSession session) {
+		List<StripChart> contracts = null;
+		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			contracts = executionOverviewReportService.getActivitiesByWorkId(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getActivitiesByWorkId : " + e.getMessage());
+		}
+		return contracts;
+	}	
+	
 	@RequestMapping(value = "/ajax/getExecutionOverviewReportList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<StripChart> getExecutionOverviewReportList(@ModelAttribute StripChart obj,HttpSession session) {
@@ -146,7 +230,7 @@ public class ExecutionOverviewReportController {
 			logger.error("getExecutionOverviewReportList : " + e.getMessage());
 		}
 		return contracts;
-	}
+	}	
 	
 	private CellStyle cellFormating(XSSFWorkbook workBook,byte[] rgb,HorizontalAlignment hAllign, VerticalAlignment vAllign, boolean isWrapText,boolean isBoldText,boolean isItalicText,int fontSize,String fontName) {
 		CellStyle style = workBook.createCellStyle();

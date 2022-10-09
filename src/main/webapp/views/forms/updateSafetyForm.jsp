@@ -91,7 +91,7 @@
                     <div class="center-align">
                         <span class="card-title headbg">
                             <div class="center-align p-2 bg-m m-b-2">
-                                <h6>Update Safety Incident</h6>
+                                <h6>Update Safety Incident(${safety.safety_seq_id})</h6>
                             </div>
                         </span>
                     </div>

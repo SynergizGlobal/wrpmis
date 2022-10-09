@@ -9,7 +9,7 @@ public class Project {
 	,sanctioned_estimated_cost,sanctioned_year_fk,sanctioned_completion_cost,year_of_completion,projected_completion_year,latest_revised_cost,
 	completion_cost,work_short_name,benefits,galleryFileNames,financial_year_fk,pb_item_no,project_pinkbook_id,user_id,created_by_user_id_fk,designation,user_name;
 	
-	private String id,file_name,project_id_fk,created_date,created_by,railway,project_file_type_fk,project_file_type,project_file_id;
+	private String id,file_name,project_id_fk,created_date,created_by,railway,project_file_type_fk,project_file_type,project_file_id,financial_progress,physical_progress;
 	
 	
 	private MultipartFile[] projectGalleryFiles,projectFiles;
@@ -435,6 +435,22 @@ public class Project {
 
 	public void setUser_id(String user_id) {
 		this.user_id = user_id;
+	}
+
+	public String getFinancial_progress() {
+		return financial_progress;
+	}
+
+	public void setFinancial_progress(String financial_progress) {
+		this.financial_progress = financial_progress;
+	}
+
+	public String getPhysical_progress() {
+		return physical_progress;
+	}
+
+	public void setPhysical_progress(String physical_progress) {
+		this.physical_progress = physical_progress;
 	}
 	
 }

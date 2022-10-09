@@ -51,7 +51,7 @@ public class HomeNewDaoImpl implements HomeNewDao{
 		Project projectOverview = new Project();
 		NumberFormat numberFormatter = new DecimalFormat("#0.00");
 		try {
-			String projectQry = "select project_id,pink_book_item_number,project_name,plan_head_number,remarks,project_status,attachment,benefits from project where project_id = ?";
+			String projectQry = "select project_id,pink_book_item_number,project_name,plan_head_number,remarks,project_status,attachment,benefits,round((cumulative_expenditure/sanctioned_cost),2) as financial_progress,round((actual_progress/sanctioned_cost),2) as physical_progress from project_view where project_id = ?";
 			
 			String projectDetailsQry = "select case when wr.project_id_fk='P04' then 10947 else sum(wr.sanctioned_estimated_cost) end as sanctioned_estimated_cost,max(wr.sanctioned_year_fk) as sanctioned_year_fk,"
 					+ "sum(wr.completion_cost) as completion_cost,max(wr.year_of_completion) as year_of_completion, "
@@ -60,18 +60,7 @@ public class HomeNewDaoImpl implements HomeNewDao{
 					+ "(SELECT sum(y.latest_revised_cost) FROM work_yearly_sanction y left join work w on w.work_id = y.work_id_fk  WHERE y.financial_year = (SELECT MAX(z.financial_year) FROM work_yearly_sanction z WHERE z.work_id_fk = y.work_id_fk) and w.project_id_fk = ? group by w.project_id_fk) as latest_revised_cost " 
 					+ "from work wr where wr.project_id_fk = ? GROUP BY projected_completion,wr.project_id_fk";
 			
-			String workQry = "select wr.work_id,wr.work_short_name,wr.sanctioned_estimated_cost as sanctioned_estimated_cost,wr.sanctioned_year_fk as sanctioned_year_fk,"
-					+ "wr.sanctioned_completion_cost as sanctioned_completion_cost,wr.year_of_completion as year_of_completion, " 
-					+ "wr.completion_cost as completion_cost,"
-					+ "(SELECT (CASE WHEN MONTH(wr.projected_completion) >= 4 THEN concat(YEAR(wr.projected_completion), '-',SUBSTRING(cast(YEAR(wr.projected_completion)+1 as varchar),3,2)) ELSE concat(YEAR(wr.projected_completion)-1,'-', SUBSTRING(cast(YEAR(wr.projected_completion) as varchar),3,2)) END) AS financial_year) as projected_completion_year," 
-					//+ "wr.projected_completion as projected_completion_year,"
-					+ "wr.attachment as work_attachment,"
-					+ "(SELECT y.latest_revised_cost FROM work_yearly_sanction y WHERE y.work_id_fk = wr.work_id and y.financial_year = (SELECT MAX(z.financial_year) FROM work_yearly_sanction z WHERE z.work_id_fk = y.work_id_fk)) as latest_revised_cost,"
-					+ "(select work_id_fk as work_id from dashboard where soft_delete_status_fk = 'Active' and work_id_fk = work_id order by work_id_fk offset 0 rows  fetch next 1 rows only) as work_id_fk " 
-					+ "from work wr "
-					+ "left join work_railway wy ON wr.work_id = wy.work_id_fk "
-					+ "left join railway ON executed_by_id_fk = railway_id "
-					+ "where wr.project_id_fk = ? and executed_by_id_fk <> '' ORDER BY (CASE executed_by_id_fk WHEN 'MRVC' THEN 0 WHEN 'CR' THEN 1 WHEN 'WR' THEN 2 else 'Others' end),work_id;";
+			String workQry = "select *,round((cumulative_expenditure/sanctioned_cost),2) as financial_progress,round(actual_progress,2) as physical_progress  from work_view where project_id_fk = ?";
 			
 			
 			//String workQry = "select work_id,work_short_name,(select work_id_fk as work_id from dashboard where soft_delete_status_fk = 'Active' and work_id_fk = work_id offset 0 rows  fetch next 1 rows only) as work_id_fk from work where project_id_fk = ?";

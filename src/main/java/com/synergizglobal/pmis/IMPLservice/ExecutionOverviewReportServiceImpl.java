@@ -32,5 +32,28 @@ public class ExecutionOverviewReportServiceImpl implements ExecutionOverviewRepo
 	@Override
 	public List<StripChart> getExecutionOverviewReportList(StripChart obj) throws Exception {
 		return dao.getExecutionOverviewReportList(obj);
-	}	
+	}
+	
+	@Override
+	public List<StripChart> getStructureTypesbyWorkId(StripChart obj) throws Exception {
+		return dao.getStructureTypesbyWorkId(obj);
+	}
+	
+	@Override
+	public List<StripChart> getStructuresByWorkId(StripChart obj) throws Exception {
+		return dao.getStructuresByWorkId(obj);
+	}
+	
+	@Override
+	public List<StripChart> getComponentsByWorkId(StripChart obj) throws Exception{
+		return dao.getComponentsByWorkId(obj);
+	}
+	
+	public List<StripChart> getActivitiesByWorkId(StripChart obj) throws Exception{
+		return dao.getActivitiesByWorkId(obj);
+	}
+	public List<StripChart> getComponentIDsByWorkId(StripChart obj) throws Exception
+	{
+		return dao.getComponentIDsByWorkId(obj);
+	}
 }

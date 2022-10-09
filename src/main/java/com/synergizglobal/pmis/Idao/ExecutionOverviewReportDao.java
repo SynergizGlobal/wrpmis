@@ -15,4 +15,14 @@ public interface ExecutionOverviewReportDao {
 
 	public List<StripChart> getExecutionOverviewReportList(StripChart obj) throws Exception;
 
+	public List<StripChart> getStructureTypesbyWorkId(StripChart obj) throws Exception;
+
+	public List<StripChart> getStructuresByWorkId(StripChart obj) throws Exception;
+	
+	public List<StripChart> getComponentsByWorkId(StripChart obj) throws Exception;
+	
+	public List<StripChart> getActivitiesByWorkId(StripChart obj) throws Exception;
+
+	public List<StripChart> getComponentIDsByWorkId(StripChart obj) throws Exception;
+
 }

@@ -101,15 +101,25 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 	public List<StripChart> getDepartmentFilterListInEOR(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "select distinct d.department,concat(department_name,' / ',hod) as department_name FROM "
-					+" contract_details c left join department d on d.department_name=c.department where 0=0 ";
+			String qry = "						select distinct department,concat(department_name,' / ',u.designation) as department_name\r\n" + 
+					"					    from p6_activities a\r\n" + 
+					"					left join structure s on s.structure_id = a.structure_id_fk \r\n" + 
+					"					    \r\n" + 
+					"					    left join p6_activity_progress p on p.p6_activity_id_fk = a.p6_activity_id\r\n" + 
+					"					    \r\n" + 
+					"					    inner join contract c on c.contract_id=a.contract_id_fk \r\n" + 
+					"					    left join [user] u on u.user_id=c.hod_user_id_fk\r\n" + 
+					"					    \r\n" + 
+					"					     left join department d on d.department=c.department_fk\r\n" + 
+					"\r\n" + 
+					"						 where department is not null ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and c.work_id = ?";
+				qry = qry + " and s.work_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and c.department = ?  and c.hod=?";
+				qry = qry + " and department_name = ?  and u.designation=?";
 				arrSize++;
 				arrSize++;
 			}
@@ -153,15 +163,23 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 	public List<StripChart> getContractIdFilterListInEOR(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "select distinct contract_id,contract_short_name FROM "
-					+ "contract_details c where 0=0 ";
+			String qry = "select distinct contract_id,contract_short_name\r\n" + 
+					"					    from p6_activities a\r\n" + 
+					"					left join structure s on s.structure_id = a.structure_id_fk \r\n" + 
+					"					    \r\n" + 
+					"					    left join p6_activity_progress p on p.p6_activity_id_fk = a.p6_activity_id\r\n" + 
+					"					    \r\n" + 
+					"					    inner join contract c on c.contract_id=a.contract_id_fk \r\n" + 
+					"					    left join [user] u on u.user_id=c.hod_user_id_fk\r\n" + 
+					"					    \r\n" + 
+					"					     left join department d on d.department=c.department_fk where 0=0 ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and c.work_id = ?";
+				qry = qry + " and s.work_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and c.department = ?  and c.hod=?";
+				qry = qry + " and department_name = ?  and u.designation=?";
 				arrSize++;
 				arrSize++;
 			}
@@ -245,6 +263,206 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type_fk())) {
 				pValues[i++] = obj.getStructure_type_fk();
 			}			
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
+
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+	@Override
+	public List<StripChart> getStructureTypesbyWorkId(StripChart obj) throws Exception {
+		List<StripChart> objsList = null;
+		try {
+			String qry = "select structure_type_fk,unit,scope,department,hod,sum(cast(completed as decimal(10,2))) as completed,target_date_of_completion from(select distinct e.structure_type_fk,'%' as unit,100 as Scope,department,hod,contract_id,cast(e.completed as decimal(10,2)) as completed, " + 
+					"(select FORMAT(MAX(CAST(target_date_of_completion AS Date)),'dd-MM-yyyy') from executionreporthistory m where m.work_id='"+obj.getWork_id_fk()+"' and m.structure_type_fk=e.structure_type_fk) as target_date_of_completion " + 
+					"from executionreporthistory e where e.work_id='"+obj.getWork_id_fk()+"') as a  where 0=0 " ;
+					
+			
+			int arrSize = 0;
+
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				qry = qry + " and department = ?  and hod=?";
+				arrSize++;
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and contract_id = ? ";
+				arrSize++;
+			}
+			qry= qry+" group by structure_type_fk,unit,scope,target_date_of_completion,department,hod ORDER by structure_type_fk ";
+			
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				String Str[]=obj.getDepartment_fk().split("/");
+				pValues[i++] = Str[0].trim();
+				pValues[i++] = Str[1].trim();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
+
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+	@Override
+	public List<StripChart> getStructuresByWorkId(StripChart obj) throws Exception {
+		List<StripChart> objsList = null;
+		try {
+			String qry = "select distinct e.strip_chart_structure_id,'%' as unit,100 as Scope,cast(e.completed as decimal(10,2)) as completed, " + 
+					"(select FORMAT(MAX(CAST(target_date_of_completion AS Date)),'dd-MM-yyyy') from executionreporthistory m where m.work_id='"+obj.getWork_id_fk()+"' and m.structure_type_fk=e.structure_type_fk  " + 
+					"and m.strip_chart_structure_id=e.strip_chart_structure_id) as target_date_of_completion " + 
+					"from executionreporthistory e where e.work_id='"+obj.getWork_id_fk()+"' and structure_type_fk='"+obj.getStructure_type_fk()+"' ";
+		
+			int arrSize = 0;
+
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				qry = qry + " and department = ?  and hod=?";
+				arrSize++;
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and contract_id = ? ";
+				arrSize++;
+			}
+			qry=qry+" ORDER by e.strip_chart_structure_id";
+			
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				String Str[]=obj.getDepartment_fk().split("/");
+				pValues[i++] = Str[0].trim();
+				pValues[i++] = Str[1].trim();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
+
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+	@Override
+	public List<StripChart> getComponentsByWorkId(StripChart obj) throws Exception {
+		List<StripChart> objsList = null;
+		try {
+			String qry = "select distinct e.component,'%' as unit,100 as Scope,cast(e.completed as decimal(10,2)) as completed, " + 
+					"(select FORMAT(MAX(CAST(target_date_of_completion AS Date)),'dd-MM-yyyy') from executionreporthistory m where m.work_id='"+obj.getWork_id_fk()+"' and m.structure_type_fk=e.structure_type_fk  " + 
+					"and m.strip_chart_structure_id=e.strip_chart_structure_id and m.component=e.component) as target_date_of_completion " + 
+					"from executionreporthistory e where e.work_id='"+obj.getWork_id_fk()+"' and structure_type_fk='"+obj.getStructure_type_fk()+"' and e.strip_chart_structure_id='"+obj.getStrip_chart_structure_id()+"' ";
+		
+			int arrSize = 0;
+
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				qry = qry + " and department = ?  and hod=?";
+				arrSize++;
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and contract_id = ? ";
+				arrSize++;
+			}
+			qry=qry+" ORDER by e.component";
+			
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				String Str[]=obj.getDepartment_fk().split("/");
+				pValues[i++] = Str[0].trim();
+				pValues[i++] = Str[1].trim();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
+
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+	@Override
+	public List<StripChart> getActivitiesByWorkId(StripChart obj) throws Exception {
+		List<StripChart> objsList = null;
+		try {
+			String qry = "select distinct e.p6_activity_name as activity_name,'%' as unit,100 as Scope,cast(e.completed as decimal(10,2)) as completed, " + 
+					"(select FORMAT(MAX(CAST(target_date_of_completion AS Date)),'dd-MM-yyyy') from executionreporthistory m where m.work_id='"+obj.getWork_id_fk()+"' and m.structure_type_fk=e.structure_type_fk  " + 
+					"and m.strip_chart_structure_id=e.strip_chart_structure_id and m.component=e.component and m.component_id=e.component_id and m.p6_activity_name=e.p6_activity_name) as target_date_of_completion " + 
+					"from executionreporthistory e where e.work_id='"+obj.getWork_id_fk()+"' and structure_type_fk='"+obj.getStructure_type_fk()+"' and e.strip_chart_structure_id='"+obj.getStrip_chart_structure_id()+"' and component='"+obj.getComponent()+"' and component_id='"+obj.getComponent_id()+"' ";
+		
+			int arrSize = 0;
+
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				qry = qry + " and department = ?  and hod=?";
+				arrSize++;
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and contract_id = ? ";
+				arrSize++;
+			}
+			qry=qry+" ORDER by e.p6_activity_name";
+			
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				String Str[]=obj.getDepartment_fk().split("/");
+				pValues[i++] = Str[0].trim();
+				pValues[i++] = Str[1].trim();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
+
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+	@Override
+	public List<StripChart> getComponentIDsByWorkId(StripChart obj) throws Exception {
+		List<StripChart> objsList = null;
+		try {
+			String qry = "select distinct e.component_id as component_id,'%' as unit,100 as Scope,cast(e.completed as decimal(10,2)) as completed, " + 
+					"(select FORMAT(MAX(CAST(target_date_of_completion AS Date)),'dd-MM-yyyy') from executionreporthistory m where m.work_id='"+obj.getWork_id_fk()+"' and m.structure_type_fk=e.structure_type_fk  " + 
+					"and m.strip_chart_structure_id=e.strip_chart_structure_id and m.component=e.component and m.component_id=e.component_id) as target_date_of_completion " + 
+					"from executionreporthistory e where e.work_id='"+obj.getWork_id_fk()+"' and structure_type_fk='"+obj.getStructure_type_fk()+"' and e.strip_chart_structure_id='"+obj.getStrip_chart_structure_id()+"' and component='"+obj.getComponent()+"' ";
+		
+			int arrSize = 0;
+
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				qry = qry + " and department = ?  and hod=?";
+				arrSize++;
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and contract_id = ? ";
+				arrSize++;
+			}
+			qry=qry+" ORDER by e.component_id";
+			
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				String Str[]=obj.getDepartment_fk().split("/");
+				pValues[i++] = Str[0].trim();
+				pValues[i++] = Str[1].trim();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
 
 		}catch(Exception e){ 

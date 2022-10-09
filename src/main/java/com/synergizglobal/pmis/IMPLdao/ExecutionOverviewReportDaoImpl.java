@@ -394,7 +394,7 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 	public List<StripChart> getActivitiesByWorkId(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "select distinct e.p6_activity_name as activity_name,'%' as unit,100 as Scope,cast(e.completed as decimal(10,2)) as completed, " + 
+			String qry = "select distinct e.p6_activity_name as activity_name,unit_fk as unit,100 as Scope,cast(e.completed as decimal(10,2)) as completed, " + 
 					"(select FORMAT(MAX(CAST(target_date_of_completion AS Date)),'dd-MM-yyyy') from executionreporthistory m where m.work_id='"+obj.getWork_id_fk()+"' and m.structure_type_fk=e.structure_type_fk  " + 
 					"and m.strip_chart_structure_id=e.strip_chart_structure_id and m.component=e.component and m.component_id=e.component_id and m.p6_activity_name=e.p6_activity_name) as target_date_of_completion " + 
 					"from executionreporthistory e where e.work_id='"+obj.getWork_id_fk()+"' and structure_type_fk='"+obj.getStructure_type_fk()+"' and e.strip_chart_structure_id='"+obj.getStrip_chart_structure_id()+"' and component='"+obj.getComponent()+"' and component_id='"+obj.getComponent_id()+"' ";

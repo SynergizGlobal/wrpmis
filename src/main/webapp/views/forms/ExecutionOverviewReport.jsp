@@ -323,7 +323,7 @@ table tr td:nth-child(0) {
 }
 
 table tr td:nth-child(3) {
-  width:835px;
+  width:500px;
 }
 
 .ClickTd

@@ -51,7 +51,7 @@ public class HomeNewDaoImpl implements HomeNewDao{
 		Project projectOverview = new Project();
 		NumberFormat numberFormatter = new DecimalFormat("#0.00");
 		try {
-			String projectQry = "select project_id,pink_book_item_number,project_name,plan_head_number,remarks,project_status,attachment,benefits,round((cumulative_expenditure/sanctioned_cost),2) as financial_progress,round((actual_progress/sanctioned_cost),2) as physical_progress from project_view where project_id = ?";
+			String projectQry = "select project_id,pink_book_item_number,project_name,plan_head_number,remarks,project_status,attachment,benefits,round((cumulative_expenditure/sanctioned_cost)*100,2) as financial_progress,round((actual_progress/sanctioned_cost)*100,2) as physical_progress from project_view where project_id = ?";
 			
 			String projectDetailsQry = "select case when wr.project_id_fk='P04' then 10947 else sum(wr.sanctioned_estimated_cost) end as sanctioned_estimated_cost,max(wr.sanctioned_year_fk) as sanctioned_year_fk,"
 					+ "sum(wr.completion_cost) as completion_cost,max(wr.year_of_completion) as year_of_completion, "
@@ -60,7 +60,7 @@ public class HomeNewDaoImpl implements HomeNewDao{
 					+ "(SELECT sum(y.latest_revised_cost) FROM work_yearly_sanction y left join work w on w.work_id = y.work_id_fk  WHERE y.financial_year = (SELECT MAX(z.financial_year) FROM work_yearly_sanction z WHERE z.work_id_fk = y.work_id_fk) and w.project_id_fk = ? group by w.project_id_fk) as latest_revised_cost " 
 					+ "from work wr where wr.project_id_fk = ? GROUP BY projected_completion,wr.project_id_fk";
 			
-			String workQry = "select *,round((cumulative_expenditure/sanctioned_cost),2) as financial_progress,round(actual_progress,2) as physical_progress  from work_view where project_id_fk = ?";
+			String workQry = "select *,round((cumulative_expenditure/sanctioned_cost)*100,2) as financial_progress,round(actual_progress*100,2) as physical_progress  from work_view where project_id_fk = ?";
 			
 			
 			//String workQry = "select work_id,work_short_name,(select work_id_fk as work_id from dashboard where soft_delete_status_fk = 'Active' and work_id_fk = work_id offset 0 rows  fetch next 1 rows only) as work_id_fk from work where project_id_fk = ?";

@@ -355,12 +355,16 @@ table tr td:nth-child(3) {
 								<div class="col s12 m12 right-align exportButton">
 <%-- 								<c:if test="${(sessionScope.USER_ROLE_CODE eq 'DA') or (sessionScope.USER_ROLE_CODE eq 'RU') or (sessionScope.USER_ROLE_CODE eq 'IT')}">
     								<div class="m-n1">
-    									<a href="javascript:exportExecutionOverviewReport();" class="btn waves-effect waves-light bg-s t-c"> 
+    									<a href="javascript:exportReport();" class="btn waves-effect waves-light bg-s t-c"> 
     									<strong><i class="fa fa-arrow-circle-down v-align-mid"></i> Download</strong>
     									</a>										
     								</div>
     							</c:if>   --%> 
-    							<!-- <button type="button" class="btn bg-m waves-effect waves-light t-c">Export</button>  -->
+    							<div class="m-n1">
+    									<a href="javascript:exportReport();" class="btn waves-effect waves-light bg-s t-c"> 
+    									<strong><i class="fa fa-arrow-circle-down v-align-mid"></i> Export</strong>
+    									</a>										
+    								</div>
     															
     							</div>	
 							</div>
@@ -406,7 +410,9 @@ table tr td:nth-child(3) {
 						</div>
 					</div>
 					<br><br>
-					<div claass="row">
+					<div claass="row" id="divExport">
+					<button id="btn-show-all-children" type="button">Expand All</button>
+					<button id="btn-hide-all-children" type="button">Collapse All</button>					
 					<table id="datatable-execution-overview-report" class="mdl-data-table" data-module="sticky-table">
 								<thead>
 									<tr id="topDivCss" style="background-color:#162D6E;">
@@ -472,7 +478,9 @@ table tr td:nth-child(3) {
 	<script src="/pmis/resources/js/moment-v2.8.4.min.js"></script> 
 	<script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script> 
 	
-    <script src="https://cdn.datatables.net/v/dt/dt-1.10.21/datatables.min.js"></script>  	
+    <script src="https://cdn.datatables.net/v/dt/dt-1.10.21/datatables.min.js"></script>  
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+	<script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>	
 	
     <script>
 /*     var el = document.querySelector('[data-module="sticky-table"]');
@@ -542,6 +550,33 @@ table tr td:nth-child(3) {
     	   $('.close-message').delay(3000).fadeOut('slow');
     	
     	   getStructureTypesbyWorkId();
+    	   
+    	   
+    	    $('#btn-show-all-children').on('click', function(){
+    	        // Enumerate all rows
+    	        table.rows().every(function(){
+    	            // If row has details collapsed
+    	            if(!this.child.isShown()){
+    	                // Open this row
+    	                this.child(format(this.data())).show();
+    	                $(this.node()).addClass('shown');
+    	            }
+    	        });
+    	    });
+
+    	    // Handle click on "Collapse All" button
+    	    $('#btn-hide-all-children').on('click', function(){
+    	        // Enumerate all rows
+    	        table.rows().every(function(){
+    	            // If row has details expanded
+    	            if(this.child.isShown()){
+    	                // Collapse row details
+    	                this.child.hide();
+    	                $(this.node()).removeClass('shown');
+    	            }
+    	        });
+    	    });  	   
+    	   
     });
     
     
@@ -1657,6 +1692,31 @@ table tr td:nth-child(3) {
      	
      	 $("#exportExecutionOverviewReport").submit();
   	}
+    
+    function exportReport()
+    {
+    	 var HTML_Width = $("#divExport").width();
+    	    var HTML_Height = $("#divExport").height();
+    	    var top_left_margin = 15;
+    	    var PDF_Width = HTML_Width + (top_left_margin * 2);
+    	    var PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 2);
+    	    var canvas_image_width = HTML_Width;
+    	    var canvas_image_height = HTML_Height;
+
+    	    var totalPDFPages = Math.ceil(HTML_Height / PDF_Height) - 1;
+
+    	    html2canvas($("#divExport")[0]).then(function (canvas) {
+    	        var imgData = canvas.toDataURL("image/jpeg", 1.0);
+    	        var pdf = new jsPDF('p', 'pt', [PDF_Width, PDF_Height]);
+    	        pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin, canvas_image_width, canvas_image_height);
+    	        for (var i = 1; i <= totalPDFPages; i++) { 
+    	            pdf.addPage(PDF_Width, PDF_Height);
+    	            pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height*i)+(top_left_margin*4),canvas_image_width,canvas_image_height);
+    	        }
+    	        pdf.save("ExecutionOverviewReport.pdf");
+    	    });  	
+    	
+ 	}    
     
     </script>
 

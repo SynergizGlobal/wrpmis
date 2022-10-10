@@ -147,7 +147,7 @@ public class ProjectOverviewReportDaoImpl implements ProjectOverviewReportDao{
 					 
 					 
 					"					isnull(cast(isnull(c.estimated_cost,0)*c.estimated_cost_units as CHAR),0) as estimated_cost,\r\n" + 
-					"										(case when  ((select count(*) from contract_revision where contract_id_fk=c.contract_id)>0)\r\n" + 
+					"										(case when  ((select count(*) from contract_revision where contract_id_fk=c.contract_id)>0 and isnull(revised_amount,0)>0)\r\n" + 
 					"					\r\n" + 
 					"						then\r\n" + 
 					"						\r\n" + 

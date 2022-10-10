@@ -58,8 +58,8 @@
     	.fs16rem{font-size: 1.6rem !important;}
     	.fs16rm{font-size: 1.6rem;}
     	.wspn{
-    		min-width:21.7%;
-    		width:21.7%;
+    		min-width:18.0%;
+    		width:18.0%;
     		}
     	.txt-cntr{
     		text-align: center !important;
@@ -782,11 +782,11 @@
 				         				var yji=yji1+sumVal3;
 				         				
 				         				
-				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13.6%;width:17.6%;">'+sumVal5.toFixed(1)+'</span>';
-				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13.6%;width:17.6%;">'+sumVal1.toFixed(1)+'</span>';
-					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13%;width:17%;">'+yji1.toFixed(1)+'</span>';
-					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:22%;width:25%;">'+sumVal3.toFixed(1)+'</span>';
-					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:9%;width:11%;">'+yji.toFixed(1)+'</span>';
+				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:10%;width:10%;">'+sumVal5.toFixed(1)+'</span>';
+				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:20.5%;width:20.5%;">'+sumVal1.toFixed(1)+'</span>';
+					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:11%;width:13%;">'+yji1.toFixed(1)+'</span>';
+					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:19%;width:21%;">'+sumVal3.toFixed(1)+'</span>';
+					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:7%;width:9%;">'+yji.toFixed(1)+'</span>';
 
 				         			}
 				         			else if(val.department_name=="Electrical") {
@@ -795,11 +795,11 @@
 				         				var yui=yui1+sumVal33;
 				         				
 				         				
-				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13.6%;width:13.6%;">'+sumVal55.toFixed(1)+'</span>';
-				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13.6%;width:13.6%;">'+sumVal11.toFixed(1)+'</span>';
-					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13%;width:13%;">'+yui1.toFixed(1)+'</span>';
-					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:22%;width:22%;">'+sumVal33.toFixed(1)+'</span>';
-					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:9%;width:9%;">'+yui.toFixed(1)+'</span>';  
+				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:10%;width:10%;">'+sumVal55.toFixed(1)+'</span>';
+				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:20.5%;width:20.5%;">'+sumVal11.toFixed(1)+'</span>';
+					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:11%;width:13%;">'+yui1.toFixed(1)+'</span>';
+					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:19%;width:21%;">'+sumVal33.toFixed(1)+'</span>';
+					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:7%;width:9%;">'+yui.toFixed(1)+'</span>';  
 			         				}
 				         			else if(val.department_name=="Signalling & Telecom") {
 				         				class_name="sandt";
@@ -807,11 +807,11 @@
 				         				var fgh=fgh1+sumVal333;
 				         				
 				         				
-				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13.6%;width:13.6%;">'+sumVal555.toFixed(1)+'</span>';
-				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13.6%;width:13.6%;">'+sumVal111.toFixed(1)+'</span>';
-					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13%;width:13%;">'+fgh1.toFixed(1)+'</span>';
-					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:22%;width:22%;">'+sumVal333.toFixed(1)+'</span>';
-					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:9%;width:9%;">'+fgh.toFixed(1)+'</span>'; 
+				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:10%;width:10%;">'+sumVal555.toFixed(1)+'</span>';
+				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:20.5%;width:20.5%;">'+sumVal111.toFixed(1)+'</span>';
+					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:11%;width:13%;">'+fgh1.toFixed(1)+'</span>';
+					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:19%;width:21%;">'+sumVal333.toFixed(1)+'</span>';
+					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:7%;width:9%;">'+fgh.toFixed(1)+'</span>'; 
 			         				}
 				         			else if(val.department_name=="Non Bank Funds") {
 				         				class_name="nbf";
@@ -819,11 +819,11 @@
 				         				var wer=wer1+sumVal3333;
 				         				
 				         				
-				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13.6%;width:13.6%;">'+sumVal5555.toFixed(1)+'</span>';
-				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13.6%;width:13.6%;">'+sumVal1111.toFixed(1)+'</span>';
-					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13%;width:13%;">'+wer1.toFixed(1)+'</span>';
-					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:22%;width:22%;">'+sumVal3333.toFixed(1)+'</span>';
-					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:9%;width:9%;">'+wer.toFixed(1)+'</span>'; 
+				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:10%;width:10%;">'+sumVal5555.toFixed(1)+'</span>';
+				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:20.5%;width:20.5%;">'+sumVal1111.toFixed(1)+'</span>';
+					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:11%;width:13%;">'+wer1.toFixed(1)+'</span>';
+					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:19%;width:21%;">'+sumVal3333.toFixed(1)+'</span>';
+					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:7%;width:9%;">'+wer.toFixed(1)+'</span>'; 
 			         				}
 				         			else if(val.department_name=="Planning") {
 				         				class_name="pln";
@@ -831,11 +831,11 @@
 				         				var cvb=cvb1+sumVal33333;
 
 				         				
-				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13.6%;width:13.6%;">'+sumVal55555.toFixed(1)+'</span>';
-				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13.6%;width:13.6%;">'+sumVal11111.toFixed(1)+'</span>';
-					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:13%;width:13%;">'+cvb1.toFixed(1)+'</span>';
-					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:22%;width:22%;">'+sumVal33333.toFixed(1)+'</span>';
-					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:9%;width:9%;">'+cvb.toFixed(1)+'</span>'; 
+				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:10%;width:10%;">'+sumVal55555.toFixed(1)+'</span>';
+				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:20.5%;width:20.5%;">'+sumVal11111.toFixed(1)+'</span>';
+					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:11%;width:13%;">'+cvb1.toFixed(1)+'</span>';
+					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:19%;width:21%;">'+sumVal33333.toFixed(1)+'</span>';
+					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:7%;width:9%;">'+cvb.toFixed(1)+'</span>'; 
 			         				}					         			
 				         			
 				         			
@@ -879,8 +879,13 @@
 								    	         					html=html+'<tr '+contractstatuscolor+'>';
 								    	         						html=html+'<td class="fw-5p fs16rem">'+$.trim(t1)+'</td>';
 								    	         						html=html+'<td class="fw-42p fs16rem">'+val1.contract_short_name+'</td>';
+								    	         						var awcost=parseFloat(val1.awarded_cost).toFixed(1);
+								    	         						if(val1.awarded_cost==null || val1.awarded_cost==0)
+								    	         							{
+								    	         								awcost=parseFloat(val1.estimated_cost).toFixed(1);
+								    	         							}
 								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr" style="color:red;">'+parseFloat(val1.estimated_cost).toFixed(1)+'</td>';
-								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr" style="color:red;">'+parseFloat(val1.awarded_cost).toFixed(1)+'</td>';
+								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr" style="color:red;">'+awcost+'</td>';
 								    	         						html=html+'<td class="fw-15p fs16rem txt-cntr" style="color:red;">'+parseFloat(val1.last_financial_progress).toFixed(1)+'</td>';
 								    	         						html=html+'<td class="fw-15p fs16rem txt-cntr" style="color:red;">'+parseFloat(val1.actual_financial_progress).toFixed(1)+'</td>';
 								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr" style="color:red;">'+parseFloat(rty).toFixed(1)+'</td>';

@@ -101,17 +101,17 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 	public List<StripChart> getDepartmentFilterListInEOR(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "						select distinct department,concat(department_name,' / ',u.designation) as department_name\r\n" + 
-					"					    from p6_activities a\r\n" + 
-					"					left join structure s on s.structure_id = a.structure_id_fk \r\n" + 
-					"					    \r\n" + 
-					"					    left join p6_activity_progress p on p.p6_activity_id_fk = a.p6_activity_id\r\n" + 
-					"					    \r\n" + 
-					"					    inner join contract c on c.contract_id=a.contract_id_fk \r\n" + 
-					"					    left join [user] u on u.user_id=c.hod_user_id_fk\r\n" + 
-					"					    \r\n" + 
-					"					     left join department d on d.department=c.department_fk\r\n" + 
-					"\r\n" + 
+			String qry = "						select distinct department,concat(department_name,' / ',u.designation) as department_name " + 
+					"					    from p6_activities a " + 
+					"					left join structure s on s.structure_id = a.structure_id_fk  " + 
+					"					     " + 
+					"					    left join p6_activity_progress p on p.p6_activity_id_fk = a.p6_activity_id " + 
+					"					     " + 
+					"					    inner join contract c on c.contract_id=a.contract_id_fk  " + 
+					"					    left join [user] u on u.user_id=c.hod_user_id_fk " + 
+					"					     " + 
+					"					     left join department d on d.department=c.department_fk " + 
+					" " + 
 					"						 where department is not null ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -163,15 +163,15 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 	public List<StripChart> getContractIdFilterListInEOR(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "select distinct contract_id,contract_short_name\r\n" + 
-					"					    from p6_activities a\r\n" + 
-					"					left join structure s on s.structure_id = a.structure_id_fk \r\n" + 
-					"					    \r\n" + 
-					"					    left join p6_activity_progress p on p.p6_activity_id_fk = a.p6_activity_id\r\n" + 
-					"					    \r\n" + 
-					"					    inner join contract c on c.contract_id=a.contract_id_fk \r\n" + 
-					"					    left join [user] u on u.user_id=c.hod_user_id_fk\r\n" + 
-					"					    \r\n" + 
+			String qry = "select distinct contract_id,contract_short_name " + 
+					"					    from p6_activities a " + 
+					"					left join structure s on s.structure_id = a.structure_id_fk  " + 
+					"					     " + 
+					"					    left join p6_activity_progress p on p.p6_activity_id_fk = a.p6_activity_id " + 
+					"					     " + 
+					"					    inner join contract c on c.contract_id=a.contract_id_fk  " + 
+					"					    left join [user] u on u.user_id=c.hod_user_id_fk " + 
+					"					     " + 
 					"					     left join department d on d.department=c.department_fk where 0=0 ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -274,9 +274,11 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 	public List<StripChart> getStructureTypesbyWorkId(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "select structure_type_fk,unit,scope,department,hod,sum(cast(completed as decimal(10,2))) as completed,target_date_of_completion from(select distinct e.structure_type_fk,'%' as unit,100 as Scope,department,hod,contract_id,cast(e.completed as decimal(10,2)) as completed, " + 
-					"(select FORMAT(MAX(CAST(target_date_of_completion AS Date)),'dd-MM-yyyy') from executionreporthistory m where m.work_id='"+obj.getWork_id_fk()+"' and m.structure_type_fk=e.structure_type_fk) as target_date_of_completion " + 
-					"from executionreporthistory e where e.work_id='"+obj.getWork_id_fk()+"') as a  where 0=0 " ;
+			String qry = "select distinct structure_type_fk,unit,scope,completed,target_date_of_completion from (select structure_type_fk,unit,scope,department,hod,sum(cast(completed as decimal(10,2))) as completed,target_date_of_completion from(select distinct e.structure_type_fk,'%' as unit,100 as Scope,department,hod,contract_id,cast(e.completed as decimal(10,2)) as completed,   " + 
+					"					(select FORMAT(MAX(CAST(target_date_of_completion AS Date)),'dd-MM-yyyy') from executionreporthistory m where m.work_id='"+obj.getWork_id_fk()+"' and m.structure_type_fk=e.structure_type_fk) as target_date_of_completion  " + 
+					"					from executionreporthistory e where e.work_id='"+obj.getWork_id_fk()+"') as a  where 0=0  " + 
+					" " + 
+					"					group by structure_type_fk,unit,scope,target_date_of_completion,department,hod) as a  where 0=0  " ;
 					
 			
 			int arrSize = 0;
@@ -290,7 +292,7 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 				qry = qry + " and contract_id = ? ";
 				arrSize++;
 			}
-			qry= qry+" group by structure_type_fk,unit,scope,target_date_of_completion,department,hod ORDER by structure_type_fk ";
+			qry= qry+" ORDER by structure_type_fk ";
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -314,7 +316,7 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 	public List<StripChart> getStructuresByWorkId(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "select distinct e.strip_chart_structure_id,'%' as unit,100 as Scope,cast(e.completed as decimal(10,2)) as completed, " + 
+			String qry = "select distinct e.strip_chart_structure_id,case when  structure_type_fk='E Earthwork' then unit_fk else '%' end as unit,case when  structure_type_fk='E Earthwork' then sum(cast(Scope as decimal(10,2))) else 100 end as Scope,sum(cast(e.completed as decimal(10,2))) as completed, " + 
 					"(select FORMAT(MAX(CAST(target_date_of_completion AS Date)),'dd-MM-yyyy') from executionreporthistory m where m.work_id='"+obj.getWork_id_fk()+"' and m.structure_type_fk=e.structure_type_fk  " + 
 					"and m.strip_chart_structure_id=e.strip_chart_structure_id) as target_date_of_completion " + 
 					"from executionreporthistory e where e.work_id='"+obj.getWork_id_fk()+"' and structure_type_fk='"+obj.getStructure_type_fk()+"' ";
@@ -330,7 +332,7 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 				qry = qry + " and contract_id = ? ";
 				arrSize++;
 			}
-			qry=qry+" ORDER by e.strip_chart_structure_id";
+			qry=qry+" group by strip_chart_structure_id,structure_type_fk,unit_fk ORDER by e.strip_chart_structure_id";
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -354,7 +356,7 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 	public List<StripChart> getComponentsByWorkId(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "select distinct e.component,'%' as unit,100 as Scope,cast(e.completed as decimal(10,2)) as completed, " + 
+			String qry = "select distinct e.component,case when  structure_type_fk='E Earthwork' then unit_fk else '%' end as unit,case when  structure_type_fk='E Earthwork' then cast(Scope as decimal(10,2)) else 100 end as Scope,cast(e.completed as decimal(10,2)) as completed, " + 
 					"(select FORMAT(MAX(CAST(target_date_of_completion AS Date)),'dd-MM-yyyy') from executionreporthistory m where m.work_id='"+obj.getWork_id_fk()+"' and m.structure_type_fk=e.structure_type_fk  " + 
 					"and m.strip_chart_structure_id=e.strip_chart_structure_id and m.component=e.component) as target_date_of_completion " + 
 					"from executionreporthistory e where e.work_id='"+obj.getWork_id_fk()+"' and structure_type_fk='"+obj.getStructure_type_fk()+"' and e.strip_chart_structure_id='"+obj.getStrip_chart_structure_id()+"' ";
@@ -394,7 +396,7 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 	public List<StripChart> getActivitiesByWorkId(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "select distinct e.p6_activity_name as activity_name,unit_fk as unit,100 as Scope,cast(e.completed as decimal(10,2)) as completed, " + 
+			String qry = "select distinct e.p6_activity_name as activity_name,case when  structure_type_fk='E Earthwork' then unit_fk else '%' end as unit,case when  structure_type_fk='E Earthwork' then cast(Scope as decimal(10,2)) else 100 end as Scope,cast(e.completed as decimal(10,2)) as completed, " + 
 					"(select FORMAT(MAX(CAST(target_date_of_completion AS Date)),'dd-MM-yyyy') from executionreporthistory m where m.work_id='"+obj.getWork_id_fk()+"' and m.structure_type_fk=e.structure_type_fk  " + 
 					"and m.strip_chart_structure_id=e.strip_chart_structure_id and m.component=e.component and m.component_id=e.component_id and m.p6_activity_name=e.p6_activity_name) as target_date_of_completion " + 
 					"from executionreporthistory e where e.work_id='"+obj.getWork_id_fk()+"' and structure_type_fk='"+obj.getStructure_type_fk()+"' and e.strip_chart_structure_id='"+obj.getStrip_chart_structure_id()+"' and component='"+obj.getComponent()+"' and component_id='"+obj.getComponent_id()+"' ";
@@ -434,7 +436,7 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 	public List<StripChart> getComponentIDsByWorkId(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "select distinct e.component_id as component_id,'%' as unit,100 as Scope,cast(e.completed as decimal(10,2)) as completed, " + 
+			String qry = "select distinct e.component_id as component_id,case when  structure_type_fk='E Earthwork' then unit_fk else '%' end as unit,case when  structure_type_fk='E Earthwork' then cast(Scope as decimal(10,2)) else 100 end as Scope,cast(e.completed as decimal(10,2)) as completed, " + 
 					"(select FORMAT(MAX(CAST(target_date_of_completion AS Date)),'dd-MM-yyyy') from executionreporthistory m where m.work_id='"+obj.getWork_id_fk()+"' and m.structure_type_fk=e.structure_type_fk  " + 
 					"and m.strip_chart_structure_id=e.strip_chart_structure_id and m.component=e.component and m.component_id=e.component_id) as target_date_of_completion " + 
 					"from executionreporthistory e where e.work_id='"+obj.getWork_id_fk()+"' and structure_type_fk='"+obj.getStructure_type_fk()+"' and e.strip_chart_structure_id='"+obj.getStrip_chart_structure_id()+"' and component='"+obj.getComponent()+"' ";

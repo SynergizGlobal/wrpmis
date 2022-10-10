@@ -701,7 +701,7 @@
          					loop=0;
 							var a1=0,a2=0,a3=0,a4=0,a5=0;
 							if(val.estimated_cost!="" && val.estimated_cost!=undefined && val.estimated_cost!=null){a5=val.estimated_cost;}else{a5=0;}
-							if(val.awarded_cost!="" && val.awarded_cost!=undefined && val.awarded_cost!=null){a1=val.awarded_cost;}else{a1=0;}
+							if(val.awarded_cost!="" && val.awarded_cost!=undefined && val.awarded_cost!=0){a1=val.awarded_cost;}else{a1=val.estimated_cost;}
 							if(val.cumulative_expenditure!="" && val.cumulative_expenditure!=undefined && val.cumulative_expenditure!=null){a2=val.cumulative_expenditure;}else{a2=0;}
 							if(val.actual_financial_progress!="" && val.actual_financial_progress!=undefined && val.actual_financial_progress!=null){a3=val.actual_financial_progress;}else{a3=0;}
 							if(val.actual_physical_progress!="" && val.actual_physical_progress!=undefined && val.actual_physical_progress!=null){a4=val.actual_physical_progress;}else{a4=0;}
@@ -780,10 +780,17 @@
 				         				class_name="engineering";
 				         				var yji1=sumVal2-sumVal3;
 				         				var yji=yji1+sumVal3;
-				         				
-				         				
+				         				var mnb=sumVal1.toFixed(1);
+				         				if(mnb>0)
+				         					{
+				         					
+				         					}
+				         				else
+				         					{
+				         						mnb=sumVal5.toFixed(1);
+				         					}
 				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:10%;width:10%;">'+sumVal5.toFixed(1)+'</span>';
-				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:20.5%;width:20.5%;">'+sumVal1.toFixed(1)+'</span>';
+				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:20.5%;width:20.5%;">'+mnb+'</span>';
 					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:11%;width:13%;">'+yji1.toFixed(1)+'</span>';
 					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:19%;width:21%;">'+sumVal3.toFixed(1)+'</span>';
 					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:7%;width:9%;">'+yji.toFixed(1)+'</span>';
@@ -794,9 +801,17 @@
 				         				var yui1=sumVal22-sumVal33;
 				         				var yui=yui1+sumVal33;
 				         				
-				         				
+				         				var mnb=sumVal11.toFixed(1);
+				         				if(mnb>0)
+				         					{
+				         					
+				         					}
+				         				else
+				         					{
+				         						mnb=sumVal55.toFixed(1);
+				         					}				         				
 				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:10%;width:10%;">'+sumVal55.toFixed(1)+'</span>';
-				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:20.5%;width:20.5%;">'+sumVal11.toFixed(1)+'</span>';
+				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:20.5%;width:20.5%;">'+mnb+'</span>';
 					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:11%;width:13%;">'+yui1.toFixed(1)+'</span>';
 					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:19%;width:21%;">'+sumVal33.toFixed(1)+'</span>';
 					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:7%;width:9%;">'+yui.toFixed(1)+'</span>';  
@@ -805,10 +820,19 @@
 				         				class_name="sandt";
 				         				var fgh1=sumVal222-sumVal333;
 				         				var fgh=fgh1+sumVal333;
-				         				
+
+				         				var mnb=sumVal111.toFixed(1);
+				         				if(mnb>0)
+				         					{
+				         					
+				         					}
+				         				else
+				         					{
+				         						mnb=sumVal555.toFixed(1);
+				         					}
 				         				
 				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:10%;width:10%;">'+sumVal555.toFixed(1)+'</span>';
-				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:20.5%;width:20.5%;">'+sumVal111.toFixed(1)+'</span>';
+				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:20.5%;width:20.5%;">'+mnb+'</span>';
 					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:11%;width:13%;">'+fgh1.toFixed(1)+'</span>';
 					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:19%;width:21%;">'+sumVal333.toFixed(1)+'</span>';
 					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:7%;width:9%;">'+fgh.toFixed(1)+'</span>'; 
@@ -818,9 +842,18 @@
 				         				var wer1=sumVal2222+sumVal3333;
 				         				var wer=wer1+sumVal3333;
 				         				
+				         				var mnb=sumVal1111.toFixed(1);
+				         				if(mnb>0)
+				         					{
+				         					
+				         					}
+				         				else
+				         					{
+				         						mnb=sumVal5555.toFixed(1);
+				         					}
 				         				
 				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:10%;width:10%;">'+sumVal5555.toFixed(1)+'</span>';
-				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:20.5%;width:20.5%;">'+sumVal1111.toFixed(1)+'</span>';
+				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:20.5%;width:20.5%;">'+mnb+'</span>';
 					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:11%;width:13%;">'+wer1.toFixed(1)+'</span>';
 					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:19%;width:21%;">'+sumVal3333.toFixed(1)+'</span>';
 					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:7%;width:9%;">'+wer.toFixed(1)+'</span>'; 
@@ -830,9 +863,18 @@
 				         				var cvb1=sumVal22222-sumVal33333;
 				         				var cvb=cvb1+sumVal33333;
 
+				         				var mnb=sumVal11111.toFixed(1);
+				         				if(mnb>0)
+				         					{
+				         					
+				         					}
+				         				else
+				         					{
+				         						mnb=sumVal55555.toFixed(1);
+				         					}
 				         				
 				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:10%;width:10%;">'+sumVal55555.toFixed(1)+'</span>';
-				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:20.5%;width:20.5%;">'+sumVal11111.toFixed(1)+'</span>';
+				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:20.5%;width:20.5%;">'+mnb+'</span>';
 					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:11%;width:13%;">'+cvb1.toFixed(1)+'</span>';
 					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:19%;width:21%;">'+sumVal33333.toFixed(1)+'</span>';
 					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:7%;width:9%;">'+cvb.toFixed(1)+'</span>'; 

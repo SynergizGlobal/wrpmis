@@ -572,8 +572,8 @@ public class RandRMainDaoImpl implements RandRMainDao{
 			throws Exception {
 		List<RandRMain> objsList = null;
 		try {
-			String qry ="select rr_id, r.work_id, identification_no, map_sr_no, location_name, sub_location_name, phase, structure_id, type_of_structure_roof, type_of_structure_wall, type_of_structure_floor, carpet_area, year_of_construction, name_of_the_owner, type_of_use, document_type, document_no, physical_verification, verification_by, approval_by_committee, rr_approval_status_by_mrvc, estimation_amount, estimate_approval_date, letter_to_mmrda, estimates_by_mmrda, payment_to_mmrda, alternate_housing_allotment,"
-					+ " relocation, encroachment_removal, boundary_wall_status, boundary_wall_doc, handed_over_to_execution, occupier_name_during_verification,modified_by,FORMAT(modified_date,'dd-MM-yyyy') as modified_date from rr r "
+			String qry ="select distinct rr_id, r.work_id, identification_no, map_sr_no, location_name, sub_location_name, phase, structure_id, type_of_structure_roof, type_of_structure_wall, type_of_structure_floor, carpet_area, year_of_construction, name_of_the_owner, type_of_use, document_type, document_no, physical_verification, verification_by, approval_by_committee, rr_approval_status_by_mrvc, estimation_amount, estimate_approval_date, letter_to_mmrda, estimates_by_mmrda, payment_to_mmrda, alternate_housing_allotment,"
+					+ " relocation, encroachment_removal, boundary_wall_status, boundary_wall_doc, handed_over_to_execution, occupier_name_during_verification,modified_by,FORMAT(modified_date,'dd-MM-yyyy') as modified_date,chainage,latitude,longitude from rr r "
 					+ "LEFT JOIN work w on r.work_id = w.work_id "
 					+ "left join rr_executives re on r.work_id = re.work_id_fk  "
 					+ "WHERE rr_id is not null ";
@@ -980,8 +980,8 @@ public class RandRMainDaoImpl implements RandRMainDao{
 					+ "type_of_structure_wall, type_of_structure_floor, r.carpet_area, year_of_construction, name_of_the_owner, type_of_use, document_type, document_no, FORMAT(physical_verification ,'dd-MM-yyyy') AS physical_verification, verification_by,FORMAT(approval_by_committee ,'dd-MM-yyyy') AS  approval_by_committee,r.remarks,estimation_amount_units,estimated_by_mmrda_amount_units,"
 					+ "FORMAT(rr_approval_status_by_mrvc ,'dd-MM-yyyy') AS  rr_approval_status_by_mrvc, estimation_amount,FORMAT(estimate_approval_date ,'dd-MM-yyyy') AS estimate_approval_date,FORMAT(letter_to_mmrda ,'dd-MM-yyyy') AS letter_to_mmrda, estimates_by_mmrda, FORMAT(payment_to_mmrda ,'dd-MM-yyyy') AS payment_to_mmrda, FORMAT(alternate_housing_allotment ,'dd-MM-yyyy') AS alternate_housing_allotment,FORMAT(relocation ,'dd-MM-yyyy') AS relocation,FORMAT(encroachment_removal ,'dd-MM-yyyy') AS encroachment_removal, boundary_wall_status, "
 					+ "FORMAT(boundary_wall_doc ,'dd-MM-yyyy') AS boundary_wall_doc,FORMAT(handed_over_to_execution ,'dd-MM-yyyy') AS handed_over_to_execution, occupier_name_during_verification,"
-					+ "rr1.id, rr1.rr_id_fk, rr1.name_of_activity, rr1.year_of_establishment, rr1.carpet_area as com_carpet_area, rr1.monthly_turnover_amount, rr1.monthly_turnover_amount_units, rr1.number_of_employees, rr1.remarks as com_remarks,"
-					+ "rr2.id, rr2.rr_id_fk, rr2.occupancy_status, rr2.gender, rr2.family_income_amount_units,rr2.tenure_status, rr2.caste, rr2.mother_tongue, rr2.type_of_family, rr2.family_size, rr2.number_of_married_couple, rr2.family_income_amount, rr2.vulnerable_category, FORMAT(r.planned_date_of_completion ,'dd-MM-yyyy') as planned_date_of_completion"
+					+ "rr1.rr_id_fk, rr1.name_of_activity, rr1.year_of_establishment, rr1.carpet_area as com_carpet_area, rr1.monthly_turnover_amount, rr1.monthly_turnover_amount_units, rr1.number_of_employees, rr1.remarks as com_remarks,"
+					+ "rr2.id, rr2.rr_id_fk, rr2.occupancy_status, rr2.gender, rr2.family_income_amount_units,rr2.tenure_status, rr2.caste, rr2.mother_tongue, rr2.type_of_family, rr2.family_size, rr2.number_of_married_couple, rr2.family_income_amount, rr2.vulnerable_category, FORMAT(r.planned_date_of_completion ,'dd-MM-yyyy') as planned_date_of_completion,chainage,latitude,longitude"
 					+ " from rr r " + 
 					"left join work w on r.work_id = w.work_id  "
 					+ "left join rr_executives re on r.work_id = re.work_id_fk  "+
@@ -1046,12 +1046,12 @@ public class RandRMainDaoImpl implements RandRMainDao{
 					+ "( rr_id, work_id, identification_no, map_sr_no, location_name, sub_location_name, phase, structure_id, type_of_structure_roof, type_of_structure_wall, type_of_structure_floor,"
 					+ "carpet_area, year_of_construction, name_of_the_owner, type_of_use, document_type, document_no, physical_verification, verification_by, "
 					+ "approval_by_committee, rr_approval_status_by_mrvc, estimation_amount, letter_to_mmrda, estimate_approval_date,estimates_by_mmrda,"
-					+ "payment_to_mmrda,alternate_housing_allotment,relocation,encroachment_removal,boundary_wall_status,boundary_wall_doc,handed_over_to_execution,occupier_name_during_verification,remarks,estimated_by_mmrda_amount_units,estimation_amount_units,planned_date_of_completion)"
+					+ "payment_to_mmrda,alternate_housing_allotment,relocation,encroachment_removal,boundary_wall_status,boundary_wall_doc,handed_over_to_execution,occupier_name_during_verification,remarks,estimated_by_mmrda_amount_units,estimation_amount_units,planned_date_of_completion,chainage,latitude,longitude)"
 					+ "VALUES"
 					+ "(:rr_id, :work_id, :identification_no, :map_sr_no, :location_name, :sub_location_name, :phase, :structure_id, :type_of_structure_roof, :type_of_structure_wall, :type_of_structure_floor, "
 					+ ":carpet_area, :year_of_construction, :name_of_the_owner, :type_of_use, :document_type, :document_no, :physical_verification, :verification_by, "
 					+ ":approval_by_committee, :rr_approval_status_by_mrvc, :estimation_amount, :letter_to_mmrda, :estimate_approval_date , :estimates_by_mmrda, :payment_to_mmrda, :alternate_housing_allotment, "
-					+ ":relocation, :encroachment_removal, :boundary_wall_status, :boundary_wall_doc, :handed_over_to_execution, :occupier_name_during_verification, :remarks, :estimated_by_mmrda_amount_units, :estimation_amount_units,:planned_date_of_completion)";
+					+ ":relocation, :encroachment_removal, :boundary_wall_status, :boundary_wall_doc, :handed_over_to_execution, :occupier_name_during_verification, :remarks, :estimated_by_mmrda_amount_units, :estimation_amount_units,:planned_date_of_completion,:chainage,:latitude,:longitude)";
 			
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
@@ -1386,11 +1386,11 @@ public class RandRMainDaoImpl implements RandRMainDao{
 		String laId = obj.getWork_code()+"-RR-01";
 		List<RandRMain> objsList = null;
 		try {
-			String qry ="SELECT rr_id FROM rr where rr_id like '"+obj.getWork_code()+"'" ;
+			String qry ="select work_code  from work where work_id='"+obj.getWork_id()+"'";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));	
 			
 			if(!StringUtils.isEmpty(objsList) && objsList.size() > 0){
-				String qry2="select CONCAT('"+obj.getWork_code()+"','-LA-',case when len(rr_id)=3 then concat('0',rr_id) when len(rr_id)=2 then concat('00',rr_id) when len(rr_id)=1 then concat('000',rr_id) end) as rr_id from(" + 
+				String qry2="select CONCAT('"+obj.getWork_code()+"','-RR-',case when len(rr_id)=3 then concat('0',rr_id) when len(rr_id)=2 then concat('00',rr_id) when len(rr_id)=1 then concat('000',rr_id) end) as rr_id from(" + 
 						"select (case when (select count(*) from rr where left(rr_id,2) ='"+obj.getWork_code()+"')>0 then Max(SUBSTRING( rr_id , LEN(rr_id) -  CHARINDEX('-',REVERSE(rr_id)) + 2  , LEN(rr_id)  ))+1 else 1 end )as rr_id from rr where left(rr_id,2) ='"+obj.getWork_code()+"') as a";
 						dObj = (RandRMain)jdbcTemplate.queryForObject(qry2, new Object[] {}, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));
 
@@ -1424,7 +1424,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 					+ ", letter_to_mmrda= :letter_to_mmrda, estimate_approval_date= :estimate_approval_date,estimates_by_mmrda= :estimates_by_mmrda,"
 					+ "payment_to_mmrda= :payment_to_mmrda,alternate_housing_allotment= :alternate_housing_allotment,relocation= :relocation,encroachment_removal= :encroachment_removal"
 					+ ",boundary_wall_status= :boundary_wall_status,boundary_wall_doc= :boundary_wall_doc,handed_over_to_execution= :handed_over_to_execution"
-					+ ",occupier_name_during_verification= :occupier_name_during_verification, remarks= :remarks, estimation_amount_units= :estimation_amount_units, estimated_by_mmrda_amount_units= :estimated_by_mmrda_amount_units,planned_date_of_completion= :planned_date_of_completion,modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP  "
+					+ ",occupier_name_during_verification= :occupier_name_during_verification, remarks= :remarks, estimation_amount_units= :estimation_amount_units, estimated_by_mmrda_amount_units= :estimated_by_mmrda_amount_units,planned_date_of_completion= :planned_date_of_completion,chainage=:chainage,latitude=:latitude,longitude=:longitude,modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP  "
 					+ " WHERE   rr_id= :rr_id ";
 			
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 

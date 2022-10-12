@@ -751,11 +751,7 @@ public class RandRMainController {
 		        
 		        
 	            XSSFRow headingRow = RRSheet.createRow(0);
-	            String headerString = "Project ^Work ^R&R Id^Id No^Map S.No^Phase^Structure^Location^Sub Location^Type of Use^Carpet Area (sft)"
-	            		+ "^Year of Construction^Owner Name^Occupier Name^Document Type^Document No^Physical Verification Date^Verification By^Approval By Committee"
-	            		+ "^Approval by MRVC^Estimate Approval^"
-	            		+ "Estimation Amount^Letter to MMRDA^Estimate by MMRDA^Payment to MMRDA^Alternate Housing Allotment^Relocation^Encroachment Removal^Boundary Wall Status"
-	            		+ "^Boundary Wall Doc^Handover to Execution^Remarks";
+	            String headerString = "Project^Work^R&R ID^Phase^Structure^Location^Sub Location^Type of Use^Chainage^Latitude^Longitude^Physical Verification Date^Verification By^Letter to MMRDA^Alternate Housing Allotment^Encroachment Removal^Boundary Wall Doc^Boundary Wall Status^Handover to Execution^Carpet Area (sft)^Year of Construction^Owner Name^Occupier Name^Document Type^Document No^Map S.no^Approval By Committee^Approval by MRVC^Estimate Approval^Estimation Amount^Estimate by MMRDA^Payment to MMRDA^Relocation^Remarks";
 	            
 	            String[] firstHeaderStringArr = headerString.split("\\^");
 	            
@@ -1074,13 +1070,6 @@ public class RandRMainController {
 					cell.setCellStyle(sectionStyle);
 					cell.setCellValue(obj.getRr_id());
 					
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getIdentification_no());
-					
-	                cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getMap_sr_no());
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);

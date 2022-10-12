@@ -526,6 +526,25 @@
 		                             <span id="planned_date_of_completionError" class="error-msg" ></span>
                                 </div>                                                          
                             </div>
+
+                         	 <div class="row">
+                            	<div class="col s12 m4 input-field">
+                                     <input id="chainage" name="chainage" type="text" class="validate w75 pdr4em" value="${rrDetails.chainage }">
+		                             <label for="chainage">Chainage</label>
+		                             <span id="chainageError" class="error-msg" ></span>
+                                </div>
+                                <div class="col s12 m4 input-field">
+								     <input id="latitude" name="latitude" type="text" class="validate w75 pdr4em" value="${rrDetails.latitude }">
+		                             <label for="latitude">Latitude</label>
+		                             <span id="latitudeError" class="error-msg" ></span>
+                                </div>
+                                <div class="col s12 m4 input-field">
+								     <input id="longitude" name="longitude" type="text" class="validate w75 pdr4em" value="${rrDetails.longitude }">
+		                             <label for="longitude">Longitude</label>
+		                             <span id="longitudeError" class="error-msg" ></span>
+                                </div>                                                          
+                            </div>                            
+                            
 						</div>
                             <div class="row ">
                             	<h6 class="center-align">Identification Details</h6>

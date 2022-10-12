@@ -985,7 +985,8 @@ public class DocxTableCreation {
 				
 				
 				tableHead.getContent().add(hodRowHeader3);
-				mergeCellsHorizontal(tableHead, 1, 0, 12);
+				mergeCellsHorizontal(tableHead, rowNum, 0, 12);
+				rowNum++;
 					}
 				
 					int kl=i3+1;
@@ -1006,7 +1007,9 @@ public class DocxTableCreation {
 				
 				
 				tableHead.getContent().add(hodRowHeader4);
-				mergeCellsHorizontal(tableHead, 2, 0, 12);
+				mergeCellsHorizontal(tableHead, rowNum, 0, 12);
+				
+				rowNum++;
 				
 				if(closedWorkIdsList.size()>0)
 				{
@@ -1044,7 +1047,9 @@ public class DocxTableCreation {
 				
 				
 				tableHead.getContent().add(hodRowHeader5);
-				mergeCellsHorizontal(tableHead, 3, 0, 12);	
+				mergeCellsHorizontal(tableHead, rowNum, 0, 12);	
+				
+				rowNum++;
 				
 				
 				Tbl table = factory.createTbl();
@@ -1099,7 +1104,9 @@ public class DocxTableCreation {
 							}
 							ku++;
 							
-							pushcworkids.add(pObj.getContract_id_fk());						
+							pushcworkids.add(pObj.getContract_id_fk());	
+							
+							rowNum++;
 
 							boolean hasBgColor = false;
 							String backgroundColor = null;

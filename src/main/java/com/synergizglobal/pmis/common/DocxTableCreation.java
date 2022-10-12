@@ -1145,7 +1145,7 @@ public class DocxTableCreation {
 				}	
 				
 				}
-				
+				rowNum=0;
 				}	
 				
 			}

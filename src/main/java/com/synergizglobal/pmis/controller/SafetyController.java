@@ -757,7 +757,7 @@ public class SafetyController {
 				        
 				        
 			            XSSFRow headingRow = sheet.createRow(0);
-			            String headerString = "Work^Contract^Short Description^Description^Date of Incident^Category^Impact^Root Cause^Safety Incident (Yes/No)^Status^Location^Latitude^Longitude^Reported By^Responsible Person^Committee Required^Name of Committee members^Nominated Authority^LTI Hours^Equipment Impact^People Impact^Work Impact^Corrective Measure Short Term^Corrective Measure long Term^Investigation Completion Date^Compensation (Rs.)^Payment Date^Remarks";
+			            String headerString = "Safety ID^Work^Contract^Short Description^Description^Date of Incident^Category^Impact^Root Cause^Safety Incident (Yes/No)^Status^Location^Latitude^Longitude^Reported By^Responsible Person^Committee Required^Name of Committee members^Nominated Authority^LTI Hours^Equipment Impact^People Impact^Work Impact^Corrective Measure Short Term^Corrective Measure long Term^Investigation Completion Date^Compensation (Rs.)^Payment Date^Remarks";
 			            
 			            String[] firstHeaderStringArr = headerString.split("\\^");
 			            
@@ -773,6 +773,11 @@ public class SafetyController {
 			                int c = 0;
 			                
 			                Cell cell = row.createCell(c++);
+			                
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getSafety_seq_id());			                
+			                
+			                cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
 							cell.setCellValue(obj.getWork_id_fk()+'-'+obj.getWork_short_name());
 							

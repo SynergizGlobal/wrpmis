@@ -461,7 +461,7 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 	public Safety getSafetyDetails(Safety obj) throws Exception {
 		Safety sobj = null;
 		try {
-			String qry = "SELECT safety_id,contract_id_fk,approve_corrective_measure,s.hod_user_id_fk,u.designation,c.contract_short_name,c.hod_user_id_fk,w.work_short_name,title,description,FORMAT(date,'dd-MMM-yy') AS date,"
+			String qry = "SELECT safety_id,safety_seq_id,contract_id_fk,approve_corrective_measure,s.hod_user_id_fk,u.designation,c.contract_short_name,c.hod_user_id_fk,w.work_short_name,title,description,FORMAT(date,'dd-MMM-yy') AS date,"
 					+ "location,cast(latitude as CHAR) as latitude,cast(longitude as CHAR) as longitude,reported_by,(select top 1 user_name from [user] where user_id=responsible_person) as responsible_person,c.department_fk,d.department_name,"
 					+ "c.contractor_id_fk,cr.contractor_name,c.hod_user_id_fk,c.dy_hod_user_id_fk,u.designation as hod_designation,u1.designation as dyhod_designation,category_fk,impact_fk,root_cause_fk,status_fk,FORMAT(closure_date,'dd-MMM-yy') AS closure_date,"
 					+ "cast(lti_hours as CHAR) as lti_hours,equipment_impact,people_impact,work_impact,ISNULL(committee_formed_fk,'') as committee_formed_fk,ISNULL(committee_required_fk,'') as committee_required_fk,"
@@ -502,7 +502,7 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 				qry = qry + " and location = ? ";
 				arrSize++;
 			}
-			qry=qry+" group by safety_id,contract_id_fk,approve_corrective_measure,s.hod_user_id_fk,u.designation,contract_short_name,c.hod_user_id_fk,w.work_short_name,title,description,date,location,\r\n" + 
+			qry=qry+" group by safety_id,safety_seq_id,contract_id_fk,approve_corrective_measure,s.hod_user_id_fk,u.designation,contract_short_name,c.hod_user_id_fk,w.work_short_name,title,description,date,location,\r\n" + 
 					"latitude,longitude,reported_by,responsible_person,c.department_fk,department_name,contractor_id_fk,contractor_name,dy_hod_user_id_fk,u1.designation,category_fk,impact_fk,\r\n" + 
 					"root_cause_fk,status_fk,closure_date,lti_hours,equipment_impact,people_impact,work_impact,committee_formed_fk,committee_required_fk,investigation_completed,corrective_measure_short_term,\r\n" + 
 					"corrective_measure_long_term,compensation,compensation_units,payment_date,s.remarks,c.contract_name,c.work_id_fk,w.work_name,w.project_id_fk,p.project_name ";

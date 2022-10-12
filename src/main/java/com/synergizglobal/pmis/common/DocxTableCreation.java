@@ -640,6 +640,11 @@ public class DocxTableCreation {
 		
 		RPr calibriBoldRPr = getRPr(factory, "Calibri", "000000", "24", STHint.EAST_ASIA,
 				true, false, false, false);
+		
+		RPr calibriNotBoldRPr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA,
+				false, false, false, false);
+		
+		
 		RPr calibriBoldDateRPr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA,
 				true, false, false, false);	
 		
@@ -659,115 +664,442 @@ public class DocxTableCreation {
 		}
 		
 		List<String> lList = Arrays.asList(sArray);
+		List<String> openWorkIdsList = new ArrayList<>();
+		List<String> closedWorkIdsList = new ArrayList<>();
 		
+		List<String> openProjectIDList = new ArrayList<>();
+		List<String> openProjectNameList = new ArrayList<>();
+		
+		List<String> closedProjectIDList = new ArrayList<>();
+		List<String> closedProjectNameList = new ArrayList<>();		
+		
+		List<String> openWorkNameList = new ArrayList<>();
+		List<String> closedWorkNameList = new ArrayList<>();
+		
+		List<String> pushworkids = new ArrayList<>();
+		List<String> pushcworkids = new ArrayList<>();
+		
+		if(!StringUtils.isEmpty(safetyData)) 
+		{
+			for (Safety pObj : safetyData) 
+			{
+				if(pObj.getStatus_fk().compareTo("Open")==0)
+				{
+					openWorkIdsList.add(pObj.getWork_id_fk());
+					openWorkNameList.add(pObj.getWork_short_name());
+					
+					openProjectIDList.add(pObj.getProject_id_fk());
+					openProjectNameList.add(pObj.getProject_name());					
+					
+				}
+				if(pObj.getStatus_fk().compareTo("Closed")==0)
+				{
+					closedWorkIdsList.add(pObj.getWork_id_fk());
+					closedWorkNameList.add(pObj.getWork_short_name());
+					
+					closedProjectIDList.add(pObj.getProject_id_fk());
+					closedProjectNameList.add(pObj.getProject_name());					
+					
+				}					
+			}
+		}
+		
+		int rowNum=0;
 		for (int i2 = 0; i2 < lList.size(); i2++) 
 		{
+			
+	
+			
 			if(i2>0)
 			{
 			addPageBreak(t);
 			}
-			Tbl tableHead = factory.createTbl();
-			setLandscapeTableAlign(factory, tableHead, JcEnumeration.CENTER);
-			
-			
-			Tr hodRow3 = factory.createTr();
-
-			addTableCell(factory, wordMLPackage, hodRow3, "Status : "+lList.get(i2), calibriBoldRPr, JcEnumeration.LEFT, true,"ffffff");
-			addTableCell(factory, wordMLPackage, hodRow3, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
-			addTableCell(factory, wordMLPackage, hodRow3, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
-			addTableCell(factory, wordMLPackage, hodRow3, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
-			addTableCell(factory, wordMLPackage, hodRow3, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
-			addTableCell(factory, wordMLPackage, hodRow3, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
-			addTableCell(factory, wordMLPackage, hodRow3, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
-			addTableCell(factory, wordMLPackage, hodRow3, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
-			addTableCell(factory, wordMLPackage, hodRow3, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
-			addTableCell(factory, wordMLPackage, hodRow3, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
-			addTableCell(factory, wordMLPackage, hodRow3, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
 
 			
 		
-			Tbl table = factory.createTbl();
-			addBorders(table, "2");
+			
 
-		
-
-			
-			tableHead.getContent().add(hodRow3);
-			mergeCellsHorizontal(tableHead, 0, 0, 10);
-			t.addObject(tableHead);
-			
-			/****************************************************************************/
-			
-			if(!StringUtils.isEmpty(safetyData)) 
+			if(i2==0)
 			{
-				Tr titleRow = factory.createTr();		
-				List<String> tableHeader = new ArrayList<String>();
-				tableHeader.add("S\nNo");
-				tableHeader.add("Name\nof\nWork / Contractor");
-				tableHeader.add("HOD");
-				//tableHeader.add("Name of\nContractor"); 
-				tableHeader.add("Date/ Location");
-				tableHeader.add("Description");
-				//tableHeader.add("Date of\nIncident");
-				tableHeader.add("Impact/\nCategory");			
-				//tableHeader.add("Category");			
-				tableHeader.add("Root\nCause");
-				tableHeader.add("Committee\n(Y/N)");			
-				tableHeader.add("Incident Status");
-				tableHeader.add("Short Term\nCorrective\nMeasure");			
-				tableHeader.add("Long Term\nCorrective\nMeasure");
-				
-				for (String headerValue : tableHeader) {
-					addTableCell(factory, wordMLPackage, titleRow, headerValue, garamondBoldRPr,
-							JcEnumeration.CENTER, true, "ecf2ff");
-				}		
-				table.getContent().add(titleRow);
-				
-				int sNo = 1;
-				for (Safety pObj : safetyData) 
+			
+				for (int i3 = 0; i3 < openWorkIdsList.size(); i3++) 
 				{
 					
-					if(lList.get(i2).compareTo(pObj.getStatus_fk())==0)
-					{
-						boolean hasBgColor = false;
-						String backgroundColor = null;
-						Tr contentRow = factory.createTr();	
-						
-						addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo++),
-								garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
-						addTableCell(factory, wordMLPackage, contentRow, pObj.getWork_short_name()+"/ \n "+pObj.getContractor_name(),
-								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-						addTableCell(factory, wordMLPackage, contentRow, pObj.getDesignation(),
-								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-						;
-						addTableCell(factory, wordMLPackage, contentRow, pObj.getDate()+"\n "+pObj.getLocation(),
-								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-						addTableCell(factory, wordMLPackage, contentRow, pObj.getDescription(),
-								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-										
-						addTableCell(factory, wordMLPackage, contentRow, pObj.getImpact_fk()+"/ "+pObj.getCategory_fk(),
-								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);			
+					Tbl tableHead = factory.createTbl();
+					setLandscapeTableAlign(factory, tableHead, JcEnumeration.CENTER);						
 					
-						addTableCell(factory, wordMLPackage, contentRow, pObj.getRoot_cause_fk(),
-								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);					
-						addTableCell(factory, wordMLPackage, contentRow, pObj.getCommittee_required_fk(),
-								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-						addTableCell(factory, wordMLPackage, contentRow, pObj.getStatus_fk(),
-								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);				
-						addTableCell(factory, wordMLPackage, contentRow, pObj.getCorrective_measure_short_term(),
-								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-						addTableCell(factory, wordMLPackage, contentRow, pObj.getCorrective_measure_long_term(),
-								garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
-						
-						table.getContent().add(contentRow);
+					if(i3==0 && lList.get(i2).compareTo("Open")==0)
+					{
+				
+					Tr hodRowHeader = factory.createTr();
+					addTableCell(factory, wordMLPackage, hodRowHeader, "LIST OF OPEN SAFETY INCIDENTS", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+
+					addTableCell(factory, wordMLPackage, hodRowHeader, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+					addTableCell(factory, wordMLPackage, hodRowHeader, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+					addTableCell(factory, wordMLPackage, hodRowHeader, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+					addTableCell(factory, wordMLPackage, hodRowHeader, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+					addTableCell(factory, wordMLPackage, hodRowHeader, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+					addTableCell(factory, wordMLPackage, hodRowHeader, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+					addTableCell(factory, wordMLPackage, hodRowHeader, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+					addTableCell(factory, wordMLPackage, hodRowHeader, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+					addTableCell(factory, wordMLPackage, hodRowHeader, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+					addTableCell(factory, wordMLPackage, hodRowHeader, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+
+					
+					tableHead.getContent().add(hodRowHeader);
+					mergeCellsHorizontal(tableHead, 0, 0, 12);
+					rowNum++;
+				
+				Tr hodRowHeader3 = factory.createTr();
+				addTableCell(factory, wordMLPackage, hodRowHeader3, "1: Project Name:"+openProjectIDList.get(i3)+" - "+openProjectNameList.get(i3), calibriNotBoldRPr, JcEnumeration.LEFT, true,"ffffff");
+	
+				addTableCell(factory, wordMLPackage, hodRowHeader3, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader3, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader3, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader3, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader3, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader3, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader3, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader3, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader3, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader3, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				
+				
+				tableHead.getContent().add(hodRowHeader3);
+				mergeCellsHorizontal(tableHead, rowNum, 0, 12);
+				rowNum++;
 					}
-				}			
-				/****************************************************************************************/			
 				
-				setTableAlign(factory, table, JcEnumeration.CENTER);
-				t.addObject(table);
+				int kl=i3+1;
+				Tr hodRowHeader4 = factory.createTr();
+				addTableCell(factory, wordMLPackage, hodRowHeader4, "1."+ kl+".Work Name:"+openWorkIdsList.get(i3)+" - "+openWorkNameList.get(i3), calibriNotBoldRPr, JcEnumeration.LEFT, true,"ffffff");
+	
+				addTableCell(factory, wordMLPackage, hodRowHeader4, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader4, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader4, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader4, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader4, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader4, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader4, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader4, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader4, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader4, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
 				
+				
+				tableHead.getContent().add(hodRowHeader4);
+				mergeCellsHorizontal(tableHead, rowNum, 0, 12);
+				
+				rowNum++;
+				
+				
+				Tr hodRowHeader5 = factory.createTr();
+				addTableCell(factory, wordMLPackage, hodRowHeader5, "No. of Open Safety Incidents:"+openWorkIdsList.size(), calibriNotBoldRPr, JcEnumeration.LEFT, true,"ffffff");
+	
+				addTableCell(factory, wordMLPackage, hodRowHeader5, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader5, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader5, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader5, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader5, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader5, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader5, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader5, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader5, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader5, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				
+				
+				tableHead.getContent().add(hodRowHeader5);
+				mergeCellsHorizontal(tableHead, rowNum, 0, 12);	
+				
+				rowNum++;
+				
+				Tbl table = factory.createTbl();
+				addBorders(table, "2");
+
+			
+
+
+				t.addObject(tableHead);
+				
+				if(openWorkIdsList.size()>0)
+				{
+				
+				/****************************************************************************/
+				
+				if(!StringUtils.isEmpty(safetyData)) 
+				{
+					Tr titleRow = factory.createTr();		
+					List<String> tableHeader = new ArrayList<String>();
+					tableHeader.add("S\nNo");
+					tableHeader.add("Name\nof\n/ Contract");
+					tableHeader.add("Contractor");
+					tableHeader.add("HOD");
+					//tableHeader.add("Name of\nContractor"); 
+					tableHeader.add("Date/ Location");
+					tableHeader.add("Description");
+					//tableHeader.add("Date of\nIncident");
+					tableHeader.add("Impact/\nCategory");			
+					//tableHeader.add("Category");			
+					tableHeader.add("Root\nCause");
+					tableHeader.add("Committee\n(Y/N)");			
+					tableHeader.add("Incident Status");
+					tableHeader.add("Short Term\nCorrective\nMeasure");			
+					tableHeader.add("Long Term\nCorrective\nMeasure");
+					
+					for (String headerValue : tableHeader) {
+						addTableCell(factory, wordMLPackage, titleRow, headerValue, garamondBoldRPr,
+								JcEnumeration.CENTER, true, "ecf2ff");
+					}		
+					
+					
+					int sNo = 1;
+					int ui=0;
+					for (Safety pObj : safetyData) 
+					{
+						
+						if(lList.get(i2).compareTo(pObj.getStatus_fk())==0 && openWorkIdsList.get(i3).compareTo(pObj.getWork_id_fk())==0 && pushworkids.indexOf(pObj.getContract_id_fk())==-1)
+						{
+							if(ui==0)
+							{
+								table.getContent().add(titleRow);
+							}
+							ui++;
+							
+							pushworkids.add(pObj.getContract_id_fk());
+							rowNum++;
+							boolean hasBgColor = false;
+							String backgroundColor = null;
+							Tr contentRow = factory.createTr();	
+							
+							addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo++),
+									garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+							addTableCell(factory, wordMLPackage, contentRow, pObj.getContract_id_fk()+"/ \n "+pObj.getContract_short_name(),
+									garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+							addTableCell(factory, wordMLPackage, contentRow, pObj.getContractor_name(),
+									garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
+							addTableCell(factory, wordMLPackage, contentRow, pObj.getDesignation(),
+									garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+							;
+							addTableCell(factory, wordMLPackage, contentRow, pObj.getDate()+"\n "+pObj.getLocation(),
+									garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+							addTableCell(factory, wordMLPackage, contentRow, pObj.getDescription(),
+									garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+											
+							addTableCell(factory, wordMLPackage, contentRow, pObj.getImpact_fk()+"/ "+pObj.getCategory_fk(),
+									garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);			
+						
+							addTableCell(factory, wordMLPackage, contentRow, pObj.getRoot_cause_fk(),
+									garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);					
+							addTableCell(factory, wordMLPackage, contentRow, pObj.getCommittee_required_fk(),
+									garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+							addTableCell(factory, wordMLPackage, contentRow, pObj.getStatus_fk(),
+									garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);				
+							addTableCell(factory, wordMLPackage, contentRow, pObj.getCorrective_measure_short_term(),
+									garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+							addTableCell(factory, wordMLPackage, contentRow, pObj.getCorrective_measure_long_term(),
+									garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+							
+							table.getContent().add(contentRow);
+						}
+					}			
+					/****************************************************************************************/			
+					
+					setTableAlign(factory, table, JcEnumeration.CENTER);
+					t.addObject(table);
+					
+				}
+				}
+				
+				}
 			}
+			else
+			{
+				for (int i3 = 0; i3 < closedWorkIdsList.size(); i3++) 
+				{
+					
+					Tbl tableHead = factory.createTbl();
+					setLandscapeTableAlign(factory, tableHead, JcEnumeration.CENTER);		
+					
+					if(i3==0 && lList.get(i2).compareTo("Closed")==0)
+					{
+					Tr hodRowHeader = factory.createTr();
+					addTableCell(factory, wordMLPackage, hodRowHeader, "LIST OF CLOSED SAFETY INCIDENTS", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+
+					addTableCell(factory, wordMLPackage, hodRowHeader, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+					addTableCell(factory, wordMLPackage, hodRowHeader, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+					addTableCell(factory, wordMLPackage, hodRowHeader, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+					addTableCell(factory, wordMLPackage, hodRowHeader, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+					addTableCell(factory, wordMLPackage, hodRowHeader, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+					addTableCell(factory, wordMLPackage, hodRowHeader, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+					addTableCell(factory, wordMLPackage, hodRowHeader, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+					addTableCell(factory, wordMLPackage, hodRowHeader, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+					addTableCell(factory, wordMLPackage, hodRowHeader, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+					addTableCell(factory, wordMLPackage, hodRowHeader, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+
+					
+					tableHead.getContent().add(hodRowHeader);
+					mergeCellsHorizontal(tableHead, 0, 0, 12);					
+				
+				Tr hodRowHeader3 = factory.createTr();
+				addTableCell(factory, wordMLPackage, hodRowHeader3, "1: Project Name:"+closedProjectIDList.get(i3)+" - "+closedProjectNameList.get(i3), calibriNotBoldRPr, JcEnumeration.LEFT, true,"ffffff");
+	
+				addTableCell(factory, wordMLPackage, hodRowHeader3, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader3, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader3, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader3, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader3, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader3, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader3, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader3, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader3, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader3, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				
+				
+				tableHead.getContent().add(hodRowHeader3);
+				mergeCellsHorizontal(tableHead, 1, 0, 12);
+					}
+				
+					int kl=i3+1;
+				Tr hodRowHeader4 = factory.createTr();
+				addTableCell(factory, wordMLPackage, hodRowHeader4, "1."+kl+".Work Name:"+closedWorkIdsList.get(i3)+" - "+closedWorkNameList.get(i3), calibriNotBoldRPr, JcEnumeration.LEFT, true,"ffffff");
+	
+				addTableCell(factory, wordMLPackage, hodRowHeader4, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader4, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader4, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader4, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader4, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader4, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader4, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader4, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader4, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader4, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				
+				
+				tableHead.getContent().add(hodRowHeader4);
+				mergeCellsHorizontal(tableHead, 2, 0, 12);	
+				
+				
+				Tr hodRowHeader5 = factory.createTr();
+				addTableCell(factory, wordMLPackage, hodRowHeader5, "No. of Open Safety Incidents:"+closedWorkIdsList.size(), calibriNotBoldRPr, JcEnumeration.LEFT, true,"ffffff");
+	
+				addTableCell(factory, wordMLPackage, hodRowHeader5, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader5, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader5, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader5, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader5, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader5, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader5, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader5, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader5, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader5, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				
+				
+				tableHead.getContent().add(hodRowHeader5);
+				mergeCellsHorizontal(tableHead, 3, 0, 12);	
+				
+				
+				Tbl table = factory.createTbl();
+				addBorders(table, "2");
+
+			
+
+
+				t.addObject(tableHead);
+				
+				if(closedWorkIdsList.size()>0)
+				{
+				
+				/****************************************************************************/
+				
+				if(!StringUtils.isEmpty(safetyData)) 
+				{
+					Tr titleRow = factory.createTr();		
+					List<String> tableHeader = new ArrayList<String>();
+					tableHeader.add("S\nNo");
+					tableHeader.add("Name\nof\n/ Contract");
+					tableHeader.add("Contractor");
+					tableHeader.add("HOD");
+					//tableHeader.add("Name of\nContractor"); 
+					tableHeader.add("Date/ Location");
+					tableHeader.add("Description");
+					//tableHeader.add("Date of\nIncident");
+					tableHeader.add("Impact/\nCategory");			
+					//tableHeader.add("Category");			
+					tableHeader.add("Root\nCause");
+					tableHeader.add("Committee\n(Y/N)");			
+					tableHeader.add("Incident Status");
+					tableHeader.add("Short Term\nCorrective\nMeasure");			
+					tableHeader.add("Long Term\nCorrective\nMeasure");
+					
+					for (String headerValue : tableHeader) {
+						addTableCell(factory, wordMLPackage, titleRow, headerValue, garamondBoldRPr,
+								JcEnumeration.CENTER, true, "ecf2ff");
+					}		
+					
+					
+					int sNo = 1;
+					int ku=0;
+					for (Safety pObj : safetyData) 
+					{
+						
+						if(lList.get(i2).compareTo(pObj.getStatus_fk())==0 && closedWorkIdsList.get(i3).compareTo(pObj.getWork_id_fk())==0 && pushcworkids.indexOf(pObj.getContract_id_fk())==-1)
+						{
+							if(ku==0)
+							{
+								table.getContent().add(titleRow);
+							}
+							ku++;
+							
+							pushcworkids.add(pObj.getContract_id_fk());						
+
+							boolean hasBgColor = false;
+							String backgroundColor = null;
+							Tr contentRow = factory.createTr();	
+							
+							addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo++),
+									garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+							addTableCell(factory, wordMLPackage, contentRow, pObj.getContract_id_fk()+"/ \n "+pObj.getContract_short_name(),
+									garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+							addTableCell(factory, wordMLPackage, contentRow, pObj.getContractor_name(),
+									garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);	
+							addTableCell(factory, wordMLPackage, contentRow, pObj.getDesignation(),
+									garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+							;
+							addTableCell(factory, wordMLPackage, contentRow, pObj.getDate()+"\n "+pObj.getLocation(),
+									garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+							addTableCell(factory, wordMLPackage, contentRow, pObj.getDescription(),
+									garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+											
+							addTableCell(factory, wordMLPackage, contentRow, pObj.getImpact_fk()+"/ "+pObj.getCategory_fk(),
+									garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);			
+						
+							addTableCell(factory, wordMLPackage, contentRow, pObj.getRoot_cause_fk(),
+									garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);					
+							addTableCell(factory, wordMLPackage, contentRow, pObj.getCommittee_required_fk(),
+									garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+							addTableCell(factory, wordMLPackage, contentRow, pObj.getStatus_fk(),
+									garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);				
+							addTableCell(factory, wordMLPackage, contentRow, pObj.getCorrective_measure_short_term(),
+									garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+							addTableCell(factory, wordMLPackage, contentRow, pObj.getCorrective_measure_long_term(),
+									garamondRPr, JcEnumeration.LEFT, hasBgColor, backgroundColor);
+							
+							table.getContent().add(contentRow);
+						}
+					}			
+					/****************************************************************************************/			
+					
+					setTableAlign(factory, table, JcEnumeration.CENTER);
+					t.addObject(table);
+					
+				}	
+				}
+				
+				}				
+			}
+
+			
+		
+
 		}
 		
 	}	 

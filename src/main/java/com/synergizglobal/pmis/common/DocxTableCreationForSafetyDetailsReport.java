@@ -97,25 +97,28 @@ public class DocxTableCreationForSafetyDetailsReport {
 			addBorders(titleTable, "2");
 			int count = 0;
 			Tr titleTableRow = factory.createTr();		
-			addTableCell(factory, wordMLPackage, titleTableRow, "Description", garamondBoldRPr,
+			addTableCell(factory, wordMLPackage, titleTableRow, "Safety ID ", garamondBoldRPr,
 					JcEnumeration.LEFT, true, "ecf2ff");
 			
-			addTableCell(factory, wordMLPackage, titleTableRow, safetyDeailsReport.getTitle(), garamondRPr,
+			addTableCell(factory, wordMLPackage, titleTableRow, safetyDeailsReport.getSafety_seq_id(), garamondBoldRPr,
+					JcEnumeration.LEFT, true, "ecf2ff");			
+			
+			addTableCell(factory, wordMLPackage, titleTableRow, "Description", garamondRPr,
 					JcEnumeration.LEFT, false, null);
 			
 			
+			addTableCell(factory, wordMLPackage, titleTableRow, safetyDeailsReport.getTitle(), garamondRPr,JcEnumeration.LEFT, false, null);
+			addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,JcEnumeration.LEFT, false, null);
+			
+			
+			addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,JcEnumeration.LEFT, false, null);
+			addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,JcEnumeration.LEFT, false, null);
+			addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,JcEnumeration.LEFT, false, null);
 			addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,JcEnumeration.LEFT, false, null);
 			addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,JcEnumeration.LEFT, false, null);
 			
-			
-			addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,JcEnumeration.LEFT, false, null);
-			addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,JcEnumeration.LEFT, false, null);
-			addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,JcEnumeration.LEFT, false, null);
-			addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,JcEnumeration.LEFT, false, null);
-			addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,JcEnumeration.LEFT, false, null);
-			
-			titleTable.getContent().add(titleTableRow);	
-			mergeCellsHorizontal(titleTable, count, 1, 8);
+			titleTable.getContent().add(titleTableRow);
+			mergeCellsHorizontal(titleTable, count, 2, 8);
 		  	count++;
 		  	/****************************************************************************/		
 		
@@ -123,13 +126,13 @@ public class DocxTableCreationForSafetyDetailsReport {
 		  	addTableCell(factory, wordMLPackage, titleTableRow, "Work", garamondBoldRPr,
 					JcEnumeration.LEFT, true, "ecf2ff");
 			
-			addTableCell(factory, wordMLPackage, titleTableRow, safetyDeailsReport.getWork_short_name(), garamondRPr,
+			addTableCell(factory, wordMLPackage, titleTableRow, safetyDeailsReport.getWork_id_fk()+" - "+safetyDeailsReport.getWork_short_name(), garamondRPr,
 					JcEnumeration.LEFT, false, null);
 			
 			addTableCell(factory, wordMLPackage, titleTableRow, "Contract Name", garamondBoldRPr,
 					JcEnumeration.LEFT, true, "ecf2ff");
 			addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,JcEnumeration.LEFT, false, null);
-			addTableCell(factory, wordMLPackage, titleTableRow, safetyDeailsReport.getContract_short_name(), garamondRPr,
+			addTableCell(factory, wordMLPackage, titleTableRow, safetyDeailsReport.getContract_id_fk()+" - "+safetyDeailsReport.getContract_short_name(), garamondRPr,
 					JcEnumeration.LEFT, false, null);
 			addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,
 					JcEnumeration.LEFT, false, null);

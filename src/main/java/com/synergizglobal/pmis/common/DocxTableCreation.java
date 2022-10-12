@@ -726,6 +726,7 @@ public class DocxTableCreation {
 				{
 					
 					Tbl tableHead = factory.createTbl();
+					//addBorders(tableHead, "2");
 					setLandscapeTableAlign(factory, tableHead, JcEnumeration.CENTER);						
 					
 					if(i3==0 && lList.get(i2).compareTo("Open")==0)
@@ -734,6 +735,7 @@ public class DocxTableCreation {
 					Tr hodRowHeader = factory.createTr();
 					addTableCell(factory, wordMLPackage, hodRowHeader, "LIST OF OPEN SAFETY INCIDENTS", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
 
+					addTableCell(factory, wordMLPackage, hodRowHeader, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
 					addTableCell(factory, wordMLPackage, hodRowHeader, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
 					addTableCell(factory, wordMLPackage, hodRowHeader, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
 					addTableCell(factory, wordMLPackage, hodRowHeader, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
@@ -753,6 +755,7 @@ public class DocxTableCreation {
 				Tr hodRowHeader3 = factory.createTr();
 				addTableCell(factory, wordMLPackage, hodRowHeader3, "1: Project Name:"+openProjectIDList.get(i3)+" - "+openProjectNameList.get(i3), calibriNotBoldRPr, JcEnumeration.LEFT, true,"ffffff");
 	
+				addTableCell(factory, wordMLPackage, hodRowHeader3, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
 				addTableCell(factory, wordMLPackage, hodRowHeader3, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
 				addTableCell(factory, wordMLPackage, hodRowHeader3, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
 				addTableCell(factory, wordMLPackage, hodRowHeader3, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
@@ -784,6 +787,7 @@ public class DocxTableCreation {
 				addTableCell(factory, wordMLPackage, hodRowHeader4, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
 				addTableCell(factory, wordMLPackage, hodRowHeader4, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
 				addTableCell(factory, wordMLPackage, hodRowHeader4, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader4, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
 				
 				
 				tableHead.getContent().add(hodRowHeader4);
@@ -791,10 +795,29 @@ public class DocxTableCreation {
 				
 				rowNum++;
 				
+				if(openWorkIdsList.size()>0)
+				{
+					if(!StringUtils.isEmpty(safetyData)) 
+					{
+					
+						for (Safety pObj : safetyData) 
+						{
+						
+							if(lList.get(i2).compareTo(pObj.getStatus_fk())==0 && openWorkIdsList.get(i3).compareTo(pObj.getWork_id_fk())==0 && pushworkids.indexOf(pObj.getContract_id_fk())==-1)
+							{
+
+								pushworkids.add(pObj.getContract_id_fk());
+							}
+						}
+					}
+				}
+							
+				
 				
 				Tr hodRowHeader5 = factory.createTr();
-				addTableCell(factory, wordMLPackage, hodRowHeader5, "No. of Open Safety Incidents:"+openWorkIdsList.size(), calibriNotBoldRPr, JcEnumeration.LEFT, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader5, "No. of Open Safety Incidents:"+pushworkids.size(), calibriNotBoldRPr, JcEnumeration.LEFT, true,"ffffff");
 	
+				addTableCell(factory, wordMLPackage, hodRowHeader5, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
 				addTableCell(factory, wordMLPackage, hodRowHeader5, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
 				addTableCell(factory, wordMLPackage, hodRowHeader5, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
 				addTableCell(factory, wordMLPackage, hodRowHeader5, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
@@ -819,6 +842,8 @@ public class DocxTableCreation {
 
 
 				t.addObject(tableHead);
+				
+				pushworkids.clear();	
 				
 				if(openWorkIdsList.size()>0)
 				{
@@ -906,10 +931,13 @@ public class DocxTableCreation {
 					setTableAlign(factory, table, JcEnumeration.CENTER);
 					t.addObject(table);
 					
-				}
+					pushworkids.clear();	
 				}
 				
 				}
+				rowNum=0;
+				}
+				
 			}
 			else
 			{
@@ -934,6 +962,7 @@ public class DocxTableCreation {
 					addTableCell(factory, wordMLPackage, hodRowHeader, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
 					addTableCell(factory, wordMLPackage, hodRowHeader, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
 					addTableCell(factory, wordMLPackage, hodRowHeader, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+					addTableCell(factory, wordMLPackage, hodRowHeader, "", calibriBoldRPr, JcEnumeration.CENTER, true,"ffffff");
 
 					
 					tableHead.getContent().add(hodRowHeader);
@@ -942,6 +971,7 @@ public class DocxTableCreation {
 				Tr hodRowHeader3 = factory.createTr();
 				addTableCell(factory, wordMLPackage, hodRowHeader3, "1: Project Name:"+closedProjectIDList.get(i3)+" - "+closedProjectNameList.get(i3), calibriNotBoldRPr, JcEnumeration.LEFT, true,"ffffff");
 	
+				addTableCell(factory, wordMLPackage, hodRowHeader3, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
 				addTableCell(factory, wordMLPackage, hodRowHeader3, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
 				addTableCell(factory, wordMLPackage, hodRowHeader3, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
 				addTableCell(factory, wordMLPackage, hodRowHeader3, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
@@ -972,15 +1002,35 @@ public class DocxTableCreation {
 				addTableCell(factory, wordMLPackage, hodRowHeader4, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
 				addTableCell(factory, wordMLPackage, hodRowHeader4, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
 				addTableCell(factory, wordMLPackage, hodRowHeader4, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader4, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
 				
 				
 				tableHead.getContent().add(hodRowHeader4);
-				mergeCellsHorizontal(tableHead, 2, 0, 12);	
+				mergeCellsHorizontal(tableHead, 2, 0, 12);
+				
+				if(closedWorkIdsList.size()>0)
+				{
+					if(!StringUtils.isEmpty(safetyData)) 
+					{
+					
+						for (Safety pObj : safetyData) 
+						{
+						
+							if(lList.get(i2).compareTo(pObj.getStatus_fk())==0 && closedWorkIdsList.get(i3).compareTo(pObj.getWork_id_fk())==0 && pushcworkids.indexOf(pObj.getContract_id_fk())==-1)
+							{
+
+								pushcworkids.add(pObj.getContract_id_fk());
+							}
+						}
+					}
+				}
+							
 				
 				
 				Tr hodRowHeader5 = factory.createTr();
-				addTableCell(factory, wordMLPackage, hodRowHeader5, "No. of Open Safety Incidents:"+closedWorkIdsList.size(), calibriNotBoldRPr, JcEnumeration.LEFT, true,"ffffff");
+				addTableCell(factory, wordMLPackage, hodRowHeader5, "No. of Open Safety Incidents:"+pushcworkids.size(), calibriNotBoldRPr, JcEnumeration.LEFT, true,"ffffff");
 	
+				addTableCell(factory, wordMLPackage, hodRowHeader5, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
 				addTableCell(factory, wordMLPackage, hodRowHeader5, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
 				addTableCell(factory, wordMLPackage, hodRowHeader5, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
 				addTableCell(factory, wordMLPackage, hodRowHeader5, "", calibriNotBoldRPr, JcEnumeration.CENTER, true,"ffffff");
@@ -1000,10 +1050,10 @@ public class DocxTableCreation {
 				Tbl table = factory.createTbl();
 				addBorders(table, "2");
 
-			
-
 
 				t.addObject(tableHead);
+				
+				pushcworkids.clear();	
 				
 				if(closedWorkIdsList.size()>0)
 				{
@@ -1091,10 +1141,13 @@ public class DocxTableCreation {
 					setTableAlign(factory, table, JcEnumeration.CENTER);
 					t.addObject(table);
 					
+					pushcworkids.clear();	
 				}	
+				
 				}
 				
-				}				
+				}	
+				
 			}
 
 			

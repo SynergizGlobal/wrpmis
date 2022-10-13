@@ -1729,7 +1729,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 	public List<UtilityShifting> getUtilityShiftingUploadsList(UtilityShifting obj) throws Exception {
 		List<UtilityShifting> objsList = null;
 		try {
-			String qry = "SELECT utility_data_id, uploaded_file, us.status, us.remarks, uploaded_by_user_id_fk, FORMAT(uploaded_on,'%d-%b-%Y %h:%i %p') as uploaded_on "
+			String qry = "SELECT utility_data_id, uploaded_file, us.status, us.remarks, uploaded_by_user_id_fk, FORMAT(uploaded_on,'dd-MMM-yyyy hh:mm tt') as uploaded_on "
 					+ ",uploaded_on as date from utility_shifting_upload_data us " 
 					+ "LEFT JOIN [user] u ON us.uploaded_by_user_id_fk = u.user_id "
 					+ "where utility_data_id is not null order by utility_data_id desc ";

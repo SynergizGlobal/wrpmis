@@ -55,7 +55,7 @@ public class SubLocationDaoImpl implements SubLocationDao{
 		List<TrainingType> objsList1 = null;
 		TrainingType sObj =null;
 		try {
-			String qry ="select STRING_AGG(rr_sub_location SEPARATOR '?') as rr_sub_location,STRING_AGG(id) as id,rr_location_fk from rr_sub_location group by rr_location_fk ";
+			String qry ="select STRING_AGG(rr_sub_location, '?') as rr_sub_location,STRING_AGG(id,',') as id,rr_location_fk from rr_sub_location group by rr_location_fk ";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 			obj.setdList1(objsList);

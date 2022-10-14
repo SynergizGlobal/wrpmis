@@ -29,6 +29,7 @@ import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.WorkbookUtil;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
@@ -773,7 +774,7 @@ public class RandRMainController {
 		        XSSFRow row0 = RRSheet.createRow(0);
 		        
 		        Cell cell155 = row0.createCell(0);
-		        cell155.setCellStyle(whiteStyle);
+		        cell155.setCellStyle(sectionStyle);
 		        cell155.setCellValue("STEPS:  highlighted fields in yellow are to be filled Compulsory. (i) Add work ID at INPUT 1. (ii) INPUT 2: Fill in Location Name.  (iii). INPUT 3: Fill in Sub Location Name (iv). INPUT 4: select Type of Use. (v).INPUT 5: Select Boundary Wall Status.");		        
 		        
 	            for (int i = 1; i < 35; i++) {		        	
@@ -781,7 +782,7 @@ public class RandRMainController {
 			        cell.setCellStyle(sectionStyle);
 					cell.setCellValue("");
 				}	
-	            
+	            RRSheet.addMergedRegion(new CellRangeAddress(0, 0, 0,34));
 	            
 		        XSSFRow row1 = RRSheet.createRow(1);
 		        

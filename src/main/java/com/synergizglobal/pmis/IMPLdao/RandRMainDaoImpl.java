@@ -1988,12 +1988,12 @@ public class RandRMainDaoImpl implements RandRMainDao{
 					+ "( rr_id, work_id, identification_no, map_sr_no, location_name, sub_location_name, phase, structure_id, type_of_structure_roof, type_of_structure_wall, type_of_structure_floor,"
 					+ "carpet_area, year_of_construction, name_of_the_owner, type_of_use, document_type, document_no, physical_verification, verification_by, "
 					+ "approval_by_committee, rr_approval_status_by_mrvc, estimation_amount, letter_to_mmrda, estimate_approval_date,estimates_by_mmrda,planned_date_of_completion,"
-					+ "payment_to_mmrda,alternate_housing_allotment,relocation,encroachment_removal,boundary_wall_status,boundary_wall_doc,handed_over_to_execution,occupier_name_during_verification,remarks,created_by,created_date)"
+					+ "payment_to_mmrda,alternate_housing_allotment,relocation,encroachment_removal,boundary_wall_status,boundary_wall_doc,handed_over_to_execution,occupier_name_during_verification,remarks,created_by,created_date,chainage,latitude,longitude)"
 					+ "VALUES"
 					+ "(:rr_id, :work_id, :identification_no, :map_sr_no, :location_name, :sub_location_name, :phase, :structure_id, :type_of_structure_roof, :type_of_structure_wall, :type_of_structure_floor, "
 					+ ":carpet_area, :year_of_construction, :name_of_the_owner, :type_of_use, :document_type, :document_no, :physical_verification, :verification_by, "
 					+ ":approval_by_committee, :rr_approval_status_by_mrvc, :estimation_amount, :letter_to_mmrda, :estimate_approval_date , :estimates_by_mmrda,:planned_date_of_completion, :payment_to_mmrda, :alternate_housing_allotment, "
-					+ ":relocation, :encroachment_removal, :boundary_wall_status, :boundary_wall_doc,:handed_over_to_execution, :occupier_name_during_verification, :remarks, :created_by_user_id_fk,CURRENT_TIMESTAMP)";
+					+ ":relocation, :encroachment_removal, :boundary_wall_status, :boundary_wall_doc,:handed_over_to_execution, :occupier_name_during_verification, :remarks, :created_by_user_id_fk,CURRENT_TIMESTAMP,:chainage,:latitude,:longitude)";
 			
 			String updatetQry = "UPDATE rr "
 					+ " set identification_no= :identification_no, map_sr_no= :map_sr_no, location_name= :location_name, sub_location_name= :sub_location_name"
@@ -2005,7 +2005,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 					+ ", letter_to_mmrda= :letter_to_mmrda, estimate_approval_date= :estimate_approval_date,estimates_by_mmrda= :estimates_by_mmrda,"
 					+ "payment_to_mmrda= :payment_to_mmrda,alternate_housing_allotment= :alternate_housing_allotment,relocation= :relocation,encroachment_removal= :encroachment_removal"
 					+ ",boundary_wall_status= :boundary_wall_status,boundary_wall_doc= :boundary_wall_doc,handed_over_to_execution= :handed_over_to_execution"
-					+ ",occupier_name_during_verification= :occupier_name_during_verification, remarks= :remarks, estimation_amount_units= :estimation_amount_units, estimated_by_mmrda_amount_units= :estimated_by_mmrda_amount_units,modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP  "
+					+ ",occupier_name_during_verification= :occupier_name_during_verification, remarks= :remarks, estimation_amount_units= :estimation_amount_units, estimated_by_mmrda_amount_units= :estimated_by_mmrda_amount_units,modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP,chainage=:chainage,latitude=:latitude,longitude=:longitude  "
 					+ " WHERE   rr_id= :rr_id ";
 		//	int rNo = 0;
 			for (RandRMain obj : rrsList) {

@@ -1754,6 +1754,13 @@ public class RandRMainController {
 		String[] result = new String[5];
 		Writer w = null;
 		int count = 0;
+		
+		SimpleDateFormat formatter1 = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat formatter3 = new SimpleDateFormat("MM/dd/yy");
+		SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");		
+		
+		
+		
 		try {	
 			MultipartFile excelfile = obj.getRandRFile();
 			// Creates a workbook object from the uploaded excelfile
@@ -1813,7 +1820,28 @@ public class RandRMainController {
 							
 							
 							val = formatter.formatCellValue(row.getCell(10)).trim();
-							if(!StringUtils.isEmpty(val)) {rr.setPhysical_verification(val);}	
+							if(!StringUtils.isEmpty(val)) { 
+								if(val.contains("/")) 
+								{
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter3.parse(val);
+									dateString24 = formatter2.format(date24);										
+									rr.setPhysical_verification(dateString24);
+									 
+								}
+								else
+								{
+								
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter1.parse(val);
+									dateString24 = formatter2.format(date24);
+									rr.setPhysical_verification(dateString24);
+									
+								}
+								
+							}
 							
 							
 							val = formatter.formatCellValue(row.getCell(11)).trim();
@@ -1821,19 +1849,103 @@ public class RandRMainController {
 							
 							
 							val = formatter.formatCellValue(row.getCell(12)).trim();
-							if(!StringUtils.isEmpty(val)) {rr.setLetter_to_mmrda(val);}	
+							if(!StringUtils.isEmpty(val)) { 
+								if(val.contains("/")) 
+								{
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter3.parse(val);
+									dateString24 = formatter2.format(date24);										
+									rr.setLetter_to_mmrda(dateString24);
+									 
+								}
+								else
+								{
+								
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter1.parse(val);
+									dateString24 = formatter2.format(date24);
+									rr.setLetter_to_mmrda(dateString24);
+									
+								}
+								
+							}
 							
 							
 							val = formatter.formatCellValue(row.getCell(13)).trim();
-							if(!StringUtils.isEmpty(val)) {rr.setAlternate_housing_allotment(val);}	
+							if(!StringUtils.isEmpty(val)) { 
+								if(val.contains("/")) 
+								{
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter3.parse(val);
+									dateString24 = formatter2.format(date24);										
+									rr.setAlternate_housing_allotment(dateString24);
+									 
+								}
+								else
+								{
+								
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter1.parse(val);
+									dateString24 = formatter2.format(date24);
+									rr.setAlternate_housing_allotment(dateString24);
+									
+								}
+								
+							}
 							
 							
 							val = formatter.formatCellValue(row.getCell(14)).trim();
-							if(!StringUtils.isEmpty(val)) {rr.setEncroachment_removal(val);}
+							if(!StringUtils.isEmpty(val)) { 
+								if(val.contains("/")) 
+								{
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter3.parse(val);
+									dateString24 = formatter2.format(date24);										
+									rr.setEncroachment_removal(dateString24);
+									 
+								}
+								else
+								{
+								
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter1.parse(val);
+									dateString24 = formatter2.format(date24);
+									rr.setEncroachment_removal(dateString24);
+									
+								}
+								
+							}
 							
 							
 							val = formatter.formatCellValue(row.getCell(15)).trim();
-							if(!StringUtils.isEmpty(val)) {rr.setBoundary_wall_doc(val);}	
+							if(!StringUtils.isEmpty(val)) { 
+								if(val.contains("/")) 
+								{
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter3.parse(val);
+									dateString24 = formatter2.format(date24);										
+									rr.setBoundary_wall_doc(dateString24);
+									 
+								}
+								else
+								{
+								
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter1.parse(val);
+									dateString24 = formatter2.format(date24);
+									rr.setBoundary_wall_doc(dateString24);
+									
+								}
+								
+							}
 							
 							
 							
@@ -1844,11 +1956,53 @@ public class RandRMainController {
 							
 							
 							val = formatter.formatCellValue(row.getCell(17)).trim();
-							if(!StringUtils.isEmpty(val)) {rr.setHanded_over_to_execution(val);}
+							if(!StringUtils.isEmpty(val)) { 
+								if(val.contains("/")) 
+								{
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter3.parse(val);
+									dateString24 = formatter2.format(date24);										
+									rr.setHanded_over_to_execution(dateString24);
+									 
+								}
+								else
+								{
+								
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter1.parse(val);
+									dateString24 = formatter2.format(date24);
+									rr.setHanded_over_to_execution(dateString24);
+									
+								}
+								
+							}
 							
 							
 							val = formatter.formatCellValue(row.getCell(18)).trim();
-							if(!StringUtils.isEmpty(val)) {rr.setPlanned_date_of_completion(val);}									
+							if(!StringUtils.isEmpty(val)) { 
+								if(val.contains("/")) 
+								{
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter3.parse(val);
+									dateString24 = formatter2.format(date24);										
+									rr.setPlanned_date_of_completion(dateString24);
+									 
+								}
+								else
+								{
+								
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter1.parse(val);
+									dateString24 = formatter2.format(date24);
+									rr.setPlanned_date_of_completion(dateString24);
+									
+								}
+								
+							}								
 							
 							val = formatter.formatCellValue(row.getCell(19)).trim();
 							if(!StringUtils.isEmpty(val)) { 
@@ -1883,10 +2037,52 @@ public class RandRMainController {
 							if(!StringUtils.isEmpty(val)) { rr.setApproval_by_committee(val);}
 							
 							val = formatter.formatCellValue(row.getCell(27)).trim();
-							if(!StringUtils.isEmpty(val)) {rr.setApproval_date_by_mrvc(val);}
+							if(!StringUtils.isEmpty(val)) { 
+								if(val.contains("/")) 
+								{
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter3.parse(val);
+									dateString24 = formatter2.format(date24);										
+									rr.setRr_approval_status_by_mrvc(dateString24);
+									 
+								}
+								else
+								{
+								
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter1.parse(val);
+									dateString24 = formatter2.format(date24);
+									rr.setRr_approval_status_by_mrvc(dateString24);
+									
+								}
+								
+							}
 							
 							val = formatter.formatCellValue(row.getCell(28)).trim();
-							if(!StringUtils.isEmpty(val)) {rr.setEstimate_approval_date(val);}
+							if(!StringUtils.isEmpty(val)) { 
+								if(val.contains("/")) 
+								{
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter3.parse(val);
+									dateString24 = formatter2.format(date24);										
+									rr.setEstimate_approval_date(dateString24);
+									 
+								}
+								else
+								{
+								
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter1.parse(val);
+									dateString24 = formatter2.format(date24);
+									rr.setEstimate_approval_date(dateString24);
+									
+								}
+								
+							}
 						
 							val = formatter.formatCellValue(row.getCell(29)).trim();
 							if(!StringUtils.isEmpty(val)) { 
@@ -1907,11 +2103,52 @@ public class RandRMainController {
 							
 							val = formatter.formatCellValue(row.getCell(31)).trim();
 							if(!StringUtils.isEmpty(val)) { 
-								rr.setPayment_to_mmrda(val);}				
+								if(val.contains("/")) 
+								{
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter3.parse(val);
+									dateString24 = formatter2.format(date24);										
+									rr.setPayment_to_mmrda(dateString24);
+									 
+								}
+								else
+								{
+								
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter1.parse(val);
+									dateString24 = formatter2.format(date24);
+									rr.setPayment_to_mmrda(dateString24);
+									
+								}
+								
+							}			
 								
 						
 							val = formatter.formatCellValue(row.getCell(32)).trim();
-							if(!StringUtils.isEmpty(val)) {rr.setRelocation(val);}
+							if(!StringUtils.isEmpty(val)) { 
+								if(val.contains("/")) 
+								{
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter3.parse(val);
+									dateString24 = formatter2.format(date24);										
+									rr.setRelocation(dateString24);
+									 
+								}
+								else
+								{
+								
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter1.parse(val);
+									dateString24 = formatter2.format(date24);
+									rr.setRelocation(dateString24);
+									
+								}
+								
+							}
 
 							
 							val = formatter.formatCellValue(row.getCell(33)).trim();
@@ -2168,6 +2405,14 @@ public class RandRMainController {
 		String[] result = new String[5];
 		Writer w = null;
 		int count = 0;
+		
+
+		SimpleDateFormat formatter1 = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat formatter3 = new SimpleDateFormat("MM/dd/yy");
+		SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");
+		
+		
+		
 		try {	
 			MultipartFile excelfile = obj.getRandRFile();
 			// Creates a workbook object from the uploaded excelfile
@@ -2227,7 +2472,30 @@ public class RandRMainController {
 							
 							
 							val = formatter.formatCellValue(row.getCell(10)).trim();
-							if(!StringUtils.isEmpty(val)) {rr.setPhysical_verification(val);}	
+							
+							
+							if(!StringUtils.isEmpty(val)) { 
+								if(val.contains("/")) 
+								{
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter3.parse(val);
+									dateString24 = formatter2.format(date24);										
+									rr.setPhysical_verification(dateString24);
+									 
+								}
+								else
+								{
+								
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter1.parse(val);
+									dateString24 = formatter2.format(date24);
+									rr.setPhysical_verification(dateString24);
+									
+								}
+								
+							}							
 							
 							
 							val = formatter.formatCellValue(row.getCell(11)).trim();
@@ -2235,34 +2503,165 @@ public class RandRMainController {
 							
 							
 							val = formatter.formatCellValue(row.getCell(12)).trim();
-							if(!StringUtils.isEmpty(val)) {rr.setLetter_to_mmrda(val);}	
+							if(!StringUtils.isEmpty(val)) { 
+								if(val.contains("/")) 
+								{
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter3.parse(val);
+									dateString24 = formatter2.format(date24);										
+									rr.setLetter_to_mmrda(dateString24);
+									 
+								}
+								else
+								{
+								
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter1.parse(val);
+									dateString24 = formatter2.format(date24);
+									rr.setLetter_to_mmrda(dateString24);
+									
+								}
+								
+							}							
+							
+							
+							
 							
 							
 							val = formatter.formatCellValue(row.getCell(13)).trim();
-							if(!StringUtils.isEmpty(val)) {rr.setAlternate_housing_allotment(val);}	
 							
+							if(!StringUtils.isEmpty(val)) { 
+								if(val.contains("/")) 
+								{
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter3.parse(val);
+									dateString24 = formatter2.format(date24);										
+									rr.setAlternate_housing_allotment(dateString24);
+									 
+								}
+								else
+								{
+								
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter1.parse(val);
+									dateString24 = formatter2.format(date24);
+									rr.setAlternate_housing_allotment(dateString24);
+									
+								}
+								
+							}							
 							
 							val = formatter.formatCellValue(row.getCell(14)).trim();
-							if(!StringUtils.isEmpty(val)) {rr.setEncroachment_removal(val);}
+							
+							if(!StringUtils.isEmpty(val)) { 
+								if(val.contains("/")) 
+								{
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter3.parse(val);
+									dateString24 = formatter2.format(date24);										
+									rr.setEncroachment_removal(dateString24);
+									 
+								}
+								else
+								{
+								
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter1.parse(val);
+									dateString24 = formatter2.format(date24);
+									rr.setEncroachment_removal(dateString24);
+									
+								}
+								
+							}							
 							
 							
 							val = formatter.formatCellValue(row.getCell(15)).trim();
-							if(!StringUtils.isEmpty(val)) {rr.setBoundary_wall_doc(val);}	
 							
-							
-							
-							
+							if(!StringUtils.isEmpty(val)) { 
+								if(val.contains("/")) 
+								{
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter3.parse(val);
+									dateString24 = formatter2.format(date24);										
+									rr.setBoundary_wall_doc(dateString24);
+									 
+								}
+								else
+								{
+								
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter1.parse(val);
+									dateString24 = formatter2.format(date24);
+									rr.setBoundary_wall_doc(dateString24);
+									
+								}
+								
+							}							
 							
 							val = formatter.formatCellValue(row.getCell(16)).trim();
 							if(!StringUtils.isEmpty(val)) {rr.setBoundary_wall_status(val);}	
 							
 							
 							val = formatter.formatCellValue(row.getCell(17)).trim();
-							if(!StringUtils.isEmpty(val)) {rr.setHanded_over_to_execution(val);}
+							
+							
+							if(!StringUtils.isEmpty(val)) { 
+								if(val.contains("/")) 
+								{
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter3.parse(val);
+									dateString24 = formatter2.format(date24);										
+									rr.setHanded_over_to_execution(dateString24);
+									 
+								}
+								else
+								{
+								
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter1.parse(val);
+									dateString24 = formatter2.format(date24);
+									rr.setHanded_over_to_execution(dateString24);
+									
+								}
+								
+							}							
 							
 							
 							val = formatter.formatCellValue(row.getCell(18)).trim();
-							if(!StringUtils.isEmpty(val)) {rr.setPlanned_date_of_completion(val);}									
+							
+							if(!StringUtils.isEmpty(val)) { 
+								if(val.contains("/")) 
+								{
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter3.parse(val);
+									dateString24 = formatter2.format(date24);										
+									rr.setPlanned_date_of_completion(dateString24);
+									 
+								}
+								else
+								{
+								
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter1.parse(val);
+									dateString24 = formatter2.format(date24);
+									rr.setPlanned_date_of_completion(dateString24);
+									
+								}
+								
+							}							
+							
 							
 							val = formatter.formatCellValue(row.getCell(19)).trim();
 							if(!StringUtils.isEmpty(val)) { 
@@ -2297,11 +2696,56 @@ public class RandRMainController {
 							if(!StringUtils.isEmpty(val)) { rr.setApproval_by_committee(val);}
 							
 							val = formatter.formatCellValue(row.getCell(27)).trim();
-							if(!StringUtils.isEmpty(val)) {rr.setApproval_date_by_mrvc(val);}
 							
+							if(!StringUtils.isEmpty(val)) { 
+								if(val.contains("/")) 
+								{
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter3.parse(val);
+									dateString24 = formatter2.format(date24);										
+									rr.setRr_approval_status_by_mrvc(dateString24);
+									 
+								}
+								else
+								{
+								
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter1.parse(val);
+									dateString24 = formatter2.format(date24);
+									rr.setRr_approval_status_by_mrvc(dateString24);
+									
+								}
+								
+							}							
+
 							val = formatter.formatCellValue(row.getCell(28)).trim();
-							if(!StringUtils.isEmpty(val)) {rr.setEstimate_approval_date(val);}
-						
+							
+							if(!StringUtils.isEmpty(val)) { 
+								if(val.contains("/")) 
+								{
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter3.parse(val);
+									dateString24 = formatter2.format(date24);										
+									rr.setEstimate_approval_date(dateString24);
+									 
+								}
+								else
+								{
+								
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter1.parse(val);
+									dateString24 = formatter2.format(date24);
+									rr.setEstimate_approval_date(dateString24);
+									
+								}
+								
+							}							
+							
+
 							val = formatter.formatCellValue(row.getCell(29)).trim();
 							if(!StringUtils.isEmpty(val)) { 
 								int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
@@ -2320,14 +2764,57 @@ public class RandRMainController {
 								rr.setEstimates_by_mmrda(val);}	
 							
 							val = formatter.formatCellValue(row.getCell(31)).trim();
-							if(!StringUtils.isEmpty(val)) { 
-								rr.setPayment_to_mmrda(val);}				
-								
-						
-							val = formatter.formatCellValue(row.getCell(32)).trim();
-							if(!StringUtils.isEmpty(val)) {rr.setRelocation(val);}
-
 							
+							if(!StringUtils.isEmpty(val)) { 
+								if(val.contains("/")) 
+								{
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter3.parse(val);
+									dateString24 = formatter2.format(date24);										
+									rr.setPayment_to_mmrda(dateString24);
+									 
+								}
+								else
+								{
+								
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter1.parse(val);
+									dateString24 = formatter2.format(date24);
+									rr.setPayment_to_mmrda(dateString24);
+									
+								}
+								
+							}							
+
+							val = formatter.formatCellValue(row.getCell(32)).trim();
+							
+
+							if(!StringUtils.isEmpty(val)) { 
+								if(val.contains("/")) 
+								{
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter3.parse(val);
+									dateString24 = formatter2.format(date24);										
+									rr.setRelocation(dateString24);
+									 
+								}
+								else
+								{
+								
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter1.parse(val);
+									dateString24 = formatter2.format(date24);
+									rr.setRelocation(dateString24);
+									
+								}
+								
+							}
+							
+						
 							val = formatter.formatCellValue(row.getCell(33)).trim();
 							if(!StringUtils.isEmpty(val)) { rr.setRemarks(val);}
 							

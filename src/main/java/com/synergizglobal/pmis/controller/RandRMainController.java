@@ -772,7 +772,194 @@ public class RandRMainController {
 		        
 		        XSSFRow row0 = RRSheet.createRow(0);
 		        
-	            XSSFRow headingRow = RRSheet.createRow(1);
+		        Cell cell155 = row0.createCell(0);
+		        cell155.setCellStyle(whiteStyle);
+		        cell155.setCellValue("STEPS:  highlighted fields in yellow are to be filled Compulsory. (i) Add work ID at INPUT 1. (ii) INPUT 2: Fill in Location Name.  (iii). INPUT 3: Fill in Sub Location Name (iv). INPUT 4: select Type of Use. (v).INPUT 5: Select Boundary Wall Status.");		        
+		        
+	            for (int i = 1; i < 35; i++) {		        	
+		        	Cell cell = row0.createCell(i);
+			        cell.setCellStyle(sectionStyle);
+					cell.setCellValue("");
+				}	
+	            
+	            
+		        XSSFRow row1 = RRSheet.createRow(1);
+		        
+		        Cell cell244 = row0.createCell(0);
+		        cell244.setCellStyle(sectionStyle);
+		        cell244.setCellValue("INPUT 1 : Work ID");
+		        
+		        Cell cell3 = row0.createCell(1);
+		        cell3.setCellStyle(sectionStyle);
+		        cell3.setCellValue("Id No");
+		        
+		        Cell cell37 = row0.createCell(2);
+		        cell37.setCellStyle(sectionStyle);
+		        cell37.setCellValue("R&R ID " + 
+		        		"");		        
+		        
+		        Cell cell4 = row0.createCell(3);
+		        cell4.setCellStyle(sectionStyle);
+		        cell4.setCellValue("\"Phase " + 
+		        		"(i). Phase-1 " + 
+		        		"(ii). Phase-2 ");	
+		        
+		        
+
+		        Cell cell5 = row0.createCell(4);
+		        cell5.setCellStyle(sectionStyle);
+		        cell5.setCellValue("Add Structure Name");
+		        
+		        Cell cell6 = row0.createCell(5);
+		        cell6.setCellStyle(sectionStyle);
+		        cell6.setCellValue("\"INPUT 2:  " + 
+		        		"Location Name ");	
+		        
+		        
+		        Cell cell7 = row0.createCell(6);
+		        cell7.setCellStyle(sectionStyle);
+		        cell7.setCellValue("\"INPUT 3:  " + 
+		        		"Sub Location Name ");	
+		        
+		        Cell cell8 = row0.createCell(7);
+		        cell8.setCellStyle(sectionStyle);
+		        cell8.setCellValue("\"INPUT 4: Type of Use " + 
+		        		"(i). Commercial " + 
+		        		"(ii). Residential " + 
+		        		"(iii). Others ");	
+		        
+		        Cell cell9 = row0.createCell(8);
+		        cell9.setCellStyle(sectionStyle);
+		        cell9.setCellValue("Chainage (in Meter.) ");	
+		        
+		        
+		        Cell cell10 = row0.createCell(9);
+		        cell10.setCellStyle(sectionStyle);
+		        cell10.setCellValue("Latitude of Chainage ");			        
+		        
+		        
+		        Cell cell11 = row0.createCell(10);
+		        cell11.setCellStyle(sectionStyle);
+		        cell11.setCellValue("Longitude of Chainage ");
+		        
+		        Cell cell12 = row0.createCell(11);
+		        cell12.setCellStyle(sectionStyle);
+		        cell12.setCellValue("Date of Proposal submission Date to collector DD/MM/YYYY");
+		        
+		        Cell cell13 = row0.createCell(12);
+		        cell13.setCellStyle(sectionStyle);
+		        cell13.setCellValue("Verification By ");	
+		        
+		        
+		        Cell cell14 = row0.createCell(13);
+		        cell14.setCellStyle(sectionStyle);
+		        cell14.setCellValue("Letter to MMRDA DD/MM/YYYY");
+		        
+		        Cell cell15 = row0.createCell(14);
+		        cell15.setCellStyle(sectionStyle);
+		        cell15.setCellValue("Alternate Housing Allotment DD/MM/YYYY");
+		        
+		        Cell cell16 = row0.createCell(15);
+		        cell16.setCellStyle(sectionStyle);
+		        cell16.setCellValue("Encroachment Removal DD/MM/YYYY");
+		        
+		        Cell cell17 = row0.createCell(16);
+		        cell17.setCellStyle(sectionStyle);
+		        cell17.setCellValue("Boundary Wall Doc DD/MM/YYYY");
+		        
+		        Cell cell18 = row0.createCell(17);
+		        cell18.setCellStyle(sectionStyle);
+		        cell18.setCellValue("\"INPUT 5: Boundary Wall Status " + 
+		        		"(i). Completed " + 
+		        		"(ii). In Progress " + 
+		        		"(iii). Not Started " + 
+		        		"");
+		        
+		        Cell cell19 = row0.createCell(18);
+		        cell19.setCellStyle(sectionStyle);
+		        cell19.setCellValue("Handover to Execution DD/MM/YYYY");		        
+		        
+		        Cell cell20 = row0.createCell(19);
+		        cell20.setCellStyle(sectionStyle);
+		        cell20.setCellValue("Planned date of Completion  DD/MM/YYYY");
+		        
+		        Cell cell21 = row0.createCell(20);
+		        cell21.setCellStyle(sectionStyle);
+		        cell21.setCellValue("Carpet Area (sft) " + 
+		        		"");
+		        
+		        Cell cell22 = row0.createCell(21);
+		        cell22.setCellStyle(sectionStyle);
+		        cell22.setCellValue("Year of Construction YYYY");
+		        
+		        Cell cell23 = row0.createCell(22);
+		        cell23.setCellStyle(sectionStyle);
+		        cell23.setCellValue("Owner Name");
+		        
+		        Cell cell24 = row0.createCell(23);
+		        cell24.setCellStyle(sectionStyle);
+		        cell24.setCellValue("Occupier Name");
+		        
+		        
+		        Cell cell25 = row0.createCell(24);
+		        cell25.setCellStyle(sectionStyle);
+		        cell25.setCellValue("Document Type");
+		        
+		        
+		        Cell cell26 = row0.createCell(25);
+		        cell26.setCellStyle(sectionStyle);
+		        cell26.setCellValue("Document No");	
+		        
+		        
+		        
+		        Cell cell27 = row0.createCell(26);
+		        cell27.setCellStyle(sectionStyle);
+		        cell27.setCellValue("Map S.no");
+		        
+		        Cell cell28 = row0.createCell(27);
+		        cell28.setCellStyle(sectionStyle);
+		        cell28.setCellValue("Approval By Committee DD/MM/YYYY");
+		        
+		        
+		        Cell cell58 = row0.createCell(28);
+		        cell58.setCellStyle(sectionStyle);
+		        cell58.setCellValue("Approval by MRVC");		        
+		        
+		        
+		        Cell cell29 = row0.createCell(29);
+		        cell29.setCellStyle(sectionStyle);
+		        cell29.setCellValue("Estimate Approval DD/MM/YYYY");
+		        
+		        
+		        Cell cell30 = row0.createCell(30);
+		        cell30.setCellStyle(sectionStyle);
+		        cell30.setCellValue("Estimation Amount  (Rs)");
+		        
+		        
+		        
+		        Cell cell31 = row0.createCell(31);
+		        cell31.setCellStyle(sectionStyle);
+		        cell31.setCellValue("Estimate by MMRDA (Rs)");
+		        
+		        Cell cell32 = row0.createCell(32);
+		        cell32.setCellStyle(sectionStyle);
+		        cell32.setCellValue("Payment to MMRDA DD/MM/YYYY");
+		        
+		        
+		        Cell cell33 = row0.createCell(33);
+		        cell33.setCellStyle(sectionStyle);
+		        cell33.setCellValue("Relocation DD/MM/YYYY");
+		        
+		        
+		        Cell cell34 = row0.createCell(34);
+		        cell34.setCellStyle(sectionStyle);
+		        cell34.setCellValue("");		        
+		        
+		        
+		        
+		        
+		        
+	            XSSFRow headingRow = RRSheet.createRow(2);
 	            String headerString = "Work^Id No^R&R ID^Phase^Structure^Location^Sub Location^Type of Use^Chainage^Latitude^Longitude^Physical Verification Date^Verification By^Letter to MMRDA^Alternate Housing Allotment^Encroachment Removal^Boundary Wall Doc^Boundary Wall Status^Handover to Execution^Planned date of completion^Carpet Area (sft)^Year of Construction^Owner Name^Occupier Name^Document Type^Document No^Map S.no^Approval By Committee^Approval by MRVC^Estimate Approval^Estimation Amount^Estimate by MMRDA^Payment to MMRDA^Relocation^Remarks";
 	            
 	            String[] firstHeaderStringArr = headerString.split("\\^");
@@ -1074,7 +1261,7 @@ public class RandRMainController {
 						rowNo5++;
 				    }
 		       }
-			 short rowNo = 2;
+			 short rowNo = 3;
 	         for (RandRMain obj : dataList) {
 					
 	                XSSFRow row = RRSheet.createRow(rowNo);
@@ -1082,7 +1269,7 @@ public class RandRMainController {
 	               
 	                Cell cell = row.createCell(c++);
 	                cell.setCellStyle(sectionStyle);
-					cell.setCellValue(/*obj.getProject_id_fk() + " - "+*/obj.getWork_short_name());
+					cell.setCellValue(/*obj.getProject_id_fk() + " - "+*/obj.getWork_id_fk());
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
@@ -1369,7 +1556,7 @@ public class RandRMainController {
 						XSSFSheet laSheet = workbook.getSheetAt(0);
 						//System.out.println(uploadFilesSheet.getSheetName());
 						//header row
-						XSSFRow headerRow = laSheet.getRow(1);
+						XSSFRow headerRow = laSheet.getRow(2);
 						//checking given file format
 						if(headerRow != null){
 							List<String> fileFormat = FileFormatModel.getRRFileFormat();
@@ -1995,7 +2182,7 @@ public class RandRMainController {
 					//XSSFRow headerRow = uploadFilesSheet.getRow(0);							
 					DataFormatter formatter = new DataFormatter(); //creating formatter using the default locale
 					//System.out.println(uploadFilesSheet.getLastRowNum());
-					for(int i = 2; i <= laSheet.getLastRowNum();i++){
+					for(int i = 3; i <= laSheet.getLastRowNum();i++){
 						int v = laSheet.getLastRowNum();
 						XSSFRow row = laSheet.getRow(i);
 						// Sets the Read data to the model class

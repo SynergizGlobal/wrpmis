@@ -414,22 +414,12 @@
                              <div class="row">                       
                                  <div class="col s12 m4 l4 input-field ">
                                  	<p class="searchable_label">Location <span class="required">*</span></p>
-                                    <select class="searchable validate-dropdown" name="location_name" id="location_name" onchange="getSubLocationList();">
-                                        <option value="" selected>Select</option>
-                                          <c:forEach var="obj" items="${location }">
-                                      	   <option value= "${ obj.location_name}" <c:if test="${rrDetails.location_name eq obj.location_name}">selected</c:if>> ${obj.location_name }</option>
-                                         </c:forEach>
-                                    </select>
+                                 	<input type="text"  name="location_name" id="location_name" class="form-control" value="${rrDetails.location_name }">
                                     <span id="locationError" class="error-msg" ></span>                                     
                                 </div>
                                  <div class="col s6 m4 l4 input-field ">
                                      <p class="searchable_label">Sub Location <span class="required">*</span></p>
-                                    <select class="searchable validate-dropdown" name="sub_location_name" id="sub_location_name" > <!-- onchange="getLocationList();" -->
-                                        <option value="" selected>Select</option>
-                                         <c:forEach var="obj" items="${subLocation }">
-                                      	   <option value= "${ obj.sub_location_name}" <c:if test="${fn:trim(rrDetails.sub_location_name) eq fn:trim(obj.sub_location_name)}">selected</c:if>> ${obj.sub_location_name }</option>
-                                         </c:forEach>
-                                    </select>                                    
+                                     <input type="text"  name="sub_location_name" id="sub_location_name" class="form-control" value="${rrDetails.sub_location_name }">
                                     <span id="sub_locationError" class="error-msg" ></span>                                     
                                 </div>
                                 <div class="col s6 m4 l4 input-field">
@@ -1444,7 +1434,7 @@
 			var percapita_income = Math.round((family_income / family_size) * 100)/100
 			$('#percapita_per_month').text(	percapita_income+' '+income_units	);
 		}
-		getSubLocationList();
+		//getSubLocationList();
    });
            
    function getSubLocationList(){

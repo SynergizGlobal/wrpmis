@@ -785,20 +785,20 @@ public class RandRMainController {
 	            
 		        XSSFRow row1 = RRSheet.createRow(1);
 		        
-		        Cell cell244 = row0.createCell(0);
+		        Cell cell244 = row1.createCell(0);
 		        cell244.setCellStyle(sectionStyle);
 		        cell244.setCellValue("INPUT 1 : Work ID");
 		        
-		        Cell cell3 = row0.createCell(1);
+		        Cell cell3 = row1.createCell(1);
 		        cell3.setCellStyle(sectionStyle);
 		        cell3.setCellValue("Id No");
 		        
-		        Cell cell37 = row0.createCell(2);
+		        Cell cell37 = row1.createCell(2);
 		        cell37.setCellStyle(sectionStyle);
 		        cell37.setCellValue("R&R ID " + 
 		        		"");		        
 		        
-		        Cell cell4 = row0.createCell(3);
+		        Cell cell4 = row1.createCell(3);
 		        cell4.setCellStyle(sectionStyle);
 		        cell4.setCellValue("\"Phase " + 
 		        		"(i). Phase-1 " + 
@@ -806,68 +806,68 @@ public class RandRMainController {
 		        
 		        
 
-		        Cell cell5 = row0.createCell(4);
+		        Cell cell5 = row1.createCell(4);
 		        cell5.setCellStyle(sectionStyle);
 		        cell5.setCellValue("Add Structure Name");
 		        
-		        Cell cell6 = row0.createCell(5);
+		        Cell cell6 = row1.createCell(5);
 		        cell6.setCellStyle(sectionStyle);
 		        cell6.setCellValue("\"INPUT 2:  " + 
 		        		"Location Name ");	
 		        
 		        
-		        Cell cell7 = row0.createCell(6);
+		        Cell cell7 = row1.createCell(6);
 		        cell7.setCellStyle(sectionStyle);
 		        cell7.setCellValue("\"INPUT 3:  " + 
 		        		"Sub Location Name ");	
 		        
-		        Cell cell8 = row0.createCell(7);
+		        Cell cell8 = row1.createCell(7);
 		        cell8.setCellStyle(sectionStyle);
 		        cell8.setCellValue("\"INPUT 4: Type of Use " + 
 		        		"(i). Commercial " + 
 		        		"(ii). Residential " + 
 		        		"(iii). Others ");	
 		        
-		        Cell cell9 = row0.createCell(8);
+		        Cell cell9 = row1.createCell(8);
 		        cell9.setCellStyle(sectionStyle);
 		        cell9.setCellValue("Chainage (in Meter.) ");	
 		        
 		        
-		        Cell cell10 = row0.createCell(9);
+		        Cell cell10 = row1.createCell(9);
 		        cell10.setCellStyle(sectionStyle);
 		        cell10.setCellValue("Latitude of Chainage ");			        
 		        
 		        
-		        Cell cell11 = row0.createCell(10);
+		        Cell cell11 = row1.createCell(10);
 		        cell11.setCellStyle(sectionStyle);
 		        cell11.setCellValue("Longitude of Chainage ");
 		        
-		        Cell cell12 = row0.createCell(11);
+		        Cell cell12 = row1.createCell(11);
 		        cell12.setCellStyle(sectionStyle);
 		        cell12.setCellValue("Date of Proposal submission Date to collector DD/MM/YYYY");
 		        
-		        Cell cell13 = row0.createCell(12);
+		        Cell cell13 = row1.createCell(12);
 		        cell13.setCellStyle(sectionStyle);
 		        cell13.setCellValue("Verification By ");	
 		        
 		        
-		        Cell cell14 = row0.createCell(13);
+		        Cell cell14 = row1.createCell(13);
 		        cell14.setCellStyle(sectionStyle);
 		        cell14.setCellValue("Letter to MMRDA DD/MM/YYYY");
 		        
-		        Cell cell15 = row0.createCell(14);
+		        Cell cell15 = row1.createCell(14);
 		        cell15.setCellStyle(sectionStyle);
 		        cell15.setCellValue("Alternate Housing Allotment DD/MM/YYYY");
 		        
-		        Cell cell16 = row0.createCell(15);
+		        Cell cell16 = row1.createCell(15);
 		        cell16.setCellStyle(sectionStyle);
 		        cell16.setCellValue("Encroachment Removal DD/MM/YYYY");
 		        
-		        Cell cell17 = row0.createCell(16);
+		        Cell cell17 = row1.createCell(16);
 		        cell17.setCellStyle(sectionStyle);
 		        cell17.setCellValue("Boundary Wall Doc DD/MM/YYYY");
 		        
-		        Cell cell18 = row0.createCell(17);
+		        Cell cell18 = row1.createCell(17);
 		        cell18.setCellStyle(sectionStyle);
 		        cell18.setCellValue("\"INPUT 5: Boundary Wall Status " + 
 		        		"(i). Completed " + 
@@ -875,83 +875,83 @@ public class RandRMainController {
 		        		"(iii). Not Started " + 
 		        		"");
 		        
-		        Cell cell19 = row0.createCell(18);
+		        Cell cell19 = row1.createCell(18);
 		        cell19.setCellStyle(sectionStyle);
 		        cell19.setCellValue("Handover to Execution DD/MM/YYYY");		        
 		        
-		        Cell cell20 = row0.createCell(19);
+		        Cell cell20 = row1.createCell(19);
 		        cell20.setCellStyle(sectionStyle);
 		        cell20.setCellValue("Planned date of Completion  DD/MM/YYYY");
 		        
-		        Cell cell21 = row0.createCell(20);
+		        Cell cell21 = row1.createCell(20);
 		        cell21.setCellStyle(sectionStyle);
 		        cell21.setCellValue("Carpet Area (sft) " + 
 		        		"");
 		        
-		        Cell cell22 = row0.createCell(21);
+		        Cell cell22 = row1.createCell(21);
 		        cell22.setCellStyle(sectionStyle);
 		        cell22.setCellValue("Year of Construction YYYY");
 		        
-		        Cell cell23 = row0.createCell(22);
+		        Cell cell23 = row1.createCell(22);
 		        cell23.setCellStyle(sectionStyle);
 		        cell23.setCellValue("Owner Name");
 		        
-		        Cell cell24 = row0.createCell(23);
+		        Cell cell24 = row1.createCell(23);
 		        cell24.setCellStyle(sectionStyle);
 		        cell24.setCellValue("Occupier Name");
 		        
 		        
-		        Cell cell25 = row0.createCell(24);
+		        Cell cell25 = row1.createCell(24);
 		        cell25.setCellStyle(sectionStyle);
 		        cell25.setCellValue("Document Type");
 		        
 		        
-		        Cell cell26 = row0.createCell(25);
+		        Cell cell26 = row1.createCell(25);
 		        cell26.setCellStyle(sectionStyle);
 		        cell26.setCellValue("Document No");	
 		        
 		        
 		        
-		        Cell cell27 = row0.createCell(26);
+		        Cell cell27 = row1.createCell(26);
 		        cell27.setCellStyle(sectionStyle);
 		        cell27.setCellValue("Map S.no");
 		        
-		        Cell cell28 = row0.createCell(27);
+		        Cell cell28 = row1.createCell(27);
 		        cell28.setCellStyle(sectionStyle);
 		        cell28.setCellValue("Approval By Committee DD/MM/YYYY");
 		        
 		        
-		        Cell cell58 = row0.createCell(28);
+		        Cell cell58 = row1.createCell(28);
 		        cell58.setCellStyle(sectionStyle);
 		        cell58.setCellValue("Approval by MRVC");		        
 		        
 		        
-		        Cell cell29 = row0.createCell(29);
+		        Cell cell29 = row1.createCell(29);
 		        cell29.setCellStyle(sectionStyle);
 		        cell29.setCellValue("Estimate Approval DD/MM/YYYY");
 		        
 		        
-		        Cell cell30 = row0.createCell(30);
+		        Cell cell30 = row1.createCell(30);
 		        cell30.setCellStyle(sectionStyle);
 		        cell30.setCellValue("Estimation Amount  (Rs)");
 		        
 		        
 		        
-		        Cell cell31 = row0.createCell(31);
+		        Cell cell31 = row1.createCell(31);
 		        cell31.setCellStyle(sectionStyle);
 		        cell31.setCellValue("Estimate by MMRDA (Rs)");
 		        
-		        Cell cell32 = row0.createCell(32);
+		        Cell cell32 = row1.createCell(32);
 		        cell32.setCellStyle(sectionStyle);
 		        cell32.setCellValue("Payment to MMRDA DD/MM/YYYY");
 		        
 		        
-		        Cell cell33 = row0.createCell(33);
+		        Cell cell33 = row1.createCell(33);
 		        cell33.setCellStyle(sectionStyle);
 		        cell33.setCellValue("Relocation DD/MM/YYYY");
 		        
 		        
-		        Cell cell34 = row0.createCell(34);
+		        Cell cell34 = row1.createCell(34);
 		        cell34.setCellStyle(sectionStyle);
 		        cell34.setCellValue("");		        
 		        
@@ -1775,7 +1775,7 @@ public class RandRMainController {
 					//XSSFRow headerRow = uploadFilesSheet.getRow(0);							
 					DataFormatter formatter = new DataFormatter(); //creating formatter using the default locale
 					//System.out.println(uploadFilesSheet.getLastRowNum());
-					for(int i = 2; i <= laSheet.getLastRowNum();i++){
+					for(int i = 3; i <= laSheet.getLastRowNum();i++){
 						int v = laSheet.getLastRowNum();
 						XSSFRow row = laSheet.getRow(i);
 						// Sets the Read data to the model class
@@ -1789,37 +1789,40 @@ public class RandRMainController {
 							if(!StringUtils.isEmpty(val)) { rr.setWork_id(val);}
 							
 							val = formatter.formatCellValue(row.getCell(1)).trim();
+							if(!StringUtils.isEmpty(val)) { rr.setIdentification_no(val);}								
+							
+							val = formatter.formatCellValue(row.getCell(2)).trim();
 							if(!StringUtils.isEmpty(val)) { rr.setRr_id(val);}
 							
 							
-							val = formatter.formatCellValue(row.getCell(2)).trim();
+							val = formatter.formatCellValue(row.getCell(3)).trim();
 							if(!StringUtils.isEmpty(val)) { rr.setPhase(val);}
 							
 							
-							val = formatter.formatCellValue(row.getCell(3)).trim();
+							val = formatter.formatCellValue(row.getCell(4)).trim();
 							if(!StringUtils.isEmpty(val)) { rr.setStructure_id(val);}
 							
-							val = formatter.formatCellValue(row.getCell(4)).trim();
+							val = formatter.formatCellValue(row.getCell(5)).trim();
 							if(!StringUtils.isEmpty(val)) { rr.setLocation_name(val);}	
 							
-							val = formatter.formatCellValue(row.getCell(5)).trim();
+							val = formatter.formatCellValue(row.getCell(6)).trim();
 							if(!StringUtils.isEmpty(val)) { rr.setSub_location_name(val);}					
 							
 							
-							val = formatter.formatCellValue(row.getCell(6)).trim();
+							val = formatter.formatCellValue(row.getCell(7)).trim();
 							if(!StringUtils.isEmpty(val)) { rr.setType_of_use(val);}	
 							
-							val = formatter.formatCellValue(row.getCell(7)).trim();
+							val = formatter.formatCellValue(row.getCell(8)).trim();
 							if(!StringUtils.isEmpty(val)) { rr.setChainage(val);}	
 							
-							val = formatter.formatCellValue(row.getCell(8)).trim();
+							val = formatter.formatCellValue(row.getCell(9)).trim();
 							if(!StringUtils.isEmpty(val)) {rr.setLatitude(val);}
 							
-							val = formatter.formatCellValue(row.getCell(9)).trim();
+							val = formatter.formatCellValue(row.getCell(10)).trim();
 							if(!StringUtils.isEmpty(val)) {rr.setLongitude(val);}	
 							
 							
-							val = formatter.formatCellValue(row.getCell(10)).trim();
+							val = formatter.formatCellValue(row.getCell(11)).trim();
 							if(!StringUtils.isEmpty(val)) { 
 								if(val.contains("/")) 
 								{
@@ -1842,35 +1845,10 @@ public class RandRMainController {
 								}
 								
 							}
-							
-							
-							val = formatter.formatCellValue(row.getCell(11)).trim();
-							if(!StringUtils.isEmpty(val)) {rr.setVerification_by(val);}
 							
 							
 							val = formatter.formatCellValue(row.getCell(12)).trim();
-							if(!StringUtils.isEmpty(val)) { 
-								if(val.contains("/")) 
-								{
-									Date date24 = null;
-									String dateString24 = null;
-									date24 = formatter3.parse(val);
-									dateString24 = formatter2.format(date24);										
-									rr.setLetter_to_mmrda(dateString24);
-									 
-								}
-								else
-								{
-								
-									Date date24 = null;
-									String dateString24 = null;
-									date24 = formatter1.parse(val);
-									dateString24 = formatter2.format(date24);
-									rr.setLetter_to_mmrda(dateString24);
-									
-								}
-								
-							}
+							if(!StringUtils.isEmpty(val)) {rr.setVerification_by(val);}
 							
 							
 							val = formatter.formatCellValue(row.getCell(13)).trim();
@@ -1881,7 +1859,7 @@ public class RandRMainController {
 									String dateString24 = null;
 									date24 = formatter3.parse(val);
 									dateString24 = formatter2.format(date24);										
-									rr.setAlternate_housing_allotment(dateString24);
+									rr.setLetter_to_mmrda(dateString24);
 									 
 								}
 								else
@@ -1891,7 +1869,7 @@ public class RandRMainController {
 									String dateString24 = null;
 									date24 = formatter1.parse(val);
 									dateString24 = formatter2.format(date24);
-									rr.setAlternate_housing_allotment(dateString24);
+									rr.setLetter_to_mmrda(dateString24);
 									
 								}
 								
@@ -1906,7 +1884,7 @@ public class RandRMainController {
 									String dateString24 = null;
 									date24 = formatter3.parse(val);
 									dateString24 = formatter2.format(date24);										
-									rr.setEncroachment_removal(dateString24);
+									rr.setAlternate_housing_allotment(dateString24);
 									 
 								}
 								else
@@ -1916,7 +1894,7 @@ public class RandRMainController {
 									String dateString24 = null;
 									date24 = formatter1.parse(val);
 									dateString24 = formatter2.format(date24);
-									rr.setEncroachment_removal(dateString24);
+									rr.setAlternate_housing_allotment(dateString24);
 									
 								}
 								
@@ -1931,6 +1909,31 @@ public class RandRMainController {
 									String dateString24 = null;
 									date24 = formatter3.parse(val);
 									dateString24 = formatter2.format(date24);										
+									rr.setEncroachment_removal(dateString24);
+									 
+								}
+								else
+								{
+								
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter1.parse(val);
+									dateString24 = formatter2.format(date24);
+									rr.setEncroachment_removal(dateString24);
+									
+								}
+								
+							}
+							
+							
+							val = formatter.formatCellValue(row.getCell(16)).trim();
+							if(!StringUtils.isEmpty(val)) { 
+								if(val.contains("/")) 
+								{
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter3.parse(val);
+									dateString24 = formatter2.format(date24);										
 									rr.setBoundary_wall_doc(dateString24);
 									 
 								}
@@ -1951,11 +1954,11 @@ public class RandRMainController {
 							
 							
 							
-							val = formatter.formatCellValue(row.getCell(16)).trim();
+							val = formatter.formatCellValue(row.getCell(17)).trim();
 							if(!StringUtils.isEmpty(val)) {rr.setBoundary_wall_status(val);}	
 							
 							
-							val = formatter.formatCellValue(row.getCell(17)).trim();
+							val = formatter.formatCellValue(row.getCell(18)).trim();
 							if(!StringUtils.isEmpty(val)) { 
 								if(val.contains("/")) 
 								{
@@ -1980,7 +1983,7 @@ public class RandRMainController {
 							}
 							
 							
-							val = formatter.formatCellValue(row.getCell(18)).trim();
+							val = formatter.formatCellValue(row.getCell(19)).trim();
 							if(!StringUtils.isEmpty(val)) { 
 								if(val.contains("/")) 
 								{
@@ -2004,36 +2007,36 @@ public class RandRMainController {
 								
 							}								
 							
-							val = formatter.formatCellValue(row.getCell(19)).trim();
+							val = formatter.formatCellValue(row.getCell(20)).trim();
 							if(!StringUtils.isEmpty(val)) { 
 								int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
 								if(c != 2) {
-									val = getCellDataType(workbook,row.getCell(19));
+									val = getCellDataType(workbook,row.getCell(20));
 								}
 								rr.setCarpet_area(val);}	
 							
 							
-							val = formatter.formatCellValue(row.getCell(20)).trim();
+							val = formatter.formatCellValue(row.getCell(21)).trim();
 							if(!StringUtils.isEmpty(val)) { rr.setYear_of_construction(val);}	
 							
 							
-							val = formatter.formatCellValue(row.getCell(21)).trim();
+							val = formatter.formatCellValue(row.getCell(22)).trim();
 							if(!StringUtils.isEmpty(val)) { rr.setName_of_the_owner(val);}								
 							
-							val = formatter.formatCellValue(row.getCell(22)).trim();
+							val = formatter.formatCellValue(row.getCell(23)).trim();
 							if(!StringUtils.isEmpty(val)) { rr.setOccupier_name_during_verification(val);}										
 							
-							val = formatter.formatCellValue(row.getCell(23)).trim();
+							val = formatter.formatCellValue(row.getCell(24)).trim();
 							if(!StringUtils.isEmpty(val)) { rr.setDocument_type(val);}
 							
-							val = formatter.formatCellValue(row.getCell(24)).trim();
+							val = formatter.formatCellValue(row.getCell(25)).trim();
 							if(!StringUtils.isEmpty(val)) { rr.setDocument_no(val);}
 							
-							val = formatter.formatCellValue(row.getCell(25)).trim();
+							val = formatter.formatCellValue(row.getCell(26)).trim();
 							if(!StringUtils.isEmpty(val)) { rr.setMap_sr_no(val);}							
 
 							
-							val = formatter.formatCellValue(row.getCell(26)).trim();
+							val = formatter.formatCellValue(row.getCell(27)).trim();
 
 							if(!StringUtils.isEmpty(val)) { 
 								if(val.contains("/")) 
@@ -2058,7 +2061,7 @@ public class RandRMainController {
 								
 							}
 
-							val = formatter.formatCellValue(row.getCell(27)).trim();
+							val = formatter.formatCellValue(row.getCell(28)).trim();
 							if(!StringUtils.isEmpty(val)) { 
 								if(val.contains("/")) 
 								{
@@ -2082,7 +2085,7 @@ public class RandRMainController {
 								
 							}
 							
-							val = formatter.formatCellValue(row.getCell(28)).trim();
+							val = formatter.formatCellValue(row.getCell(29)).trim();
 							if(!StringUtils.isEmpty(val)) { 
 								if(val.contains("/")) 
 								{
@@ -2106,7 +2109,7 @@ public class RandRMainController {
 								
 							}
 						
-							val = formatter.formatCellValue(row.getCell(29)).trim();
+							val = formatter.formatCellValue(row.getCell(30)).trim();
 							if(!StringUtils.isEmpty(val)) { 
 								int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
 								if(c != 2) {
@@ -2115,7 +2118,7 @@ public class RandRMainController {
 								rr.setEstimation_amount(val);}								
 
 							
-							val = formatter.formatCellValue(row.getCell(30)).trim();
+							val = formatter.formatCellValue(row.getCell(31)).trim();
 							if(!StringUtils.isEmpty(val)) { 
 								int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
 								if(c != 2) {
@@ -2123,7 +2126,7 @@ public class RandRMainController {
 								}
 								rr.setEstimates_by_mmrda(val);}	
 							
-							val = formatter.formatCellValue(row.getCell(31)).trim();
+							val = formatter.formatCellValue(row.getCell(32)).trim();
 							if(!StringUtils.isEmpty(val)) { 
 								if(val.contains("/")) 
 								{
@@ -2148,7 +2151,7 @@ public class RandRMainController {
 							}			
 								
 						
-							val = formatter.formatCellValue(row.getCell(32)).trim();
+							val = formatter.formatCellValue(row.getCell(33)).trim();
 							if(!StringUtils.isEmpty(val)) { 
 								if(val.contains("/")) 
 								{
@@ -2173,7 +2176,7 @@ public class RandRMainController {
 							}
 
 							
-							val = formatter.formatCellValue(row.getCell(33)).trim();
+							val = formatter.formatCellValue(row.getCell(34)).trim();
 							if(!StringUtils.isEmpty(val)) { rr.setRemarks(val);}
 					
 							rr.setPlanned_date_of_completion(DateParser.parse(rr.getPlanned_date_of_completion()));

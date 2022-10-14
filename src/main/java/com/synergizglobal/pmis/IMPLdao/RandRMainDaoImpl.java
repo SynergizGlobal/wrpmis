@@ -40,6 +40,7 @@ import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.common.Mail;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.FormHistory;
+import com.synergizglobal.pmis.model.LandAcquisition;
 import com.synergizglobal.pmis.model.Messages;
 import com.synergizglobal.pmis.model.RandRMain;
 @Repository
@@ -1543,6 +1544,13 @@ public class RandRMainDaoImpl implements RandRMainDao{
 						 }
 					}else if(obj.getType_of_use().equalsIgnoreCase("Commercial")) {
 						
+								con = dataSource.getConnection();
+								String deleteQryCommercial = "DELETE from rr_commercial_details where rr_id_fk = ?";		 
+								stmt = con.prepareStatement(deleteQryCommercial);
+								stmt.setString(1,obj.getRr_id()); 
+								stmt.executeUpdate();
+								DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);						
+						
 							String updateQry = "update rr_commercial_details set  "
 									+ "name_of_activity= :name_of_activity,year_of_establishment= :year_of_establishment,carpet_area= :com_carpet_area,monthly_turnover_amount= :monthly_turnover_amount,"
 									+ "monthly_turnover_amount_units= :monthly_turnover_amount_units,number_of_employees= :number_of_employees,remarks= :com_remarks "
@@ -1557,8 +1565,8 @@ public class RandRMainDaoImpl implements RandRMainDao{
 							String rrIDavailableOrNot = getAvailabilityStatusOfRRId(obj,table_name);
 							
 							if(!StringUtils.isEmpty(rrIDavailableOrNot)) {
-								 paramSource = new BeanPropertySqlParameterSource(obj);		 
-								 count = namedParamJdbcTemplate.update(updateQry, paramSource);
+								 //paramSource = new BeanPropertySqlParameterSource(obj);		 
+								 //count = namedParamJdbcTemplate.update(updateQry, paramSource);
 							}else {
 								 paramSource = new BeanPropertySqlParameterSource(obj);		 
 								 count = namedParamJdbcTemplate.update(insertQry1, paramSource);
@@ -2012,7 +2020,50 @@ public class RandRMainDaoImpl implements RandRMainDao{
 				
 				String table_name = "rr";
 				String rr_id = obj.getRr_id();
-		
+				
+
+				
+				double c1=Double.parseDouble(obj.getChainage());
+				obj.setWork_id_fk(obj.getWork_id());
+				
+				List<RandRMain> getChainageCoordinates=getRRCoordinates(obj);
+				
+				if(!StringUtils.isEmpty(getChainageCoordinates.get(0).getChainage()))
+				{
+				
+					String splitChainage=getChainageCoordinates.get(0).getChainage();
+					String splitChainage1=splitChainage.toString();
+					String[] splitChainage2=splitChainage1.split(",");
+						
+					String splitLatitude=getChainageCoordinates.get(0).getLatitude();
+					String splitLatitude1=splitLatitude.toString();
+					String[] splitLatitude2=splitLatitude1.split(",");
+	            	
+					String splitLongitude=getChainageCoordinates.get(0).getLongitude();
+					String splitLongitude1=splitLongitude.toString();
+					String[] splitLongitude2=splitLongitude1.split(",");                    	
+	            	
+	            	
+					String a1= splitChainage2[0];    String x1=splitLatitude2[0]; String y1=splitLongitude2[0];
+					String b1=splitChainage2[1];	 String x2=splitLatitude2[1]; String y2=splitLongitude2[1];
+	
+					double x3=0;   double y3=0;
+	
+	                x3=Double.parseDouble(x2)+(((c1-Double.parseDouble(b1))/(Double.parseDouble(b1)-Double.parseDouble(a1)))*(Double.parseDouble(x2)-Double.parseDouble(x1)));
+	                y3=Double.parseDouble(y2)+(((c1-Double.parseDouble(b1))/(Double.parseDouble(b1)-Double.parseDouble(a1)))*(Double.parseDouble(y2)-Double.parseDouble(y1)));				
+					
+					obj.setLatitude(String.valueOf(x3));
+					obj.setLongitude(String.valueOf(y3));
+				}
+				else
+				{
+					
+					String splitLatitude=getChainageCoordinates.get(0).getLatitude();
+					String splitLongitude=getChainageCoordinates.get(0).getLongitude();
+					
+					obj.setLatitude(String.valueOf(splitLatitude));
+					obj.setLongitude(String.valueOf(splitLongitude));					
+				}
 
 				row++;sheet = 1;
 				if(!StringUtils.isEmpty(rr_id)) {

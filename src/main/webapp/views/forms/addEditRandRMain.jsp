@@ -612,7 +612,7 @@
                                     <label for="estimation_amount">Estimation Amount</label>
                                     <span id="estimation_amountError" class="error-msg"></span>
                                 	<span id="estimation_amount_unitsError" class="error-msg right" ></span>
-                                    <select class="validate-dropdown" id="estimation_amount_units" name="estimation_amount_units">
+                                    <select class="validate-dropdown" id="estimation_amount_units" name="estimation_amount_units" disabled>
                                 		 <c:forEach var="obj" items="${units }">
                                       	   <option value= "${ obj.value}" <c:if test="${rrDetails.estimation_amount_units eq obj.value}">selected</c:if>> ${obj.unit }</option>
                                          </c:forEach>
@@ -627,7 +627,7 @@
                                     <label for="estimated_by_mmrda_amount">Estimate by MMRDA</label>
                                     <span id="estimated_by_mmrda_amountError" class="error-msg"></span>
                                 	<span id="estimated_by_mmrda_amount_unitsError" class="error-msg right" ></span>
-                                    <select class="validate-dropdown" id="estimated_by_mmrda_amount_units" name="estimated_by_mmrda_amount_units">
+                                    <select class="validate-dropdown" id="estimated_by_mmrda_amount_units" name="estimated_by_mmrda_amount_units" disabled>
                                     	 <c:forEach var="obj" items="${units }">
                                       	   <option value= "${ obj.value}" <c:if test="${rrDetails.estimated_by_mmrda_amount_units eq obj.value}">selected</c:if>> ${obj.unit }</option>
                                          </c:forEach>
@@ -1723,7 +1723,9 @@
  					}
  			}
  			
- 			$(".page-loader").show();	
+ 			$(".page-loader").show();
+ 			$("#estimation_amount_units").prop("disabled",false);
+ 			$("#estimated_by_mmrda_amount_units").prop("disabled",false);
   			document.getElementById("RandRForm").submit();			
 	 	 }
    }
@@ -1762,7 +1764,10 @@
  						$("#planned_date_of_completionError").html("");
  					}
  			}
- 			$(".page-loader").show();	
+ 			$(".page-loader").show();
+ 			
+ 			$("#estimation_amount_units").prop("disabled",false);
+ 			$("#estimated_by_mmrda_amount_units").prop("disabled",false);
  			
   			document.getElementById("RandRForm").submit();	
    	}

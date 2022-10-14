@@ -2034,8 +2034,30 @@ public class RandRMainController {
 
 							
 							val = formatter.formatCellValue(row.getCell(26)).trim();
-							if(!StringUtils.isEmpty(val)) { rr.setApproval_by_committee(val);}
-							
+
+							if(!StringUtils.isEmpty(val)) { 
+								if(val.contains("/")) 
+								{
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter3.parse(val);
+									dateString24 = formatter2.format(date24);										
+									rr.setApproval_by_committee(dateString24);
+									 
+								}
+								else
+								{
+								
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter1.parse(val);
+									dateString24 = formatter2.format(date24);
+									rr.setApproval_by_committee(dateString24);
+									
+								}
+								
+							}
+
 							val = formatter.formatCellValue(row.getCell(27)).trim();
 							if(!StringUtils.isEmpty(val)) { 
 								if(val.contains("/")) 
@@ -2693,7 +2715,31 @@ public class RandRMainController {
 
 							
 							val = formatter.formatCellValue(row.getCell(26)).trim();
-							if(!StringUtils.isEmpty(val)) { rr.setApproval_by_committee(val);}
+							
+							
+							if(!StringUtils.isEmpty(val)) { 
+								if(val.contains("/")) 
+								{
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter3.parse(val);
+									dateString24 = formatter2.format(date24);										
+									rr.setApproval_by_committee(dateString24);
+									 
+								}
+								else
+								{
+								
+									Date date24 = null;
+									String dateString24 = null;
+									date24 = formatter1.parse(val);
+									dateString24 = formatter2.format(date24);
+									rr.setApproval_by_committee(dateString24);
+									
+								}
+								
+							}								
+							
 							
 							val = formatter.formatCellValue(row.getCell(27)).trim();
 							

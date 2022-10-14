@@ -211,5 +211,11 @@ public class RandRMainServiceImpl implements RandRMainService{
 	public boolean saveRRDataUploadFile(RandRMain obj) throws Exception {
 		return dao.saveRRDataUploadFile(obj);
 	}
+	
+	@Override
+	public List<RandRMain> getRRCoordinates(RandRMain obj) throws Exception
+	{
+		return dao.getRRCoordinates(obj);
+	}
 
 }

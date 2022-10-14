@@ -84,6 +84,8 @@ public interface RandRMainService {
 	List<RandRMain> getRRUploadsList(RandRMain obj) throws Exception;
 
 	boolean saveRRDataUploadFile(RandRMain obj) throws Exception;
+	
+	List<RandRMain> getRRCoordinates(RandRMain obj) throws Exception;
 
 
 }

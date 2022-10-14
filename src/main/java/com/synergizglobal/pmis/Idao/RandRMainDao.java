@@ -85,4 +85,6 @@ public interface RandRMainDao {
 
 	boolean saveRRDataUploadFile(RandRMain obj) throws Exception;
 
+	List<RandRMain> getRRCoordinates(RandRMain obj) throws Exception;
+
 }

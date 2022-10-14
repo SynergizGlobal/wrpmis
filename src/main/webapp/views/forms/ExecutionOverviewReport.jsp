@@ -18,8 +18,6 @@
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
 	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
     <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.21/datatables.min.css">
-    
     <style>   
     	thead tr th{
     		padding-left:15px !important;
@@ -312,30 +310,6 @@
 	  top: 4em;
 	  z-index: 2;
 	}
-
-.mdl-data-table {
-    font-size: 1.6rem !important;
-
-}
-
-table tr td:nth-child(0) {
-  width:10px;
-}
-
-table tr td:nth-child(3) {
-  width:500px;
-}
-
-.ClickTd
-{
- width:10px;
-}
-.ClickMdActivityTdChild
-{
-/* display:none;
- */
-}			
-	
     </style>
 </head>
 
@@ -343,7 +317,7 @@ table tr td:nth-child(3) {
     <!-- header  starts-->
          <jsp:include page="../layout/header.jsp"></jsp:include>
     <!-- header ends  -->
-<form name="exportExecutionOverview" id="exportExecutionOverview" target="_blank" method="post">		
+		
 		<div class="row">
 			<div class="col s12 m12">
 				<div class="card">
@@ -355,17 +329,11 @@ table tr td:nth-child(3) {
 								<div class="col s12 m12 right-align exportButton">
 <%-- 								<c:if test="${(sessionScope.USER_ROLE_CODE eq 'DA') or (sessionScope.USER_ROLE_CODE eq 'RU') or (sessionScope.USER_ROLE_CODE eq 'IT')}">
     								<div class="m-n1">
-    									<a href="javascript:exportReport();" class="btn waves-effect waves-light bg-s t-c"> 
+    									<a href="javascript:exportExecutionOverviewReport();" class="btn waves-effect waves-light bg-s t-c"> 
     									<strong><i class="fa fa-arrow-circle-down v-align-mid"></i> Download</strong>
     									</a>										
     								</div>
-    							</c:if>   --%> 
-    							<div class="m-n1">
-    									<a href="javascript:exportReport();" class="btn waves-effect waves-light bg-s t-c"> 
-    									<strong><i class="fa fa-arrow-circle-down v-align-mid"></i> Export</strong>
-    									</a>										
-    								</div>
-    															
+    							</c:if>   --%>  								
     							</div>	
 							</div>
 						</span>
@@ -384,19 +352,19 @@ table tr td:nth-child(3) {
 								<div class="row no-mar">
 									<div class="col s6 m4 l4 input-field">
 										<p class="searchable_label fs16rem" style="color:#000000;">Work ID</p><br>
-										<select id="work_id_fk" name="work_id_fk" class="searchable" onChange="getStructureTypesAutobyWorkId();">
+										<select id="work_id_fk" name="work_id_fk" class="searchable" onChange="getExecutionDeptOverviewReportList();">
 											<option value="">Select</option>										
 										</select> 
 									</div>		
 									<div class="col s6 m4 l4 input-field">
 										<p class="searchable_label fs16rem" style="color:#000000;">Department/HOD</p><br>
-										<select id="department_fk" name="department_fk" class="searchable" onChange="getStructureTypesAutobyWorkId();">
+										<select id="department_fk" name="department_fk" class="searchable" onChange="getExecutionDeptOverviewReportList();">
 											<option value="">Select</option>
 										</select>
 									</div>
 									<div class="col s6 m4 l4 input-field">
 										<p class="searchable_label fs16rem" style="	color:#000000;">Contract ID</p><br>
-										<select id="contract_id_fk" name="contract_id_fk" class="searchable" onChange="getStructureTypesAutobyWorkId();">
+										<select id="contract_id_fk" name="contract_id_fk" class="searchable" onChange="getExecutionOverviewReportList();">
 											<option value="">Select</option>
 										</select>
 									</div>
@@ -410,21 +378,32 @@ table tr td:nth-child(3) {
 						</div>
 					</div>
 					<br><br>
-					<div claass="row" id="divExport">
-					<button id="btn-show-all-children" type="button">Expand All</button>
-					<button id="btn-hide-all-children" type="button">Collapse All</button>					
-					<table id="datatable-execution-overview-report" class="mdl-data-table" data-module="sticky-table">
+					<div claass="row">
+					<table id="datatable-execution-overview-report" class="mdl-data-table" style="background-color:#162D6E;" data-module="sticky-table">
 								<thead>
-									<tr id="topDivCss" style="background-color:#162D6E;">
-										<th style="background-color: #162D6E;width:10px;font-size: 1.6rem !important;">S No</th>
-										<th style="padding-left: 0px !important; background-color: #162D6E;width:400px;font-size: 1.6rem !important;">Structure Type</th>
-										<th  style="background-color: #162D6E;width:50px;font-size: 1.6rem !important;">Unit</th>
-										<th  style="background-color: #162D6E;width:50px;font-size: 1.6rem !important;">Scope</th>
-										<th  style="background-color: #162D6E;width:50px;font-size: 1.6rem !important;">Completed</th>
-										<th  style="background-color: #162D6E;width:50px;font-size: 1.6rem !important;">Target date of Completion</th>
+									<tr id="topDivCss">
+										<th class="th-fs w-half" style="background-color: #162D6E;">S No</th>
+										<th class="th-fs w-16" style="padding-left: 0px !important; background-color: #162D6E;">Structure Type</th>
+										<th class="th-fs w-12" style="background-color: #162D6E;">Unit</th>
+										<th class="th-fs w-15" style="background-color: #162D6E;">Scope</th>
+										<th class="th-fs w-17" style="background-color: #162D6E;">Completed</th>
+										<th class="th-fs w-12" style="background-color: #162D6E;">Pending</th>
+										<th class="th-fs" style=" background-color: #162D6E;">Last Updated on</th>
+										<th class="th-fs" style=" background-color: #162D6E;">Remarks</th>
 									</tr>
 								</thead>
 					</table>
+					</div>
+					<div class="row">
+						
+						<div class="col m12 s12" id="divCollapase">
+						
+	
+	
+							<ul class="collapsible">
+
+						    </ul>					
+						</div>
 					</div>
 				</div>
 			</div>
@@ -461,7 +440,7 @@ table tr td:nth-child(3) {
 				</div>
 			</div>
 		</div>
-</form>
+
 		<!-- footer  -->
  	<jsp:include page="../layout/footer.jsp"></jsp:include>
     <form action="<%=request.getContextPath() %>/export-execution-overview-report" name="exportExecutionOverviewReport" id="exportExecutionOverviewReport" target="_blank" method="post">	
@@ -478,12 +457,8 @@ table tr td:nth-child(3) {
 	<script src="/pmis/resources/js/moment-v2.8.4.min.js"></script> 
 	<script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script> 
 	
-    <script src="https://cdn.datatables.net/v/dt/dt-1.10.21/datatables.min.js"></script>  
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
-	<script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>	
-	
     <script>
-/*     var el = document.querySelector('[data-module="sticky-table"]');
+    var el = document.querySelector('[data-module="sticky-table"]');
 
     var scrollPosition = document.documentElement.scrollTop || document.body.scrollTop;
 
@@ -506,7 +481,7 @@ table tr td:nth-child(3) {
         thead.classList.remove('thead--is-fixed');
       }
     });
-    //end */	
+    //end	
     function getUrlVars() {
         var vars = {};
         var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
@@ -525,7 +500,19 @@ table tr td:nth-child(3) {
     var pageNo = window.localStorage.getItem("executionOverviewReportPageNo");
     $(document).ready(function () {
     	
-   	
+    	/*$(window).scroll(function () {
+         	 if($(document).scrollTop()>270)
+       	   {
+         		$('#topDivCss').css({"position": "fixed","top": "6%","z-index": "2"});
+       	   }
+         	 else
+         		 {
+         			$('#topDivCss').css({"position": "sticky","top": "0","z-index": "2"});
+         		 }
+       });*/  
+       
+    	
+    	$('.collapsible').collapsible();
     	   $('select:not(.searchable)').formSelect();
            $('.searchable').select2();
             
@@ -549,396 +536,8 @@ table tr td:nth-child(3) {
            } 
     	   $('.close-message').delay(3000).fadeOut('slow');
     	
-    	   getStructureTypesbyWorkId();
-    	   
-    	   
-    	    $('#btn-show-all-children').on('click', function(){
-    	        // Enumerate all rows
-    	        table.rows().every(function(){
-    	            // If row has details collapsed
-    	            if(!this.child.isShown()){
-    	                // Open this row
-    	                this.child(format(this.data())).show();
-    	                $(this.node()).addClass('shown');
-    	            }
-    	        });
-    	    });
-
-    	    // Handle click on "Collapse All" button
-    	    $('#btn-hide-all-children').on('click', function(){
-    	        // Enumerate all rows
-    	        table.rows().every(function(){
-    	            // If row has details expanded
-    	            if(this.child.isShown()){
-    	                // Collapse row details
-    	                this.child.hide();
-    	                $(this.node()).removeClass('shown');
-    	            }
-    	        });
-    	    });  	   
-    	   
-    });
-    
-    
-    var iTableCounter = 1;
-    var oTable;
-    var oInnerTable;
-    var TableHtml;
-
-    //Run On HTML Build
-    $(document).ready(function () {
-        TableHtml = $("#datatable-execution-overview-report").html();
-
-
-        var nCloneTh = document.createElement('th');
-        var nCloneTd = document.createElement('td');
-        nCloneTd.innerHTML = '<img src="https://i.imgur.com/SD7Dz.png">';
-        nCloneTd.className = "ClickTd";
-        
-
-        $('#datatable-execution-overview-report thead tr').each(function () {
-            this.insertBefore(nCloneTh, this.childNodes[0]);
-        });
-
-        $('#datatable-execution-overview-report tbody tr').each(function () {
-            this.insertBefore(nCloneTd.cloneNode(true), this.childNodes[0]);
-        });
-
-        var oTable = $('#datatable-execution-overview-report').dataTable({
-            "bPaginate": false,
-            "bFilter": false,
-            "bInfo": false,
-            "targets": 'no-sort',
-            "bSort": false,
-
-        });
-
-        $('#datatable-execution-overview-report').on('click', 'img', function () {
-            var nTr = $(this).parents('tr')[0];
-            var SelCol = $(this).closest('td').parent()[0].sectionRowIndex;
-            if (oTable.fnIsOpen(nTr)) {
-                /* This row is already open - close it */
-                this.src = "https://i.imgur.com/SD7Dz.png";
-                oTable.fnClose(nTr);
-            }
-            else {
-                this.src = "https://i.imgur.com/d4ICC.png";
-
-                var rowid = $(this).closest('tr').index();
-
-
-
-
-
-            }
-        });
-        
-        
-        $('.ClickTd').click(function (e) {
-        	
-        	var work_id_fk = $("#work_id_fk").val();
-        	var department_fk = $("#department_fk").val();
-        	var contract_id_fk = $("#contract_id_fk").val();       	
-       	
-        	var nTr = $(this).parents('tr')[0];
-            var SelCol = $(this).closest('td').parent()[0].sectionRowIndex;
-            if (oTable.fnIsOpen(nTr)) {
-                /* This row is already open - close it */
-                document.getElementById("datatable-execution-overview-report").rows[SelCol + 1].cells[0].innerHTML = "<img src='https://i.imgur.com/SD7Dz.png'>";
-                oTable.fnClose(nTr);
-            }
-            else {
-                document.getElementById("datatable-execution-overview-report").rows[SelCol + 1].cells[0].innerHTML = "<img src='https://i.imgur.com/d4ICC.png'>";
-
-                var rowid = $(this).closest('tr').index();
-                
-                var stcat = document.getElementById("datatable-execution-overview-report").rows[SelCol + 1].cells[2].innerHTML;
-                
-		    	var myParams = { work_id_fk : cid,department_fk : department_fk,contract_id_fk: contract_id_fk,structure_type_fk:stcat};
-		        $.ajax({
-		            url: "<%=request.getContextPath()%>/ajax/getStructuresByWorkId",
-		            data: myParams, cache: false,async: false,
-		            success: function (data) {
-		                if (data.length > 0) {
-		                	var html="";
-		                    $.each(data, function (i, val) {
-		                    	
-		                   	    if(i==0)
-		                   		{
-		                   			html='<table id="datatable-execution-overview-report_'+rowid+'" class="mdl-data-table fs16rem"><thead style="display:none;"><tr id="topDivCss" style="background-color:#162D6E;"><th class="th-fs w-half" style="background-color: #162D6E;">S No</th><th class="th-fs w-16" style="padding-left: 0px !important; background-color: #162D6E;">Structure Type</th><th class="th-fs w-12" style="background-color: #162D6E;">Unit</th><th class="th-fs w-15" style="background-color: #162D6E;">Scope</th><th class="th-fs w-17" style="background-color: #162D6E;">Completed</th><th class="th-fs w-17" style="background-color: #162D6E;">Target date of Completion</th></tr></thead><tbody>';
-		                   		}
-		                    	html=html+"<tr style='background-color: #E3F0EF;color:#000000 !important;'><td>"+(i+1)+"</td><td>"+val.strip_chart_structure_id+"</td><td>"+val.unit+"</td><td>"+val.scope+"</td><td>"+val.completed+"</td><td>"+val.target_date_of_completion+"</td></tr>";
-		                    	if(i==data.length-1)
-		                   		{
-		                   			html=html+"</tbody></table>";
-		                   		}
-
-		                    });
-		                    
-                            oTable.fnOpen(nTr, html, "info_row");
-
-                            var nCloneTh = document.createElement('th');
-                            nCloneTh.style.backgroundColor = '#737171';
-                            nCloneTh.style.color = '#ffffff';
-
-                            var nCloneTd = document.createElement('td');
-                            nCloneTd.innerHTML = '<span style="font-size:20px;"><b>+</b></span>';
-                            nCloneTd.className = "ClickTdChild";
-
-                            $('#datatable-execution-overview-report_' + rowid + ' thead tr').each(function () {
-                                this.insertBefore(nCloneTh, this.childNodes[0]);
-                            });
-
-                            $('#datatable-execution-overview-report_' + rowid + ' tbody tr').each(function () {
-                                this.insertBefore(nCloneTd.cloneNode(true), this.childNodes[0]);
-                            });
- 
-                            var oCTable = $('#datatable-execution-overview-report_' + rowid).dataTable({
-                                "bPaginate": false,
-                                "bFilter": false,
-                                "bInfo": false,
-                                "targets": 'no-sort',
-                                "bSort": false,
-                            });
-                            
-                            $('.ClickTdChild').click(function (e) {
-                            	
-                            	var cnTr = $(this).parents('tr')[0];
-                                var SelColch = $(this).closest('td').parent()[0].sectionRowIndex;
-
-                                if (oCTable.fnIsOpen(cnTr)) {
-                                    /* This row is already open - close it */
-                                    document.getElementById("datatable-execution-overview-report_" + rowid).rows[SelColch + 1].cells[0].innerHTML = "<span style='font-size:20px;'><b>+</b></span>";
-                                    oCTable.fnClose(cnTr);
-                                }
-                                else {
-                                    document.getElementById("datatable-execution-overview-report_" + rowid).rows[SelColch + 1].cells[0].innerHTML = "<span style='font-size:20px;'><b>-</b></span>";
-
-                                    var rowidc = rowid + '' + $(this).closest('tr').index();
-
-                                    var stcat1 = document.getElementById("datatable-execution-overview-report_" + rowid).rows[SelColch + 1].cells[2].innerHTML;
- 
-                                	var myParams = { work_id_fk : cid,department_fk : department_fk,contract_id_fk: contract_id_fk,structure_type_fk:stcat,strip_chart_structure_id:stcat1};
-                                    $.ajax({
-                                        url: "<%=request.getContextPath()%>/ajax/getComponentsByWorkId",
-                    		            data: myParams, cache: false,async: false,
-                    		            success: function (data) {
-                    		                if (data.length > 0) {
-                    		                	var html="";
-                    		                    $.each(data, function (i, val) {
-                    		                    	
-                    		                   	    if(i==0)
-                    		                   		{
-                    		                   			html='<table id="datatable-execution-overview-reportC_'+rowidc+'" class="mdl-data-table fs16rem"><thead style="display:none;"><tr id="topDivCss" style="background-color:#162D6E;"><th class="th-fs w-half" style="background-color: #162D6E;">S No</th><th class="th-fs w-16" style="padding-left: 0px !important; background-color: #162D6E;">Structure Type</th><th class="th-fs w-12" style="background-color: #162D6E;">Unit</th><th class="th-fs w-15" style="background-color: #162D6E;">Scope</th><th class="th-fs w-17" style="background-color: #162D6E;">Completed</th><th class="th-fs w-17" style="background-color: #162D6E;">Target date of Completion</th></tr></thead><tbody>';
-                    		                   		}
-                    		                    	html=html+"<tr style='background-color: #E3F0EF;color:#000000 !important;'><td>"+(i+1)+"</td><td>"+val.component+"</td><td>"+val.unit+"</td><td>"+val.scope+"</td><td>"+val.completed+"</td><td>"+val.target_date_of_completion+"</td></tr>";
-                    		                    	if(i==data.length-1)
-                    		                   		{
-                    		                   			html=html+"</tbody></table>";
-                    		                   		}
-
-                    		                    });
-                    		                    oCTable.fnOpen(cnTr, html, "info_row");
-                    		                    
-                                                var nCloneTh = document.createElement('th');
-                                                nCloneTh.style.backgroundColor = '#737171';
-                                                nCloneTh.style.color = '#ffffff';
-
-                                                var nCloneTd = document.createElement('td');
-                                                nCloneTd.innerHTML = '<span style="font-size:20px;"><b>+</b></span>';
-                                                nCloneTd.className = "ClickMdTdChild";
-
-                                                $('#datatable-execution-overview-reportC_' + rowidc + ' thead tr').each(function () {
-                                                    this.insertBefore(nCloneTh, this.childNodes[0]);
-                                                });
-
-                                                $('#datatable-execution-overview-reportC_' + rowidc + ' tbody tr').each(function () {
-                                                    this.insertBefore(nCloneTd.cloneNode(true), this.childNodes[0]);
-                                                });                   		                    
-
-                                                var oCMTable = $('#datatable-execution-overview-reportC_' + rowidc).dataTable({
-                                                    "bPaginate": false,
-                                                    "bFilter": false,
-                                                    "bInfo": false,
-                                                    "targets": 'no-sort',
-                                                    "bSort": false,
-                                                }); 
-                                                
-                                                $('.ClickMdTdChild').click(function (e) {
-                                                	 var cnmTr = $(this).parents('tr')[0];
-                                                     var SelColMOch = $(this).closest('td').parent()[0].sectionRowIndex;
-
-                                                     if (oCMTable.fnIsOpen(cnmTr)) {
-                                                         document.getElementById("datatable-execution-overview-reportC_" + rowidc).rows[SelColMOch + 1].cells[0].innerHTML = '<button type="button">+</button>';
-                                                         oCMTable.fnClose(cnmTr);
-                                                     }
-                                                     else {
-                                                         document.getElementById("datatable-execution-overview-reportC_" + rowidc).rows[SelColMOch + 1].cells[0].innerHTML = '<button type="button">-</button>';
-                                                         var rowidmc = rowid + '' + rowidc + '' + $(this).closest('tr').index();
-
-                                                         var stcat2 = document.getElementById("datatable-execution-overview-reportC_" + rowidc).rows[SelColMOch + 1].cells[2].innerHTML;
-                                                         
-                                                     	var myParams = { work_id_fk : cid,department_fk : department_fk,contract_id_fk: contract_id_fk,structure_type_fk:stcat,strip_chart_structure_id:stcat1,component:stcat2};
-
-                                                         $.ajax({
-                                                             url: "<%=request.getContextPath()%>/ajax/getComponentIDsByWorkId",
-                                         		            data: myParams, cache: false,async: false,
-                                         		            success: function (data) {
-                                         		                if (data.length > 0) {
-                                         		                	var html="";
-                                         		                    $.each(data, function (i, val) {
-                                         		                    	
-                                         		                   	    if(i==0)
-                                         		                   		{
-                                         		                   			html='<table id="datatable-execution-overview-reportMDC_'+rowidmc+'" class="mdl-data-table fs16rem"><thead style="display:none;"><tr id="topDivCss" style="background-color:#162D6E;"><th class="th-fs w-half" style="background-color: #162D6E;">S No</th><th class="th-fs w-16" style="padding-left: 0px !important; background-color: #162D6E;">Structure Type</th><th class="th-fs w-12" style="background-color: #162D6E;">Unit</th><th class="th-fs w-15" style="background-color: #162D6E;">Scope</th><th class="th-fs w-17" style="background-color: #162D6E;">Completed</th><th class="th-fs w-17" style="background-color: #162D6E;">Target date of Completion</th></tr></thead><tbody>';
-                                         		                   		}
-                                         		                    	html=html+"<tr style='background-color: #E3F0EF;color:#000000 !important;'><td>"+(i+1)+"</td><td>"+val.component_id+"</td><td>"+val.unit+"</td><td>"+val.scope+"</td><td>"+val.completed+"</td><td>"+val.target_date_of_completion+"</td></tr>";
-                                         		                    	if(i==data.length-1)
-                                         		                   		{
-                                         		                   			html=html+"</tbody></table>";
-                                         		                   		}
-
-                                         		                    });
-                                         		                    
-                                         		                    
-                                         		                   oCMTable.fnOpen(cnmTr, html, "info_row");
-                                         		                   
-                                                                   var nCloneTh = document.createElement('th');
-                                                                   nCloneTh.style.backgroundColor = '#737171';
-                                                                   nCloneTh.style.color = '#ffffff';
-
-                                                                   var nCloneTd = document.createElement('td');
-                                                                   nCloneTd.innerHTML = '<span style="font-size:20px;"><b>+</b></span>';
-                                                                   nCloneTd.className = "ClickMdCompidTdChild";
-
-                                                                   $('#datatable-execution-overview-reportMDC_' + rowidmc + ' thead tr').each(function () {
-                                                                       this.insertBefore(nCloneTh, this.childNodes[0]);
-                                                                   });
-
-                                                                   $('#datatable-execution-overview-reportMDC_' + rowidmc + ' tbody tr').each(function () {
-                                                                       this.insertBefore(nCloneTd.cloneNode(true), this.childNodes[0]);
-                                                                   });                   		                    
-
-                                                                   var oCMDCTable = $('#datatable-execution-overview-reportMDC_' + rowidmc).dataTable({
-                                                                       "bPaginate": false,
-                                                                       "bFilter": false,
-                                                                       "bInfo": false,
-                                                                       "targets": 'no-sort',
-                                                                       "bSort": false,
-                                                                   });
-                                                                   
-                                                                   $('.ClickMdCompidTdChild').click(function (e) {
-                                                                	   
-                                                                	   
-                                                                	
- 
-                                                                	   
-                                                                	   
-                                                                  	 var cnmMDCTr = $(this).parents('tr')[0];
-                                                                     var SelColMODCch = $(this).closest('td').parent()[0].sectionRowIndex;
-
-                                                                     if (oCMDCTable.fnIsOpen(cnmMDCTr)) {
-                                                                         document.getElementById("datatable-execution-overview-reportMDC_" + rowidmc).rows[SelColMODCch + 1].cells[0].innerHTML = '<button type="button">+</button>';
-                                                                         oCMDCTable.fnClose(cnmMDCTr);
-                                                                     }
-                                                                     else {
-                                                                         document.getElementById("datatable-execution-overview-reportMDC_" + rowidmc).rows[SelColMODCch + 1].cells[0].innerHTML = '<button type="button">-</button>';
-                                                                         var rowidmcMD = rowid + '' + rowidc + '' + ''+rowidmc+''+$(this).closest('tr').index();
-
-                                                                         var stcat3 = document.getElementById("datatable-execution-overview-reportMDC_" + rowidmc).rows[SelColMODCch + 1].cells[2].innerHTML;
-                                                                         
-                                                                     	var myParams = { work_id_fk : cid,department_fk : department_fk,contract_id_fk: contract_id_fk,structure_type_fk:stcat,strip_chart_structure_id:stcat1,component:stcat2,component_id:stcat3};
-
-                                                                         $.ajax({
-                                                                             url: "<%=request.getContextPath()%>/ajax/getActivitiesByWorkId",
-                                                         		            data: myParams, cache: false,async: false,
-                                                         		            success: function (data) {
-                                                         		                if (data.length > 0) {
-                                                         		                	var html="";
-                                                         		                    $.each(data, function (i, val) {
-                                                         		                    	
-                                                         		                   	    if(i==0)
-                                                         		                   		{
-                                                         		                   			html='<table id="datatable-execution-overview-reportMDCTV_'+rowidmcMD+'" class="mdl-data-table fs16rem"><thead style="display:none;"><tr id="topDivCss" style="background-color:#162D6E;"><th class="th-fs w-half" style="background-color: #162D6E;">S No</th><th class="th-fs w-16" style="padding-left: 0px !important; background-color: #162D6E;">Structure Type</th><th class="th-fs w-12" style="background-color: #162D6E;">Unit</th><th class="th-fs w-15" style="background-color: #162D6E;">Scope</th><th class="th-fs w-17" style="background-color: #162D6E;">Completed</th><th class="th-fs w-17" style="background-color: #162D6E;">Target date of Completion</th></tr></thead><tbody>';
-                                                         		                   		}
-                                                         		                    	html=html+"<tr style='background-color: #E3F0EF;color:#000000 !important;'><td>"+(i+1)+"</td><td>"+val.activity_name+"</td><td>"+val.unit+"</td><td>"+val.scope+"</td><td>"+val.completed+"</td><td>"+val.target_date_of_completion+"</td></tr>";
-                                                         		                    	if(i==data.length-1)
-                                                         		                   		{
-                                                         		                   			html=html+"</tbody></table>";
-                                                         		                   		}
-
-                                                         		                    });
-                                                         		                    
-                                                         		                    
-                                                         		                   oCMDCTable.fnOpen(cnmMDCTr, html, "info_row");
-                                                         		                   
-                                                                                   var nCloneTh = document.createElement('th');
-                                                                                   nCloneTh.style.backgroundColor = '#737171';
-                                                                                   nCloneTh.style.color = '#ffffff';
-
-                                                                                   var nCloneTd = document.createElement('td');
-                                                                                   nCloneTd.innerHTML = '<span style="font-size:20px;"><b>+</b></span>';
-                                                                                   nCloneTd.className = "ClickMdActivityTdChild";
-
-                                                                                   $('#datatable-execution-overview-reportMDCTV_' + rowidmcMD + ' thead tr').each(function () {
-                                                                                       this.insertBefore(nCloneTh, this.childNodes[0]);
-                                                                                   });
-
-                                                                                   $('#datatable-execution-overview-reportMDCTV_' + rowidmcMD + ' tbody tr').each(function () {
-                                                                                       this.insertBefore(nCloneTd.cloneNode(true), this.childNodes[0]);
-                                                                                   });                   		                    
-                                                         		                }
-                                                         		                
-                                                         		            }
-                                                                         });
-                                                                         
-                                                                         
-                                                                     }                                                               	   
-                                                                	   
-                                                                	   
-                                                                	   
-                                                                	   
-                                                                	   
-                                                                	   
-                                                                	   
-                                                                	   
-                                                                	   
-                                                                	   
-                                                                	   
-                                                                	   
-                                                                   });
-                                         		                   
-                                         		                   
-                                         		                }
-                                         		                
-                                         		            }
-                                                         });
-                                                         
-                                                         
-                                                     }
-                                                	
-                                                });
-                    		                    
-                    		                }
-                    		            }
-                    		            
-                    		        });
-                                    
-                                    
-                                }
-                            	
-                            });
-                            
-		                }
-
-		            }
-		        });               
-                
-            }
-        });
-        
-
-
+    	   getExecutionDeptOverviewReportList();
+    	
     });
     
     
@@ -953,427 +552,13 @@ table tr td:nth-child(3) {
 
     }
     
-    function getData()
-    {
-    	TableHtml = $("#datatable-execution-overview-report").html();
-
-
-        var nCloneTh = document.createElement('th');
-        var nCloneTd = document.createElement('td');
-        nCloneTd.innerHTML = '<img src="https://i.imgur.com/SD7Dz.png">';
-        nCloneTd.className = "ClickTd";
-        
-
-        $('#datatable-execution-overview-report thead tr').each(function () {
-            this.insertBefore(nCloneTh, this.childNodes[0]);
-        });
-
-        $('#datatable-execution-overview-report tbody tr').each(function () {
-            this.insertBefore(nCloneTd.cloneNode(true), this.childNodes[0]);
-        });
-
-        var oTable = $('#datatable-execution-overview-report').dataTable({
-            "bPaginate": false,
-            "bFilter": false,
-            "bInfo": false,
-            "targets": 'no-sort',
-            "bSort": false,
-
-        });
-
-        $('#datatable-execution-overview-report').on('click', 'img', function () {
-            var nTr = $(this).parents('tr')[0];
-            var SelCol = $(this).closest('td').parent()[0].sectionRowIndex;
-            if (oTable.fnIsOpen(nTr)) {
-                /* This row is already open - close it */
-                this.src = "https://i.imgur.com/SD7Dz.png";
-                oTable.fnClose(nTr);
-            }
-            else {
-                this.src = "https://i.imgur.com/d4ICC.png";
-
-                var rowid = $(this).closest('tr').index();
-
-
-
-
-
-            }
-        });
-        
-        
-        $('.ClickTd').click(function (e) {
-        	
-        	var work_id_fk = $("#work_id_fk").val();
-        	var department_fk = $("#department_fk").val();
-        	var contract_id_fk = $("#contract_id_fk").val();       	
-       	
-        	var nTr = $(this).parents('tr')[0];
-            var SelCol = $(this).closest('td').parent()[0].sectionRowIndex;
-            if (oTable.fnIsOpen(nTr)) {
-                /* This row is already open - close it */
-                document.getElementById("datatable-execution-overview-report").rows[SelCol + 1].cells[0].innerHTML = "<img src='https://i.imgur.com/SD7Dz.png'>";
-                oTable.fnClose(nTr);
-            }
-            else {
-                document.getElementById("datatable-execution-overview-report").rows[SelCol + 1].cells[0].innerHTML = "<img src='https://i.imgur.com/d4ICC.png'>";
-
-                var rowid = $(this).closest('tr').index();
-                
-                var stcat = document.getElementById("datatable-execution-overview-report").rows[SelCol + 1].cells[2].innerHTML;
-                
-		    	var myParams = { work_id_fk : cid,department_fk : department_fk,contract_id_fk: contract_id_fk,structure_type_fk:stcat};
-		        $.ajax({
-		            url: "<%=request.getContextPath()%>/ajax/getStructuresByWorkId",
-		            data: myParams, cache: false,async: false,
-		            success: function (data) {
-		                if (data.length > 0) {
-		                	var html="";
-		                    $.each(data, function (i, val) {
-		                    	
-		                   	    if(i==0)
-		                   		{
-		                   			html='<table id="datatable-execution-overview-report_'+rowid+'" class="mdl-data-table fs16rem"><thead style="display:none;"><tr id="topDivCss" style="background-color:#162D6E;"><th class="th-fs w-half" style="background-color: #162D6E;">S No</th><th class="th-fs w-16" style="padding-left: 0px !important; background-color: #162D6E;">Structure Type</th><th class="th-fs w-12" style="background-color: #162D6E;">Unit</th><th class="th-fs w-15" style="background-color: #162D6E;">Scope</th><th class="th-fs w-17" style="background-color: #162D6E;">Completed</th><th class="th-fs w-17" style="background-color: #162D6E;">Target date of Completion</th></tr></thead><tbody>';
-		                   		}
-		                    	html=html+"<tr style='background-color: #E3F0EF;color:#000000 !important;'><td>"+(i+1)+"</td><td>"+val.strip_chart_structure_id+"</td><td>"+val.unit+"</td><td>"+val.scope+"</td><td>"+val.completed+"</td><td>"+val.target_date_of_completion+"</td></tr>";
-		                    	if(i==data.length-1)
-		                   		{
-		                   			html=html+"</tbody></table>";
-		                   		}
-
-		                    });
-		                    
-                            oTable.fnOpen(nTr, html, "info_row");
-
-                            var nCloneTh = document.createElement('th');
-                            nCloneTh.style.backgroundColor = '#737171';
-                            nCloneTh.style.color = '#ffffff';
-
-                            var nCloneTd = document.createElement('td');
-                            nCloneTd.innerHTML = '<span style="font-size:20px;"><b>+</b></span>';
-                            nCloneTd.className = "ClickTdChild";
-
-                            $('#datatable-execution-overview-report_' + rowid + ' thead tr').each(function () {
-                                this.insertBefore(nCloneTh, this.childNodes[0]);
-                            });
-
-                            $('#datatable-execution-overview-report_' + rowid + ' tbody tr').each(function () {
-                                this.insertBefore(nCloneTd.cloneNode(true), this.childNodes[0]);
-                            });
- 
-                            var oCTable = $('#datatable-execution-overview-report_' + rowid).dataTable({
-                                "bPaginate": false,
-                                "bFilter": false,
-                                "bInfo": false,
-                                "targets": 'no-sort',
-                                "bSort": false,
-                            });
-                            
-                            $('.ClickTdChild').click(function (e) {
-                            	
-                            	var cnTr = $(this).parents('tr')[0];
-                                var SelColch = $(this).closest('td').parent()[0].sectionRowIndex;
-
-                                if (oCTable.fnIsOpen(cnTr)) {
-                                    /* This row is already open - close it */
-                                    document.getElementById("datatable-execution-overview-report_" + rowid).rows[SelColch + 1].cells[0].innerHTML = "<span style='font-size:20px;'><b>+</b></span>";
-                                    oCTable.fnClose(cnTr);
-                                }
-                                else {
-                                    document.getElementById("datatable-execution-overview-report_" + rowid).rows[SelColch + 1].cells[0].innerHTML = "<span style='font-size:20px;'><b>-</b></span>";
-
-                                    var rowidc = rowid + '' + $(this).closest('tr').index();
-
-                                    var stcat1 = document.getElementById("datatable-execution-overview-report_" + rowid).rows[SelColch + 1].cells[2].innerHTML;
- 
-                                	var myParams = { work_id_fk : cid,department_fk : department_fk,contract_id_fk: contract_id_fk,structure_type_fk:stcat,strip_chart_structure_id:stcat1};
-                                    $.ajax({
-                                        url: "<%=request.getContextPath()%>/ajax/getComponentsByWorkId",
-                    		            data: myParams, cache: false,async: false,
-                    		            success: function (data) {
-                    		                if (data.length > 0) {
-                    		                	var html="";
-                    		                    $.each(data, function (i, val) {
-                    		                    	
-                    		                   	    if(i==0)
-                    		                   		{
-                    		                   			html='<table id="datatable-execution-overview-reportC_'+rowidc+'" class="mdl-data-table fs16rem"><thead style="display:none;"><tr id="topDivCss" style="background-color:#162D6E;"><th class="th-fs w-half" style="background-color: #162D6E;">S No</th><th class="th-fs w-16" style="padding-left: 0px !important; background-color: #162D6E;">Structure Type</th><th class="th-fs w-12" style="background-color: #162D6E;">Unit</th><th class="th-fs w-15" style="background-color: #162D6E;">Scope</th><th class="th-fs w-17" style="background-color: #162D6E;">Completed</th><th class="th-fs w-17" style="background-color: #162D6E;">Target date of Completion</th></tr></thead><tbody>';
-                    		                   		}
-                    		                    	html=html+"<tr style='background-color: #E3F0EF;color:#000000 !important;'><td>"+(i+1)+"</td><td>"+val.component+"</td><td>"+val.unit+"</td><td>"+val.scope+"</td><td>"+val.completed+"</td><td>"+val.target_date_of_completion+"</td></tr>";
-                    		                    	if(i==data.length-1)
-                    		                   		{
-                    		                   			html=html+"</tbody></table>";
-                    		                   		}
-
-                    		                    });
-                    		                    oCTable.fnOpen(cnTr, html, "info_row");
-                    		                    
-                                                var nCloneTh = document.createElement('th');
-                                                nCloneTh.style.backgroundColor = '#737171';
-                                                nCloneTh.style.color = '#ffffff';
-
-                                                var nCloneTd = document.createElement('td');
-                                                nCloneTd.innerHTML = '<span style="font-size:20px;"><b>+</b></span>';
-                                                nCloneTd.className = "ClickMdTdChild";
-
-                                                $('#datatable-execution-overview-reportC_' + rowidc + ' thead tr').each(function () {
-                                                    this.insertBefore(nCloneTh, this.childNodes[0]);
-                                                });
-
-                                                $('#datatable-execution-overview-reportC_' + rowidc + ' tbody tr').each(function () {
-                                                    this.insertBefore(nCloneTd.cloneNode(true), this.childNodes[0]);
-                                                });                   		                    
-
-                                                var oCMTable = $('#datatable-execution-overview-reportC_' + rowidc).dataTable({
-                                                    "bPaginate": false,
-                                                    "bFilter": false,
-                                                    "bInfo": false,
-                                                    "targets": 'no-sort',
-                                                    "bSort": false,
-                                                }); 
-                                                
-                                                $('.ClickMdTdChild').click(function (e) {
-                                                	 var cnmTr = $(this).parents('tr')[0];
-                                                     var SelColMOch = $(this).closest('td').parent()[0].sectionRowIndex;
-
-                                                     if (oCMTable.fnIsOpen(cnmTr)) {
-                                                         document.getElementById("datatable-execution-overview-reportC_" + rowidc).rows[SelColMOch + 1].cells[0].innerHTML = '<button type="button">+</button>';
-                                                         oCMTable.fnClose(cnmTr);
-                                                     }
-                                                     else {
-                                                         document.getElementById("datatable-execution-overview-reportC_" + rowidc).rows[SelColMOch + 1].cells[0].innerHTML = '<button type="button">-</button>';
-                                                         var rowidmc = rowid + '' + rowidc + '' + $(this).closest('tr').index();
-
-                                                         var stcat2 = document.getElementById("datatable-execution-overview-reportC_" + rowidc).rows[SelColMOch + 1].cells[2].innerHTML;
-                                                         
-                                                     	var myParams = { work_id_fk : cid,department_fk : department_fk,contract_id_fk: contract_id_fk,structure_type_fk:stcat,strip_chart_structure_id:stcat1,component:stcat2};
-
-                                                         $.ajax({
-                                                             url: "<%=request.getContextPath()%>/ajax/getComponentIDsByWorkId",
-                                         		            data: myParams, cache: false,async: false,
-                                         		            success: function (data) {
-                                         		                if (data.length > 0) {
-                                         		                	var html="";
-                                         		                    $.each(data, function (i, val) {
-                                         		                    	
-                                         		                   	    if(i==0)
-                                         		                   		{
-                                         		                   			html='<table id="datatable-execution-overview-reportMDC_'+rowidmc+'" class="mdl-data-table fs16rem"><thead style="display:none;"><tr id="topDivCss" style="background-color:#162D6E;"><th class="th-fs w-half" style="background-color: #162D6E;">S No</th><th class="th-fs w-16" style="padding-left: 0px !important; background-color: #162D6E;">Structure Type</th><th class="th-fs w-12" style="background-color: #162D6E;">Unit</th><th class="th-fs w-15" style="background-color: #162D6E;">Scope</th><th class="th-fs w-17" style="background-color: #162D6E;">Completed</th><th class="th-fs w-17" style="background-color: #162D6E;">Target date of Completion</th></tr></thead><tbody>';
-                                         		                   		}
-                                         		                    	html=html+"<tr style='background-color: #E3F0EF;color:#000000 !important;'><td>"+(i+1)+"</td><td>"+val.component_id+"</td><td>"+val.unit+"</td><td>"+val.scope+"</td><td>"+val.completed+"</td><td>"+val.target_date_of_completion+"</td></tr>";
-                                         		                    	if(i==data.length-1)
-                                         		                   		{
-                                         		                   			html=html+"</tbody></table>";
-                                         		                   		}
-
-                                         		                    });
-                                         		                    
-                                         		                    
-                                         		                   oCMTable.fnOpen(cnmTr, html, "info_row");
-                                         		                   
-                                                                   var nCloneTh = document.createElement('th');
-                                                                   nCloneTh.style.backgroundColor = '#737171';
-                                                                   nCloneTh.style.color = '#ffffff';
-
-                                                                   var nCloneTd = document.createElement('td');
-                                                                   nCloneTd.innerHTML = '<span style="font-size:20px;"><b>+</b></span>';
-                                                                   nCloneTd.className = "ClickMdCompidTdChild";
-
-                                                                   $('#datatable-execution-overview-reportMDC_' + rowidmc + ' thead tr').each(function () {
-                                                                       this.insertBefore(nCloneTh, this.childNodes[0]);
-                                                                   });
-
-                                                                   $('#datatable-execution-overview-reportMDC_' + rowidmc + ' tbody tr').each(function () {
-                                                                       this.insertBefore(nCloneTd.cloneNode(true), this.childNodes[0]);
-                                                                   });                   		                    
-
-                                                                   var oCMDCTable = $('#datatable-execution-overview-reportMDC_' + rowidmc).dataTable({
-                                                                       "bPaginate": false,
-                                                                       "bFilter": false,
-                                                                       "bInfo": false,
-                                                                       "targets": 'no-sort',
-                                                                       "bSort": false,
-                                                                   });
-                                                                   
-                                                                   $('.ClickMdCompidTdChild').click(function (e) {
-                                                                	   
-                                                                	   
-                                                                	
- 
-                                                                	   
-                                                                	   
-                                                                  	 var cnmMDCTr = $(this).parents('tr')[0];
-                                                                     var SelColMODCch = $(this).closest('td').parent()[0].sectionRowIndex;
-
-                                                                     if (oCMDCTable.fnIsOpen(cnmMDCTr)) {
-                                                                         document.getElementById("datatable-execution-overview-reportMDC_" + rowidmc).rows[SelColMODCch + 1].cells[0].innerHTML = '<button type="button">+</button>';
-                                                                         oCMDCTable.fnClose(cnmMDCTr);
-                                                                     }
-                                                                     else {
-                                                                         document.getElementById("datatable-execution-overview-reportMDC_" + rowidmc).rows[SelColMODCch + 1].cells[0].innerHTML = '<button type="button">-</button>';
-                                                                         var rowidmcMD = rowid + '' + rowidc + '' + ''+rowidmc+''+$(this).closest('tr').index();
-
-                                                                         var stcat3 = document.getElementById("datatable-execution-overview-reportMDC_" + rowidmc).rows[SelColMODCch + 1].cells[2].innerHTML;
-                                                                         
-                                                                     	var myParams = { work_id_fk : cid,department_fk : department_fk,contract_id_fk: contract_id_fk,structure_type_fk:stcat,strip_chart_structure_id:stcat1,component:stcat2,component_id:stcat3};
-
-                                                                         $.ajax({
-                                                                             url: "<%=request.getContextPath()%>/ajax/getActivitiesByWorkId",
-                                                         		            data: myParams, cache: false,async: false,
-                                                         		            success: function (data) {
-                                                         		                if (data.length > 0) {
-                                                         		                	var html="";
-                                                         		                    $.each(data, function (i, val) {
-                                                         		                    	
-                                                         		                   	    if(i==0)
-                                                         		                   		{
-                                                         		                   			html='<table id="datatable-execution-overview-reportMDCTV_'+rowidmcMD+'" class="mdl-data-table fs16rem"><thead style="display:none;"><tr id="topDivCss" style="background-color:#162D6E;"><th class="th-fs w-half" style="background-color: #162D6E;">S No</th><th class="th-fs w-16" style="padding-left: 0px !important; background-color: #162D6E;">Structure Type</th><th class="th-fs w-12" style="background-color: #162D6E;">Unit</th><th class="th-fs w-15" style="background-color: #162D6E;">Scope</th><th class="th-fs w-17" style="background-color: #162D6E;">Completed</th><th class="th-fs w-17" style="background-color: #162D6E;">Target date of Completion</th></tr></thead><tbody>';
-                                                         		                   		}
-                                                         		                    	html=html+"<tr style='background-color: #E3F0EF;color:#000000 !important;'><td>"+(i+1)+"</td><td>"+val.activity_name+"</td><td>"+val.unit+"</td><td>"+val.scope+"</td><td>"+val.completed+"</td><td>"+val.target_date_of_completion+"</td></tr>";
-                                                         		                    	if(i==data.length-1)
-                                                         		                   		{
-                                                         		                   			html=html+"</tbody></table>";
-                                                         		                   		}
-
-                                                         		                    });
-                                                         		                    
-                                                         		                    
-                                                         		                   oCMDCTable.fnOpen(cnmMDCTr, html, "info_row");
-                                                         		                   
-                                                                                   var nCloneTh = document.createElement('th');
-                                                                                   nCloneTh.style.backgroundColor = '#737171';
-                                                                                   nCloneTh.style.color = '#ffffff';
-
-                                                                                   var nCloneTd = document.createElement('td');
-                                                                                   nCloneTd.innerHTML = '<span style="font-size:20px;"><b>+</b></span>';
-                                                                                   nCloneTd.className = "ClickMdActivityTdChild";
-
-                                                                                   $('#datatable-execution-overview-reportMDCTV_' + rowidmcMD + ' thead tr').each(function () {
-                                                                                       this.insertBefore(nCloneTh, this.childNodes[0]);
-                                                                                   });
-
-                                                                                   $('#datatable-execution-overview-reportMDCTV_' + rowidmcMD + ' tbody tr').each(function () {
-                                                                                       this.insertBefore(nCloneTd.cloneNode(true), this.childNodes[0]);
-                                                                                   });                   		                    
-                                                         		                }
-                                                         		                
-                                                         		            }
-                                                                         });
-                                                                         
-                                                                         
-                                                                     }                                                               	   
-                                                                	   
-                                                                	   
-                                                                	   
-                                                                	   
-                                                                	   
-                                                                	   
-                                                                	   
-                                                                	   
-                                                                	   
-                                                                	   
-                                                                	   
-                                                                	   
-                                                                   });
-                                         		                   
-                                         		                   
-                                         		                }
-                                         		                
-                                         		            }
-                                                         });
-                                                         
-                                                         
-                                                     }
-                                                	
-                                                });
-                    		                    
-                    		                }
-                    		            }
-                    		            
-                    		        });
-                                    
-                                    
-                                }
-                            	
-                            });
-                            
-		                }
-
-		            }
-		        });               
-                
-            }
-        });
-    }
-    
-    function getStructureTypesAutobyWorkId()
-    {
+    function getExecutionDeptOverviewReportList(){
     	$(".page-loader-2").show();
+    	$('#divCollapase ul').html("");
+    	$("#contract_id_fk").val("");
     	getDepartmentFilterList('');
     	getContractIdFilterList('');
-    	getWorkFilterList('');
     	
-    	
-   			if($('#datatable-execution-overview-report tbody tr').length>0)
-   			{
-   	   			$('#datatable-execution-overview-report').DataTable().clear().destroy();
-
-		   		$('#datatable-execution-overview-report thead tr').find('th:eq(0)').remove();
-		   		$('#datatable-execution-overview-report tbody').remove(); 
-   			}
-    	    	
-    	var work_id_fk = $("#work_id_fk").val();
-    	var department_fk = $("#department_fk").val();
-    	var contract_id_fk = $("#contract_id_fk").val();
-
-    	var filters = '';
-    	Object.keys(filtersMap).forEach(function (key) {
-    		filters = filters + key +"="+filtersMap[key] + "^";
-    		window.localStorage.setItem("executionOverviewReprtFilter", filters);
-		});
-    	var myParams = { work_id_fk : cid,department_fk : department_fk,contract_id_fk: contract_id_fk};
-
-        $.ajax({
-            url: "<%=request.getContextPath()%>/ajax/getStructureTypesbyWorkId",
-            data: myParams, cache: false,async: false,
-            success: function (data) {
-                if (data.length > 0) {
-                    $.each(data, function (i, val) {
-                    	var trmStr=val.structure_type_fk;
-                    	trmStr=trmStr.trim();
-                    	var html="";
-                    	if(i==0)
-                    	{
-                    		html="<tbody>";
-                    	}
-                    	html +='<tr style="background-color: #E3F0EF;color:#000000 !important;"><td>'+(i+1)+'</td><td>'+val.structure_type_fk+'</td><td>'+val.unit+'</td><td>'+val.scope+'</td><td>'+val.completed+'</td><td>'+val.target_date_of_completion+'</td></tr>';
-                    	if(i==data.length-1)
-                    	{
-                    		html +="</tbody>";
-                    	}
-                    	$("#datatable-execution-overview-report").append(html);
-                   	
-                    });
-                	
-		
-                	getData();	
-                   
-                    
-                }
-                $(".page-loader").hide();
-            }
-        });
-        $(".page-loader-2").hide();
-    	
-    }
-
-    
-    
-    function getStructureTypesbyWorkId()
-    {
-    	$(".page-loader-2").show();
-    	getDepartmentFilterList('');
-    	getContractIdFilterList('');
     	getWorkFilterList('');
     	
     	    	
@@ -1386,167 +571,243 @@ table tr td:nth-child(3) {
     		filters = filters + key +"="+filtersMap[key] + "^";
     		window.localStorage.setItem("executionOverviewReprtFilter", filters);
 		});
-    	var myParams = { work_id_fk : cid,department_fk : department_fk,contract_id_fk: contract_id_fk};
 
-        $.ajax({
-            url: "<%=request.getContextPath()%>/ajax/getStructureTypesbyWorkId",
-            data: myParams, cache: false,async: false,
-            success: function (data) {
-                if (data.length > 0) {
-                    $.each(data, function (i, val) {
-                    	var trmStr=val.structure_type_fk;
-                    	trmStr=trmStr.trim();
-                    	var html="";
-                    	if(i==0)
-                    	{
-                    		html="<tbody>";
-                    	}
-                    	html +='<tr style="background-color: #E3F0EF;color:#000000 !important;"><td>'+(i+1)+'</td><td>'+val.structure_type_fk+'</td><td>'+val.unit+'</td><td>'+val.scope+'</td><td>'+val.completed+'</td><td>'+val.target_date_of_completion+'</td></tr>';
-                    	if(i==data.length-1)
-                    	{
-                    		html +="</tbody>";
-                    	}
-                    	$("#datatable-execution-overview-report").append(html);
-                    });
-                }
-                $(".page-loader").hide();
-            }
-        });
-        $(".page-loader-2").hide();
+		var StructureTypeArray=new Array(); 
+		var CalStructureTypeValuesArray=new Array();
+	 
+	 	var myParams = { work_id_fk : cid,department_fk : department_fk,contract_id_fk: contract_id_fk};
+		$.ajax({url : "<%=request.getContextPath()%>/ajax/getExecutionOverviewReportList",type:"POST",data:myParams,async: true,success : function(data){    				
+				if(data != null && data != '' && data.length > 0){  
+					var CheckLp=1;
+	         		$.each(data,function(key,val)
+	         				{
+	         			
+		         				var cval1=0;
+		         				var pval2=0;
+		         				var cnt=0;
+		         				
+		                   		if(CalStructureTypeValuesArray.indexOf(val.structure_type_fk)==-1)
+		                   		{   
+		                   				CalStructureTypeValuesArray.push(val.structure_type_fk);
+				    	         		$.each(data,function(key1,val1){
+				    	         					if(val.structure_type_fk==val1.structure_type_fk)
+				    	         						{
+				    	         								var a1=0,a2=0;
+				    	         								if(val1.pending!="" && val1.pending!=null && val1.pending!=undefined)
+				    	         								{a1=val1.pending;}
+				    	         								if(val1.completed!="" && val1.completed!=null && val1.completed!=undefined)
+				    	         								{a2=val1.completed;}
+				    	         								cval1=parseFloat(cval1)+parseFloat(a2);
+				    	         								pval2=parseFloat(pval2)+parseFloat(a1);
+				    	         								cnt++;
+				    	         						}
+				    	         				});
+				    	         		
+				    	         		
+		                   		}	
+
+		                   		
+		                   		/*if(val.structure_type_fk=="Earthwork")
+		                   		{cval1=10.3;}
+		                   		else if(val.structure_type_fk=="Major Bridge")
+	                   			{
+		                   				if($("#contract_id_fk").val()=="P04W01EN04")
+		                   				{
+		                   					cval1=1.1;
+		                   				}
+		                   				else
+		                   					{
+		                   						cval1=0;
+		                   					}
+		                   		}		                   		
+		                   		else if(val.structure_type_fk=="Minor Bridge")
+	                   			{cval1=8.5;}
+		                   		else
+	                   			{
+			                   		cval1=cval1/cnt;
+			                   		pval2=100-cval1;
+			                   		 pval2=pval2/cnt; 
+	                   			}*/
+		                   		
+ 		                   		if(cval1>0)
+	                   			{
+			                   		cval1=cval1/cnt;
+			                   		pval2=pval2/cnt;
+	                   			} 
+         			
+		                   		
+		                   		if(StructureTypeArray.indexOf(val.structure_type_fk)==-1)
+		                   		{   
+		                   				StructureTypeArray.push(val.structure_type_fk);
+					         			var html="<li>";
+					         			var lmVal=parseFloat(100)-cval1;
+					                    html=html+'<div class="collapsible-header fs-th" style="color:#000000 !important;"><table><thead><tr><th class="w-1" style="font-weight:normal;width:5%;max-width:5%;">'+CheckLp+'</th><th class="w-18" style="font-weight:normal;">'+val.structure_type_fk+'</th><th class="w-11" style="font-weight:normal;">%</th><th class="w-16" style="font-weight:normal;">100</th><th class="w-17" style="font-weight:normal;">'+cval1.toFixed(2)+'</th><th class="w-11" style="font-weight:normal;">'+lmVal.toFixed(2)+'</th><th></th><th></th></tr></thead></table></div>';
+					                    html=html+'<div class="collapsible-body">';
+				
+				                    	html=html+'<table id="datatable-execution-overview-report" class="mdl-data-table fs16rem" style="background-color: #E3F0EF;color:#000000 !important;">'+
+
+										'<tbody>';
+				    	         		$.each(data,function(key1,val1)
+				    	         				{
+				    	         					if(val.structure_type_fk==val1.structure_type_fk)
+				    	         						{
+						    	         					html=html+'<tr>';
+						    	         						html=html+'<td style="width:21%">'+$.trim(val1.strip_chart_structure_id)+'</td>';
+						    	         						html=html+'<td style="width:11.9%">'+val1.unit_fk+'</td>';
+						    	         						html=html+'<td class="w-16">'+val1.scope.replace('%','')+'</td>';
+						    	         						html=html+'<td style="width:17.5%">'+val1.completed+'</td>';
+						    	         						html=html+'<td>'+val1.pending+'</td>';
+						    	         						html=html+'<td></td>';
+						    	         						//html=html+'<td>'+val1.remarks+'</td>';
+						    	         						html=html+'<td></td>';
+						    	         					html=html+'</tr>';
+				    	         						}
+				    	         				});
+				    	         		html=html+'</tbody></table></div>';
+				    	         		$('.collapsible').append(html);
+				    	         		CheckLp++;
+				    	         		
+		                   		}
+							});
+      		
+	         		
+
+	         			
+				}
+         		$(".page-loader-2").hide();
+
+			}
+		});
+    }    
+    
+        
+    function getExecutionOverviewReportList(){
+    	$(".page-loader-2").show();
+    	$('#divCollapase ul').html("");
+    	getDepartmentFilterList('');
+    	getContractIdFilterList('');
     	
-    }
-    
-    function getStructuresByWorkId(structuretype,row)
-    {
-    	if($("#"+structuretype+""+row).is(":hidden")==true)
-    		{
-        	var work_id_fk = $("#work_id_fk").val();
-        	var department_fk = $("#department_fk").val();
-        	var contract_id_fk = $("#contract_id_fk").val();
-        	
-		    	var myParams = { work_id_fk : cid,department_fk : department_fk,contract_id_fk: contract_id_fk,structure_type_fk:structuretype};
-		        $.ajax({
-		            url: "<%=request.getContextPath()%>/ajax/getStructuresByWorkId",
-		            data: myParams, cache: false,async: false,
-		            success: function (data) {
-		                if (data.length > 0) {
-		                	var html="";
-		                    $.each(data, function (i, val) {
-		                    	
-		                   	    if(i==0)
-		                   		{
-		                   			html='<table id="datatable-execution-overview-report" class="mdl-data-table fs16rem"><tbody>';
-		                   		}
-		                    	html=html+"<tr style='background-color: #E3F0EF;color:#000000 !important;' onClick=getComponentsByWorkId('"+structuretype+"','"+val.strip_chart_structure_id+"',"+i+");><td>"+(i+1)+"</td><td>"+val.strip_chart_structure_id+"</td><td>"+val.unit+"</td><td>"+val.scope+"</td><td>"+val.completed+"</td><td>"+val.target_date_of_completion+"</td></tr>";
-		                    	html=html+'<tr id="'+structuretype+''+val.strip_chart_structure_id+''+i+'" style="display:none;"><td colspan="5"><div id="stype'+structuretype+''+val.strip_chart_structure_id+''+i+'"></div></td></tr>';
-		                    	if(i==data.length-1)
-		                   		{
-		                   			html=html+"</tbody></table>";
-		                   		}
-
-		                    });
-		                    
-	                    	$("#"+structuretype+""+row).show();
-	                    	$("#stype"+structuretype+''+row).html(html);
-		                }
-		                else
-		                	{
-		                		$("#"+structuretype+""+row).hide();
-		                	}
-		                $('.searchable').select2();
-		                $(".page-loader").hide();
-		            }
-		        }); 
-    		}
-    	else
-    		{
-    		$("#"+structuretype+""+row).hide();
-    		}
-    }
-
-    
-    function getComponentsByWorkId(stype,structure,row)
-    {
+    	getWorkFilterList('');
+    	
+    	    	
     	var work_id_fk = $("#work_id_fk").val();
     	var department_fk = $("#department_fk").val();
     	var contract_id_fk = $("#contract_id_fk").val();
-    	
-    	var myParams = { work_id_fk : cid,department_fk : department_fk,contract_id_fk: contract_id_fk,structure_type_fk:stype,strip_chart_structure_id:structure};
-        $.ajax({
-            url: "<%=request.getContextPath()%>/ajax/getComponentsByWorkId",
-            data: myParams, cache: false,async: false,
-            success: function (data) {
-                if (data.length > 0) {
-                	var html="";
-                    $.each(data, function (i, val) {
-                    	
-                   	    if(i==0)
-                   		{
-                   			html='<table id="datatable-execution-overview-report" class="mdl-data-table fs16rem"><tbody>';
-                   		}
-                    	html=html+"<tr style='background-color: #E3F0EF;color:#000000 !important;' onClick=getActivitiesByWorkId('"+stype+"','"+structure+"','"+val.component+"',"+i+");><td>"+(i+1)+"</td><td>"+val.component+"</td><td>"+val.unit+"</td><td>"+val.scope+"</td><td>"+val.completed+"</td><td>"+val.target_date_of_completion+"</td></tr>";
-                    	html=html+'<tr id="'+stype+''+structure+''+val.component+''+i+'" style="display:none;"><td colspan="5"><div id="stype'+stype+''+structure+''+val.component+''+i+'"></div></td></tr>';
-                    	if(i==data.length-1)
-                   		{
-                   			html=html+"</tbody></table>";
-                   		}
 
-                    });
-                    
-                	$("#"+stype+""+structure+""+row).show();
-                	$("#stype"+stype+""+structure+""+row).html(html);
-                }
-                else
-                	{
-                	$("#"+stype+""+structure+""+row).hide();
-                	}
-                $('.searchable').select2();
-                $(".page-loader").hide();
-            }
-        });
+    	var filters = '';
+    	Object.keys(filtersMap).forEach(function (key) {
+    		filters = filters + key +"="+filtersMap[key] + "^";
+    		window.localStorage.setItem("executionOverviewReprtFilter", filters);
+		});
+
+		var StructureTypeArray=new Array(); 
+		var CalStructureTypeValuesArray=new Array();
+	 
+	 	var myParams = { work_id_fk : cid,department_fk : department_fk,contract_id_fk: contract_id_fk};
+		$.ajax({url : "<%=request.getContextPath()%>/ajax/getExecutionOverviewReportList",type:"POST",data:myParams,async: true,success : function(data){    				
+				if(data != null && data != '' && data.length > 0){  
+					var CheckLp=1;
+	         		$.each(data,function(key,val)
+	         				{
+	         			
+		         				var cval1=0;
+		         				var pval2=0;
+		         				var cnt=0;
+		         				
+		                   		if(CalStructureTypeValuesArray.indexOf(val.structure_type_fk)==-1)
+		                   		{   
+		                   				CalStructureTypeValuesArray.push(val.structure_type_fk);
+				    	         		$.each(data,function(key1,val1){
+				    	         					if(val.structure_type_fk==val1.structure_type_fk)
+				    	         						{
+				    	         								var a1=0,a2=0;
+				    	         								if(val1.pending!="" && val1.pending!=null && val1.pending!=undefined)
+				    	         								{a1=val1.pending;}
+				    	         								if(val1.completed!="" && val1.completed!=null && val1.completed!=undefined)
+				    	         								{a2=val1.completed;}
+				    	         								cval1=parseFloat(cval1)+parseFloat(a2);
+				    	         								pval2=parseFloat(pval2)+parseFloat(a1);
+				    	         								cnt++;
+				    	         						}
+				    	         				});
+				    	         		
+				    	         		
+		                   		}	
+
+		                   		
+		                   		/*if(val.structure_type_fk=="Earthwork")
+		                   		{cval1=10.3;}
+		                   		else if(val.structure_type_fk=="Major Bridge")
+	                   			{
+		                   				if($("#contract_id_fk").val()=="P04W01EN04")
+		                   				{
+		                   					cval1=1.1;
+		                   				}
+		                   				else
+		                   					{
+		                   						cval1=0;
+		                   					}
+		                   		}		                   		
+		                   		else if(val.structure_type_fk=="Minor Bridge")
+	                   			{cval1=8.5;}
+		                   		else
+	                   			{
+			                   		cval1=cval1/cnt;
+			                   		pval2=100-cval1;
+			                   		 pval2=pval2/cnt; 
+	                   			}*/
+		                   		
+ 		                   		if(cval1>0)
+	                   			{
+			                   		cval1=cval1/cnt;
+			                   		pval2=pval2/cnt;
+	                   			} 
+         			
+		                   		
+		                   		if(StructureTypeArray.indexOf(val.structure_type_fk)==-1)
+		                   		{   
+		                   				StructureTypeArray.push(val.structure_type_fk);
+					         			var html="<li>";
+					         			var lmVal=parseFloat(100)-cval1;
+					                    html=html+'<div class="collapsible-header fs-th" style="color:#000000 !important;"><table><thead><tr><th class="w-1" style="font-weight:normal;width:5%;max-width:5%;">'+CheckLp+'</th><th class="w-18" style="font-weight:normal;">'+val.structure_type_fk+'</th><th class="w-11" style="font-weight:normal;">%</th><th class="w-16" style="font-weight:normal;">100</th><th class="w-17" style="font-weight:normal;">'+cval1.toFixed(2)+'</th><th class="w-11" style="font-weight:normal;">'+lmVal.toFixed(2)+'</th><th></th><th></th></tr></thead></table></div>';
+					                    html=html+'<div class="collapsible-body">';
+				
+				                    	html=html+'<table id="datatable-execution-overview-report" class="mdl-data-table fs16rem" style="background-color: #E3F0EF;color:#000000 !important;">'+
+
+										'<tbody>';
+				    	         		$.each(data,function(key1,val1)
+				    	         				{
+				    	         					if(val.structure_type_fk==val1.structure_type_fk)
+				    	         						{
+						    	         					html=html+'<tr>';
+						    	         						html=html+'<td style="width:21%">'+$.trim(val1.strip_chart_structure_id)+'</td>';
+						    	         						html=html+'<td style="width:11.9%">'+val1.unit_fk+'</td>';
+						    	         						html=html+'<td class="w-16">'+val1.scope.replace('%','')+'</td>';
+						    	         						html=html+'<td style="width:17.5%">'+val1.completed+'</td>';
+						    	         						html=html+'<td>'+val1.pending+'</td>';
+						    	         						html=html+'<td></td>';
+						    	         						//html=html+'<td>'+val1.remarks+'</td>';
+						    	         						html=html+'<td></td>';
+						    	         					html=html+'</tr>';
+				    	         						}
+				    	         				});
+				    	         		html=html+'</tbody></table></div>';
+				    	         		$('.collapsible').append(html);
+				    	         		CheckLp++;
+				    	         		
+		                   		}
+							});
+      		
+	         		
+
+	         			
+				}
+         		$(".page-loader-2").hide();
+
+			}
+		});
     }
-    
-    function getActivitiesByWorkId(stype,structure,component,row)
-    {
-    	var work_id_fk = $("#work_id_fk").val();
-    	var department_fk = $("#department_fk").val();
-    	var contract_id_fk = $("#contract_id_fk").val();
-    	
-    	var myParams = { work_id_fk : cid,department_fk : department_fk,contract_id_fk: contract_id_fk,structure_type_fk:stype,strip_chart_structure_id:structure,component:component};
-        $.ajax({
-            url: "<%=request.getContextPath()%>/ajax/getActivitiesByWorkId",
-            data: myParams, cache: false,async: false,
-            success: function (data) {
-                if (data.length > 0) {
-                	var html="";
-                    $.each(data, function (i, val) {
-                    	
-                   	    if(i==0)
-                   		{
-                   			html='<table id="datatable-execution-overview-report" class="mdl-data-table fs16rem"><tbody>';
-                   		}
-                    	html=html+"<tr style='background-color: #E3F0EF;color:#000000 !important;'><td>"+(i+1)+"</td><td>"+val.activity_name+"</td><td>"+val.unit+"</td><td>"+val.scope+"</td><td>"+val.completed+"</td><td>"+val.target_date_of_completion+"</td></tr>";
-                    	html=html+'<tr id="'+stype+''+structure+''+component+''+i+'" style="display:none;"><td colspan="5"><div id="stype'+stype+''+structure+''+component+''+i+'"></div></td></tr>';
-                    	if(i==data.length-1)
-                   		{
-                   			html=html+"</tbody></table>";
-                   		}
 
-                    });
-                    
-                	$("#"+stype+""+structure+""+component+""+row).show();
-                	$("#stype"+stype+""+structure+""+component+""+row).html(html);
-                }
-                else
-                	{
-                		$("#"+stype+""+structure+""+component+""+row).hide();
-                	}
-                $('.searchable').select2();
-                $(".page-loader").hide();
-            }
-        });
-    }   
-    
        
 	 function getWorkFilterList(work){
 		 	$(".page-loader").show();
@@ -1645,6 +906,9 @@ table tr td:nth-child(3) {
 	                        	 var contractShortName = '';
 	                             if ($.trim(val.contract_short_name) != '') { contractShortName = ' - ' + $.trim(val.contract_short_name) }
 	                             var selectedFlag = (ContractId == val.contract_id)?'selected':'';
+	                             if(data.length == 1 ){
+	                            	 selectedFlag = 'selected';
+	                             }
 		                         $("#contract_id_fk").append('<option value="' + val.contract_id + '"'+selectedFlag+'>' + $.trim(val.contract_id)   + contractShortName +'</option>');
 	                        });
 	                    }
@@ -1692,31 +956,6 @@ table tr td:nth-child(3) {
      	
      	 $("#exportExecutionOverviewReport").submit();
   	}
-    
-    function exportReport()
-    {
-    	 var HTML_Width = $("#divExport").width();
-    	    var HTML_Height = $("#divExport").height();
-    	    var top_left_margin = 15;
-    	    var PDF_Width = HTML_Width + (top_left_margin * 2);
-    	    var PDF_Height = (PDF_Width * 1.5) + (top_left_margin * 2);
-    	    var canvas_image_width = HTML_Width;
-    	    var canvas_image_height = HTML_Height;
-
-    	    var totalPDFPages = Math.ceil(HTML_Height / PDF_Height) - 1;
-
-    	    html2canvas($("#divExport")[0]).then(function (canvas) {
-    	        var imgData = canvas.toDataURL("image/jpeg", 1.0);
-    	        var pdf = new jsPDF('p', 'pt', [PDF_Width, PDF_Height]);
-    	        pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin, canvas_image_width, canvas_image_height);
-    	        for (var i = 1; i <= totalPDFPages; i++) { 
-    	            pdf.addPage(PDF_Width, PDF_Height);
-    	            pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height*i)+(top_left_margin*4),canvas_image_width,canvas_image_height);
-    	        }
-    	        pdf.save("ExecutionOverviewReport.pdf");
-    	    });  	
-    	
- 	}    
     
     </script>
 

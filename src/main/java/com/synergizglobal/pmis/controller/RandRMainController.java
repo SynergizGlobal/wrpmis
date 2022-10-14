@@ -64,6 +64,7 @@ import com.synergizglobal.pmis.model.User;
 import com.synergizglobal.pmis.model.RandRMain;
 import com.synergizglobal.pmis.model.FileFormatModel;
 import com.synergizglobal.pmis.model.FormHistory;
+import com.synergizglobal.pmis.model.LandAcquisition;
 import com.synergizglobal.pmis.model.RRPaginationObject;
 
 @Controller
@@ -696,6 +697,26 @@ public class RandRMainController {
 		}
 		return objsList;
 	}
+	
+	@RequestMapping(value = "/ajax/getRRCoordinates", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<RandRMain> getRRCoordinates(@ModelAttribute RandRMain obj,HttpSession session) {
+		List<RandRMain> objsList = null;
+		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			
+			objsList = service.getRRCoordinates(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getCoordinates : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
+	
 	@RequestMapping(value = "/export-randr-main", method = {RequestMethod.GET,RequestMethod.POST})
 	public void exportRandRMain(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute RandRMain dObj,RedirectAttributes attributes){
 		ModelAndView view = new ModelAndView(PageConstants.RandRMain);
@@ -749,9 +770,10 @@ public class RandRMainController {
 		        CellStyle sectionStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 		        
 		        
+		        XSSFRow row0 = RRSheet.createRow(0);
 		        
-	            XSSFRow headingRow = RRSheet.createRow(0);
-	            String headerString = "Project^Work^R&R ID^Phase^Structure^Location^Sub Location^Type of Use^Chainage^Latitude^Longitude^Physical Verification Date^Verification By^Letter to MMRDA^Alternate Housing Allotment^Encroachment Removal^Boundary Wall Doc^Boundary Wall Status^Handover to Execution^Carpet Area (sft)^Year of Construction^Owner Name^Occupier Name^Document Type^Document No^Map S.no^Approval By Committee^Approval by MRVC^Estimate Approval^Estimation Amount^Estimate by MMRDA^Payment to MMRDA^Relocation^Remarks";
+	            XSSFRow headingRow = RRSheet.createRow(1);
+	            String headerString = "Work^Id No^R&R ID^Phase^Structure^Location^Sub Location^Type of Use^Chainage^Latitude^Longitude^Physical Verification Date^Verification By^Letter to MMRDA^Alternate Housing Allotment^Encroachment Removal^Boundary Wall Doc^Boundary Wall Status^Handover to Execution^Planned date of completion^Carpet Area (sft)^Year of Construction^Owner Name^Occupier Name^Document Type^Document No^Map S.no^Approval By Committee^Approval by MRVC^Estimate Approval^Estimation Amount^Estimate by MMRDA^Payment to MMRDA^Relocation^Remarks";
 	            
 	            String[] firstHeaderStringArr = headerString.split("\\^");
 	            
@@ -1052,7 +1074,7 @@ public class RandRMainController {
 						rowNo5++;
 				    }
 		       }
-			 short rowNo = 1;
+			 short rowNo = 2;
 	         for (RandRMain obj : dataList) {
 					
 	                XSSFRow row = RRSheet.createRow(rowNo);
@@ -1060,16 +1082,15 @@ public class RandRMainController {
 	               
 	                Cell cell = row.createCell(c++);
 	                cell.setCellStyle(sectionStyle);
-					cell.setCellValue(/*obj.getProject_id_fk() + " - "+*/obj.getProject_name());
+					cell.setCellValue(/*obj.getProject_id_fk() + " - "+*/obj.getWork_short_name());
 					
-	                cell = row.createCell(c++);
+					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(/*obj.getWork_id_fk() + " - "+*/obj.getWork_short_name());
+					cell.setCellValue(obj.getIdentification_no());						
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
 					cell.setCellValue(obj.getRr_id());
-					
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
@@ -1093,6 +1114,54 @@ public class RandRMainController {
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getChainage());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getLatitude());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getLongitude());	
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getPhysical_verification());					
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getVerification_by());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getLetter_to_mmrda());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getAlternate_housing_allotment());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getEncroachment_removal());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getBoundary_wall_doc());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getBoundary_wall_status());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getHanded_over_to_execution());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getPlanned_date_of_completion());					
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
 					cell.setCellValue(obj.getCarpet_area());
 					
 					cell = row.createCell(c++);
@@ -1107,6 +1176,7 @@ public class RandRMainController {
 					cell.setCellStyle(sectionStyle);
 					cell.setCellValue(obj.getOccupier_name_during_verification());
 					
+					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
 					cell.setCellValue(obj.getDocument_type());
@@ -1117,23 +1187,21 @@ public class RandRMainController {
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getPhysical_verification());
+					cell.setCellValue(obj.getMap_sr_no());
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getVerification_by());
+					cell.setCellValue(obj.getApproval_by_committee());	
+					
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getApproval_by_committee());
+					cell.setCellValue(obj.getApproval_date_by_mrvc());	
+					
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getRr_approval_status_by_mrvc());
-					
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getEstimate_approval_date());
+					cell.setCellValue(obj.getEstimate_approval_date());	
 					
 					String amount = "";
 					String unit = "";
@@ -1148,9 +1216,6 @@ public class RandRMainController {
 					cell.setCellStyle(sectionStyle);     
 					cell.setCellValue(amount);
 					
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getLetter_to_mmrda());
 					
 					amount = "";
 					unit = "";
@@ -1165,13 +1230,11 @@ public class RandRMainController {
 					cell.setCellStyle(sectionStyle);
 					cell.setCellValue(amount);
 					
+					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
 					cell.setCellValue(obj.getPayment_to_mmrda());
 					
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getAlternate_housing_allotment());
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
@@ -1179,23 +1242,7 @@ public class RandRMainController {
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getEncroachment_removal());
-					
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getBoundary_wall_status());
-					
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getBoundary_wall_doc());
-					
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getHanded_over_to_execution());
-				
-					cell = row.createCell(c++);
-					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getRemarks());
+					cell.setCellValue(obj.getRemarks());							
 					
 	                rowNo++;
 	            }
@@ -1322,17 +1369,35 @@ public class RandRMainController {
 						XSSFSheet laSheet = workbook.getSheetAt(0);
 						//System.out.println(uploadFilesSheet.getSheetName());
 						//header row
-						XSSFRow headerRow = laSheet.getRow(0);
+						XSSFRow headerRow = laSheet.getRow(1);
 						//checking given file format
 						if(headerRow != null){
-							List<String> fileFormat = FileFormatModel.getRRFileFormat();	
+							List<String> fileFormat = FileFormatModel.getRRFileFormat();
+							List<String> fileFormatPre = FileFormatModel.getRRPreFileFormat();
 							int noOfColumns = headerRow.getLastCellNum();
-							if(noOfColumns == fileFormat.size()){
+							if(noOfColumns == fileFormat.size())
+							{
 								for (int i = 0; i < fileFormat.size();i++) {
 				                	//System.out.println(headerRow.getCell(i).getStringCellValue().trim());
 				                	//if(!fileFormat.get(i).trim().equals(headerRow.getCell(i).getStringCellValue().trim())){
 									String columnName = headerRow.getCell(i).getStringCellValue().trim();
 									if(!columnName.equals(fileFormat.get(i).trim()) && !columnName.contains(fileFormat.get(i).trim())){
+				                		attributes.addFlashAttribute("error",uploadformatError);
+				                		msg = uploadformatError;
+				                		obj.setUploaded_by_user_id_fk(userId);
+				                		obj.setStatus("Fail");
+				                		obj.setRemarks(msg);
+										boolean flag = service.saveRRDataUploadFile(obj);
+				                		return model;
+				                	}
+								}
+							}else 	if(noOfColumns == fileFormatPre.size())
+							{
+								for (int i = 0; i < fileFormatPre.size();i++) {
+				                	//System.out.println(headerRow.getCell(i).getStringCellValue().trim());
+				                	//if(!fileFormat.get(i).trim().equals(headerRow.getCell(i).getStringCellValue().trim())){
+									String columnName = headerRow.getCell(i).getStringCellValue().trim();
+									if(!columnName.equals(fileFormatPre.get(i).trim()) && !columnName.contains(fileFormatPre.get(i).trim())){
 				                		attributes.addFlashAttribute("error",uploadformatError);
 				                		msg = uploadformatError;
 				                		obj.setUploaded_by_user_id_fk(userId);
@@ -1360,7 +1425,17 @@ public class RandRMainController {
 	                		boolean flag = service.saveRRDataUploadFile(obj);
 	                		return model;
 						}
-						String[]  result = uploadRR(obj,userId,userName);
+						
+						String[]  result=null;
+						if(sheetsCount>1)
+						{
+						  result = uploadRR(obj,userId,userName);
+						}
+						else
+						{
+						  result = uploadPreRR(obj,userId,userName);
+						}
+						
 						String errMsg = result[0];String actualVal = "";
 						int count = 0,row = 0,sheet = 0,subRow = 0;
 						List<String> fileFormat = FileFormatModel.getRRFileFormat();
@@ -1485,6 +1560,7 @@ public class RandRMainController {
 		}
 		return model;
 	}
+	
 	private  String[]  uploadRR(RandRMain obj, String userId, String userName) throws Exception {
 		RandRMain rr = null;
 		List<RandRMain> rrsList = new ArrayList<RandRMain>();
@@ -1505,7 +1581,7 @@ public class RandRMainController {
 					//XSSFRow headerRow = uploadFilesSheet.getRow(0);							
 					DataFormatter formatter = new DataFormatter(); //creating formatter using the default locale
 					//System.out.println(uploadFilesSheet.getLastRowNum());
-					for(int i = 1; i <= laSheet.getLastRowNum();i++){
+					for(int i = 2; i <= laSheet.getLastRowNum();i++){
 						int v = laSheet.getLastRowNum();
 						XSSFRow row = laSheet.getRow(i);
 						// Sets the Read data to the model class
@@ -1523,112 +1599,138 @@ public class RandRMainController {
 							
 							
 							val = formatter.formatCellValue(row.getCell(2)).trim();
-							if(!StringUtils.isEmpty(val)) { rr.setIdentification_no(val);}
+							if(!StringUtils.isEmpty(val)) { rr.setPhase(val);}
 							
 							
 							val = formatter.formatCellValue(row.getCell(3)).trim();
-							if(!StringUtils.isEmpty(val)) { rr.setMap_sr_no(val);}
+							if(!StringUtils.isEmpty(val)) { rr.setStructure_id(val);}
 							
 							val = formatter.formatCellValue(row.getCell(4)).trim();
-							if(!StringUtils.isEmpty(val)) { rr.setPhase(val);}	
+							if(!StringUtils.isEmpty(val)) { rr.setLocation_name(val);}	
 							
 							val = formatter.formatCellValue(row.getCell(5)).trim();
-							if(!StringUtils.isEmpty(val)) { rr.setStructure_id(val);}					
+							if(!StringUtils.isEmpty(val)) { rr.setSub_location_name(val);}					
 							
 							
 							val = formatter.formatCellValue(row.getCell(6)).trim();
-							if(!StringUtils.isEmpty(val)) { rr.setLocation_name(val);}	
+							if(!StringUtils.isEmpty(val)) { rr.setType_of_use(val);}	
 							
 							val = formatter.formatCellValue(row.getCell(7)).trim();
-							if(!StringUtils.isEmpty(val)) { rr.setSub_location_name(val);}	
+							if(!StringUtils.isEmpty(val)) { rr.setChainage(val);}	
 							
 							val = formatter.formatCellValue(row.getCell(8)).trim();
-							if(!StringUtils.isEmpty(val)) {rr.setType_of_use(val);}	
+							if(!StringUtils.isEmpty(val)) {rr.setLatitude(val);}
 							
 							val = formatter.formatCellValue(row.getCell(9)).trim();
-							if(!StringUtils.isEmpty(val)) { 
-								int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
-								if(c != 2) {
-									val = getCellDataType(workbook,row.getCell(9));
-								}
-								rr.setCarpet_area(val);}	
+							if(!StringUtils.isEmpty(val)) {rr.setLongitude(val);}	
+							
 							
 							val = formatter.formatCellValue(row.getCell(10)).trim();
-							if(!StringUtils.isEmpty(val)) { rr.setYear_of_construction(val);}	
+							if(!StringUtils.isEmpty(val)) {rr.setPhysical_verification(val);}	
 							
 							
 							val = formatter.formatCellValue(row.getCell(11)).trim();
-							if(!StringUtils.isEmpty(val)) { rr.setName_of_the_owner(val);}								
+							if(!StringUtils.isEmpty(val)) {rr.setVerification_by(val);}
+							
 							
 							val = formatter.formatCellValue(row.getCell(12)).trim();
-							if(!StringUtils.isEmpty(val)) { rr.setOccupier_name_during_verification(val);}										
+							if(!StringUtils.isEmpty(val)) {rr.setLetter_to_mmrda(val);}	
+							
 							
 							val = formatter.formatCellValue(row.getCell(13)).trim();
-							if(!StringUtils.isEmpty(val)) { rr.setDocument_type(val);}
+							if(!StringUtils.isEmpty(val)) {rr.setAlternate_housing_allotment(val);}	
+							
 							
 							val = formatter.formatCellValue(row.getCell(14)).trim();
-							if(!StringUtils.isEmpty(val)) { rr.setDocument_no(val);}
+							if(!StringUtils.isEmpty(val)) {rr.setEncroachment_removal(val);}
+							
 							
 							val = formatter.formatCellValue(row.getCell(15)).trim();
-							if(!StringUtils.isEmpty(val)) { rr.setPhysical_verification(val);}	
+							if(!StringUtils.isEmpty(val)) {rr.setBoundary_wall_doc(val);}	
+							
+							
+							
+							
 							
 							val = formatter.formatCellValue(row.getCell(16)).trim();
-							if(!StringUtils.isEmpty(val)) { rr.setVerification_by(val);}
+							if(!StringUtils.isEmpty(val)) {rr.setBoundary_wall_status(val);}	
+							
 							
 							val = formatter.formatCellValue(row.getCell(17)).trim();
-							if(!StringUtils.isEmpty(val)) { rr.setApproval_by_committee(val);}
+							if(!StringUtils.isEmpty(val)) {rr.setHanded_over_to_execution(val);}
+							
 							
 							val = formatter.formatCellValue(row.getCell(18)).trim();
-							if(!StringUtils.isEmpty(val)) {rr.setRr_approval_status_by_mrvc(val);}
+							if(!StringUtils.isEmpty(val)) {rr.setPlanned_date_of_completion(val);}									
 							
 							val = formatter.formatCellValue(row.getCell(19)).trim();
-							if(!StringUtils.isEmpty(val)) {rr.setEstimate_approval_date(val);}
-						
-							val = formatter.formatCellValue(row.getCell(20)).trim();
 							if(!StringUtils.isEmpty(val)) { 
 								int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
 								if(c != 2) {
-									val = getCellDataType(workbook,row.getCell(20));
+									val = getCellDataType(workbook,row.getCell(19));
 								}
-								rr.setEstimation_amount(val);}								
+								rr.setCarpet_area(val);}	
+							
+							
+							val = formatter.formatCellValue(row.getCell(20)).trim();
+							if(!StringUtils.isEmpty(val)) { rr.setYear_of_construction(val);}	
+							
 							
 							val = formatter.formatCellValue(row.getCell(21)).trim();
-							if(!StringUtils.isEmpty(val)) { rr.setLetter_to_mmrda(val);}	
+							if(!StringUtils.isEmpty(val)) { rr.setName_of_the_owner(val);}								
 							
 							val = formatter.formatCellValue(row.getCell(22)).trim();
+							if(!StringUtils.isEmpty(val)) { rr.setOccupier_name_during_verification(val);}										
+							
+							val = formatter.formatCellValue(row.getCell(23)).trim();
+							if(!StringUtils.isEmpty(val)) { rr.setDocument_type(val);}
+							
+							val = formatter.formatCellValue(row.getCell(24)).trim();
+							if(!StringUtils.isEmpty(val)) { rr.setDocument_no(val);}
+							
+							val = formatter.formatCellValue(row.getCell(25)).trim();
+							if(!StringUtils.isEmpty(val)) { rr.setMap_sr_no(val);}							
+
+							
+							val = formatter.formatCellValue(row.getCell(26)).trim();
+							if(!StringUtils.isEmpty(val)) { rr.setApproval_by_committee(val);}
+							
+							val = formatter.formatCellValue(row.getCell(27)).trim();
+							if(!StringUtils.isEmpty(val)) {rr.setApproval_date_by_mrvc(val);}
+							
+							val = formatter.formatCellValue(row.getCell(28)).trim();
+							if(!StringUtils.isEmpty(val)) {rr.setEstimate_approval_date(val);}
+						
+							val = formatter.formatCellValue(row.getCell(29)).trim();
 							if(!StringUtils.isEmpty(val)) { 
 								int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
 								if(c != 2) {
-									val = getCellDataType(workbook,row.getCell(22));
+									val = getCellDataType(workbook,row.getCell(29));
+								}
+								rr.setEstimation_amount(val);}								
+
+							
+							val = formatter.formatCellValue(row.getCell(30)).trim();
+							if(!StringUtils.isEmpty(val)) { 
+								int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+								if(c != 2) {
+									val = getCellDataType(workbook,row.getCell(30));
 								}
 								rr.setEstimates_by_mmrda(val);}	
 							
-							val = formatter.formatCellValue(row.getCell(23)).trim();
+							val = formatter.formatCellValue(row.getCell(31)).trim();
 							if(!StringUtils.isEmpty(val)) { 
 								rr.setPayment_to_mmrda(val);}				
-							
-							val = formatter.formatCellValue(row.getCell(24)).trim();
-							if(!StringUtils.isEmpty(val)) { rr.setAlternate_housing_allotment(val);}										
+								
 						
-							val = formatter.formatCellValue(row.getCell(25)).trim();
+							val = formatter.formatCellValue(row.getCell(32)).trim();
 							if(!StringUtils.isEmpty(val)) {rr.setRelocation(val);}
+
 							
-							val = formatter.formatCellValue(row.getCell(26)).trim();
-							if(!StringUtils.isEmpty(val)) { rr.setEncroachment_removal(val);}
-							
-							val = formatter.formatCellValue(row.getCell(27)).trim();
-							if(!StringUtils.isEmpty(val)) { rr.setBoundary_wall_status(val);}
-							
-							val = formatter.formatCellValue(row.getCell(28)).trim();
-							if(!StringUtils.isEmpty(val)) { rr.setBoundary_wall_doc(val);}
-							
-							val = formatter.formatCellValue(row.getCell(29)).trim();
-							if(!StringUtils.isEmpty(val)) { rr.setHanded_over_to_execution(val);}
-							
-							val = formatter.formatCellValue(row.getCell(30)).trim();
+							val = formatter.formatCellValue(row.getCell(33)).trim();
 							if(!StringUtils.isEmpty(val)) { rr.setRemarks(val);}
 					
-							//rr.setYear_of_construction(DateParser.parse(rr.getYear_of_construction()));
+							rr.setPlanned_date_of_completion(DateParser.parse(rr.getPlanned_date_of_completion()));
 							rr.setPhysical_verification(DateParser.parse(rr.getPhysical_verification()));
 							rr.setEstimate_approval_date(DateParser.parse(rr.getEstimate_approval_date()));
 							rr.setCreated_by_user_id_fk(userId);
@@ -1639,7 +1741,7 @@ public class RandRMainController {
 							//rr.setBoundary_wall_doc(DateParser.parse(rr.getBoundary_wall_doc()));
 							rr.setHanded_over_to_execution(DateParser.parse(rr.getHanded_over_to_execution()));
 							rr.setPayment_to_mmrda(DateParser.parse(rr.getPayment_to_mmrda()));
-							rr.setRr_approval_status_by_mrvc(DateParser.parse(rr.getRr_approval_status_by_mrvc()));
+							//rr.setRr_approval_status_by_mrvc(DateParser.parse(rr.getRr_approval_status_by_mrvc()));
 							rr.setApproval_by_committee(DateParser.parse(rr.getApproval_by_committee()));
 						}
 				
@@ -1842,6 +1944,228 @@ public class RandRMainController {
 						if(!flag && !StringUtils.isEmpty(rr.getRr_id())) {
 							rrsList.add(rr);
 						}
+					}
+					if(!rrsList.isEmpty() && rrsList != null){
+						String[] arr  = service.uploadRRData(rrsList,rr);
+						result[0] = arr[0];
+						result[1] = arr[1];
+						result[2] = arr[2];
+						result[3] = arr[3];
+						result[4] = arr[4];
+					}
+					
+				}
+				workbook.close();
+			}
+						
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("uploadRRs() : "+e.getMessage());
+			throw new Exception(e);	
+		}finally{
+		    try{
+		        if ( w != null)
+		        	w.close( );
+		    }catch ( IOException e){
+		    	e.printStackTrace();
+		    	logger.error("uploadRRs() : "+e.getMessage());
+		    	throw new Exception(e);
+		    }
+		}
+		
+		return result;
+	}	
+	private  String[]  uploadPreRR(RandRMain obj, String userId, String userName) throws Exception {
+		RandRMain rr = null;
+		List<RandRMain> rrsList = new ArrayList<RandRMain>();
+		String[] result = new String[5];
+		Writer w = null;
+		int count = 0;
+		try {	
+			MultipartFile excelfile = obj.getRandRFile();
+			// Creates a workbook object from the uploaded excelfile
+			if (!StringUtils.isEmpty(excelfile) && excelfile.getSize() > 0 ){
+				XSSFWorkbook workbook = new XSSFWorkbook(excelfile.getInputStream());
+				int sheetsCount = workbook.getNumberOfSheets();
+				if(sheetsCount > 0) {
+					
+					XSSFSheet laSheet = workbook.getSheetAt(0);
+					//System.out.println(uploadFilesSheet.getSheetName());
+					//header row
+					//XSSFRow headerRow = uploadFilesSheet.getRow(0);							
+					DataFormatter formatter = new DataFormatter(); //creating formatter using the default locale
+					//System.out.println(uploadFilesSheet.getLastRowNum());
+					for(int i = 2; i <= laSheet.getLastRowNum();i++){
+						int v = laSheet.getLastRowNum();
+						XSSFRow row = laSheet.getRow(i);
+						// Sets the Read data to the model class
+						// Cell cell = row.getCell(0);
+						// String j_username = formatter.formatCellValue(row.getCell(0));
+						//System.out.println(i);
+						rr = new RandRMain();
+						String val = null;
+						if(!StringUtils.isEmpty(row)) {								
+							val = formatter.formatCellValue(row.getCell(0)).trim();
+							if(!StringUtils.isEmpty(val)) { rr.setWork_id(val);}
+							
+							
+							val = formatter.formatCellValue(row.getCell(1)).trim();
+							if(!StringUtils.isEmpty(val)) { rr.setIdentification_no(val);}							
+							
+							val = formatter.formatCellValue(row.getCell(2)).trim();
+							if(!StringUtils.isEmpty(val)) { rr.setPhase(val);}
+							
+							
+							val = formatter.formatCellValue(row.getCell(3)).trim();
+							if(!StringUtils.isEmpty(val)) { rr.setStructure_id(val);}
+							
+							val = formatter.formatCellValue(row.getCell(4)).trim();
+							if(!StringUtils.isEmpty(val)) { rr.setLocation_name(val);}	
+							
+							val = formatter.formatCellValue(row.getCell(5)).trim();
+							if(!StringUtils.isEmpty(val)) { rr.setSub_location_name(val);}					
+							
+							
+							val = formatter.formatCellValue(row.getCell(6)).trim();
+							if(!StringUtils.isEmpty(val)) { rr.setType_of_use(val);}	
+							
+							val = formatter.formatCellValue(row.getCell(7)).trim();
+							if(!StringUtils.isEmpty(val)) { rr.setChainage(val);}	
+							
+							val = formatter.formatCellValue(row.getCell(8)).trim();
+							if(!StringUtils.isEmpty(val)) {rr.setLatitude(val);}
+							
+							val = formatter.formatCellValue(row.getCell(9)).trim();
+							if(!StringUtils.isEmpty(val)) {rr.setLongitude(val);}	
+							
+							
+							val = formatter.formatCellValue(row.getCell(10)).trim();
+							if(!StringUtils.isEmpty(val)) {rr.setPhysical_verification(val);}	
+							
+							
+							val = formatter.formatCellValue(row.getCell(11)).trim();
+							if(!StringUtils.isEmpty(val)) {rr.setVerification_by(val);}
+							
+							
+							val = formatter.formatCellValue(row.getCell(12)).trim();
+							if(!StringUtils.isEmpty(val)) {rr.setLetter_to_mmrda(val);}	
+							
+							
+							val = formatter.formatCellValue(row.getCell(13)).trim();
+							if(!StringUtils.isEmpty(val)) {rr.setAlternate_housing_allotment(val);}	
+							
+							
+							val = formatter.formatCellValue(row.getCell(14)).trim();
+							if(!StringUtils.isEmpty(val)) {rr.setEncroachment_removal(val);}
+							
+							
+							val = formatter.formatCellValue(row.getCell(15)).trim();
+							if(!StringUtils.isEmpty(val)) {rr.setBoundary_wall_doc(val);}	
+							
+							
+							
+							
+							
+							val = formatter.formatCellValue(row.getCell(16)).trim();
+							if(!StringUtils.isEmpty(val)) {rr.setBoundary_wall_status(val);}	
+							
+							
+							val = formatter.formatCellValue(row.getCell(17)).trim();
+							if(!StringUtils.isEmpty(val)) {rr.setHanded_over_to_execution(val);}
+							
+							
+							val = formatter.formatCellValue(row.getCell(18)).trim();
+							if(!StringUtils.isEmpty(val)) {rr.setPlanned_date_of_completion(val);}									
+							
+							val = formatter.formatCellValue(row.getCell(19)).trim();
+							if(!StringUtils.isEmpty(val)) { 
+								int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+								if(c != 2) {
+									val = getCellDataType(workbook,row.getCell(19));
+								}
+								rr.setCarpet_area(val);}	
+							
+							
+							val = formatter.formatCellValue(row.getCell(20)).trim();
+							if(!StringUtils.isEmpty(val)) { rr.setYear_of_construction(val);}	
+							
+							
+							val = formatter.formatCellValue(row.getCell(21)).trim();
+							if(!StringUtils.isEmpty(val)) { rr.setName_of_the_owner(val);}								
+							
+							val = formatter.formatCellValue(row.getCell(22)).trim();
+							if(!StringUtils.isEmpty(val)) { rr.setOccupier_name_during_verification(val);}										
+							
+							val = formatter.formatCellValue(row.getCell(23)).trim();
+							if(!StringUtils.isEmpty(val)) { rr.setDocument_type(val);}
+							
+							val = formatter.formatCellValue(row.getCell(24)).trim();
+							if(!StringUtils.isEmpty(val)) { rr.setDocument_no(val);}
+							
+							val = formatter.formatCellValue(row.getCell(25)).trim();
+							if(!StringUtils.isEmpty(val)) { rr.setMap_sr_no(val);}							
+
+							
+							val = formatter.formatCellValue(row.getCell(26)).trim();
+							if(!StringUtils.isEmpty(val)) { rr.setApproval_by_committee(val);}
+							
+							val = formatter.formatCellValue(row.getCell(27)).trim();
+							if(!StringUtils.isEmpty(val)) {rr.setApproval_date_by_mrvc(val);}
+							
+							val = formatter.formatCellValue(row.getCell(28)).trim();
+							if(!StringUtils.isEmpty(val)) {rr.setEstimate_approval_date(val);}
+						
+							val = formatter.formatCellValue(row.getCell(29)).trim();
+							if(!StringUtils.isEmpty(val)) { 
+								int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+								if(c != 2) {
+									val = getCellDataType(workbook,row.getCell(29));
+								}
+								rr.setEstimation_amount(val);}								
+
+							
+							val = formatter.formatCellValue(row.getCell(30)).trim();
+							if(!StringUtils.isEmpty(val)) { 
+								int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+								if(c != 2) {
+									val = getCellDataType(workbook,row.getCell(30));
+								}
+								rr.setEstimates_by_mmrda(val);}	
+							
+							val = formatter.formatCellValue(row.getCell(31)).trim();
+							if(!StringUtils.isEmpty(val)) { 
+								rr.setPayment_to_mmrda(val);}				
+								
+						
+							val = formatter.formatCellValue(row.getCell(32)).trim();
+							if(!StringUtils.isEmpty(val)) {rr.setRelocation(val);}
+
+							
+							val = formatter.formatCellValue(row.getCell(33)).trim();
+							if(!StringUtils.isEmpty(val)) { rr.setRemarks(val);}
+							
+							
+							rr.setBoundary_wall_doc(DateParser.parse(rr.getBoundary_wall_doc()));
+							rr.setPlanned_date_of_completion(DateParser.parse(rr.getPlanned_date_of_completion()));
+							rr.setPhysical_verification(DateParser.parse(rr.getPhysical_verification()));
+							rr.setEstimate_approval_date(DateParser.parse(rr.getEstimate_approval_date()));
+							rr.setCreated_by_user_id_fk(userId);
+							rr.setLetter_to_mmrda(DateParser.parse(rr.getLetter_to_mmrda()));
+							rr.setAlternate_housing_allotment(DateParser.parse(rr.getAlternate_housing_allotment()));
+							rr.setRelocation(DateParser.parse(rr.getRelocation()));
+							rr.setEncroachment_removal(DateParser.parse(rr.getEncroachment_removal()));
+							//rr.setBoundary_wall_doc(DateParser.parse(rr.getBoundary_wall_doc()));
+							rr.setHanded_over_to_execution(DateParser.parse(rr.getHanded_over_to_execution()));
+							rr.setPayment_to_mmrda(DateParser.parse(rr.getPayment_to_mmrda()));
+							//rr.setRr_approval_status_by_mrvc(DateParser.parse(rr.getRr_approval_status_by_mrvc()));
+							rr.setApproval_by_committee(DateParser.parse(rr.getApproval_by_committee()));
+						}
+				
+
+					    rr.setUser_role_code(obj.getUser_role_code());
+						boolean flag = rr.checkNullOrEmpty();
+						rrsList.add(rr);
+						
 					}
 					if(!rrsList.isEmpty() && rrsList != null){
 						String[] arr  = service.uploadRRData(rrsList,rr);

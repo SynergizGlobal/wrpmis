@@ -50,16 +50,23 @@ public class FileFormatModel {
 	
 	public static List<String> getRRFileFormat() {
 		List<String> fileFormat = new ArrayList<String>();
-		String columns = "Work,R&R Id,Id No,Map S.No,Phase,Structure,Location,Sub Location,Type of Use,Carpet Area (sft),Year of Construction,Owner Name,"
-				+ "Occupier Name,Document Type,Document No,Physical Verification Date,Verification By,Approval By Committee,Approval by MRVC,Estimate Approval,"
-				+ "Estimation Amount,Letter to MMRDA,Estimate by MMRDA,Payment to MMRDA,Alternate Housing Allotment,Relocation,Encroachment Removal,Boundary Wall Status,"
-				+ "Boundary Wall Doc,Handover to Execution,Remarks";
+		String columns = "Work,Id No,R&R ID,Phase,Structure,Location,Sub Location,Type of Use,Chainage,Latitude,Longitude,Physical Verification Date,Verification By,Letter to MMRDA,Alternate Housing Allotment,Encroachment Removal,Boundary Wall Doc,Boundary Wall Status,Handover to Execution,Planned date of completion,Carpet Area (sft),Year of Construction,Owner Name,Occupier Name,Document Type,Document No,Map S.no,Approval By Committee,Approval by MRVC,Estimate Approval,Estimation Amount,Estimate by MMRDA,Payment to MMRDA,Relocation,Remarks";
 		String[] convertedColumnsArray = columns.split(",");
 		for (String column : convertedColumnsArray) {
 			fileFormat.add(column.trim());
 		}
 		return fileFormat;
 	}
+	
+	public static List<String> getRRPreFileFormat() {
+		List<String> fileFormat = new ArrayList<String>();
+		String columns = "Work,Id No,Phase,Structure,Location,Sub Location,Type of Use,Chainage,Latitude,Longitude,Physical Verification Date,Verification By,Letter to MMRDA,Alternate Housing Allotment,Encroachment Removal,Boundary Wall Doc,Boundary Wall Status,Handover to Execution,Planned date of completion,Carpet Area (sft),Year of Construction,Owner Name,Occupier Name,Document Type,Document No,Map S.no,Approval By Committee,Approval by MRVC,Estimate Approval,Estimation Amount,Estimate by MMRDA,Payment to MMRDA,Relocation,Remarks";
+		String[] convertedColumnsArray = columns.split(",");
+		for (String column : convertedColumnsArray) {
+			fileFormat.add(column.trim());
+		}
+		return fileFormat;
+	}	
 	
 	public static List<String> getWorkChainagesFileFormat() {
 		List<String> fileFormat = new ArrayList<String>();

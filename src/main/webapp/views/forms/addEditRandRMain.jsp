@@ -529,18 +529,18 @@
 
                          	 <div class="row">
                             	<div class="col s12 m4 input-field">
-                                     <input id="chainage" name="chainage" type="text" class="validate w75 pdr4em" value="${rrDetails.chainage }">
+                                     <input id="chainage" name="chainage" type="text" class="validate w75 pdr4em" value="${rrDetails.chainage }" onKeyup="getRRCoordinates();">
 		                             <label for="chainage">Chainage</label>
 		                             <span id="chainageError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
 								     <input id="latitude" name="latitude" type="text" class="validate w75 pdr4em" value="${rrDetails.latitude }">
-		                             <label for="latitude">Latitude</label>
+		                             <label for="latitude" id="idLatitude">Latitude</label>
 		                             <span id="latitudeError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
 								     <input id="longitude" name="longitude" type="text" class="validate w75 pdr4em" value="${rrDetails.longitude }">
-		                             <label for="longitude">Longitude</label>
+		                             <label for="longitude" id="idLongitude">Longitude</label>
 		                             <span id="longitudeError" class="error-msg" ></span>
                                 </div>                                                          
                             </div>                            
@@ -1236,6 +1236,77 @@
            }
        });
    });
+   
+   
+   function getRRCoordinates()
+   {
+       $('#latitude').val();
+       $('#longitude').val();	
+       
+	 if($("#work_id").val()!="")
+		 {
+	       var r1=$('#chainage').val();
+	       if(r1!="")
+	       	{
+	    	   var c1=r1; 
+	    	   
+		        	var myParams = { chainage: r1,work_id_fk:$("#work_id").val() };
+		            $.ajax({
+		                url: "<%=request.getContextPath()%>/ajax/getRRCoordinates",
+		                data: myParams, cache: false,
+		                success: function (data) {
+		                    if (data.length > 0) 
+		                    {
+								if(data[0]["chainage"]!="")
+									{
+				                    	var splitChainage=data[0]["chainage"];
+				                    	splitChainage=splitChainage.toString();
+				                    	splitChainage=splitChainage.split(",");
+				
+				                    	var splitLatitude=data[0]["latitude"];
+				                    	splitLatitude=splitLatitude.toString();
+				                    	splitLatitude=splitLatitude.split(",");
+				                    	
+				                    	var splitLongitude=data[0]["longitude"];
+				                    	splitLongitude=splitLongitude.toString();
+				                    	splitLongitude=splitLongitude.split(",");                    	
+				                    	
+				                    	
+				                        var a1= splitChainage[0];    var x1=splitLatitude[0]; var y1=splitLongitude[0];
+				                        var b1=splitChainage[1];	 var x2=splitLatitude[1]; var y2=splitLongitude[1];
+				
+				                        var x3=0;   var y3=0;
+				
+				                        x3=parseFloat(x2)+parseFloat((((c1-b1)/(b1-a1))*(x2-x1)));
+				                        y3=parseFloat(y2)+parseFloat((((c1-b1)/(b1-a1))*(y2-y1)));
+				                        
+				                        $('#idLatitude').html("");
+				                        $('#idLongitude').html("");		                        
+			                        
+				                        $('#latitude').val(x3);
+				                        $('#longitude').val(y3);									
+									}
+								    else 
+								    {
+									
+				                    	var splitLatitude=data[0]["latitude"];
+				                    	var splitLongitude=data[0]["longitude"];
+				                    	
+				                        $('#idLatitude').html("");
+				                        $('#idLongitude').html("");		                    	
+			                       
+				                        $('#latitude').val(splitLatitude);
+				                        $('#longitude').val(splitLongitude);
+									}
+							 								
+								
+		                        
+		                    }
+		                }
+		            });
+	       	}
+		 }
+   } 
 	 
 	 
    $(document).on('focus', '.datepicker-max-today', function () {        	 
@@ -1628,7 +1699,7 @@
 
    function addRR(){
    	 if(validator.form()){ // validation perform
-       	$(".page-loader").show();	
+       	
        	$('form input[name=employee_names]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
  			$('form input[name=employee_ages]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
  			$('form input[name=employee_genders]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
@@ -1649,12 +1720,26 @@
  			$('form input[name=residential_salarys]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
  			$('form input[name=residential_salary_unitss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
  			
+ 			if($("#boundary_wall_status").val()=="Completed")
+ 			{
+ 				if($("#planned_date_of_completion").val()=="")
+ 					{
+ 						$("#planned_date_of_completionError").html("Please Select Planned date of Completion");
+ 						return false;
+ 					}
+ 				else
+ 					{
+ 						$("#planned_date_of_completionError").html("");
+ 					}
+ 			}
+ 			
+ 			$(".page-loader").show();	
   			document.getElementById("RandRForm").submit();			
 	 	 }
    }
    function updateRR(){
    	if(validator.form()){ // validation perform
-       	$(".page-loader").show();	
+       
        	$('form input[name=financial_year_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 		$('form input[name=employee_ages]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 			$('form input[name=employee_genders]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
@@ -1674,6 +1759,20 @@
 			$('form input[name=residential_employments]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 			$('form input[name=residential_salarys]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 			$('form input[name=residential_salary_unitss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+			
+ 			if($("#boundary_wall_status").val()=="Completed")
+ 			{
+ 				if($("#planned_date_of_completion").val()=="")
+ 					{
+ 						$("#planned_date_of_completionError").html("Please Select Planned date of Completion");
+ 						return false;
+ 					}
+ 				else
+ 					{
+ 						$("#planned_date_of_completionError").html("");
+ 					}
+ 			}
+ 			$(".page-loader").show();	
  			
   			document.getElementById("RandRForm").submit();	
    	}

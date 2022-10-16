@@ -13,7 +13,7 @@ public class StripChart {
 	progress,progress_date,component_id_color,remaining,issue_description,issue_priority_id,issue_category_id,is_there_issue,attachment_url,created_by_user_id_fk,
 	project_id_fk,project_name,work_id,work_name,contract_id,contract_name,unit,to_structure_id,from_structure_id,structure,section,strip_chart_structure_id,structure_type,status_name,work_short_name,contract_short_name,data_date,milestone_fk,reported_by
 	,user_role_code,p6_task_code,weightage,component_id,status,baseline_start,baseline_finish,finish,start,
-	user_type_fk,user_id,user_name,designation,structure_type_fk,pending,modified_date,target_date_of_completion;
+	user_type_fk,user_id,user_name,designation,structure_type_fk,pending,modified_date,target_date_of_completion,structure_type_completed,structure_completed,component_completed;
 
 	private MultipartFile stripChartFile,uploadFile;
 	
@@ -879,6 +879,30 @@ public class StripChart {
 
 	public void setTarget_date_of_completion(String target_date_of_completion) {
 		this.target_date_of_completion = target_date_of_completion;
+	}
+
+	public String getStructure_type_completed() {
+		return structure_type_completed;
+	}
+
+	public void setStructure_type_completed(String structure_type_completed) {
+		this.structure_type_completed = structure_type_completed;
+	}
+
+	public String getStructure_completed() {
+		return structure_completed;
+	}
+
+	public void setStructure_completed(String structure_completed) {
+		this.structure_completed = structure_completed;
+	}
+
+	public String getComponent_completed() {
+		return component_completed;
+	}
+
+	public void setComponent_completed(String component_completed) {
+		this.component_completed = component_completed;
 	}
 
 }

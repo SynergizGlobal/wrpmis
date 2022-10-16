@@ -1395,10 +1395,10 @@ public class RandRMainController {
 					String unit = "";
 					if(!StringUtils.isEmpty(obj.getEstimation_amount())) {
 						amount = obj.getEstimation_amount();
-						if(!StringUtils.isEmpty(obj.getEstimation_amount_units())) {
-							unit = obj.getEstimation_amount_units() ;
-							amount = amount+" "+unit;
-						}
+						/*
+						 * if(!StringUtils.isEmpty(obj.getEstimation_amount_units())) { unit =
+						 * obj.getEstimation_amount_units() ; amount = amount+" "+unit; }
+						 */
 					}
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);     
@@ -1409,10 +1409,10 @@ public class RandRMainController {
 					unit = "";
 					if(!StringUtils.isEmpty(obj.getEstimates_by_mmrda())) {
 						amount = obj.getEstimates_by_mmrda();
-						if(!StringUtils.isEmpty(obj.getEstimated_by_mmrda_amount_units())) {
-							unit = obj.getEstimated_by_mmrda_amount_units() ;
-							amount = amount+" "+unit;
-						}
+						/*
+						 * if(!StringUtils.isEmpty(obj.getEstimated_by_mmrda_amount_units())) { unit =
+						 * obj.getEstimated_by_mmrda_amount_units() ; amount = amount+" "+unit; }
+						 */
 					}
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);

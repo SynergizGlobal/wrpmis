@@ -274,11 +274,11 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 	public List<StripChart> getStructureTypesbyWorkId(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "select distinct structure_type_fk,unit,scope,structure_type_completed,target_date_of_completion from (select structure_type_fk,unit,scope,department,hod,sum(cast(structure_type_completed as decimal(10,2))) as structure_type_completed,target_date_of_completion from(select distinct e.structure_type_fk,'%' as unit,100 as Scope,department,hod,contract_id,cast(e.structure_type_completed as decimal(10,2)) as structure_type_completed,   " + 
+			String qry = "select distinct structure_type_fk,unit,scope,sum(structure_type_completed) as structure_type_completed,target_date_of_completion from (select structure_type_fk,contract_id,unit,scope,department,hod,sum(cast(structure_type_completed as decimal(10,2))) as structure_type_completed,target_date_of_completion from(select distinct e.structure_type_fk,'%' as unit,100 as Scope,department,hod,contract_id,cast(e.structure_type_completed as decimal(10,2)) as structure_type_completed,   " + 
 					"					(select FORMAT(MAX(CAST(target_date_of_completion AS Date)),'dd-MM-yyyy') from executionreporthistory m where m.work_id='"+obj.getWork_id_fk()+"' and m.structure_type_fk=e.structure_type_fk) as target_date_of_completion  " + 
 					"					from executionreporthistory e where e.work_id='"+obj.getWork_id_fk()+"') as a  where 0=0  " + 
 					" " + 
-					"					group by structure_type_fk,unit,scope,target_date_of_completion,department,hod) as a  where 0=0  " ;
+					"					group by structure_type_fk,contract_id,unit,scope,target_date_of_completion,department,hod) as a  where 0=0  " ;
 					
 			
 			int arrSize = 0;
@@ -292,7 +292,7 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 				qry = qry + " and contract_id = ? ";
 				arrSize++;
 			}
-			qry= qry+" ORDER by structure_type_fk ";
+			qry= qry+" group by structure_type_fk,a.unit,a.Scope,a.target_date_of_completion ORDER by structure_type_fk ";
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -316,7 +316,7 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 	public List<StripChart> getStructuresByWorkId(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "select distinct e.strip_chart_structure_id,case when  structure_type_fk='E Earthwork' then unit_fk else '%' end as unit,case when  structure_type_fk='E Earthwork' then sum(cast(Scope as decimal(10,2))) else 100 end as Scope,sum(cast(e.structure_completed as decimal(10,2))) as structure_completed, " + 
+			String qry = "select strip_chart_structure_id,unit,scope,sum(structure_completed) as structure_completed,target_date_of_completion from(select distinct e.strip_chart_structure_id,case when  structure_type_fk='E Earthwork' then unit_fk else '%' end as unit,case when  structure_type_fk='E Earthwork' then sum(cast(Scope as decimal(10,2))) else 100 end as Scope,sum(cast(e.structure_completed as decimal(10,2))) as structure_completed, " + 
 					"(select FORMAT(MAX(CAST(target_date_of_completion AS Date)),'dd-MM-yyyy') from executionreporthistory m where m.work_id='"+obj.getWork_id_fk()+"' and m.structure_type_fk=e.structure_type_fk  " + 
 					"and m.strip_chart_structure_id=e.strip_chart_structure_id) as target_date_of_completion " + 
 					"from executionreporthistory e where e.work_id='"+obj.getWork_id_fk()+"' and structure_type_fk='"+obj.getStructure_type_fk()+"' ";
@@ -332,7 +332,9 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 				qry = qry + " and contract_id = ? ";
 				arrSize++;
 			}
-			qry=qry+" group by strip_chart_structure_id,structure_type_fk,unit_fk ORDER by e.strip_chart_structure_id";
+			qry=qry+" group by strip_chart_structure_id,structure_type_fk,unit_fk ) as a  " + 
+					"group by strip_chart_structure_id,unit,Scope,target_date_of_completion " + 
+					"ORDER by strip_chart_structure_id";
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;

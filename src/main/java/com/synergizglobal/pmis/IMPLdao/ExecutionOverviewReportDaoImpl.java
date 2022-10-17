@@ -101,23 +101,24 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 	public List<StripChart> getDepartmentFilterListInEOR(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "						select distinct department,concat(department_name,' / ',u.designation) as department_name " + 
-					"					    from p6_activities a " + 
-					"					left join structure s on s.structure_id = a.structure_id_fk  " + 
-					"					     " + 
-					"					    left join p6_activity_progress p on p.p6_activity_id_fk = a.p6_activity_id " + 
-					"					     " + 
-					"					    inner join contract c on c.contract_id=a.contract_id_fk  " + 
-					"					    left join [user] u on u.user_id=c.hod_user_id_fk " + 
-					"					     " + 
-					"					     left join department d on d.department=c.department_fk " + 
-					" " + 
-					"						 where department is not null ";
+			String qry = "						select distinct d.department_name as department,concat(department_name,' / ',u.designation) as department_name " + 
+					"					    from activities_scurve s \r\n" + 
+					"\r\n" + 
+					"left join (select distinct structure_type,sum(isnull(contract_structure_type_per,0))*100 as completed\r\n" + 
+					"from activities_scurve s where work_id='"+obj.getWork_id_fk()+"' and structure_type is not null and category='actual'\r\n" + 
+					"\r\n" + 
+					"group by structure_type) as stp on stp.structure_type=s.structure_type\r\n" + 
+					"\r\n" + 
+					"\r\n" + 
+					"inner join contract c on c.contract_id=s.contract_id \r\n" + 
+					"left join [user] u on u.user_id=c.hod_user_id_fk\r\n" + 
+					"					    \r\n" + 
+					"left join department d on d.department=c.department_fk\r\n" + 
+					"\r\n" + 
+					"\r\n" + 
+					"\r\n" + 
+					"where work_id='"+obj.getWork_id_fk()+"' and s.structure_type is not null and d.department is not null ";
 			int arrSize = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and s.work_id_fk = ?";
-				arrSize++;
-			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				qry = qry + " and department_name = ?  and u.designation=?";
 				arrSize++;
@@ -127,18 +128,9 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 				qry = qry + " and c.contract_id = ? ";
 				arrSize++;
 			}
-			/*if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				qry = qry + " and (hod = ? or dyhod = ? or "
-						+ "contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk))";
-				arrSize++;
-				arrSize++;
-				arrSize++;
-			}*/
+
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				pValues[i++] = obj.getWork_id_fk();
-			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				String Str[]=obj.getDepartment_fk().split("/");
 				pValues[i++] = Str[0].trim();
@@ -147,11 +139,6 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
 			}
-			/*if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				pValues[i++] = obj.getUser_id();
-				pValues[i++] = obj.getUser_id();
-				pValues[i++] = obj.getUser_id();
-			}*/
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
 			
 		}catch(Exception e){ 
@@ -163,21 +150,24 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 	public List<StripChart> getContractIdFilterListInEOR(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "select distinct contract_id,contract_short_name " + 
-					"					    from p6_activities a " + 
-					"					left join structure s on s.structure_id = a.structure_id_fk  " + 
-					"					     " + 
-					"					    left join p6_activity_progress p on p.p6_activity_id_fk = a.p6_activity_id " + 
-					"					     " + 
-					"					    inner join contract c on c.contract_id=a.contract_id_fk  " + 
-					"					    left join [user] u on u.user_id=c.hod_user_id_fk " + 
-					"					     " + 
-					"					     left join department d on d.department=c.department_fk where 0=0 ";
+			String qry = "select distinct c.contract_id,c.contract_short_name " + 
+					"					    from activities_scurve s \r\n" + 
+					"\r\n" + 
+					"left join (select distinct structure_type,sum(isnull(contract_structure_type_per,0))*100 as completed\r\n" + 
+					"from activities_scurve s where work_id='"+obj.getWork_id_fk()+"' and structure_type is not null and category='actual'\r\n" + 
+					"\r\n" + 
+					"group by structure_type) as stp on stp.structure_type=s.structure_type\r\n" + 
+					"\r\n" + 
+					"\r\n" + 
+					"inner join contract c on c.contract_id=s.contract_id \r\n" + 
+					"left join [user] u on u.user_id=c.hod_user_id_fk\r\n" + 
+					"					    \r\n" + 
+					"left join department d on d.department=c.department_fk\r\n" + 
+					"\r\n" + 
+					"\r\n" + 
+					"\r\n" + 
+					"where work_id='"+obj.getWork_id_fk()+"' and s.structure_type is not null and d.department is not null ";
 			int arrSize = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and s.work_id_fk = ?";
-				arrSize++;
-			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				qry = qry + " and department_name = ?  and u.designation=?";
 				arrSize++;
@@ -187,18 +177,8 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 				qry = qry + " and c.contract_id = ? ";
 				arrSize++;
 			}
-			/*if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				qry = qry + " and (hod = ? or dyhod = ? or "
-						+ "contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk))";
-				arrSize++;
-				arrSize++;
-				arrSize++;
-			}*/
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				pValues[i++] = obj.getWork_id_fk();
-			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				String Str[]=obj.getDepartment_fk().split("/");
 				pValues[i++] = Str[0].trim();
@@ -207,11 +187,6 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
 			}
-			/*if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				pValues[i++] = obj.getUser_id();
-				pValues[i++] = obj.getUser_id();
-				pValues[i++] = obj.getUser_id();
-			}*/
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
 			
 		}catch(Exception e){ 
@@ -274,25 +249,47 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 	public List<StripChart> getStructureTypesbyWorkId(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "select distinct structure_type_fk,unit,scope,sum(structure_type_completed) as structure_type_completed,target_date_of_completion from (select structure_type_fk,contract_id,unit,scope,department,hod,sum(cast(structure_type_completed as decimal(10,2))) as structure_type_completed,target_date_of_completion from(select distinct e.structure_type_fk,'%' as unit,100 as Scope,department,hod,contract_id,cast(e.structure_type_completed as decimal(10,2)) as structure_type_completed,   " + 
-					"					(select FORMAT(MAX(CAST(target_date_of_completion AS Date)),'dd-MM-yyyy') from executionreporthistory m where m.work_id='"+obj.getWork_id_fk()+"' and m.structure_type_fk=e.structure_type_fk) as target_date_of_completion  " + 
-					"					from executionreporthistory e where e.work_id='"+obj.getWork_id_fk()+"') as a  where 0=0  " + 
-					" " + 
-					"					group by structure_type_fk,contract_id,unit,scope,target_date_of_completion,department,hod) as a  where 0=0  " ;
+			String qry = "select distinct s.structure_type as structure_type_fk,\r\n" + 
+					"'%' as unit,100 as scope,round(isnull(completed,0),2) as structure_type_completed,\r\n" + 
+					"\r\n" + 
+					"(select FORMAT(MAX(CAST(finish AS Date)),'dd-MM-yyyy') from p6_activities a\r\n" + 
+					"\r\n" + 
+					"inner join structure st on st.structure_id=a.structure_id_fk\r\n" + 
+					"\r\n" + 
+					"where st.structure_type_fk=s.structure_type) as target_date_of_completion\r\n" + 
+					"\r\n" + 
+					"from activities_scurve s \r\n" + 
+					"\r\n" + 
+					"left join (select distinct structure_type,sum(isnull(contract_structure_type_per,0))*100 as completed\r\n" + 
+					"from activities_scurve s where work_id='"+obj.getWork_id_fk()+"' and structure_type is not null and category='actual'\r\n" + 
+					"\r\n" + 
+					"group by structure_type) as stp on stp.structure_type=s.structure_type\r\n" + 
+					"\r\n" + 
+					"\r\n" + 
+					"inner join contract c on c.contract_id=s.contract_id \r\n" + 
+					"left join [user] u on u.user_id=c.hod_user_id_fk\r\n" + 
+					"					    \r\n" + 
+					"left join department d on d.department=c.department_fk\r\n" + 
+					"\r\n" + 
+					"\r\n" + 
+					"\r\n" + 
+					"where work_id='"+obj.getWork_id_fk()+"' and s.structure_type is not null and d.department is not null \r\n" + 
+					"\r\n" + 
+					"  " ;
 					
 			
 			int arrSize = 0;
 
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and department = ?  and hod=?";
+				qry = qry + " and d.department_name = ?  and u.designation=?";
 				arrSize++;
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				qry = qry + " and contract_id = ? ";
+				qry = qry + " and c.contract_id = ? ";
 				arrSize++;
 			}
-			qry= qry+" group by structure_type_fk,a.unit,a.Scope,a.target_date_of_completion ORDER by structure_type_fk ";
+			qry= qry+" order by s.structure_type ";
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -316,25 +313,46 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 	public List<StripChart> getStructuresByWorkId(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "select strip_chart_structure_id,unit,scope,sum(structure_completed) as structure_completed,target_date_of_completion from(select distinct e.strip_chart_structure_id,case when  structure_type_fk='E Earthwork' then unit_fk else '%' end as unit,case when  structure_type_fk='E Earthwork' then sum(cast(Scope as decimal(10,2))) else 100 end as Scope,sum(cast(e.structure_completed as decimal(10,2))) as structure_completed, " + 
-					"(select FORMAT(MAX(CAST(target_date_of_completion AS Date)),'dd-MM-yyyy') from executionreporthistory m where m.work_id='"+obj.getWork_id_fk()+"' and m.structure_type_fk=e.structure_type_fk  " + 
-					"and m.strip_chart_structure_id=e.strip_chart_structure_id) as target_date_of_completion " + 
-					"from executionreporthistory e where e.work_id='"+obj.getWork_id_fk()+"' and structure_type_fk='"+obj.getStructure_type_fk()+"' ";
+			String qry = "select distinct s.structure as strip_chart_structure_id,\r\n" + 
+					"'%' as unit,100 as scope,round(isnull(completed,0),2) as structure_completed,\r\n" + 
+					"\r\n" + 
+					"(select FORMAT(MAX(CAST(finish AS Date)),'dd-MM-yyyy') from p6_activities a\r\n" + 
+					"\r\n" + 
+					"inner join structure st on st.structure_id=a.structure_id_fk\r\n" + 
+					"\r\n" + 
+					"where st.structure_type_fk=s.structure_type and st.structure=s.structure) as target_date_of_completion\r\n" + 
+					"\r\n" + 
+					"from activities_scurve s \r\n" + 
+					"\r\n" + 
+					"left join (select distinct structure_type,structure,sum(isnull(structure_per,0))*100 as completed\r\n" + 
+					"from activities_scurve s where work_id='"+obj.getWork_id_fk()+"' and structure_type is not null and category='actual'\r\n" + 
+					"\r\n" + 
+					"group by structure_type,structure) as stp on stp.structure_type=s.structure_type and stp.structure=s.structure\r\n" + 
+					"\r\n" + 
+					"\r\n" + 
+					"inner join contract c on c.contract_id=s.contract_id \r\n" + 
+					"left join [user] u on u.user_id=c.hod_user_id_fk\r\n" + 
+					"					    \r\n" + 
+					"left join department d on d.department=c.department_fk\r\n" + 
+					"\r\n" + 
+					"\r\n" + 
+					"\r\n" + 
+					"where work_id='"+obj.getWork_id_fk()+"' and s.structure_type is not null and s.structure_type='"+obj.getStructure_type_fk()+"' and d.department is not null \r\n" + 
+					"\r\n" + 
+					"   ";
 		
 			int arrSize = 0;
 
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and department = ?  and hod=?";
+				qry = qry + " and d.department_name = ?  and u.designation=?";
 				arrSize++;
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				qry = qry + " and contract_id = ? ";
+				qry = qry + " and c.contract_id = ? ";
 				arrSize++;
 			}
-			qry=qry+" group by strip_chart_structure_id,structure_type_fk,unit_fk ) as a  " + 
-					"group by strip_chart_structure_id,unit,Scope,target_date_of_completion " + 
-					"ORDER by strip_chart_structure_id";
+			qry=qry+" order by s.structure ";
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -358,23 +376,81 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 	public List<StripChart> getComponentsByWorkId(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "select distinct e.component,case when  structure_type_fk='E Earthwork' then unit_fk else '%' end as unit,case when  structure_type_fk='E Earthwork' then cast(Scope as decimal(10,2)) else 100 end as Scope,cast(e.component_completed as decimal(10,2)) as component_completed, " + 
-					"(select FORMAT(MAX(CAST(target_date_of_completion AS Date)),'dd-MM-yyyy') from executionreporthistory m where m.work_id='"+obj.getWork_id_fk()+"' and m.structure_type_fk=e.structure_type_fk  " + 
-					"and m.strip_chart_structure_id=e.strip_chart_structure_id and m.component=e.component) as target_date_of_completion " + 
-					"from executionreporthistory e where e.work_id='"+obj.getWork_id_fk()+"' and structure_type_fk='"+obj.getStructure_type_fk()+"' and e.strip_chart_structure_id='"+obj.getStrip_chart_structure_id()+"' ";
+			String qry = "select distinct s.component as component,\r\n" + 
+					"case when s.structure_type='Formation' or  s.structure_type='Flyover' then (select top 1 unit from p6_activities a1\r\n" + 
+					"\r\n" + 
+					"left join structure st1 on st1.structure_id=a1.structure_id_fk\r\n" + 
+					"\r\n" + 
+					"where work_id='"+obj.getWork_id_fk()+"' and st1.structure_type_fk=s.structure_type and st1.structure=s.structure and a1.component=s.component and st1.structure_type_fk is not null and a1.contract_id_fk=s.contract_id and unit is not null)\r\n" + 
+					"\r\n" + 
+					"else '%' end as unit,\r\n" + 
+					"\r\n" + 
+					"\r\n" + 
+					"\r\n" + 
+					"case when s.structure_type='Formation' or  s.structure_type='Flyover' then (select sum(isnull(scope,0)) from p6_activities a1\r\n" + 
+					"\r\n" + 
+					"left join structure st1 on st1.structure_id=a1.structure_id_fk\r\n" + 
+					"\r\n" + 
+					"where work_id='"+obj.getWork_id_fk()+"' and st1.structure_type_fk=s.structure_type and st1.structure=s.structure and a1.component=s.component and st1.structure_type_fk is not null and a1.contract_id_fk=s.contract_id)\r\n" + 
+					"\r\n" + 
+					"else 100 end\r\n" + 
+					"\r\n" + 
+					"\r\n" + 
+					"as scope\r\n" + 
+					"\r\n" + 
+					"\r\n" + 
+					",round(isnull(completed,0),2) as component_completed,\r\n" + 
+					"\r\n" + 
+					"(select FORMAT(MAX(CAST(finish AS Date)),'dd-MM-yyyy') from p6_activities a\r\n" + 
+					"\r\n" + 
+					"left join structure st on st.structure_id=a.structure_id_fk\r\n" + 
+					"\r\n" + 
+					"where work_id='"+obj.getWork_id_fk()+"' and st.structure_type_fk=s.structure_type and st.structure=s.structure and a.component=s.component) as target_date_of_completion\r\n" + 
+					"\r\n" + 
+					"from component_scurve s \r\n" + 
+					"\r\n" + 
+					"left join (select distinct structure_type,structure,component,case when s.structure_type!='Formation' and  s.structure_type!='Flyover' then sum(isnull(component_per,0))*100 \r\n" + 
+					"\r\n" + 
+					"else (select sum(isnull(completed,0)) from p6_activities a1\r\n" + 
+					"\r\n" + 
+					"left join structure st1 on st1.structure_id=a1.structure_id_fk\r\n" + 
+					"\r\n" + 
+					"where work_id='"+obj.getWork_id_fk()+"' and st1.structure_type_fk=s.structure_type and st1.structure=s.structure and a1.component=s.component and a1.contract_id_fk=s.contract_id) end\r\n" + 
+					"\r\n" + 
+					"\r\n" + 
+					"as completed\r\n" + 
+					"\r\n" + 
+					"\r\n" + 
+					"from component_scurve s where work_id='"+obj.getWork_id_fk()+"' and structure_type is not null and category='actual'\r\n" + 
+					"\r\n" + 
+					"group by work_id,structure_type,structure,component,contract_id) as stp on stp.structure_type=s.structure_type and stp.structure=s.structure and stp.component=s.component\r\n" + 
+					"\r\n" + 
+					"\r\n" + 
+					"inner join contract c on c.contract_id=s.contract_id \r\n" + 
+					"left join [user] u on u.user_id=c.hod_user_id_fk\r\n" + 
+					"					    \r\n" + 
+					"left join department d on d.department=c.department_fk\r\n" + 
+					"\r\n" + 
+					"\r\n" + 
+					"\r\n" + 
+					"where work_id='"+obj.getWork_id_fk()+"' and s.structure_type is not null and s.structure_type='"+obj.getStructure_type_fk()+"' and s.structure='"+obj.getStrip_chart_structure_id()+"' \r\n" + 
+					"\r\n" + 
+					"\r\n" + 
+					"\r\n" + 
+					" ";
 		
 			int arrSize = 0;
 
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and department = ?  and hod=?";
+				qry = qry + " and d.department_name = ?  and u.designation=?";
 				arrSize++;
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				qry = qry + " and contract_id = ? ";
+				qry = qry + " and c.contract_id = ? ";
 				arrSize++;
 			}
-			qry=qry+" ORDER by e.component";
+			qry=qry+" ORDER by s.component";
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;

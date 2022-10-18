@@ -412,31 +412,12 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 	public List<StripChart> getComponentsByWorkId(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			
-			String Concat="";
-			String JoinQry="";
-			String NJoinQry="";
-			
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				String Str[]=obj.getDepartment_fk().split("/");
-				Concat = Concat + " and d.department_name = '"+ Str[0].trim()+"'  and u.designation='"+ Str[1].trim()+"' ";
-				JoinQry=JoinQry +"					    left join p6_activity_progress p on p.p6_activity_id_fk = a.p6_activity_id inner join contract c on c.contract_id=a.contract_id_fk  " + 
-						"					    left join [user] u on u.user_id=c.hod_user_id_fk left join department d on d.department=c.department_fk ";
-
-			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				Concat = Concat + " and c.contract_id ='"+obj.getContract_id_fk()+"' ";
-				NJoinQry = NJoinQry + " and contract_id ='"+obj.getContract_id_fk()+"' ";
-			}				
-			
-			
-			
 			String qry = "select distinct s.component as component, " + 
 					"case when s.structure_type='Formation' or  s.structure_type='Flyover' then (select top 1 unit from p6_activities a1 " + 
 					 
 					"left join structure st1 on st1.structure_id=a1.structure_id_fk " + 
 					 
-					"where work_id='"+obj.getWork_id_fk()+"' and st1.structure_type_fk=s.structure_type and st1.structure=s.structure and a1.component=s.component and st1.structure_type_fk is not null and a1.contract_id_fk=s.contract_id and unit is not null and st1.structure_type_fk='"+obj.getStructure_type_fk()+"' and st1.structure='"+obj.getStrip_chart_structure_id()+"') " + 
+					"where work_id='"+obj.getWork_id_fk()+"' and st1.structure_type_fk=s.structure_type and st1.structure=s.structure and a1.component=s.component and st1.structure_type_fk is not null and a1.contract_id_fk=s.contract_id and unit is not null) " + 
 					 
 					"else '%' end as unit, " + 
 					 
@@ -446,7 +427,7 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 					 
 					"left join structure st1 on st1.structure_id=a1.structure_id_fk " + 
 					 
-					"where work_id='"+obj.getWork_id_fk()+"' and st1.structure_type_fk=s.structure_type and st1.structure=s.structure and a1.component=s.component and st1.structure_type_fk is not null and a1.contract_id_fk=s.contract_id and st1.structure_type_fk='"+obj.getStructure_type_fk()+"' and st1.structure='"+obj.getStrip_chart_structure_id()+"') " + 
+					"where work_id='"+obj.getWork_id_fk()+"' and st1.structure_type_fk=s.structure_type and st1.structure=s.structure and a1.component=s.component and st1.structure_type_fk is not null and a1.contract_id_fk=s.contract_id) " + 
 					 
 					"else 100 end " + 
 					 
@@ -460,7 +441,7 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 					 
 					"left join structure st on st.structure_id=a.structure_id_fk " + 
 					 
-					"where work_id='"+obj.getWork_id_fk()+"' and st.structure_type_fk=s.structure_type and st.structure=s.structure and a.component=s.component and st.structure_type_fk='"+obj.getStructure_type_fk()+"' and st.structure='"+obj.getStrip_chart_structure_id()+"') as target_date_of_completion " + 
+					"where work_id='"+obj.getWork_id_fk()+"' and st.structure_type_fk=s.structure_type and st.structure=s.structure and a.component=s.component) as target_date_of_completion " + 
 					 
 					"from component_scurve s  " + 
 					 
@@ -470,13 +451,13 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 					 
 					"left join structure st1 on st1.structure_id=a1.structure_id_fk " + 
 					 
-					"where work_id='"+obj.getWork_id_fk()+"' and st1.structure_type_fk=s.structure_type and st1.structure=s.structure and a1.component=s.component and a1.contract_id_fk=s.contract_id and st1.structure_type_fk='"+obj.getStructure_type_fk()+"' and st1.structure='"+obj.getStrip_chart_structure_id()+"') end " + 
+					"where work_id='"+obj.getWork_id_fk()+"' and st1.structure_type_fk=s.structure_type and st1.structure=s.structure and a1.component=s.component and a1.contract_id_fk=s.contract_id) end " + 
 					 
 					 
 					"as completed " + 
 					 
 					 
-					"from component_scurve s where work_id='"+obj.getWork_id_fk()+"' and structure_type is not null and category='actual' and structure_type='"+obj.getStructure_type_fk()+"' and structure='"+obj.getStrip_chart_structure_id()+"'" + 
+					"from component_scurve s where work_id='"+obj.getWork_id_fk()+"' and structure_type is not null and category='actual' " + 
 					 
 					"group by work_id,structure_type,structure,component,contract_id) as stp on stp.structure_type=s.structure_type and stp.structure=s.structure and stp.component=s.component " + 
 					 

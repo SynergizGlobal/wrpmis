@@ -420,8 +420,7 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				String Str[]=obj.getDepartment_fk().split("/");
 				Concat = Concat + " and d.department_name = '"+ Str[0].trim()+"'  and u.designation='"+ Str[1].trim()+"' ";
-				JoinQry=JoinQry +"					    left join p6_activity_progress p on p.p6_activity_id_fk = a1.p6_activity_id inner join contract c on c.contract_id=a1.contract_id_fk  " + 
-						"					    left join [user] u on u.user_id=c.hod_user_id_fk left join department d on d.department=c.department_fk ";
+				JoinQry=JoinQry +" ";
 
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {

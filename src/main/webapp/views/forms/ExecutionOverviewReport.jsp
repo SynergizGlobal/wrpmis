@@ -360,12 +360,12 @@ table tr td:nth-child(3) {
     									</a>										
     								</div>
     							</c:if>   --%> 
-    							<div class="m-n1">
+<!--     							<div class="m-n1">
     									<a href="javascript:exportReport();" class="btn waves-effect waves-light bg-s t-c"> 
     									<strong><i class="fa fa-arrow-circle-down v-align-mid"></i> Export</strong>
     									</a>										
     								</div>
-    															
+    										 -->					
     							</div>	
 							</div>
 						</span>

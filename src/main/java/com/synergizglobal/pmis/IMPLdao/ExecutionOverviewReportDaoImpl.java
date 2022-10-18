@@ -445,7 +445,7 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 					 
 					"left join structure st1 on st1.structure_id=a1.structure_id_fk "+JoinQry+"" + 
 					 
-					"where work_id='"+obj.getWork_id_fk()+"' and st1.structure_type_fk=s.structure_type and st1.structure=s.structure and a1.component=s.component and st1.structure_type_fk is not null and a1.contract_id_fk=s.contract_id and st1.structure_type_fk='"+obj.getStructure_type_fk()+"' and st1.structure='"+obj.getStrip_chart_structure_id()+"') " + 
+					"where work_id='"+obj.getWork_id_fk()+"' and st1.structure_type_fk=s.structure_type and st1.structure=s.structure and a1.component=s.component and st1.structure_type_fk is not null) " + 
 					 
 					"else 100 end " + 
 					 
@@ -469,7 +469,7 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 					 
 					"left join structure st1 on st1.structure_id=a1.structure_id_fk "+JoinQry+"" + 
 					 
-					"where work_id='"+obj.getWork_id_fk()+"' and st1.structure_type_fk=s.structure_type and st1.structure=s.structure and a1.component=s.component and a1.contract_id_fk=s.contract_id and st1.structure_type_fk='"+obj.getStructure_type_fk()+"' and st1.structure='"+obj.getStrip_chart_structure_id()+"') end " + 
+					"where work_id='"+obj.getWork_id_fk()+"' and st1.structure_type_fk=s.structure_type and st1.structure=s.structure and a1.component=s.component ) end " + 
 					 
 					 
 					"as completed " + 

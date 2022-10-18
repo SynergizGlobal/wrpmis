@@ -60,7 +60,7 @@ public class HomeNewDaoImpl implements HomeNewDao{
 					+ "(select round((latest_revised_cost/10000000),2) from project_view where project_id=? )as latest_revised_cost " 
 					+ "from work wr where wr.project_id_fk = ? GROUP BY projected_completion,wr.project_id_fk";
 			
-			String workQry = "select *,round((cumulative_expenditure/sanctioned_cost)*100,2) as financial_progress,round(actual_progress*100,2) as physical_progress,round((latest_revised_cost/10000000),2) as latest_revised_cost,work_id as work_id_fk  from work_view where project_id_fk = ?";
+			String workQry = "select *,round((cumulative_expenditure/sanctioned_cost)*100,2) as financial_progress,round(actual_progress*100,2) as physical_progress,case when isnull(latest_revised_cost,0)>0 then round((latest_revised_cost/10000000),2) else round((sanctioned_estimated_cost/10000000),2) end as latest_revised_cost,work_id as work_id_fk  from work_view where project_id_fk = ?";
 			
 			
 			//String workQry = "select work_id,work_short_name,(select work_id_fk as work_id from dashboard where soft_delete_status_fk = 'Active' and work_id_fk = work_id offset 0 rows  fetch next 1 rows only) as work_id_fk from work where project_id_fk = ?";

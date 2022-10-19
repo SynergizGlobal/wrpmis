@@ -66,6 +66,11 @@ public class RandRMainServiceImpl implements RandRMainService{
 	public List<RandRMain> getWorkListForRRForm(RandRMain obj) throws Exception {
 		return dao.getWorkListForRRForm(obj);
 	}
+	
+	@Override
+	public List<RandRMain> getBSESAgencyNamesList(RandRMain obj) throws Exception {
+		return dao.getBSESAgencyNamesList(obj);
+	}	
 
 	@Override
 	public List<RandRMain> getDocTypeListForRRForm(RandRMain obj) throws Exception {

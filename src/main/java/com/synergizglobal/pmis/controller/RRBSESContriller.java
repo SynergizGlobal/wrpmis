@@ -352,13 +352,13 @@ public class RRBSESContriller {
 			
 			boolean flag =  service.addRRBSES(obj);
 			if(flag) {
-				attributes.addFlashAttribute("success", "RR BSES Added Succesfully.");
+				attributes.addFlashAttribute("success", "R&R Agency Added Succesfully.");
 			}
 			else {
-				attributes.addFlashAttribute("error","Adding RR BSES is failed. Try again.");
+				attributes.addFlashAttribute("error","Adding R&R Agency is failed. Try again.");
 			}
 		}catch (Exception e) {
-			attributes.addFlashAttribute("error","Adding RR BSES is failed. Try again.");
+			attributes.addFlashAttribute("error","Adding R&R Agency is failed. Try again.");
 			logger.error("addRR : " + e.getMessage());
 		}
 		return model;

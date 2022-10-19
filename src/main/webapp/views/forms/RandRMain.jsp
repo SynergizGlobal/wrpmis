@@ -401,6 +401,8 @@
         <input type="hidden" name="boundary_wall_status" id="exportStatus_fk" />
         <input type="hidden" name="structure_id" id="exportStructure_type_fk" />
         <input type="hidden" name="type_of_use" id="exportType_of_use" />
+        <input type="hidden" name="searchStr" id="exportsearchStr" />
+        
 	</form>
 	
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
@@ -1058,6 +1060,7 @@
 		    	var structure_id = $("#structure_id").val();
 		    	var type_of_use = $("#type_of_use").val();
 		    	var boundary_wall_status = $("#boundary_wall_status").val();
+		    	var searchStrValue = $('[type=search]').val();
 		    	
 		    	 $("#exportWork_id_fk").val(work_id_fk);
 		    	 $("#exportLocation_fk").val(location_name);
@@ -1065,6 +1068,7 @@
 		    	 $("#exportType_of_use").val(type_of_use);
 		    	 $("#exportStructure_type_fk").val(structure_id);
 		    	 $("#exportStatus_fk").val(boundary_wall_status);
+		    	 $("#exportsearchStr").val(searchStrValue);
 		    	     
 	        	 $("#exportRandRForm").submit();
 		}

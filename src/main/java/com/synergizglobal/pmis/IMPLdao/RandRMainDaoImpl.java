@@ -1832,7 +1832,19 @@ public class RandRMainDaoImpl implements RandRMainDao{
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				qry = qry + " and re.executive_user_id_fk = ? ";
 				arrSize++;
-			}				
+			}
+ 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSearchStr())) {
+ 					qry = qry + " and (r.rr_id like ? or r.occupier_name_during_verification like ? or boundary_wall_status like ?"
+ 							+ " or type_of_use like ? or structure_id like ? or location_name like ? or sub_location_name like ? or phase like ?)";
+ 					arrSize++;
+ 					arrSize++;
+ 					arrSize++;
+ 					arrSize++;
+ 					arrSize++;
+ 					arrSize++;
+ 					arrSize++;
+ 					arrSize++;
+			}			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -1855,6 +1867,15 @@ public class RandRMainDaoImpl implements RandRMainDao{
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				pValues[i++] = obj.getUser_id();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSearchStr())) {
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
 			}				
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));
 		}catch(Exception e){ 
@@ -2377,6 +2398,36 @@ public class RandRMainDaoImpl implements RandRMainDao{
 			return objList;				
 		}
 		return objList;
+	}
+
+	@Override
+	public List<RandRMain> getBSESAgencyNamesList(RandRMain obj) throws Exception {
+		List<RandRMain> objsList = new ArrayList<RandRMain>();
+		try {
+			String qry = "select distinct bses_agency_name "
+					+ "from work w "
+					+ "LEFT JOIN rr_agency r ON r.work_id_fk = w.work_id "
+					+ "LEFT OUTER JOIN project p ON p.project_id = w.project_id_fk "
+					+ "where work_id is not null ";
+					
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id())) {
+				qry = qry + "and work_id = ? ";
+				arrSize++;
+			}
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id())) {
+				pValues[i++] = obj.getWork_id();
+			}	
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));
+			
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objsList;
 	}
 
 	

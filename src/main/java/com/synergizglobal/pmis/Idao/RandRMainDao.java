@@ -87,4 +87,6 @@ public interface RandRMainDao {
 
 	List<RandRMain> getRRCoordinates(RandRMain obj) throws Exception;
 
+	List<RandRMain> getBSESAgencyNamesList(RandRMain obj) throws Exception;
+
 }

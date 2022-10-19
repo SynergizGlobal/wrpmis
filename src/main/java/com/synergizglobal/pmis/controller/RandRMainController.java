@@ -129,6 +129,23 @@ public class RandRMainController {
 		return worksList;
 	}
 	
+	@RequestMapping(value = "/ajax/getBSESAgencyNamesList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<RandRMain> getBSESAgencyNamesList(@ModelAttribute RandRMain obj, HttpSession session) {
+		List<RandRMain> worksList = null;
+		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			worksList = service.getBSESAgencyNamesList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getBSESAgencyNamesList : " + e.getMessage());
+		}
+		return worksList;
+	}
+	
 	@RequestMapping(value = "/ajax/getWorkListForRRForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<RandRMain> getWorkListForRRForm(@ModelAttribute RandRMain obj, HttpSession session) {
@@ -144,7 +161,9 @@ public class RandRMainController {
 			logger.error("getWorksList : " + e.getMessage());
 		}
 		return worksList;
-	}	
+	}
+	
+	
 	@RequestMapping(value = "/ajax/getPhasesFilterListInRR", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<RandRMain> getPhasesFilterListInRR(@ModelAttribute RandRMain obj, HttpSession session) {
@@ -792,7 +811,7 @@ public class RandRMainController {
 		        
 		        Cell cell3 = row1.createCell(1);
 		        cell3.setCellStyle(sectionStyle);
-		        cell3.setCellValue("Id No");
+		        cell3.setCellValue("BSES Agency Name");
 		        
 		        Cell cell37 = row1.createCell(2);
 		        cell37.setCellStyle(sectionStyle);
@@ -961,7 +980,7 @@ public class RandRMainController {
 		        
 		        
 	            XSSFRow headingRow = RRSheet.createRow(2);
-	            String headerString = "Work^Id No^R&R ID^Phase^Structure^Location^Sub Location^Type of Use^Chainage^Latitude^Longitude^Physical Verification Date^Verification By^Letter to MMRDA^Alternate Housing Allotment^Encroachment Removal^Boundary Wall Doc^Boundary Wall Status^Handover to Execution^Planned date of completion^Carpet Area (sft)^Year of Construction^Owner Name^Occupier Name^Document Type^Document No^Map S.no^Approval By Committee^Approval by MRVC^Estimate Approval^Estimation Amount^Estimate by MMRDA^Payment to MMRDA^Relocation^Remarks";
+	            String headerString = "Work^BSES Agency Name^R&R ID^Phase^Structure^Location^Sub Location^Type of Use^Chainage^Latitude^Longitude^Physical Verification Date^Verification By^Letter to MMRDA^Alternate Housing Allotment^Encroachment Removal^Boundary Wall Doc^Boundary Wall Status^Handover to Execution^Planned date of completion^Carpet Area (sft)^Year of Construction^Owner Name^Occupier Name^Document Type^Document No^Map S.no^Approval By Committee^Approval by MRVC^Estimate Approval^Estimation Amount^Estimate by MMRDA^Payment to MMRDA^Relocation^Remarks";
 	            
 	            String[] firstHeaderStringArr = headerString.split("\\^");
 	            

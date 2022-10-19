@@ -386,8 +386,11 @@
 							</div>
 							<div class="row">
                                  <div class="col s6 m4 l4 input-field">
-                                     <input id="id_no" maxlength="25" data-length="25" name="identification_no" type="text" class="validate w80 pdr4em" value="${rrDetails.identification_no }">
-		                             <label for="id_no">Id No <span class="required">*</span></label>
+                                 
+                                    <p class="searchable_label mb-8"> BSES Agency Name <span class="required">*</span></p>
+                                    <select class="searchable validate-dropdown" id="id_no" name="identification_no">
+                                        <option value="" >Select</option>
+                                    </select>                                 
 		                             <span id="id_noError" class="error-msg" ></span>
                                  </div>                                 
                                  <div class="col s6 m4 l4 input-field ">
@@ -745,16 +748,12 @@
 		                                    <label for="family_income_amount">Family Income</label>
 		                                    <span id="family_income_amountError" class="error-msg"></span>
 		                                	<span id="family_income_amount_unitsError" class="error-msg right" ></span>
-		                                    <select class="validate-dropdown" id="family_income_amount_units" name="family_income_amount_units">
+		                                    <select class="validate-dropdown" id="family_income_amount_units" name="family_income_amount_units" disabled>
 		                                     <c:forEach var="obj" items="${units }">
 	                                      	   <option value= "${ obj.value}" <c:if test="${rrDetails.family_income_amount_units eq obj.value}">selected</c:if>> ${obj.unit }</option>
 	                                         </c:forEach>
 		                                	</select>
 		                                </div>
-		                                <div class="col s6 m4 l3 input-field">
-	                                       <p class="searchable_label">Monthly Per Capita Income</p>
-	                                       <p id="percapita_per_month"></p>
-	                                    </div>
                             		</div>
                             	</div>
                             	<div class="table-inside">
@@ -822,7 +821,7 @@
                                                		<i class="material-icons amount-symbol cost left-align">₹</i>
                                                    	<input id="residential_salary${index.count }" name="residential_salarys" min="0.01" step="0.01" type="number" class="validate" value="${resObj.residential_salary }"
                                                        placeholder="Salary">
-                                                       <select class="validate-dropdown" id="residential_salary_units${index.count }" name="residential_salary_unitss">
+                                                       <select class="validate-dropdown residential_salary_unitss" id="residential_salary_units${index.count }" name="residential_salary_unitss" disabled>
 				                                		 <c:forEach var="obj" items="${units }">
 				                                      	   <option value= "${ obj.value}" <c:if test="${resObj.residential_salary_units eq obj.value}">selected</c:if>> ${obj.unit }</option>
 				                                         </c:forEach>
@@ -885,7 +884,7 @@
                                                		<i class="material-icons amount-symbol cost left-align">₹</i>
                                                    	<input id="residential_salary0" name="residential_salarys" min="0.01" step="0.01" type="number" class="validate" value=""
                                                        placeholder="Salary">
-                                                       <select class="validate-dropdown" id="residential_salary_units0" name="residential_salary_unitss">
+                                                       <select class="validate-dropdown residential_salary_unitss" id="residential_salary_units0" name="residential_salary_unitss" disabled>
 				                                		 <c:forEach var="obj" items="${units }">
 				                                      	   <option value= "${ obj.value}" > ${obj.unit }</option>
 				                                         </c:forEach>
@@ -956,7 +955,7 @@
 		                                    <label for="monthly_turnover_amount">Monthly Turnover</label>
 		                                    <span id="monthly_turnover_amountError" class="error-msg"></span>
 		                                	<span id="monthly_turnover_amount_unitsError" class="error-msg right" ></span>
-		                                    <select class="validate-dropdown" id="monthly_turnover_amount_units" name="monthly_turnover_amount_units">
+		                                    <select class="validate-dropdown" id="monthly_turnover_amount_units" name="monthly_turnover_amount_units" disabled>
 		                                    	 <c:forEach var="obj" items="${units }">
 		                                      	   <option value= "${ obj.value}" <c:if test="${rrDetails.monthly_turnover_amount_units eq obj.value}">selected</c:if>> ${obj.unit }</option>
 		                                         </c:forEach>
@@ -1035,7 +1034,7 @@
                                                		<i class="material-icons amount-symbol cost left-align">₹</i>
                                                    	<input id="employee_salary${index.count }" name="employee_salarys" maxlength="15" data-length="15" min="0.01" step="0.01" type="number" class="validate num w70 pdr4em" value="${comObj.employee_salary}"
                                                        placeholder="Salary">
-                                                       <select class="validate-dropdown" id="employee_salary_units${index.count }" name="employee_salary_unitss">
+                                                       <select class="validate-dropdown employee_salary_unitss" id="employee_salary_units${index.count }" name="employee_salary_unitss" disabled>
 				                                		 <c:forEach var="obj" items="${units }">
 				                                      	   <option value= "${ obj.value}" <c:if test="${comObj.employee_salary_units eq obj.value}">selected</c:if>> ${obj.unit }</option>
 				                                         </c:forEach>
@@ -1108,7 +1107,7 @@
                                                		<i class="material-icons amount-symbol cost left-align">₹</i>
                                                    	<input id="employee_salary0" name="employee_salarys" maxlength="15" data-length="15" min="0.01" step="0.01" type="number" class="validate num pdr4em w70" value=""
                                                        placeholder="Salary">
-                                                       <select class="validate-dropdown" id="employee_salary_units0" name="employee_salary_unitss">
+                                                       <select class="validate-dropdown employee_salary_unitss" id="employee_salary_units0" name="employee_salary_unitss" disabled>
 				                                		 <c:forEach var="obj" items="${units }">
 				                                      	   <option value= "${ obj.value}" > ${obj.unit }</option>
 				                                         </c:forEach>
@@ -1226,6 +1225,10 @@
            }
        });
    });
+   if("${rrDetails.work_id}"!="")
+   {
+	   getBSESAgencyNamesList("${rrDetails.work_id}");
+   }
    
    
    function getRRCoordinates()
@@ -1536,7 +1539,7 @@
     			  +'<td data-head="Class Attended" class="input-field"> <input id="employee_attended'+rNo+'" name="employee_attendeds" type="text" class="validate"  value="" placeholder="Class Attended"> </td>'
     			  +'<td data-head="Travel Time" class="input-field"> <input id="employee_travel_time'+rNo+'" name="employee_travel_times" type="number" class="validate"  value="" placeholder="Travel Time"> </td>'
     			  +'<td data-head="Monthly Salary" class="input-field amount-dropdown cf3"> <i class="material-icons amount-symbol cost left-align">₹</i> <input id="employee_salary'+rNo+'" maxlength="15" data-length="15" name="employee_salarys" min="0.01"'
-    			  +' step="0.01" type="number" class="validate num" value="" placeholder="Salary"> <select class="validate-dropdown" id="employee_salary_units'+rNo+'" name="employee_salary_unitss">'
+    			  +' step="0.01" type="number" class="validate num" value="" placeholder="Salary"> <select class="validate-dropdown employee_salary_unitss" id="employee_salary_units'+rNo+'" name="employee_salary_unitss" disabled>'
 		    		 <c:forEach var="obj" items="${units }">
 		    		  +' <option value= "${ obj.value}"> ${obj.unit }</option>'
                      </c:forEach>
@@ -1591,7 +1594,7 @@
         		  +'<td data-head="Education" class="input-field"> <input id="residential_education'+rNo+'" name="residential_educations" type="text" class="validate"  value="" placeholder="Education"> </td>  '
         		  +'<td data-head="Employment" class="input-field"> <input id="residential_employment'+rNo+'" name="residential_employments" type="text" class="validate"  value="" placeholder="Employment"> </td>  '
         		  +'<td data-head="Monthly Salary" class="input-field amount-dropdown">	<i class="material-icons amount-symbol cost left-align">₹</i> <input id="residential_salary'+rNo+'" name="residential_salarys" min="0.01" step="0.01" type="number" '
-        		  +'class="validate" value="" placeholder="Salary"> <select class="validate-dropdown" id="residential_salary_units'+rNo+'" name="residential_salary_unitss">'
+        		  +'class="validate" value="" placeholder="Salary"> <select class="validate-dropdown residential_salary_unitss" id="residential_salary_units'+rNo+'" name="residential_salary_unitss" disabled>'
 	    		 	<c:forEach var="obj" items="${units }">
 		    		  +' <option value= "${ obj.value}"> ${obj.unit }</option>'
                      </c:forEach>
@@ -1641,6 +1644,35 @@
    }
    
    
+   function getBSESAgencyNamesList(workId) {
+	   	$(".page-loader").show();
+	       $("#id_no option:not(:first)").remove();
+
+	       if ($.trim(workId) != "") {
+	           var myParams = { work_id: workId };
+	           $.ajax({
+	               url: "<%=request.getContextPath()%>/ajax/getBSESAgencyNamesList",
+	               data: myParams, cache: false,
+	               success: function (data) {
+	                   if (data.length > 0) {
+	                       $.each(data, function (i, val) {
+	                           var workId = "${rrDetails.identification_no}";
+	                           if ($.trim(workId) != '') {
+	                               $("#id_no").append('<option value="' + val.bses_agency_name + '" selected>' + $.trim(val.bses_agency_name) + '</option>');
+	                           } else {
+	                               $("#id_no").append('<option value="' + val.bses_agency_name + '">' + $.trim(val.bses_agency_name) + '</option>');
+	                           }
+	                       });
+	                   }
+	                   $('.searchable').select2();
+	                   $(".page-loader").hide();
+	               }
+	           });
+	       }else{
+	       	$(".page-loader").hide();
+	       }
+	   }  
+   
    function getWorksList(projectId) {
    	$(".page-loader").show();
        $("#work_id option:not(:first)").remove();
@@ -1681,7 +1713,7 @@
   			$("#project_id_fkError").text("");
   			var work_code =   $('#work_id option:selected').attr('name');
   			$("#work_code").val(work_code);
-  			
+  			getBSESAgencyNamesList(workId);
   		}
   		
    }
@@ -1726,6 +1758,15 @@
  			$(".page-loader").show();
  			$("#estimation_amount_units").prop("disabled",false);
  			$("#estimated_by_mmrda_amount_units").prop("disabled",false);
+ 			
+ 			
+ 			$(".employee_salary_unitss").prop("disabled",false);
+ 			$(".residential_salary_unitss").prop("disabled",false);
+ 			$("#monthly_turnover_amount_units").prop("disabled",false);
+ 			$("#family_income_amount_units").prop("disabled",false); 			
+ 			
+ 			
+ 			
   			document.getElementById("RandRForm").submit();			
 	 	 }
    }
@@ -1768,6 +1809,11 @@
  			
  			$("#estimation_amount_units").prop("disabled",false);
  			$("#estimated_by_mmrda_amount_units").prop("disabled",false);
+ 			
+ 			$(".employee_salary_unitss").prop("disabled",false);
+ 			$(".residential_salary_unitss").prop("disabled",false);
+ 			$("#monthly_turnover_amount_units").prop("disabled",false);
+ 			$("#family_income_amount_units").prop("disabled",false);  			
  			
   			document.getElementById("RandRForm").submit();	
    	}

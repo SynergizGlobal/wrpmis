@@ -50,7 +50,7 @@ public class FileFormatModel {
 	
 	public static List<String> getRRFileFormat() {
 		List<String> fileFormat = new ArrayList<String>();
-		String columns = "Work,Id No,R&R ID,Phase,Structure,Location,Sub Location,Type of Use,Chainage,Latitude,Longitude,Physical Verification Date,Verification By,Letter to MMRDA,Alternate Housing Allotment,Encroachment Removal,Boundary Wall Doc,Boundary Wall Status,Handover to Execution,Planned date of completion,Carpet Area (sft),Year of Construction,Owner Name,Occupier Name,Document Type,Document No,Map S.no,Approval By Committee,Approval by MRVC,Estimate Approval,Estimation Amount,Estimate by MMRDA,Payment to MMRDA,Relocation,Remarks";
+		String columns = "Work,BSES Agency Name,R&R ID,Phase,Structure,Location,Sub Location,Type of Use,Chainage,Latitude,Longitude,Physical Verification Date,Verification By,Letter to MMRDA,Alternate Housing Allotment,Encroachment Removal,Boundary Wall Doc,Boundary Wall Status,Handover to Execution,Planned date of completion,Carpet Area (sft),Year of Construction,Owner Name,Occupier Name,Document Type,Document No,Map S.no,Approval By Committee,Approval by MRVC,Estimate Approval,Estimation Amount,Estimate by MMRDA,Payment to MMRDA,Relocation,Remarks";
 		String[] convertedColumnsArray = columns.split(",");
 		for (String column : convertedColumnsArray) {
 			fileFormat.add(column.trim());
@@ -60,7 +60,7 @@ public class FileFormatModel {
 	
 	public static List<String> getRRPreFileFormat() {
 		List<String> fileFormat = new ArrayList<String>();
-		String columns = "Work,Id No,Phase,Structure,Location,Sub Location,Type of Use,Chainage,Latitude,Longitude,Physical Verification Date,Verification By,Letter to MMRDA,Alternate Housing Allotment,Encroachment Removal,Boundary Wall Doc,Boundary Wall Status,Handover to Execution,Planned date of completion,Carpet Area (sft),Year of Construction,Owner Name,Occupier Name,Document Type,Document No,Map S.no,Approval By Committee,Approval by MRVC,Estimate Approval,Estimation Amount,Estimate by MMRDA,Payment to MMRDA,Relocation,Remarks";
+		String columns = "Work,BSES Agency Name,Phase,Structure,Location,Sub Location,Type of Use,Chainage,Latitude,Longitude,Physical Verification Date,Verification By,Letter to MMRDA,Alternate Housing Allotment,Encroachment Removal,Boundary Wall Doc,Boundary Wall Status,Handover to Execution,Planned date of completion,Carpet Area (sft),Year of Construction,Owner Name,Occupier Name,Document Type,Document No,Map S.no,Approval By Committee,Approval by MRVC,Estimate Approval,Estimation Amount,Estimate by MMRDA,Payment to MMRDA,Relocation,Remarks";
 		String[] convertedColumnsArray = columns.split(",");
 		for (String column : convertedColumnsArray) {
 			fileFormat.add(column.trim());

@@ -1081,10 +1081,10 @@ public class RandRMainController {
 					String unit = "";
 					if(!StringUtils.isEmpty(obj.getMonthly_turnover_amount())) {
 						amount = obj.getMonthly_turnover_amount();
-						if(!StringUtils.isEmpty(obj.getMonthly_turnover_amount_units())) {
-							unit = obj.getMonthly_turnover_amount_units() ;
-							amount = amount+" "+unit;
-						}
+							/*
+							 * if(!StringUtils.isEmpty(obj.getMonthly_turnover_amount_units())) { unit =
+							 * obj.getMonthly_turnover_amount_units() ; amount = amount+" "+unit; }
+							 */
 					}
 					cell2.setCellValue(amount);					
 					
@@ -1142,10 +1142,10 @@ public class RandRMainController {
 						String unit = "";
 						if(!StringUtils.isEmpty(obj.getEmployee_salary())) {
 							amount = obj.getEmployee_salary();
-							if(!StringUtils.isEmpty(obj.getEmployee_salary_units())) {
-								unit = obj.getEmployee_salary_units() ;
-								amount = amount+" "+unit;
-							}
+							/*
+							 * if(!StringUtils.isEmpty(obj.getEmployee_salary_units())) { unit =
+							 * obj.getEmployee_salary_units() ; amount = amount+" "+unit; }
+							 */
 						}
 		                cell1 = row.createCell(b++);
 						cell1.setCellStyle(sectionStyle);
@@ -1212,10 +1212,10 @@ public class RandRMainController {
 						String unit = "";
 						if(!StringUtils.isEmpty(obj.getFamily_income_amount())) {
 							amount = obj.getFamily_income_amount();
-							if(!StringUtils.isEmpty(obj.getFamily_income_amount_units())) {
-								unit = obj.getFamily_income_amount_units() ;
-								amount = amount+" "+unit;
-							}
+							/*
+							 * if(!StringUtils.isEmpty(obj.getFamily_income_amount_units())) { unit =
+							 * obj.getFamily_income_amount_units() ; amount = amount+" "+unit; }
+							 */
 						}
 		                cell1 = row.createCell(b++);
 						cell1.setCellStyle(sectionStyle);
@@ -1269,10 +1269,10 @@ public class RandRMainController {
 						String unit = "";
 						if(!StringUtils.isEmpty(obj.getResidential_salary())) {
 							amount = obj.getResidential_salary();
-							if(!StringUtils.isEmpty(obj.getResidential_salary_units())) {
-								unit = obj.getResidential_salary_units() ;
-								amount = amount+" "+unit;
-							}
+							/*
+							 * if(!StringUtils.isEmpty(obj.getResidential_salary_units())) { unit =
+							 * obj.getResidential_salary_units() ; amount = amount+" "+unit; }
+							 */
 						}
 		                cell1 = row.createCell(b++);
 						cell1.setCellStyle(sectionStyle);

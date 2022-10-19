@@ -348,13 +348,22 @@
 }
 
 .textalignment2{
-   	width:200px !important;
-   	min-width:200px !important;
+   	width:180px !important;
+   	min-width:180px !important;
+	text-align: left  !important;
+}
+
+.textalignment21{
+   	width:260px !important;
+   	min-width:260px !important;
 	text-align: left  !important;
 }
 
 .textalignment3{
 	text-align: center  !important;
+   	width:260px !important;
+   	min-width:260px !important;
+   		
 }
 
 .textalignment4{
@@ -394,7 +403,13 @@ width: 90%;
      white-space: nowrap;
 }
 
+.mdl-data-table td:not([colspan]):not(.mobile_btn_close):not(.td-align-right):not(.td-align-center) {
+    text-align: center;
+}
 
+.mdl-data-table td:nth-child(3) {
+     text-align: left !important
+}
 	
     </style>
 </head>
@@ -721,7 +736,8 @@ width: 90%;
                 //{targets: [6],className: 'fw-200'},
                 {targets: [3,5,6],className: 'fw-155'},
                 {targets: [2],className: 'textalignment'},
-                {targets: [6,7,8,9],className: 'textalignment2'},
+                {targets: [6,8,9],className: 'textalignment2'},
+                {targets: [7],className: 'textalignment21'},
                 { orderable: false, 'aTargets': ['nosort'] }
             ],
             // "ScrollX": true,

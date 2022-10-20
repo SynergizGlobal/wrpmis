@@ -218,12 +218,6 @@
 										</select>
 									</div>
 									<div class="col s6 m4 l2 input-field">
-										<p class="searchable_label">Structure</p>
-										<select id="structure_id" name="structure_id" class="searchable" onchange="addInQueStructure(this.value);getRRList();">
-											<option value="">Select</option>											
-										</select>
-									</div>
-									<div class="col s6 m4 l1 input-field">
 										<p class="searchable_label">Type of Use</p>
 										<select id="type_of_use" name="type_of_use" class="searchable" onchange="addInQueTypeofUse(this.value);getRRList();">
 											<option value="">Select</option>
@@ -399,7 +393,6 @@
         <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
         <input type="hidden" name="phase" id="exportPhase_fk" />
         <input type="hidden" name="boundary_wall_status" id="exportStatus_fk" />
-        <input type="hidden" name="structure_id" id="exportStructure_type_fk" />
         <input type="hidden" name="type_of_use" id="exportType_of_use" />
         <input type="hidden" name="searchStr" id="exportsearchStr" />
         
@@ -471,8 +464,6 @@
 				        		  getLocationsFilterList(temp2[1]);
 				        	  }else if($.trim(temp2[0]) == 'phase'){
 				        		  getPhasesFilterList(temp2[1]);
-				        	  }else if($.trim(temp2[0]) == 'structure_id'){
-				        		  getStructuresFilterList(temp2[1]);
 				        	  }else if($.trim(temp2[0]) == 'type_of_use'){
 				        		  getTypeofUseFilterList(temp2[1]);
 				        	  }else if($.trim(temp2[0]) == 'boundary_wall_status'){
@@ -592,14 +583,6 @@
 		        	filtersMap["phase"] = phase;
 		      	}
 		    }
-		    function addInQueStructure(structure_id){
-		      	Object.keys(filtersMap).forEach(function (key) {
-			   		if(key.match('structure_id')) delete filtersMap[key];
-		   	   	});
-		      	if($.trim(structure_id) != ''){
-		        	filtersMap["structure_id"] = structure_id;
-		      	}
-		    }
 		    function addInQueTypeofUse(type_of_use){
 		      	Object.keys(filtersMap).forEach(function (key) {
 			   		if(key.match('type_of_use')) delete filtersMap[key];
@@ -631,14 +614,12 @@
 			getWorksFilterList('');
 	     	getLocationsFilterList('');
 	     	getPhasesFilterList('');
-	     	getStructuresFilterList('');
 	     	getTypeofUseFilterList('');
 	     	getStatussFilterList('');
 	     	
 	    	var work_id_fk = $("#work_id_fk").val();
 	    	var location_name = $("#location_name").val();
 	    	var phase = $("#phase").val();
-	    	var structure_id = $("#structure_id").val();
 	    	var type_of_use = $("#type_of_use").val();
 	    	var boundary_wall_status = $("#boundary_wall_status").val();
 
@@ -654,7 +635,7 @@
 	    		$.fn.dataTable.moment('DD-MMM-YYYY');
 	    		var rowLen = 0;
 	    		var myParams =  "work_id_fk="
-	    				+ work_id_fk + "&location_name="+ location_name+ "&phase="+ phase+ "&structure_id="+ structure_id+ "&type_of_use="+ type_of_use+ "&boundary_wall_status="+ boundary_wall_status;
+	    				+ work_id_fk + "&location_name="+ location_name+ "&phase="+ phase+ "&type_of_use="+ type_of_use+ "&boundary_wall_status="+ boundary_wall_status;
 
 	    		/***************************************************************************************************/
 
@@ -815,13 +796,12 @@
 	    	var work_id_fk = $("#work_id_fk").val();
 	    	var location_name = $("#location_name").val();
 	    	var phase = $("#phase").val();
-	    	var structure_id = $("#structure_id").val();
 	    	var type_of_use = $("#type_of_use").val();
 	    	var boundary_wall_status = $("#boundary_wall_status").val();
 
 	        if ($.trim(boundary_wall_status) == "") {
 	        	$("#boundary_wall_status option:not(:first)").remove();
-	        	var myParams = { location_name: location_name,phase : phase,work_id_fk: work_id_fk,structure_id: structure_id,type_of_use : type_of_use,boundary_wall_status: boundary_wall_status };
+	        	var myParams = { location_name: location_name,phase : phase,work_id_fk: work_id_fk,type_of_use : type_of_use,boundary_wall_status: boundary_wall_status };
 	            $.ajax({
 	                url: "<%=request.getContextPath()%>/ajax/getStatusFilterListInRR",
 	                data: myParams, cache: false,async: false,
@@ -848,13 +828,12 @@
 	    	var work_id_fk = $("#work_id_fk").val();
 	    	var location_name = $("#location_name").val();
 	    	var phase = $("#phase").val();
-	    	var structure_id = $("#structure_id").val();
 	    	var type_of_use = $("#type_of_use").val();
 	    	var boundary_wall_status = $("#boundary_wall_status").val();
 
 	        if ($.trim(location_name) == "") {
 	        	$("#location_name option:not(:first)").remove();
-	        	var myParams = { location_name: location_name,phase : phase,work_id_fk: work_id_fk,structure_id: structure_id,type_of_use : type_of_use,boundary_wall_status: boundary_wall_status };
+	        	var myParams = { location_name: location_name,phase : phase,work_id_fk: work_id_fk,type_of_use : type_of_use,boundary_wall_status: boundary_wall_status };
 	            $.ajax({
 	                url: "<%=request.getContextPath()%>/ajax/getLocationsFilterListInRR",
 	                data: myParams, cache: false,async: false,
@@ -881,13 +860,12 @@
 	    	var work_id_fk = $("#work_id_fk").val();
 	    	var location_name = $("#location_name").val();
 	    	var phase = $("#phase").val();
-	    	var structure_id = $("#structure_id").val();
 	    	var type_of_use = $("#type_of_use").val();
 	    	var boundary_wall_status = $("#boundary_wall_status").val();
 
 	        if ($.trim(type_of_use) == "") {
 	        	$("#type_of_use option:not(:first)").remove();
-	        	var myParams = { location_name: location_name,phase : phase,work_id_fk: work_id_fk,structure_id: structure_id,type_of_use : type_of_use,boundary_wall_status: boundary_wall_status };
+	        	var myParams = { location_name: location_name,phase : phase,work_id_fk: work_id_fk,type_of_use : type_of_use,boundary_wall_status: boundary_wall_status };
 	            $.ajax({
 	                url: "<%=request.getContextPath()%>/ajax/getTypeofUseFilterListInRR",
 	                data: myParams, cache: false,async: false,
@@ -909,51 +887,17 @@
 	        	  $(".page-loader").hide();
 	        }
 	    }
-	    function getStructuresFilterList(structure) {
-	    	$(".page-loader").show();
-	    	var work_id_fk = $("#work_id_fk").val();
-	    	var location_name = $("#location_name").val();
-	    	var phase = $("#phase").val();
-	    	var structure_id = $("#structure_id").val();
-	    	var type_of_use = $("#type_of_use").val();
-	    	var boundary_wall_status = $("#boundary_wall_status").val();
-
-	        if ($.trim(structure_id) == "") {
-	        	$("#structure_id option:not(:first)").remove();
-	        	var myParams = { location_name: location_name,phase : phase,work_id_fk: work_id_fk,structure_id: structure_id,type_of_use : type_of_use,boundary_wall_status: boundary_wall_status };
-	            $.ajax({
-	                url: "<%=request.getContextPath()%>/ajax/getStructuresFilterListInRR",
-	                data: myParams, cache: false,async: false,
-	                success: function (data) {
-	                    if (data.length > 0) {
-	                        $.each(data, function (i, val) {
-	                             var selectedFlag = (structure == val.structure_id)?'selected':'';
-		                         $("#structure_id").append('<option value="' + val.structure_id + '"'+selectedFlag+'>' + $.trim(val.structure_id)  +'</option>');
-	                        });
-	                    }
-	                    $('.searchable').select2();
-	                    $(".page-loader").hide();
-	                },error: function (jqXHR, exception) {
-	 	   			      $(".page-loader").hide();
-		   	          	  getErrorMessage(jqXHR, exception);
-		   	     	  }
-	            });
-	        }else{
-	        	  $(".page-loader").hide();
-	        }
-	    }
 	    function getPhasesFilterList(phaseVal) {
 	    	$(".page-loader").show();
 	    	var work_id_fk = $("#work_id_fk").val();
 	    	var location_name = $("#location_name").val();
 	    	var phase = $("#phase").val();
-	    	var structure_id = $("#structure_id").val();
 	    	var type_of_use = $("#type_of_use").val();
 	    	var boundary_wall_status = $("#boundary_wall_status").val();
 
 	        if ($.trim(phase) == "") {
 	        	$("#phase option:not(:first)").remove();
-	        	var myParams = { location_name: location_name,phase : phase,work_id_fk: work_id_fk,structure_id: structure_id,type_of_use : type_of_use,boundary_wall_status: boundary_wall_status };
+	        	var myParams = { location_name: location_name,phase : phase,work_id_fk: work_id_fk,type_of_use : type_of_use,boundary_wall_status: boundary_wall_status };
 	            $.ajax({
 	                url: "<%=request.getContextPath()%>/ajax/getPhasesFilterListInRR",
 	                data: myParams, cache: false,async: false,
@@ -980,13 +924,12 @@
 	    	var work_id_fk = $("#work_id_fk").val();
 	    	var location_name = $("#location_name").val();
 	    	var phase = $("#phase").val();
-	    	var structure_id = $("#structure_id").val();
 	    	var type_of_use = $("#type_of_use").val();
 	    	var boundary_wall_status = $("#boundary_wall_status").val();
 
 	        if ($.trim(work_id_fk) == "") {
 	        	$("#work_id_fk option:not(:first)").remove();
-	        	var myParams = { location_name: location_name,phase : phase,work_id_fk: work_id_fk,structure_id: structure_id,type_of_use : type_of_use,boundary_wall_status: boundary_wall_status };
+	        	var myParams = { location_name: location_name,phase : phase,work_id_fk: work_id_fk,type_of_use : type_of_use,boundary_wall_status: boundary_wall_status };
 	            $.ajax({
 	                url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInRR",
 	                data: myParams, cache: false,async: false,
@@ -1042,7 +985,6 @@
 			$("#work_id_fk").val('');
 			$("#location_name").val('');
 			$("#phase").val('');
-			$("#structure_id").val('');
 			$("#type_of_use").val('');
 			$("#boundary_wall_status").val('');
 			$('.searchable').select2();
@@ -1057,7 +999,6 @@
 				var work_id_fk = $("#work_id_fk").val();
 		    	var location_name = $("#location_name").val();
 		    	var phase = $("#phase").val();
-		    	var structure_id = $("#structure_id").val();
 		    	var type_of_use = $("#type_of_use").val();
 		    	var boundary_wall_status = $("#boundary_wall_status").val();
 		    	var searchStrValue = $('[type=search]').val();

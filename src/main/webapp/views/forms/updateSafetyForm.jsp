@@ -511,7 +511,7 @@
 					   				}
 							       	if("${safety.safety_incident}"=="Yes")
 							       	{
-										if("${safety.nominated_authority}"=='${sessionScope.USER_ID}' || "${safety.responsible_person}"=='${sessionScope.USER_ID}' || arrayCommittee.indexOf('${sessionScope.USER_ID}')!=-1 || dy_hod_user_id == logged_in_user_id)
+										if(("${safety.nominated_authority}"=='${sessionScope.USER_ID}' && hod_user_id!="${safety.nominated_authority}") || ("${safety.responsible_person}"=='${sessionScope.USER_ID}' && hod_user_id!="${safety.responsible_person}") || arrayCommittee.indexOf('${sessionScope.USER_ID}')!=-1 || dy_hod_user_id == logged_in_user_id)
 										{
 											$("#status_fk option[value='Closed']").remove();
 										}
@@ -542,7 +542,7 @@
 				        			}	
 							       	if("${safety.safety_incident}"=="Yes")
 							       	{
-										if("${safety.nominated_authority}"=='${sessionScope.USER_ID}' || "${safety.responsible_person}"=='${sessionScope.USER_ID}' || arrayCommittee.indexOf('${sessionScope.USER_ID}')!=-1 || dy_hod_user_id == logged_in_user_id)
+										if(("${safety.nominated_authority}"=='${sessionScope.USER_ID}' && hod_user_id!="${safety.nominated_authority}") || ("${safety.responsible_person}"=='${sessionScope.USER_ID}' && hod_user_id!="${safety.responsible_person}") || arrayCommittee.indexOf('${sessionScope.USER_ID}')!=-1 || dy_hod_user_id == logged_in_user_id)
 										{
 											$("#status_fk option[value='Closed']").remove();
 										}
@@ -551,7 +551,7 @@
 	    						}
 		    				
 		    			}
-		    			else if('${sessionScope.USER_ROLE_NAME}'=="IT Admin" || "${safety.responsible_person}"=='${sessionScope.USER_ID}' || arrayCommittee.indexOf('${sessionScope.USER_ID}')!=-1)
+		    			else if('${sessionScope.USER_ROLE_NAME}'=="IT Admin" || ("${safety.responsible_person}"=='${sessionScope.USER_ID}' && hod_user_id!="${safety.responsible_person}") || arrayCommittee.indexOf('${sessionScope.USER_ID}')!=-1)
 		    			{
 		    				$("#radioDiv *").attr("disabled",true);
 		    				$("#secondDiv *").attr("disabled",false);
@@ -578,7 +578,7 @@
 		        			}
 					       	if("${safety.safety_incident}"=="Yes")
 					       	{
-								if("${safety.nominated_authority}"=='${sessionScope.USER_ID}' || "${safety.responsible_person}"=='${sessionScope.USER_ID}' || arrayCommittee.indexOf('${sessionScope.USER_ID}')!=-1 || dy_hod_user_id == logged_in_user_id)
+								if(("${safety.nominated_authority}"=='${sessionScope.USER_ID}' && hod_user_id!="${safety.nominated_authority}") || ("${safety.responsible_person}"=='${sessionScope.USER_ID}' && hod_user_id!="${safety.responsible_person}") || arrayCommittee.indexOf('${sessionScope.USER_ID}')!=-1 || dy_hod_user_id == logged_in_user_id)
 								{
 									$("#status_fk option[value='Closed']").remove();
 								}
@@ -611,7 +611,7 @@
 	        			}	
 				       	if("${safety.safety_incident}"=="Yes")
 				       	{
-							if("${safety.nominated_authority}"=='${sessionScope.USER_ID}' || "${safety.responsible_person}"=='${sessionScope.USER_ID}' || arrayCommittee.indexOf('${sessionScope.USER_ID}')!=-1 || dy_hod_user_id == logged_in_user_id)
+							if(("${safety.nominated_authority}"=='${sessionScope.USER_ID}' && hod_user_id!="${safety.nominated_authority}") || ("${safety.responsible_person}"=='${sessionScope.USER_ID}' && hod_user_id!="${safety.responsible_person}") || arrayCommittee.indexOf('${sessionScope.USER_ID}')!=-1 || dy_hod_user_id == logged_in_user_id)
 							{
 								$("#status_fk option[value='Closed']").remove();
 							}
@@ -637,7 +637,7 @@
 	        		
 			       	if("${safety.safety_incident}"=="Yes")
 			       	{
-						if("${safety.nominated_authority}"=='${sessionScope.USER_ID}' || "${safety.responsible_person}"=='${sessionScope.USER_ID}' || arrayCommittee.indexOf('${sessionScope.USER_ID}')!=-1 || dy_hod_user_id == logged_in_user_id)
+						if(("${safety.nominated_authority}"=='${sessionScope.USER_ID}' && hod_user_id!="${safety.nominated_authority}") || ("${safety.responsible_person}"=='${sessionScope.USER_ID}' && hod_user_id!="${safety.responsible_person}") || arrayCommittee.indexOf('${sessionScope.USER_ID}')!=-1 || dy_hod_user_id == logged_in_user_id)
 						{
 							$("#status_fk option[value='Closed']").remove();
 						}

@@ -359,6 +359,12 @@
 	text-align: left  !important;
 }
 
+.textalignment22{
+   	width:180px !important;
+   	min-width:180px !important;
+	text-align: center  !important;
+}
+
 .textalignment3{
 	text-align: center  !important;
    	width:260px !important;
@@ -736,8 +742,8 @@ width: 90%;
                 //{targets: [6],className: 'fw-200'},
                 {targets: [3,5,6],className: 'fw-155'},
                 {targets: [2],className: 'textalignment'},
-                {targets: [6,8,9],className: 'textalignment2'},
-                {targets: [7],className: 'textalignment21'},
+                {targets: [6,9],className: 'textalignment2'},
+                {targets: [7,8],className: 'textalignment22'},
                 { orderable: false, 'aTargets': ['nosort'] }
             ],
             // "ScrollX": true,

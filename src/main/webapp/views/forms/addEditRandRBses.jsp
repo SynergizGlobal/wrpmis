@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
+<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
 <%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -335,7 +336,7 @@
                                      <span id="hodError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 input-field">
-                                    <p class="searchable_label"> MRVC Responsible Person <span class="required">*</span></p>
+                                    <p class="searchable_label"> MRVC Responsible Person</p>
                                     <select id="mrvc_responsible_person" class="searchable validate-dropdown
                                     " name="mrvc_responsible_person">
                                         <option value="">Select</option>
@@ -399,41 +400,25 @@
 												<span class="normal-btn">
 													<input type="file" id="rragencyFiles" name="rragencyFiles" style="display:none" onchange="getFileName()">
 														<label for="rragencyFiles" class="btn bg-m"><i class="fa fa-paperclip"></i></label>
-														<input type="hidden" id="rrlaDocumentFileNames" name="rrlaDocumentFileNames">
+                                               <c:choose>
+		                                        <c:when test="${not empty rrDetails}">														
+														<a href="/pmis/RR_AGENCY_FILES/${rrDetails.attachment_file}" class="filevalue" download><i class="fa fa-arrow-down"></i></a>
+														
+												 </c:when>
+											 </c:choose>														<input type="hidden" id="rrlaDocumentFileNames" name="rrlaDocumentFileNames">
 														<span id="rrlaDocumentFileName" class="filevalue"></span></span><span id="laFiles1Error" class="error-msg"></span></div>
+
 											
                                         </div>
-                                    </div>
-                                </div>                               
-                                <div class="col s12 m12">
-                                    <div class="row">
-                                        <!-- row 7 -->
-                                        <div class="col s6 m4 l4 input-field">
-                                            <p style="margin-top: 12px;">Approval by MRVC Responsible Person</p>
-                                        </div>
-                                        <div class="col s6 m4 l4 input-field">
-                                            <p style="padding-bottom: 10px;padding-top: 10px;">
-                                                <label>
-                                                    <input id="approval_yes" class="with-gap" name="approval_by_mrvc_responsible_person" type="radio"
-                                                       <c:if test="${(rrDetails.approval_by_mrvc_responsible_person eq 'yes')}">checked</c:if> value="yes" />
-                                                    <span>Yes</span>
-                                                </label> &nbsp; <label>
-                                                    <input class="with-gap" name="approval_by_mrvc_responsible_person" type="radio"
-                                                        value="no"  <c:if test="${(rrDetails.approval_by_mrvc_responsible_person eq '') or (rrDetails.approval_by_mrvc_responsible_person ne 'yes')}">checked</c:if>/>
-                                                    <span>No</span>
-                                                </label>
-                                            </p>
-                                        </div>
-		                                <div class="col s6 m4 l4 input-field" id='show-me' style='display:none;margin-top: 20px;'>
+		                                <div class="col s6 m4 l4 input-field" id='show-me' style='margin-top: 20px;'>
 		                                             <input id="approval_date_mrvc" name="approval_date_by_mrvc" type="text" class="validate datepicker" value="${rrDetails.approval_date_by_mrvc }">
 		                                             <button type="button" id="approval_date_mrvc_icon" class="datepicker-button"><i
 		                                                    class="fa fa-calendar"></i></button>
 		                                             <label for="approval_date_mrvc">Approval Date by MRVC <span class="required">*</span></label>
 		                                             <span id="approval_date_mrvcError" class="error-msg" ></span>
-		                                </div>                                        
+		                                </div>                                         
                                     </div>
-                                </div>
-
+                                </div>                               
                             </div>
                             </div>
 
@@ -629,9 +614,7 @@
            }
        });
        
-       if('yes' == '${rrDetails.approval_by_mrvc_responsible_person}' ) {
-           $('#show-me').show();           
-      }
+
        getResponsible('${rrDetails.hod}');
    });
 	 
@@ -644,17 +627,6 @@ $( this ).select2({                placeholder:      $( this ).attr('placeholder
       // $('').select2({                placeholder            });
    });
 
-$(function() {
-$('input[type="radio"]').click(function() {
-  if($(this).attr('id') == 'approval_yes') {
-       $('#show-me').show();           
-  }
-
-  else {
-       $('#show-me').hide();   
-  }
-});
-});
 
 function getFileName(){
 	var filename = $('#rragencyFiles')[0].files[0].name;
@@ -757,6 +729,19 @@ function getResponsible(hod){
 	 			$('form input[name=name_of_representatives]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	 			$('form input[name=phone_nos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	 			$('form input[name=email_ids]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	 			var rowLr=$("#app_com_table tbody tr").length;
+	 			for(var k=0;k<rowLr;k++)
+	 			{
+	 				if($("#contact_number_rep"+k).val().length<10)
+	 				{
+	 					$("#contact_number_rep"+k+"Error").html("Phone number length should be 10");
+	 					return false;
+	 				}
+	 				else
+	 				{
+	 					$("#contact_number_rep"+k+"Error").html("");
+	 				}
+	 			}
 	  			document.getElementById("RandRForm").submit();			
 		 	 }
 	   }
@@ -768,7 +753,20 @@ function getResponsible(hod){
  			$('form input[name=name_of_representatives]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
  			$('form input[name=phone_nos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
  			$('form input[name=email_ids]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			document.getElementById("RandRForm").submit();	
+ 			var rowLr=$("#app_com_table tbody tr").length;
+ 			for(var k=0;k<rowLr;k++)
+ 			{
+ 				if($("#contact_number_rep"+k).val().length<10)
+ 				{
+ 					$("#contact_number_rep"+k+"Error").html("Phone number length should be 10");
+ 					return false;
+ 				}
+ 				else
+ 				{
+ 					$("#contact_number_rep"+k+"Error").html("");
+ 				}
+ 			}
+	  		document.getElementById("RandRForm").submit();	
 	   	}
 	   }
      
@@ -782,8 +780,6 @@ function getResponsible(hod){
 	 			 		  required: true
 	 			 	  },"hod": {
 	 			 		  required: true
-	 			 	  }	,"mrvc_responsible_person"	:{
-	 			 		  required:true
 	 			 	  },"bses_agency_name"	:{
 	 			 		  required:true
 	 			 	  },"actual_submission_date_bses_report_to_mrvc": {
@@ -799,8 +795,6 @@ function getResponsible(hod){
 	 			 		  required: 'Required'
 	 			 	  },"hod": {
 	 			 		  required: 'Required'
-	 			 	  }	,"mrvc_responsible_person"	:{
-	 			 		  required:'Required'
 	 			 	  },"bses_agency_name"	:{
 	 			 		  required:'Required'
 	 			 	  },"actual_submission_date_bses_report_to_mrvc": {
@@ -818,9 +812,6 @@ function getResponsible(hod){
 					 }else if(element.attr("id") == "hod" ){
 					     document.getElementById("hodError").innerHTML="";
 				 	     error.appendTo('#hodError');
-					 }else if(element.attr("id") == "mrvc_responsible_person" ){
-					     document.getElementById("mrvc_responsible_personError").innerHTML="";
-				 	     error.appendTo('#mrvc_responsible_personError');
 					 }else if(element.attr("id") == "bses_agency_name" ){
 					     document.getElementById("bses_agency_nameError").innerHTML="";
 				 	     error.appendTo('#bses_agency_nameError');

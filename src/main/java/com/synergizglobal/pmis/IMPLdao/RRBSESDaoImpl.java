@@ -135,17 +135,17 @@ public class RRBSESDaoImpl implements RRBSESDao{
 					+ "where id is not null  ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
-				qry = qry + "and hod = ?";
+				qry = qry + "and hod = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + "and work_id_fk = ?";
+				qry = qry + "and work_id_fk = ? ";
 				arrSize++;
 			}
 	
 			if(!StringUtils.isEmpty(searchParameter)) {
-				qry = qry + " and (r.id like ? or r.work_id_fk like ? or work_short_name like ?"
-						+ " or u.user_name like ? or u.designation like ? or bses_agency_name like ? or agency_responsible_person like ? )";
+				qry = qry + " and (r.id like ? or r.work_id_fk like ? or work_short_name like ? "
+						+ " or u.user_name like ? or u.designation like ? or bses_agency_name like ? or agency_responsible_person like ? ) ";
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -196,16 +196,16 @@ public class RRBSESDaoImpl implements RRBSESDao{
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
-				qry = qry + "and hod = ?";
+				qry = qry + "and hod = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + "and work_id_fk = ?";
+				qry = qry + "and work_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(searchParameter)) {
-				qry = qry + " and (r.id like ? or r.work_id_fk like ? or work_short_name like ?"
-						+ " or u.user_name like ? or u.designation like ? or bses_agency_name like ? or agency_responsible_person like ? )";
+				qry = qry + " and (r.id like ? or r.work_id_fk like ? or work_short_name like ? "
+						+ " or u.user_name like ? or u.designation like ? or bses_agency_name like ? or agency_responsible_person like ? ) ";
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -394,7 +394,7 @@ public class RRBSESDaoImpl implements RRBSESDao{
 								}
 							}
 							if(!StringUtils.isEmpty(obj.getCommittee_names()) && obj.getCommittee_names().length > 0 ) {
-								obj.setEmail_ids(CommonMethods.replaceEmptyByNullInSringArray(obj.getCommittee_names()));
+								obj.setCommittee_names(CommonMethods.replaceEmptyByNullInSringArray(obj.getCommittee_names()));
 								if(arraySize < obj.getCommittee_names().length) {
 									arraySize = obj.getCommittee_names().length;
 								}
@@ -508,7 +508,7 @@ public class RRBSESDaoImpl implements RRBSESDao{
 								}
 							}
 							if(!StringUtils.isEmpty(obj.getCommittee_names()) && obj.getCommittee_names().length > 0 ) {
-								obj.setEmail_ids(CommonMethods.replaceEmptyByNullInSringArray(obj.getCommittee_names()));
+								obj.setCommittee_names(CommonMethods.replaceEmptyByNullInSringArray(obj.getCommittee_names()));
 								if(arraySize < obj.getCommittee_names().length) {
 									arraySize = obj.getCommittee_names().length;
 								}

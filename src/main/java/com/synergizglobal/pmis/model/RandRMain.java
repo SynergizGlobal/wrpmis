@@ -17,16 +17,17 @@ residential_name, residential_relation_with_head, residential_age, rr_location_f
 residential_maritual_status, residential_education, residential_employment, residential_salary, unit, value,com_carpet_area,com_remarks,estimated_by_mmrda_amount_units,estimation_amount_units,
 residential_salary_units,created_by_user_id_fk,modified_by,modified_date,user_id,user_name,designation,user_type_fk,user_role_code,executive_user_id_fk,rr_data_id, uploaded_file, status, uploaded_by_user_id_fk, uploaded_on,mail_body_header,
  hod, mrvc_responsible_person, bses_agency_name, agency_responsible_person,rrbses_id,
- rr_agency_id_fk, date_of_appointment, name_of_representative, phone_no,
+ rr_agency_id_fk, date_of_appointment, name_of_representative, phone_no,committee_name,
  contact_number, email_id, submission_date_report_ca, actual_submission_date_bses_report_to_mrvc,res_designation,res_user_name,
- approval_by_mrvc_responsible_person, report_submission_date_to_mrvc, approval_date_by_mrvc,res_user_id,planned_date_of_completion,chainage,latitude,longitude,searchStr;
+ approval_by_mrvc_responsible_person, report_submission_date_to_mrvc, approval_date_by_mrvc,res_user_id,planned_date_of_completion,chainage,latitude,longitude,searchStr,attachment_file;
 
 private List<RandRMain> residentialList,rrBSESLIst,commercialList,comList,comFamList,resList,resFamList,report1List,report2List;
 private MultipartFile RandRFile;
-private String [] values,genders,ids,name_of_representatives,date_of_appointments,phone_nos,email_ids, rr_id_fks, employee_names, employee_ages, employee_genders, employee_literacys,employee_salary_unitsss, employee_travel_times
+private MultipartFile [] rragencyFiles;
+private String [] values,genders,ids,name_of_representatives,committee_names,date_of_appointments,phone_nos,email_ids, rr_id_fks, employee_names, employee_ages, employee_genders, employee_literacys,employee_salary_unitsss, employee_travel_times
 , employee_salarys, employee_salary_unitss, employee_nature_of_works,
 residential_names, residential_relation_with_heads, residential_ages, residential_genders, residential_maritual_statuss,employee_attendeds, residential_educations, residential_employments
-, residential_salarys, residential_salary_unitss;
+, residential_salarys, residential_salary_unitss,rrDocumentFileNames;
 
 public String getBses_email() {
 	return bses_email;
@@ -1369,6 +1370,46 @@ public String getSearchStr() {
 
 public void setSearchStr(String searchStr) {
 	this.searchStr = searchStr;
+}
+
+public String [] getCommittee_names() {
+	return committee_names;
+}
+
+public void setCommittee_names(String [] committee_names) {
+	this.committee_names = committee_names;
+}
+
+public String getCommittee_name() {
+	return committee_name;
+}
+
+public void setCommittee_name(String committee_name) {
+	this.committee_name = committee_name;
+}
+
+public MultipartFile [] getRragencyFiles() {
+	return rragencyFiles;
+}
+
+public void setRragencyFiles(MultipartFile [] rragencyFiles) {
+	this.rragencyFiles = rragencyFiles;
+}
+
+public String [] getRrDocumentFileNames() {
+	return rrDocumentFileNames;
+}
+
+public void setRrDocumentFileNames(String [] rrDocumentFileNames) {
+	this.rrDocumentFileNames = rrDocumentFileNames;
+}
+
+public String getAttachment_file() {
+	return attachment_file;
+}
+
+public void setAttachment_file(String attachment_file) {
+	this.attachment_file = attachment_file;
 }
 
 }

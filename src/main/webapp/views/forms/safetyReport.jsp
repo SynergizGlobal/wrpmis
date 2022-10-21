@@ -28,6 +28,27 @@
             }
         }       
 		.error-msg label{color:red!important;}
+
+    #googoose-footer {
+        margin-right: 1in;
+        position: absolute;
+        width: 100%;
+        text-align: right;
+    }
+    #googoose-header {
+        width: 100%;
+        text-align: center;
+    }
+#hello-canvas
+{
+display:none;
+}  	
+
+body{
+font-family:Calibri;
+font-size:13px;
+}	
+		
     </style>
 </head>
 
@@ -81,27 +102,43 @@
 	                                        </select>
 	                                        <span id="contract_id_fkError" class="error-msg" ></span>
 	                                    </div>
-	                                    <!-- <div class="col s12 m3 input-field">
-	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters black-text"
-	                                            style="margin-top: 6px;width: 100%; font-weight: 600;"
-	                                            onclick="generateReport()">Generate
-	                                            Report</button>
-	                                    </div> -->
 	                                </div>
 	                                
-			    			<div class="row">	                                	
-                                <div class="col s7 m4 l3 input-field center-align offset-l3 offset-m2">
-                                    <button type="button" class="btn bg-m waves-effe ct waves-light t-c clear-filters" style="margin-top: 6px;min-width:160px%; font-weight: 600;" onclick="generateReport();">Generate Report</button>
-                                </div>
-                                <div class="col s5 m4 l3 input-field left-align ">
-                                    <button class="btn bg-s waves-effect waves-light t-c" type="button" style="margin-top: 6px; font-weight: 600; min-width:120px" onclick="clearFilter()">Reset</button>
-                                </div>                                
-                             </div>	                                
+				    			<div class="row">	                                	
+	                                <div class="col s7 m4 l3 input-field center-align offset-l3 offset-m2">
+	                                    <button type="button" class="btn bg-m waves-effe ct waves-light t-c clear-filters" style="margin-top: 6px;min-width:160px%; font-weight: 600;" onclick="generateReport();">Generate Report</button>
+	                                </div>
+	                                <div class="col s5 m4 l3 input-field left-align ">
+	                                    <button class="btn bg-s waves-effect waves-light t-c" type="button" style="margin-top: 6px; font-weight: 600; min-width:120px" onclick="clearFilter()">Reset</button>
+	                                </div>                                
+	                             </div>	
+								<div class='googoose-wrapper' style="display:none;">
+								    <div class='googoose' style="padding-bottom:0px;text-align:center;display:none;" id="logoDiv">
+								       <img src="/pmis/resources/images/mrvclogo.png" alt="Logo" width="70" height="55">
+								    </div>
+		                              <div class="col m8 s12 offset-m2" style="text-align:center;font-weight:bold;font-family:Calibri;">
+		                             	PMIS Report - Safety Incidents
+		                             </div>
+		                             <div class="col m8 s12 offset-m2" style="text-align:center;font-weight:bold;font-family:Calibri;display:none;" id="ovenDiv">
+		                             	LIST OF OPEN SAFETY INCIDENTS
+		                             </div>
+		                             <div id="appendSummaryData" style="font-family:Calibri;">
+		                             
+		                             </div> 
+									
+
+		                             <div id="appendSummaryClosedData" style="font-family:Calibri;">
+		                             
+		                             </div> 		                             
+		                             
+		                      </div>                                                                                       
                                 </form>
                             </div>
                         </div>
                     </div>
                 </div>
+ <canvas id='hello-canvas'></canvas>
+               
             </div>
         </div>
     </div>
@@ -130,8 +167,27 @@
     <script src="/pmis/resources/js/select2.min.js"></script>
     <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/aadel112/googoose@master/jquery.googoose.js"></script>
     
     <script>
+    
+	   var today = new Date();
+	   var dd = today.getDate();
+
+	   var mm = today.getMonth()+1; 
+	   var yyyy = today.getFullYear();
+	   if(dd<10) 
+	   {
+	       dd='0'+dd;
+	   } 
+
+	   if(mm<10) 
+	   {
+	       mm='0'+mm;
+	   } 
+	   today = dd+'/'+mm+'/'+yyyy;
+	   
+   
   	    var filtersMap = new Object();
       	function getErrorMessage(jqXHR, exception) {
         	    var msg = '';
@@ -156,6 +212,8 @@
         
         $(document).ready(function(){
         	$('.searchable').select2();
+        	
+       	
             var filters = window.localStorage.getItem("safetyReportFilters");
             
             if($.trim(filters) != '' && $.trim(filters) != null){
@@ -408,10 +466,259 @@
           }
         }
         
+        var projectIdsArray=new Array();
+        var projectWorkIdsArray=new Array();
+        var workIdsArray=new Array();
+        var RowsArray=new Array();
+        
+        
+        
+        var projectIdsCArray=new Array();
+        var projectWorkIdsCArray=new Array();
+        var workIdsCArray=new Array();
+        var RowsCArray=new Array();       
   
         function generateReport() {
+        	projectIdsArray=[];
+        	projectWorkIdsArray=[];
+        	
+        	projectIdsCArray=[];
+        	projectWorkIdsCArray=[];       	
+        	
         	//$(".page-loader").show();
-        	$("#reportForm").submit();
+        	var work_id_fk = $('#work_id_fk').val();
+        	var contract_id_fk = $('#contract_id_fk').val();
+        	var hod_user_id_fk = $('#hod_user_id_fk').val();
+        	var status_fk = $('#status_fk').val();
+        	var mcl=0;
+        	if ($.trim(hod_user_id_fk) == "") {
+	           	$("#hod_user_id_fk option:not(:first)").remove();
+	           	var myParams = {work_id_fk : work_id_fk, contract_id_fk : contract_id_fk, status_fk : status_fk}
+	           	$.ajax({
+	                   url: "<%=request.getContextPath()%>/ajax/generateSafetyReport",
+	                   data: myParams, cache: false,async: false,
+	                   success: function (data) {
+	                       if (data.length > 0) {
+ 	                           var html="<table style='width:100%' class='table table-bordered'>";
+	                           $.each(data, function (i1, val1) {
+	                        	   if(val1.status_fk=="Open")
+	                        		   {
+	                        		   mcl=1;
+	                        		   	 $("#logoDiv").show();
+	    	                    	  	 $("#ovenDiv").show();
+			                        	   var hh=0;
+			                       	   	   if(projectIdsArray.indexOf(val1.project_id_fk)==-1)
+			                       		   {	hh=1;
+					                       		html=html+"<tr><td style='text-align:left;'>"+(i1+1)+":Project Name:"+val1.project_id_fk+" - "+val1.project_name+"<span>"+today+"</span></td></tr>";
+					                       		projectIdsArray.push(val1.project_id_fk);
+			                       		   }
+			                       	   	   var lengthRows=0;
+			                       	   	   if(hh==1)
+			                       	   	   {
+				                       	   	   var klm=0;
+				 	                           $.each(data, function (i, val) {
+					                       	   	   if(val.project_id_fk==val1.project_id_fk && RowsArray.indexOf(val.work_id_fk)==-1 && val.status_fk=="Open")
+					                       		   {
+					                       	   			RowsArray.push(val.work_id_fk);
+					                       	   			lengthRows++;
+					                       		   }
+				 	                           });
+			                       	   	   }
+			                       	   	   if(hh==1)
+			                       	   	   {
+				                       	   	   var klm=0;
+				 	                           $.each(data, function (i, val) {
+					                       	   	   if(val.project_id_fk==val1.project_id_fk && workIdsArray.indexOf(val.work_id_fk)==-1 && val.status_fk=="Open")
+					                       		   {
+
+					                       	   			workIdsArray.push(val.work_id_fk);
+							                       		html=html+"<tr><td style='text-align:left;'>"+(i1+1)+"."+(klm+1)+".Work Name:"+val.work_id_fk+" - "+val.work_short_name+"</td></tr>";
+							                       		html=html+"<tr><td style='text-align:left;'>No. of Open Safety Incidents:"+lengthRows+"</td></tr>";
+							                       		html=html+"<tr><td style='text-align:left;'>";
+								                       		html=html+"<table style='width:100%' class='table table-bordered'>";
+								                       			html=html+"<tr style='background-color:#ecf2ff;'>";
+								                       	   			html=html+"<td style='width:20px;'>S No</td>";
+								                       	   			html=html+"<td style='width:100px;'>Safety ID</td>";
+								                       	   			html=html+"<td style='width:200px;'>Name of Contract</td>";
+								                       	   			html=html+"<td style='width:150px;'>Contractor</td>";
+								                       				html=html+"<td>HOD</td>";
+								                       				html=html+"<td>Date / Location</td>";
+								                       				html=html+"<td>Description</td>";
+								                       				html=html+"<td>Impact / Category</td>";
+								                       				html=html+"<td>Root Cause</td>";
+								                       				html=html+"<td>Committee (Y/N)</td>";
+								                       				html=html+"<td>Incident Status</td>";
+								                       				html=html+"<td>Short Term Corrective Measure</td>";
+								                       				html=html+"<td>Long Term Corrective Measure</td>";
+								                       			html=html+"</tr>";
+								                       			var fgyu=0;
+								                       			$.each(data, function (i2, val2) {
+								                       					if(val2.project_id_fk==val.project_id_fk && val2.work_id_fk==val.work_id_fk && val2.status_fk=="Open")
+								                       					{
+											                       			html=html+"<tr style='background-color:#ffffff;'>";
+											                       				html=html+"<td>"+(fgyu+1)+"</td>";
+											                       				html=html+"<td>"+val2.safety_seq_id+"</td>";
+											                       				html=html+"<td>"+val2.contract_id_fk+"/ \n "+val2.contract_short_name+"</td>";
+											                       				html=html+"<td>"+val2.contractor_name+"</td>";
+											                       				html=html+"<td>"+val2.designation+"</td>";
+											                       				html=html+"<td>"+val2.date+"\n "+val2.location+"</td>";
+											                       				html=html+"<td>"+val2.description+"</td>";
+											                       				html=html+"<td>"+val2.impact_fk+"/ "+val2.category_fk+"</td>";
+											                       				html=html+"<td>"+val2.root_cause_fk+"</td>";
+											                       				html=html+"<td>"+val2.committee_required_fk+"</td>";
+											                       				html=html+"<td>"+val2.status_fk+"</td>";
+											                       				html=html+"<td>"+val2.corrective_measure_short_term+"</td>";
+											                       				html=html+"<td>"+val2.corrective_measure_long_term+"</td>";
+										                       				html=html+"</tr>";
+										                       				fgyu++;
+								                       					}
+								                       			});
+								                       		html=html+"</table>";
+							                       		html=html+"</td></tr>";
+							                       		klm++;
+					                       		   }
+					                           }); 	
+				 	                          lengthRows=0;
+			                       	   	   }
+	                        		   }
+		                       });
+	                           html=html+"</table>";
+	                           $("#appendSummaryData").html(html);
+	                           var htmlC="";
+                           	   if(mcl>0)
+                        	   {
+                        	    	htmlC=htmlC+"<div class='googoose break'></div><div style='text-align:center;'><img src='/pmis/resources/images/mrvclogo.png' alt='Logo' width='70' height='55'></div><br><br>";						    
+                        	   }
+                           	   htmlC=htmlC+'<div class="col m8 s12 offset-m2" style="text-align:center;font-weight:bold;font-family:Calibri;" id="closedDiv">LIST OF CLOSED SAFETY INCIDENTS</div>';
+	                           htmlC=htmlC+"<table style='width:100%' class='table table-bordered'>";
+                        	   if(data.length>0)
+                        	   {
+	                           $.each(data, function (i1, val1) {
+
+	                        	   if(val1.status_fk=="Closed")
+	                        		   {
+		                        		   $("#logoDiv").show();
+			                        	   var hh=0;
+			                       	   	   if(projectIdsCArray.indexOf(val1.project_id_fk)==-1)
+			                       		   {	hh=1;
+			                       				htmlC=htmlC+"<tr><td style='text-align:left;'>"+(i1+1)+":Project Name:"+val1.project_id_fk+" - "+val1.project_name+"<span>"+today+"</span></td></tr>";
+					                       		projectIdsCArray.push(val1.project_id_fk);
+			                       		   }
+			                       	   	   if(hh==1)
+			                       	   	   {
+				                       	   	   var klm=0;
+				 	                           $.each(data, function (i, val) {
+					                       	   	   if(val.project_id_fk==val1.project_id_fk && workIdsCArray.indexOf(val.work_id_fk)==-1 && val.status_fk=="Closed")
+					                       		   {
+					                       	   			workIdsCArray.push(val.work_id_fk);
+					                       	   			htmlC=htmlC+"<tr><td style='text-align:left;'>"+(i1+1)+"."+(klm+1)+".Work Name:"+val.work_id_fk+" - "+val.work_short_name+"</td></tr>";
+					                       	   			htmlC=htmlC+"<tr><td style='text-align:left;'>No. of Open Safety Incidents:"+i+"</td></tr>";
+					                       	   			htmlC=htmlC+"<tr><td style='text-align:left;'>";
+					                       	   			htmlC=htmlC+"<table style='width:100%' class='table table-bordered'>";
+					                       	   			htmlC=htmlC+"<tr style='background-color:#ecf2ff;'>";
+					                       	   			htmlC=htmlC+"<td style='width:20px;'>S No</td>";
+					                       	   			htmlC=htmlC+"<td style='width:100px;'>Safety ID</td>";
+					                       	   			htmlC=htmlC+"<td style='width:200px;'>Name of Contract</td>";
+					                       	   			htmlC=htmlC+"<td style='width:150px;'>Contractor</td>";
+					                       	   			htmlC=htmlC+"<td>HOD</td>";
+					                       	   			htmlC=htmlC+"<td>Date / Location</td>";
+					                       	   			htmlC=htmlC+"<td>Description</td>";
+					                       	   			htmlC=htmlC+"<td>Impact / Category</td>";
+					                       	   			htmlC=htmlC+"<td>Root Cause</td>";
+					                       	   			htmlC=htmlC+"<td>Committee (Y/N)</td>";
+					                       	   			htmlC=htmlC+"<td>Incident Status</td>";
+					                       	   			htmlC=htmlC+"<td>Short Term Corrective Measure</td>";
+					                       	   			htmlC=htmlC+"<td>Long Term Corrective Measure</td>";
+					                       	   			htmlC=htmlC+"</tr>";
+								                       			var fgyu=0;
+								                       			$.each(data, function (i2, val2) {
+								                       					if(val2.project_id_fk==val.project_id_fk && val2.work_id_fk==val.work_id_fk && val2.status_fk=="Closed")
+								                       					{
+								                       						var conName=""; 
+								                       						if(val2.contractor_name!=null)
+								                       							{
+								                       								conName=val2.contractor_name;
+								                       							}
+								                       							var longtermMeasure=""; 
+								                       							if(val2.corrective_measure_long_term!=null)
+								                       							{
+								                       								longtermMeasure=val2.corrective_measure_long_term;
+								                       							}								                       						
+								                       						
+								                       						
+								                       						
+								                       							htmlC=htmlC+"<tr style='background-color:#ffffff;'>";
+								                       							htmlC=htmlC+"<td>"+(fgyu+1)+"</td>";
+								                       							htmlC=htmlC+"<td>"+val2.safety_seq_id+"</td>";
+								                       							htmlC=htmlC+"<td>"+val2.contract_id_fk+"/ \n "+val2.contract_short_name+"</td>";
+								                       							htmlC=htmlC+"<td>"+conName+"</td>";
+								                       							htmlC=htmlC+"<td>"+val2.designation+"</td>";
+								                       							htmlC=htmlC+"<td>"+val2.date+"\n "+val2.location+"</td>";
+								                       							htmlC=htmlC+"<td>"+val2.description+"</td>";
+								                       							htmlC=htmlC+"<td>"+val2.impact_fk+"/ "+val2.category_fk+"</td>";
+								                       							htmlC=htmlC+"<td>"+val2.root_cause_fk+"</td>";
+								                       							htmlC=htmlC+"<td>"+val2.committee_required_fk+"</td>";
+								                       							htmlC=htmlC+"<td>"+val2.status_fk+"</td>";
+								                       							htmlC=htmlC+"<td>"+val2.corrective_measure_short_term+"</td>";
+								                       							htmlC=htmlC+"<td>"+longtermMeasure+"</td>";
+								                       							htmlC=htmlC+"</tr>";
+										                       				fgyu++;
+								                       					}
+								                       			});
+								                       			htmlC=htmlC+"</table>";
+								                       			htmlC=htmlC+"</td></tr>";
+							                       		klm++;
+					                       		   }
+					                           }); 	
+			                       	   	   }
+	                        		   }
+	                        	   
+		                       });
+                        	   }
+	                           htmlC=htmlC+"</table>";	                           
+	                           
+	                           $("#appendSummaryClosedData").html(htmlC);
+
+ 	                   		$(".googoose-wrapper").show();
+	                		$(".page-loader-2").show();
+
+	                    	 var canvas = document.getElementById("hello-canvas");
+	                    	    var ctx = canvas.getContext("2d");
+	                    	    function r(ctx, x, y, w, h, c) {
+	                    	      ctx.beginPath();
+	                    	      ctx.rect(x, y, w, h);
+	                    	      ctx.strokeStyle = c;
+	                    	      ctx.stroke();
+	                    	    }
+	                    	    r(ctx, 0, 0, 32, 32, "black");
+	                    	    r(ctx, 4, 4, 16, 16, "red");
+	                    	    r(ctx, 8, 8, 16, 16, "green");
+	                    	    r(ctx, 12, 12, 16, 16, "blue");
+
+
+	                    	    var o = {
+	                    	        download: 0,
+	                    	        filename: 'SafetyReport.doc',
+	                    	    	  	  margins: '0.25in',
+	                    	    	  	  size: '11in 11.0in',
+	                    	    	  	headermargin: '.4in',
+	                    	    };
+	                    	    $(document).googoose(o);    
+	                    	    $(".page-loader-2").hide();
+	                    	    $(".googoose-wrapper").hide(); 
+	                    	    window.location.reload();
+	                           
+	                       }
+	                       $('.searchable').select2();
+	                       $(".page-loader").hide();
+	                   },error: function (jqXHR, exception) {
+	    	   			  $(".page-loader").hide();
+	   	   	          	  getErrorMessage(jqXHR, exception);
+	   	   	     	  }
+	            });
+        	}else{
+          	  $(".page-loader").hide();
+          }
 		}
         
         

@@ -294,7 +294,19 @@ public class SafetyReportController {
 		return objsList;
 	}
 	
-	
+	@RequestMapping(value = "/ajax/generateSafetyReport", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Safety> generateSafetyReport(@ModelAttribute Safety obj) {
+		List<Safety> objsList = null;
+		try {
+			objsList = safetyService.getSafetyReportData(obj);
+
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("generateSafetyReport : " + e.getMessage());
+		}
+		return objsList;
+	}	
 	@RequestMapping(value = "/generate-safety-report", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView generatePendingSafetyReport(@ModelAttribute Safety obj ,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView("redirect:/safety-report");

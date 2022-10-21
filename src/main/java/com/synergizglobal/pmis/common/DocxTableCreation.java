@@ -721,7 +721,7 @@ public class DocxTableCreation {
 
 			if(i2==0)
 			{
-			
+
 				for (int i3 = 0; i3 < openWorkIdsList.size(); i3++) 
 				{
 					
@@ -937,6 +937,7 @@ public class DocxTableCreation {
 				}
 				rowNum=0;
 				}
+			    
 				
 			}
 			else

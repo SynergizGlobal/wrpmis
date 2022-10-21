@@ -296,7 +296,7 @@ public class SafetyReportDaoImpl implements SafetyReportDao{
 					+ "FORMAT(investigation_completed,'dd-MM-yyyy') AS investigation_completed,corrective_measure_short_term,"
 					+ "corrective_measure_long_term,cast(compensation as CHAR) as compensation,"
 					+ "FORMAT(payment_date,'dd-MM-yyyy') AS payment_date,s.remarks,contract_name,work_id_fk,work_name,work_short_name,"
-					+ "project_id_fk,project_name,s.hod_user_id_fk,designation,user_name as hod_name,contract_id,contractor_name "
+					+ "project_id_fk,project_name,s.hod_user_id_fk,designation,user_name as hod_name,contract_id,contractor_name,safety_seq_id "
 					+ "from safety s "
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
 					+ "LEFT OUTER JOIN contractor ctr ON c.contractor_id_fk = ctr.contractor_id "

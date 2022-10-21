@@ -377,22 +377,42 @@
                                 
                                 <div class="col s6 m4 input-field">
                                      <input id="actual_date_report_mrvc" name="actual_submission_date_bses_report_to_mrvc" type="text" class="validate datepicker" value="${rrDetails.actual_submission_date_bses_report_to_mrvc }">
-                                     <button type="button" id="actual_date_report_mrvc_icon" class="datepicker-button"><i
-                                            class="fa fa-calendar"></i></button>
-                                     <label for="actual_date_report_mrvc">Actual Submission date of BSES report to MRVC </label>
+                                     <button type="button" id="actual_date_report_mrvc_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
+                                     <label for="actual_date_report_mrvc">Actual Submission date of BSES report to MRVC <span class="required">*</span></label>
                                      <span id="actual_date_report_mrvcError" class="error-msg" ></span>
                                 </div>
                             </div>
+                            
                             <div class="row">
                                 <h5 class="center-align">MRVC Verification</h5>
+                                 <div style='margin-top: 20px;'>
+                                    <div class="row">
+                                        <div class="col s6 m4 l4 input-field">
+                                             <input id="submission_date_report_mrvc" name="report_submission_date_to_mrvc" type="text" class="validate datepicker" value="${rrDetails.report_submission_date_to_mrvc }">
+                                             <button type="button" id="submission_date_report_mrvc_icon" class="datepicker-button"><i
+                                                    class="fa fa-calendar"></i></button>
+                                             <label for="submission_date_report_mrvc">Report Submission Date to MRVC <span class="required">*</span></label>
+                                             <span id="submission_date_report_mrvcError" class="error-msg" ></span>
+                                        </div>
+                                        <div class="col s6 m4 l4 input-field">
+											<div data-head="Attachment" class="input-field center-align">
+												<span class="normal-btn">
+													<input type="file" id="rragencyFiles" name="rragencyFiles" style="display:none" onchange="getFileName()">
+														<label for="rragencyFiles" class="btn bg-m"><i class="fa fa-paperclip"></i></label>
+														<input type="hidden" id="rrlaDocumentFileNames" name="rrlaDocumentFileNames">
+														<span id="rrlaDocumentFileName" class="filevalue"></span></span><span id="laFiles1Error" class="error-msg"></span></div>
+											
+                                        </div>
+                                    </div>
+                                </div>                               
                                 <div class="col s12 m12">
                                     <div class="row">
                                         <!-- row 7 -->
-                                        <div class="col s5 m5 input-field">
+                                        <div class="col s6 m4 l4 input-field">
                                             <p style="margin-top: 12px;">Approval by MRVC Responsible Person</p>
                                         </div>
-                                        <div class="col s5 m7 input-field">
-                                            <p class="radiogroup" style="padding-bottom: 10px;padding-top: 10px;">
+                                        <div class="col s6 m4 l4 input-field">
+                                            <p style="padding-bottom: 10px;padding-top: 10px;">
                                                 <label>
                                                     <input id="approval_yes" class="with-gap" name="approval_by_mrvc_responsible_person" type="radio"
                                                        <c:if test="${(rrDetails.approval_by_mrvc_responsible_person eq 'yes')}">checked</c:if> value="yes" />
@@ -404,26 +424,16 @@
                                                 </label>
                                             </p>
                                         </div>
+		                                <div class="col s6 m4 l4 input-field" id='show-me' style='display:none;margin-top: 20px;'>
+		                                             <input id="approval_date_mrvc" name="approval_date_by_mrvc" type="text" class="validate datepicker" value="${rrDetails.approval_date_by_mrvc }">
+		                                             <button type="button" id="approval_date_mrvc_icon" class="datepicker-button"><i
+		                                                    class="fa fa-calendar"></i></button>
+		                                             <label for="approval_date_mrvc">Approval Date by MRVC <span class="required">*</span></label>
+		                                             <span id="approval_date_mrvcError" class="error-msg" ></span>
+		                                </div>                                        
                                     </div>
                                 </div>
-                                <div id='show-me' style='display:none;margin-top: 20px;'>
-                                    <div class="row">
-                                        <div class="col s6 m4 input-field offset-m2">
-                                             <input id="submission_date_report_mrvc" name="report_submission_date_to_mrvc" type="text" class="validate datepicker" value="${rrDetails.report_submission_date_to_mrvc }">
-                                             <button type="button" id="submission_date_report_mrvc_icon" class="datepicker-button"><i
-                                                    class="fa fa-calendar"></i></button>
-                                             <label for="submission_date_report_mrvc">Report Submission Date to MRVC </label>
-                                             <span id="submission_date_report_mrvcError" class="error-msg" ></span>
-                                        </div>
-                                        <div class="col s6 m4 input-field">
-                                             <input id="approval_date_mrvc" name="approval_date_by_mrvc" type="text" class="validate datepicker" value="${rrDetails.approval_date_by_mrvc }">
-                                             <button type="button" id="approval_date_mrvc_icon" class="datepicker-button"><i
-                                                    class="fa fa-calendar"></i></button>
-                                             <label for="approval_date_mrvc">Approval Date by MRVC </label>
-                                             <span id="approval_date_mrvcError" class="error-msg" ></span>
-                                        </div>
-                                    </div>
-                                </div>
+
                             </div>
                             </div>
 
@@ -438,6 +448,7 @@
                                                     <tr>
                                                         <th class="w60">S No </th>
                                                         <th class="w20em">Date of Appointment </th>
+                                                        <th class="w20em">Committee Name </th>
                                                         <th class="w20em">Name of Representative </th>
                                                         <th class="w20em">Phone No </th>
                                                         <th class="w20em">Email ID </th>
@@ -458,6 +469,10 @@
                                                                         class="fa fa-calendar"></i></button>
                                                                  <span id="appointment_date_committee${index.count }Error" class="error-msg" ></span>
                                                         </td>
+                                                        <td data-head="Committee Name${index.count }" class="input-field">
+                                                        <input id="committee_name" maxlength="50" placeholder="Committee Name" data-length="50" name="committee_names" type="text" class="validate w70 pdr4em" value="${rrObj.committee_name }">
+                                                         <span id="committee_name${index.count }Error" class="error-msg" ></span>
+                                                        </td>                                                        
                                                         <td data-head="Name of Representative${index.count }" class="input-field">
                                                         <input id="name_representative" maxlength="50" placeholder="Name" data-length="50" name="name_of_representatives" type="text" class="validate w70 pdr4em" value="${rrObj.name_of_representative }">
                                                          <span id="name_representative${index.count }Error" class="error-msg" ></span>
@@ -487,6 +502,10 @@
                                                                         class="fa fa-calendar"></i></button>
                                                                  <span id="appointment_date_committeeError" class="error-msg" ></span>
                                                         </td>
+                                                        <td data-head="Committee Name0" class="input-field">
+                                                        <input id="committee_name" maxlength="50" placeholder="Committee Name" data-length="50" name="committee_names" type="text" class="validate w70 pdr4em" value="">
+                                                         <span id="committee_nameError" class="error-msg" ></span>
+                                                        </td>                                                            
                                                         <td data-head="Name of Representative0" class="input-field">
                                                         <input id="name_representative" placeholder="Name" maxlength="50" data-length="50" name="name_of_representatives" type="text" class="validate w70 pdr4em" value="">
                                                          <span id="name_representativeError" class="error-msg" ></span>
@@ -637,6 +656,12 @@ $('input[type="radio"]').click(function() {
 });
 });
 
+function getFileName(){
+	var filename = $('#rragencyFiles')[0].files[0].name;
+    $('#rrlaDocumentFileName').html(filename);
+    $('#rrlaDocumentFileNames').val(filename);
+}
+
 function getResponsible(hod){
    	$(".page-loader").show();
     $("#mrvc_responsible_person option:not(:first)").remove();
@@ -678,6 +703,10 @@ function getResponsible(hod){
           +'<input id="appointment_date_committee' + rNo + '" type="text" placeholder="Date" class="validate datepicker" name="date_of_appointments" value="">'              
           +'<button type="button" id="appointment_date_committee_icon' + rNo + '" class="datepicker-button"><i class="fa fa-calendar"></i></button>'
           +'<span id="appointment_date_committee' + rNo + 'Error" class="error-msg"></span></td>'
+          
+          +'<td data-head="Committee Name" class="input-field">'
+          +'<input type="text" placeholder="Committee Name"  maxlength="50" data-length="50" id="committee_name' + rNo + '" class="validate w70 pdr4em"  name="committee_names" value="">' 
+          +'<span id="committee_name' + rNo + 'Error" class="error-msg"></span> </td>'          
 
           +'<td data-head="Name Of Representative" class="input-field">'
           +'<input type="text" placeholder="Name"  maxlength="50" data-length="50" id="name_representative' + rNo + '" class="validate w70 pdr4em"  name="name_of_representatives" onchange="executivesToStringMethod('+rNo+');" value="">' 
@@ -757,6 +786,12 @@ function getResponsible(hod){
 	 			 		  required:true
 	 			 	  },"bses_agency_name"	:{
 	 			 		  required:true
+	 			 	  },"actual_submission_date_bses_report_to_mrvc": {
+	 			 		  required: true
+	 			 	  },"report_submission_date_to_mrvc": {
+	 			 		  required: true
+	 			 	  }	,"approval_date_by_mrvc"	:{
+	 			 		  required:true
 	 			 	  }
 	 		 	},
 	 		    messages: {
@@ -767,6 +802,12 @@ function getResponsible(hod){
 	 			 	  }	,"mrvc_responsible_person"	:{
 	 			 		  required:'Required'
 	 			 	  },"bses_agency_name"	:{
+	 			 		  required:'Required'
+	 			 	  },"actual_submission_date_bses_report_to_mrvc": {
+	 			 		  required: 'Required'
+	 			 	  },"report_submission_date_to_mrvc": {
+	 			 		  required: 'Required'
+	 			 	  }	,"approval_date_by_mrvc"	:{
 	 			 		  required:'Required'
 	 			 	  }
 		   		},
@@ -783,6 +824,15 @@ function getResponsible(hod){
 					 }else if(element.attr("id") == "bses_agency_name" ){
 					     document.getElementById("bses_agency_nameError").innerHTML="";
 				 	     error.appendTo('#bses_agency_nameError');
+					 }else if(element.attr("id") == "actual_submission_date_bses_report_to_mrvc" ){
+					     document.getElementById("actual_date_report_mrvcError").innerHTML="";
+				 	     error.appendTo('#actual_date_report_mrvcError');
+					 }else if(element.attr("id") == "report_submission_date_to_mrvc" ){
+					     document.getElementById("submission_date_report_mrvcError").innerHTML="";
+				 	     error.appendTo('#submission_date_report_mrvcError');
+					 }else if(element.attr("id") == "approval_date_by_mrvc" ){
+					     document.getElementById("approval_date_mrvcError").innerHTML="";
+				 	     error.appendTo('#approval_date_mrvcError');
 					 }else{
 						 error.insertAfter(element);
 			        } 

@@ -855,7 +855,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 	public List<RandRMain> getVerificationByListForRRForm(RandRMain obj) throws Exception {
 		List<RandRMain> objsList = null;
 		try {
-			String qry = "select rr_verification_by as verification_by from rr_verification_by ";
+			String qry = "select committee_name as verification_by from rr_appointment_of_committee ";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));			
 		}catch(Exception e){ 
 			throw new Exception(e);

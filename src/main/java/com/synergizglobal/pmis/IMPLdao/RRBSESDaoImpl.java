@@ -20,6 +20,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.synergizglobal.pmis.Idao.FormsHistoryDao;
 import com.synergizglobal.pmis.Idao.RRBSESDao;
@@ -27,9 +28,11 @@ import com.synergizglobal.pmis.common.CommonMethods;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.EMailSender;
+import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.common.Mail;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.FormHistory;
+import com.synergizglobal.pmis.model.LandAcquisition;
 import com.synergizglobal.pmis.model.Messages;
 import com.synergizglobal.pmis.model.RandRMain;
 
@@ -281,7 +284,7 @@ public class RRBSESDaoImpl implements RRBSESDao{
 			String qry ="select id as rrbses_id, work_id_fk,work_short_name, hod,u.user_name,u.designation as designation,"
 					+ " uu.user_name as res_user_name,uu.designation as res_designation,mrvc_responsible_person, bses_agency_name, agency_responsible_person, r.contact_number, r.email_id as bses_email, "
 					+ "FORMAT(submission_date_report_ca,'dd-MM-yyyy') AS submission_date_report_ca, FORMAT(actual_submission_date_bses_report_to_mrvc,'dd-MM-yyyy') AS actual_submission_date_bses_report_to_mrvc, approval_by_mrvc_responsible_person, FORMAT(report_submission_date_to_mrvc,'dd-MM-yyyy') AS report_submission_date_to_mrvc, "
-					+ "FORMAT(approval_date_by_mrvc,'dd-MM-yyyy') AS approval_date_by_mrvc from rr_agency r "
+					+ "FORMAT(approval_date_by_mrvc,'dd-MM-yyyy') AS approval_date_by_mrvc,attachment_file from rr_agency r "
 					+ "LEFT JOIN work w on r.work_id_fk = w.work_id " 
 					+ "left join [user] u on r.hod = u.user_id "
 					+ "left join [user] uu on r.mrvc_responsible_person = uu.user_id "
@@ -303,7 +306,7 @@ public class RRBSESDaoImpl implements RRBSESDao{
 			obj = (RandRMain)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getRrbses_id())) {
 				List<RandRMain> objsList = null;
-				String qryDetails = "select rrr.id, rr_agency_id_fk, FORMAT(date_of_appointment,'dd-MM-yyyy') AS date_of_appointment, name_of_representative, phone_no, rrr.email_id "
+				String qryDetails = "select rrr.id, rr_agency_id_fk, FORMAT(date_of_appointment,'dd-MM-yyyy') AS date_of_appointment, committee_name,name_of_representative, phone_no, rrr.email_id "
 						+ "from rr_appointment_of_committee rrr " 
 						+"left join rr_agency r1 on rrr.rr_agency_id_fk = r1.id where rr_agency_id_fk = ?  ";
 				
@@ -330,11 +333,28 @@ public class RRBSESDaoImpl implements RRBSESDao{
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			String insertQry = "INSERT INTO rr_agency"
 					+ "( work_id_fk, hod, mrvc_responsible_person, bses_agency_name, agency_responsible_person, contact_number, email_id, submission_date_report_ca, actual_submission_date_bses_report_to_mrvc, approval_by_mrvc_responsible_person,"
-					+ "report_submission_date_to_mrvc, approval_date_by_mrvc)"
+					+ "report_submission_date_to_mrvc, approval_date_by_mrvc,attachment_file)"
 					+ "VALUES"
 					+ "(:work_id_fk, :hod, :mrvc_responsible_person, :bses_agency_name, :agency_responsible_person, :contact_number, :bses_email, :submission_date_report_ca, :actual_submission_date_bses_report_to_mrvc, :approval_by_mrvc_responsible_person, "
-					+ ":report_submission_date_to_mrvc, :approval_date_by_mrvc)";
+					+ ":report_submission_date_to_mrvc, :approval_date_by_mrvc,:attachment_file)";
 			KeyHolder keyHolder = new GeneratedKeyHolder();
+			
+			if (!StringUtils.isEmpty(obj.getRragencyFiles())){
+				String saveDirectory = CommonConstants.RR_AGENCY_FILE_SAVING_PATH ;
+				String fileName = null;
+				MultipartFile multipartFile = obj.getRragencyFiles()[0];
+				
+				if(null != multipartFile) {
+					fileName = multipartFile.getOriginalFilename();
+				}else {
+					fileName = obj.getRrDocumentFileNames()[0];
+				}
+				FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
+				obj.setAttachment_file(fileName);
+
+			}
+			
+			
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(insertQry, paramSource,keyHolder);			
 			if(count > 0) {
@@ -344,9 +364,9 @@ public class RRBSESDaoImpl implements RRBSESDao{
 					con = dataSource.getConnection();
 						if(count > 0) {
 							String detailsQry = "INSERT INTO rr_appointment_of_committee"
-									+ "( rr_agency_id_fk, date_of_appointment, name_of_representative, phone_no, email_id)"
+									+ "( rr_agency_id_fk, date_of_appointment, name_of_representative, phone_no, email_id,committee_name)"
 									+ "VALUES"
-									+ "(?,?,?,?,?)";
+									+ "(?,?,?,?,?,?)";
 							 insertStmt = con.prepareStatement(detailsQry); 
 							int arraySize = 0;
 							if(!StringUtils.isEmpty(obj.getDate_of_appointments()) && obj.getDate_of_appointments().length > 0 ) {
@@ -373,6 +393,12 @@ public class RRBSESDaoImpl implements RRBSESDao{
 									arraySize = obj.getEmail_ids().length;
 								}
 							}
+							if(!StringUtils.isEmpty(obj.getCommittee_names()) && obj.getCommittee_names().length > 0 ) {
+								obj.setEmail_ids(CommonMethods.replaceEmptyByNullInSringArray(obj.getCommittee_names()));
+								if(arraySize < obj.getCommittee_names().length) {
+									arraySize = obj.getCommittee_names().length;
+								}
+							}							
 				
 							for (int i = 0;  i < arraySize; i++) {
 								 if( obj.getDate_of_appointments().length > 0 && !StringUtils.isEmpty(obj.getDate_of_appointments()[i])) {
@@ -382,12 +408,16 @@ public class RRBSESDaoImpl implements RRBSESDao{
 									    insertStmt.setString(p++,((obj.getName_of_representatives().length > 0)?obj.getName_of_representatives()[i]:null));
 									    insertStmt.setString(p++,(obj.getPhone_nos().length > 0)?obj.getPhone_nos()[i]:null);
 									    insertStmt.setString(p++,(obj.getEmail_ids().length > 0)?obj.getEmail_ids()[i]:null);
+									    insertStmt.setString(p++,(obj.getCommittee_names().length > 0)?obj.getCommittee_names()[i]:null);
 									    insertStmt.addBatch();
 								    }
 								  int[] insertCount = insertStmt.executeBatch();
 							}
 						
 						}
+						
+						
+						
 						FormHistory formHistory = new FormHistory();
 						formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
 						formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
@@ -448,9 +478,9 @@ public class RRBSESDaoImpl implements RRBSESDao{
 							if(insertStmt != null){insertStmt.close();}
 							
 							String detailsQry = "INSERT INTO rr_appointment_of_committee"
-									+ "( rr_agency_id_fk, date_of_appointment, name_of_representative, phone_no, email_id)"
+									+ "( rr_agency_id_fk, date_of_appointment, name_of_representative, phone_no, email_id,committee_name)"
 									+ "VALUES"
-									+ "(?,?,?,?,?)";
+									+ "(?,?,?,?,?,?)";
 							 insertStmt = con.prepareStatement(detailsQry); 
 							int arraySize = 0;
 							if(!StringUtils.isEmpty(obj.getDate_of_appointments()) && obj.getDate_of_appointments().length > 0 ) {
@@ -477,6 +507,12 @@ public class RRBSESDaoImpl implements RRBSESDao{
 									arraySize = obj.getEmail_ids().length;
 								}
 							}
+							if(!StringUtils.isEmpty(obj.getCommittee_names()) && obj.getCommittee_names().length > 0 ) {
+								obj.setEmail_ids(CommonMethods.replaceEmptyByNullInSringArray(obj.getCommittee_names()));
+								if(arraySize < obj.getCommittee_names().length) {
+									arraySize = obj.getCommittee_names().length;
+								}
+							}							
 				
 							for (int i = 0;  i < arraySize; i++) {
 								 if( obj.getDate_of_appointments().length > 0 && !StringUtils.isEmpty(obj.getDate_of_appointments()[i])) {
@@ -486,6 +522,7 @@ public class RRBSESDaoImpl implements RRBSESDao{
 									    insertStmt.setString(p++,((obj.getName_of_representatives().length > 0)?obj.getName_of_representatives()[i]:null));
 									    insertStmt.setString(p++,(obj.getPhone_nos().length > 0)?obj.getPhone_nos()[i]:null);
 									    insertStmt.setString(p++,(obj.getEmail_ids().length > 0)?obj.getEmail_ids()[i]:null);
+									    insertStmt.setString(p++,(obj.getCommittee_names().length > 0)?obj.getCommittee_names()[i]:null);
 									    insertStmt.addBatch();
 								    }
 								  int[] insertCount = insertStmt.executeBatch();

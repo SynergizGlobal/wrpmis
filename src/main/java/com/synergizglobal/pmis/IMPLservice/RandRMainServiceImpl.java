@@ -222,5 +222,11 @@ public class RandRMainServiceImpl implements RandRMainService{
 	{
 		return dao.getRRCoordinates(obj);
 	}
+	
+	@Override
+	public String getRRId(String action) throws Exception
+	{
+		return dao.getRRId(action);
+	}
 
 }

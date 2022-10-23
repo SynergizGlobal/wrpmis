@@ -1236,14 +1236,19 @@
        $('#latitude').val();
        $('#longitude').val();	
        
-	 if($("#work_id").val()!="")
+	 if($("#work_id").val()!="" || "${rrDetails.work_id}"!="")
 		 {
 	       var r1=$('#chainage').val();
+	       var work_id=$("#work_id").val();
+	       	   if($("#work_id").val()=="")
+	    	   {
+	       			work_id="${rrDetails.work_id}";
+	    	   }
 	       if(r1!="")
 	       	{
 	    	   var c1=r1; 
 	    	   
-		        	var myParams = { chainage: r1,work_id_fk:$("#work_id").val() };
+		        	var myParams = { chainage: r1,work_id_fk:work_id };
 		            $.ajax({
 		                url: "<%=request.getContextPath()%>/ajax/getRRCoordinates",
 		                data: myParams, cache: false,
@@ -1657,7 +1662,7 @@
 	                   if (data.length > 0) {
 	                       $.each(data, function (i, val) {
 	                           var workId = "${rrDetails.identification_no}";
-	                           if ($.trim(workId) != '') {
+	                           if ($.trim(workId) != '' && val.bses_agency_name == $.trim(workId)) {
 	                               $("#id_no").append('<option value="' + val.bses_agency_name + '" selected>' + $.trim(val.bses_agency_name) + '</option>');
 	                           } else {
 	                               $("#id_no").append('<option value="' + val.bses_agency_name + '">' + $.trim(val.bses_agency_name) + '</option>');

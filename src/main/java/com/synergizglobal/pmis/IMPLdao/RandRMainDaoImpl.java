@@ -1943,7 +1943,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 	public List<RandRMain> getResidentialList(String rr_id) throws Exception {
 		List<RandRMain> objsList = null;
 		try {
-			String qry ="select distinct rc.id, rr_id_fk, occupancy_status, gender, tenure_status, caste, mother_tongue, type_of_family, "
+			String qry ="select distinct rr_id_fk, occupancy_status, gender, tenure_status, caste, mother_tongue, type_of_family, "
 					+ "family_size, number_of_married_couple,cast(family_income_amount as CHAR) as family_income_amount,m.unit as family_income_amount_units, vulnerable_category from rr_residential_details rc "
 					+ "LEFT JOIN rr r on rc.rr_id_fk = r.rr_id "
 					+"left join money_unit m on rc.family_income_amount_units = m.value  "
@@ -2428,6 +2428,26 @@ public class RandRMainDaoImpl implements RandRMainDao{
 			throw new Exception(e);
 		}
 		return objsList;
+	}
+
+	@Override
+	public String getRRId(String action) throws Exception {
+		String rrid="";
+		try {
+			if(action.compareTo("add")==0)
+			{
+				String qry = "select top 1 rr_id  from rr order by created_date desc";
+				rrid = (String) jdbcTemplate.queryForObject(qry, String.class);
+			}
+			else if(action.compareTo("update")==0)
+			{
+				String qry = "select top 1 rr_id  from rr order by modified_date desc";
+				rrid = (String) jdbcTemplate.queryForObject(qry, String.class);				
+			}
+		} catch (Exception e) {
+			throw new Exception(e);
+		}		
+		return rrid;
 	}
 
 	

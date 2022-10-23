@@ -681,7 +681,7 @@ function getResponsible(hod){
           +'<span id="committee_name' + rNo + 'Error" class="error-msg"></span> </td>'          
 
           +'<td data-head="Name Of Representative" class="input-field">'
-          +'<input type="text" placeholder="Name"  maxlength="50" data-length="50" id="name_representative' + rNo + '" class="validate w70 pdr4em"  name="name_of_representatives" onchange="executivesToStringMethod('+rNo+');" value="">' 
+          +'<input type="text" placeholder="Name"  maxlength="50" data-length="50" id="name_representative' + rNo + '" class="validate w70 pdr4em"  name="name_of_representatives" value="">' 
           +'<span id="name_of_representative' + rNo + 'Error" class="error-msg"></span> </td>'
 
           +'<td data-head="Contact Number" class="input-field">'
@@ -724,39 +724,43 @@ function getResponsible(hod){
 
 	   function addRR(){
 	   	 if(validator.form()){ // validation perform
-	       	$(".page-loader").show();	
 	       	    $('form input[name=date_of_appointments]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	 			$('form input[name=name_of_representatives]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	 			$('form input[name=phone_nos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	 			$('form input[name=email_ids]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	 			var rowLr=$("#app_com_table tbody tr").length;
-	 			for(var k=0;k<rowLr;k++)
+	 			var rowLr=document.getElementById("app_com_table").rows.length;
+	 			for(var k=0;k<rowLr-1;k++)
 	 			{
-	 				if($("#contact_number_rep"+k).val().length<10)
+	 				if($("#contact_number_rep"+k).val()!="")
 	 				{
-	 					$("#contact_number_rep"+k+"Error").html("Phone number length should be 10");
-	 					return false;
-	 				}
-	 				else
-	 				{
-	 					$("#contact_number_rep"+k+"Error").html("");
-	 				}
+			 				if($("#contact_number_rep"+k).val().length<10)
+			 				{
+			 					alert("Phone number length should be 10");
+			 					$("#contact_number_rep"+k+"Error").html("Phone number length should be 10");
+			 					return false;
+			 				}
+			 				else
+			 				{
+			 					$("#contact_number_rep"+k+"Error").html("");
+			 				}
+			 		}
 	 			}
+	 			$(".page-loader").show();
 	  			document.getElementById("RandRForm").submit();			
 		 	 }
 	   }
 	   function updateRR(){
 	   	if(validator.form()){ // validation perform
-	       	$(".page-loader").show();	
 	       	$('form input[name=financial_year_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	        $('form input[name=date_of_appointments]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
  			$('form input[name=name_of_representatives]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
  			$('form input[name=phone_nos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
  			$('form input[name=email_ids]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
- 			var rowLr=$("#app_com_table tbody tr").length;
- 			for(var k=0;k<rowLr;k++)
+ 			var rowLr=document.getElementById("app_com_table").rows.length;
+ 			for(var k=0;k<rowLr-1;k++)
  			{
- 				if($("#contact_number_rep"+k).val().length<10)
+ 				alert($("#contact_number_rep"+k).val());
+  				if($("#contact_number_rep"+k).val().length<10)
  				{
  					$("#contact_number_rep"+k+"Error").html("Phone number length should be 10");
  					return false;
@@ -764,8 +768,9 @@ function getResponsible(hod){
  				else
  				{
  					$("#contact_number_rep"+k+"Error").html("");
- 				}
+ 				} 
  			}
+	       	$(".page-loader").show();	
 	  		document.getElementById("RandRForm").submit();	
 	   	}
 	   }

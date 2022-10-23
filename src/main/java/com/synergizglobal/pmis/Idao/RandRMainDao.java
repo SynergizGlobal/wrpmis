@@ -89,4 +89,6 @@ public interface RandRMainDao {
 
 	List<RandRMain> getBSESAgencyNamesList(RandRMain obj) throws Exception;
 
+	String getRRId(String action) throws Exception;
+
 }

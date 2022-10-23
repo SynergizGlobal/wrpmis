@@ -1007,7 +1007,6 @@
 		    	 $("#exportLocation_fk").val(location_name);
 		    	 $("#exportPhase_fk").val(phase);
 		    	 $("#exportType_of_use").val(type_of_use);
-		    	 $("#exportStructure_type_fk").val(structure_id);
 		    	 $("#exportStatus_fk").val(boundary_wall_status);
 		    	 $("#exportsearchStr").val(searchStrValue);
 		    	     

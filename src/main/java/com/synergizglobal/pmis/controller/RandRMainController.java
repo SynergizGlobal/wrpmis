@@ -651,7 +651,8 @@ public class RandRMainController {
 			obj.setRelocation(DateParser.parse(obj.getRelocation()));
 			boolean flag =  service.addRR(obj);
 			if(flag) {
-				attributes.addFlashAttribute("success", "R and R Added Succesfully.");
+				String rrId = service.getRRId("add");
+				attributes.addFlashAttribute("success", "R&R ID "+rrId+" Added Succesfully.");
 			}
 			else {
 				attributes.addFlashAttribute("error","Adding R and R is failed. Try again.");
@@ -694,7 +695,8 @@ public class RandRMainController {
 			
 			boolean flag =  service.updateRR(obj);
 			if(flag) {
-				attributes.addFlashAttribute("success", "R and R Updated Succesfully.");
+				String rrId = service.getRRId("update");
+				attributes.addFlashAttribute("success", "R&R ID "+rrId+" Updated Succesfully.");
 			}
 			else {
 				attributes.addFlashAttribute("error","Updating R and R is failed. Try again.");
@@ -2302,10 +2304,10 @@ public class RandRMainController {
 								
 								val = formatter.formatCellValue(row2.getCell(10)).trim();
 								if(!StringUtils.isEmpty(val)) {
-									int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
-									if(c != 2) {
-										val = getCellDataType(workbook,row2.getCell(10));
-									}
+								/*
+								 * int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$"); if(c !=
+								 * 2) { val = getCellDataType(workbook,row2.getCell(10)); }
+								 */
 									pObj1.setFamily_income_amount(val);}
 							}
 							if(!StringUtils.isEmpty(row2) && formatter.formatCellValue(row2.getCell(0)).trim().equals(rr.getRr_id())) {

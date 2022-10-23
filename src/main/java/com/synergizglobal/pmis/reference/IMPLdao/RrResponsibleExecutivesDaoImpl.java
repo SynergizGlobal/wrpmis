@@ -213,7 +213,7 @@ public class RrResponsibleExecutivesDaoImpl implements RrResponsibleExecutivesDa
 	public List<TrainingType> getWorkDetails(TrainingType obj) throws Exception {
 		List<TrainingType> objList = null;
 		try {
-			String qry = "select id,title_fk,work_id_fk,dashboard_url,soft_delete_status_fk,title_fk as title,work_id,work_short_name \r\n" + 
+			String qry = "select distinct work_id_fk,work_id,work_short_name \r\n" + 
 					"					from work_details \r\n" + 
 					"					LEFT JOIN work ON work_id_fk = work_id 		\r\n" + 
 					"					WHERE title_fk IS NOT NULL  ";

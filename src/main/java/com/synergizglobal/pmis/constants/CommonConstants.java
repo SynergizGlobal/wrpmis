@@ -61,6 +61,7 @@ public class CommonConstants {
 	public final static String TEMPLATE_FILE_SAVE_PATH = "/"+context_path+"/TEMPLATES_OLD/";
 	public final static String RR_UPLOADED_FILES = "/"+context_path+"/RR_UPLOADED_FILES/";
 	public final static String UTILITY_UPLOADED_FILES = "/"+context_path+"/UTILITY_UPLOADED_FILES/";
+	public final static String RR_AGENCY_FILES = "/"+context_path+"/RR_AGENCY_FILES/";
 	
 	/*********************************************************************************************/	
 	public final static String LOGIN_BACKGROUND_IMAGE = base_path+"/resources/images/";

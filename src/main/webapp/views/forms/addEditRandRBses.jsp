@@ -402,8 +402,7 @@
 														<label for="rragencyFiles" class="btn bg-m"><i class="fa fa-paperclip"></i></label>
                                                <c:choose>
 		                                        <c:when test="${not empty rrDetails}">														
-														<a href="/pmis/RR_AGENCY_FILES/${rrDetails.attachment_file}" class="filevalue" download><i class="fa fa-arrow-down"></i></a>
-														
+														<a href="<%=CommonConstants.RR_AGENCY_FILES %>${rrDetails.attachment_file}" class="filevalue" download><i class="fa fa-arrow-down"></i></a>
 												 </c:when>
 											 </c:choose>														<input type="hidden" id="rrlaDocumentFileNames" name="rrlaDocumentFileNames">
 														<span id="rrlaDocumentFileName" class="filevalue"></span></span><span id="laFiles1Error" class="error-msg"></span></div>

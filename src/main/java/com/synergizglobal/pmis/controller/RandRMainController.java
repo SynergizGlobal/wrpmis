@@ -649,10 +649,9 @@ public class RandRMainController {
 			
 			//obj.setYear_of_construction(DateParser.parse(obj.getYear_of_construction()));
 			obj.setRelocation(DateParser.parse(obj.getRelocation()));
-			boolean flag =  service.addRR(obj);
-			if(flag) {
-				String rrId = service.getRRId("add");
-				attributes.addFlashAttribute("success", "R&R ID "+rrId+" Added Succesfully.");
+			String rrid =  service.addRR(obj);
+			if(!StringUtils.isEmpty(rrid)) {
+				attributes.addFlashAttribute("success", "R&R ID "+rrid+" Added Succesfully.");
 			}
 			else {
 				attributes.addFlashAttribute("error","Adding R and R is failed. Try again.");
@@ -693,10 +692,9 @@ public class RandRMainController {
 			//obj.setYear_of_construction(DateParser.parse(obj.getYear_of_construction()));
 			obj.setRelocation(DateParser.parse(obj.getRelocation()));
 			
-			boolean flag =  service.updateRR(obj);
-			if(flag) {
-				String rrId = service.getRRId("update");
-				attributes.addFlashAttribute("success", "R&R ID "+rrId+" Updated Succesfully.");
+			String rrid =  service.updateRR(obj);
+			if(!StringUtils.isEmpty(rrid)) {
+				attributes.addFlashAttribute("success", "R&R ID "+rrid+" Updated Succesfully.");
 			}
 			else {
 				attributes.addFlashAttribute("error","Updating R and R is failed. Try again.");

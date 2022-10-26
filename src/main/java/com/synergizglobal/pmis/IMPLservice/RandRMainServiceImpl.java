@@ -158,12 +158,12 @@ public class RandRMainServiceImpl implements RandRMainService{
 	}
 
 	@Override
-	public boolean addRR(RandRMain obj) throws Exception {
+	public String addRR(RandRMain obj) throws Exception {
 		return dao.addRR(obj);
 	}
 
 	@Override
-	public boolean updateRR(RandRMain obj) throws Exception {
+	public String updateRR(RandRMain obj) throws Exception {
 		return dao.updateRR(obj);
 	}
 

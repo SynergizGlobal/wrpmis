@@ -1029,10 +1029,10 @@ public class RandRMainDaoImpl implements RandRMainDao{
 	}
 
 	@Override
-	public boolean addRR(RandRMain obj) throws Exception {
+	public String addRR(RandRMain obj) throws Exception {
 		Connection con = null;
 		PreparedStatement insertStmt = null;
-		boolean flag = false;
+		String rrid = null;
 		//TransactionDefinition def = new DefaultTransactionDefinition();
 		//TransactionStatus status = transactionManager.getTransaction(def);
 		try {
@@ -1056,7 +1056,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
 			if(count > 0) {
-				flag = true;
+				rrid = obj.getRr_id();
 				if(!StringUtils.isEmpty(obj.getType_of_use())) {
 					if(obj.getType_of_use().equalsIgnoreCase("Residential")) {
 						String govInsertQry = "INSERT INTO rr_residential_details"
@@ -1354,7 +1354,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 		}finally {
 			DBConnectionHandler.closeJDBCResoucrs(con, insertStmt, null);
 		}
-		return flag;
+		return rrid;
 	}
 	
 	private String getRRExecutives(String work_id) throws Exception {
@@ -1402,16 +1402,17 @@ public class RandRMainDaoImpl implements RandRMainDao{
 	}	
 
 	@Override
-	public boolean updateRR(RandRMain obj) throws Exception {
+	public String updateRR(RandRMain obj) throws Exception {
 		Connection con = null;
 		PreparedStatement updateStmt = null;
 		PreparedStatement updateStmt1 = null;
 		PreparedStatement stmt = null;
-		boolean flag = false;
+		String rrid = null;
 		int checkCnt=checkRandRAnyColumnUpdate(obj);
 		//TransactionDefinition def = new DefaultTransactionDefinition();
 		//TransactionStatus status = transactionManager.getTransaction(def);
 		try {
+			con = dataSource.getConnection();
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			String insertQry = "UPDATE rr "
 					+ " set identification_no= :identification_no, map_sr_no= :map_sr_no, location_name= :location_name, sub_location_name= :sub_location_name"
@@ -1429,7 +1430,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
 			if(count > 0) {
-				flag = true;
+				rrid = obj.getRr_id();
 				if(!StringUtils.isEmpty(obj.getType_of_use())) {
 					if(obj.getType_of_use().equalsIgnoreCase("Residential")) {
 						String updateQry = "UPDATE rr_residential_details SET "
@@ -1448,6 +1449,12 @@ public class RandRMainDaoImpl implements RandRMainDao{
 						String table_name= "rr_residential_details";
 						String rrIDavailableOrNot = getAvailabilityStatusOfRRId(obj,table_name);
 						
+						String deleteQryR = "DELETE from rr_residential_details where rr_id_fk = ?";		 
+						stmt = con.prepareStatement(deleteQryR);
+						stmt.setString(1,obj.getRr_id()); 
+						stmt.executeUpdate();
+						DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);						
+						
 						if(!StringUtils.isEmpty(rrIDavailableOrNot)) {
 							 paramSource = new BeanPropertySqlParameterSource(obj);		 
 							 count = namedParamJdbcTemplate.update(updateQry, paramSource);
@@ -1456,7 +1463,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 							 count = namedParamJdbcTemplate.update(insertQry1, paramSource);
 						}
 						 if(count > 0) {
-							con = dataSource.getConnection();
+							
 							String deleteQry = "DELETE from rr_residential_family_details where rr_id_fk = ?";		 
 							stmt = con.prepareStatement(deleteQry);
 							stmt.setString(1,obj.getRr_id()); 
@@ -1708,7 +1715,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 		}finally {
 			DBConnectionHandler.closeJDBCResoucrs(con, updateStmt, null);
 		}
-		return flag;
+		return rrid;
 	}
 	
 	
@@ -2278,13 +2285,13 @@ public class RandRMainDaoImpl implements RandRMainDao{
 			if(!(table_name.equals("rr"))){
 				column_name = "rr_id_fk";
 			}
-			String qry ="select "+column_name+" as rr_id from "+table_name+" where "+column_name+" = ? " ;
+			String qry ="select distinct "+column_name+" as rr_id from "+table_name+" where "+column_name+" = ? " ;
 			dObj = (RandRMain)jdbcTemplate.queryForObject(qry, new Object[] {obj.getRr_id()}, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));
 			laId = dObj.getRr_id();
 			if((table_name.equals("rr"))){
 				try {
 					qry1 = " and work_id = ? ";
-					String qry2 ="select "+column_name+" as rr_id from "+table_name+" where "+column_name+" = ? "+qry1 ;
+					String qry2 ="select distinct "+column_name+" as rr_id from "+table_name+" where "+column_name+" = ? "+qry1 ;
 					dObj = (RandRMain)jdbcTemplate.queryForObject(qry2, new Object[] {obj.getRr_id(),obj.getWork_id()}, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));
 					laId = dObj.getRr_id();
 				}

@@ -491,15 +491,14 @@ font-size:13px;
         	var hod_user_id_fk = $('#hod_user_id_fk').val();
         	var status_fk = $('#status_fk').val();
         	var mcl=0;
-        	if ($.trim(hod_user_id_fk) == "") {
-	           	$("#hod_user_id_fk option:not(:first)").remove();
-	           	var myParams = {work_id_fk : work_id_fk, contract_id_fk : contract_id_fk, status_fk : status_fk}
+        	
+	           	var myParams = {hod_user_id_fk:hod_user_id_fk,work_id_fk : work_id_fk, contract_id_fk : contract_id_fk, status_fk : status_fk}
 	           	$.ajax({
 	                   url: "<%=request.getContextPath()%>/ajax/generateSafetyReport",
 	                   data: myParams, cache: false,async: false,
 	                   success: function (data) {
 	                       if (data.length > 0) {
- 	                           var html="<table style='width:100%' class='table table-bordered'>";
+ 	                           var html="<table style='width:100%' class='table table-striped table-bordered'>";
 	                           $.each(data, function (i1, val1) {
 	                        	   if(val1.status_fk=="Open")
 	                        		   {
@@ -512,9 +511,7 @@ font-size:13px;
 					                       		html=html+"<tr><td style='text-align:left;'>"+(i1+1)+":Project Name:"+val1.project_id_fk+" - "+val1.project_name+"<span>"+today+"</span></td></tr>";
 					                       		projectIdsArray.push(val1.project_id_fk);
 			                       		   }
-			                       	   	   var lengthRows=0;
-			                       	   	   if(hh==1)
-			                       	   	   {
+			                       	   	   	   var lengthRows=0;
 				                       	   	   var klm=0;
 				 	                           $.each(data, function (i, val) {
 					                       	   	   if(val.project_id_fk==val1.project_id_fk && RowsArray.indexOf(val.work_id_fk)==-1 && val.status_fk=="Open")
@@ -522,44 +519,58 @@ font-size:13px;
 					                       	   			RowsArray.push(val.work_id_fk);
 					                       	   			lengthRows++;
 					                       		   }
+					                       	   	   
 				 	                           });
-			                       	   	   }
-			                       	   	   if(hh==1)
-			                       	   	   {
-				                       	   	   var klm=0;
 				 	                           $.each(data, function (i, val) {
 					                       	   	   if(val.project_id_fk==val1.project_id_fk && workIdsArray.indexOf(val.work_id_fk)==-1 && val.status_fk=="Open")
 					                       		   {
-
+					                       	   				if(klm>0)
+					                       	   				{
+					                       	   					RowsArray=[];
+					                       	   					lengthRows=0;
+									 	                           $.each(data, function (i6, val6) {
+										                       	   	   if(val6.project_id_fk==val1.project_id_fk && RowsArray.indexOf(val6.work_id_fk)==-1 && val6.status_fk=="Open" && val.work_id_fk==val6.work_id_fk)
+										                       		   {
+										                       	   			RowsArray.push(val6.work_id_fk);
+										                       	   			lengthRows++;
+										                       		   }
+										                       	   	   
+									 	                           });					                       	   					
+					                       	   				}
 					                       	   			workIdsArray.push(val.work_id_fk);
 							                       		html=html+"<tr><td style='text-align:left;'>"+(i1+1)+"."+(klm+1)+".Work Name:"+val.work_id_fk+" - "+val.work_short_name+"</td></tr>";
 							                       		html=html+"<tr><td style='text-align:left;'>No. of Open Safety Incidents:"+lengthRows+"</td></tr>";
 							                       		html=html+"<tr><td style='text-align:left;'>";
-								                       		html=html+"<table style='width:100%' class='table table-bordered'>";
+								                       		html=html+"<table style='width:100%' class='table table-striped table-bordered'>";
 								                       			html=html+"<tr style='background-color:#ecf2ff;'>";
-								                       	   			html=html+"<td style='width:20px;'>S No</td>";
-								                       	   			html=html+"<td style='width:100px;'>Safety ID</td>";
-								                       	   			html=html+"<td style='width:200px;'>Name of Contract</td>";
-								                       	   			html=html+"<td style='width:150px;'>Contractor</td>";
-								                       				html=html+"<td>HOD</td>";
-								                       				html=html+"<td>Date / Location</td>";
-								                       				html=html+"<td>Description</td>";
-								                       				html=html+"<td>Impact / Category</td>";
-								                       				html=html+"<td>Root Cause</td>";
-								                       				html=html+"<td>Committee (Y/N)</td>";
-								                       				html=html+"<td>Incident Status</td>";
-								                       				html=html+"<td>Short Term Corrective Measure</td>";
-								                       				html=html+"<td>Long Term Corrective Measure</td>";
+								                       	   			html=html+"<td style='width:5%;'>S No</td>";
+								                       	   			html=html+"<td style='width:10%;'>Safety ID</td>";
+								                       	   			html=html+"<td style='width:15%'>Name of Contract</td>";
+								                       	   			html=html+"<td style='width:10%'>Contractor</td>";
+								                       				html=html+"<td style='width:10%'>HOD</td>";
+								                       				html=html+"<td style='width:10%'>Date / Location</td>";
+								                       				html=html+"<td style='width:10%'>Description</td>";
+								                       				html=html+"<td style='width:10%'>Impact / Category</td>";
+								                       				html=html+"<td style='width:10%'>Root Cause</td>";
+								                       				html=html+"<td style='width:10%'>Committee (Y/N)</td>";
+								                       				html=html+"<td style='width:10%'>Incident Status</td>";
+								                       				html=html+"<td style='width:10%'>Short Term Corrective Measure</td>";
+								                       				html=html+"<td style='width:10%'>Long Term Corrective Measure</td>";
 								                       			html=html+"</tr>";
 								                       			var fgyu=0;
 								                       			$.each(data, function (i2, val2) {
 								                       					if(val2.project_id_fk==val.project_id_fk && val2.work_id_fk==val.work_id_fk && val2.status_fk=="Open")
 								                       					{
+								                       						var conName=""; 
+								                       						if(val2.contractor_name!=null)
+								                       							{
+								                       								conName=val2.contractor_name;
+								                       							}								                       						
 											                       			html=html+"<tr style='background-color:#ffffff;'>";
 											                       				html=html+"<td>"+(fgyu+1)+"</td>";
 											                       				html=html+"<td>"+val2.safety_seq_id+"</td>";
 											                       				html=html+"<td>"+val2.contract_id_fk+"/ \n "+val2.contract_short_name+"</td>";
-											                       				html=html+"<td>"+val2.contractor_name+"</td>";
+											                       				html=html+"<td>"+conName+"</td>";
 											                       				html=html+"<td>"+val2.designation+"</td>";
 											                       				html=html+"<td>"+val2.date+"\n "+val2.location+"</td>";
 											                       				html=html+"<td>"+val2.description+"</td>";
@@ -568,7 +579,12 @@ font-size:13px;
 											                       				html=html+"<td>"+val2.committee_required_fk+"</td>";
 											                       				html=html+"<td>"+val2.status_fk+"</td>";
 											                       				html=html+"<td>"+val2.corrective_measure_short_term+"</td>";
-											                       				html=html+"<td>"+val2.corrective_measure_long_term+"</td>";
+											                       				var lttext="";
+											                       					if(val2.corrective_measure_long_term!=null)
+											                       					{
+											                       						lttext=val2.corrective_measure_long_term;
+											                       					}
+											                       				html=html+"<td>"+lttext+"</td>";
 										                       				html=html+"</tr>";
 										                       				fgyu++;
 								                       					}
@@ -579,18 +595,20 @@ font-size:13px;
 					                       		   }
 					                           }); 	
 				 	                          lengthRows=0;
-			                       	   	   }
+			                       	   	 
 	                        		   }
 		                       });
 	                           html=html+"</table>";
 	                           $("#appendSummaryData").html(html);
+	                           if(status_fk!="Open")
+	                           {
 	                           var htmlC="";
                            	   if(mcl>0)
                         	   {
                         	    	htmlC=htmlC+"<div class='googoose break'></div><div style='text-align:center;'><img src='/pmis/resources/images/mrvclogo.png' alt='Logo' width='70' height='55'></div><br><br>";						    
                         	   }
                            	   htmlC=htmlC+'<div class="col m8 s12 offset-m2" style="text-align:center;font-weight:bold;font-family:Calibri;" id="closedDiv">LIST OF CLOSED SAFETY INCIDENTS</div>';
-	                           htmlC=htmlC+"<table style='width:100%' class='table table-bordered'>";
+	                           htmlC=htmlC+"<table style='width:100%' class='table table-striped table-bordered'>";
                         	   if(data.length>0)
                         	   {
 	                           $.each(data, function (i1, val1) {
@@ -604,31 +622,52 @@ font-size:13px;
 			                       				htmlC=htmlC+"<tr><td style='text-align:left;'>"+(i1+1)+":Project Name:"+val1.project_id_fk+" - "+val1.project_name+"<span>"+today+"</span></td></tr>";
 					                       		projectIdsCArray.push(val1.project_id_fk);
 			                       		   }
-			                       	   	   if(hh==1)
-			                       	   	   {
-				                       	   	   var klm=0;
-				 	                           $.each(data, function (i, val) {
-					                       	   	   if(val.project_id_fk==val1.project_id_fk && workIdsCArray.indexOf(val.work_id_fk)==-1 && val.status_fk=="Closed")
-					                       		   {
+
+			                       	   	var lengthRows=0;
+			                       	   	   var klm=0;
+			 	                           $.each(data, function (i, val) {
+				                       	   	   if(val.project_id_fk==val1.project_id_fk && RowsArray.indexOf(val.work_id_fk)==-1 && val.status_fk=="Closed")
+				                       		   {
+				                       	   			RowsArray.push(val.work_id_fk);
+				                       	   			lengthRows++;
+				                       		   }
+				                       	   	   
+			 	                           });
+			 	                           $.each(data, function (i, val) {
+				                       	   	   if(val.project_id_fk==val1.project_id_fk && workIdsCArray.indexOf(val.work_id_fk)==-1 && val.status_fk=="Closed")
+				                       		   {
+				                       	   				if(klm>0)
+				                       	   				{
+				                       	   					RowsArray=[];
+				                       	   					lengthRows=0;
+								 	                           $.each(data, function (i6, val6) {
+									                       	   	   if(val6.project_id_fk==val1.project_id_fk && RowsArray.indexOf(val6.work_id_fk)==-1 && val6.status_fk=="Closed" && val.work_id_fk==val6.work_id_fk)
+									                       		   {
+									                       	   			RowsArray.push(val6.work_id_fk);
+									                       	   			lengthRows++;
+									                       		   }
+									                       	   	   
+								 	                           });					                       	   					
+				                       	   				}
 					                       	   			workIdsCArray.push(val.work_id_fk);
 					                       	   			htmlC=htmlC+"<tr><td style='text-align:left;'>"+(i1+1)+"."+(klm+1)+".Work Name:"+val.work_id_fk+" - "+val.work_short_name+"</td></tr>";
-					                       	   			htmlC=htmlC+"<tr><td style='text-align:left;'>No. of Open Safety Incidents:"+i+"</td></tr>";
+					                       	   			htmlC=htmlC+"<tr><td style='text-align:left;'>No. of Open Safety Incidents:"+lengthRows+"</td></tr>";
 					                       	   			htmlC=htmlC+"<tr><td style='text-align:left;'>";
-					                       	   			htmlC=htmlC+"<table style='width:100%' class='table table-bordered'>";
+					                       	   			htmlC=htmlC+"<table style='width:100%' class='table table-striped table-bordered'>";
 					                       	   			htmlC=htmlC+"<tr style='background-color:#ecf2ff;'>";
-					                       	   			htmlC=htmlC+"<td style='width:20px;'>S No</td>";
-					                       	   			htmlC=htmlC+"<td style='width:100px;'>Safety ID</td>";
-					                       	   			htmlC=htmlC+"<td style='width:200px;'>Name of Contract</td>";
-					                       	   			htmlC=htmlC+"<td style='width:150px;'>Contractor</td>";
-					                       	   			htmlC=htmlC+"<td>HOD</td>";
-					                       	   			htmlC=htmlC+"<td>Date / Location</td>";
-					                       	   			htmlC=htmlC+"<td>Description</td>";
-					                       	   			htmlC=htmlC+"<td>Impact / Category</td>";
-					                       	   			htmlC=htmlC+"<td>Root Cause</td>";
-					                       	   			htmlC=htmlC+"<td>Committee (Y/N)</td>";
-					                       	   			htmlC=htmlC+"<td>Incident Status</td>";
-					                       	   			htmlC=htmlC+"<td>Short Term Corrective Measure</td>";
-					                       	   			htmlC=htmlC+"<td>Long Term Corrective Measure</td>";
+					                       	   			htmlC=htmlC+"<td style='width:5%;'>S No</td>";
+					                       	   			htmlC=htmlC+"<td style='width:10%;'>Safety ID</td>";
+					                       	   			htmlC=htmlC+"<td style='width:15%;'>Name of Contract</td>";
+					                       	   			htmlC=htmlC+"<td style='width:10%;'>Contractor</td>";
+					                       	   			htmlC=htmlC+"<td style='width:10%;'>HOD</td>";
+					                       	   			htmlC=htmlC+"<td style='width:10%;'>Date / Location</td>";
+					                       	   			htmlC=htmlC+"<td style='width:10%;'>Description</td>";
+					                       	   			htmlC=htmlC+"<td style='width:10%;'>Impact / Category</td>";
+					                       	   			htmlC=htmlC+"<td style='width:10%;'>Root Cause</td>";
+					                       	   			htmlC=htmlC+"<td style='width:10%;'>Committee (Y/N)</td>";
+					                       	   			htmlC=htmlC+"<td style='width:10%;'>Incident Status</td>";
+					                       	   			htmlC=htmlC+"<td style='width:10%;'>Short Term Corrective Measure</td>";
+					                       	   			htmlC=htmlC+"<td style='width:10%;'>Long Term Corrective Measure</td>";
 					                       	   			htmlC=htmlC+"</tr>";
 								                       			var fgyu=0;
 								                       			$.each(data, function (i2, val2) {
@@ -639,13 +678,6 @@ font-size:13px;
 								                       							{
 								                       								conName=val2.contractor_name;
 								                       							}
-								                       							var longtermMeasure=""; 
-								                       							if(val2.corrective_measure_long_term!=null)
-								                       							{
-								                       								longtermMeasure=val2.corrective_measure_long_term;
-								                       							}								                       						
-								                       						
-								                       						
 								                       						
 								                       							htmlC=htmlC+"<tr style='background-color:#ffffff;'>";
 								                       							htmlC=htmlC+"<td>"+(fgyu+1)+"</td>";
@@ -660,7 +692,12 @@ font-size:13px;
 								                       							htmlC=htmlC+"<td>"+val2.committee_required_fk+"</td>";
 								                       							htmlC=htmlC+"<td>"+val2.status_fk+"</td>";
 								                       							htmlC=htmlC+"<td>"+val2.corrective_measure_short_term+"</td>";
-								                       							htmlC=htmlC+"<td>"+longtermMeasure+"</td>";
+											                       				var lttext="";
+										                       					if(val2.corrective_measure_long_term!=null)
+										                       					{
+										                       						lttext=val2.corrective_measure_long_term;
+										                       					}
+										                       					htmlC=htmlC+"<td>"+lttext+"</td>";
 								                       							htmlC=htmlC+"</tr>";
 										                       				fgyu++;
 								                       					}
@@ -670,14 +707,14 @@ font-size:13px;
 							                       		klm++;
 					                       		   }
 					                           }); 	
-			                       	   	   }
+			 	                          lengthRows=0;
 	                        		   }
 	                        	   
 		                       });
                         	   }
-	                           htmlC=htmlC+"</table>";	                           
-	                           
+	                           htmlC=htmlC+"</table>";
 	                           $("#appendSummaryClosedData").html(htmlC);
+	                           }
 
  	                   		$(".googoose-wrapper").show();
 	                		$(".page-loader-2").show();
@@ -716,9 +753,7 @@ font-size:13px;
 	   	   	          	  getErrorMessage(jqXHR, exception);
 	   	   	     	  }
 	            });
-        	}else{
-          	  $(".page-loader").hide();
-          }
+        	
 		}
         
         

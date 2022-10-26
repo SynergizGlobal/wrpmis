@@ -60,9 +60,9 @@ public interface RandRMainDao {
 
 	RandRMain getRandRMainForm(RandRMain rr) throws Exception;
 
-	boolean addRR(RandRMain obj) throws Exception;
+	String addRR(RandRMain obj) throws Exception;
 
-	boolean updateRR(RandRMain obj) throws Exception;
+	String updateRR(RandRMain obj) throws Exception;
 
 	List<RandRMain> getRRIdListForRRForm(RandRMain obj) throws Exception;
 

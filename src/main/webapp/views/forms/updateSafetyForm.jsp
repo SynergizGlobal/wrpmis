@@ -103,7 +103,9 @@
                         	<input name="existing_responsible_person" type="hidden" value="${safety.responsible_person }"/>
                         	<input name="hod_user_id_fk" type="hidden" value="${safety.hod_user_id_fk }" />
                         	<input name="dy_hod_user_id_fk" type="hidden" value="${safety.dy_hod_user_id_fk }" />        
-                        	<input name="existing_committe_members" type="hidden" value="${safety.committe_members }" />                
+                        	<input name="existing_committe_members" type="hidden" value="${safety.committe_members }" /> 
+                        	
+                        	<input name="safety_seq_id" type="hidden" value="${safety.safety_seq_id }"/>               
                         
                         	<div class="row">
                                 <div class="col s6 m4 l4 input-field">

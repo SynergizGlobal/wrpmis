@@ -242,8 +242,8 @@ public class SafetyDaoImpl implements SafetyDao {
 	}	
 
 	@Override
-	public boolean addSafety(Safety obj) throws Exception {
-		boolean flag = false;
+	public String addSafety(Safety obj) throws Exception {
+		String safetyid = null;
 		//TransactionDefinition def = new DefaultTransactionDefinition();
 		//TransactionStatus status = transactionManager.getTransaction(def);
 		String safety_id = null;
@@ -269,7 +269,7 @@ public class SafetyDaoImpl implements SafetyDao {
 			if(count > 0) {
 				safety_id = String.valueOf(keyHolder.getKey().intValue());
 				obj.setSafety_id(safety_id);
-				flag = true;
+				safetyid = obj.getSafety_seq_id();
 				if(!StringUtils.isEmpty(obj.getSafetyFiles()) && obj.getSafetyFiles().size() > 0){						
 					String fileQry = "INSERT INTO safety_files (attachment,safety_id_fk)VALUES(:attachment,:safety_id)";
 					
@@ -311,7 +311,7 @@ public class SafetyDaoImpl implements SafetyDao {
 			//transactionManager.rollback(status);
 			throw new Exception(e);
 		}
-		return flag;
+		return safetyid;
 	}
 	
 	
@@ -837,8 +837,9 @@ public class SafetyDaoImpl implements SafetyDao {
 	}
 
 	@Override
-	public boolean updateSafety(Safety obj) throws Exception {
+	public String updateSafety(Safety obj) throws Exception {
 		boolean flag = false;
+		String safetyid = null;
 		TransactionDefinition def = new DefaultTransactionDefinition();
 		TransactionStatus status = transactionManager.getTransaction(def);
 		PreparedStatement stmt = null;
@@ -854,6 +855,7 @@ public class SafetyDaoImpl implements SafetyDao {
 			int count = template.update(qry, paramSource);			
 			if(count > 0) {
 				flag = true;
+				safetyid=obj.getSafety_seq_id();
 			}
 			if(flag) {
 				String qryDelete = "select * from safety_files where safety_id_fk = ?";
@@ -966,7 +968,7 @@ public class SafetyDaoImpl implements SafetyDao {
 			transactionManager.rollback(status);
 			throw new Exception(e);
 		}
-		return flag;
+		return safetyid;
 	}
 	
 	public static String getAlphaNumericString(int n)

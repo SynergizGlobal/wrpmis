@@ -16,11 +16,11 @@ public interface SafetyDao {
 
 	List<Safety> getSafetyRootCauseList() throws Exception;
 
-	boolean addSafety(Safety obj) throws Exception;
+	String addSafety(Safety obj) throws Exception;
 
 	Safety getSafety(Safety obj) throws Exception;
 
-	boolean updateSafety(Safety obj) throws Exception;
+	String updateSafety(Safety obj) throws Exception;
 
 	boolean deleteSafety(Safety obj) throws Exception;
 

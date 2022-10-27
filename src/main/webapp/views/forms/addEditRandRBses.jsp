@@ -758,16 +758,19 @@ function getResponsible(hod){
  			var rowLr=document.getElementById("app_com_table").rows.length;
  			for(var k=0;k<rowLr-1;k++)
  			{
- 				alert($("#contact_number_rep"+k).val());
-  				if($("#contact_number_rep"+k).val().length<10)
+ 				if($("#contact_number_rep"+k).val()!="")
  				{
- 					$("#contact_number_rep"+k+"Error").html("Phone number length should be 10");
- 					return false;
- 				}
- 				else
- 				{
- 					$("#contact_number_rep"+k+"Error").html("");
- 				} 
+		 				if($("#contact_number_rep"+k).val().length<10)
+		 				{
+		 					alert("Phone number length should be 10");
+		 					$("#contact_number_rep"+k+"Error").html("Phone number length should be 10");
+		 					return false;
+		 				}
+		 				else
+		 				{
+		 					$("#contact_number_rep"+k+"Error").html("");
+		 				}
+		 		}
  			}
 	       	$(".page-loader").show();	
 	  		document.getElementById("RandRForm").submit();	

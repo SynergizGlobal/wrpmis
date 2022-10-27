@@ -40,7 +40,7 @@ public class SafetyServiceImpl implements SafetyService {
 	}
 
 	@Override
-	public boolean addSafety(Safety obj) throws Exception {
+	public String addSafety(Safety obj) throws Exception {
 		return safetyDao.addSafety(obj);
 	}
 
@@ -50,7 +50,7 @@ public class SafetyServiceImpl implements SafetyService {
 	}
 
 	@Override
-	public boolean updateSafety(Safety obj) throws Exception {
+	public String updateSafety(Safety obj) throws Exception {
 		return safetyDao.updateSafety(obj);
 	}
 

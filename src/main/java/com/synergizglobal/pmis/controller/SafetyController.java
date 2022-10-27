@@ -548,9 +548,9 @@ public class SafetyController {
 			obj.setInvestigation_completed(DateParser.parse(obj.getInvestigation_completed()));			
 			obj.setPayment_date(DateParser.parse(obj.getPayment_date()));
 			
-			boolean flag = safetyService.addSafety(obj);
-			if(flag) {
-				attributes.addFlashAttribute("success", "Safety added successfully");
+			String safetyid = safetyService.addSafety(obj);
+			if(!StringUtils.isEmpty(safetyid)) {
+				attributes.addFlashAttribute("success", "Safety "+safetyid+" Added Succesfully.");
 			}else {
 				attributes.addFlashAttribute("error", "Adding safety is failed. Try again.");
 			}
@@ -686,9 +686,9 @@ public class SafetyController {
 			obj.setCreated_by_user_id_fk(user_Id);
 
 			
-			boolean flag = safetyService.updateSafety(obj);
-			if(flag) {
-				attributes.addFlashAttribute("success", "Safety updated successfully");
+			String safetyid = safetyService.updateSafety(obj);
+			if(!StringUtils.isEmpty(safetyid)) {
+				attributes.addFlashAttribute("success", "Safety "+safetyid+" Updated Succesfully.");
 			}else {
 				attributes.addFlashAttribute("error", "Updating safety is failed. Try again.");
 			}

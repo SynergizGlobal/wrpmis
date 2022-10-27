@@ -2327,12 +2327,7 @@ public class RandRMainController {
 								if(!StringUtils.isEmpty(val)) { pObj1.setEmployee_name(val);}
 								
 								val = formatter.formatCellValue(row2.getCell(2)).trim();
-								if(!StringUtils.isEmpty(val)) {
-									int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
-									if(c != 2) {
-										val = getCellDataType(workbook,row2.getCell(2));
-									}
-									pObj1.setEmployee_age(val);}
+								if(!StringUtils.isEmpty(val)) { pObj1.setEmployee_age(val);}
 								
 								val = formatter.formatCellValue(row2.getCell(3)).trim();
 								if(!StringUtils.isEmpty(val)) { pObj1.setEmployee_gender(val);}

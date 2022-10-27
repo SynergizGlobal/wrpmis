@@ -1804,7 +1804,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 					+ "FORMAT(alternate_housing_allotment ,'dd-MM-yyyy') AS alternate_housing_allotment,"
 					+ "FORMAT(relocation ,'dd-MM-yyyy') AS relocation,FORMAT(encroachment_removal ,'dd-MM-yyyy') AS encroachment_removal,"
 					+ "FORMAT(boundary_wall_doc ,'dd-MM-yyyy') AS boundary_wall_doc,"
-					+ "FORMAT(handed_over_to_execution ,'dd-MM-yyyy') AS handed_over_to_execution, occupier_name_during_verification, r.remarks,chainage,latitude,longitude from rr r " + 
+					+ "FORMAT(handed_over_to_execution ,'dd-MM-yyyy') AS handed_over_to_execution, occupier_name_during_verification, r.remarks,chainage,latitude,longitude,boundary_wall_status from rr r " + 
 					" LEFT JOIN work w on r.work_id = w.work_id " + 
 					 "LEFT JOIN rr_executives re ON re.work_id_fk = w.work_id "+
 					"left join project p on w.project_id_fk = p.project_id  " + 

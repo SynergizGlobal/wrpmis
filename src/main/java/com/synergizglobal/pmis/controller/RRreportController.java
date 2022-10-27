@@ -244,12 +244,12 @@ public class RRreportController {
 				}*/
 		        cell.setCellValue(work_d+" R&R Summary Report");
 		        
-		        for (int i = 1; i < 5; i++) {		        	
+		        for (int i = 1; i < 8; i++) {		        	
 			        cell = mainHeadingRow.createCell(i);
 			        cell.setCellStyle(bluetyle);
 					cell.setCellValue("");
 				}	
-		        rrSheet1.addMergedRegion(new CellRangeAddress(1, 1, 0,4));
+		        rrSheet1.addMergedRegion(new CellRangeAddress(1, 1, 0,7));
 		int rowNo = 3;
 
         XSSFRow structureRow = rrSheet1.createRow(rowNo);
@@ -432,20 +432,20 @@ public class RRreportController {
 			        cell2.setCellStyle(bluetyle);
 			        cell2.setCellValue(work_d+" R&R Detail Report");
 			        
-			        for (int i = 1; i < 5; i++) {		        	
+			        for (int i = 1; i < 17; i++) {		        	
 				        cell2 = mainHeadingRow2.createCell(i);
 				        cell2.setCellStyle(bluetyle);
 						cell2.setCellValue("");
 					}	
-			        rrSheet2.addMergedRegion(new CellRangeAddress(1, 1, 0,4));
+			        rrSheet2.addMergedRegion(new CellRangeAddress(1, 1, 0,16));
 			        int rowNo2 = 3;
 				    // workBook.setSheetOrder(rrSheet1.getSheetName(), sheetNo++);	        	
 
 	        XSSFRow structureRow2 = rrSheet2.createRow(rowNo2);
 
 	        /**********************************************************************/
-			String headerString2 = "Sr No.^R&R ID^Location^Sublocation^Type of Use^Physical Verification"
-					+ "^Removal of Encroachment^Boundry Wall Construction completed^Hand over to construction";
+			String headerString2 = "Sr No.^R&R ID^BSES Agency Name^Location^Sublocation^Type of Use^Physical Verification^Verification By^Letter to MMRDA^Alternate Housing Allotment"
+					+ "^Removal of Encroachment^Boundry Wall Construction completed^Hand over to construction^Boundry Wall Status^Owner Name^Carpet Area^Estimation Amount (Rs)";
 	        String[] headerStringArr2 = headerString2.split("\\^");
 	        
 	        XSSFRow headingRow2 = rrSheet2.createRow(rowNo2);
@@ -471,8 +471,8 @@ public class RRreportController {
 			        cell.setCellStyle(greenStyle1);
 					cell.setCellValue(workId);
 					
-					for (int i = 1; i < 9; i++) {		        	
-				        cell = row1.createCell(i);
+					for (int i = 1; i < 17; i++) {		        	
+				        cell = row1.createCell(i);	
 				        cell.setCellStyle(greenStyle1);
 						cell.setCellValue("");
 					}	
@@ -497,6 +497,11 @@ public class RRreportController {
 				
 				cell2 = row1.createCell(d++);
 				cell2.setCellStyle(activityNameStyle1);
+				cell2.setCellValue(zObj.getIdentification_no());				
+				
+				
+				cell2 = row1.createCell(d++);
+				cell2.setCellStyle(activityNameStyle1);
 				cell2.setCellValue(zObj.getLocation_name());
 				
 				cell2 = row1.createCell(d++);
@@ -511,6 +516,20 @@ public class RRreportController {
 				cell2.setCellStyle(activityNameStyle1);
 				cell2.setCellValue(zObj.getPhysical_verification());
 				
+
+				cell2 = row1.createCell(d++);
+				cell2.setCellStyle(activityNameStyle1);
+				cell2.setCellValue(zObj.getVerification_by());
+				
+				cell2 = row1.createCell(d++);
+				cell2.setCellStyle(activityNameStyle1);
+				cell2.setCellValue(zObj.getLetter_to_mmrda());
+				
+				cell2 = row1.createCell(d++);
+				cell2.setCellStyle(activityNameStyle1);
+				cell2.setCellValue(zObj.getAlternate_housing_allotment());
+				
+				
 				cell2 = row1.createCell(d++);
 				cell2.setCellStyle(activityNameStyle1);
 				cell2.setCellValue(zObj.getEncroachment_removal());
@@ -522,6 +541,26 @@ public class RRreportController {
 				cell2 = row1.createCell(d++);
 				cell2.setCellStyle(activityNameStyle1);
 				cell2.setCellValue(zObj.getHanded_over_to_execution());
+				
+				
+				cell2 = row1.createCell(d++);
+				cell2.setCellStyle(activityNameStyle1);
+				cell2.setCellValue(zObj.getBoundary_wall_status());
+				
+				cell2 = row1.createCell(d++);
+				cell2.setCellStyle(activityNameStyle1);
+				cell2.setCellValue(zObj.getOccupier_name_during_verification());
+				
+				cell2 = row1.createCell(d++);
+				cell2.setCellStyle(activityNameStyle1);
+				cell2.setCellValue(zObj.getCarpet_area());
+				
+				
+				cell2 = row1.createCell(d++);
+				cell2.setCellStyle(activityNameStyle1);
+				cell2.setCellValue(zObj.getEstimation_amount());				
+				
+				
 
 		        rowNo2++;
 			}

@@ -1403,7 +1403,7 @@ public class RandRMainController {
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getApproval_date_by_mrvc());	
+					cell.setCellValue(obj.getRr_approval_status_by_mrvc());	
 					
 					
 					cell = row.createCell(c++);
@@ -2133,7 +2133,7 @@ public class RandRMainController {
 							if(!StringUtils.isEmpty(val)) { 
 								int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
 								if(c != 2) {
-									val = getCellDataType(workbook,row.getCell(29));
+									val = getCellDataType(workbook,row.getCell(30));
 								}
 								rr.setEstimation_amount(val);}								
 
@@ -2142,7 +2142,7 @@ public class RandRMainController {
 							if(!StringUtils.isEmpty(val)) { 
 								int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
 								if(c != 2) {
-									val = getCellDataType(workbook,row.getCell(30));
+									val = getCellDataType(workbook,row.getCell(31));
 								}
 								rr.setEstimates_by_mmrda(val);}	
 							

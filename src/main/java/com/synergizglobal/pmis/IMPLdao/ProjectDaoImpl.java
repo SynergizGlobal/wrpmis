@@ -449,7 +449,7 @@ public class ProjectDaoImpl implements ProjectDao {
 		try{
 			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
 			String projectId = null;			
-			String maxIdQry = "SELECT top 1 CONCAT(SUBSTRING(project_id, 1, LEN(project_id)-2),case when  LEN(SUBSTRING(cast(MAX(SUBSTRING(project_id, 2, LEN(project_id)))+1 as varchar),0,2))=1 THEN concat(0,SUBSTRING(cast(MAX(SUBSTRING(project_id, 2, LEN(project_id)))+1 as varchar),0,2)) else SUBSTRING(cast(MAX(SUBSTRING(project_id, 2, LEN(project_id)))+1 as varchar),0,2) end ) AS project_id FROM project  group by project_id order by project_id desc" ;
+			String maxIdQry = "SELECT top 1 CONCAT(SUBSTRING(project_id, 1, LEN(project_id)-2),case when  LEN(cast(MAX(SUBSTRING(project_id, 2, LEN(project_id)))+1 as varchar))=1 THEN concat(0,cast(MAX(SUBSTRING(project_id, 2, LEN(project_id)))+1 as varchar)) else cast(MAX(SUBSTRING(project_id, 2, LEN(project_id)))+1 as varchar) end ) AS project_id FROM project  group by project_id order by project_id desc" ;
 			Project pId = template.queryForObject(maxIdQry,new MapSqlParameterSource(), BeanPropertyRowMapper.newInstance(Project.class));
 			if(StringUtils.isEmpty(pId)) {
 				projectId = "P01";

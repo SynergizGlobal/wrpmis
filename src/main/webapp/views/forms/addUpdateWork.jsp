@@ -416,7 +416,7 @@
 	                                     <span id="work_nameError"></span>
 	                                  </div>
 	                                  <div class="col s12 m3 l3 input-field">
-		                                    <input id="work_code" type="text" maxlength="10" data-length="10" class="validate txt-up w75 pdr4em" name="work_code"  onkeyup="workCodeVerify()"
+		                                    <input id="work_code" type="text" maxlength="2" data-length="2" class="validate txt-up w75 pdr4em" name="work_code"  onkeyup="workCodeVerify()"
 		                                      oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
 		                                     value="${workDetails.work_code }" <c:if test="${not empty workDetails.work_code }"> readonly </c:if>>
 		                                    <label for="work_code">Work Code<span class="required">*</span></label>

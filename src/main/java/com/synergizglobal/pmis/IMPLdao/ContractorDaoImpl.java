@@ -128,7 +128,7 @@ public class ContractorDaoImpl implements ContractorDao {
 		String contractorId = null;;
 		try{
 			con = dataSource.getConnection();
-			String maxIdQry = "SELECT CONCAT(SUBSTRING(contractor_id, 1, LEN(contractor_id)-4),SUBSTRING(cast(MAX(SUBSTRING(contractor_id, 5, LEN(contractor_id)))+1 as varchar),0,4) ) AS maxId FROM contractor group by contractor_id ";
+			String maxIdQry = "select case when LEN(contractorid)=1 then concat('CON000',contractorid) when LEN(contractorid)=2 then concat('CON00',contractorid) when LEN(contractorid)=3 then concat('CON0',contractorid) else '0' end as maxId from(select top 1 cast(cast(SUBSTRING(contractor_id,4,LEN(contractor_id)) as int)+1 as varchar) as contractorid from contractor group by contractor_id  having LEN(contractor_id)>4 ORDER BY contractor_id DESC) as a ";
 			stmt = con.prepareStatement(maxIdQry);
 			rs = stmt.executeQuery();  
 			if(rs.next()) {

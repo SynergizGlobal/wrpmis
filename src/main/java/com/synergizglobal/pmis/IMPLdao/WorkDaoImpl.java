@@ -833,6 +833,10 @@ public class WorkDaoImpl implements WorkDao {
 					workId = projectId+"W01";
 				}
 			}
+			else
+			{
+				workId = projectId+"W01";
+			}
 		}catch(Exception e){ 		
 			e.printStackTrace();
 			throw new Exception(e);

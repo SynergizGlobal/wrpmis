@@ -292,7 +292,7 @@
                     <div class="center-align">
                         <span class="card-title headbg">
                             <div class="center-align p-2 bg-m">
-                                <h5>R&R Agency</h5>
+                                <h5>R&R Agency<c:if test="${action eq 'edit'}">(${rrDetails.agency_id })</c:if></h5>
                             </div>
                         </span>
                     </div>

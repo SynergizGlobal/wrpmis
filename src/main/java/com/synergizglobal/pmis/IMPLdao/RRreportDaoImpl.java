@@ -281,7 +281,7 @@ public class RRreportDaoImpl implements RRreportDao{
 						"FORMAT(physical_verification,'dd-MM-yyyy') as physical_verification," + 
 						"FORMAT(encroachment_removal,'dd-MM-yyyy') as encroachment_removal," + 
 						"FORMAT(boundary_wall_doc,'dd-MM-yyyy') as boundary_wall_doc" + 
-						",FORMAT(handed_over_to_execution,'dd-MM-yyyy') as handed_over_to_execution,verification_by,letter_to_mmrda,alternate_housing_allotment,boundary_wall_status,name_of_the_owner,carpet_area,estimation_amount,identification_no " + 
+						",FORMAT(handed_over_to_execution,'dd-MM-yyyy') as handed_over_to_execution,verification_by,FORMAT(letter_to_mmrda,'dd-MM-yyyy') as letter_to_mmrda,FORMAT(alternate_housing_allotment,'dd-MM-yyyy') as alternate_housing_allotment,boundary_wall_status,name_of_the_owner,carpet_area,estimation_amount,identification_no " + 
 						"from rr r "
 						+ "left join work w on r.work_id = w.work_id "
 						+ "left join project p on w.project_id_fk = p.project_id "

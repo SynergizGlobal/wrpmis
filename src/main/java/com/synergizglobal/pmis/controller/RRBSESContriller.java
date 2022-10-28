@@ -292,6 +292,7 @@ public class RRBSESContriller {
 		
 			
 			RandRMain rrDetails = service.getRRBSES(rr);
+			rrDetails.setAgency_id(rr.getAgency_id());
 			model.addObject("rrDetails", rrDetails);
 		
 		}catch (Exception e) {

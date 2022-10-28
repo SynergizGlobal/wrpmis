@@ -243,6 +243,7 @@
                                 <table id="rr-bses" class="mdl-data-table">
                                     <thead>
                                         <tr>
+                                        	<th>Agency ID</th>
                                             <th>work</th>
                                             <th>MRVC - HOD</th>
                                             <th>MRVC Responsible Person</th>
@@ -270,6 +271,7 @@
     
  <form action="<%=request.getContextPath()%>/get-rr-bses" id="getForm" name="getForm" method="post" >
   		<input type="hidden" name="rrbses_id" id="rrbses_id"/>
+  		<input type="hidden" name="agency_id" id="agency_id"/>
     </form>
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
@@ -388,8 +390,9 @@
 	        }
 	    }
 	    
-	    function getRandR(rrbses_id){
+	    function getRandR(rrbses_id,agency_id){
 	    	$("#rrbses_id").val(rrbses_id);
+	    	$("#agency_id").val(agency_id);
 	    	$('#getForm').attr('action', '<%=request.getContextPath()%>/get-rr-bses');
 	    	$('#getForm').submit();
 	    }
@@ -525,6 +528,9 @@
 	    							"bDestroy" : true,
 	    							"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/rr-bses?"+myParams,
 	    		        "aoColumns": [
+	      		            { "mData": function(data,type,row){
+	                             if($.trim(data.agency_id) == ''){ return '-'; }else{ return data.agency_id; }
+	      		            } },	    		        	
 	    		        	
 	      		            { "mData": function(data,type,row){
 	                             if($.trim(data.work_id_fk) == ''){ return '-'; }else{ return data.work_short_name; }
@@ -544,7 +550,8 @@
 	    		            } },
 	    		         	{ "mData": function(data,type,row){
 	    		         		var rrbses_id = "'"+data.rrbses_id+"'";
-	    	                    var actions = '<a href="javascript:void(0);"  onclick="getRandR('+rrbses_id+');" class="btn waves-effect waves-light bg-m t-c mob-btn" ><i class="fa fa-pencil"></i></a>';
+	    		         		var agency_id = "'"+data.agency_id+"'";
+	    	                    var actions = '<a href="javascript:void(0);"  onclick="getRandR('+rrbses_id+','+agency_id+');" class="btn waves-effect waves-light bg-m t-c mob-btn" ><i class="fa fa-pencil"></i></a>';
 	    		            	return actions;
 	    		            } }
 	    		            

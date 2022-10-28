@@ -549,7 +549,7 @@ public class RRreportController {
 				
 				cell2 = row1.createCell(d++);
 				cell2.setCellStyle(activityNameStyle1);
-				cell2.setCellValue(zObj.getOccupier_name_during_verification());
+				cell2.setCellValue(zObj.getName_of_the_owner());
 				
 				cell2 = row1.createCell(d++);
 				cell2.setCellStyle(activityNameStyle1);

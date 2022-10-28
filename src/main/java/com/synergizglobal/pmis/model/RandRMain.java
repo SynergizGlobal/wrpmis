@@ -19,7 +19,7 @@ residential_salary_units,created_by_user_id_fk,modified_by,modified_date,user_id
  hod, mrvc_responsible_person, bses_agency_name, agency_responsible_person,rrbses_id,
  rr_agency_id_fk, date_of_appointment, name_of_representative, phone_no,committee_name,
  contact_number, email_id, submission_date_report_ca, actual_submission_date_bses_report_to_mrvc,res_designation,res_user_name,
- approval_by_mrvc_responsible_person, report_submission_date_to_mrvc, approval_date_by_mrvc,res_user_id,planned_date_of_completion,chainage,latitude,longitude,searchStr,attachment_file;
+ approval_by_mrvc_responsible_person, report_submission_date_to_mrvc, approval_date_by_mrvc,res_user_id,planned_date_of_completion,chainage,latitude,longitude,searchStr,attachment_file,agency_id;
 
 private List<RandRMain> residentialList,rrBSESLIst,commercialList,comList,comFamList,resList,resFamList,report1List,report2List;
 private MultipartFile RandRFile;
@@ -1410,6 +1410,14 @@ public String getAttachment_file() {
 
 public void setAttachment_file(String attachment_file) {
 	this.attachment_file = attachment_file;
+}
+
+public String getAgency_id() {
+	return agency_id;
+}
+
+public void setAgency_id(String agency_id) {
+	this.agency_id = agency_id;
 }
 
 }

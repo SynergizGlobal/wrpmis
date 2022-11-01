@@ -48,6 +48,28 @@ body{
 font-family:Calibri;
 font-size:13px;
 }	
+
+.brdcls {
+    border: 1px solid #dee2e6;
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    background-color: transparent;
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+
 		
     </style>
 </head>
@@ -498,7 +520,7 @@ font-size:13px;
 	                   data: myParams, cache: false,async: false,
 	                   success: function (data) {
 	                       if (data.length > 0) {
- 	                           var html="<table style='width:100%' class='table table-striped table-bordered'>";
+ 	                           var html="<table style='width:100%' class='glmCls'>";
 	                           $.each(data, function (i1, val1) {
 	                        	   if(val1.status_fk=="Open")
 	                        		   {
@@ -508,7 +530,7 @@ font-size:13px;
 			                        	   var hh=0;
 			                       	   	   if(projectIdsArray.indexOf(val1.project_id_fk)==-1)
 			                       		   {	hh=1;
-					                       		html=html+"<tr><td style='text-align:left;'>"+(i1+1)+":Project Name:"+val1.project_id_fk+" - "+val1.project_name+"<span>"+today+"</span></td></tr>";
+					                       		html=html+"<tr><td style='text-align:left;'>"+(i1+1)+":Project Name:"+val1.project_id_fk+" - "+val1.project_name+"</td><td style='text-align:right;'>"+today+"</td></tr>";
 					                       		projectIdsArray.push(val1.project_id_fk);
 			                       		   }
 			                       	   	   	   var lengthRows=0;
@@ -538,10 +560,10 @@ font-size:13px;
 									 	                           });					                       	   					
 					                       	   				}
 					                       	   			workIdsArray.push(val.work_id_fk);
-							                       		html=html+"<tr><td style='text-align:left;'>"+(i1+1)+"."+(klm+1)+".Work Name:"+val.work_id_fk+" - "+val.work_short_name+"</td></tr>";
-							                       		html=html+"<tr><td style='text-align:left;'>No. of Open Safety Incidents:"+lengthRows+"</td></tr>";
-							                       		html=html+"<tr><td style='text-align:left;'>";
-								                       		html=html+"<table style='width:100%' class='table table-striped table-bordered'>";
+							                       		html=html+"<tr><td style='text-align:left;' colspan='2'>"+(i1+1)+"."+(klm+1)+".Work Name:"+val.work_id_fk+" - "+val.work_short_name+"</td></tr>";
+							                       		html=html+"<tr><td style='text-align:left;' colspan='2'>No. of Open Safety Incidents:"+lengthRows+"</td></tr>";
+							                       		html=html+"<tr><td style='text-align:left;' colspan='2'>";
+								                       		html=html+"<table style='width:100%' class='brdcls table table-bordered'>";
 								                       			html=html+"<tr style='background-color:#ecf2ff;'>";
 								                       	   			html=html+"<td style='width:5%;'>S No</td>";
 								                       	   			html=html+"<td style='width:10%;'>Safety ID</td>";
@@ -610,7 +632,7 @@ font-size:13px;
                         	    	htmlC=htmlC+"<div class='googoose break'></div><div style='text-align:center;'><img src='/pmis/resources/images/mrvclogo.png' alt='Logo' width='70' height='55'></div><br><br>";						    
                         	   }
                            	   htmlC=htmlC+'<div class="col m8 s12 offset-m2" style="text-align:center;font-weight:bold;font-family:Calibri;" id="closedDiv">LIST OF CLOSED SAFETY INCIDENTS</div>';
-	                           htmlC=htmlC+"<table style='width:100%' class='table table-striped table-bordered'>";
+	                           htmlC=htmlC+"<table style='width:100%' class='glmCls'>";
                         	   if(data.length>0)
                         	   {
 	                           $.each(data, function (i1, val1) {
@@ -621,16 +643,16 @@ font-size:13px;
 			                        	   var hh=0;
 			                       	   	   if(projectIdsCArray.indexOf(val1.project_id_fk)==-1)
 			                       		   {	hh=1;
-			                       				htmlC=htmlC+"<tr><td style='text-align:left;'>"+(i1+1)+":Project Name:"+val1.project_id_fk+" - "+val1.project_name+"<span>"+today+"</span></td></tr>";
+			                       				htmlC=htmlC+"<tr><td style='text-align:left;'>"+(i1+1)+":Project Name:"+val1.project_id_fk+" - "+val1.project_name+"</td><td style='text-align:right;'>"+today+"</td></tr>";
 					                       		projectIdsCArray.push(val1.project_id_fk);
 			                       		   }
 
 			                       	   	var lengthRows=0;
 			                       	   	   var klm=0;
 			 	                           $.each(data, function (i, val) {
-				                       	   	   if(val.project_id_fk==val1.project_id_fk && RowsArray.indexOf(val.work_id_fk)==-1 && val.status_fk=="Closed")
+				                       	   	   if(val.project_id_fk==val1.project_id_fk && RowsCArray.indexOf(val.work_id_fk)==-1 && val.status_fk=="Closed")
 				                       		   {
-				                       	   			RowsArray.push(val.work_id_fk);
+				                       	   			RowsCArray.push(val.work_id_fk);
 				                       	   			lengthRows++;
 				                       		   }
 				                       	   	   
@@ -640,22 +662,22 @@ font-size:13px;
 				                       		   {
 				                       	   				if(klm>0)
 				                       	   				{
-				                       	   					RowsArray=[];
+				                       	   					RowsCArray=[];
 				                       	   					lengthRows=0;
 								 	                           $.each(data, function (i6, val6) {
-									                       	   	   if(val6.project_id_fk==val1.project_id_fk && RowsArray.indexOf(val6.work_id_fk)==-1 && val6.status_fk=="Closed" && val.work_id_fk==val6.work_id_fk)
+									                       	   	   if(val6.project_id_fk==val1.project_id_fk && RowsCArray.indexOf(val6.work_id_fk)==-1 && val6.status_fk=="Closed" && val.work_id_fk==val6.work_id_fk)
 									                       		   {
-									                       	   			RowsArray.push(val6.work_id_fk);
+									                       	   			RowsCArray.push(val6.work_id_fk);
 									                       	   			lengthRows++;
 									                       		   }
 									                       	   	   
 								 	                           });					                       	   					
 				                       	   				}
 					                       	   			workIdsCArray.push(val.work_id_fk);
-					                       	   			htmlC=htmlC+"<tr><td style='text-align:left;'>"+(i1+1)+"."+(klm+1)+".Work Name:"+val.work_id_fk+" - "+val.work_short_name+"</td></tr>";
-					                       	   			htmlC=htmlC+"<tr><td style='text-align:left;'>No. of Open Safety Incidents:"+lengthRows+"</td></tr>";
-					                       	   			htmlC=htmlC+"<tr><td style='text-align:left;'>";
-					                       	   			htmlC=htmlC+"<table style='width:100%' class='table table-striped table-bordered'>";
+					                       	   			htmlC=htmlC+"<tr><td style='text-align:left;' colspan='2'>"+(i1+1)+"."+(klm+1)+".Work Name:"+val.work_id_fk+" - "+val.work_short_name+"</td></tr>";
+					                       	   			htmlC=htmlC+"<tr><td style='text-align:left;' colspan='2'>No. of Closed Safety Incidents:"+lengthRows+"</td></tr>";
+					                       	   			htmlC=htmlC+"<tr><td style='text-align:left;' colspan='2'>";
+					                       	   			htmlC=htmlC+"<table style='width:100%' class='brdcls table table-bordered'>";
 					                       	   			htmlC=htmlC+"<tr style='background-color:#ecf2ff;'>";
 					                       	   			htmlC=htmlC+"<td style='width:5%;'>S No</td>";
 					                       	   			htmlC=htmlC+"<td style='width:10%;'>Safety ID</td>";

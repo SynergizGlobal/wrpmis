@@ -41,7 +41,7 @@
                             	<form id="reportForm" name="reportForm" method="post">
 	                                <div class="row no-mar">
 	                                    <div class="col s6 m4  input-field">
-	                                        <p class="searchable_label" style="text-align:left">Work</p>
+	                                        <p class="searchable_label" style="text-align:left">Work<span class="required">*</span></p>
 	                                        <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" onchange="addInQueWork(this.value);getContractsListInSafetyDetailsReport(this.value);getLocationsListInSafetyDetailsReport();getCategoriesListInSafetyDetailsReport();getStatusListInSafetyDetailsReport();getTitlesListInSafetyDetailsReport();getsafetySeqIDListInSafetyDetailsReport();getSafetyDetailsReport();">
 	                                            <option value="">Select </option>
 	                                            <c:forEach var="obj" items="${worksList }">
@@ -70,7 +70,8 @@
 	                                        </select>
 	                                        <span id="hod_user_id_fkError" class="error-msg" ></span>
 	                                    </div>
-	                                    
+	                              </div>
+	                               <div class="row no-mar">     
 	                                     <div class="col s6 m4  input-field">
 	                                        <p class="searchable_label" style="text-align:left">Status</p>
 	                                        <select class="searchable validate-dropdown" id="status_fk" name="status_fk" onchange="addInQueStatus(this.value);getLocationsListInSafetyDetailsReport();getTitlesListInSafetyDetailsReport();getsafetySeqIDListInSafetyDetailsReport();getSafetyDetailsReport()">
@@ -100,9 +101,11 @@
                                                 </c:forEach>
 	                                        </select>
 	                                        <span id="category_fkError" class="error-msg" ></span>
-	                                    </div> 
+	                                    </div>
+	                            </div>
+	                            <div class="row no-mar"> 
 	                                     <div class="col s12 m8 input-field">
-	                                        <p class="searchable_label" style="text-align:left">Description <span class="required">*</span></p>
+	                                        <p class="searchable_label" style="text-align:left">Description</p>
 	                                        <select class="searchable validate-dropdown" id="safety_id" name="safety_id" onchange="addInQueTitles(this.value);getSafetyDetailsReport();">
 	                                            <option value="">Select </option>
 	                                            <c:forEach var="obj" items="${titlesList }">
@@ -113,14 +116,14 @@
 	                                        <span id="safety_idError" class="error-msg" ></span>
 	                                    </div> 
 	                                    <div class="col s6 m4  input-field">
-	                                        <p class="searchable_label" style="text-align:left">Safety ID</p>
+	                                        <p class="searchable_label" style="text-align:left">Safety ID<span class="required">*</span></p>
 	                                        <select class="searchable validate-dropdown" id="safety_seq_id" name="safety_seq_id" onchange="getSafetyDetailsReport()">
 	                                            <option value="">Select </option>
 	                                            <c:forEach var="obj" items="${safetySeqIDList }">
                                                     <option  value="${obj.safety_seq_id }"> ${obj.safety_seq_id }</option>
                                                 </c:forEach>
 	                                        </select>
-	                                        <span id="category_fkError" class="error-msg" ></span>
+	                                        <span id="safety_seq_idError" class="error-msg" ></span>
 	                                    </div> 	                                    
 	                                </div>
 
@@ -584,7 +587,7 @@
 			 ignore: ":hidden:not(.validate-dropdown)",
 	  		    rules: {
 	  		 		  "work_id_fk": {
-	  			 		required: false
+	  			 		required: true
 	  			 	  },"contract_id_fk": {
 	  			 		required: false
 	  			 	  },"hod_user_id_fk": {
@@ -595,7 +598,7 @@
 	  			 		required: false
 	  			 	  },"category_fk":{
 	  			 		required: false
-	  			 	  },"safety_id": {
+	  			 	  },"safety_seq_id": {
 	  			 		required: true
 	  			 	  }
 	  		 	},
@@ -612,7 +615,7 @@
 	  			 		required: ' This field is required'
 	  			 	  },"category_fk":{
 	  			 		required: ' This field is required'
-	  			 	  },"safety_id": {
+	  			 	  },"safety_seq_id": {
 	  			 		required: ' This field is required'
 	  			 	  }
 		   		},
@@ -635,9 +638,9 @@
 					} else if(element.attr("id") == "category_fk" ){
 						   document.getElementById("category_fkError").innerHTML="";
 					 	   error.appendTo('#category_fkError');
-					} else if(element.attr("id") == "safety_id" ){
-						   document.getElementById("safety_idError").innerHTML="";
-					 	   error.appendTo('#safety_idError');
+					} else if(element.attr("id") == "safety_seq_id" ){
+						   document.getElementById("safety_seq_idError").innerHTML="";
+					 	   error.appendTo('#safety_seq_idError');
 					} else{
 	 					error.insertAfter(element);
 			        }

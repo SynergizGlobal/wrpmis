@@ -76,7 +76,7 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 	public List<Safety> getHODListInSafetyDetailsReport(Safety obj) throws Exception {
 		List<Safety> objsList = null;
 		try {
-			String qry = "SELECT distinct contract_id_fk,c.contract_id,contract_name,contract_short_name,c.hod_user_id_fk,u.designation,u.user_name as hod_name "
+			String qry = "SELECT contract_id_fk,c.contract_id,contract_name,contract_short_name,c.hod_user_id_fk,u.designation,u.user_name as hod_name "
 					+ "from safety s "
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
 					+ "LEFT OUTER JOIN [user] u ON c.hod_user_id_fk= u.user_id "
@@ -466,7 +466,7 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 					+ "c.contractor_id_fk,cr.contractor_name,c.hod_user_id_fk,c.dy_hod_user_id_fk,u.designation as hod_designation,u1.designation as dyhod_designation,category_fk,impact_fk,root_cause_fk,status_fk,FORMAT(closure_date,'dd-MMM-yy') AS closure_date,"
 					+ "cast(lti_hours as CHAR) as lti_hours,equipment_impact,people_impact,work_impact,ISNULL(committee_formed_fk,'') as committee_formed_fk,ISNULL(committee_required_fk,'') as committee_required_fk,"
 					+ "FORMAT(investigation_completed,'dd-MMM-yy') AS investigation_completed,corrective_measure_short_term,corrective_measure_long_term,cast(compensation * compensation_units as CHAR) as compensation,FORMAT(payment_date,'dd-MMM-yy') AS payment_date,s.remarks,contract_name,work_id_fk,work_name,project_id_fk,project_name,"
-					+ "(SELECT STRING_AGG( attachment , ',')  as attachment FROM safety_files where safety_id_fk = ?) as attachment,s.compensation_units,  "
+					+ "(SELECT STRING_AGG( attachment , ',')  as attachment FROM safety_files where safety_id_fk = s.safety_id) as attachment,s.compensation_units,  "
 					+ " "
 					+ "STRING_AGG(u2.user_name , ',') as committee_member_name from safety s "
 					+ "left join safety_committee_members sc on sc.safety_id_fk=s.safety_id "
@@ -478,9 +478,9 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 					+ "LEFT OUTER JOIN [user] u2 ON sc.committee_member_name= u2.user_id "
 					+ "LEFT OUTER JOIN work w ON c.work_id_fk  = w.work_id "
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk  = p.project_id "
-					+ "where safety_id = ? and isnull(safety_incident,'')='Yes' ";
+					+ "where safety_seq_id = ? and isnull(safety_incident,'')='Yes' ";
 			
-			int arrSize = 2;
+			int arrSize = 1;
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and work_id_fk = ? ";
@@ -509,8 +509,7 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
-			pValues[i++] = obj.getSafety_id();
-			pValues[i++] = obj.getSafety_id();
+			pValues[i++] = obj.getSafety_seq_id();
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
 			}
@@ -542,7 +541,7 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 					+ "from safety s "
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
-					+ "where 0=0  ";
+					+ "where 0=0 and isnull(safety_incident,'')='Yes' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and work_id_fk = ?";

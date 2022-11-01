@@ -103,7 +103,7 @@ public class DocxTableCreationForSafetyDetailsReport {
 			addTableCell(factory, wordMLPackage, titleTableRow, safetyDeailsReport.getSafety_seq_id(), garamondBoldRPr,
 					JcEnumeration.LEFT, true, "ecf2ff");			
 			
-			addTableCell(factory, wordMLPackage, titleTableRow, "Description", garamondRPr,
+			addTableCell(factory, wordMLPackage, titleTableRow, "Description"+" "+ safetyDeailsReport.getTitle(), garamondRPr,
 					JcEnumeration.LEFT, false, null);
 			
 			
@@ -115,10 +115,9 @@ public class DocxTableCreationForSafetyDetailsReport {
 			addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,JcEnumeration.LEFT, false, null);
 			addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,JcEnumeration.LEFT, false, null);
 			addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,JcEnumeration.LEFT, false, null);
-			addTableCell(factory, wordMLPackage, titleTableRow, "", garamondRPr,JcEnumeration.LEFT, false, null);
 			
 			titleTable.getContent().add(titleTableRow);
-			mergeCellsHorizontal(titleTable, count, 2, 8);
+			mergeCellsHorizontal(titleTable, count, 3, 8);
 		  	count++;
 		  	/****************************************************************************/		
 		
@@ -274,7 +273,7 @@ public class DocxTableCreationForSafetyDetailsReport {
 		  	
 		  	titleTableRow = factory.createTr();		
 				
-		  	addTableCell(factory, wordMLPackage, titleTableRow, "Committee Requried", garamondBoldRPr,
+		  	addTableCell(factory, wordMLPackage, titleTableRow, "Committee Required", garamondBoldRPr,
 					JcEnumeration.LEFT, true, "ecf2ff");
 			addTableCell(factory, wordMLPackage, titleTableRow, safetyDeailsReport.getCommittee_required_fk(), garamondRPr,
 					JcEnumeration.LEFT, false, null);

@@ -308,7 +308,8 @@
         <input type="hidden" name="category_fk" id="exportCategory_fk" />
         <input type="hidden" name="status_fk" id="exportStatus_fk" />
         <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
-         <input type="hidden" name="hod_user_id_fk" id="exportHod_user_id_fk" />
+        <input type="hidden" name="hod_user_id_fk" id="exportHod_user_id_fk" />
+        <input type="hidden" name="searchStr" id="exportsearchStr" />
 	</form>
 
 
@@ -950,12 +951,14 @@
         	var status_fk = $("#status_fk").val();
         	var work_id_fk = $("#work_id_fk").val();
         	var hod_user_id_fk = $("#hod_user_id_fk").val();
+        	var searchStrValue = $('[type=search]').val();
           	 
           	$("#exportContract_id_fk").val(contract_id_fk);
           	$("#exportWork_id_fk").val(work_id_fk);
           	$("#exportDepartment_fk").val(department_fk);
           	$("#exportCategory_fk").val(category_fk);
           	$("#exportStatus_fk").val(status_fk);
+          	$("#exportsearchStr").val(searchStrValue);
           	$("#exportHod_user_id_fk").val(hod_user_id_fk);
           	$("#exportSafetyForm").submit();
        	}

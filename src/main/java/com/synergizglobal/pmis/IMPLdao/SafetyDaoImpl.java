@@ -97,6 +97,7 @@ public class SafetyDaoImpl implements SafetyDao {
 				qry = qry + " and u.department_fk = ?";
 				arrSize++;
 			}
+	
 			
 			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				
@@ -118,6 +119,21 @@ public class SafetyDaoImpl implements SafetyDao {
 				qry = qry + " and c.hod_user_id_fk = ?";
 				arrSize++;
 			}
+			
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSearchStr())) {
+				qry = qry + " and (c.contract_id like ? or c.contract_short_name like ? or title like ? or location like ? "
+						+ "or u2.designation like ? or department_name like ? or category_fk like ? or status_fk like ? or safety_seq_id like ?)";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			}				
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -152,6 +168,18 @@ public class SafetyDaoImpl implements SafetyDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_user_id_fk())) {
 				pValues[i++] = obj.getHod_user_id_fk();
 			}
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSearchStr())) {
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+				pValues[i++] = "%"+obj.getSearchStr()+"%";				
+			}			
 			
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<Safety>(Safety.class));	
 		}catch(Exception e){ 

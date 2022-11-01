@@ -1228,7 +1228,7 @@
    if("${rrDetails.work_id}"!="")
    {
 	   getBSESAgencyNamesList("${rrDetails.work_id}");
-	   getVerificatiobByList(bsesId);
+	   getVerificatiobByList("${rrDetails.identification_no}");
    }
    
    
@@ -1751,7 +1751,7 @@
   			var work_code =   $('#work_id option:selected').attr('name');
   			$("#work_code").val(work_code);
   			getBSESAgencyNamesList(workId);
-  			getVerificatiobByList(workId,$("#id_no").val());
+  			getVerificatiobByList($("#id_no").val());
   		}
   		
    }

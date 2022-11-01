@@ -662,6 +662,23 @@
        	 	$('input[name^=safety_incident][value="Yes"]').prop("checked",true);
        	 	$("#nominatedDiv").show();
 		    $("#status_fk").prop("disabled",false);
+		    
+	       	if("${safety.committee_required_fk}"=='Yes' && '${safety.responsible_person }'!="" && "${(fn:length(safety.safetyCommitteeMembersList))>0}" && '${safety.nominated_authority }'!="" && '${safety.corrective_measure_short_term }'=="")
+  			{
+				$("#divApproveCorrectiveMeasure").hide();
+				$("#divAttachment").hide();
+				$("#divRemarks").hide();
+  			}
+	       	
+	       	if("${safety.committee_required_fk}"=='No' && '${safety.responsible_person }'!="" && '${safety.nominated_authority }'!="" && '${safety.corrective_measure_short_term }'=="")
+  			{
+	       		
+				$("#divApproveCorrectiveMeasure").hide();
+				$("#divAttachment").hide();
+				$("#divRemarks").hide();
+  			}
+	       	
+	       	
 
 	       	if("${safety.committee_required_fk}"=='Yes' && '${safety.responsible_person }'!="" && "${(fn:length(safety.safetyCommitteeMembersList))>0}" && '${safety.nominated_authority }'!="" && '${safety.corrective_measure_short_term }'!="")
   			{
@@ -672,6 +689,7 @@
 	       	
 	       	if("${safety.committee_required_fk}"=='No' && '${safety.responsible_person }'!="" && '${safety.nominated_authority }'!="" && '${safety.corrective_measure_short_term }'!="")
   			{
+	       		
 				$("#divApproveCorrectiveMeasure").show();
 				$("#divAttachment").show();
 				$("#divRemarks").show();

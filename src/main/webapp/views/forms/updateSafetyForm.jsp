@@ -350,7 +350,7 @@
                                 </div>
                             </div> 							
 							 
-                            <div class="row" id="divApproveCorrectiveMeasure">  
+                            <div class="row" id="divApproveCorrectiveMeasure" style="display:none;">  
                             <br><hr style="height: 2px;background: black;">                              
                                  <div class="col s12 m8 l6 input-field" style="padding-top: 4px;">
                                     <p class="prio">Approve Corrective Measure</p>
@@ -369,7 +369,7 @@
                                 <br><br><br><hr style="height: 2px;background: black;">	   	                             
                             </div>
                             					
-                            <div class="row">
+                            <div class="row" id="divAttachment" style="display:none;">
                             	<div class="col s12 m12 l12 input-field">
 									<c:set var="existingsafetyFilesLength" value="${fn:length(safety.safetyFilesList )}"></c:set>
 									<c:if test="${fn:length(safety.safetyFilesList ) gt 0}">
@@ -401,7 +401,7 @@
                                 </div>                              
                             </div>
                             
-                            <div class="row">
+                            <div class="row" id="divRemarks" style="display:none;">
                                 <div class="col s12 m12 l12 input-field">
                                     <textarea id="remarks" name="remarks" class="pmis-textarea validate" data-length="1000">${safety.remarks }</textarea>
                                     <label for="remarks">Remarks</label>
@@ -409,7 +409,7 @@
                                 </div>
                             </div>
 
-							 <div class="row">
+							 <div class="row" id="divStatus" style="display:none;">
 								 <div class="col s6 m6 l6 input-field">
                                   <p class="searchable_label"> Status <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="status_fk" name="status_fk" >
@@ -480,6 +480,14 @@
         	var hod_user_id = '${safety.hod_user_id_fk}';
         	var logged_in_user_id = '${sessionScope.USER_ID}';
         	var dy_hod_user_id = '${safety.dy_hod_user_id_fk}';
+        	
+        	
+        	
+        	
+        	
+        	
+        	
+        	
         	
         	if('${sessionScope.USER_ROLE_NAME}'!="IT Admin")
         		{
@@ -654,28 +662,52 @@
        	 	$('input[name^=safety_incident][value="Yes"]').prop("checked",true);
        	 	$("#nominatedDiv").show();
 		    $("#status_fk").prop("disabled",false);
-		   // $("#status_fk").val("");   
-         	 	
+
+	       	if("${safety.committee_required_fk}"=='Yes' && '${safety.responsible_person }'!="" && "${(fn:length(safety.safetyCommitteeMembersList))>0}" && '${safety.nominated_authority }'!="" && '${safety.corrective_measure_short_term }'!="")
+  			{
+				$("#divApproveCorrectiveMeasure").show();
+				$("#divAttachment").show();
+				$("#divRemarks").show();
+  			}
+	       	
+	       	if("${safety.committee_required_fk}"=='No' && '${safety.responsible_person }'!="" && '${safety.nominated_authority }'!="" && '${safety.corrective_measure_short_term }'!="")
+  			{
+				$("#divApproveCorrectiveMeasure").show();
+				$("#divAttachment").show();
+				$("#divRemarks").show();
+  			}	       	
+
+	       	
        	}
        	else if("${safety.safety_incident}"=="No")
        	{
        	 	$('input[name^=safety_incident][value="No"]').prop("checked",true);
        	 	$("#nominatedDiv").hide();
  		    $("#status_fk").val("Closed").trigger('change');	
-		    $("#status_fk").prop("disabled",true);     
+		    $("#status_fk").prop("disabled",true);
+		    
+				$("#divApproveCorrectiveMeasure").hide();
+           		$("#secondDiv").hide();
+    			$("#hidden_date").hide();
+      			$("#divPayment").hide();
+      			$("#divRemarks").show();
+      			$("#divAttachment").hide();		    
          	 	
        	}       	
        	
        	if("${safety.approve_corrective_measure}"=="Yes")
        	{
-       	 	$('input[name^=approve_corrective_measure][value="Yes"]').prop("checked",true);
-       	 	$("#status_fk").prop("disabled",false);
+       	 	 $('input[name^=approve_corrective_measure][value="Yes"]').prop("checked",true);
+       	 	 $("#status_fk").prop("disabled",false);
+       	 	$("#divStatus").show();
+       	 
        	}
        	else if("${safety.approve_corrective_measure}"=="No")
     	{
        	 	$('input[name^=approve_corrective_measure][value="No"]').prop("checked",true);
  		    $("#status_fk").val("Open").trigger('change');	
-		    $("#status_fk").prop("disabled",true);      	 	
+		    $("#status_fk").prop("disabled",true); 
+		    $("#divStatus").show();
     	}       	
        	
         
@@ -685,14 +717,36 @@
         	   {
            			$("#nominatedDiv").show();
            			$("#status_fk").val("Open").trigger('change');
-           			$("#status_fk").prop("disabled",false);  
+           			$("#status_fk").prop("disabled",false);
+           			
+        	       	if($("#committee_required_fk").val()=='Yes' && $("#responsible_person").val()!="" && $("#committee_member_name").val()!="" && $("#nominated_authority").val()!="" && $("#corrective_measure_short_term").val()!="")
+          			{
+        				$("#divApproveCorrectiveMeasure").show();
+        				$("#divAttachment").show();
+        				$("#divRemarks").show();
+          			}
+        	       	
+        	       	if($("#committee_required_fk").val()=='No' && $("#responsible_person").val()!="" && $("#nominated_authority").val()!="" && $("#corrective_measure_short_term").val()!="")
+          			{
+        				$("#divApproveCorrectiveMeasure").show();
+        				$("#divAttachment").show();
+        				$("#divRemarks").show();
+          			}        			
        			
         	   }
            	   else 
            		   if($(this).val()=="No")
           		   {	$("#nominatedDiv").hide();
            				$("#status_fk").val("Closed").trigger('change');
-           				$("#status_fk").prop("disabled",true);   
+           				$("#status_fk").prop("disabled",true);  
+           				
+           				$("#divApproveCorrectiveMeasure").hide();
+		           		$("#secondDiv").hide();
+		    			$("#hidden_date").hide();
+		      			$("#divPayment").hide(); 
+		      			$("#divAttachment").hide();
+		      			$("#divStatus").show();
+		      			
            				
           		   }
             
@@ -719,7 +773,13 @@
         			$('input[name^=approve_corrective_measure][value="No"]').prop("checked",false);
         		}
          
-     });      
+     });  
+        
+
+        
+        
+        
+        
         
     });
 

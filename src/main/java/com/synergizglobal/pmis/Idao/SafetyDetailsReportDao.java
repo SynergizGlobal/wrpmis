@@ -23,4 +23,6 @@ public interface SafetyDetailsReportDao {
 
 	Safety getSafetyDetails(Safety obj) throws Exception;
 
+	List<Safety> getsafetySeqIDListInSafetyDetailsReport(Safety obj) throws Exception;
+
 }

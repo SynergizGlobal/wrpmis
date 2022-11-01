@@ -855,8 +855,27 @@ public class RandRMainDaoImpl implements RandRMainDao{
 	public List<RandRMain> getVerificationByListForRRForm(RandRMain obj) throws Exception {
 		List<RandRMain> objsList = null;
 		try {
-			String qry = "select committee_name as verification_by from rr_appointment_of_committee ";
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));			
+			String qry = "select committee_name as verification_by from rr_agency r left join rr_appointment_of_committee ra on ra.rr_agency_id_fk=r.id where committee_name is not null ";
+			
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + "and work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getIdentification_no())) {
+				qry = qry + "and bses_agency_name = ?";
+				arrSize++;
+			}			
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getIdentification_no())) {
+				pValues[i++] = obj.getIdentification_no();
+			}			
+			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));
+			
 		}catch(Exception e){ 
 			throw new Exception(e);
 		}
@@ -2014,12 +2033,17 @@ public class RandRMainDaoImpl implements RandRMainDao{
 	@Override
 	public String[] uploadRRData(List<RandRMain> rrsList, RandRMain rr) throws Exception {
 		boolean flag = false;
+		Connection con=null;
 		int count = 0,row =1,sheet = 1,subRow = 1,cnt=0;
 		int sheet1 =1,sheet2=1,sheet3=1,sheet4=1;
 		String errMsg = null;
 		TransactionDefinition def = new DefaultTransactionDefinition();
 		TransactionStatus status = transactionManager.getTransaction(def);
+		PreparedStatement stmt = null;
+
 		try {
+			con = dataSource.getConnection();
+
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			String insertQry = "INSERT INTO rr"
 					+ "( rr_id, work_id, identification_no, map_sr_no, location_name, sub_location_name, phase, structure_id, type_of_structure_roof, type_of_structure_wall, type_of_structure_floor,"
@@ -2239,18 +2263,25 @@ public class RandRMainDaoImpl implements RandRMainDao{
 							+ " employee_name= :employee_name, employee_age= :employee_age, employee_gender= :employee_gender, employee_literacy= :employee_literacy, "
 							+ "employee_attended= :employee_attended,employee_travel_time= :employee_travel_time, employee_salary= :employee_salary, employee_nature_of_work= :employee_nature_of_work "
 							+ "where  rr_id_fk= :rr_id";
+					
+					String deleteQry = "DELETE from rr_commercial_employee_details where rr_id_fk = ?";		 
+					stmt = con.prepareStatement(deleteQry);
+					stmt.setString(1,obj.getRr_id()); 
+					stmt.executeUpdate();
+					if(stmt != null){stmt.close();}	
+					
 					for (RandRMain obj4 : obj.getComFamList()) {
 						sheet = 3;subRow++;
 						String table_name4 = "rr_commercial_employee_details";
 						String rr_id4 = checkLAIdMethod(obj4,table_name4);
-						if(!StringUtils.isEmpty(rr_id4)) {
+/*						if(!StringUtils.isEmpty(rr_id4)) {
 							obj.setRr_id(rr_id4);
 							SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj4);
 						    count = namedParamJdbcTemplate.update(govUpdateQry, paramSource);
-						}else {
+						}else {*/
 							SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj4);
 						    count = namedParamJdbcTemplate.update(govInsertQry, paramSource);
-						} 
+						/* } */ 
 					}
 					sheet4 = sheet4 + obj.getComFamList().size();
 				}

@@ -553,9 +553,10 @@ font-size:13px;
 								                       				html=html+"<td style='width:10%'>Impact / Category</td>";
 								                       				html=html+"<td style='width:10%'>Root Cause</td>";
 								                       				html=html+"<td style='width:10%'>Committee (Y/N)</td>";
-								                       				html=html+"<td style='width:10%'>Incident Status</td>";
+								                       				html=html+"<td style='width:10%'>LTI Hours</td>";
+								                       				html=html+"<td style='width:10%'>Compensation (Rs)</td>";
 								                       				html=html+"<td style='width:10%'>Short Term Corrective Measure</td>";
-								                       				html=html+"<td style='width:10%'>Long Term Corrective Measure</td>";
+								                       				html=html+"<td style='width:10%'>Approve corrective measure</td>";
 								                       			html=html+"</tr>";
 								                       			var fgyu=0;
 								                       			$.each(data, function (i2, val2) {
@@ -577,12 +578,13 @@ font-size:13px;
 											                       				html=html+"<td>"+val2.impact_fk+"/ "+val2.category_fk+"</td>";
 											                       				html=html+"<td>"+val2.root_cause_fk+"</td>";
 											                       				html=html+"<td>"+val2.committee_required_fk+"</td>";
-											                       				html=html+"<td>"+val2.status_fk+"</td>";
+											                       				html=html+"<td>"+val2.lti_hours+"</td>";
+											                       				html=html+"<td>"+val2.compensation+"</td>";
 											                       				html=html+"<td>"+val2.corrective_measure_short_term+"</td>";
 											                       				var lttext="";
-											                       					if(val2.corrective_measure_long_term!=null)
+											                       					if(val2.approve_corrective_measure!=null)
 											                       					{
-											                       						lttext=val2.corrective_measure_long_term;
+											                       						lttext=val2.approve_corrective_measure;
 											                       					}
 											                       				html=html+"<td>"+lttext+"</td>";
 										                       				html=html+"</tr>";
@@ -665,9 +667,10 @@ font-size:13px;
 					                       	   			htmlC=htmlC+"<td style='width:10%;'>Impact / Category</td>";
 					                       	   			htmlC=htmlC+"<td style='width:10%;'>Root Cause</td>";
 					                       	   			htmlC=htmlC+"<td style='width:10%;'>Committee (Y/N)</td>";
-					                       	   			htmlC=htmlC+"<td style='width:10%;'>Incident Status</td>";
-					                       	   			htmlC=htmlC+"<td style='width:10%;'>Short Term Corrective Measure</td>";
-					                       	   			htmlC=htmlC+"<td style='width:10%;'>Long Term Corrective Measure</td>";
+					                       	   			htmlC=htmlC+"<td style='width:10%'>LTI Hours</td>";
+					                       	   			htmlC=htmlC+"<td style='width:10%'>Compensation (Rs)</td>";
+					                       	   			htmlC=htmlC+"<td style='width:10%'>Short Term Corrective Measure</td>";
+					                       	   			htmlC=htmlC+"<td style='width:10%'>Approve corrective measure</td>";
 					                       	   			htmlC=htmlC+"</tr>";
 								                       			var fgyu=0;
 								                       			$.each(data, function (i2, val2) {
@@ -690,12 +693,13 @@ font-size:13px;
 								                       							htmlC=htmlC+"<td>"+val2.impact_fk+"/ "+val2.category_fk+"</td>";
 								                       							htmlC=htmlC+"<td>"+val2.root_cause_fk+"</td>";
 								                       							htmlC=htmlC+"<td>"+val2.committee_required_fk+"</td>";
-								                       							htmlC=htmlC+"<td>"+val2.status_fk+"</td>";
+								                       							htmlC=htmlC+"<td>"+val2.lti_hours+"</td>";
+								                       							htmlC=htmlC+"<td>"+val2.compensation+"</td>";
 								                       							htmlC=htmlC+"<td>"+val2.corrective_measure_short_term+"</td>";
 											                       				var lttext="";
-										                       					if(val2.corrective_measure_long_term!=null)
+										                       					if(val2.approve_corrective_measure!=null)
 										                       					{
-										                       						lttext=val2.corrective_measure_long_term;
+										                       						lttext=val2.approve_corrective_measure;
 										                       					}
 										                       					htmlC=htmlC+"<td>"+lttext+"</td>";
 								                       							htmlC=htmlC+"</tr>";

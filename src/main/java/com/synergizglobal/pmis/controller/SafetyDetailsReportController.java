@@ -157,6 +157,11 @@ public class SafetyDetailsReportController {
 			model.addObject("locationList", locationList);
 			List<Safety> categoryList = safetyDetailsService.getCategoriesListInSafetyDetailsReport(obj);
 			model.addObject("categoryList", categoryList);
+			
+			List<Safety> safetySeqIDList = safetyDetailsService.getsafetySeqIDListInSafetyDetailsReport(obj);
+			model.addObject("safetySeqIDList", safetySeqIDList);
+			
+			
 			List<Safety> titlesList = safetyDetailsService.getTitlesListInSafetyDetailsReport(obj);
 			model.addObject("titlesList", titlesList);
 		} catch (Exception e) {
@@ -250,6 +255,21 @@ public class SafetyDetailsReportController {
 		return objsList;
 	}
 	
+	@RequestMapping(value = "/ajax/getsafetySeqIDListInSafetyDetailsReport", method = { RequestMethod.GET,
+			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Safety> getsafetySeqIDListInSafetyDetailsReport(@ModelAttribute Safety obj) {
+		List<Safety> objsList = null;
+		try {
+			objsList = safetyDetailsService.getsafetySeqIDListInSafetyDetailsReport(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getsafetySeqIDListInSafetyDetailsReport : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
+	
 	@RequestMapping(value = "/ajax/getTitlesListInSafetyDetailsReport", method = { RequestMethod.GET,
 			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
@@ -262,7 +282,7 @@ public class SafetyDetailsReportController {
 			logger.error("getTitlesListInSafetyDetailsReport : " + e.getMessage());
 		}
 		return objsList;
-	}
+	}	
 
 	@RequestMapping(value = "/generate-and-download-safety-details-report", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView generateAndDownloadIssueDetailsReport(@ModelAttribute Safety obj,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){

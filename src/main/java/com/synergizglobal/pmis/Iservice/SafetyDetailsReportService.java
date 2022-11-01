@@ -20,7 +20,9 @@ public interface SafetyDetailsReportService {
 	List<Safety> getTitlesListInSafetyDetailsReport(Safety obj) throws Exception;
 
 	List<Safety> getCategoriesListInSafetyDetailsReport(Safety obj) throws Exception;
-
+	
+	List<Safety> getsafetySeqIDListInSafetyDetailsReport(Safety obj) throws Exception;
+	
 	Safety getSafetyDetails(Safety obj) throws Exception;
 
 }

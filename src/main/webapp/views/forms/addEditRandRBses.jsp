@@ -732,16 +732,17 @@ function getResponsible(hod){
 	 			{
 	 				if($("#contact_number_rep"+k).val()!="")
 	 				{
-			 				if($("#contact_number_rep"+k).val().length<10)
-			 				{
-			 					alert("Phone number length should be 10");
-			 					$("#contact_number_rep"+k+"Error").html("Phone number length should be 10");
-			 					return false;
-			 				}
-			 				else
-			 				{
-			 					$("#contact_number_rep"+k+"Error").html("");
-			 				}
+ 						var phonelength=$("#contact_number_rep"+k).val();
+/* 		 				if(phonelength.length<10)
+		 				{
+		 					alert("Phone number length should be 10");
+		 					$("#contact_number_rep"+k+"Error").html("Phone number length should be 10");
+		 					return false;
+		 				}
+		 				else
+		 				{
+		 					$("#contact_number_rep"+k+"Error").html("");
+		 				} */
 			 		}
 	 			}
 	 			$(".page-loader").show();
@@ -756,11 +757,12 @@ function getResponsible(hod){
  			$('form input[name=phone_nos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
  			$('form input[name=email_ids]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
  			var rowLr=document.getElementById("app_com_table").rows.length;
- 			for(var k=0;k<rowLr-1;k++)
+ 			for(var k=1;k<rowLr;k++)
  			{
  				if($("#contact_number_rep"+k).val()!="")
  				{
-		 				if($("#contact_number_rep"+k).val().length<10)
+ 						var phonelength=$("#contact_number_rep"+k).val();
+/* 		 				if(phonelength.length<10)
 		 				{
 		 					alert("Phone number length should be 10");
 		 					$("#contact_number_rep"+k+"Error").html("Phone number length should be 10");
@@ -769,7 +771,7 @@ function getResponsible(hod){
 		 				else
 		 				{
 		 					$("#contact_number_rep"+k+"Error").html("");
-		 				}
+		 				} */
 		 		}
  			}
 	       	$(".page-loader").show();	

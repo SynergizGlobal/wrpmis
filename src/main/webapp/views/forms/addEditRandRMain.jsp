@@ -388,7 +388,7 @@
                                  <div class="col s6 m4 l4 input-field">
                                  
                                     <p class="searchable_label mb-8"> BSES Agency Name <span class="required">*</span></p>
-                                    <select class="searchable validate-dropdown" id="id_no" name="identification_no">
+                                    <select class="searchable validate-dropdown" id="id_no" name="identification_no" onChange="resetProjectsBsesDropdowns(this.value);">
                                         <option value="" >Select</option>
                                     </select>                                 
 		                             <span id="id_noError" class="error-msg" ></span>
@@ -1228,6 +1228,7 @@
    if("${rrDetails.work_id}"!="")
    {
 	   getBSESAgencyNamesList("${rrDetails.work_id}");
+	   getVerificatiobByList(bsesId);
    }
    
    
@@ -1676,7 +1677,38 @@
 	       }else{
 	       	$(".page-loader").hide();
 	       }
-	   }  
+	   } 
+   
+   
+   function getVerificatiobByList(bsesId) {
+	   	$(".page-loader").show();
+	    $("#verification_by option:not(:first)").remove();
+	    
+	       if ($.trim($("#work_id").val())!="" && $.trim(bsesId)!="") {
+	           var myParams = { work_id: $("#work_id").val(),identification_no:bsesId };
+	           $.ajax({
+	               url: "<%=request.getContextPath()%>/ajax/getVerificatiobByList",
+	               data: myParams, cache: false,
+	               success: function (data) {
+	                   if (data.length > 0) {
+	                       $.each(data, function (i, val) {
+	                           var workId = "${rrDetails.verification_by}";
+	                           if ($.trim(workId) != '' && val.verification_by == $.trim(workId)) {
+	                               $("#verification_by").append('<option value="' + val.verification_by + '" selected>' + $.trim(val.verification_by) + '</option>');
+	                           } else {
+	                               $("#verification_by").append('<option value="' + val.verification_by + '">' + $.trim(val.verification_by) + '</option>');
+	                           }
+	                       });
+	                   }
+	                   $('.searchable').select2();
+	                   $(".page-loader").hide();
+	               }
+	           });
+	       }else{
+	       	$(".page-loader").hide();
+	       }
+	   } 
+   
    
    function getWorksList(projectId) {
    	$(".page-loader").show();
@@ -1719,9 +1751,19 @@
   			var work_code =   $('#work_id option:selected').attr('name');
   			$("#work_code").val(work_code);
   			getBSESAgencyNamesList(workId);
+  			getVerificatiobByList(workId,$("#id_no").val());
   		}
   		
    }
+   
+   
+   function resetProjectsBsesDropdowns(bsesId)
+   {
+	   	if($.trim(bsesId) != '')
+	   	{  
+	  			getVerificatiobByList(bsesId);
+	  	}
+   }  
    
 
    function addRR(){

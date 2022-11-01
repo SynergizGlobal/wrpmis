@@ -42,7 +42,7 @@
 	                                <div class="row no-mar">
 	                                    <div class="col s6 m4  input-field">
 	                                        <p class="searchable_label" style="text-align:left">Work</p>
-	                                        <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" onchange="addInQueWork(this.value);getContractsListInSafetyDetailsReport(this.value);getLocationsListInSafetyDetailsReport();getCategoriesListInSafetyDetailsReport();getStatusListInSafetyDetailsReport();getTitlesListInSafetyDetailsReport();getSafetyDetailsReport();">
+	                                        <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" onchange="addInQueWork(this.value);getContractsListInSafetyDetailsReport(this.value);getLocationsListInSafetyDetailsReport();getCategoriesListInSafetyDetailsReport();getStatusListInSafetyDetailsReport();getTitlesListInSafetyDetailsReport();getsafetySeqIDListInSafetyDetailsReport();getSafetyDetailsReport();">
 	                                            <option value="">Select </option>
 	                                            <c:forEach var="obj" items="${worksList }">
                                                     <option  value="${obj.work_id_fk }"> <c:if test="${ empty obj.work_short_name}"> ${obj.work_id_fk } </c:if>${obj.work_id_fk } - ${obj.work_short_name }</option>
@@ -52,7 +52,7 @@
 	                                    </div>
 	                                    <div class="col s6 m4  input-field">
 	                                        <p class="searchable_label" style="text-align:left">Contract</p>
-	                                        <select class="searchable validate-dropdown" id="contract_id_fk" name="contract_id_fk" onchange="addInQueContract(this.value);getHODListInSafetyDetailsReport(this.value);getStatusListInSafetyDetailsReport();getLocationsListInSafetyDetailsReport();getCategoriesListInSafetyDetailsReport();getTitlesListInSafetyDetailsReport();getSafetyDetailsReport()">
+	                                        <select class="searchable validate-dropdown" id="contract_id_fk" name="contract_id_fk" onchange="addInQueContract(this.value);getHODListInSafetyDetailsReport(this.value);getStatusListInSafetyDetailsReport();getLocationsListInSafetyDetailsReport();getCategoriesListInSafetyDetailsReport();getTitlesListInSafetyDetailsReport();getsafetySeqIDListInSafetyDetailsReport();getSafetyDetailsReport()">
 	                                            <option value="">Select </option>
 	                                            <c:forEach var="obj" items="${contractsList }">
                                                     <option workId="${obj.work_id_fk }" value="${obj.contract_id_fk }"><c:if test="${ empty obj.contract_short_name}"> ${obj.contract_id_fk } </c:if> ${obj.contract_id_fk } - ${obj.contract_short_name }</option>
@@ -62,7 +62,7 @@
 	                                    </div>
 										<div class="col s6 m4  input-field">
 	                                        <p class="searchable_label" style="text-align:left">HOD</p>
-	                                        <select class="searchable validate-dropdown" id="hod_user_id_fk" name="hod_user_id_fk" onchange="addInQueHOD(this.value);getStatusListInSafetyDetailsReport();getLocationsListInSafetyDetailsReport();getCategoriesListInSafetyDetailsReport();getStatusListInSafetyDetailsReport();getTitlesListInSafetyDetailsReport();getSafetyDetailsReport()">
+	                                        <select class="searchable validate-dropdown" id="hod_user_id_fk" name="hod_user_id_fk" onchange="addInQueHOD(this.value);getStatusListInSafetyDetailsReport();getLocationsListInSafetyDetailsReport();getCategoriesListInSafetyDetailsReport();getStatusListInSafetyDetailsReport();getTitlesListInSafetyDetailsReport();getsafetySeqIDListInSafetyDetailsReport();getSafetyDetailsReport()">
 	                                            <option value="">Select </option>
 	                                            <c:forEach var="obj" items="${hodsList }">
                                                     <option value="${obj.hod_user_id_fk }"> ${obj.designation }</option>
@@ -73,7 +73,7 @@
 	                                    
 	                                     <div class="col s6 m4  input-field">
 	                                        <p class="searchable_label" style="text-align:left">Status</p>
-	                                        <select class="searchable validate-dropdown" id="status_fk" name="status_fk" onchange="addInQueStatus(this.value);getLocationsListInSafetyDetailsReport();getTitlesListInSafetyDetailsReport();getSafetyDetailsReport()">
+	                                        <select class="searchable validate-dropdown" id="status_fk" name="status_fk" onchange="addInQueStatus(this.value);getLocationsListInSafetyDetailsReport();getTitlesListInSafetyDetailsReport();getsafetySeqIDListInSafetyDetailsReport();getSafetyDetailsReport()">
 	                                            <option value="">Select </option>
 	                                            <c:forEach var="obj" items="${statusList }">
                                                     <option  value="${obj.status_fk }"> ${obj.status_fk } </option>
@@ -83,7 +83,7 @@
 	                                    </div> 
 	                                    <div class="col s6 m4  input-field">
 	                                        <p class="searchable_label" style="text-align:left">Location</p>
-	                                        <select class="searchable validate-dropdown" id="location" name="location" onchange="addInQueLocations(this.value);getCategoriesListInSafetyDetailsReport();getTitlesListInSafetyDetailsReport();getSafetyDetailsReport()">
+	                                        <select class="searchable validate-dropdown" id="location" name="location" onchange="addInQueLocations(this.value);getCategoriesListInSafetyDetailsReport();getTitlesListInSafetyDetailsReport();getsafetySeqIDListInSafetyDetailsReport();getSafetyDetailsReport()">
 	                                            <option value="">Select </option>
 	                                            <c:forEach var="obj" items="${locationList }">
                                                     <option  value="${obj.location }"> ${obj.location }</option>
@@ -93,7 +93,7 @@
 	                                    </div> 
 	                                    <div class="col s6 m4  input-field">
 	                                        <p class="searchable_label" style="text-align:left">Category</p>
-	                                        <select class="searchable validate-dropdown" id="category_fk" name="category_fk" onchange="addInQueCategories(this.value);getTitlesListInSafetyDetailsReport();getSafetyDetailsReport()">
+	                                        <select class="searchable validate-dropdown" id="category_fk" name="category_fk" onchange="addInQueCategories(this.value);getTitlesListInSafetyDetailsReport();getsafetySeqIDListInSafetyDetailsReport();getSafetyDetailsReport()">
 	                                            <option value="">Select </option>
 	                                            <c:forEach var="obj" items="${categoryList }">
                                                     <option  value="${obj.category_fk }"> ${obj.category_fk }</option>
@@ -112,7 +112,16 @@
 	                                        </select>
 	                                        <span id="safety_idError" class="error-msg" ></span>
 	                                    </div> 
-	                                    
+	                                    <div class="col s6 m4  input-field">
+	                                        <p class="searchable_label" style="text-align:left">Safety ID</p>
+	                                        <select class="searchable validate-dropdown" id="safety_seq_id" name="safety_seq_id" onchange="getSafetyDetailsReport()">
+	                                            <option value="">Select </option>
+	                                            <c:forEach var="obj" items="${safetySeqIDList }">
+                                                    <option  value="${obj.safety_seq_id }"> ${obj.safety_seq_id }</option>
+                                                </c:forEach>
+	                                        </select>
+	                                        <span id="category_fkError" class="error-msg" ></span>
+	                                    </div> 	                                    
 	                                </div>
 
 			    			<div class="row">	                                	
@@ -212,6 +221,7 @@
      		        		getLocationsListInSafetyDetailsReport("");
      		        		getCategoriesListInSafetyDetailsReport("");
      		        		getTitlesListInSafetyDetailsReport("");
+     		        		getsafetySeqIDListInSafetyDetailsReport("");
      		        	  }else if($.trim(temp2[0]) == 'hod_user_id_fk'){
      		        		 getHODListInSafetyDetailsReport(temp2[1]);
      		        	  }else if($.trim(temp2[0]) == 'status_fk'){
@@ -222,7 +232,9 @@
      		        		 getCategoriesListInSafetyDetailsReport(temp2[1]);
      		        	  }else if($.trim(temp2[0]) == 'safety_id'){
      		        		 getTitlesListInSafetyDetailsReport(temp2[1]);
-     		        	  }
+     		        	  }else if($.trim(temp2[0]) == 'safety_seq_id'){
+     		        		 getsafetySeqIDListInSafetyDetailsReport(temp2[1]);
+     		        	  }     		        	  
      	        	  }
      	          }
                }
@@ -498,6 +510,40 @@
    	   	     	  }
             });
         }
+        
+        
+        function getsafetySeqIDListInSafetyDetailsReport(safety_seq_id){
+        	$(".page-loader").show();
+        	
+        	var work_id_fk = $("#work_id_fk").val();
+        	var contract_id_fk = $("#contract_id_fk").val();
+        	var hod_user_id_fk = $("#hod_user_id_fk").val();
+        	var status_fk = $("#status_fk").val();
+        	var location = $("#location").val();
+        	var category_fk = $("#category_fk").val();
+        	
+        
+           	$("#safety_seq_id option:not(:first)").remove();
+           	var myParams = {work_id_fk : work_id_fk, contract_id_fk : contract_id_fk,hod_user_id_fk : hod_user_id_fk, status_fk : status_fk,location : location,category_fk : category_fk}
+           	$.ajax({
+                   url: "<%=request.getContextPath()%>/ajax/getsafetySeqIDListInSafetyDetailsReport",
+                   data: myParams, cache: false,async:false,
+                   success: function (data) {
+                       if (data.length > 0) {
+                           $.each(data, function (i, val) {
+                        	   var selectedFlag = (safety_seq_id == val.safety_seq_id)?'selected':'';
+                        	   $("#safety_seq_id").append('<option  value="' + $.trim(val.safety_seq_id) + '"'+selectedFlag+'>' + $.trim(val.safety_seq_id) +'</option>');
+                           });
+                       }
+                       $('.searchable').select2();
+                       $(".page-loader").hide();
+                   },error: function (jqXHR, exception) {
+    	   			  $(".page-loader").hide();
+   	   	          	  getErrorMessage(jqXHR, exception);
+   	   	     	  }
+            });
+        }       
+        
         function getSafetyDetailsReport(){
         	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();

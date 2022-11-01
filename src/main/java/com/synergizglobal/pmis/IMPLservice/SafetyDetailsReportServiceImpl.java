@@ -54,4 +54,10 @@ public class SafetyDetailsReportServiceImpl implements SafetyDetailsReportServic
 	public Safety getSafetyDetails(Safety obj) throws Exception {
 		return dao.getSafetyDetails(obj);
 	}
+	
+	@Override
+	public List<Safety> getsafetySeqIDListInSafetyDetailsReport(Safety obj) throws Exception
+	{
+		return dao.getsafetySeqIDListInSafetyDetailsReport(obj);
+	}
 }

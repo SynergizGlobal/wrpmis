@@ -66,7 +66,7 @@ table {
 td, th {
   border: 1px solid #dddddd;
   text-align: left;
-  padding: 8px;
+  padding: 6px;
 }
 
 
@@ -498,7 +498,8 @@ td, th {
         var projectIdsCArray=new Array();
         var projectWorkIdsCArray=new Array();
         var workIdsCArray=new Array();
-        var RowsCArray=new Array();       
+        var RowsCArray=new Array(); 
+        var RowsCheckArray=new Array();     
   
         function generateReport() {
         	projectIdsArray=[];
@@ -530,42 +531,20 @@ td, th {
 			                        	   var hh=0;
 			                       	   	   if(projectIdsArray.indexOf(val1.project_id_fk)==-1)
 			                       		   {	hh=1;
-					                       		html=html+"<tr><td style='text-align:left;'>"+(i1+1)+":Project Name:"+val1.project_id_fk+" - "+val1.project_name+"</td><td style='text-align:right;'>"+today+"</td></tr>";
+					                       		html=html+"<tr><td style='text-align:left;'>Project Name:"+val1.project_id_fk+" - "+val1.project_name+"</td><td style='text-align:right;'>"+today+"</td></tr>";
 					                       		projectIdsArray.push(val1.project_id_fk);
 			                       		   }
-			                       	   	   	   var lengthRows=0;
-				                       	   	   var klm=0;
-				 	                           $.each(data, function (i, val) {
-					                       	   	   if(val.project_id_fk==val1.project_id_fk && RowsArray.indexOf(val.work_id_fk)==-1 && val.status_fk=="Open")
-					                       		   {
-					                       	   			RowsArray.push(val.work_id_fk);
-					                       	   			lengthRows++;
-					                       		   }
-					                       	   	   
-				 	                           });
+
 				 	                           $.each(data, function (i, val) {
 					                       	   	   if(val.project_id_fk==val1.project_id_fk && workIdsArray.indexOf(val.work_id_fk)==-1 && val.status_fk=="Open")
 					                       		   {
-					                       	   				if(klm>0)
-					                       	   				{
-					                       	   					RowsArray=[];
-					                       	   					lengthRows=0;
-									 	                           $.each(data, function (i6, val6) {
-										                       	   	   if(val6.project_id_fk==val1.project_id_fk && RowsArray.indexOf(val6.work_id_fk)==-1 && val6.status_fk=="Open" && val.work_id_fk==val6.work_id_fk)
-										                       		   {
-										                       	   			RowsArray.push(val6.work_id_fk);
-										                       	   			lengthRows++;
-										                       		   }
-										                       	   	   
-									 	                           });					                       	   					
-					                       	   				}
 					                       	   			workIdsArray.push(val.work_id_fk);
-							                       		html=html+"<tr><td style='text-align:left;' colspan='2'>"+(i1+1)+"."+(klm+1)+".Work Name:"+val.work_id_fk+" - "+val.work_short_name+"</td></tr>";
-							                       		html=html+"<tr><td style='text-align:left;' colspan='2'>No. of Open Safety Incidents:"+lengthRows+"</td></tr>";
+							                       		html=html+"<tr><td style='text-align:left;' colspan='2'>Work Name:"+val.work_id_fk+" - "+val.work_short_name+"</td></tr>";
+							                       		//html=html+"<tr><td style='text-align:left;' colspan='2'>No. of Open Safety Incidents:"+klm+"</td></tr>";
 							                       		html=html+"<tr><td style='text-align:left;' colspan='2'>";
 								                       		html=html+"<table style='width:100%' class='brdcls table table-bordered'>";
 								                       			html=html+"<tr style='background-color:#ecf2ff;'>";
-								                       	   			html=html+"<td style='width:5%;'>S No</td>";
+								                       	   			html=html+"<td style='width:5%;'>S No</td>"; 
 								                       	   			html=html+"<td style='width:10%;'>Safety ID</td>";
 								                       	   			html=html+"<td style='width:15%'>Name of Contract</td>";
 								                       	   			html=html+"<td style='width:10%'>Contractor</td>";
@@ -615,10 +594,8 @@ td, th {
 								                       			});
 								                       		html=html+"</table>";
 							                       		html=html+"</td></tr>";
-							                       		klm++;
 					                       		   }
 					                           }); 	
-				 	                          lengthRows=0;
 			                       	   	 
 	                        		   }
 		                       });
@@ -643,39 +620,15 @@ td, th {
 			                        	   var hh=0;
 			                       	   	   if(projectIdsCArray.indexOf(val1.project_id_fk)==-1)
 			                       		   {	hh=1;
-			                       				htmlC=htmlC+"<tr><td style='text-align:left;'>"+(i1+1)+":Project Name:"+val1.project_id_fk+" - "+val1.project_name+"</td><td style='text-align:right;'>"+today+"</td></tr>";
+			                       				htmlC=htmlC+"<tr><td style='text-align:left;'>Project Name:"+val1.project_id_fk+" - "+val1.project_name+"</td><td style='text-align:right;'>"+today+"</td></tr>";
 					                       		projectIdsCArray.push(val1.project_id_fk);
 			                       		   }
-
-			                       	   	var lengthRows=0;
-			                       	   	   var klm=0;
-			 	                           $.each(data, function (i, val) {
-				                       	   	   if(val.project_id_fk==val1.project_id_fk && RowsCArray.indexOf(val.work_id_fk)==-1 && val.status_fk=="Closed")
-				                       		   {
-				                       	   			RowsCArray.push(val.work_id_fk);
-				                       	   			lengthRows++;
-				                       		   }
-				                       	   	   
-			 	                           });
 			 	                           $.each(data, function (i, val) {
 				                       	   	   if(val.project_id_fk==val1.project_id_fk && workIdsCArray.indexOf(val.work_id_fk)==-1 && val.status_fk=="Closed")
 				                       		   {
-				                       	   				if(klm>0)
-				                       	   				{
-				                       	   					RowsCArray=[];
-				                       	   					lengthRows=0;
-								 	                           $.each(data, function (i6, val6) {
-									                       	   	   if(val6.project_id_fk==val1.project_id_fk && RowsCArray.indexOf(val6.work_id_fk)==-1 && val6.status_fk=="Closed" && val.work_id_fk==val6.work_id_fk)
-									                       		   {
-									                       	   			RowsCArray.push(val6.work_id_fk);
-									                       	   			lengthRows++;
-									                       		   }
-									                       	   	   
-								 	                           });					                       	   					
-				                       	   				}
 					                       	   			workIdsCArray.push(val.work_id_fk);
-					                       	   			htmlC=htmlC+"<tr><td style='text-align:left;' colspan='2'>"+(i1+1)+"."+(klm+1)+".Work Name:"+val.work_id_fk+" - "+val.work_short_name+"</td></tr>";
-					                       	   			htmlC=htmlC+"<tr><td style='text-align:left;' colspan='2'>No. of Closed Safety Incidents:"+lengthRows+"</td></tr>";
+					                       	   			htmlC=htmlC+"<tr><td style='text-align:left;' colspan='2'>Work Name:"+val.work_id_fk+" - "+val.work_short_name+"</td></tr>";
+					                       	   			//htmlC=htmlC+"<tr><td style='text-align:left;' colspan='2'>No. of Closed Safety Incidents:"+klm+"</td></tr>";
 					                       	   			htmlC=htmlC+"<tr><td style='text-align:left;' colspan='2'>";
 					                       	   			htmlC=htmlC+"<table style='width:100%' class='brdcls table table-bordered'>";
 					                       	   			htmlC=htmlC+"<tr style='background-color:#ecf2ff;'>";
@@ -730,10 +683,8 @@ td, th {
 								                       			});
 								                       			htmlC=htmlC+"</table>";
 								                       			htmlC=htmlC+"</td></tr>";
-							                       		klm++;
 					                       		   }
 					                           }); 	
-			 	                          lengthRows=0;
 	                        		   }
 	                        	   
 		                       });
@@ -762,8 +713,8 @@ td, th {
 	                    	    var o = {
 	                    	        download: 0,
 	                    	        filename: 'SafetyReport.doc',
-	                    	    	  	  margins: '0.25in',
-	                    	    	  	  size: '11in 11.0in',
+	                    	    	  	  margins: '0.20in',
+	                    	    	  	  size: '11.6in 11.0in',
 	                    	    	  	headermargin: '.4in',
 	                    	    };
 	                    	    $(document).googoose(o);    

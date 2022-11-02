@@ -468,7 +468,7 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 					+ "FORMAT(investigation_completed,'dd-MMM-yy') AS investigation_completed,corrective_measure_short_term,corrective_measure_long_term,cast(compensation * compensation_units as CHAR) as compensation,FORMAT(payment_date,'dd-MMM-yy') AS payment_date,s.remarks,contract_name,work_id_fk,work_name,project_id_fk,project_name,"
 					+ "(SELECT STRING_AGG( attachment , ',')  as attachment FROM safety_files where safety_id_fk = s.safety_id) as attachment,s.compensation_units,  "
 					+ " "
-					+ "STRING_AGG(u2.user_name , ',') as committee_member_name from safety s "
+					+ "STRING_AGG(u2.user_name , ',') as committee_member_name,u5.user_name as nominated_authority from safety s "
 					+ "left join safety_committee_members sc on sc.safety_id_fk=s.safety_id "
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
 					+ "LEFT OUTER JOIN contractor cr ON c.contractor_id_fk= cr.contractor_id  "
@@ -476,6 +476,7 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 					+ "LEFT OUTER JOIN [user] u ON c.hod_user_id_fk= u.user_id "
 					+ "LEFT OUTER JOIN [user] u1 ON c.dy_hod_user_id_fk= u1.user_id "
 					+ "LEFT OUTER JOIN [user] u2 ON sc.committee_member_name= u2.user_id "
+					+ "LEFT OUTER JOIN [user] u5 ON s.nominated_authority= u5.user_id "
 					+ "LEFT OUTER JOIN work w ON c.work_id_fk  = w.work_id "
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk  = p.project_id "
 					+ "where safety_seq_id = ? and isnull(safety_incident,'')='Yes' ";
@@ -502,7 +503,7 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 				qry = qry + " and location = ? ";
 				arrSize++;
 			}
-			qry=qry+" group by safety_id,safety_seq_id,contract_id_fk,approve_corrective_measure,s.hod_user_id_fk,u.designation,contract_short_name,c.hod_user_id_fk,w.work_short_name,title,description,date,location,\r\n" + 
+			qry=qry+" group by safety_id,safety_seq_id,contract_id_fk,u5.user_name,approve_corrective_measure,s.hod_user_id_fk,u.designation,contract_short_name,c.hod_user_id_fk,w.work_short_name,title,description,date,location,\r\n" + 
 					"latitude,longitude,reported_by,responsible_person,c.department_fk,department_name,contractor_id_fk,contractor_name,dy_hod_user_id_fk,u1.designation,category_fk,impact_fk,\r\n" + 
 					"root_cause_fk,status_fk,closure_date,lti_hours,equipment_impact,people_impact,work_impact,committee_formed_fk,committee_required_fk,investigation_completed,corrective_measure_short_term,\r\n" + 
 					"corrective_measure_long_term,compensation,compensation_units,payment_date,s.remarks,c.contract_name,c.work_id_fk,w.work_name,w.project_id_fk,p.project_name ";

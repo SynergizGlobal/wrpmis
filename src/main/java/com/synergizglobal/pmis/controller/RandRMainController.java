@@ -1306,7 +1306,7 @@ public class RandRMainController {
 	               
 	                Cell cell = row.createCell(c++);
 	                cell.setCellStyle(sectionStyle);
-					cell.setCellValue(/*obj.getProject_id_fk() + " - "+*/obj.getWork_id_fk());
+					cell.setCellValue(obj.getWork_id_fk() + " - "+obj.getWork_short_name());
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);

@@ -1287,7 +1287,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 					{
 						Messages msgObj = new Messages();
 						msgObj.setUser_id_fk(SplitStr[i]);
-						msgObj.setMessage("A new R & R against "+obj.getWork_id()+" has been added");
+						msgObj.setMessage("Boundary wall status against R&R Structure "+obj.getRr_id()+" is "+obj.getBoundary_wall_status()+" ");
 						msgObj.setRedirect_url("/get-rr/"+rr_id);
 						msgObj.setMessage_type("R & R");	
 						BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(msgObj);
@@ -1735,7 +1735,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 								{
 									Messages msgObj = new Messages();
 									msgObj.setUser_id_fk(SplitStr[i]);
-									msgObj.setMessage("A new R & R against "+obj.getWork_id()+" has been updated");
+									msgObj.setMessage("Boundary wall status against R&R Structure "+obj.getRr_id()+" is "+obj.getBoundary_wall_status()+" ");
 									msgObj.setRedirect_url("/get-rr/"+obj.getRr_id());
 									msgObj.setMessage_type("R & R");	
 									BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(msgObj);
@@ -1843,7 +1843,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 					+ "cast(estimates_by_mmrda as CHAR) as estimates_by_mmrda, m.unit as estimated_by_mmrda_amount_units, FORMAT(payment_to_mmrda ,'dd-MM-yyyy') AS payment_to_mmrda, "
 					+ "FORMAT(alternate_housing_allotment ,'dd-MM-yyyy') AS alternate_housing_allotment,"
 					+ "FORMAT(relocation ,'dd-MM-yyyy') AS relocation,FORMAT(encroachment_removal ,'dd-MM-yyyy') AS encroachment_removal,"
-					+ "FORMAT(boundary_wall_doc ,'dd-MM-yyyy') AS boundary_wall_doc,"
+					+ "FORMAT(boundary_wall_doc ,'dd-MM-yyyy') AS boundary_wall_doc,FORMAT(planned_date_of_completion ,'dd-MM-yyyy') AS planned_date_of_completion,"
 					+ "FORMAT(handed_over_to_execution ,'dd-MM-yyyy') AS handed_over_to_execution, occupier_name_during_verification, r.remarks,chainage,latitude,longitude,boundary_wall_status from rr r " + 
 					" LEFT JOIN work w on r.work_id = w.work_id " + 
 					 "LEFT JOIN rr_executives re ON re.work_id_fk = w.work_id "+
@@ -2229,18 +2229,26 @@ public class RandRMainDaoImpl implements RandRMainDao{
 							+ "residential_salary =:residential_salary "
 					 		+ "where rr_id_fk= :rr_id";
 					
+
+					String deleteQry = "DELETE from rr_residential_family_details where rr_id_fk = ?";		 
+					stmt = con.prepareStatement(deleteQry);
+					stmt.setString(1,obj.getRr_id()); 
+					stmt.executeUpdate();
+					if(stmt != null){stmt.close();}	
+					
+					
 					for (RandRMain obj2 : obj.getResFamList()) {
 						sheet = 5;subRow++;
 						String table_name2 = "rr_residential_family_details";
 						String rr_id2 = checkLAIdMethod(obj2,table_name2);
-						if(!StringUtils.isEmpty(rr_id2)) {
+/*						if(!StringUtils.isEmpty(rr_id2)) {
 							obj.setRr_id(rr_id2);
 							SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj2);
 						    count = namedParamJdbcTemplate.update(privateLAUpdateQry, paramSource);
-						}else {
+						}else {*/
 							SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj2);
 						    count = namedParamJdbcTemplate.update(privateLAInsertQry, paramSource);
-						}
+						/* } */
 					}
 					sheet2 = sheet2 + obj.getResFamList().size();
 				}

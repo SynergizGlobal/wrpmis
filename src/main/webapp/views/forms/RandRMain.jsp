@@ -160,7 +160,7 @@
 					<div class="card-content">
 						<span class="card-title headbg">
 							<div class="center-align bg-m p-2 m-b-5">								
-								<h6 class="left-align center-align">R & R</h6>
+								<h6 class="left-align center-align">R & R Structure</h6>
 								<div class="col s12 m12 right-align exportButton hideCOl" >
 								
 								<div class="m-n1">
@@ -245,7 +245,7 @@
 									<table id="datatable-randr" class="mdl-data-table">
 										<thead>
 											<tr>
-												<th class="fw-200">ID</th>
+												<th class="fw-200">R & R ID</th>
 												<th>occupier name</th>
 												<th>location</th>
 												<th>sub location</th>

@@ -18,9 +18,9 @@ public interface RRBSESDao {
  
 	RandRMain getRRBSES(RandRMain obj) throws Exception;
 
-	boolean addRRBSES(RandRMain obj) throws Exception;
+	String addRRBSES(RandRMain obj) throws Exception;
 
-	boolean updateRRBSES(RandRMain obj) throws Exception;
+	String updateRRBSES(RandRMain obj) throws Exception;
 
 	List<RandRMain> getWorkFilterList(RandRMain obj) throws Exception;
 

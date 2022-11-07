@@ -544,6 +544,9 @@ public class ContractController {
 			List<Contract> unitsList = contractService.getUnitsList(obj);
 			model.addObject("unitsList", unitsList);
 			
+			List<Contract> bankNameList = contractService.getBankNameList(obj);
+			model.addObject("bankNameList", bankNameList);			
+			
 		}catch (Exception e) {
 			logger.error("Contract : " + e.getMessage());
 		}

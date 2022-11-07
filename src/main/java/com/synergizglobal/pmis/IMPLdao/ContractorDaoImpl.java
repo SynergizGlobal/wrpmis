@@ -277,8 +277,9 @@ public class ContractorDaoImpl implements ContractorDao {
 					+ " Where contractor_id is not null ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(searchParameter)) {
-				qry = qry + " and (contractor_name like ? or pan_number like ? or contractor_specilization_fk like ?"
+				qry = qry + " and (contractor_id like ? or contractor_name like ? or pan_number like ? or contractor_specilization_fk like ?"
 						+ " or address like ? or primary_contact_name like ? or phone_number like ? or email_id like ? )";
+				arrSize++;
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -295,6 +296,7 @@ public class ContractorDaoImpl implements ContractorDao {
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(searchParameter)) {
+				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";

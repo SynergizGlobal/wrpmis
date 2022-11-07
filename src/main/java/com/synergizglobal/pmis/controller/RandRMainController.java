@@ -824,168 +824,155 @@ public class RandRMainController {
 		        
 		        Cell cell244 = row1.createCell(0);
 		        cell244.setCellStyle(sectionStyle);
-		        cell244.setCellValue("INPUT 1 : Work ID");
+		        cell244.setCellValue("");
 		        
 		        Cell cell3 = row1.createCell(1);
 		        cell3.setCellStyle(sectionStyle);
-		        cell3.setCellValue("BSES Agency Name");
+		        cell3.setCellValue("");
 		        
 		        Cell cell37 = row1.createCell(2);
 		        cell37.setCellStyle(sectionStyle);
-		        cell37.setCellValue("R&R ID " + 
-		        		"");		        
+		        cell37.setCellValue("");		        
 		        
 		        Cell cell4 = row1.createCell(3);
 		        cell4.setCellStyle(sectionStyle);
-		        cell4.setCellValue("\"Phase " + 
-		        		"(i). Phase-1 " + 
-		        		"(ii). Phase-2 ");	
+		        cell4.setCellValue("");	
 		        
 		        
 
 		        Cell cell5 = row1.createCell(4);
 		        cell5.setCellStyle(sectionStyle);
-		        cell5.setCellValue("Add Structure Name");
+		        cell5.setCellValue("");
 		        
 		        Cell cell6 = row1.createCell(5);
 		        cell6.setCellStyle(sectionStyle);
-		        cell6.setCellValue("\"INPUT 2:  " + 
-		        		"Location Name ");	
+		        cell6.setCellValue("");	
 		        
 		        
 		        Cell cell7 = row1.createCell(6);
 		        cell7.setCellStyle(sectionStyle);
-		        cell7.setCellValue("\"INPUT 3:  " + 
-		        		"Sub Location Name ");	
+		        cell7.setCellValue("");	
 		        
 		        Cell cell8 = row1.createCell(7);
 		        cell8.setCellStyle(sectionStyle);
-		        cell8.setCellValue("\"INPUT 4: Type of Use " + 
-		        		"(i). Commercial " + 
-		        		"(ii). Residential " + 
-		        		"(iii). Others ");	
+		        cell8.setCellValue("");	
 		        
 		        Cell cell9 = row1.createCell(8);
 		        cell9.setCellStyle(sectionStyle);
-		        cell9.setCellValue("Chainage (in Meter.) ");	
+		        cell9.setCellValue("");	
 		        
 		        
 		        Cell cell10 = row1.createCell(9);
 		        cell10.setCellStyle(sectionStyle);
-		        cell10.setCellValue("Latitude of Chainage ");			        
+		        cell10.setCellValue("");			        
 		        
 		        
 		        Cell cell11 = row1.createCell(10);
 		        cell11.setCellStyle(sectionStyle);
-		        cell11.setCellValue("Longitude of Chainage ");
+		        cell11.setCellValue("");
 		        
 		        Cell cell12 = row1.createCell(11);
 		        cell12.setCellStyle(sectionStyle);
-		        cell12.setCellValue("Date of Proposal submission Date to collector DD/MM/YYYY");
+		        cell12.setCellValue("");
 		        
 		        Cell cell13 = row1.createCell(12);
 		        cell13.setCellStyle(sectionStyle);
-		        cell13.setCellValue("Verification By ");	
+		        cell13.setCellValue("");	
 		        
 		        
 		        Cell cell14 = row1.createCell(13);
 		        cell14.setCellStyle(sectionStyle);
-		        cell14.setCellValue("Letter to MMRDA DD/MM/YYYY");
+		        cell14.setCellValue("");
 		        
 		        Cell cell15 = row1.createCell(14);
 		        cell15.setCellStyle(sectionStyle);
-		        cell15.setCellValue("Alternate Housing Allotment DD/MM/YYYY");
+		        cell15.setCellValue("");
 		        
 		        Cell cell16 = row1.createCell(15);
 		        cell16.setCellStyle(sectionStyle);
-		        cell16.setCellValue("Encroachment Removal DD/MM/YYYY");
+		        cell16.setCellValue("");
 		        
 		        Cell cell17 = row1.createCell(16);
 		        cell17.setCellStyle(sectionStyle);
-		        cell17.setCellValue("Boundary Wall Doc DD/MM/YYYY");
+		        cell17.setCellValue("");
 		        
 		        Cell cell18 = row1.createCell(17);
 		        cell18.setCellStyle(sectionStyle);
-		        cell18.setCellValue("\"INPUT 5: Boundary Wall Status " + 
-		        		"(i). Completed " + 
-		        		"(ii). In Progress " + 
-		        		"(iii). Not Started " + 
-		        		"");
+		        cell18.setCellValue("");
 		        
 		        Cell cell19 = row1.createCell(18);
 		        cell19.setCellStyle(sectionStyle);
-		        cell19.setCellValue("Handover to Execution DD/MM/YYYY");		        
+		        cell19.setCellValue("");		        
 		        
 		        Cell cell20 = row1.createCell(19);
 		        cell20.setCellStyle(sectionStyle);
-		        cell20.setCellValue("Planned date of Completion  DD/MM/YYYY");
+		        cell20.setCellValue("");
 		        
 		        Cell cell21 = row1.createCell(20);
 		        cell21.setCellStyle(sectionStyle);
-		        cell21.setCellValue("Carpet Area (sft) " + 
-		        		"");
+		        cell21.setCellValue("");
 		        
 		        Cell cell22 = row1.createCell(21);
 		        cell22.setCellStyle(sectionStyle);
-		        cell22.setCellValue("Year of Construction YYYY");
+		        cell22.setCellValue("");
 		        
 		        Cell cell23 = row1.createCell(22);
 		        cell23.setCellStyle(sectionStyle);
-		        cell23.setCellValue("Owner Name");
+		        cell23.setCellValue("");
 		        
 		        Cell cell24 = row1.createCell(23);
 		        cell24.setCellStyle(sectionStyle);
-		        cell24.setCellValue("Occupier Name");
+		        cell24.setCellValue("");
 		        
 		        
 		        Cell cell25 = row1.createCell(24);
 		        cell25.setCellStyle(sectionStyle);
-		        cell25.setCellValue("Document Type");
+		        cell25.setCellValue("");
 		        
 		        
 		        Cell cell26 = row1.createCell(25);
 		        cell26.setCellStyle(sectionStyle);
-		        cell26.setCellValue("Document No");	
+		        cell26.setCellValue("");	
 		        
 		        
 		        
 		        Cell cell27 = row1.createCell(26);
 		        cell27.setCellStyle(sectionStyle);
-		        cell27.setCellValue("Map S.no");
+		        cell27.setCellValue("");
 		        
 		        Cell cell28 = row1.createCell(27);
 		        cell28.setCellStyle(sectionStyle);
-		        cell28.setCellValue("Approval By Committee DD/MM/YYYY");
+		        cell28.setCellValue("");
 		        
 		        
 		        Cell cell58 = row1.createCell(28);
 		        cell58.setCellStyle(sectionStyle);
-		        cell58.setCellValue("Approval by MRVC");		        
+		        cell58.setCellValue("");		        
 		        
 		        
 		        Cell cell29 = row1.createCell(29);
 		        cell29.setCellStyle(sectionStyle);
-		        cell29.setCellValue("Estimate Approval DD/MM/YYYY");
+		        cell29.setCellValue("");
 		        
 		        
 		        Cell cell30 = row1.createCell(30);
 		        cell30.setCellStyle(sectionStyle);
-		        cell30.setCellValue("Estimation Amount  (Rs)");
+		        cell30.setCellValue("");
 		        
 		        
 		        
 		        Cell cell31 = row1.createCell(31);
 		        cell31.setCellStyle(sectionStyle);
-		        cell31.setCellValue("Estimate by MMRDA (Rs)");
+		        cell31.setCellValue("");
 		        
 		        Cell cell32 = row1.createCell(32);
 		        cell32.setCellStyle(sectionStyle);
-		        cell32.setCellValue("Payment to MMRDA DD/MM/YYYY");
+		        cell32.setCellValue("");
 		        
 		        
 		        Cell cell33 = row1.createCell(33);
 		        cell33.setCellStyle(sectionStyle);
-		        cell33.setCellValue("Relocation DD/MM/YYYY");
+		        cell33.setCellValue("");
 		        
 		        
 		        Cell cell34 = row1.createCell(34);
@@ -993,7 +980,7 @@ public class RandRMainController {
 		        cell34.setCellValue("");		        
 		        
 		        
-		        
+		        RRSheet.addMergedRegion(new CellRangeAddress(1, 1, 0,34));
 		        
 		        
 	            XSSFRow headingRow = RRSheet.createRow(2);

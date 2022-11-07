@@ -45,12 +45,12 @@ public class RRBSESServiceImpl implements RRBSESService{
 	}
 
 	@Override
-	public boolean addRRBSES(RandRMain obj) throws Exception {
+	public String addRRBSES(RandRMain obj) throws Exception {
 		return dao.addRRBSES(obj);
 	}
 
 	@Override
-	public boolean updateRRBSES(RandRMain obj) throws Exception {
+	public String updateRRBSES(RandRMain obj) throws Exception {
 		return dao.updateRRBSES(obj);
 	}
 

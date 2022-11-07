@@ -47,6 +47,10 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 				qry = qry + " and status_fk <> ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSafety_seq_id())) {
+				qry = qry + " and safety_seq_id = ?";
+				arrSize++;
+			}			
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -63,6 +67,9 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				pValues[i++] = obj.getStatus_fk();
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSafety_seq_id())) {
+				pValues[i++] = obj.getSafety_seq_id();
+			}			
 			qry = qry + " GROUP BY contract_id_fk,c.contract_id,contract_name,contract_short_name ORDER BY contract_id_fk";
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Safety>(Safety.class));	
@@ -100,6 +107,10 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 				qry = qry + " and status_fk <> ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSafety_seq_id())) {
+				qry = qry + " and safety_seq_id = ?";
+				arrSize++;
+			}			
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -117,6 +128,9 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				pValues[i++] = obj.getStatus_fk();
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSafety_seq_id())) {
+				pValues[i++] = obj.getSafety_seq_id();
+			}			
 			
 			qry = qry + " GROUP BY contract_id_fk,c.contract_id,contract_name,contract_short_name,c.hod_user_id_fk,u.designation,u.user_name  ORDER BY case when u.designation='ED Civil' then 1 \r\n" + 
 					"   when u.designation='CPM I' then 2 \r\n" + 
@@ -209,6 +223,10 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 				qry = qry + " and status_fk <> ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSafety_seq_id())) {
+				qry = qry + " and safety_seq_id = ?";
+				arrSize++;
+			}			
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -225,6 +243,9 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				pValues[i++] = obj.getStatus_fk();
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSafety_seq_id())) {
+				pValues[i++] = obj.getSafety_seq_id();
+			}			
 			qry = qry + " GROUP BY work_id,w.work_short_name ORDER BY work_id_fk ";
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Safety>(Safety.class));	
 		}catch(Exception e){ 
@@ -259,6 +280,10 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 				qry = qry + " and status_fk = ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSafety_seq_id())) {
+				qry = qry + " and safety_seq_id = ?";
+				arrSize++;
+			}			
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -275,6 +300,9 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				pValues[i++] = obj.getStatus_fk();
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSafety_seq_id())) {
+				pValues[i++] = obj.getSafety_seq_id();
+			}			
 			qry = qry + " GROUP BY status_fk ORDER BY status_fk";
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Safety>(Safety.class));	
@@ -310,6 +338,10 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 				qry = qry + " and status_fk = ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSafety_seq_id())) {
+				qry = qry + " and safety_seq_id = ?";
+				arrSize++;
+			}			
 			qry = qry + " GROUP BY location ORDER BY location";
 			
 			Object[] pValues = new Object[arrSize];
@@ -327,6 +359,9 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus_fk())) {
 				pValues[i++] = obj.getStatus_fk();
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSafety_seq_id())) {
+				pValues[i++] = obj.getSafety_seq_id();
+			}			
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Safety>(Safety.class));	
 		}catch(Exception e){ 
@@ -339,7 +374,7 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 	public List<Safety> getTitlesListInSafetyDetailsReport(Safety obj) throws Exception {
 		List<Safety> objsList = null;
 		try {
-			String qry = "SELECT safety_id,title,c.work_id_fk,contract_id_fk,status_fk,c.hod_user_id_fk,location,category_fk "
+			String qry = "SELECT safety_id,title,c.work_id_fk,contract_id_fk,status_fk,c.hod_user_id_fk,location,category_fk,safety_seq_id "
 					+ "from safety s "
 					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
 					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
@@ -369,6 +404,16 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 				qry = qry + " and category_fk = ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSafety_seq_id())) {
+				qry = qry + " and safety_seq_id = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTitle())) {
+				qry = qry + " and location = ? and title = ? ";
+				arrSize++;
+				arrSize++;
+			}			
+			
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -391,6 +436,14 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCategory_fk())) {
 				pValues[i++] = obj.getCategory_fk();
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSafety_seq_id())) {
+				pValues[i++] = obj.getSafety_seq_id();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTitle())) {
+				String Str[]=obj.getTitle().split(" - ");
+				pValues[i++] = Str[0].trim();
+				pValues[i++] = Str[1].trim();
+			}			
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Safety>(Safety.class));	
 		}catch(Exception e){ 
@@ -429,6 +482,10 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 				qry = qry + " and location = ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSafety_seq_id())) {
+				qry = qry + " and safety_seq_id = ?";
+				arrSize++;
+			}			
 			qry = qry + " GROUP BY category_fk ORDER BY category_fk";
 			
 			Object[] pValues = new Object[arrSize];
@@ -449,6 +506,9 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLocation())) {
 				pValues[i++] = obj.getLocation();
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSafety_seq_id())) {
+				pValues[i++] = obj.getSafety_seq_id();
+			}			
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Safety>(Safety.class));	
 		}catch(Exception e){ 
@@ -564,6 +624,11 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 				qry = qry + " and location = ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTitle())) {
+				qry = qry + " and location = ? and title = ? ";
+				arrSize++;
+				arrSize++;
+			}			
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -583,6 +648,13 @@ public class SafetyDetailsReportDaoImpl implements SafetyDetailsReportDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLocation())) {
 				pValues[i++] = obj.getLocation();
 			}
+
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTitle())) {
+				String Str[]=obj.getTitle().split(" - ");
+				pValues[i++] = Str[0].trim();
+				pValues[i++] = Str[1].trim();
+			}
+			
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Safety>(Safety.class));	
 		}catch(Exception e){ 

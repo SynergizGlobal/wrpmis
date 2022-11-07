@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -351,9 +352,9 @@ public class RRBSESContriller {
 			obj.setReport_submission_date_to_mrvc(DateParser.parse(obj.getReport_submission_date_to_mrvc()));
 			obj.setApproval_date_by_mrvc(DateParser.parse(obj.getApproval_date_by_mrvc()));
 			
-			boolean flag =  service.addRRBSES(obj);
-			if(flag) {
-				attributes.addFlashAttribute("success", "R&R Agency Added Succesfully.");
+			String bsesid =  service.addRRBSES(obj);
+			if(!StringUtils.isEmpty(bsesid)) {
+				attributes.addFlashAttribute("success", "R&R Agency "+bsesid+" Added Succesfully.");
 			}
 			else {
 				attributes.addFlashAttribute("error","Adding R&R Agency is failed. Try again.");
@@ -385,9 +386,9 @@ public class RRBSESContriller {
 			obj.setApproval_date_by_mrvc(DateParser.parse(obj.getApproval_date_by_mrvc()));
 			
 			
-			boolean flag =  service.updateRRBSES(obj);
-			if(flag) {
-				attributes.addFlashAttribute("success", "RR BSES Updated Succesfully.");
+			String bsesid =  service.updateRRBSES(obj);
+			if(!StringUtils.isEmpty(bsesid)) {
+				attributes.addFlashAttribute("success", "R&R Agency "+bsesid+" Updated Succesfully.");
 			}
 			else {
 				attributes.addFlashAttribute("error","Updating RR BSES is failed. Try again.");

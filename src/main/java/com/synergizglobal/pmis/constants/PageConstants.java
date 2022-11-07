@@ -275,6 +275,7 @@ public class PageConstants {
 	public static final String contractorSpecialization = "referenceForms/contractorSpecialization";
 	
 	public static final String bankGuaranteeType = "referenceForms/bankGuaranteeType";
+	public static final String bankName = "referenceForms/bankName";
 	
 	public static final String referenceFormsMainPage = "referenceForms/referenceFormsMainPage";
 	

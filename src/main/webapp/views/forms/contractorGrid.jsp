@@ -193,7 +193,7 @@
 								<table id="contractorTable" class="mdl-data-table">
 									<thead>
 										<tr>
-											
+											<th class="no-sort fw-100">Contractor ID</th>
 											<th class="no-sort fw-100">Contractor Name</th>
 											<th>PAN Number</th>
 											<th>Specialization</th>
@@ -251,6 +251,7 @@
      
     <form action="<%=request.getContextPath() %>/export-contractor" name="exportContractorForm" id="exportContractorForm" target="_blank" method="post">	
         <input type="hidden" name="contractor_id" id="exportContractor_id" />
+        <input type="hidden" name="searchStr" id="exportsearchStr" />
 	</form>
 	
     <script>
@@ -368,6 +369,8 @@
    	    							"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/get-contractor?"+myParams,
    	    		        "aoColumns": [
    	    		            { "mData": function(data,type,row){
+   	    		            	if($.trim(data.contractor_id) == ''){ return '-'; }else{ return data.contractor_id; }
+   	    		            } },{ "mData": function(data,type,row){
    	    		            	if($.trim(data.contractor_name) == ''){ return '-'; }else{ return data.contractor_name; }
    	    		            } },
    	    		            { "mData": function(data,type,row){
@@ -436,7 +439,9 @@
         
         function exportContractor(){
         	 var contractor_id = $("#contractor_id").val();
+        	 var searchStrValue = $('[type=search]').val();
         	 $("#exportContractor_id").val(contractor_id);
+        	 $("#exportsearchStr").val(searchStrValue);        	 
         	 $("#exportContractorForm").submit();
      	}
     </script>

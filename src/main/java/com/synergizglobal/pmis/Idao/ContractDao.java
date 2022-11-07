@@ -87,5 +87,7 @@ public interface ContractDao {
 
 	public List<Contract> getDepartmentsFilterListInContract(Contract obj) throws Exception;
 
+	public List<Contract> getBankNameList(Contract obj) throws Exception;
+
 
 }

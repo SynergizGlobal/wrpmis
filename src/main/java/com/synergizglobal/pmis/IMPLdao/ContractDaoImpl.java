@@ -61,11 +61,7 @@ public class ContractDaoImpl implements ContractDao {
 	public List<Contract> contractList(Contract obj)throws Exception{
 		List<Contract> objsList = null;
 		try {
-			String qry ="select distinct w.work_name,w.work_short_name, (select String_agg(department_name,',') as department_name from (select distinct department_name from contract_executive ce\r\n" + 
-					"\r\n" + 
-					"left join department dt on ce.department_id_fk = dt.department \r\n" + 
-					"\r\n" + 
-					"where contract_id_fk=c.contract_id) as a) as department_name,w.project_id_fk,p.project_name," + 
+			String qry ="select distinct w.work_name,w.work_short_name, d1.department_name as department_name,w.project_id_fk,p.project_name," + 
 					"u.designation,us.designation as dy_hod_designation,u.user_name,c.work_id_fk,contract_type_fk," + 
 					"c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name," + 
 					"c.hod_user_id_fk,c.dy_hod_user_id_fk," + 
@@ -73,7 +69,8 @@ public class ContractDaoImpl implements ContractDao {
 					"from contract c " + 
 					"left join work w on c.work_id_fk = w.work_id  " + 
 					"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
-					"left join project p on w.project_id_fk = p.project_id " + 
+					"left join project p on w.project_id_fk = p.project_id " +
+					"left join department d1 on c.contract_department = d1.department " +
 					"left join [user] u on c.hod_user_id_fk = u.user_id "+
 					"left join department hoddt on u.department_fk = hoddt.department "+
 					"left join [user] us on c.dy_hod_user_id_fk = us.user_id "+
@@ -118,7 +115,7 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 			}
 			
-			qry = qry + " group by w.work_name,w.work_short_name,w.project_id_fk,p.project_name,u.designation,us.designation," + 
+			qry = qry + " group by w.work_name,w.work_short_name,w.project_id_fk,p.project_name,d1.department_name,u.designation,us.designation," + 
 					"u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name," + 
 					"c.hod_user_id_fk,c.dy_hod_user_id_fk,FORMAT(modified_date,'dd-MM-yyyy') ORDER BY contract_id ASC ";
 			
@@ -280,6 +277,7 @@ public class ContractDaoImpl implements ContractDao {
 		return objsList;
 		
 	}
+	
 	@Override
 	public List<Contract> getInsurenceTypeList()throws Exception{
 		List<Contract> objsList = null;
@@ -348,16 +346,17 @@ public class ContractDaoImpl implements ContractDao {
 			if(!StringUtils.isEmpty(contract.getContract_status()) && "Yes".equals(contract.getContract_status())) {
 				contract.setContract_status("Open");
 			}
+			String Contract_id_code=getDepartmentCode(contract.getContract_department(),con);
 			
-			String contract_id = getContractIdByWorkId(contract.getWork_id_fk(),contract.getContract_id_code(),con);
+			String contract_id = getContractIdByWorkId(contract.getWork_id_fk(),Contract_id_code,con);
 			contract.setContract_id(contract_id);
 			String ContractQry = "INSERT INTO contract "
 							+"(contract_id,work_id_fk,contract_name,contract_short_name,contractor_id_fk,contract_type_fk,scope_of_contract,hod_user_id_fk,"
 							+ "dy_hod_user_id_fk,doc,awarded_cost,loa_letter_number,loa_date,ca_no,ca_date,actual_completion_date,completed_cost,date_of_start,"
 							+ "estimated_cost,contract_closure_date,completion_certificate_release,final_takeover,final_bill_release,defect_liability_period,"
 							+ "retention_money_release,pbg_release,contract_status_fk,bg_required,insurance_required,estimated_cost_units,awarded_cost_units,"
-							+ "status,milestone_requried,revision_requried,contractors_key_requried,is_contract_closure_initiated,planned_date_of_award,remarks,planned_date_of_completion)"
-							+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+							+ "status,milestone_requried,revision_requried,contractors_key_requried,is_contract_closure_initiated,planned_date_of_award,remarks,planned_date_of_completion,contract_department,bank_funded,bank_name,type_of_review)"
+							+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			stmt = con.prepareStatement(ContractQry);
 			int q = 1;
 		    int r =0;
@@ -401,6 +400,10 @@ public class ContractDaoImpl implements ContractDao {
 			stmt.setString(q++,contract.getPlanned_date_of_award());
 			stmt.setString(q++,contract.getRemarks());
 			stmt.setString(q++,contract.getPlanned_date_of_completion());
+			stmt.setString(q++,contract.getContract_department());
+			stmt.setString(q++,contract.getBank_funded());
+			stmt.setString(q++,contract.getBank_name());
+			stmt.setString(q++,contract.getType_of_review());
 			
 			count = stmt.executeUpdate();
 			
@@ -1011,7 +1014,7 @@ public class ContractDaoImpl implements ContractDao {
 		ResultSet rs = null;
 		String contract_id = null;
 		try{
-			String maxIdQry = "SELECT CONCAT(SUBSTRING(contract_id, 1, LEN(contract_id)-4),'"+department_code+"'," + 
+			String maxIdQry = "SELECT top 1 CONCAT(SUBSTRING(contract_id, 1, LEN(contract_id)-4),'"+department_code+"'," + 
 					"IIF(" + 
 					"SUBSTRING(CAST(MAX(SUBSTRING(contract_id, 9, LEN(contract_id)))+1 AS VARCHAR),0,3)>9,SUBSTRING(CAST(MAX(SUBSTRING(contract_id, 9, LEN(contract_id)))+1 AS VARCHAR),0,3),CONCAT('0',SUBSTRING(CAST(MAX(SUBSTRING(contract_id, 9, LEN(contract_id)))+1 AS VARCHAR),0,3)))" + 
 					"" + 
@@ -1024,6 +1027,10 @@ public class ContractDaoImpl implements ContractDao {
 				if(StringUtils.isEmpty(contract_id)) {
 					contract_id =  work_id+department_code+"01";
 				}
+			}
+			else
+			{
+				contract_id =  work_id+department_code+"01";
 			}
 		}catch(Exception e){ 		
 			e.printStackTrace();
@@ -1052,7 +1059,7 @@ public class ContractDaoImpl implements ContractDao {
 									+ "FORMAT(final_takeover,'dd-MM-yyyy') AS final_takeover,FORMAT(final_bill_release,'dd-MM-yyyy') AS final_bill_release,FORMAT(defect_liability_period,'dd-MM-yyyy') AS defect_liability_period,cast(completed_cost as decimal(18,2)) as completed_cost,"
 									+ "FORMAT(retention_money_release,'dd-MM-yyyy') AS retention_money_release,FORMAT(pbg_release,'dd-MM-yyyy') AS pbg_release,contract_status_fk,bg_required,"
 									+ "insurance_required,u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name as hod_name,us.user_name as dy_hod_name,FORMAT(target_doc,'dd-MM-yyyy') AS target_doc,"
-									+ "awarded_cost_units,estimated_cost_units,completed_cost_units,mu.unit,status,milestone_requried,revision_requried,contractors_key_requried,FORMAT(actual_date_of_commissioning,'dd-MM-yyyy') AS actual_date_of_commissioning,is_contract_closure_initiated,FORMAT(planned_date_of_award,'dd-MM-yyyy') AS planned_date_of_award,c.remarks,FORMAT(planned_date_of_completion,'dd-MM-yyyy') AS planned_date_of_completion " + 
+									+ "awarded_cost_units,estimated_cost_units,completed_cost_units,mu.unit,status,milestone_requried,revision_requried,contractors_key_requried,FORMAT(actual_date_of_commissioning,'dd-MM-yyyy') AS actual_date_of_commissioning,is_contract_closure_initiated,FORMAT(planned_date_of_award,'dd-MM-yyyy') AS planned_date_of_award,c.remarks,FORMAT(planned_date_of_completion,'dd-MM-yyyy') AS planned_date_of_completion,contract_department " + 
 									"from contract c " + 
 									"left join work w on c.work_id_fk = w.work_id  " + 
 									"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
@@ -4296,6 +4303,19 @@ public class ContractDaoImpl implements ContractDao {
 			
 		}catch(Exception e){ 
 			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Contract> getBankNameList(Contract obj) throws Exception {
+		List<Contract> objsList = null;
+		try {
+			String qry ="select bank_name from bank_name";
+				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Contract>(Contract.class));	
+		}catch(Exception e){ 
+			e.printStackTrace();
+		throw new Exception(e);
 		}
 		return objsList;
 	}

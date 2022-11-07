@@ -1894,10 +1894,10 @@
 			          required: true
 			      },"letter_to_mmrda": { 
      		 		 required: false,
-				 	 dateBeforeLTM:"#verification_date"
+				 	 //dateBeforeLTM:"#verification_date"
     		 	  },"handed_over_to_execution": { 
      		 		 required: false,
-				 	 dateBeforeHOE:"#verification_date"
+				 	 //dateBeforeHOE:"#verification_date"
     		 	  },encroachment_removal: { 
      		 		 required: false,
     		 	  }
@@ -2008,7 +2008,7 @@
               $(this).valid();
           }
       });
-      $('#verification_date').change(function(){
+ /*     $('#verification_date').change(function(){
     	  var fromDateString = $('#verification_date').val();
     	  var toDateString = [];var i =0;var len=1;var j =0;var n = 0;
     	  var errorMsg = [];var errText = [];
@@ -2134,7 +2134,7 @@
     	      	$('#verification_date_req').text('');
     	      	$('#verification_dateError').text('');
     	      }
-      });
+      });*/
      
    </script>
 

@@ -69,7 +69,7 @@ public interface ContractService {
 
 	public List<Contract> getExecutivesListForContractForm(Contract obj) throws Exception;
 
-	public List<Contract> getUnitsList(Contract obj) throws Exception;
+	public List<Contract> getBankNameList(Contract obj) throws Exception;
 
 	public List<Contract> getContractStatus() throws Exception;
 
@@ -86,5 +86,6 @@ public interface ContractService {
 	public List<Contract> detailsOfContracts(Contract obj) throws Exception;
 
 	public List<Contract> getDepartmentsFilterListInContract(Contract obj) throws Exception;
+	public List<Contract> getUnitsList(Contract obj) throws Exception;
 
 }

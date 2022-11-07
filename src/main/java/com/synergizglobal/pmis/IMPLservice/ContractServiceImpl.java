@@ -149,6 +149,11 @@ public class ContractServiceImpl implements ContractService{
 		return contractDao.getUnitsList(obj);
 	}
 	@Override
+	public List<Contract> getBankNameList(Contract obj) throws Exception{
+	
+		return contractDao.getBankNameList(obj);
+	}	
+	@Override
 	public List<Contract> getContractStatus() throws Exception {
 		return contractDao.getContractStatus();
 	}

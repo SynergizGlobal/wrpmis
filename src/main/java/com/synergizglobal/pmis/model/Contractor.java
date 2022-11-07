@@ -3,7 +3,7 @@ package com.synergizglobal.pmis.model;
 public class Contractor {
 	
 	private String contractor_id, contractor_name, contractor_specilization_fk, address,
-	primary_contact_name, phone_number, email_id, pan_number, gst_number, bank_name, account_number,bank_address, ifsc_code, remarks,created_by_user_id_fk,user_id,designation,user_name;
+	primary_contact_name, phone_number, email_id, pan_number, gst_number, bank_name, account_number,bank_address, ifsc_code, remarks,created_by_user_id_fk,user_id,designation,user_name,searchStr;
 
 	public String getCreated_by_user_id_fk() {
 		return created_by_user_id_fk;
@@ -147,6 +147,14 @@ public class Contractor {
 
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
+	}
+
+	public String getSearchStr() {
+		return searchStr;
+	}
+
+	public void setSearchStr(String searchStr) {
+		this.searchStr = searchStr;
 	}
 
 }

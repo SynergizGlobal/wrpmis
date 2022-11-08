@@ -356,8 +356,17 @@
 	                               		     	<label for="dy_hod_user_id_fk">Dy HOD</label> -->
 	                                            <span id="dy_hod_user_id_fkError" class="error-msg" ></span>
 	                                        </div>
-	                                        
-	                                 
+	                                        <div class="col s6 m4 l4 input-field">
+	                                        	<!-- <p class="searchable_label">Dy HOD<span class="required">*</span></p> -->
+	                                        	<label class="selected" for="contract_department">Contract Department<span class="required">*</span></label>
+	                                            <select name="contract_department" id="contract_department" class="validate-dropdown searchable">
+				                                	<option value="" >Select</option>  
+											          <c:forEach var="obj" items="${departmentList }">
+			                                      	    <option value= "${ obj.department_fk}" >${ obj.department_name}</option>
+			                                          </c:forEach>
+	                                            </select>
+	                                            <span id="contract_departmentError" class="error-msg" ></span>
+	                                        </div>	                                        
 								         </c:when>
 								         <c:otherwise>
 								           	<div class="col s6 m4 l4 input-field ">
@@ -384,6 +393,19 @@
 	                               		     	<label for="dy_hod_user_id_fk">Dy HOD</label> -->
 	                                            <span id="dy_hod_user_id_fkError" class="error-msg" ></span>
 	                                        </div>
+	                                        <div class="col s6 m4 l4 input-field">
+	                                        	<!-- <p class="searchable_label">Dy HOD<span class="required">*</span></p> -->
+	                                        	<label class="selected" for="dy_hod_user_id_fk">Contract Department<span class="required">*</span></label>
+	                                            <select name="contract_department" id="contract_department" class="validate-dropdown searchable" onchange="getContractDepartment();" <c:if test="${sessionScope.USER_TYPE eq 'DyHOD'}"> disabled  </c:if>>
+				                                	<option value="" >Select</option>  
+											          <c:forEach var="obj" items="${departmentList }">
+			                                      	    <option value= "${ obj.department_fk}" >${ obj.department_name}</option>
+			                                          </c:forEach>	                                                 
+	                                            </select>
+												<!-- <input name="dy_hod_user_id_fk" id="dy_hod_user_id_fk" type="text" class="validate" style="margin-top:10px">
+	                               		     	<label for="dy_hod_user_id_fk">Dy HOD</label> -->
+	                                            <span id="dy_hod_user_id_fkError" class="error-msg" ></span>
+	                                        </div>	                                        
 	                                         <c:if test="${ sessionScope.USER_TYPE eq 'DyHOD'}">  <input type="hidden" id="dyHodVal" name="dy_hod_user_id_fk" />  </c:if>
 	                                         
 								         </c:otherwise>
@@ -397,7 +419,6 @@
 	                                      <span id="contract_short_nameError" class="error-msg" ></span>
 	                                </div>
 	                            </div>
-	              
 	                            <div class="row"> 
 	                            	<div class="col m12 s12 l12" style="margin-bottom:30px; padding:0;">
 										<div class="row fixed-width">
@@ -1102,6 +1123,8 @@
 		   		 		required: true
 		   		 	  },"dy_hod_user_id_fk": {
 		   	 		    required: true
+		   	 	   	  },"contract_department": {
+		   	 		    required: true
 		   	 	   	  },"estimated_cost": {
 			   		 	required: function(element){
 	   		             	return $("#estimated_cost").val()!="";
@@ -1141,6 +1164,8 @@
 		   	 	   	 },"hod_user_id_fk": {
 		   	 			required: 'Required'
 		   	 	  	 },"dy_hod_user_id_fk": {
+		   	 			required: 'Required'
+		   	 	  	 },"contract_department": {
 		   	 			required: 'Required'
 		   	 	  	 },"estimated_cost": {
 				 		required: 'Required'
@@ -1185,6 +1210,9 @@
 			   	 	    }else if (element.attr("id") == "dy_hod_user_id_fk" ){
 			   	 		     document.getElementById("dy_hod_user_id_fkError").innerHTML="";
 			   	 			 error.appendTo('#dy_hod_user_id_fkError');
+			   	 	    }else if (element.attr("id") == "contract_department" ){
+			   	 		     document.getElementById("contract_departmentError").innerHTML="";
+			   	 			 error.appendTo('#contract_departmentError');
 			   	 	    }else if (element.attr("id") == "estimated_cost" ){
 				 		     document.getElementById("estimated_costError").innerHTML="";
 				 			 error.appendTo('#estimated_costError');

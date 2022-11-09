@@ -231,7 +231,7 @@ public class RRreportDaoImpl implements RRreportDao{
 		List<RandRMain> objsList = null;
 		try {
 			String qry = "SELECT r.work_id,work_short_name,location_name ,type_of_use,count(identification_no)structure_id,count(physical_verification)physical_verification,count(encroachment_removal)encroachment_removal," + 
-					"count(boundary_wall_doc)boundary_wall_doc" + 
+					"(case when boundary_wall_status='Completed' then 1 else 0 end) as boundary_wall_doc " + 
 					",count(handed_over_to_execution)handed_over_to_execution " + 
 					"from rr r "
 					+ "left join work w on r.work_id = w.work_id "
@@ -257,7 +257,7 @@ public class RRreportDaoImpl implements RRreportDao{
 				arrSize++;
 			}
 			
-			qry = qry + " GROUP BY r.work_id,work_short_name,location_name,type_of_use order by work_id,location_name";
+			qry = qry + " GROUP BY r.work_id,work_short_name,location_name,type_of_use,boundary_wall_status order by work_id,location_name";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			

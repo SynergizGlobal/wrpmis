@@ -73,7 +73,7 @@ public class DepartmentDaoImpl implements DepartmentDao{
 				int i = 1;
 				for (TrainingType bObj : obj.getdList()) {
 					
-					qry1 = qry1 +"select "+bObj.getColumn_name()+" as department,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from "+bObj.getTable_name()+" where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
+					qry1 = qry1 +"select "+bObj.getColumn_name()+" as department,count("+bObj.getColumn_name()+") as count,'"+bObj.getTable_name()+"' as tName from ["+bObj.getTable_name()+"] where "+bObj.getColumn_name()+" <> '' group by "+bObj.getColumn_name()+"  ";
 					if( list.size() >  i) {
 						qry1 = qry1 + " UNION ";
 						i++;

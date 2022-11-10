@@ -467,16 +467,18 @@ public class RRBSESDaoImpl implements RRBSESDao{
 		agencyid = dObj.getAgency_id();
 		return  agencyid;
 	}
-	
-	
-	private String getAgencyId(String work_id) {
-		String agency_id = null;
+
+	private String getAgencyId(String work_id) throws Exception
+	{
 		RandRMain dObj = null;
 		RandRMain WorkCodedObj = null;
+		String laId = null;
 		try {
-			String qry ="select work_code  from work where work_id='"+work_id+"'" ;
-			WorkCodedObj = (RandRMain)jdbcTemplate.queryForObject(qry, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));	
-			String qry1 ="select work_code+'/'+case  " + 
+			String qry2 ="select work_code  from work where work_id='"+work_id+"'" ;
+			WorkCodedObj = (RandRMain)jdbcTemplate.queryForObject(qry2, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));	
+			laId=WorkCodedObj.getWork_code()+"/0001";
+			
+			String qry3 ="select work_code+'/'+case  " + 
 					"when LEN(cast(count(*)+1 as varchar))=1 then '000'+cast(count(*)+1 as varchar) " + 
 					"when LEN(cast(count(*)+1 as varchar))=2 then '00'+cast(count(*)+1 as varchar) " + 
 					"when LEN(cast(count(*)+1 as varchar))=3 then '0'+cast(count(*)+1 as varchar) " + 
@@ -485,20 +487,22 @@ public class RRBSESDaoImpl implements RRBSESDao{
 					"left join work w on w.work_id=r.work_id_fk " + 
 					"where w.work_id='"+work_id+"' " + 
 					"group by work_code" ;
-			dObj = (RandRMain)jdbcTemplate.queryForObject(qry1, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));	
-			if(!StringUtils.isEmpty(dObj.getAgency_id()))
-			{
-				agency_id = dObj.getAgency_id();
-			}
-			else
-			{
-				agency_id=WorkCodedObj.getWork_code()+"/0001";
-			}
+			dObj = (RandRMain)jdbcTemplate.queryForObject(qry3, new Object[] {}, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));
+			
+				
+					laId = dObj.getAgency_id();
+			
 		}catch(Exception e){ 
 			e.printStackTrace();
 		}
-	    return agency_id;
-	}	
+	    return laId;		
+		
+		
+		
+		
+		
+	}
+	
 
 	@Override
 	public String updateRRBSES(RandRMain obj) throws Exception {

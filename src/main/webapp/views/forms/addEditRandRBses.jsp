@@ -307,6 +307,8 @@
                         <div class="container container-no-margin">
                             <div class="row">  
                             <input type="hidden" name="rr_id" value="${rrDetails.rrbses_id }"/>
+                            <input type="hidden" name="agency_id" value="${rrDetails.agency_id }"/>
+                            
                                 <h5 class="center-align" style="margin-bottom: 40px;">BSES Consultant Details</h5>
                                 <div class="col s12 m4 input-field">
                                 <c:if test="${action eq 'add'}">	

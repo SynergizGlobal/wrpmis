@@ -185,9 +185,7 @@ public class RRBSESDaoImpl implements RRBSESDao{
 			throws Exception {
 		List<RandRMain> objsList = null;
 		try {
-			String qry ="select * from(select id as rrbses_id,r.id as id,(select work_code from work where work_id=work_id_fk)+'/'+ " + 
-					"case when len((cast(ROW_NUMBER() OVER(PARTITION BY (select work_code from work where work_id=work_id_fk) ORDER BY (select work_code from work where work_id=work_id_fk)) as varchar)))=3 then concat('0',(cast(ROW_NUMBER() OVER(PARTITION BY (select work_code from work where work_id=work_id_fk) ORDER BY (select work_code from work where work_id=work_id_fk)) as varchar))) when len((cast(ROW_NUMBER() OVER(PARTITION BY (select work_code from work where work_id=work_id_fk) ORDER BY (select work_code from work where work_id=work_id_fk)) as varchar)))=2 then concat('00',(cast(ROW_NUMBER() OVER(PARTITION BY (select work_code from work where work_id=work_id_fk) ORDER BY (select work_code from work where work_id=work_id_fk)) as varchar))) when len((cast(ROW_NUMBER() OVER(PARTITION BY (select work_code from work where work_id=work_id_fk) ORDER BY (select work_code from work where work_id=work_id_fk)) as varchar)))=1 then concat('000',(cast(ROW_NUMBER() OVER(PARTITION BY (select work_code from work where work_id=work_id_fk) ORDER BY (select work_code from work where work_id=work_id_fk)) as varchar))) end " + 
-					"as agency_id, r.work_id_fk,work_short_name, hod,u.user_name,u.designation as designation,uu.user_name as res_user_name,uu.designation as res_designation,mrvc_responsible_person, bses_agency_name, agency_responsible_person, r.contact_number, r.email_id,  " + 
+			String qry ="select * from(select id as rrbses_id,r.id as id,agency_id, r.work_id_fk,work_short_name, hod,u.user_name,u.designation as designation,uu.user_name as res_user_name,uu.designation as res_designation,mrvc_responsible_person, bses_agency_name, agency_responsible_person, r.contact_number, r.email_id,  " + 
 					"submission_date_report_ca, actual_submission_date_bses_report_to_mrvc, approval_by_mrvc_responsible_person, report_submission_date_to_mrvc,  " + 
 					"approval_date_by_mrvc from rr_agency r "
 					+ "LEFT JOIN work w on r.work_id_fk = w.work_id "
@@ -284,7 +282,7 @@ public class RRBSESDaoImpl implements RRBSESDao{
 	public RandRMain getRRBSES(RandRMain rr) throws Exception {
 		RandRMain obj = null;
 		try {
-			String qry ="select id as rrbses_id, work_id_fk,work_short_name, hod,u.user_name,u.designation as designation,"
+			String qry ="select id as rrbses_id, agency_id,work_id_fk,work_short_name, hod,u.user_name,u.designation as designation,"
 					+ " uu.user_name as res_user_name,uu.designation as res_designation,mrvc_responsible_person, bses_agency_name, agency_responsible_person, r.contact_number, r.email_id as bses_email, "
 					+ "FORMAT(submission_date_report_ca,'dd-MM-yyyy') AS submission_date_report_ca, FORMAT(actual_submission_date_bses_report_to_mrvc,'dd-MM-yyyy') AS actual_submission_date_bses_report_to_mrvc, approval_by_mrvc_responsible_person, FORMAT(report_submission_date_to_mrvc,'dd-MM-yyyy') AS report_submission_date_to_mrvc, "
 					+ "FORMAT(approval_date_by_mrvc,'dd-MM-yyyy') AS approval_date_by_mrvc,attachment_file from rr_agency r "
@@ -336,10 +334,10 @@ public class RRBSESDaoImpl implements RRBSESDao{
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			String insertQry = "INSERT INTO rr_agency"
 					+ "( work_id_fk, hod, mrvc_responsible_person, bses_agency_name, agency_responsible_person, contact_number, email_id, submission_date_report_ca, actual_submission_date_bses_report_to_mrvc, approval_by_mrvc_responsible_person,"
-					+ "report_submission_date_to_mrvc, approval_date_by_mrvc,attachment_file)"
+					+ "report_submission_date_to_mrvc, approval_date_by_mrvc,attachment_file,agency_id)"
 					+ "VALUES"
 					+ "(:work_id_fk, :hod, :mrvc_responsible_person, :bses_agency_name, :agency_responsible_person, :contact_number, :bses_email, :submission_date_report_ca, :actual_submission_date_bses_report_to_mrvc, :approval_by_mrvc_responsible_person, "
-					+ ":report_submission_date_to_mrvc, :approval_date_by_mrvc,:attachment_file)";
+					+ ":report_submission_date_to_mrvc, :approval_date_by_mrvc,:attachment_file,:agency_id)";
 			KeyHolder keyHolder = new GeneratedKeyHolder();
 			
 			if (!StringUtils.isEmpty(obj.getRragencyFiles())){
@@ -357,6 +355,7 @@ public class RRBSESDaoImpl implements RRBSESDao{
 
 			}
 			
+			obj.setAgency_id(getAgencyId(obj.getWork_id_fk()));
 			
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(insertQry, paramSource,keyHolder);			
@@ -445,7 +444,7 @@ public class RRBSESDaoImpl implements RRBSESDao{
 		}finally {
 			DBConnectionHandler.closeJDBCResoucrs(con, insertStmt, null);
 		}
-		return getRRAgencyID(obj.getRr_id());
+		return obj.getAgency_id();
 	}
 	
 	public String getRRAgencyID(String id) throws Exception {
@@ -468,6 +467,38 @@ public class RRBSESDaoImpl implements RRBSESDao{
 		agencyid = dObj.getAgency_id();
 		return  agencyid;
 	}
+	
+	
+	private String getAgencyId(String work_id) {
+		String agency_id = null;
+		RandRMain dObj = null;
+		RandRMain WorkCodedObj = null;
+		try {
+			String qry ="select work_code  from work where work_id='"+work_id+"'" ;
+			WorkCodedObj = (RandRMain)jdbcTemplate.queryForObject(qry, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));	
+			String qry1 ="select work_code+'/'+case  " + 
+					"when LEN(cast(count(*)+1 as varchar))=1 then '000'+cast(count(*)+1 as varchar) " + 
+					"when LEN(cast(count(*)+1 as varchar))=2 then '00'+cast(count(*)+1 as varchar) " + 
+					"when LEN(cast(count(*)+1 as varchar))=3 then '0'+cast(count(*)+1 as varchar) " + 
+					"else '0' end as agency_id " + 
+					"from rr_agency r " + 
+					"left join work w on w.work_id=r.work_id_fk " + 
+					"where w.work_id='"+work_id+"' " + 
+					"group by work_code" ;
+			dObj = (RandRMain)jdbcTemplate.queryForObject(qry1, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));	
+			if(!StringUtils.isEmpty(dObj.getAgency_id()))
+			{
+				agency_id = dObj.getAgency_id();
+			}
+			else
+			{
+				agency_id=WorkCodedObj.getWork_code()+"/0001";
+			}
+		}catch(Exception e){ 
+			e.printStackTrace();
+		}
+	    return agency_id;
+	}	
 
 	@Override
 	public String updateRRBSES(RandRMain obj) throws Exception {
@@ -577,7 +608,7 @@ public class RRBSESDaoImpl implements RRBSESDao{
 		}finally {
 			DBConnectionHandler.closeJDBCResoucrs(con, insertStmt, null);
 		}
-		return getRRAgencyID(obj.getRr_id());
+		return obj.getAgency_id();
 	}
 
 	@Override

@@ -1423,15 +1423,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 		String bsesname = null;
 		RandRMain dObj = null;
 		try {
-			String qry ="select bses_agency_name from (select id as rrbses_id,(select work_code from work where work_id=work_id_fk)+'/'+  " + 
-					"					case when len((cast(ROW_NUMBER() OVER(PARTITION BY (select work_code from work where work_id=work_id_fk) ORDER BY (select work_code from work where work_id=work_id_fk)) as varchar)))=3 then concat('0',(cast(ROW_NUMBER() OVER(PARTITION BY (select work_code from work where work_id=work_id_fk) ORDER BY (select work_code from work where work_id=work_id_fk)) as varchar))) when len((cast(ROW_NUMBER() OVER(PARTITION BY (select work_code from work where work_id=work_id_fk) ORDER BY (select work_code from work where work_id=work_id_fk)) as varchar)))=2 then concat('00',(cast(ROW_NUMBER() OVER(PARTITION BY (select work_code from work where work_id=work_id_fk) ORDER BY (select work_code from work where work_id=work_id_fk)) as varchar))) when len((cast(ROW_NUMBER() OVER(PARTITION BY (select work_code from work where work_id=work_id_fk) ORDER BY (select work_code from work where work_id=work_id_fk)) as varchar)))=1 then concat('000',(cast(ROW_NUMBER() OVER(PARTITION BY (select work_code from work where work_id=work_id_fk) ORDER BY (select work_code from work where work_id=work_id_fk)) as varchar))) end  " + 
-					"					as agency_id, work_id_fk,work_short_name, hod,u.user_name,u.designation as designation,uu.user_name as res_user_name,uu.designation as res_designation,mrvc_responsible_person, bses_agency_name, agency_responsible_person, r.contact_number, r.email_id,    " + 
-					"					submission_date_report_ca, actual_submission_date_bses_report_to_mrvc, approval_by_mrvc_responsible_person, report_submission_date_to_mrvc,    " + 
-					"					approval_date_by_mrvc from rr_agency r  " + 
-					"					LEFT JOIN work w on r.work_id_fk = w.work_id  " + 
-					"					left join [user] u on r.hod = u.user_id  " + 
-					"					left join [user] uu on r.mrvc_responsible_person = uu.user_id  " + 
-					"					WHERE id is not null) as a where agency_id='"+agency_id+"'" ;
+			String qry ="select bses_agency_name from rr_agency where agency_id='"+agency_id+"'" ;
 			dObj = (RandRMain)jdbcTemplate.queryForObject(qry, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));	
 
 			bsesname = dObj.getBses_agency_name();

@@ -11,7 +11,9 @@ public class Activity {
 	approved_on,rejected_on,approval_status_fk,department_name,user_role_code,updated_on,updated_by,cumulative_completed,actual_for_the_day,
 	total_scope,remaining_scope,approved_or_rejected_by,message_id,updated_scope,designation,from_structure_id,to_structure_id,order_x,order_y;
 	
-	private String activities_data_id,uploaded_file,status,uploaded_by_user_id_fk,uploaded_on,p6_task_code,project_id_fk,user_type_fk;
+	private String activities_data_id,uploaded_file,status,uploaded_by_user_id_fk,uploaded_on,p6_task_code,project_id_fk,user_type_fk,component_per_prior,structure_per_prior,
+	component_per_post,structure_per_post;
+	
 	
 	private boolean message_flag;
 	private String message;
@@ -609,6 +611,38 @@ public class Activity {
 
 	public void setUser_type_fk(String user_type_fk) {
 		this.user_type_fk = user_type_fk;
+	}
+
+	public String getComponent_per_prior() {
+		return component_per_prior;
+	}
+
+	public void setComponent_per_prior(String component_per_prior) {
+		this.component_per_prior = component_per_prior;
+	}
+
+	public String getStructure_per_prior() {
+		return structure_per_prior;
+	}
+
+	public void setStructure_per_prior(String structure_per_prior) {
+		this.structure_per_prior = structure_per_prior;
+	}
+
+	public String getComponent_per_post() {
+		return component_per_post;
+	}
+
+	public void setComponent_per_post(String component_per_post) {
+		this.component_per_post = component_per_post;
+	}
+
+	public String getStructure_per_post() {
+		return structure_per_post;
+	}
+
+	public void setStructure_per_post(String structure_per_post) {
+		this.structure_per_post = structure_per_post;
 	}
 	
 	

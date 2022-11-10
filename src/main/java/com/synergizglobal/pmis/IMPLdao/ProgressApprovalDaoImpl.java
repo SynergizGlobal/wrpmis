@@ -67,10 +67,10 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 					"LEFT JOIN contract c ON a.contract_id_fk = c.contract_id  " + 
 					"LEFT JOIN [user] u1  ON u1.user_id = c.hod_user_id_fk LEFT JOIN work w ON c.work_id_fk = w.work_id  " + 
 					" " + 
-					"left join (select sum(isnull(completed_scope,0)) as actual_to_be_approved,p6_activity_id_fk from p6_validation pv where pv.approval_status_fk='Pending' " + 
+					"left join (select sum(isnull(completed_scope,0)) as actual_to_be_approved,p6_activity_id_fk from p6_validation pv where pv.approval_status_fk='"+obj.getApproval_status_fk()+"' " + 
 					" " + 
 					"group by p6_activity_id_fk) m on m.p6_activity_id_fk=a.p6_activity_id " + 
-					"where approval_status_fk = 'Pending' " + 
+					"where approval_status_fk = '"+obj.getApproval_status_fk()+"' " + 
 					"group by progress_id,v.created_date,u1.department_fk,v.progress_date,a.p6_activity_id,a.scope,a.completed,v.completed_scope,v.attachment_url, " + 
 					"v.remarks,v.created_by_user_id_fk,aph.dyhod_user_id_fk,u.user_name,v.approved_or_rejected_by,v.approved_on,v.rejected_on,v.approval_status_fk, " + 
 					"c.work_id_fk,w.work_short_name,a.contract_id_fk,c.contract_short_name,a.component,a.component_id,s.structure,a.p6_activity_name,v.updated_scope,a.unit " + 
@@ -115,12 +115,12 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 			{
 				if(obj.getApproval_status_fk().equals("Approved"))
 				{
-					qry = qry + " order by activity_id_fk,DATENAME(dw, approved_on)+','+convert(varchar, approved_on, 106) desc";
+					qry = qry + " order by activity_id_fk";
 					 
 				}
 				else if(obj.getApproval_status_fk().equals("Rejected"))
 				{
-					qry = qry + " order by activity_id_fk,DATENAME(dw, rejected_on)+','+convert(varchar, rejected_on, 106) desc";
+					qry = qry + " order by activity_id_fk";
 				}	
 				else if(obj.getApproval_status_fk().equals("Pending"))
 				{

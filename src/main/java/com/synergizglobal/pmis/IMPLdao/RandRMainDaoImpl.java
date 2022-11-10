@@ -1826,15 +1826,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 	public List<RandRMain> getRandRMainList(RandRMain obj) throws Exception {
 		List<RandRMain> objsList = null;
 		try {
-			String qry ="select distinct rr_id, r.work_id as work_id_fk, (select top 1 (agency_id+' - '+identification_no) from (select id as rrbses_id,(select work_code from work where work_id=work_id_fk)+'/'+   " + 
-					"										case when len((cast(ROW_NUMBER() OVER(PARTITION BY (select work_code from work where work_id=work_id_fk) ORDER BY (select work_code from work where work_id=work_id_fk)) as varchar)))=3 then concat('0',(cast(ROW_NUMBER() OVER(PARTITION BY (select work_code from work where work_id=work_id_fk) ORDER BY (select work_code from work where work_id=work_id_fk)) as varchar))) when len((cast(ROW_NUMBER() OVER(PARTITION BY (select work_code from work where work_id=work_id_fk) ORDER BY (select work_code from work where work_id=work_id_fk)) as varchar)))=2 then concat('00',(cast(ROW_NUMBER() OVER(PARTITION BY (select work_code from work where work_id=work_id_fk) ORDER BY (select work_code from work where work_id=work_id_fk)) as varchar))) when len((cast(ROW_NUMBER() OVER(PARTITION BY (select work_code from work where work_id=work_id_fk) ORDER BY (select work_code from work where work_id=work_id_fk)) as varchar)))=1 then concat('000',(cast(ROW_NUMBER() OVER(PARTITION BY (select work_code from work where work_id=work_id_fk) ORDER BY (select work_code from work where work_id=work_id_fk)) as varchar))) end    " + 
-					"										as agency_id, work_id_fk,work_short_name, hod,u.user_name,u.designation as designation,uu.user_name as res_user_name,uu.designation as res_designation,mrvc_responsible_person, bses_agency_name, agency_responsible_person, r.contact_number, r.email_id,      " + 
-					"										submission_date_report_ca, actual_submission_date_bses_report_to_mrvc, approval_by_mrvc_responsible_person, report_submission_date_to_mrvc,     " + 
-					"										approval_date_by_mrvc from rr_agency r    " + 
-					"										LEFT JOIN work w on r.work_id_fk = w.work_id    " + 
-					"										left join [user] u on r.hod = u.user_id    " + 
-					"										left join [user] uu on r.mrvc_responsible_person = uu.user_id   " + 
-					"										WHERE id is not null) as a where bses_agency_name=identification_no) as identification_no ,w.work_short_name,w.work_name,w.project_id_fk,p.project_name, map_sr_no, location_name, sub_location_name, phase, structure_id, type_of_structure_roof, type_of_structure_wall," + 
+			String qry ="select distinct rr_id, r.work_id as work_id_fk,((select agency_id from rr_agency where bses_agency_name=identification_no)+' - '+identification_no) as identification_no ,w.work_short_name,w.work_name,w.project_id_fk,p.project_name, map_sr_no, location_name, sub_location_name, phase, structure_id, type_of_structure_roof, type_of_structure_wall," + 
 					"  type_of_structure_floor, carpet_area,  year_of_construction, name_of_the_owner, type_of_use,"
 					+ " document_type, document_no, FORMAT(physical_verification ,'dd-MM-yyyy') AS physical_verification, verification_by,"
 					+ "FORMAT(approval_by_committee ,'dd-MM-yyyy') AS  approval_by_committee,"

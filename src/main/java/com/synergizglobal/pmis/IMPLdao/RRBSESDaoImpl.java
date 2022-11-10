@@ -355,6 +355,7 @@ public class RRBSESDaoImpl implements RRBSESDao{
 
 			}
 			
+			obj.setBses_agency_name(getAgencyId(obj.getWork_id_fk())+'-'+obj.getBses_agency_name());
 			obj.setAgency_id(getAgencyId(obj.getWork_id_fk()));
 			
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 

@@ -373,11 +373,19 @@
                                                 <th>Structure</th>
                                                 <th>Component</th>
                                                 <th>Component Id</th>
-                                                <th>Activity</th>
-                                                <th>Current <br>Scope</th>
-                                                <th>Updated <br>Scope</th>
-                                                <th>Cumulative <br>Completed</th>
-                                                <th>Actual for<br> the day</th>
+                                                <th>Activity Name</th>
+                                                <th>Unit</th>
+                                                <th>Scope</th>
+                                                
+                                                <th>Activity Level</th>
+                                                <th>Component Level</th>
+                                                <th>Structure Level</th>
+                                                                                                
+                                                <th>Reporting</th>
+                                                <th>Actual Progress Updated</th>
+                                                <th>Activity Level</th>
+                                                <th>Component Level</th>
+                                                <th>Structure Level</th>
                                                 <th>Updated by</th>
                                                 <th>Updated on</th>
                                                 <th>Approved on</th>
@@ -837,9 +845,11 @@
         			table.column( 9 ).visible(true);
         			table.column( 10 ).visible(true);
         			table.column( 11 ).visible(true);
-        			table.column( 12 ).visible(false);
-        			table.column( 13 ).visible(false);
-        			table.column( 14 ).visible(true);
+        			table.column( 16 ).visible(false);
+        			table.column( 17 ).visible(false);        			
+        			table.column( 18 ).visible(false);
+        			table.column( 19 ).visible(false);
+        			table.column( 20 ).visible(true);
         		}else if(approval_status_fk == 'Approved'){
         			$("#button_div").hide();
         			 $("#approved_div").show();
@@ -851,9 +861,9 @@
         			table.column( 9 ).visible(true);
         			table.column( 10 ).visible(true);
         			table.column( 11 ).visible(false);
-        			table.column( 12 ).visible(true);
-        			table.column( 13 ).visible(false);
-        			table.column( 14 ).visible(false);
+        			table.column( 18 ).visible(true);
+        			table.column( 19 ).visible(false);
+        			table.column( 20 ).visible(false);
         		}else if(approval_status_fk == 'Rejected'){
         			$("#button_div").hide();
         			 $("#approved_div").hide();
@@ -865,9 +875,9 @@
         			table.column( 9 ).visible(true);
         			table.column( 10 ).visible(true);
         			table.column( 11 ).visible(false);
-        			table.column( 12 ).visible(false);
-        			table.column( 13 ).visible(true);
-        			table.column( 14 ).visible(false);
+        			table.column( 18 ).visible(false);
+        			table.column( 19 ).visible(true);
+        			table.column( 20 ).visible(false);
         		}
         	 
         	 	var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk,
@@ -914,10 +924,37 @@
         	                   	rowArray.push($.trim(val.component));
         	                   	rowArray.push($.trim(val.component_id));
         	                   	rowArray.push($.trim(val.activity_name));
+        	                   	rowArray.push($.trim(val.unit));
         	                   	rowArray.push($.trim(val.total_scope));
-        	                   	rowArray.push($.trim(val.updated_scope));
         	                   	rowArray.push($.trim(val.cumulative_completed));
+        	                   	rowArray.push($.trim(val.component_per_prior));
+        	                   	rowArray.push($.trim(val.structure_per_prior));
+        	                   	rowArray.push($.trim(val.created_by_user_id_fk+' '+val.progress_date));
         	                   	rowArray.push($.trim(val.actual_for_the_day));
+        	                   	var m1=0;
+        	                   	if(val.cumulative_completed==null || val.cumulative_completed==undefined)
+        	                   		{
+        	                   			m1=0;
+        	                   		}
+        	                   	else
+        	                   		{
+        	                   		  m1=val.cumulative_completed;
+        	                   		}
+        	                   	
+        	                   	var m2=0;
+        	                   	if(val.actual_for_the_day==null || val.actual_for_the_day==undefined)
+        	                   		{
+        	                   			m2=0;
+        	                   		}
+        	                   	else
+        	                   		{
+        	                   		  m2=val.actual_for_the_day;
+        	                   		}       	                   	
+        	                   	var a1=parseFloat(m1)+parseFloat(m2);
+        	                   	a1=a1.toFixed(1);
+        	                   	rowArray.push($.trim(a1));
+        	                   	rowArray.push($.trim(val.component_per_post));
+        	                   	rowArray.push($.trim(val.structure_per_post));
         	                   	rowArray.push($.trim(val.updated_by));
         	                   	rowArray.push($.trim(val.updated_on));
         	                   	rowArray.push($.trim(val.approved_on));

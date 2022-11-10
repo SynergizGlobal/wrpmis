@@ -350,6 +350,7 @@ public class RRBSESDaoImpl implements RRBSESDao{
 				}else {
 					fileName = obj.getRrDocumentFileNames()[0];
 				}
+				
 				FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
 				obj.setAttachment_file(fileName);
 

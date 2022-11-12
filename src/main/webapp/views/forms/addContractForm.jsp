@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
     <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
 	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" />
+
+
     <style>
 
         #ravTable .datepicker~button,
@@ -419,6 +421,47 @@
 	                                      <span id="contract_short_nameError" class="error-msg" ></span>
 	                                </div>
 	                            </div>
+	                            
+	                            <div class="row">
+								         <div class="col s6 m4 l4 ">
+								            <label class="selected" for="bank_funded">Bank Funded<span class="required">*</span></label>
+		                                    <p>
+		                                        <label>
+		                                            <input class="with-gap valid" name="bank_funded" type="radio" value="Yes" aria-invalid="false">
+		                                            <span>Yes</span>
+		                                        </label>
+		                                        &nbsp;
+		                                        <label>
+		                                            <input class="with-gap valid" name="bank_funded" type="radio" value="No">
+		                                            <span>No</span>
+		                                        </label>
+		                                    </p>
+		                                    <span id="bank_fundedError" class="error-msg" ></span>
+		                                    
+	                                     	</div>
+	                                     	<div id="bankFundedDiv" style="display:none;">
+		                                     	 <div class="col s6 m4 l4 input-field">
+		                                        	<label class="selected" for="dy_hod_user_id_fk">Bank Name<span class="required">*</span></label>
+		                                            <select name="bank_name" id="bank_name" class="validate-dropdown searchable" >
+		                                                <option value="">Select</option>
+		                                                 <c:forEach var="obj" items="${bankNameList }"> 
+				                                    	  <option value="${obj.bank_name }" >${obj.bank_name}</option> 
+				                                         </c:forEach>   
+		                                            </select>
+		                                            <span id="bank_nameError" class="error-msg" ></span>
+		                                        </div>
+		                                        <div class="col s6 m4 l4 input-field">
+		                                        	<label class="selected" for="type_of_review">Type of Review<span class="required">*</span></label>
+		                                            <select name="type_of_review" id="type_of_review" class="validate-dropdown searchable">
+					                                	<option value="" >Select</option>  
+				                                      	<option value="Prior">Prior</option> 
+				                                      	<option value="Post">Post</option> 
+		                                            </select>
+		                                            <span id="type_of_reviewError" class="error-msg" ></span>
+		                                        </div>                            	
+                           		           </div>                 		                            	
+	                            </div>
+	              
 	                            <div class="row"> 
 	                            	<div class="col m12 s12 l12" style="margin-bottom:30px; padding:0;">
 										<div class="row fixed-width">
@@ -561,7 +604,7 @@
 		                                </div>
 	                                </div>
 	                                <div class="row">
-	                                <h5 class="center-align"><span class="div-header">Contract Revisions</span></h5>  
+	                                <h5 class="center-align"><span class="div-header">Tender Bid Revisions</span></h5>  
 										<input type="hidden" id="rowNoRevision" name="rowNoRevision">
                                             <table id="app_com_tableRevision" class="mdl-data-table" style="width:100%;">
                                                 <thead>
@@ -570,6 +613,7 @@
                                                         <th class="w1em">Detailed Estimated cost</th>
                                                         <th class="w1em">Planned date of award</th>
                                                         <th class="w1em">Planned date of completion</th>
+                                                        <th class="w1em">Notice Inviting Tender</th>
                                                         <th></th>
                                                     </tr>
                                                 </thead>
@@ -577,9 +621,10 @@
                                                 <input type="hidden" id="sNoRevision" value="1">
                                                        <tr>
                                                        		<td style="width:10%;"><input id="revisionno0" name="revisionno" type="text" value="R1"></td>
-                                                        	<td style="width:30%"><input id="revision_estimated_cost0" name="revision_estimated_cost" type="text"></td>
-                                                       		<td style="width:30%"><input id="revision_planned_date_of_award0" name="revision_planned_date_of_award" type="text" class="validate datepicker"></td>
-                                                        	<td style="width:30%;"><input id="revision_planned_date_of_completion0" name="revision_planned_date_of_completion" type="text" class="validate datepicker"></td>                                                        	
+                                                        	<td style="width:20%"><input id="revision_estimated_cost0" name="revision_estimated_cost" type="text"></td>
+                                                       		<td style="width:25%"><input id="revision_planned_date_of_award0" name="revision_planned_date_of_award" type="text" class="validate datepicker"></td>
+                                                        	<td style="width:25%;"><input id="revision_planned_date_of_completion0" name="revision_planned_date_of_completion" type="text" class="validate datepicker"></td> 
+                                                        	<td style="width:20%;"><input id="notice_inviting_tender0" name="notice_inviting_tender" type="text" class="validate datepicker"></td>                                                       	
                                                         	<td></td>
                                                         </tr>
                                             
@@ -661,6 +706,7 @@
 				                                              </tr>
 				                                        </tbody>
 				                                     </table>
+				                                     <h5 style="background-color:yellow;text-align:center;">To add further details, Please edit the contract in update form</h5>
 				                                   	 <input type="hidden" id="documentRowNo"  name="documentRowNo" value="0" />
 			                                    </div>
 			                                </div>
@@ -727,6 +773,13 @@
                 return false;
             }
         });
+ 	   $('input[name^=bank_funded]').click(function(){
+	       if ($(this).val() == "Yes"){
+	    	   $("#bankFundedDiv").show();
+	       }else if ($(this).val() == "No"){
+	    	   $("#bankFundedDiv").hide();
+	       }
+	   });	       
     });
 	 $("[data-length]").each(function(i,val){
      	$('#'+val.id).characterCounter();;
@@ -901,6 +954,7 @@
                +'<input id="revision_estimated_cost' + rNo + '" name="revision_estimated_cost" type="text"></td>'
                +'<td><input id="revision_planned_date_of_award' + rNo + '" name="revision_planned_date_of_award" type="text" class="validate datepicker" value=""></td>'
                +'<td><input id="revision_planned_date_of_completion' + rNo + '" name="revision_planned_date_of_completion" type="text" class="validate datepicker" value=""></td>'
+               +'<td><input id="notice_inviting_tender' + rNo + '" name="notice_inviting_tender" type="text" class="validate datepicker" value=""></td>'
                +'<td class="input-field mobile_btn_close"><button type="button" onclick="removeRevisionStActions(' + rNo + ');" class="btn waves-effect waves-light red t-c remove"><i class="fa fa-close"></i></button></td>'
                +'</tr>';
         
@@ -1078,7 +1132,7 @@
   				}
   			}
 	  		if(validator.form()){ // validation perform
-	  			$(".page-loader").show();	
+	  			
 	  			
 	  			var work_short_name = $("#work_id_fk").find('option:selected').attr("workShortName");
 	  			$("#work_short_name").val(work_short_name);
@@ -1096,8 +1150,39 @@
 	  			$('form input[name=responsible_people_id_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
 	  			
 	  			$('form input[name=contractDocumentNames]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=contractDocumentFileNames]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
+	  			$('form input[name=contractDocumentFileNames]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			
+	  			var bankFundedStatus = $('input[name="bank_funded"]:checked').val();
+	  			
+	  			if(bankFundedStatus==undefined)
+  				{
+						$('#bank_fundedError').html("Required");
+						return false;  				
+  				}
+	  			
+  				if(bankFundedStatus=='Yes')
+  				{
+  						if($('#bank_name').val()=="")
+  						{
+  							$('#bank_nameError').html("Required");
+  							return false;
+  						}
+  						else
+						{
+							$('#bank_nameError').html();
+						}
+  						if($('#type_of_review').val()=="")
+  						{
+  							$('#type_of_reviewError').html("Required");
+  							return false;
+  						} 
+  						else
+						{
+ 							$('#type_of_reviewError').html();
+						}
+  				}
+	  			
+  				$(".page-loader").show();	
     			document.getElementById("contractForm").submit();			
     	 	}
     	}
@@ -1274,6 +1359,8 @@
 	           $(this).valid();
 	       }
 	   });
+	   
+   
    
 
 	function addContractDocumentRow(){		

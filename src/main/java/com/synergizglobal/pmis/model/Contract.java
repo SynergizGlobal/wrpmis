@@ -24,20 +24,21 @@ public class Contract {
 	 insurance_type_fks, issuing_agencys, agency_addresss, insurance_numbers, insurance_values,insurence_valid_uptos,insurence_remarks,insurance_revisions,revision_statuss,
 	 contract_milestones_ids, milestone_names, milestone_dates, actual_dates, revisions,mile_remarks,
 	 contract_revision_ids, revision_numbers, revision_dates, revised_amounts,hod_designations, revised_docs,revision_remarks,contract_file_type_fks,contract_file_ids,contract_file_types,
+	 approval_by_bank,
 	 
-	 revisionno,revision_estimated_cost,revision_planned_date_of_award,revision_planned_date_of_completion;
+	 revisionno,revision_estimated_cost,revision_planned_date_of_award,revision_planned_date_of_completion,notice_inviting_tender,approvalbybankstatus;
 	
 	private String contractor_id, contractor_specilization_fk, address,
 	primary_contact_name, phone_number, pan_number, gst_number, bank_name, account_number, ifsc_code,target_doc,structure_type_per,total,last_financial_progress,
 	
-	revisionnumber,revisionestimatedcost,revisionplanneddateofaward,revisionplanneddateofcompletion;
+	revisionnumber,revisionestimatedcost,revisionplanneddateofaward,revisionplanneddateofcompletion,noticeinvitingtender,approvalbybank;
 	
 	private MultipartFile contractFile;
 	
 	private String[] contractDocumentNames,contractDocumentFileNames,milestone_ids,contractKeyPersonnelNames,contractKeyPersonnelMobileNos,contractKeyPersonnelEmailIds,contractKeyPersonnelDesignations
-	,ids, contract_id_fks, department_id_fks, executive_user_id_fks,department_fks,responsible_people_id_fks,revised_amount_unitss,bg_value_unitss,insurance_value_unitss;
+	,ids, contract_id_fks, department_id_fks, executive_user_id_fks,department_fks,responsible_people_id_fks,revised_amount_unitss,bg_value_unitss,insurance_value_unitss,approvalByBankDocumentFileNames;
 	private int[] filecounts;
-	private MultipartFile[] contractDocumentFiles;
+	private MultipartFile[] contractDocumentFiles,approvalByBankDocumentFiles;
 	
 	private List<Contract> bankGauranree;
 	private List<Contract> insurence;
@@ -1990,6 +1991,62 @@ public class Contract {
 
 	public void setType_of_review(String type_of_review) {
 		this.type_of_review = type_of_review;
+	}
+
+	public String[] getNotice_inviting_tender() {
+		return notice_inviting_tender;
+	}
+
+	public void setNotice_inviting_tender(String[] notice_inviting_tender) {
+		this.notice_inviting_tender = notice_inviting_tender;
+	}
+
+	public String getNoticeinvitingtender() {
+		return noticeinvitingtender;
+	}
+
+	public void setNoticeinvitingtender(String noticeinvitingtender) {
+		this.noticeinvitingtender = noticeinvitingtender;
+	}
+
+	public String[] getApproval_by_bank() {
+		return approval_by_bank;
+	}
+
+	public void setApproval_by_bank(String[] approval_by_bank) {
+		this.approval_by_bank = approval_by_bank;
+	}
+
+	public String getApprovalbybank() {
+		return approvalbybank;
+	}
+
+	public void setApprovalbybank(String approvalbybank) {
+		this.approvalbybank = approvalbybank;
+	}
+
+	public String[] getApprovalByBankDocumentFileNames() {
+		return approvalByBankDocumentFileNames;
+	}
+
+	public void setApprovalByBankDocumentFileNames(String[] approvalByBankDocumentFileNames) {
+		this.approvalByBankDocumentFileNames = approvalByBankDocumentFileNames;
+	}
+
+	public MultipartFile[] getApprovalByBankDocumentFiles() {
+		return approvalByBankDocumentFiles;
+	}
+
+	public void setApprovalByBankDocumentFiles(MultipartFile[] approvalByBankDocumentFiles) {
+		this.approvalByBankDocumentFiles = approvalByBankDocumentFiles;
+	}
+
+	public String[] getApprovalbybankstatus() {
+		return approvalbybankstatus;
+	}
+
+	public void setApprovalbybankstatus(String[] approvalbybankstatus) {
+		this.approvalbybankstatus = approvalbybankstatus;
 	}
 	
 }

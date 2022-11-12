@@ -372,7 +372,7 @@
                                                 <th>Contract</th>
                                                 <th>Structure</th>
                                                 <th>Component</th>
-                                                <th>Component Id</th>
+                                                <th>Element</th>
                                                 <th>Activity Name</th>
                                                 <th>Unit</th>
                                                 <th>Scope</th>
@@ -846,7 +846,7 @@
         			table.column( 10 ).visible(true);
         			table.column( 11 ).visible(true);
         			table.column( 16 ).visible(false);
-        			table.column( 17 ).visible(false);        			
+        			table.column( 17 ).visible(true);        			
         			table.column( 18 ).visible(false);
         			table.column( 19 ).visible(false);
         			table.column( 20 ).visible(true);

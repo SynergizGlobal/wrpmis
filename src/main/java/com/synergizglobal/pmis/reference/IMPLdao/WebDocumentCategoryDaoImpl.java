@@ -31,7 +31,7 @@ public class WebDocumentCategoryDaoImpl implements WebDocumentCategoryDao{
 		List<TrainingType> objsList1 = null;
 		TrainingType sObj =null;
 		try {
-			String qry ="select STRING_AGG(id) id, type_fk, STRING_AGG(category) category from web_documents_category  group by type_fk";
+			String qry ="select STRING_AGG(id,',') id, type_fk, STRING_AGG(category,',') category from web_documents_category  group by type_fk";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 			obj.setdList1(objsList);

@@ -62,6 +62,7 @@ public class CommonConstants {
 	public final static String RR_UPLOADED_FILES = "/"+context_path+"/RR_UPLOADED_FILES/";
 	public final static String UTILITY_UPLOADED_FILES = "/"+context_path+"/UTILITY_UPLOADED_FILES/";
 	public final static String RR_AGENCY_FILES = "/"+context_path+"/RR_AGENCY_FILES/";
+	public final static String APPROVAL_BY_BANK_FILES = "/"+context_path+"/APPROVAL_BY_BANK_FILES/";
 	
 	/*********************************************************************************************/	
 	public final static String LOGIN_BACKGROUND_IMAGE = base_path+"/resources/images/";
@@ -81,6 +82,8 @@ public class CommonConstants {
 	public final static String TRAINING_SESSION_FILE_SAVING_PATH = base_path+"/TRAINING_SESSIONS/";
 	public final static String LAND_ACQUISITION_FILE_SAVING_PATH = base_path+"/LAND_ACQUISITION_FILES/";
 	public final static String RR_AGENCY_FILE_SAVING_PATH = base_path+"/RR_AGENCY_FILES/";
+	public final static String APPROVAL_BY_BANK_FILE_SAVING_PATH = base_path+"/APPROVAL_BY_BANK_FILES/";
+	
 	public final static String DESIGN_UPLOADED_FILE_SAVING_PATH = base_path+"/DESIGN_UPLOADED_FILES/";
 	public final static String TEMPLATE_FILEPATH = base_path+"/";
 	public final static String TEMPLATE_OLD_FILEPATH = base_path+"/TEMPLATES_OLD/";

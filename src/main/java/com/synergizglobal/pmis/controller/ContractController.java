@@ -675,6 +675,9 @@ public class ContractController {
 			Contract contractDeatils = contractService.getContract(obj);
 			model.addObject("contractDeatils", contractDeatils);
 			
+			List<Contract> bankNameList = contractService.getBankNameList(obj);
+			model.addObject("bankNameList", bankNameList);			
+			
 			obj.setContract_status(contractDeatils.getStatus());
 			List<Contract> contract_Statustype = contractService.getContractStatusType(obj);
 			model.addObject("contract_Statustype", contract_Statustype);
@@ -731,6 +734,9 @@ public class ContractController {
 			
 			List<Contract> unitsList = contractService.getUnitsList(obj);
 			model.addObject("unitsList", unitsList);
+			
+			List<Contract> bankNameList = contractService.getBankNameList(obj);
+			model.addObject("bankNameList", bankNameList);			
 			
 			obj.setContract_id(contract_id);
 			Contract contractDeatils = contractService.getContract(obj);

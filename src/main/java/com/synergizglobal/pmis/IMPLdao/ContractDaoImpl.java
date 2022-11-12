@@ -559,8 +559,8 @@ public class ContractDaoImpl implements ContractDao {
 					
 					
 					PreparedStatement preparedStmtRevisions = null;
-					String queryTdcRevisions = " insert into contract_revisions (contract_id_fk,revision_no,revision_estimated_cost,revision_planned_date_of_award,revision_planned_date_of_completion)"
-				               + " values (?,?,?,?,?)";				
+					String queryTdcRevisions = " insert into contract_revisions (contract_id_fk,revision_no,revision_estimated_cost,revision_planned_date_of_award,revision_planned_date_of_completion,notice_inviting_tender)"
+				               + " values (?,?,?,?,?,?)";				
 					
 					preparedStmtRevisions = con.prepareStatement(queryTdcRevisions);
 	
@@ -575,7 +575,8 @@ public class ContractDaoImpl implements ContractDao {
 								preparedStmtRevisions.setString(2, contract.getRevisionno()[i]);
 								preparedStmtRevisions.setString(3, contract.getRevision_estimated_cost()[i]==null?"0":contract.getRevision_estimated_cost()[i]);
 								preparedStmtRevisions.setString(4, contract.getRevision_planned_date_of_award()[i]==null?"0":contract.getRevision_planned_date_of_award()[i]);
-								preparedStmtRevisions.setString(5, contract.getRevision_planned_date_of_completion()[i]==null?"0":contract.getRevision_planned_date_of_completion()[i]);						
+								preparedStmtRevisions.setString(5, contract.getRevision_planned_date_of_completion()[i]==null?"0":contract.getRevision_planned_date_of_completion()[i]);
+								preparedStmtRevisions.setString(6, contract.getNotice_inviting_tender()[i]==null?"0":contract.getNotice_inviting_tender()[i]);
 								preparedStmtRevisions.execute();
 							}
 						}
@@ -730,8 +731,8 @@ public class ContractDaoImpl implements ContractDao {
 				c = stmt.executeBatch();
 				if(stmt != null){stmt.close();}
 				
-				String Revision_qry = "INSERT into  contract_revision (revision_number,revised_amount,revised_doc,remarks,action,contract_id_fk,revised_amount_units,revision_amounts_statuss) "
-				 +"VALUES (?,?,?,?,?,?,?,?)";
+				String Revision_qry = "INSERT into  contract_revision (revision_number,revised_amount,revised_doc,remarks,action,contract_id_fk,revised_amount_units,revision_amounts_statuss,approval_by_bank,attachment) "
+				 +"VALUES (?,?,?,?,?,?,?,?,?,?)";
 				stmt = con.prepareStatement(Revision_qry); 
 				
 				arraySize = 0;
@@ -777,6 +778,12 @@ public class ContractDaoImpl implements ContractDao {
 						arraySize = contract.getRevision_amounts_statuss().length;
 					}
 				}
+				if(!StringUtils.isEmpty(contract.getApproval_by_bank()) && contract.getApproval_by_bank().length > 0) {
+					contract.setApproval_by_bank(CommonMethods.replaceEmptyByNullInSringArray(contract.getApproval_by_bank()));
+					if(arraySize < contract.getApproval_by_bank().length) {
+						arraySize = contract.getApproval_by_bank().length;
+					}
+				}				
 				if(!StringUtils.isEmpty(contract.getRevision_numbers()) && contract.getRevision_numbers().length > 0) {
 					for (int i = 0; i < arraySize; i++) {
 						int k = 1;
@@ -789,6 +796,7 @@ public class ContractDaoImpl implements ContractDao {
 							stmt.setString(k++,contract.getContract_id());
 							stmt.setString(k++,(contract.getRevised_amount_unitss().length > 0)?contract.getRevised_amount_unitss()[i]:null);
 							stmt.setString(k++,(contract.getRevision_amounts_statuss().length > 0)?contract.getRevision_amounts_statuss()[i]:null);
+							stmt.setString(k++,(contract.getApproval_by_bank().length > 0)?contract.getApproval_by_bank()[i]:null);
 							stmt.addBatch();
 						}
 					}
@@ -1059,7 +1067,7 @@ public class ContractDaoImpl implements ContractDao {
 									+ "FORMAT(final_takeover,'dd-MM-yyyy') AS final_takeover,FORMAT(final_bill_release,'dd-MM-yyyy') AS final_bill_release,FORMAT(defect_liability_period,'dd-MM-yyyy') AS defect_liability_period,cast(completed_cost as decimal(18,2)) as completed_cost,"
 									+ "FORMAT(retention_money_release,'dd-MM-yyyy') AS retention_money_release,FORMAT(pbg_release,'dd-MM-yyyy') AS pbg_release,contract_status_fk,bg_required,"
 									+ "insurance_required,u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name as hod_name,us.user_name as dy_hod_name,FORMAT(target_doc,'dd-MM-yyyy') AS target_doc,"
-									+ "awarded_cost_units,estimated_cost_units,completed_cost_units,mu.unit,status,milestone_requried,revision_requried,contractors_key_requried,FORMAT(actual_date_of_commissioning,'dd-MM-yyyy') AS actual_date_of_commissioning,is_contract_closure_initiated,FORMAT(planned_date_of_award,'dd-MM-yyyy') AS planned_date_of_award,c.remarks,FORMAT(planned_date_of_completion,'dd-MM-yyyy') AS planned_date_of_completion,contract_department " + 
+									+ "awarded_cost_units,estimated_cost_units,completed_cost_units,mu.unit,status,milestone_requried,revision_requried,contractors_key_requried,FORMAT(actual_date_of_commissioning,'dd-MM-yyyy') AS actual_date_of_commissioning,is_contract_closure_initiated,FORMAT(planned_date_of_award,'dd-MM-yyyy') AS planned_date_of_award,c.remarks,FORMAT(planned_date_of_completion,'dd-MM-yyyy') AS planned_date_of_completion,c.contract_department,c.bank_funded,c.bank_name,c.type_of_review " + 
 									"from contract c " + 
 									"left join work w on c.work_id_fk = w.work_id  " + 
 									"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
@@ -1088,6 +1096,12 @@ public class ContractDaoImpl implements ContractDao {
 				contract.setContractor_name(resultSet.getString("contractor_name"));
 				contract.setDepartment_fk(resultSet.getString("department_fk"));
 				contract.setDepartment_name(resultSet.getString("department_name"));
+				contract.setContract_department(resultSet.getString("contract_department"));
+				
+				contract.setBank_funded(resultSet.getString("bank_funded"));
+				contract.setBank_name(resultSet.getString("bank_name"));
+				contract.setType_of_review(resultSet.getString("type_of_review"));
+				
 				contract.setHod_user_id_fk(resultSet.getString("hod_user_id_fk"));
 				contract.setDy_hod_user_id_fk(resultSet.getString("dy_hod_user_id_fk"));
 				
@@ -1348,7 +1362,7 @@ public class ContractDaoImpl implements ContractDao {
 		List<Contract> contract_revisions = new ArrayList<Contract>();
 		Contract obj = null;
 		try {
-			String qry ="select revision_no as revisionnumber,revision_estimated_cost as revisionestimatedcost,revision_planned_date_of_award as revisionplanneddateofaward,revision_planned_date_of_completion as revisionplanneddateofcompletion from contract_revisions  "
+			String qry ="select revision_no as revisionnumber,revision_estimated_cost as revisionestimatedcost,revision_planned_date_of_award as revisionplanneddateofaward,revision_planned_date_of_completion as revisionplanneddateofcompletion,notice_inviting_tender as noticeinvitingtender from contract_revisions  "
 					+ " where contract_id_fk = ?";
 			stmt = con.prepareStatement(qry);
 			stmt.setString(1, contract_id);
@@ -1359,6 +1373,7 @@ public class ContractDaoImpl implements ContractDao {
 				obj.setRevisionestimatedcost(resultSet.getString("revisionestimatedcost"));
 				obj.setRevisionplanneddateofaward(resultSet.getString("revisionplanneddateofaward"));
 				obj.setRevisionplanneddateofcompletion(resultSet.getString("revisionplanneddateofcompletion"));
+				obj.setNoticeinvitingtender(resultSet.getString("noticeinvitingtender"));
 				contract_revisions.add(obj);
 			}
 		}catch(Exception e){ 
@@ -1377,7 +1392,7 @@ public class ContractDaoImpl implements ContractDao {
 		List<Contract> contract_revision = new ArrayList<Contract>();
 		Contract obj = null;
 		try {
-			String qry ="SELECT revision_number,revised_amount,revised_amount_units ,FORMAT(revised_doc,'dd-MM-yyyy') AS revised_doc"
+			String qry ="SELECT revision_number,revised_amount,revised_amount_units ,FORMAT(revised_doc,'dd-MM-yyyy') AS revised_doc,approval_by_bank,attachment"
 					+ ",action as revision_status,remarks,mu.unit,revision_amounts_status from contract_revision cr "+
 					"left join money_unit mu on cr.revised_amount_units = mu.value  "
 					+ " where contract_id_fk = ?";
@@ -1394,6 +1409,8 @@ public class ContractDaoImpl implements ContractDao {
 				obj.setRemarks(resultSet.getString("remarks"));
 				obj.setUnit(resultSet.getString("unit"));
 				obj.setRevision_amounts_status(resultSet.getString("revision_amounts_status"));
+				obj.setApprovalbybank(resultSet.getString("approval_by_bank"));
+				obj.setAttachment(resultSet.getString("revision_amounts_status"));
 				contract_revision.add(obj);
 			}
 		}catch(Exception e){ 
@@ -1959,8 +1976,8 @@ public class ContractDaoImpl implements ContractDao {
 						
 						
 						PreparedStatement preparedStmtRevisions = null;
-						String queryTdcRevisions = " insert into contract_revisions (contract_id_fk,revision_no,revision_estimated_cost,revision_planned_date_of_award,revision_planned_date_of_completion)"
-					               + " values (?,?,?,?,?)";				
+						String queryTdcRevisions = " insert into contract_revisions (contract_id_fk,revision_no,revision_estimated_cost,revision_planned_date_of_award,revision_planned_date_of_completion,notice_inviting_tender)"
+					               + " values (?,?,?,?,?,?)";				
 						
 						preparedStmtRevisions = con.prepareStatement(queryTdcRevisions);
 	
@@ -1975,7 +1992,8 @@ public class ContractDaoImpl implements ContractDao {
 									preparedStmtRevisions.setString(2, contract.getRevisionno()[i]);
 									preparedStmtRevisions.setString(3, contract.getRevision_estimated_cost()[i]==null || contract.getRevision_estimated_cost()[i]==""?"0":contract.getRevision_estimated_cost()[i]);
 									preparedStmtRevisions.setString(4, contract.getRevision_planned_date_of_award()[i]==null?"0":contract.getRevision_planned_date_of_award()[i]);
-									preparedStmtRevisions.setString(5, contract.getRevision_planned_date_of_completion()[i]==null?"0":contract.getRevision_planned_date_of_completion()[i]);						
+									preparedStmtRevisions.setString(5, contract.getRevision_planned_date_of_completion()[i]==null?"0":contract.getRevision_planned_date_of_completion()[i]);
+									preparedStmtRevisions.setString(6, contract.getNotice_inviting_tender()[i]==null?"0":contract.getNotice_inviting_tender()[i]);
 									preparedStmtRevisions.execute();
 								}
 							}
@@ -1990,8 +2008,8 @@ public class ContractDaoImpl implements ContractDao {
 					stmt.executeUpdate();
 					if(stmt != null){stmt.close();}
 					
-					String Revision_qry = "INSERT into  contract_revision (revision_number,revised_amount,revised_doc,remarks,action,contract_id_fk,revised_amount_units,revision_amounts_status) "
-					 +"VALUES (?,?,?,?,?,?,?,?)";
+					String Revision_qry = "INSERT into  contract_revision (revision_number,revised_amount,revised_doc,remarks,action,contract_id_fk,revised_amount_units,revision_amounts_status,approval_by_bank,attachment) "
+					 +"VALUES (?,?,?,?,?,?,?,?,?,?)";
 					stmt = con.prepareStatement(Revision_qry); 
 					
 					arraySize = 0;
@@ -2037,6 +2055,12 @@ public class ContractDaoImpl implements ContractDao {
 							arraySize = contract.getRevision_amounts_statuss().length;
 						}
 					}
+					if(!StringUtils.isEmpty(contract.getApproval_by_bank()) && contract.getApproval_by_bank().length > 0) {
+						contract.setApproval_by_bank(CommonMethods.replaceEmptyByNullInSringArray(contract.getApproval_by_bank()));
+						if(arraySize < contract.getApproval_by_bank().length) {
+							arraySize = contract.getApproval_by_bank().length;
+						}
+					}					
 					//if(!StringUtils.isEmpty(contract.getRevision_numbers()) && contract.getRevision_numbers().length > 0 && !StringUtils.isEmpty(contract.getRevised_docs()) && contract.getRevised_docs().length > 0) {
 					if(!StringUtils.isEmpty(contract.getRevision_numbers()) && contract.getRevision_numbers().length > 0) {
 						for (int i = 0; i < arraySize; i++) {
@@ -2052,6 +2076,8 @@ public class ContractDaoImpl implements ContractDao {
 								stmt.setString(k++,contract.getContract_id());
 								stmt.setString(k++,(contract.getRevised_amount_unitss().length > 0)?contract.getRevised_amount_unitss()[i]:null);
 								stmt.setString(k++,(contract.getRevision_amounts_statuss().length > 0)?contract.getRevision_amounts_statuss()[i]:null);
+								stmt.setString(k++,(contract.getApprovalbybankstatus().length > 0)?contract.getApprovalbybankstatus()[i]:null);
+								stmt.setString(k++,(contract.getApprovalByBankDocumentFileNames()!=null)?contract.getApprovalByBankDocumentFileNames()[i]:null);
 								stmt.addBatch();
 								//stmt.executeUpdate();
 		}
@@ -3748,7 +3774,7 @@ public class ContractDaoImpl implements ContractDao {
 		List<Contract> objsList = new ArrayList<Contract>();
 		try {
 			String qry ="SELECT revision_number,revised_amount,revised_amount_units ,FORMAT(revised_doc,'dd-MM-yyyy') AS revised_doc,"
-					+ "action as revision_status,cr.remarks,mu.unit,revision_amounts_status,c.contract_short_name,c.contract_id "
+					+ "action as revision_status,cr.remarks,mu.unit,revision_amounts_status,c.contract_short_name,c.contract_id,approval_by_bank,attachment "
 					+ "from contract_revision cr "
 					+ "left join money_unit mu on cr.revised_amount_units = mu.value  "
 					+ "left join contract c on cr.contract_id_fk = c.contract_id "

@@ -148,6 +148,58 @@
 				display:none;
 			} 
 		}
+		
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}	
+
+
+tr.even {
+    background-color: #ffffff !important;
+}	
+
+
+table tr td:nth-child(8) {
+    background: #d9f1ff;
+    text-align:center;
+}
+
+table tr td:nth-child(9) {
+    background: #d9f1ff;
+    text-align:center;
+}
+
+table tr td:nth-child(10) {
+    background: #d9f1ff;
+    text-align:center;
+}
+
+
+table tr td:nth-child(13) {
+    background: #d9f1ff;
+    text-align:center;
+}
+
+table tr td:nth-child(14) {
+    background: #d9f1ff;
+    text-align:center;
+}
+
+table tr td:nth-child(15) {
+    background: #d9f1ff;
+    text-align:center;
+}
+
+
+
     </style>
 
 </head>
@@ -356,9 +408,17 @@
 
                             <div class="row fixed-width" style="margin-bottom: 30px;">
                                 <div class="table-inside">
-                                    <table class="mdl-data-table" id="datatable-table-pending">
+                             
+                                    <table id="datatable-table-pending">
                                         <thead>
-                                            <tr>
+                                        	<tr>
+                                        		<th colspan="8"></th>
+                                        		<th colspan="3" style="text-align:center;">Progress till last update</th>
+                                        		<th colspan="2"></th>
+                                        		<th colspan="3">Results shown after accepting in the validation form</th>
+                                        		<th colspan="5"></th>
+                                        	</tr>
+                                            <tr style="background-color: #007A7A;color:#ffffff;">
                                                 <th class="no-sort" style=" text-align: left; vertical-align: bottom;">
                                                     <p>
                                                         <label>
@@ -377,15 +437,15 @@
                                                 <th>Unit</th>
                                                 <th>Scope</th>
                                                 
-                                                <th>Activity Level</th>
-                                                <th>Component Level</th>
-                                                <th>Structure Level</th>
+                                                <th style="text-align:center;background-color:#fdcdac;color:#000000;">Activity Level</th>
+                                                <th style="text-align:center;background-color:#fdcdac;color:#000000;">Component Level</th>
+                                                <th style="text-align:center;background-color:#fdcdac;color:#000000;">Structure Level</th>
                                                                                                 
                                                 <th>Reporting</th>
                                                 <th>Actual Progress Updated</th>
-                                                <th>Activity Level</th>
-                                                <th>Component Level</th>
-                                                <th>Structure Level</th>
+                                                <th style="text-align:center;background-color:#68bb59;color:#000000;">Activity Level</th>
+                                                <th style="text-align:center;background-color:#68bb59;color:#000000;">Component Level</th>
+                                                <th style="text-align:center;background-color:#68bb59;color:#000000;">Structure Level</th>
                                                 <th>Updated by</th>
                                                 <th>Updated on</th>
                                                 <th>Approved on</th>

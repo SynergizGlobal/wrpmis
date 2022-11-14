@@ -31,7 +31,7 @@ public class Contract {
 	private String contractor_id, contractor_specilization_fk, address,
 	primary_contact_name, phone_number, pan_number, gst_number, bank_name, account_number, ifsc_code,target_doc,structure_type_per,total,last_financial_progress,
 	
-	revisionnumber,revisionestimatedcost,revisionplanneddateofaward,revisionplanneddateofcompletion,noticeinvitingtender,approvalbybank;
+	revisionnumber,revisionestimatedcost,revisionplanneddateofaward,revisionplanneddateofcompletion,noticeinvitingtender,approvalbybank,contract_notice_inviting_tender;
 	
 	private MultipartFile contractFile;
 	
@@ -2047,6 +2047,14 @@ public class Contract {
 
 	public void setApprovalbybankstatus(String[] approvalbybankstatus) {
 		this.approvalbybankstatus = approvalbybankstatus;
+	}
+
+	public String getContract_notice_inviting_tender() {
+		return contract_notice_inviting_tender;
+	}
+
+	public void setContract_notice_inviting_tender(String contract_notice_inviting_tender) {
+		this.contract_notice_inviting_tender = contract_notice_inviting_tender;
 	}
 	
 }

@@ -590,18 +590,24 @@
 		                                </div>
 	                                </div>
 	                                <div class="row">
-		                                <div class="col s12 m6 l6 input-field" id="planned_date_of_award_div">
+		                                <div class="col s12 m6 l4 input-field" id="planned_date_of_award_div">
 		                                    <input id="planned_date_of_award" name="planned_date_of_award" type="text" class="validate datepicker">
 		                                    <label for="planned_date_of_award">Planned date of award</label>
 		                                    <span id="planned_date_of_awardError" class="error-msg" ></span>
 		                                    <button type="button" id="planned_date_of_award_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 		                                </div>
-		                                <div class="col s12 m6 l6 input-field" id="planned_date_of_completion_div">
+		                                <div class="col s12 m6 l4 input-field" id="planned_date_of_completion_div">
 		                                    <input id="planned_date_of_completion" name="planned_date_of_completion" type="text" class="validate datepicker">
 		                                    <label for="planned_date_of_completion">Planned date of completion</label>
 		                                    <span id="planned_date_of_completionError" class="error-msg" ></span>
 		                                    <button type="button" id="planned_date_of_completion_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 		                                </div>
+		                                <div class="col s12 m6 l4 input-field" id="contract_notice_inviting_tender_div">
+		                                    <input id="contract_notice_inviting_tender" name="contract_notice_inviting_tender" type="text" class="validate datepicker">
+		                                    <label for="contract_notice_inviting_tender">Notice Inviting Tender</label>
+		                                    <span id="contract_notice_inviting_tenderError" class="error-msg" ></span>
+		                                    <button type="button" id="contract_notice_inviting_tender_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
+		                                </div>		                                
 	                                </div>
 	                                <div class="row">
 	                                <h5 class="center-align"><span class="div-header">Tender Bid Revisions</span></h5>  

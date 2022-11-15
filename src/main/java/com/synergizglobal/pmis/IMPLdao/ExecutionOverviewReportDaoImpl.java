@@ -431,7 +431,7 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 			
 			
 			String qry = "select distinct s.component as component, " + 
-					"case when s.structure_type='Formation' or  s.structure_type='Flyover' then (select top 1 unit from p6_activities a1 " + 
+					"case when s.structure_type='Formation' or  s.structure_type='Flyover' or  s.structure_type='Important Bridges' then (select top 1 unit from p6_activities a1 " + 
 					 
 					"left join structure st1 on st1.structure_id=a1.structure_id_fk "+JoinQry+"" + 
 					 
@@ -441,7 +441,7 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 					 
 					 
 					 
-					"case when s.structure_type='Formation' or  s.structure_type='Flyover' then (select sum(isnull(scope,0)) from p6_activities a1 " + 
+					"case when s.structure_type='Formation' or  s.structure_type='Flyover' or  s.structure_type='Important Bridges' then (select sum(isnull(scope,0)) from p6_activities a1 " + 
 					 
 					"left join structure st1 on st1.structure_id=a1.structure_id_fk "+JoinQry+"" + 
 					 
@@ -463,7 +463,7 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 					 
 					"from component_scurve s  " + 
 					 
-					"left join (select distinct structure_type,structure,component,case when s.structure_type!='Formation' and  s.structure_type!='Flyover' then sum(isnull(component_per,0))*100  " + 
+					"left join (select distinct structure_type,structure,component,case when s.structure_type!='Formation' and  s.structure_type!='Flyover' and  s.structure_type!='Important Bridges' then sum(isnull(component_per,0))*100  " + 
 					 
 					"else (select sum(isnull(completed,0)) from p6_activities a1 " + 
 					 

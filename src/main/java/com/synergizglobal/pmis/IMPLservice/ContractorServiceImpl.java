@@ -18,8 +18,8 @@ public class ContractorServiceImpl implements ContractorService {
 	ContractorDao contractorDao;
 
 	@Override
-	public List<Contractor> getContractorsList() throws Exception {
-		return contractorDao.getContractorsList();
+	public List<Contractor> getContractorsList(Contractor obj) throws Exception {
+		return contractorDao.getContractorsList(obj);
 	}
 	
 	@Override

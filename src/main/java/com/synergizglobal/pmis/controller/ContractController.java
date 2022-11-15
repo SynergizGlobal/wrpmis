@@ -612,9 +612,9 @@ public class ContractController {
 			//contract.setContract_status("Open");
 			//contract.setContract_status_fk("Not Started");
 		
-			boolean flag =  contractService.addContract(contract);			
-			if(flag) {
-				attributes.addFlashAttribute("success", "Contract Added Succesfully."); 
+			String contractid =  contractService.addContract(contract);			
+			if(!StringUtils.isEmpty(contractid)) {
+				attributes.addFlashAttribute("success", "Contract "+contractid+" Added Succesfully."); 
 			} else {
 				attributes.addFlashAttribute("error","Adding Contract is failed. Try again.");
 			}
@@ -792,9 +792,9 @@ public class ContractController {
 			contract.setPlanned_date_of_award(DateParser.parse(contract.getPlanned_date_of_award()));
 			contract.setPlanned_date_of_completion(DateParser.parse(contract.getPlanned_date_of_completion()));
 			
-			boolean flag =  contractService.updateContract(contract);
-			if(flag) {
-				attributes.addFlashAttribute("success", "Contract Updated Succesfully.");
+			String contractid =  contractService.updateContract(contract);
+			if(!StringUtils.isEmpty(contractid)) {
+				attributes.addFlashAttribute("success", "Contract "+contractid+" Updated Succesfully.");
 			}else {
 				attributes.addFlashAttribute("error","Updating Contract is failed. Try again.");
 			}

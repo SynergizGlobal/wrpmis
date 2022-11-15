@@ -328,9 +328,10 @@ public class ContractDaoImpl implements ContractDao {
 	}
 
 	@Override
-	public boolean addContract(Contract contract)throws Exception{
+	public String addContract(Contract contract)throws Exception{
 		Connection con = null;
 		PreparedStatement stmt = null;
+		String contract_id=null;
 		//ResultSet rs = null;
 		int count = 0;
 		boolean flag = false;
@@ -348,7 +349,7 @@ public class ContractDaoImpl implements ContractDao {
 			}
 			String Contract_id_code=getDepartmentCode(contract.getContract_department(),con);
 			
-			String contract_id = getContractIdByWorkId(contract.getWork_id_fk(),Contract_id_code,con);
+			contract_id = getContractIdByWorkId(contract.getWork_id_fk(),Contract_id_code,con);
 			contract.setContract_id(contract_id);
 			String ContractQry = "INSERT INTO contract "
 							+"(contract_id,work_id_fk,contract_name,contract_short_name,contractor_id_fk,contract_type_fk,scope_of_contract,hod_user_id_fk,"
@@ -964,7 +965,7 @@ public class ContractDaoImpl implements ContractDao {
 					if(StringUtils.isEmpty(contract_name)) {contract_name = contract.getContract_name();}
 					String work_name = contract.getWork_short_name();
 					if(StringUtils.isEmpty(work_name)) {work_name = contract.getWork_name();}
-					String message = "New contract "+contract_name+" is added under work "+work_name+" on PMIS ";
+					String message = "New contract "+contract_id+" is added under work "+work_name+" on PMIS ";
 
 					Messages msgObj = new Messages();
 					msgObj.setUser_ids(userIds);
@@ -995,7 +996,7 @@ public class ContractDaoImpl implements ContractDao {
 		finally {
 			DBConnectionHandler.closeJDBCResoucrs(con, stmt, null);
 		}		
-		return flag;
+		return contract_id;
 	}
 	private String getDepartmentCode(String deptId, Connection con) throws Exception {
 		PreparedStatement ps = null;
@@ -1537,7 +1538,7 @@ public class ContractDaoImpl implements ContractDao {
 		return bankGauranree;
 	}
 	@Override
-	public boolean updateContract(Contract contract)throws Exception{
+	public String updateContract(Contract contract)throws Exception{
 		Connection con = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -1636,6 +1637,10 @@ public class ContractDaoImpl implements ContractDao {
 					date24 = formatter3.parse(contract.getContract_notice_inviting_tender());
 					dateString24 = formatter2.format(date24);
 					stmt.setString(p++,dateString24);
+				}
+				else
+				{
+					stmt.setString(p++,contract.getContract_notice_inviting_tender());
 				}
 				
 				
@@ -2026,8 +2031,8 @@ public class ContractDaoImpl implements ContractDao {
 					stmt.executeUpdate();
 					if(stmt != null){stmt.close();}
 					
-					String Revision_qry = "INSERT into  contract_revision (revision_number,revised_amount,revised_doc,remarks,action,contract_id_fk,revised_amount_units,revision_amounts_status,approval_by_bank,attachment) "
-					 +"VALUES (?,?,?,?,?,?,?,?,?,?)";
+					String Revision_qry = "INSERT into  contract_revision (revision_number,revised_amount,revised_doc,action,contract_id_fk,revised_amount_units,revision_amounts_status,approval_by_bank,attachment) "
+					 +"VALUES (?,?,?,?,?,?,?,?,?)";
 					stmt = con.prepareStatement(Revision_qry); 
 					
 					arraySize = 0;
@@ -2049,12 +2054,12 @@ public class ContractDaoImpl implements ContractDao {
 							arraySize = contract.getRevised_docs().length;
 						}
 					}
-					if(!StringUtils.isEmpty(contract.getRevision_remarks()) && contract.getRevision_remarks().length > 0) {
+					/*if(!StringUtils.isEmpty(contract.getRevision_remarks()) && contract.getRevision_remarks().length > 0) {
 						contract.setRevision_remarks(CommonMethods.replaceEmptyByNullInSringArray(contract.getRevision_remarks()));
 						if(arraySize < contract.getRevision_remarks().length) {
 							arraySize = contract.getRevision_remarks().length;
 						}
-					}
+					}*/
 					if(!StringUtils.isEmpty(contract.getRevision_statuss()) && contract.getRevision_statuss().length > 0) {
 						contract.setRevision_statuss(CommonMethods.replaceEmptyByNullInSringArray(contract.getRevision_statuss()));
 						if(arraySize < contract.getRevision_statuss().length) {
@@ -2089,7 +2094,7 @@ public class ContractDaoImpl implements ContractDao {
 								stmt.setString(k++,(contract.getRevision_numbers().length > 0)?contract.getRevision_numbers()[i]:null);
 								stmt.setString(k++,(contract.getRevised_amounts().length > 0)?contract.getRevised_amounts()[i]:null);
 								stmt.setString(k++,DateParser.parse((contract.getRevised_docs().length > 0)?contract.getRevised_docs()[i]:null));								
-								stmt.setString(k++,(contract.getRevision_remarks().length > 0)?contract.getRevision_remarks()[i]:null);
+								/*stmt.setString(k++,(contract.getRevision_remarks().length > 0)?contract.getRevision_remarks()[i]:null);*/
 								stmt.setString(k++,(contract.getRevision_statuss().length > 0)?contract.getRevision_statuss()[i]:null);
 								stmt.setString(k++,contract.getContract_id());
 								stmt.setString(k++,(contract.getRevised_amount_unitss().length > 0)?contract.getRevised_amount_unitss()[i]:null);
@@ -2276,7 +2281,7 @@ public class ContractDaoImpl implements ContractDao {
 						String work_name = contract.getWork_short_name();
 						if(StringUtils.isEmpty(work_name)) {work_name = contract.getWork_name();}
 						//String message = "Contract "+contract_name+" has been closed under work "+work_name+" on PMIS ";
-						String message = "Request for Contract Closure for "+contract_name+" under work "+work_name+" on PMIS ";
+						String message = "Request for Contract Closure for "+contract.getContract_id()+" under work "+work_name+" on PMIS ";
 	
 						Messages msgObj = new Messages();
 						msgObj.setUser_ids(userIds);
@@ -2329,7 +2334,7 @@ public class ContractDaoImpl implements ContractDao {
 						String work_name = contract.getWork_short_name();
 						if(StringUtils.isEmpty(work_name)) {work_name = contract.getWork_name();}
 						//String message = "Contract "+contract_name+" has been closed under work "+work_name+" on PMIS ";
-						String message = "Contract "+contract_name+" has been updated under work "+work_name+" on PMIS";
+						String message = "Contract "+contract.getContract_id()+" has been updated under work "+work_name+" on PMIS";
 	
 						Messages msgObj = new Messages();
 						msgObj.setUser_ids(userIds);
@@ -2359,7 +2364,7 @@ public class ContractDaoImpl implements ContractDao {
 						String work_name = contract.getWork_short_name();
 						if(StringUtils.isEmpty(work_name)) {work_name = contract.getWork_name();}
 						//String message = "Contract "+contract_name+" has been closed under work "+work_name+" on PMIS ";
-						String message = "Request for Contract Closure for "+contract_name+" under work "+work_name+" on PMIS ";
+						String message = "Request for Contract Closure for "+contract.getContract_id()+" under work "+work_name+" on PMIS ";
 	
 						Messages msgObj = new Messages();
 						msgObj.setUser_ids(userIds);
@@ -2396,7 +2401,7 @@ public class ContractDaoImpl implements ContractDao {
 						String work_name = contract.getWork_short_name();
 						if(StringUtils.isEmpty(work_name)) {work_name = contract.getWork_name();}
 						//String message = "Contract "+contract_name+" has been closed under work "+work_name+" on PMIS ";
-						String message = "Contract "+contract_name+" has been closed under work "+work_name+" on PMIS";
+						String message = "Contract "+contract.getContract_id()+" has been closed under work "+work_name+" on PMIS";
 	
 						Messages msgObj = new Messages();
 						msgObj.setUser_ids(userIds);
@@ -2414,7 +2419,7 @@ public class ContractDaoImpl implements ContractDao {
 					formHistory.setModule_name_fk("Contracts");
 					formHistory.setForm_name("Update Contract");
 					formHistory.setForm_action_type("Update");
-					formHistory.setForm_details("Contract "+contract.getContract_short_name() + " updated");
+					formHistory.setForm_details("Contract "+contract.getContract_id() + " updated");
 					formHistory.setWork_id_fk(contract.getWork_id_fk());
 					formHistory.setContract_id_fk(contract.getContract_id());
 					
@@ -2429,7 +2434,7 @@ public class ContractDaoImpl implements ContractDao {
 		finally {
 			DBConnectionHandler.closeJDBCResoucrs(con, stmt, null);
 		}		
-		return flag;	
+		return contract.getContract_id();	
 	
 	}
  
@@ -3791,7 +3796,7 @@ public class ContractDaoImpl implements ContractDao {
 	public List<Contract> contractRevisionsList(Contract obj) throws Exception {
 		List<Contract> objsList = new ArrayList<Contract>();
 		try {
-			String qry ="SELECT revision_number,revised_amount,revised_amount_units ,FORMAT(revised_doc,'dd-MM-yyyy') AS revised_doc,"
+			String qry ="SELECT distinct revision_number,revised_amount,revised_amount_units ,FORMAT(revised_doc,'dd-MM-yyyy') AS revised_doc,"
 					+ "action as revision_status,cr.remarks,mu.unit,revision_amounts_status,c.contract_short_name,c.contract_id,approval_by_bank,attachment "
 					+ "from contract_revision cr "
 					+ "left join money_unit mu on cr.revised_amount_units = mu.value  "
@@ -3835,6 +3840,11 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 			}
 			
+			if(!StringUtils.isEmpty(obj.getSearchStr())) {
+				qry = qry + " and (c.contract_id like ?)";
+				arrSize++;
+			}
+			
 			qry = qry + " ORDER BY c.contract_id ASC";
 			
 			Object[] pValues = new Object[arrSize];
@@ -3866,6 +3876,10 @@ public class ContractDaoImpl implements ContractDao {
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 			}
+
+			if(!StringUtils.isEmpty(obj.getSearchStr())) {
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 			
 		}catch(Exception e){ 
@@ -3879,7 +3893,7 @@ public class ContractDaoImpl implements ContractDao {
 	public List<Contract> contractBGList(Contract obj) throws Exception {
 		List<Contract> objsList = new ArrayList<Contract>();
 		try {
-			String qry ="SELECT bg_type_fk,issuing_bank, bg_number,bg_value,FORMAT(valid_upto,'dd-MM-yyyy') AS bg_valid_upto,"
+			String qry ="SELECT distinct bg_type_fk,issuing_bank, bg_number,bg_value,FORMAT(valid_upto,'dd-MM-yyyy') AS bg_valid_upto,"
 					+ "FORMAT(bg_date,'dd-MM-yyyy') AS bg_date,FORMAT(release_date,'dd-MM-yyyy') AS release_date,bg_value_units,mu.unit,c.contract_short_name,c.contract_id "
 					+ "from bank_guarantee bg "
 					+ "left join money_unit mu on bg.bg_value_units = mu.value  "
@@ -3923,6 +3937,10 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj.getSearchStr())) {
+				qry = qry + " and (c.contract_id like ?)";
+				arrSize++;
+			}			
 			qry = qry + " ORDER BY c.contract_id ASC";
 			
 			Object[] pValues = new Object[arrSize];
@@ -3954,6 +3972,9 @@ public class ContractDaoImpl implements ContractDao {
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 			}
+			if(!StringUtils.isEmpty(obj.getSearchStr())) {
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+			}			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 		}catch(Exception e){ 
 			e.printStackTrace();
@@ -3966,7 +3987,7 @@ public class ContractDaoImpl implements ContractDao {
 	public List<Contract> contractInsuranceList(Contract obj) throws Exception {
 		List<Contract> objsList = new ArrayList<Contract>();
 		try {
-			String qry ="SELECT insurance_type_fk,issuing_agency,agency_address,insurance_number,insurance_value,FORMAT(valid_upto,'dd-MM-yyyy') AS insurence_valid_upto,"
+			String qry ="SELECT distinct insurance_type_fk,issuing_agency,agency_address,insurance_number,insurance_value,FORMAT(valid_upto,'dd-MM-yyyy') AS insurence_valid_upto,"
 					+ "released_fk as insurance_status,insurance_value_units,mu.unit,c.contract_short_name,c.contract_id "
 					+ "from insurance i "
 					+ "left join money_unit mu on i.insurance_value_units = mu.value  "
@@ -4009,6 +4030,10 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj.getSearchStr())) {
+				qry = qry + " and (c.contract_id like ?)";
+				arrSize++;
+			}			
 			qry = qry + " ORDER BY c.contract_id ASC";
 			
 			Object[] pValues = new Object[arrSize];
@@ -4040,6 +4065,9 @@ public class ContractDaoImpl implements ContractDao {
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 			}
+			if(!StringUtils.isEmpty(obj.getSearchStr())) {
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+			}			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 			
 		}catch(Exception e){ 
@@ -4053,7 +4081,7 @@ public class ContractDaoImpl implements ContractDao {
 	public List<Contract> contractMilestoneList(Contract obj) throws Exception {
 		List<Contract> objsList = new ArrayList<Contract>();
 		try {
-			String qry ="SELECT contract_milestones_id,milestone_id,milestone_name,FORMAT(milestone_date,'dd-MM-yyyy') AS milestone_date,"
+			String qry ="SELECT distinct contract_milestones_id,milestone_id,milestone_name,FORMAT(milestone_date,'dd-MM-yyyy') AS milestone_date,"
 					+ "FORMAT(actual_date,'dd-MM-yyyy') AS actual_date, revision,cm.remarks,c.contract_short_name,c.contract_id "
 					+ "from contract_milestones cm "
 					+ "left join contract c on cm.contract_id_fk = c.contract_id "
@@ -4095,6 +4123,10 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj.getSearchStr())) {
+				qry = qry + " and (c.contract_id like ?)";
+				arrSize++;
+			}			
 			qry = qry + " ORDER BY c.contract_id ASC";
 			
 			Object[] pValues = new Object[arrSize];
@@ -4127,6 +4159,9 @@ public class ContractDaoImpl implements ContractDao {
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 			}
+			if(!StringUtils.isEmpty(obj.getSearchStr())) {
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+			}			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 		}catch(Exception e){ 
 			e.printStackTrace();
@@ -4196,6 +4231,19 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj.getSearchStr())) {
+				qry = qry + " and (c.work_id_fk like ? or w.work_short_name like ? or contract_id like ?"
+						+ " or c.contract_short_name like ? or cr.contractor_name like ? or dt.department_name like ? or u.designation like ? or us.designation like ?)";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			}			
+			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
@@ -4228,6 +4276,16 @@ public class ContractDaoImpl implements ContractDao {
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 			}
+			if(!StringUtils.isEmpty(obj.getSearchStr())) {
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+			}			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 				
 		}catch(Exception e){ 

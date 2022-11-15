@@ -36,7 +36,7 @@ public class ContractServiceImpl implements ContractService{
 		return contractDao.getInsurenceTypeList();
 	}
 	@Override
-	public boolean addContract(Contract contract)throws Exception{
+	public String addContract(Contract contract)throws Exception{
 		return contractDao.addContract(contract);
 	}
 	@Override
@@ -56,7 +56,7 @@ public class ContractServiceImpl implements ContractService{
 		return contractDao.getContractStatusType(obj);
 	}
 	@Override
-	public boolean updateContract(Contract contract)throws Exception{
+	public String updateContract(Contract contract)throws Exception{
 		return contractDao.updateContract(contract);
 
 	}

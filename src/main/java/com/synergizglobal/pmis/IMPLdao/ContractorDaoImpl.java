@@ -34,11 +34,39 @@ public class ContractorDaoImpl implements ContractorDao {
 	@Autowired
 	FormsHistoryDao formsHistoryDao;
 	@Override
-	public List<Contractor> getContractorsList() throws Exception {
+	public List<Contractor> getContractorsList(Contractor obj) throws Exception {
 		List<Contractor> objsList = null;
 		try {
-			String qry ="SELECT contractor_id, contractor_name, contractor_specilization_fk, address, primary_contact_name, phone_number, email_id, pan_number, gst_number, bank_name, account_number, ifsc_code, remarks FROM contractor";
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Contractor>(Contractor.class));	
+			String qry ="SELECT contractor_id, contractor_name, contractor_specilization_fk, address, primary_contact_name, phone_number, email_id, pan_number, gst_number, bank_name, account_number, ifsc_code, remarks FROM contractor where 0=0 ";
+			int arrSize = 0;
+
+ 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSearchStr())) {
+				qry = qry + " and (contractor_id like ? or contractor_name like ? or pan_number like ? or contractor_specilization_fk like ?"
+						+ " or address like ? or primary_contact_name like ? or phone_number like ? or email_id like ? )";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			}
+ 			
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj.getSearchStr())) {
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+			} 			
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contractor>(Contractor.class));
+			
 		}catch(Exception e){ 
 		throw new Exception(e);
 		}
@@ -240,8 +268,9 @@ public class ContractorDaoImpl implements ContractorDao {
 			String qry ="select count(*) as total_records from contractor Where contractor_id is not null";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(searchParameter)) {
-				qry = qry + " and (contractor_name like ? or pan_number like ? or contractor_specilization_fk like ?"
+				qry = qry + " and (contractor_id like ? or contractor_name like ? or pan_number like ? or contractor_specilization_fk like ?"
 						+ " or address like ? or primary_contact_name like ? or phone_number like ? or email_id like ? )";
+				arrSize++;
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -253,6 +282,7 @@ public class ContractorDaoImpl implements ContractorDao {
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(searchParameter)) {
+				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";

@@ -17,7 +17,7 @@ public interface ContractService {
 
 	public List<Contract> getInsurenceTypeList()throws Exception;
 
-	public boolean addContract(Contract contract)throws Exception;
+	public String addContract(Contract contract)throws Exception;
 
 	public List<BankGuarantee> bankGuarantee()throws Exception;
 
@@ -27,7 +27,7 @@ public interface ContractService {
 
 	public List<Contract> getContractStatusType(Contract obj)throws Exception;
 
-	public boolean updateContract(Contract contract)throws Exception;
+	public String updateContract(Contract contract)throws Exception;
 
 	public List<Contract> getDepartmentList()throws Exception;
 

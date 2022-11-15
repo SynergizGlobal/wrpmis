@@ -18,7 +18,7 @@ public class Contract {
 	awarded_cost_units,estimated_cost_units,hod_department,message_id,update_type,tab_name,is_contract_closure_initiated,contract_details_types,created_by_user_id_fk,milestone_requried,revision_requried,contractors_key_requried,
 	actual_date_of_commissioning,existing_contract_closure_date,estimated_cost_unit,awarded_cost_unit,completed_cost_unit,alerts_user_id,planned_date_of_award,modified_by,modified_date,physical_progress,planned_date_of_completion;
 	
-	private String contract_department,contract_documents_id,name,attachment,contract_key_personnel_id,mobile_no,email_id,id, department_id_fk, executive_user_id_fk,bank_funded,type_of_review;
+	private String contract_department,contract_documents_id,name,attachment,contract_key_personnel_id,mobile_no,email_id,id, department_id_fk, executive_user_id_fk,bank_funded,type_of_review,searchStr;
 
 	private String[] bg_type_fks,issuing_banks,revision_amounts_statuss,bank_addresss,bg_numbers,bg_values,bg_valid_uptos,remarkss,bank_revisions,bankStatus,insuranceStatus,codes, bg_dates, release_dates,released_fks,
 	 insurance_type_fks, issuing_agencys, agency_addresss, insurance_numbers, insurance_values,insurence_valid_uptos,insurence_remarks,insurance_revisions,revision_statuss,
@@ -2055,6 +2055,14 @@ public class Contract {
 
 	public void setContract_notice_inviting_tender(String contract_notice_inviting_tender) {
 		this.contract_notice_inviting_tender = contract_notice_inviting_tender;
+	}
+
+	public String getSearchStr() {
+		return searchStr;
+	}
+
+	public void setSearchStr(String searchStr) {
+		this.searchStr = searchStr;
 	}
 	
 }

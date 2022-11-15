@@ -369,6 +369,7 @@
   		<input type="hidden" name="contract_id" id="contract_id"/>
     </form>
     <form action="<%=request.getContextPath() %>/export-contract" name="exportContractForm" id="exportContractForm" target="_blank" method="post">	
+    
         <input type="hidden" name="dy_hod_designation" id="exportDy_hod_designation" />
         <input type="hidden" name="designation" id="exportDesignation" />
         <input type="hidden" name="contractor_id_fk" id="exportContractor_id_fk" />
@@ -376,6 +377,8 @@
         <input type="hidden" name="contract_status" id="exportContract_status" />
         <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
         <input type="hidden" name="project_id_fk" id="exportProject_id_fk" />
+        <input type="hidden" name="searchStr" id="exportsearchStr" />
+        
 	</form>
 
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
@@ -1114,6 +1117,9 @@
      	 var work_id_fk = $("#work_id_fk").val();
      	 var project_id_fk = $("#project_id_fk").val();
      	 var contract_status = $("#contract_status").val();
+     	 var searchStrValue = $('[type=search]').val();
+     	 
+     	
      	 
      	 $("#exportProject_id_fk").val(project_id_fk);
      	 $("#exportContractor_id_fk").val(contractor_id_fk);
@@ -1122,7 +1128,7 @@
      	 $("#exportDy_hod_designation").val(dy_hod_designation);
      	 $("#exportDesignation").val(designation);
      	 $("#exportContract_status").val(contract_status);
-     	
+     	 $("#exportsearchStr").val(searchStrValue);
      	 $("#exportContractForm").submit();
   	}
     

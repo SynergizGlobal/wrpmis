@@ -8,7 +8,7 @@ import com.synergizglobal.pmis.model.Project;
 
 public interface ContractorService {
 
-	public List<Contractor> getContractorsList() throws Exception;
+	public List<Contractor> getContractorsList(Contractor obj) throws Exception;
 
 	public List<Contractor> getContractorSpecialization()throws Exception;
 

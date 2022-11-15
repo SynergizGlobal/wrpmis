@@ -123,7 +123,8 @@ public class ContractorController {
 	public ModelAndView Contractor(HttpSession session){
 		ModelAndView model = new ModelAndView(PageConstants.contractorGrid);
 		try {
-			List<Contractor> contractorsList = contractorService.getContractorsList();
+			Contractor obj=new Contractor();
+			List<Contractor> contractorsList = contractorService.getContractorsList(obj);
 			model.addObject("contractorsList", contractorsList);	
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -643,10 +644,11 @@ public class ContractorController {
 		boolean flag = false;
 		try{			
 			//DateFormat df = new SimpleDateFormat("dd-MMM-YYYY HH:mm"); 
+			Contractor obj=new Contractor();
 			DateFormat df = new SimpleDateFormat("dd-MM-YYYY hh:mm aa");
 			String report_created_date = df.format(new Date()); 
 			
-			List<Contractor> list = contractorService.getContractorsList();
+			List<Contractor> list = contractorService.getContractorsList(obj);
 			
 			boolean landscape = true;
 			WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
@@ -949,7 +951,7 @@ public class ContractorController {
 		List<Contractor> dataList = new ArrayList<Contractor>();
 		try {
 			view.setViewName("redirect:/contractor");
-			dataList =  contractorService.getContractorsList();
+			dataList =  contractorService.getContractorsList(contractor);
 			if(dataList != null && dataList.size() > 0){
 				XSSFWorkbook  workBook = new XSSFWorkbook ();
 		        XSSFSheet sheet = workBook.createSheet();

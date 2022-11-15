@@ -7,7 +7,7 @@ import com.synergizglobal.pmis.model.Contractor;
 
 public interface ContractorDao {
 
-	public List<Contractor> getContractorsList() throws Exception;
+	public List<Contractor> getContractorsList(Contractor obj) throws Exception;
 
 	public List<Contractor> getContractorSpecialization()throws Exception;
 

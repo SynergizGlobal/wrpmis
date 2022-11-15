@@ -612,25 +612,25 @@
 	                        
 	                        
 	                        
-                                <div class="row container" style="text-align:center;">	                                    
+                                <div class="container container-no-margin">	                                    
                                    <div class="col s6 m6 l4 input-field ">
                               			 <p class="searchable_label">Bank Funded<span class="required">*</span></p>
 		                                    <p>
 		                                        <label>
-		                                            <input class="with-gap valid" name="bank_funded" type="radio" value="Yes" aria-invalid="false">
+		                                            <input class="with-gap valid" name="bank_funded" type="radio" value="Yes" aria-invalid="false" disabled>
 		                                            <span>Yes</span>
 		                                        </label>
 		                                        &nbsp;
 		                                        <label>
-		                                            <input class="with-gap valid" name="bank_funded" type="radio" value="No">
+		                                            <input class="with-gap valid" name="bank_funded" type="radio" value="No" disabled>
 		                                            <span>No</span>
 		                                        </label>
 		                                    </p>
 	                              </div>
-	                                     	<div id="bankFundedDiv" style="display:none;">
-		                                     	 <div class="col s6 m6 l4 input-field ">
+	                                     	<div id="bankFundedDiv" style="display:none;" class="col s6 m6 l8 input-field ">
+		                                     	 <div class="col s6 m6 l6 input-field ">
 		                                        	<p class="searchable_label">Bank Name<span class="required">*</span></p>
-		                                            <select name="bank_name" id="bank_name" class="validate-dropdown searchable" >
+		                                            <select name="bank_name" id="bank_name" class="validate-dropdown searchable" disabled>
 		                                                <option value="">Select</option>
 		                                                 <c:forEach var="obj" items="${bankNameList }"> 
 				                                    	  <option value="${obj.bank_name }" <c:if test="${contractDeatils.bank_name eq obj.bank_name}">selected</c:if>>${obj.bank_name}</option> 
@@ -638,9 +638,9 @@
 		                                            </select>
 		                                            <span id="bank_nameError" class="error-msg" ></span>
 		                                        </div>
-		                                         <div class="col s6 m6 l4 input-field ">
+		                                         <div class="col s6 m6 l6 input-field ">
 		                                        	<p class="searchable_label">Type of Review<span class="required">*</span></p>
-		                                            <select name="type_of_review" id="type_of_review" class="validate-dropdown searchable">
+		                                            <select name="type_of_review" id="type_of_review" class="validate-dropdown searchable" disabled>
 					                                	<option value="" >Select</option>  
 				                                      	<option value="Prior" <c:if test="${contractDeatils.type_of_review eq 'Prior'}">selected</c:if>>Prior</option> 
 				                                      	<option value="Post" <c:if test="${contractDeatils.type_of_review eq 'Post'}">selected</c:if>>Post</option> 
@@ -1949,7 +1949,7 @@
                                                 <th class="light-blue_column p-h-0">Current</th>
                                                 <th class="light-green_column">Revised DOC </th>
                                                 <th class="light-green_column  p-h-0">Current</th>
-                                                <th>Remarks </th>
+                                                <!-- <th>Remarks </th> -->
                                                 <th>Approval by Bank </th>
                                                <!--  <th>Action</th> -->
                                             </tr>
@@ -1998,11 +1998,11 @@
                                                 			<span></span> 
                                                 	</label></p>
                                                 </td> 
-                                                 <td data-head="Remarks " class="input-field "> 
+<%--                                                  <td data-head="Remarks " class="input-field "> 
                                                     <input id="revision_remarks${index.count }" name="revision_remarks"type="text" class="validate" value="${revObj.remarks }"
                                                         placeholder="Remarks">
                                                   
-                                                </td>
+                                                </td> --%>
                                                  <td data-head="Attachment" class="input-field "> 
     <c:choose>
 	<c:when test="${contractDeatils.bank_funded  eq 'Yes' }">
@@ -2165,10 +2165,10 @@
                                                 
                                                  	</td>      
                                                
-                                                <td data-head="Remarks " class="input-field"> 
+<!--                                                 <td data-head="Remarks " class="input-field"> 
                                                     <input id="revision_remarks0" name="revision_remarks" maxlength="100" data-length="100" type="text" class="validate w80 pdr4em" 
                                                         placeholder="Remarks">
-                                                </td>
+                                                </td> -->
                                                   <td data-head="Current" class="input-field   p-h-0">
                                                   
                                                   
@@ -3153,6 +3153,14 @@
 	       	var value = $( 'input[name=revision_requried]:checked' ).val();
 	       	if(value == 'Yes'){
 	       		$("#revision_div").show();
+	       		if("${contractDeatils.bank_funded}"=="Yes")
+	       			{
+	       	 			$('input[name=approval_by_bank]').prop("disabled",false);
+	       			}
+	       		else
+	       			{
+	       				$('input[name=approval_by_bank]').prop("disabled",true);
+	       			}
 	       	}else{
 	       		$("#revision_div").hide();
 	       	}
@@ -4185,8 +4193,8 @@
 			   +'<td data-head="Revised DOC" class="input-field  "><input id="revised_docs'+rNo+'" name="revised_docs" type="text" class="validate datepicker"  placeholder="Revised DOC">'
 			   +'<button type="button" id="revised_docs'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></td>'
 			   +'<td data-head="Current" class="input-field   p-h-0"><p><label> <input type="hidden" id="revision_statuss'+rNo+'" name="revision_statuss" class="hidden_check hidden_doc" value="No" /><input type="checkbox" class="revision_doc_status" disabled  id="revision_status'+rNo+'" /> <span></span> </label></p></td>'
-			   +'<td data-head="Remarks" class="input-field"> <input id="revision_remarks'+rNo+'" name="revision_remarks" type="text" class="validate"  placeholder="Remarks"></td>';
-			   
+/* 			   +'<td data-head="Remarks" class="input-field"> <input id="revision_remarks'+rNo+'" name="revision_remarks" type="text" class="validate"  placeholder="Remarks"></td>';
+ */			   
 			   
 			   		if("${contractDeatils.bank_funded}"=="Yes")
 				    {

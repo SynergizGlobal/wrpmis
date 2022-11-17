@@ -430,7 +430,10 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 			
 			
 			
-			String qry = "select distinct s.component as component, " + 
+			String qry = "select distinct s.component as component,(select min(p6.p6_activity_id) from p6_activities p6  " + 
+					" " + 
+					"left join structure st6 on st6.structure_id=p6.structure_id_fk " + 
+					"where p6.component=s.component and p6.contract_id_fk=s.contract_id and st6.structure_type_fk=s.structure_type and s.structure=st6.structure) as p6_activity_id, " + 
 					"case when s.structure_type='Formation' or  s.structure_type='Flyover' or  s.structure_type='Important Bridges' then (select top 1 unit from p6_activities a1 " + 
 					 
 					"left join structure st1 on st1.structure_id=a1.structure_id_fk "+JoinQry+"" + 
@@ -453,7 +456,7 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 					"as scope " + 
 					 
 					 
-					",round(isnull(completed,0),2) as component_completed, " + 
+					",round(isnull(stp.completed,0),2) as component_completed, " + 
 					 
 					"(select FORMAT(MAX(CAST(finish AS Date)),'dd-MM-yyyy') from p6_activities a1 " + 
 					 
@@ -462,6 +465,9 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 					"where work_id='"+obj.getWork_id_fk()+"' and st1.structure_type_fk=s.structure_type and st1.structure=s.structure and a1.component=s.component and st1.structure_type_fk='"+obj.getStructure_type_fk()+"' and st1.structure='"+obj.getStrip_chart_structure_id()+"') as target_date_of_completion " + 
 					 
 					"from component_scurve s  " + 
+					
+					"inner join p6_activities p on s.contract_id=p.contract_id_fk  " + 
+					"inner join structure s6 on s6.structure_id=p.structure_id_fk  " + 
 					 
 					"left join (select distinct structure_type,structure,component,case when s.structure_type!='Formation' and  s.structure_type!='Flyover' and  s.structure_type!='Important Bridges' then sum(isnull(component_per,0))*100  " + 
 					 
@@ -504,7 +510,6 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 				qry = qry + " and c.contract_id = ? ";
 				arrSize++;
 			}
-			qry=qry+" ORDER by s.component";
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -517,7 +522,12 @@ public class ExecutionOverviewReportDaoImpl implements ExecutionOverviewReportDa
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
 			}
-			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
+			
+			qry=qry+" group by s.component,work_id,s.structure_type,s.structure,s.contract_id,stp.completed ";
+			
+			String qry1=" select * from( "+qry+") as a order by p6_activity_id asc ";
+			
+			objsList = jdbcTemplate.query( qry1, pValues, new BeanPropertyRowMapper<StripChart>(StripChart.class));
 
 		}catch(Exception e){ 
 			throw new Exception(e);

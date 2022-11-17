@@ -568,17 +568,45 @@ public class ContractDaoImpl implements ContractDao {
 	
 					if(!StringUtils.isEmpty(contract) && !StringUtils.isEmpty(contract.getRevisionno())) 
 					{
-	
+
 						for (int i = 0; i < contract.getRevisionno().length; i++) 
 						{
-							if(!StringUtils.isEmpty(contract.getRevision_estimated_cost()[i]) || !StringUtils.isEmpty(contract.getRevision_planned_date_of_award()[i]) || !StringUtils.isEmpty(contract.getRevision_planned_date_of_completion()[i]))
+							if(!StringUtils.isEmpty(contract.getRevision_estimated_cost()[i]) || !StringUtils.isEmpty(contract.getRevision_planned_date_of_award()[i]) || !StringUtils.isEmpty(contract.getRevision_planned_date_of_completion()[i]) || !StringUtils.isEmpty(contract.getNotice_inviting_tender()[i]))
 							{
-								preparedStmtRevisions.setString(1, contract_id);
+								preparedStmtRevisions.setString(1, contract.getContract_id());
 								preparedStmtRevisions.setString(2, contract.getRevisionno()[i]);
-								preparedStmtRevisions.setString(3, contract.getRevision_estimated_cost()[i]==null?"0":contract.getRevision_estimated_cost()[i]);
-								preparedStmtRevisions.setString(4, contract.getRevision_planned_date_of_award()[i]==null?"0":contract.getRevision_planned_date_of_award()[i]);
-								preparedStmtRevisions.setString(5, contract.getRevision_planned_date_of_completion()[i]==null?"0":contract.getRevision_planned_date_of_completion()[i]);
-								preparedStmtRevisions.setString(6, contract.getNotice_inviting_tender()[i]==null?"0":contract.getNotice_inviting_tender()[i]);
+								if(contract.getRevision_estimated_cost().length>0)
+								{
+									preparedStmtRevisions.setString(3, contract.getRevision_estimated_cost()[i]==null || contract.getRevision_estimated_cost()[i]==""?"0":contract.getRevision_estimated_cost()[i]);
+								}
+								else
+								{
+									preparedStmtRevisions.setString(3,null);
+								}
+								if(contract.getRevision_planned_date_of_award().length>0)
+								{
+									preparedStmtRevisions.setString(4, contract.getRevision_planned_date_of_award()[i]==null?"0":contract.getRevision_planned_date_of_award()[i]);
+								}
+								else
+								{
+									preparedStmtRevisions.setString(4,null);
+								}									
+								if(contract.getRevision_planned_date_of_completion().length>0)
+								{
+									preparedStmtRevisions.setString(5, contract.getRevision_planned_date_of_completion()[i]==null?"0":contract.getRevision_planned_date_of_completion()[i]);
+								}
+								else
+								{
+									preparedStmtRevisions.setString(5,null);
+								}									
+								if(contract.getNotice_inviting_tender().length>0)
+								{
+									preparedStmtRevisions.setString(6, contract.getNotice_inviting_tender()[i]==null?"0":contract.getNotice_inviting_tender()[i]);
+								}
+								else
+								{
+									preparedStmtRevisions.setString(6,null);
+								}									
 								preparedStmtRevisions.execute();
 							}
 						}
@@ -2009,14 +2037,42 @@ public class ContractDaoImpl implements ContractDao {
 	
 							for (int i = 0; i < contract.getRevisionno().length; i++) 
 							{
-								if(!StringUtils.isEmpty(contract.getRevision_estimated_cost()[i]) || !StringUtils.isEmpty(contract.getRevision_planned_date_of_award()[i]) || !StringUtils.isEmpty(contract.getRevision_planned_date_of_completion()[i]))
+								if(!StringUtils.isEmpty(contract.getRevision_estimated_cost()[i]) || !StringUtils.isEmpty(contract.getRevision_planned_date_of_award()[i]) || !StringUtils.isEmpty(contract.getRevision_planned_date_of_completion()[i]) || !StringUtils.isEmpty(contract.getNotice_inviting_tender()[i]))
 								{
 									preparedStmtRevisions.setString(1, contract.getContract_id());
 									preparedStmtRevisions.setString(2, contract.getRevisionno()[i]);
-									preparedStmtRevisions.setString(3, contract.getRevision_estimated_cost()[i]==null || contract.getRevision_estimated_cost()[i]==""?"0":contract.getRevision_estimated_cost()[i]);
-									preparedStmtRevisions.setString(4, contract.getRevision_planned_date_of_award()[i]==null?"0":contract.getRevision_planned_date_of_award()[i]);
-									preparedStmtRevisions.setString(5, contract.getRevision_planned_date_of_completion()[i]==null?"0":contract.getRevision_planned_date_of_completion()[i]);
-									preparedStmtRevisions.setString(6, contract.getNotice_inviting_tender()[i]==null?"0":contract.getNotice_inviting_tender()[i]);
+									if(contract.getRevision_estimated_cost().length>0)
+									{
+										preparedStmtRevisions.setString(3, contract.getRevision_estimated_cost()[i]==null || contract.getRevision_estimated_cost()[i]==""?"0":contract.getRevision_estimated_cost()[i]);
+									}
+									else
+									{
+										preparedStmtRevisions.setString(3,null);
+									}
+									if(contract.getRevision_planned_date_of_award().length>0)
+									{
+										preparedStmtRevisions.setString(4, contract.getRevision_planned_date_of_award()[i]==null?"0":contract.getRevision_planned_date_of_award()[i]);
+									}
+									else
+									{
+										preparedStmtRevisions.setString(4,null);
+									}									
+									if(contract.getRevision_planned_date_of_completion().length>0)
+									{
+										preparedStmtRevisions.setString(5, contract.getRevision_planned_date_of_completion()[i]==null?"0":contract.getRevision_planned_date_of_completion()[i]);
+									}
+									else
+									{
+										preparedStmtRevisions.setString(5,null);
+									}									
+									if(contract.getNotice_inviting_tender().length>0)
+									{
+										preparedStmtRevisions.setString(6, contract.getNotice_inviting_tender()[i]==null?"0":contract.getNotice_inviting_tender()[i]);
+									}
+									else
+									{
+										preparedStmtRevisions.setString(6,null);
+									}									
 									preparedStmtRevisions.execute();
 								}
 							}

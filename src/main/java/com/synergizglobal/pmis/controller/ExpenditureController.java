@@ -280,6 +280,7 @@ public class ExpenditureController {
 	@RequestMapping(value = "/add-expenditure-form", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView addExpenditureForm(@ModelAttribute Expenditure obj){
 		ModelAndView model = new ModelAndView();
+		Contractor contractorobj=new Contractor();
 		try{
 			model.setViewName(PageConstants.addEditExpenditure);
 			model.addObject("action", "add");
@@ -299,7 +300,7 @@ public class ExpenditureController {
 			List<Expenditure> unitsList = expenditureService.getUnitsList();
 			model.addObject("unitsList", unitsList);
 
-			List<Contractor> contractorsList = contractorService.getContractorsList();
+			List<Contractor> contractorsList = contractorService.getContractorsList(contractorobj);
 			model.addObject("contractorsList", contractorsList);
 			
 			
@@ -351,6 +352,7 @@ public class ExpenditureController {
 	@RequestMapping(value = "/get-expenditure",method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView getExpenditure(@ModelAttribute Expenditure obj){
 		ModelAndView model = new ModelAndView();
+		Contractor contractorobj=new Contractor();
 		try{
 			model.setViewName(PageConstants.addEditExpenditure);
 			model.addObject("action", "edit");
@@ -361,7 +363,7 @@ public class ExpenditureController {
 			List<Expenditure> unitsList = expenditureService.getUnitsList();
 			model.addObject("unitsList", unitsList);
 
-			List<Contractor> contractorsList = contractorService.getContractorsList();
+			List<Contractor> contractorsList = contractorService.getContractorsList(contractorobj);
 			model.addObject("contractorsList", contractorsList);
 			
 			Expenditure expenditureDetails = expenditureService.getExpenditure(obj);
@@ -376,6 +378,7 @@ public class ExpenditureController {
 	@RequestMapping(value = "/get-expenditure/{expenditure_id}", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView getExpenditureWithId(@ModelAttribute Expenditure obj,@PathVariable("expenditure_id") String expenditure_id ){
 		ModelAndView model = new ModelAndView();
+		Contractor contractorobj=new Contractor();
 		try{
 			model.setViewName(PageConstants.addEditExpenditure);
 			model.addObject("action", "edit");
@@ -385,7 +388,7 @@ public class ExpenditureController {
 			model.addObject("voucherList", voucherList);
 			List<Expenditure> unitsList = expenditureService.getUnitsList();
 			model.addObject("unitsList", unitsList);
-			List<Contractor> contractorsList = contractorService.getContractorsList();
+			List<Contractor> contractorsList = contractorService.getContractorsList(contractorobj);
 			model.addObject("contractorsList", contractorsList);			
 			obj.setExpenditure_id(expenditure_id);
 			Expenditure expenditureDetails = expenditureService.getExpenditure(obj);

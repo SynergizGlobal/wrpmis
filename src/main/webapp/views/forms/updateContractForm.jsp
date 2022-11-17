@@ -2204,7 +2204,7 @@
 			                                                        <span class="normal-btn">
 			                                                            <input type="file" id="approvalByBankFiles0" name="approvalByBankDocumentFiles"
 			                                                                style="display:none" onchange="getapprovalByBankFileName(0)"/>
-			                                                            <label for="approvalByBankFiles0" class="btn bg-m"><i
+			                                                            <label for="approvalByBankFiles0" disabled class="btn bg-m"><i
 			                                                                    class="fa fa-paperclip"></i></label>
 			                                                            <input type="hidden" id="approvalByBankDocumentFileNames0" name="approvalByBankDocumentFileNames" value="${revObj.attachment }">
 			                                                             <span id="approvalByBankDocumentFileName0" class="filevalue"></span>
@@ -4212,7 +4212,7 @@
 			   			html=html+'<td data-head="Current" class="input-field   p-h-0"> <p> <label>'
 			 		       +'<input type="hidden" name="approvalbybankstatus" id="approvalbybankstatus'+rNo+'" value="No"><input type="checkbox"  disabled value="No" name="approval_by_bank" id="approval_by_bank'+rNo+'" class="revision_amount_status"  onChange="getApprovalByBankRevisions('+rNo+');" /> <span></span> </label><span class="normal-btn">'
                         +'<input type="file" disabled id="approvalByBankFiles'+rNo+'" name="approvalByBankDocumentFiles" style="display:none" onchange="getapprovalByBankFileName('+rNo+')"/>'
-                        +'<label for="approvalByBankFiles'+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label>'
+                        +'<label for="approvalByBankFiles'+rNo+'" disabled class="btn bg-m"><i class="fa fa-paperclip"></i></label>'
                         +'<input type="hidden" id="approvalByBankDocumentFileNames'+rNo+'" name="approvalByBankDocumentFileNames">'
                         +'<span id="approvalByBankDocumentFileName'+rNo+'" class="filevalue"></span>'
                         +'</span></label></p> </td> '
@@ -4278,7 +4278,6 @@
 		
 		function getApprovalByBankRevisions(rowNumber)
 		{
-			
 			if($("#approval_by_bank"+rowNumber).is(':checked'))
 				{
 					if($("#revised_amounts"+rowNumber).val()=="" && $("#revised_docs"+rowNumber).val()=="")
@@ -4286,21 +4285,33 @@
 						alert("Please enter Revised Contract Value or Revised DOC");
 						$("#approval_by_bank"+rowNumber).prop('checked', false);       
 					}
-					
-					$("input:checkbox[name='revision_amount_status']").prop('checked',false);
-					$("input:checkbox[name='revision_amount_status']").prop('checked',false);
-					
+					else
+						{
+							if($("#revised_amounts"+rowNumber).val()!="")
+								{
+									$(".revision_amount_status").prop('checked',false);
+								
+									if($("#revised_amounts"+rowNumber).val()!="")
+									{
+										 //$("#revision_amounts_status" + rowNumber).removeAttr('disabled');	
+										 $("#revision_amounts_status" + rowNumber).prop('checked',true);
+									}
+						
+								}
 
-						if($("#revised_amounts"+rowNumber).val()!="")
-						{
-							 //$("#revision_amounts_status" + rowNumber).removeAttr('disabled');	
-							 $("#revision_amounts_status" + rowNumber).prop('checked',true);
-						}
-			
-						if($("#revised_docs"+rowNumber).val()!="")
-						{
-							 //$("#revision_status" + rowNumber).removeAttr('disabled');
-							 $("#revision_status" + rowNumber).prop('checked',true);
+								if($("#revised_docs"+rowNumber).val()!="")
+								{
+									$(".revision_doc_status").prop('checked',false);
+									
+									if($("#revised_docs"+rowNumber).val()!="")
+									{
+										 //$("#revision_status" + rowNumber).removeAttr('disabled');
+										 $("#revision_status" + rowNumber).prop('checked',true);
+									}
+								}
+								$("#approval_by_bank"+rowNumber).prop('checked', true);   
+
+								
 						}
 				
 				}

@@ -770,7 +770,7 @@
                                         </div>
                                         
                                          <div class="col m3 s12 input-field">
-                                            <p class="searchable_label">Component ID</p>
+                                            <p class="searchable_label">Element</p>
                                              <select class="searchable validate-dropdown" data-placeholder="Select" id="strip_chart_component_id" name="strip_chart_component_id" onchange="addInQueComponentID(this.value);getNewActivitiesUpdateActivitiesList(this.value);onLoadMethod();">
                                                 <option value=""></option>
                                             </select>

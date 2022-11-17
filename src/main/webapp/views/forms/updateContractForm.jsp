@@ -1993,7 +1993,7 @@
                                                  	<p>
                                                  	<label> 
                                                  		<input type="hidden" class="hidden_check hidden_doc" id="revision_statuss${index.count }" name="revision_statuss" value="${revObj.revision_status}" />
-                                                		<input type="checkbox" id="revision_status${index.count }"  class="revision_doc_status" 
+                                                		<input type="checkbox" name ="revision_status" id="revision_status${index.count }"  class="revision_doc_status"  
                                                 			<c:if test="${revObj.revision_status eq 'Yes'}">checked</c:if>/> 
                                                 			<span></span> 
                                                 	</label></p>
@@ -2009,7 +2009,7 @@
 		<p>
                                                  	<label> 
     <input type="hidden" id="approvalbybankstatus${index.count }"  class="approvalbybankstatus"  name="approvalbybankstatus" value="No">                                             	
-	<input type="checkbox" id="approval_by_bank${index.count }"  class="revision_amount_status"  name="approval_by_bank" value="No" 
+	<input type="checkbox" id="approval_by_bank${index.count }"  class="revision_amount_status"  name="approval_by_bank" value="No" onChange="getApprovalByBankRevisions('${index.count }');" 
                                                 			<c:if test="${revObj.approvalbybank eq 'Yes'}">checked</c:if> /> 
                                                 				                                                	<span></span> 
                                                 	</label></p>
@@ -2031,7 +2031,7 @@
 		<p>
                                                  	<label> 
     <input type="hidden" id="approvalbybankstatus${index.count }"  class="approvalbybankstatus"  name="approvalbybankstatus" value="No"> 
-	<input type="checkbox" id="approval_by_bank${index.count }"  class="revision_amount_status"  name="approval_by_bank" value="No"
+	<input type="checkbox" id="approval_by_bank${index.count }"  class="revision_amount_status"  name="approval_by_bank" value="No" onChange="getApprovalByBankRevisions('${index.count }');" 
                                                 			<c:if test="${revObj.approvalbybank eq 'Yes'}">checked</c:if>  /> 
                                                 				                                                	<span></span> 
                                                 	</label></p>	  
@@ -2160,7 +2160,7 @@
                                                    <button type="button" id="revised_docs0_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                                 </td> 
                                                 <td data-head="Current" class="input-field   p-h-0"><p><label><input type="hidden" id="revision_statuss0" name="revision_statuss" class="hidden_check hidden_doc" value="No" />
-                                                 <input type="checkbox" id="revision_status0"  class="revision_doc_status"  disabled />  <span></span> </label></p>
+                                                 <input type="checkbox" id="revision_status0"  name ="revision_status" class="revision_doc_status"  disabled />  <span></span> </label></p>
                                                  
                                                 
                                                  	</td>      
@@ -2178,7 +2178,7 @@
 	<p>
                                                  	<label> 
                                                  		<input type="hidden" id="approvalbybankstatus0"  class="approvalbybankstatus"  name="approvalbybankstatus" value="No">
-                                                 		<input type="checkbox" id="approval_by_bank0"  class="revision_amount_status"  name="approval_by_bank" value="No">
+                                                 		<input type="checkbox" id="approval_by_bank0"  class="revision_amount_status"  name="approval_by_bank" value="No" onChange="getApprovalByBankRevisions(0);" >
 	                                                	<span></span> 
                                                 	</label></p>
 		 
@@ -2198,7 +2198,7 @@
 	<p>
                                                  	<label> 
                                                  		<input type="hidden" id="approvalbybankstatus0"  class="approvalbybankstatus"  name="approvalbybankstatus" value="No">
-                                                 		<input type="checkbox" id="approval_by_bank0"  class="revision_amount_status"  name="approval_by_bank" value="No">
+                                                 		<input type="checkbox" id="approval_by_bank0"  class="revision_amount_status"  name="approval_by_bank" value="No" onChange="getApprovalByBankRevisions(0);" >
 	                                                	<span></span> 
                                                 	</label></p>	  
 			                                                        <span class="normal-btn">
@@ -4192,21 +4192,31 @@
 		       +'<input type="checkbox"  id="revision_amounts_status'+rNo+'" disabled  class="revision_amount_status"/> <span></span> </label> </p> </td> '
 			   +'<td data-head="Revised DOC" class="input-field  "><input id="revised_docs'+rNo+'" name="revised_docs" type="text" class="validate datepicker"  placeholder="Revised DOC">'
 			   +'<button type="button" id="revised_docs'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></td>'
-			   +'<td data-head="Current" class="input-field   p-h-0"><p><label> <input type="hidden" id="revision_statuss'+rNo+'" name="revision_statuss" class="hidden_check hidden_doc" value="No" /><input type="checkbox" class="revision_doc_status" disabled  id="revision_status'+rNo+'" /> <span></span> </label></p></td>'
+			   +'<td data-head="Current" class="input-field   p-h-0"><p><label> <input type="hidden" id="revision_statuss'+rNo+'" name="revision_statuss" class="hidden_check hidden_doc" value="No" /><input type="checkbox" name ="revision_status" class="revision_doc_status" disabled  id="revision_status'+rNo+'" /> <span></span> </label></p></td>'
 /* 			   +'<td data-head="Remarks" class="input-field"> <input id="revision_remarks'+rNo+'" name="revision_remarks" type="text" class="validate"  placeholder="Remarks"></td>';
  */			   
 			   
 			   		if("${contractDeatils.bank_funded}"=="Yes")
 				    {
 			   			html=html+'<td data-head="Current" class="input-field   p-h-0"> <p> <label>'
-			 		       +'<input type="hidden" name="approvalbybankstatus" id="approvalbybankstatus'+rNo+'" value="No"><input type="checkbox"  value="No" name="approval_by_bank" id="approval_by_bank'+rNo+'" class="revision_amount_status"  onChange="getApprovalByBankRevisions('+rNo+');" /> <span></span> </label>  <span class="normal-btn"><input type="file" id="approvalByBankFiles" name="approvalByBankFiles" style="display:none" onchange="getFileName()"><label for="approvalByBankFiles" class="btn bg-m"><i class="fa fa-paperclip"></i></label></p> </td> '
+			 		       +'<input type="hidden" name="approvalbybankstatus" id="approvalbybankstatus'+rNo+'" value="No"><input type="checkbox"  value="No" name="approval_by_bank" id="approval_by_bank'+rNo+'" class="revision_amount_status"  onChange="getApprovalByBankRevisions('+rNo+');" /> <span></span> </label><span class="normal-btn">'
+                           +'<input type="file" id="approvalByBankFiles'+rNo+'" name="approvalByBankDocumentFiles" style="display:none" onchange="getapprovalByBankFileName('+rNo+')"/>'
+                           +'<label for="approvalByBankFiles'+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label>'
+                           +'<input type="hidden" id="approvalByBankDocumentFileNames'+rNo+'" name="approvalByBankDocumentFileNames">'
+                           +'<span id="approvalByBankDocumentFileName'+rNo+'" class="filevalue"></span>'
+                           +'</span></label></p> </td> '
 						   +'</tr>';
 				    }
 			   		else
 		   			{
-			   			html=html+'<td data-head="Current" class="input-field   p-h-0"> <p> <label> '
-			 		       +'<input type="hidden" name="approvalbybankstatus" id="approvalbybankstatus'+rNo+'" value="No"><input type="checkbox"  value="No" name="approval_by_bank" disabled id="approval_by_bank'+rNo+'" class="revision_amount_status" onChange="getApprovalByBankRevisions('+rNo+');" /> <span></span> </label>  <span class="normal-btn"><input type="file" disabled id="approvalByBankFiles" name="approvalByBankFiles" style="display:none" onchange="getFileName()"><label for="approvalByBankFiles" class="btn bg-m"><i class="fa fa-paperclip"></i></label></p> </td> '
-						   +'</tr>';		   			
+			   			html=html+'<td data-head="Current" class="input-field   p-h-0"> <p> <label>'
+			 		       +'<input type="hidden" name="approvalbybankstatus" id="approvalbybankstatus'+rNo+'" value="No"><input type="checkbox"  disabled value="No" name="approval_by_bank" id="approval_by_bank'+rNo+'" class="revision_amount_status"  onChange="getApprovalByBankRevisions('+rNo+');" /> <span></span> </label><span class="normal-btn">'
+                        +'<input type="file" disabled id="approvalByBankFiles'+rNo+'" name="approvalByBankDocumentFiles" style="display:none" onchange="getapprovalByBankFileName('+rNo+')"/>'
+                        +'<label for="approvalByBankFiles'+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label>'
+                        +'<input type="hidden" id="approvalByBankDocumentFileNames'+rNo+'" name="approvalByBankDocumentFileNames">'
+                        +'<span id="approvalByBankDocumentFileName'+rNo+'" class="filevalue"></span>'
+                        +'</span></label></p> </td> '
+						   +'</tr>';	   			
 		   			}
 
 		
@@ -4276,6 +4286,10 @@
 						alert("Please enter Revised Contract Value or Revised DOC");
 						$("#approval_by_bank"+rowNumber).prop('checked', false);       
 					}
+					
+					$("input:checkbox[name='revision_amount_status']").prop('checked',false);
+					$("input:checkbox[name='revision_amount_status']").prop('checked',false);
+					
 
 						if($("#revised_amounts"+rowNumber).val()!="")
 						{
@@ -4367,6 +4381,13 @@
 			var filename = $('#contractDocumentFiles'+rowNo)[0].files[0].name;
 		    $('#contractDocumentFileName'+rowNo).html(filename);
 		    $('#contractDocumentFileNames'+rowNo).val(filename);
+		}
+		
+		function getapprovalByBankFileName(rowNo)
+		{
+			var filename = $('#approvalByBankFiles'+rowNo)[0].files[0].name;
+		    $('#approvalByBankDocumentFileName'+rowNo).html(filename);
+		    $('#approvalByBankDocumentFileNames'+rowNo).val(filename);			
 		}
 
 		/*function revisionChecks(s, no) {

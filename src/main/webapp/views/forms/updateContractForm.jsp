@@ -1909,7 +1909,7 @@
 	                         
 	                         <div class="container-no-margin  " id="revisionDetails"> 
 	                            <div class="row fixed-width" id="revisionHideDiv">
-                                <h5 class="center-align">
+<%--                                 <h5 class="center-align">
                                 	<span class="div-header">Revision Details
                                 		<span class="right mob-center">
 	                               			<p>
@@ -1922,7 +1922,7 @@
 										    </p>
 	                               		</span>
                                 	</span>
-                                </h5>
+                                </h5> --%>
                                 <div class="row">
 	                                <div class="col m8 input-field center-align no-float-small offset-m2">
 	                                    <p>Revision Required ? 
@@ -2058,7 +2058,7 @@
 		<p>
                                                  	<label> 
     <input type="hidden" id="approvalbybankstatus${index.count }"  class="approvalbybankstatus"  name="approvalbybankstatus" value="No">                                             	
-	<input type="checkbox" id="approval_by_bank${index.count }"  class="revision_amount_status"  name="approval_by_bank" value="No" onChange="getApprovalByBankRevisions('${index.count }');" 
+	<input type="checkbox" id="approval_by_bank${index.count }"   name="approval_by_bank" value="No" onChange="getApprovalByBankRevisions('${index.count }');" 
                                                 			<c:if test="${revObj.approvalbybank eq 'Yes'}">checked</c:if> /> 
                                                 				                                                	<span></span> 
                                                 	</label></p>
@@ -2072,15 +2072,20 @@
 			                                                            <input type="hidden" id="approvalByBankDocumentFileNames${index.count }" name="approvalByBankDocumentFileNames" value="${revObj.attachment }">
 			                                                             <span id="approvalByBankDocumentFileName${index.count }" class="filevalue"></span>
 			                                                          </span>
+			                                                          
+			                                                          
+			                                                          <c:choose>
+			                                                          <c:when test="${not empty revObj.attachment }">
 			                                                      		<a href="<%=CommonConstants.APPROVAL_BY_BANK_FILES%>${revObj.attachment } " class="filevalue" download><i class="fa fa-arrow-down"></i></a>	                                                	
-                                                		
+                                                		 </c:when>
+                                                		 </c:choose>
 	 </c:when>
 	  <c:otherwise>
 	  
 		<p>
                                                  	<label> 
     <input type="hidden" id="approvalbybankstatus${index.count }"  class="approvalbybankstatus"  name="approvalbybankstatus" value="No"> 
-	<input type="checkbox" id="approval_by_bank${index.count }"  class="revision_amount_status"  name="approval_by_bank" value="No" onChange="getApprovalByBankRevisions('${index.count }');" 
+	<input type="checkbox" id="approval_by_bank${index.count }"   name="approval_by_bank" value="No" onChange="getApprovalByBankRevisions('${index.count }');" 
                                                 			<c:if test="${revObj.approvalbybank eq 'Yes'}">checked</c:if>  /> 
                                                 				                                                	<span></span> 
                                                 	</label></p>	  
@@ -2286,7 +2291,7 @@
 	<p>
                                                  	<label> 
                                                  		<input type="hidden" id="approvalbybankstatus0"  class="approvalbybankstatus"  name="approvalbybankstatus" value="No">
-                                                 		<input type="checkbox" id="approval_by_bank0"  class="revision_amount_status"  name="approval_by_bank" value="No" onChange="getApprovalByBankRevisions(0);" >
+                                                 		<input type="checkbox" id="approval_by_bank0"   name="approval_by_bank" value="No" onChange="getApprovalByBankRevisions(0);" >
 	                                                	<span></span> 
                                                 	</label></p>
 		 
@@ -2296,17 +2301,16 @@
 			                                                                style="display:none" onchange="getapprovalByBankFileName(0)"/>
 			                                                            <label for="approvalByBankFiles0" class="btn bg-m"><i
 			                                                                    class="fa fa-paperclip"></i></label>
-			                                                            <input type="hidden" id="approvalByBankDocumentFileNames0" name="approvalByBankDocumentFileNames" value="${revObj.attachment }">
+			                                                            <input type="hidden" id="approvalByBankDocumentFileNames0" name="approvalByBankDocumentFileNames" >
 			                                                             <span id="approvalByBankDocumentFileName0" class="filevalue"></span>
 			                                                          </span>
-			                                                      		<a href="<%=CommonConstants.APPROVAL_BY_BANK_FILES%>${revObj.attachment } " class="filevalue" download><i class="fa fa-arrow-down"></i></a>	                                                	
                                                 		
 	 </c:when>
 	  <c:otherwise>
 	<p>
                                                  	<label> 
                                                  		<input type="hidden" id="approvalbybankstatus0"  class="approvalbybankstatus"  name="approvalbybankstatus" value="No">
-                                                 		<input type="checkbox" id="approval_by_bank0"  class="revision_amount_status"  name="approval_by_bank" value="No" onChange="getApprovalByBankRevisions(0);" >
+                                                 		<input type="checkbox" id="approval_by_bank0"   name="approval_by_bank" value="No" onChange="getApprovalByBankRevisions(0);" >
 	                                                	<span></span> 
                                                 	</label></p>	  
 			                                                        <span class="normal-btn">
@@ -2314,7 +2318,7 @@
 			                                                                style="display:none" onchange="getapprovalByBankFileName(0)"/>
 			                                                            <label for="approvalByBankFiles0" disabled class="btn bg-m"><i
 			                                                                    class="fa fa-paperclip"></i></label>
-			                                                            <input type="hidden" id="approvalByBankDocumentFileNames0" name="approvalByBankDocumentFileNames" value="${revObj.attachment }">
+			                                                            <input type="hidden" id="approvalByBankDocumentFileNames0" name="approvalByBankDocumentFileNames">
 			                                                             <span id="approvalByBankDocumentFileName0" class="filevalue"></span>
 			                                                          </span>
 			                                                        
@@ -2746,6 +2750,9 @@
 		 
         $(document).ready(function () {	
         	
+        	
+        	$("#ravTable input").prop("disabled", true);
+        	$("#ravTable input.checkbox").prop("disabled", true);
         	        	
         	$('select:not(.searchable):not(.units)').formSelect();
             $('.searchable').select2();
@@ -2794,20 +2801,20 @@
           		$(".insurance-rows").show();
           		$(".insurance-released").hide();
           	}
-            $("#rev_show_current").click(function(){
+/*             $("#rev_show_current").click(function(){
             	if($('input[name="rev_show_current"]').is(':checked')){
               	  	$(".revision-rows").hide();
             		$(".current-revision").show();
               	}else{
               		$(".revision-rows").show();
               	}
-            });
-            if($('input[name="rev_show_current"]').is(':checked')){
+            }); */
+/*             if($('input[name="rev_show_current"]').is(':checked')){
           	  	$(".revision-rows").hide();
         		$(".current-revision").show();
           	}else{
           		$(".revision-rows").show();
-          	}
+          	} */
             
             var tab_name = '${gotoTab}';            
             if($.trim(tab_name) != ''){

@@ -2313,21 +2313,30 @@ public class ContractDaoImpl implements ContractDao {
 								updateStmt.setString(k++,(docFileName));					
 								updateStmt.setString(k++,(contract.getContract_file_types().length > 0)?contract.getContract_file_types()[i]:null);
 								updateStmt.setString(k++,(contract_file_id));
-								updateStmt.addBatch();
+								//updateStmt.addBatch();
+								updateStmt.executeUpdate();
 								
 							}else {
-								int k = 1;
-								stmt.setString(k++,contract.getContract_id());
-								stmt.setString(k++,(contract.getContractDocumentNames().length > 0)?contract.getContractDocumentNames()[i]:null);
-								stmt.setString(k++,(docFileName));					
-								stmt.setString(k++,(contract.getContract_file_types().length > 0)?contract.getContract_file_types()[i]:null);
-								stmt.addBatch();
-								
+							
+							  int k = 1; 
+							  stmt.setString(k++,contract.getContract_id());
+							  stmt.setString(k++,contract.getContractDocumentNames().length >0?contract.getContractDocumentNames()[i]:null);
+							  stmt.setString(k++,docFileName);
+							  stmt.setString(k++,contract.getContract_file_types().length >0?contract.getContract_file_types()[i]:null); 
+							  stmt.executeUpdate();
+							  
 							}
 						}
 					}
 					//c = stmt.executeBatch();
-					int[] update_count = updateStmt.executeBatch();
+					
+					DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
+					
+					/*c = stmt.executeBatch();
+					c = updateStmt.executeBatch();
+					int[] insert_count = stmt.executeBatch();
+					int[] update_count = updateStmt.executeBatch();*/
+					//DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
 					DBConnectionHandler.closeJDBCResoucrs(null, updateStmt, null);
 					
 					/**********************************************************************************************/

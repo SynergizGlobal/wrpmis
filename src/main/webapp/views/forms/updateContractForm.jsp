@@ -1996,7 +1996,7 @@
 				<input type="checkbox"  id="revision_amounts_status${index.count }" <c:if test="${revObj.revision_amounts_status eq 'Yes'}">checked</c:if> class="revision_amount_status" />
     	 </c:when>
 	  <c:otherwise>
-				<input type="checkbox"  id="revision_amounts_status${index.count }" <c:if test="${revObj.revision_amounts_status eq 'Yes'}">checked</c:if> class="revision_amount_status"  onkeyup="revisionChecks('amounts', ${index.count })"  />		  	
+				<input type="checkbox"  id="revision_amounts_status${index.count }" <c:if test="${revObj.revision_amounts_status eq 'Yes'}">checked</c:if> class="revision_amount_status"  onchange="revisionChecks('amounts', ${index.count })"  />		  	
 	  </c:otherwise> 
 	   </c:choose>                                                           
                                                           
@@ -2085,14 +2085,14 @@
 		<p>
                                                  	<label> 
     <input type="hidden" id="approvalbybankstatus${index.count }"  class="approvalbybankstatus"  name="approvalbybankstatus" value="No"> 
-	<input type="checkbox" id="approval_by_bank${index.count }"   name="approval_by_bank" value="No" onChange="getApprovalByBankRevisions('${index.count }');" 
+	<input type="checkbox" id="approval_by_bank${index.count }"   name="approval_by_bank" value="No" disabled onChange="getApprovalByBankRevisions('${index.count }');" 
                                                 			<c:if test="${revObj.approvalbybank eq 'Yes'}">checked</c:if>  /> 
                                                 				                                                	<span></span> 
                                                 	</label></p>	  
 			                                                        <span class="normal-btn">
 			                                                            <input type="file" id="approvalByBankFiles${index.count }" name="approvalByBankDocumentFiles"
 			                                                                style="display:none" onchange="getapprovalByBankFileName('${index.count }')"/>
-			                                                            <label for="approvalByBankFiles${index.count }" class="btn bg-m"><i
+			                                                            <label for="approvalByBankFiles${index.count }" disabled class="btn bg-m"><i
 			                                                                    class="fa fa-paperclip"></i></label>
 			                                                            <input type="hidden" id="approvalByBankDocumentFileNames${index.count }" name="approvalByBankDocumentFileNames" value="${revObj.attachment }">
 			                                                             <span id="approvalByBankDocumentFileName${index.count }" class="filevalue"></span>
@@ -2227,7 +2227,7 @@
     	 </c:when>
 	  <c:otherwise>
 	                                                	<input type="checkbox"  id="revision_amounts_status0" 
-	                                                       class="revision_amount_status" disabled  onkeyup="revisionChecks('amounts', '0')" />
+	                                                       class="revision_amount_status" disabled  onchange="revisionChecks('amounts', '0')" />
 	                                                       
    	  </c:otherwise> 
 	   </c:choose>	                                                       
@@ -2263,7 +2263,7 @@
 	                                                       
     	 </c:when>
 	  <c:otherwise>
-	                                                	<input type="checkbox" id="revision_status0"  name ="revision_status" class="revision_doc_status"  disabled  onchange="revisionChecks'docs', '0')"  />
+	                                                	<input type="checkbox" id="revision_status0"  name ="revision_status" class="revision_doc_status"  disabled  onchange="revisionChecks('docs', '0')" />
 	                                                       
    	  </c:otherwise> 
 	   </c:choose>                                               
@@ -2751,8 +2751,8 @@
         $(document).ready(function () {	
         	
         	
-        	$("#ravTable input").prop("disabled", true);
-        	$("#ravTable input.checkbox").prop("disabled", true);
+/*         	$("#ravTable input").prop("disabled", true);
+        	$("#ravTable input.checkbox").prop("disabled", true); */
         	        	
         	$('select:not(.searchable):not(.units)').formSelect();
             $('.searchable').select2();
@@ -3582,8 +3582,9 @@
 	        					}
 	        			}  */
 	        		
-	        		
-	        		
+/* 	                	$("#ravTable input").prop("disabled", false);
+	                	$("#ravTable input.checkbox").prop("disabled", false);	     */ 
+	                	
     				document.getElementById("contractForm").submit();	
     	 		}else{
     	        	$(".page-loader").hide();
@@ -4355,7 +4356,7 @@
 			   		if("${contractDeatils.bank_funded}"=="Yes")
 				    {
 			   			html=html+'<td data-head="Current" class="input-field   p-h-0"> <p> <label>'
-			 		       +'<input type="hidden" name="approvalbybankstatus" id="approvalbybankstatus'+rNo+'" value="No"><input type="checkbox"  value="No" name="approval_by_bank" id="approval_by_bank'+rNo+'" class="revision_amount_status"  onChange="getApprovalByBankRevisions('+rNo+');" /> <span></span> </label><span class="normal-btn">'
+			 		       +'<input type="hidden" name="approvalbybankstatus" id="approvalbybankstatus'+rNo+'" value="No"><input type="checkbox"  value="No" name="approval_by_bank" id="approval_by_bank'+rNo+'"  onChange="getApprovalByBankRevisions('+rNo+');" /> <span></span> </label><span class="normal-btn">'
                            +'<input type="file" id="approvalByBankFiles'+rNo+'" name="approvalByBankDocumentFiles" style="display:none" onchange="getapprovalByBankFileName('+rNo+')"/>'
                            +'<label for="approvalByBankFiles'+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label>'
                            +'<input type="hidden" id="approvalByBankDocumentFileNames'+rNo+'" name="approvalByBankDocumentFileNames">'
@@ -4366,7 +4367,7 @@
 			   		else
 		   			{
 			   			html=html+'<td data-head="Current" class="input-field   p-h-0"> <p> <label>'
-			 		       +'<input type="hidden" name="approvalbybankstatus" id="approvalbybankstatus'+rNo+'" value="No"><input type="checkbox"  disabled value="No" name="approval_by_bank" id="approval_by_bank'+rNo+'" class="revision_amount_status"  onChange="getApprovalByBankRevisions('+rNo+');" /> <span></span> </label><span class="normal-btn">'
+			 		       +'<input type="hidden" name="approvalbybankstatus" id="approvalbybankstatus'+rNo+'" value="No"><input type="checkbox"  disabled value="No" name="approval_by_bank" id="approval_by_bank'+rNo+'"  onChange="getApprovalByBankRevisions('+rNo+');" /> <span></span> </label><span class="normal-btn">'
                         +'<input type="file" disabled id="approvalByBankFiles'+rNo+'" name="approvalByBankDocumentFiles" style="display:none" onchange="getapprovalByBankFileName('+rNo+')"/>'
                         +'<label for="approvalByBankFiles'+rNo+'" disabled class="btn bg-m"><i class="fa fa-paperclip"></i></label>'
                         +'<input type="hidden" id="approvalByBankDocumentFileNames'+rNo+'" name="approvalByBankDocumentFileNames">'
@@ -4446,24 +4447,30 @@
 							if($("#revised_amounts"+rowNumber).val()!="")
 								{
 									$(".revision_amount_status").prop('checked',false);
+									$(".revision_amount_status").prop('disabled',true);
 								
 									if($("#revised_amounts"+rowNumber).val()!="")
 									{
 										 //$("#revision_amounts_status" + rowNumber).removeAttr('disabled');	
 										 $("#revision_amounts_status" + rowNumber).prop('checked',true);
+										 $("#revision_amounts_status" + rowNumber).prop('disabled',false);
 									}
+									$('#revision_amounts_statuss'+rowNumber).val('Yes');
 						
 								}
 
 								if($("#revised_docs"+rowNumber).val()!="")
 								{
 									$(".revision_doc_status").prop('checked',false);
+									$(".revision_doc_status").prop('disabled',true);
 									
 									if($("#revised_docs"+rowNumber).val()!="")
 									{
 										 //$("#revision_status" + rowNumber).removeAttr('disabled');
 										 $("#revision_status" + rowNumber).prop('checked',true);
+										 $("#revision_status" + rowNumber).prop('disabled',false);
 									}
+									$('#revision_statuss'+rowNumber).val('Yes');
 								}
 								$("#approval_by_bank"+rowNumber).prop('checked', true);   
 

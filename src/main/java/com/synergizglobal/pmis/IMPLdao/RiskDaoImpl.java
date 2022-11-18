@@ -231,7 +231,7 @@ public class RiskDaoImpl implements RiskDao{
 				 messagesDao.addMessages(msgObj,namedParamJdbcTemplate);
 				 
 				 
-				/*String message_qry = "INSERT into messages (message,user_id_fk,redirect_url,message_type,created_date)VALUES (?,?,?,?,CURRENT_TIMESTAMP())";	
+				/*String message_qry = "INSERT into messages (message,user_id_fk,redirect_url,message_type,created_date)VALUES (?,?,?,?,CURRENT_TIMESTAMP)";	
 				insertStmt = con.prepareStatement(message_qry);
 				for(int i = 0; i < userIds.length; i++) {	
 				int j = 1;
@@ -767,7 +767,7 @@ public boolean checkRiskAssessment(String subwork,String Date) throws Exception 
 						/*String messageType = "Risk";
 						String userId[]  = { obj.getOwner_user_id(),obj.getResponsible_user_id(),obj.getReporting_to_user_id(),"PMIS_SU_006","PMIS_SU_052" };
 						flag = true;
-						String message_qry = "INSERT into messages (message,user_id_fk,redirect_url,message_type,created_date)VALUES (?,?,?,?,CURRENT_TIMESTAMP())";	
+						String message_qry = "INSERT into messages (message,user_id_fk,redirect_url,message_type,created_date)VALUES (?,?,?,?,CURRENT_TIMESTAMP)";	
 						insertStmt = con.prepareStatement(message_qry);
 						for(int i = 0; i < userId.length; i++) {	
 						int p = 1;

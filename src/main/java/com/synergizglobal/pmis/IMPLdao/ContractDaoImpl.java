@@ -1443,7 +1443,7 @@ public class ContractDaoImpl implements ContractDao {
 				obj.setUnit(resultSet.getString("unit"));
 				obj.setRevision_amounts_status(resultSet.getString("revision_amounts_status"));
 				obj.setApprovalbybank(resultSet.getString("approval_by_bank"));
-				obj.setAttachment(resultSet.getString("revision_amounts_status"));
+				obj.setAttachment(resultSet.getString("attachment"));
 				contract_revision.add(obj);
 			}
 		}catch(Exception e){ 
@@ -2144,9 +2144,24 @@ public class ContractDaoImpl implements ContractDao {
 					if(!StringUtils.isEmpty(contract.getRevision_numbers()) && contract.getRevision_numbers().length > 0) {
 						for (int i = 0; i < arraySize; i++) {
 							int k = 1;
+							String fileName_new=null;
+							
+							MultipartFile multipartFile = contract.getApprovalByBankDocumentFiles()[i];
+							if ((null != multipartFile && !multipartFile.isEmpty() && multipartFile.getSize() > 0)
+									|| (!StringUtils.isEmpty(contract.getApprovalByBankDocumentFileNames()) && contract.getApprovalByBankDocumentFileNames().length > 0 && !StringUtils.isEmpty(contract.getApprovalByBankDocumentFileNames()[i]) && !StringUtils.isEmpty(contract.getApprovalByBankDocumentFileNames()[i].trim()) )) {
+								String saveDirectory = CommonConstants.APPROVAL_BY_BANK_FILE_SAVING_PATH ;
+								String fileName = contract.getApprovalByBankDocumentFileNames()[i];
+								DateFormat df = new SimpleDateFormat("ddMMYY-HHmm-ssSSSSSSS"); 
+								fileName_new = "Contract-"+contract.getContract_id() +"-"+ df.format(new Date()) +"."+ fileName.split("\\.")[1];
+								if (null != multipartFile && !multipartFile.isEmpty()) {
+									FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName_new);
+								}
+							}
+							
 							if( contract.getRevision_numbers().length > 0 && !StringUtils.isEmpty(contract.getRevision_numbers()[i]) 
 									&& (contract.getRevised_amounts().length > 0 && !StringUtils.isEmpty(contract.getRevised_amounts()[i])
-									|| contract.getRevised_docs().length > 0 && !StringUtils.isEmpty(contract.getRevised_docs()[i]))) {
+									|| contract.getRevised_docs().length > 0 && !StringUtils.isEmpty(contract.getRevised_docs()[i]))) 
+							 {
 								stmt.setString(k++,(contract.getRevision_numbers().length > 0)?contract.getRevision_numbers()[i]:null);
 								stmt.setString(k++,(contract.getRevised_amounts().length > 0)?contract.getRevised_amounts()[i]:null);
 								stmt.setString(k++,DateParser.parse((contract.getRevised_docs().length > 0)?contract.getRevised_docs()[i]:null));								
@@ -2156,10 +2171,12 @@ public class ContractDaoImpl implements ContractDao {
 								stmt.setString(k++,(contract.getRevised_amount_unitss().length > 0)?contract.getRevised_amount_unitss()[i]:null);
 								stmt.setString(k++,(contract.getRevision_amounts_statuss().length > 0)?contract.getRevision_amounts_statuss()[i]:null);
 								stmt.setString(k++,(contract.getApprovalbybankstatus().length > 0)?contract.getApprovalbybankstatus()[i]:null);
-								stmt.setString(k++,(contract.getApprovalByBankDocumentFileNames()!=null)?contract.getApprovalByBankDocumentFileNames()[i]:null);
+								stmt.setString(k++,(contract.getApprovalByBankDocumentFileNames()!=null)?fileName_new:null);
 								stmt.addBatch();
 								//stmt.executeUpdate();
-		}
+							}
+							
+							
 						}
 					}
 					c = stmt.executeBatch();

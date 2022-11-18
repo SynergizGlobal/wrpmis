@@ -1965,8 +1965,17 @@
                                                 </td>
                                                 <td data-head="Revised Amount" class="input-field amount-dropdown">
                                                 		<i class="material-icons amount-symbol cost left-align">₹</i>
+                                                		
+    <c:choose>
+	<c:when test="${contractDeatils.bank_funded  eq 'Yes' }">
                                                     	<input id="revised_amounts${index.count }" name="revised_amounts" min="0.01" step="0.01" type="number" class="validate" value="${revObj.revised_amount }"
                                                         placeholder="Revised Amount">
+    	 </c:when>
+	  <c:otherwise>
+                                                    	<input id="revised_amounts${index.count }" name="revised_amounts" min="0.01" step="0.01" type="number" class="validate" onkeyup="toggleRevision('amounts', ${index.count })" value="${revObj.revised_amount }"
+                                                        placeholder="Revised Amount">	  	
+	  </c:otherwise> 
+	   </c:choose>                                                    
                                                         <select class=" validate-dropdown" id="revised_amounts_units${index.count }" name="revised_amount_unitss">
 					                                		<!-- <option value="">Select</option> -->
 					                                		<c:forEach var="obj" items="${unitsList }">
@@ -1979,22 +1988,62 @@
                                                  	<p>
                                                  	<label> 
                                                   	   <input type="hidden" class="hidden_check hidden_amount" id="revision_amounts_statuss${index.count }" name="revision_amounts_statuss" value="${revObj.revision_amounts_status}" />
-                                                	   <input type="checkbox"  id="revision_amounts_status${index.count }" 
-                                                          <c:if test="${revObj.revision_amounts_status eq 'Yes'}">checked</c:if> class="revision_amount_status" /> 
+                                                	    
+                                                          
+ 
+     <c:choose>
+	<c:when test="${contractDeatils.bank_funded  eq 'Yes' }">
+				<input type="checkbox"  id="revision_amounts_status${index.count }" <c:if test="${revObj.revision_amounts_status eq 'Yes'}">checked</c:if> class="revision_amount_status" />
+    	 </c:when>
+	  <c:otherwise>
+				<input type="checkbox"  id="revision_amounts_status${index.count }" <c:if test="${revObj.revision_amounts_status eq 'Yes'}">checked</c:if> class="revision_amount_status"  onkeyup="revisionChecks('amounts', ${index.count })"  />		  	
+	  </c:otherwise> 
+	   </c:choose>                                                           
+                                                          
+                                                          
+                                                          
+                                                          
+                                                          
                                                 			<span></span> 
                                                 	</label></p>
                                                 </td>
                                                 <td data-head="Revised DOC " class="input-field ">
+
+                                                        
+                                                        
+     <c:choose>
+	<c:when test="${contractDeatils.bank_funded  eq 'Yes' }">
                                                     <input id="revised_docs${index.count }" name="revised_docs" type="text" class="validate datepicker" value="${revObj.revised_doc }"
                                                         placeholder="Revised DOC">
+    	 </c:when>
+	  <c:otherwise>
+                                                    <input id="revised_docs${index.count }" name="revised_docs" type="text" onchange="toggleRevision('docs', ${index.count })"  class="validate datepicker" value="${revObj.revised_doc }"
+                                                        placeholder="Revised DOC"> 	
+	  </c:otherwise> 
+	   </c:choose>                                                       
+                                                        
                                                     <button type="button" id="revised_docs${index.count }_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                                 </td>
                                                  <td data-head="Current" class="input-field p-h-0">	
                                                  	<p>
                                                  	<label> 
                                                  		<input type="hidden" class="hidden_check hidden_doc" id="revision_statuss${index.count }" name="revision_statuss" value="${revObj.revision_status}" />
+
+                                                			
+                                                			
+     <c:choose>
+	<c:when test="${contractDeatils.bank_funded  eq 'Yes' }">
                                                 		<input type="checkbox" name ="revision_status" id="revision_status${index.count }"  class="revision_doc_status"  
                                                 			<c:if test="${revObj.revision_status eq 'Yes'}">checked</c:if>/> 
+    	 </c:when>
+	  <c:otherwise>
+                                                		<input type="checkbox" name ="revision_status" id="revision_status${index.count }"  class="revision_doc_status"  
+                                                			<c:if test="${revObj.revision_status eq 'Yes'}">checked</c:if>  onchange="revisionChecks('docs', ${index.count })" /> 
+   	  </c:otherwise> 
+	   </c:choose>                                                 			
+                                                			
+                                                			
+                                                			
                                                 			<span></span> 
                                                 	</label></p>
                                                 </td> 
@@ -2043,7 +2092,6 @@
 			                                                            <input type="hidden" id="approvalByBankDocumentFileNames${index.count }" name="approvalByBankDocumentFileNames" value="${revObj.attachment }">
 			                                                             <span id="approvalByBankDocumentFileName${index.count }" class="filevalue"></span>
 			                                                          </span>
-			                                                      		<a href="<%=CommonConstants.APPROVAL_BY_BANK_FILES%>${revObj.attachment } " class="filevalue" download><i class="fa fa-arrow-down"></i></a>
 			                                                        
      	  </c:otherwise>
  </c:choose>                                                     	                                                    
@@ -2127,7 +2175,22 @@
                                                 </td>
                                                 <td data-head="Revised Amount " class="input-field amount-dropdown">
                                                 		<i class="material-icons amount-symbol cost left-align">₹</i>
-                                                    	<input id="revised_amounts0" name="revised_amounts" min="0.01" step="0.01" type="number" class="validate"  placeholder="Revised Amount">
+                                                    	
+      <c:choose>
+	<c:when test="${contractDeatils.bank_funded  eq 'Yes' }">
+                     <input id="revised_amounts0" name="revised_amounts" min="0.01" step="0.01" type="number" class="validate"  placeholder="Revised Amount">
+
+    	 </c:when>
+	  <c:otherwise>
+                    <input id="revised_amounts0" name="revised_amounts" min="0.01" step="0.01" type="number" class="validate"  placeholder="Revised Amount" onkeyup="toggleRevision('amounts', '0')">
+
+	  </c:otherwise> 
+	   </c:choose>                                                   	
+                                                    	
+                                                    	
+                                                    	
+                                                    	
+                                                    	
                                                     	<select class=" validate-dropdown" id="revised_amounts_units0" name="revised_amount_unitss">
 					                                		<!-- <option value="">Select</option> -->
 					                                		<c:forEach var="obj" items="${unitsList }">
@@ -2149,18 +2212,63 @@
                                                  	<p>
                                                  	<label> 
                                                  		<input type="hidden" id="revision_amounts_statuss0" name="revision_amounts_statuss" class="hidden_check hidden_amount" value="No" />
+
+	                                                       
+     <c:choose>
+	<c:when test="${contractDeatils.bank_funded  eq 'Yes' }">
 	                                                	<input type="checkbox"  id="revision_amounts_status0" 
 	                                                       class="revision_amount_status" disabled  />
+	                                                       
+    	 </c:when>
+	  <c:otherwise>
+	                                                	<input type="checkbox"  id="revision_amounts_status0" 
+	                                                       class="revision_amount_status" disabled  onkeyup="revisionChecks('amounts', '0')" />
+	                                                       
+   	  </c:otherwise> 
+	   </c:choose>	                                                       
+	                                                       
+	                                                       
+	                                                       
+	                                                       
+	                                                       
 	                                                	<span></span> 
                                                 	</label></p>
                                                 </td>
                                                 <td data-head="Revised DOC " class="input-field  ">
+
+                                                        
+      <c:choose>
+	<c:when test="${contractDeatils.bank_funded  eq 'Yes' }">
                                                     <input id="revised_docs0" name="revised_docs" type="text" class="validate datepicker" 
                                                         placeholder="Revised DOC">
+    	 </c:when>
+	  <c:otherwise>
+                                                    <input id="revised_docs0" name="revised_docs" type="text" class="validate datepicker" 
+                                                        placeholder="Revised DOC" onchange="toggleRevision('docs', '0')" >
+	  </c:otherwise> 
+	   </c:choose>                                                        
                                                    <button type="button" id="revised_docs0_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                                 </td> 
                                                 <td data-head="Current" class="input-field   p-h-0"><p><label><input type="hidden" id="revision_statuss0" name="revision_statuss" class="hidden_check hidden_doc" value="No" />
-                                                 <input type="checkbox" id="revision_status0"  name ="revision_status" class="revision_doc_status"  disabled />  <span></span> </label></p>
+                                                
+                                                
+      <c:choose>
+	<c:when test="${contractDeatils.bank_funded  eq 'Yes' }">
+	                                                	<input type="checkbox" id="revision_status0"  name ="revision_status" class="revision_doc_status"  disabled />
+	                                                       
+    	 </c:when>
+	  <c:otherwise>
+	                                                	<input type="checkbox" id="revision_status0"  name ="revision_status" class="revision_doc_status"  disabled  onchange="revisionChecks'docs', '0')"  />
+	                                                       
+   	  </c:otherwise> 
+	   </c:choose>                                               
+                                                
+                                                 
+                                                 
+                                                 
+                                                 
+                                                 
+                                                   <span></span> </label></p>
                                                  
                                                 
                                                  	</td>      
@@ -2209,7 +2317,6 @@
 			                                                            <input type="hidden" id="approvalByBankDocumentFileNames0" name="approvalByBankDocumentFileNames" value="${revObj.attachment }">
 			                                                             <span id="approvalByBankDocumentFileName0" class="filevalue"></span>
 			                                                          </span>
-			                                                      		<a href="<%=CommonConstants.APPROVAL_BY_BANK_FILES%>${revObj.attachment } " class="filevalue" download><i class="fa fa-arrow-down"></i></a>
 			                                                        
      	  </c:otherwise>
  </c:choose>
@@ -4180,19 +4287,61 @@
 		    }
 		    
 		    var html = '<tr id="revRow'+rNo+'">'
-			   +'<td data-head="Revision Number " class="input-field"><input id="revision_numbers'+rNo+'" name="revision_numbers" type="text" class="validate"  placeholder="Revision Number"  value="R'+(rId)+'" readonly/></td>'
-			   +'<td data-head="Revised Amount " class="input-field amount-dropdown"> <i class="material-icons amount-symbol  cost left-align">₹</i>  <input id="revised_amounts'+rNo+'" '
-			   +'name="revised_amounts" min="0.01" step="0.01" type="number" class="validate"  placeholder="Revised Amount"> <select class=" validate-dropdown " id="revised_amounts_units'+rNo+'" name="revised_amount_unitss">'
+			   +'<td data-head="Revision Number " class="input-field"><input id="revision_numbers'+rNo+'" name="revision_numbers" type="text" class="validate"  placeholder="Revision Number"  value="R'+(rId)+'" readonly/></td>';
+			   
+			   if("${contractDeatils.bank_funded}"=="Yes")
+			   {
+			   		html= html+'<td data-head="Revised Amount " class="input-field amount-dropdown"> <i class="material-icons amount-symbol  cost left-align">₹</i>  <input id="revised_amounts'+rNo+'" name="revised_amounts" min="0.01" step="0.01" type="number" class="validate"  placeholder="Revised Amount">';
+			   }
+			   else
+			   {
+			   		html= html+'<td data-head="Revised Amount " class="input-field amount-dropdown"> <i class="material-icons amount-symbol  cost left-align">₹</i>  <input id="revised_amounts'+rNo+'" name="revised_amounts" min="0.01" step="0.01" type="number" class="validate"  onkeyup="toggleRevision(' + '\'amounts\'' + ',' + rNo + ')" placeholder="Revised Amount">';
+			   }
+			   
+			   
+			   html=html+'<select class=" validate-dropdown " id="revised_amounts_units'+rNo+'" name="revised_amount_unitss">'
 			   //+'<option value="">Select</option>'
 			   <c:forEach var="obj" items="${unitsList }">
 		     	 +'<option value="${obj.value }">${obj.unit }</option>'
 			   </c:forEach>			  
 		       +'</select> <span id="units'+rNo+'Error" class="my-error right"></span></td>'
-		       +'<td data-head="Current" class="input-field   p-h-0"> <p> <label><input type="hidden" id="revision_amounts_statuss'+rNo+'"  name="revision_amounts_statuss" class="hidden_check hidden_amount" value="No" /> '
-		       +'<input type="checkbox"  id="revision_amounts_status'+rNo+'" disabled  class="revision_amount_status"/> <span></span> </label> </p> </td> '
-			   +'<td data-head="Revised DOC" class="input-field  "><input id="revised_docs'+rNo+'" name="revised_docs" type="text" class="validate datepicker"  placeholder="Revised DOC">'
-			   +'<button type="button" id="revised_docs'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></td>'
-			   +'<td data-head="Current" class="input-field   p-h-0"><p><label> <input type="hidden" id="revision_statuss'+rNo+'" name="revision_statuss" class="hidden_check hidden_doc" value="No" /><input type="checkbox" name ="revision_status" class="revision_doc_status" disabled  id="revision_status'+rNo+'" /> <span></span> </label></p></td>'
+		       +'<td data-head="Current" class="input-field   p-h-0"> <p> <label><input type="hidden" id="revision_amounts_statuss'+rNo+'"  name="revision_amounts_statuss" class="hidden_check hidden_amount" value="No" /> ';
+		       
+		       
+			   if("${contractDeatils.bank_funded}"=="Yes")
+			   {
+				   html= html+'<input type="checkbox"  id="revision_amounts_status'+rNo+'" disabled  class="revision_amount_status"/>';
+			   }
+			   else
+			   {
+				   html= html+'<input type="checkbox"  id="revision_amounts_status'+rNo+'" disabled  onchange="revisionChecks(' + '\'amounts\'' + ',' + rNo + ')" class="revision_amount_status"/>';
+			   }	       
+		       
+			   html= html+'<span></span> </label> </p> </td> ';
+		       
+		       
+			   if("${contractDeatils.bank_funded}"=="Yes")
+			   {
+			   		html= html+'<td data-head="Revised DOC" class="input-field  "><input id="revised_docs'+rNo+'" name="revised_docs" type="text" class="validate datepicker"  placeholder="Revised DOC"><button type="button" id="revised_docs'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></td>';
+			   }
+			   else
+			   {
+			   		html= html+'<td data-head="Revised DOC" class="input-field  "><input id="revised_docs'+rNo+'" name="revised_docs" type="text" class="validate datepicker"  onchange="toggleRevision(' + '\'docs\'' + ',' + rNo + ')" placeholder="Revised DOC"><button type="button" id="revised_docs'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></td>';
+			   }	
+			   
+			   html=html+'<td data-head="Current" class="input-field   p-h-0"><p><label> <input type="hidden" id="revision_statuss'+rNo+'" name="revision_statuss" class="hidden_check hidden_doc" value="No" />';
+			   
+			   
+			   if("${contractDeatils.bank_funded}"=="Yes")
+			   {
+				   html= html+'<input type="checkbox" name ="revision_status" class="revision_doc_status" disabled  id="revision_status'+rNo+'" />';
+			   }
+			   else
+			   {
+				   html= html+'<input type="checkbox" name ="revision_status" class="revision_doc_status" disabled  onchange="revisionChecks(' + '\'docs\'' + ',' + rNo + ')" id="revision_status'+rNo+'" />';
+			   }			   
+			   
+			   html= html+'<span></span> </label></p></td>';
 /* 			   +'<td data-head="Remarks" class="input-field"> <input id="revision_remarks'+rNo+'" name="revision_remarks" type="text" class="validate"  placeholder="Remarks"></td>';
  */			   
 			   
@@ -4401,7 +4550,7 @@
 		    $('#approvalByBankDocumentFileNames'+rowNo).val(filename);			
 		}
 
-		/*function revisionChecks(s, no) {
+		function revisionChecks(s, no) {
             var type = (s == 'amounts') ? 'amount' : (s == 'docs') ? 'doc' : '';
             var clsType = (s == 'amounts') ? '_amounts_' : (s == 'docs') ? '_' : '';
             
@@ -4429,7 +4578,7 @@
             	$('#revision' + type + "_status" + no).prop('checked', false);
                 $('#revision' + type + "_status" + no).attr('disabled', true);
             }
-        }*/
+        }
 
 		function validateContract(){
 			var flag = true;

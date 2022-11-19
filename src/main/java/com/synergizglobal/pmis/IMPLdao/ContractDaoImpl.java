@@ -863,6 +863,9 @@ public class ContractDaoImpl implements ContractDao {
 						arraySize = contract.getContractKeyPersonnelDesignations().length;
 					}
 				}
+				
+			
+				
 				if(!StringUtils.isEmpty(contract.getContractKeyPersonnelNames()) && contract.getContractKeyPersonnelNames().length > 0) {
 					for (int i = 0; i < arraySize; i++) {
 						int k = 1;
@@ -879,9 +882,6 @@ public class ContractDaoImpl implements ContractDao {
 				c = stmt.executeBatch();
 				DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
 				
-				String documents_qry = "INSERT into contract_documents (name,attachment,contract_id_fk,contract_file_type_fk,created_date) "
-	 +"VALUES (?,?,?,?,CURRENT_TIMESTAMP)";
-				stmt = con.prepareStatement(documents_qry,Statement.RETURN_GENERATED_KEYS); 
 				
 				arraySize = 0;
 				if(!StringUtils.isEmpty(contract.getContractDocumentNames()) && contract.getContractDocumentNames().length > 0) {
@@ -889,68 +889,49 @@ public class ContractDaoImpl implements ContractDao {
 					if(arraySize < contract.getContractDocumentNames().length) {
 						arraySize = contract.getContractDocumentNames().length;
 					}
-				 }
+				}
+				if(!StringUtils.isEmpty(contract.getContractDocumentFileNames()) && contract.getContractDocumentFileNames().length > 0) {
+					contract.setContractDocumentFileNames(CommonMethods.replaceEmptyByNullInSringArray(contract.getContractDocumentFileNames()));
+					if(arraySize < contract.getContractDocumentFileNames().length) {
+						arraySize = contract.getContractDocumentFileNames().length;
+					}
+				}
 				if (!StringUtils.isEmpty(contract.getContract_file_types()) && contract.getContract_file_types().length > 0) {
 					contract.setContract_file_types(CommonMethods.replaceEmptyByNullInSringArray(contract.getContract_file_types()));
 					if (arraySize < contract.getContract_file_types().length) {
 						arraySize = contract.getContract_file_types().length;
 					}
-				}
-				String[] documentNames = new String[arraySize];
-				int loop=0;
-				for (int i = 0; i < arraySize; i++) {
-					int k = 1;
-					stmt.setString(k++,(contract.getContractDocumentNames().length > 0)?contract.getContractDocumentNames()[i]:null);
-					stmt.setString(k++,(documentNames.length > 0)?documentNames[i]:null);					
-					stmt.setString(k++,contract_id);
-					stmt.setString(k++,(contract.getContract_file_types().length > 0)?contract.getContract_file_types()[i]:null);
-					//stmt.addBatch();
-					stmt.executeUpdate();
-					loop++;
-				}
-				//c = stmt.executeBatch();
-				if(loop > 0) {
-					ResultSet rs = stmt.getGeneratedKeys();
-					flag = true;
-					if(!StringUtils.isEmpty(contract.getContractDocumentFiles()) && contract.getContractDocumentFiles().length > 0) {
-						if(arraySize < contract.getContractDocumentFiles().length) {
-							arraySize = contract.getContractDocumentFiles().length;
-						}
-						String saveDirectory = CommonConstants.CONTRACT_FILE_SAVING_PATH ;
-						documentNames = new String[arraySize];
-						for (int i = 0; i < documentNames.length; i++) {
-							if (rs.next()) {
-								String id = rs.getString(1);
-								contract.setContract_documents_id(id);
-							}
-							MultipartFile file = contract.getContractDocumentFiles()[i];
-							if (null != file && !file.isEmpty()){
-								String fileName = file.getOriginalFilename();
-								DateFormat df = new SimpleDateFormat("ddMMYY-HHmm-ssSSSSSSS"); 
-								String fileName_new = "Contract-"+contract_id +"-"+ df.format(new Date()) +"."+ fileName.split("\\.")[1];
-								documentNames[i] = fileName_new;
-								FileUploads.singleFileSaving(file, saveDirectory, fileName_new);
-							}else {
-								documentNames[i] = null;
-							}
-							
-							String updateQry = "UPDATE contract_documents set attachment = ? where contract_documents_id = ? ";
-							stmt = con.prepareStatement(updateQry); 
-							for (int j = 0; j < arraySize; j++) {
-								int p = 1;
-								stmt.setString(p++,(documentNames.length > 0)?documentNames[i]:null);					
-								stmt.setString(p++,contract.getContract_documents_id());
-								//stmt.addBatch();
-								stmt.executeUpdate();
-							}
-							//c = stmt.executeBatch();
-						}
-					}
-					
-					
-				}
-				DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
+				}					
 				
+				String insertFileQry = "INSERT into contract_documents (name,attachment,contract_id_fk,contract_file_type_fk,created_date) "
+						 +"VALUES (?,?,?,?,CURRENT_TIMESTAMP)";
+				stmt = con.prepareStatement(insertFileQry); 
+				for (int i = 0; i < arraySize; i++) {
+					String docFileName = null;
+					MultipartFile multipartFile = contract.getContractDocumentFiles()[i];
+					if ((null != multipartFile && !multipartFile.isEmpty() && multipartFile.getSize() > 0)
+							|| (!StringUtils.isEmpty(contract.getContractDocumentFileNames()) && contract.getContractDocumentFileNames().length > 0 && !StringUtils.isEmpty(contract.getContractDocumentFileNames()[i]) && !StringUtils.isEmpty(contract.getContractDocumentFileNames()[i].trim()) )) {
+						String saveDirectory = CommonConstants.CONTRACT_FILE_SAVING_PATH ;
+						String fileName = contract.getContractDocumentFileNames()[i];
+						DateFormat df = new SimpleDateFormat("ddMMYY-HHmm-ssSSSSSSS"); 
+						String fileName_new = "Contract-"+contract_id +"-"+ df.format(new Date()) +"."+ fileName.split("\\.")[1];
+						docFileName = fileName_new;
+						if (null != multipartFile && !multipartFile.isEmpty()) {
+							FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName_new);
+						}
+						  int k = 1; 
+		 					stmt.setString(k++,(contract.getContractDocumentNames().length > 0)?contract.getContractDocumentNames()[i]:null);
+							  stmt.setString(k++,docFileName);
+		 					stmt.setString(k++,contract_id);
+		 					stmt.setString(k++,(contract.getContract_file_types().length > 0)?contract.getContract_file_types()[i]:null); 
+						  stmt.addBatch();
+						  
+					}
+				}
+				c = stmt.executeBatch();
+				
+				DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
+			
 				/**********************************************************************************************/
 				
 				con.commit();

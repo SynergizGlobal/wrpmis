@@ -579,6 +579,46 @@ public class ContractController {
 		return objsList;
 	}
 	
+	@RequestMapping(value = "/saveedit-contract", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView saveeditContract(@ModelAttribute  Contract contract,RedirectAttributes attributes,HttpSession session){
+		ModelAndView model = new ModelAndView();
+		try{
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			contract.setCreated_by_user_id_fk(user_Id);
+			contract.setUser_name(userName);
+			contract.setDesignation(userDesignation);
+			
+			contract.setDoc(DateParser.parse(contract.getDoc()));
+			contract.setCa_date(DateParser.parse(contract.getCa_date()));
+			contract.setDate_of_start(DateParser.parse(contract.getDate_of_start()));			
+			contract.setLoa_date(DateParser.parse(contract.getLoa_date()));
+			contract.setActual_completion_date(DateParser.parse(contract.getActual_completion_date()));		
+			contract.setContract_closure_date(DateParser.parse(contract.getContract_closure_date()));
+			contract.setCompletion_certificate_release(DateParser.parse(contract.getCompletion_certificate_release()));		
+			contract.setFinal_takeover(DateParser.parse(contract.getFinal_takeover()));
+			contract.setFinal_bill_release(DateParser.parse(contract.getFinal_bill_release()));
+			contract.setDefect_liability_period(DateParser.parse(contract.getDefect_liability_period()));
+			contract.setRetention_money_release(DateParser.parse(contract.getRetention_money_release()));
+			contract.setPbg_release(DateParser.parse(contract.getPbg_release()));
+			contract.setBg_date(DateParser.parse(contract.getBg_date()));
+			contract.setRelease_date(DateParser.parse(contract.getRelease_date()));
+			contract.setPlanned_date_of_award(DateParser.parse(contract.getPlanned_date_of_award()));
+			contract.setPlanned_date_of_completion(DateParser.parse(contract.getPlanned_date_of_completion()));
+		
+			String contractid =  contractService.addContract(contract);	
+			model.setViewName("redirect:/get-contract/"+contractid);
+
+		 }catch (Exception e) {
+			attributes.addFlashAttribute("error","Adding Contract is failed. Try again.");
+			logger.error("Project : " + e.getMessage());
+		}
+		return model;
+	}	
+	
+	
 	@RequestMapping(value = "/add-contract", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView addContract(@ModelAttribute  Contract contract,RedirectAttributes attributes,HttpSession session){
 		ModelAndView model = new ModelAndView();

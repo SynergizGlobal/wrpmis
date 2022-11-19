@@ -318,11 +318,11 @@
 		                                <br></br>
                                            	<span class="radiogroup" style="padding-bottom: 10px;padding-top: 10px;">
                                                 <label style="padding-right: 15px;">
-                                                    <input class="with-gap" name="contract_status" type="radio" value="Yes" onclick="getStatusLIst();hideContractDetails();">
+                                                    <input class="with-gap" name="contract_status" type="radio" value="Yes" onclick="getStatusLIst();hideContractDetails();checkContractButtionStatus();">
                                                     <span style="padding-left: 23px;">Yes</span>
                                                 </label>
                                                 <label>
-                                                    <input class="with-gap" name="contract_status" type="radio" value="No" onclick="getStatusLIst();hideContractDetails();">
+                                                    <input class="with-gap" name="contract_status" type="radio" value="No" onclick="getStatusLIst();hideContractDetails();checkContractButtionStatus();">
                                                     <span style="padding-left: 23px;">No</span>
                                                 </label>
                                             </span>
@@ -690,6 +690,7 @@
 			                                                                style="display:none" onchange="getFileName('0')"/>
 			                                                            <label for="contractDocumentFiles0" class="btn bg-m"><i
 			                                                                    class="fa fa-paperclip"></i></label>
+			                                                                    <input type="hidden" id="contractDocumentFileNames0" name="contractDocumentFileNames">
 			                                                            <span id="contractDocumentFileName0" class="filevalue"></span>
 			                                                        </span>
 			                                                    </td>
@@ -726,16 +727,14 @@
 		                            </div> 
 
                             <div class="row">
-                                <div class="col s6 m4 l6 mt-brdr center-align offset-m2">
-                                    <div class="m-1">
-                                        <button type="button" onclick="addContract();" class="btn waves-effect waves-light bg-m" style="min-width:90px;">Add</button>
-                                    </div>
-                                </div>
-                                <div class="col s6 m4 l6 mt-brdr center-align">
-                                    <div class="m-1">
+                                <div class="col s12 m12 l12 center-align">
+                                        <button type="button" onclick="addContract();" class="btn waves-effect waves-light bg-m" style="min-width:90px;" id="btnAdd">Add</button>
+                                        <span style="width:300px;"></span>
+                                        <button type="button" onclick="saveEditContract();" class="btn waves-effect waves-light bg-m" style="min-width:90px;" id="btnSaveandEdit">Save & Edit</button>
+                                         <span style="width:300px;"></span>
                                         <a href="<%=request.getContextPath()%>/contract"class="btn waves-effect waves-light bg-s">Cancel</a>
-                                    </div>
                                 </div>
+                                <BR><BR>
                             </div>
                        </div>
                         </form>
@@ -858,6 +857,19 @@
             	$(".page-loader").hide();
             }
 		}
+        
+        function checkContractButtionStatus()
+        {
+        	var contract_status = $('input[name="contract_status"]:checked').val();
+        	if($.trim(contract_status) == "Yes")
+       		{
+        		$("#btnSaveandEdit").prop("disabled",false);
+       		}
+        	else
+       		{
+        		$("#btnSaveandEdit").prop("disabled",true);
+       		}
+        }
         
         function hideContractDetails(){
         	//var contract_status = $('#contract_status').val();
@@ -1130,6 +1142,75 @@
        		
         }
         
+        function saveEditContract(){
+        	var rowCount = $('#departmentTableBody tr').length;
+        	var c = $('[name=responsible_people_id_fks]').length;
+  			for(var i=0; i<= (rowCount-1); i++){ 
+  				var resp_Person = $("#responsible_people_id_fk"+i).val();
+  				if(resp_Person == ""){
+  					$("#responsible_people_id_fk"+i).val("");
+  					var v = $("#responsible_people_id_fk"+i).val();
+  					$("#filecounts"+i).val(1);
+  					$('#responsible_people_id_fk' + i + ' option[value=""]').hide();
+  				}
+  			}
+	  		if(validator.form()){ // validation perform
+	  			
+	  			
+	  			var work_short_name = $("#work_id_fk").find('option:selected').attr("workShortName");
+	  			$("#work_short_name").val(work_short_name);
+	  			
+	  			var deptCode = $("#hod_user_id_fk").find('option:selected').attr("deptCode");
+	  			if(deptCode != ""){
+		  			$("#contract_id_code").val(deptCode);
+	  			}
+	  			var estimated_cost = $('#estimated_cost').val();
+	  			var awarded_cost = $('#awarded_cost').val();
+	  			if(estimated_cost == ""){
+	  				$('#estimated_cost_units').val("");
+	  			}
+	  			$('form input[name=department_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });		
+	  			$('form input[name=responsible_people_id_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
+	  			
+	  			$('form input[name=contractDocumentNames]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
+	  			$('form input[name=contractDocumentFileNames]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			
+	  			var bankFundedStatus = $('input[name="bank_funded"]:checked').val();
+	  			
+	  			if(bankFundedStatus==undefined)
+  				{
+						$('#bank_fundedError').html("Required");
+						return false;  				
+  				}
+	  			
+  				if(bankFundedStatus=='Yes')
+  				{
+  						if($('#bank_name').val()=="")
+  						{
+  							$('#bank_nameError').html("Required");
+  							return false;
+  						}
+  						else
+						{
+							$('#bank_nameError').html();
+						}
+  						if($('#type_of_review').val()=="")
+  						{
+  							$('#type_of_reviewError').html("Required");
+  							return false;
+  						} 
+  						else
+						{
+ 							$('#type_of_reviewError').html();
+						}
+  				}
+	  			
+  				$(".page-loader").show();
+  				document.getElementById("contractForm").action = "saveedit-contract";
+    			document.getElementById("contractForm").submit();			
+    	 	}
+    	}        
+        
         function addContract(){
         	var rowCount = $('#departmentTableBody tr').length;
         	var c = $('[name=responsible_people_id_fks]').length;
@@ -1391,6 +1472,7 @@
 					 +'<span class="normal-btn">'
 					 +'<input type="file" id="contractDocumentFiles'+rNo+'" name="contractDocumentFiles" style="display:none" onchange="getFileName('+rNo+')" />'
 					 +'<label for="contractDocumentFiles'+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label>'
+					 +'<input type="hidden" id="contractDocumentFileNames'+rNo+'" name="contractDocumentFileNames">'
 					 +'<span id="contractDocumentFileName'+rNo+'" class="filevalue"></span>'
 					 +'</span>'
 					 +'</td>'
@@ -1417,6 +1499,7 @@
 	function getFileName(rowNo){
 		var filename = $('#contractDocumentFiles'+rowNo)[0].files[0].name;
 	    $('#contractDocumentFileName'+rowNo).html(filename);
+	    $('#contractDocumentFileNames'+rowNo).val(filename);
 	}
 		
 

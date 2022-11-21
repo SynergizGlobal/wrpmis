@@ -2990,37 +2990,72 @@ public class ContractReportDaoImpl implements ContractReportDao {
 
 	@Override
 	public Contract generateContractCompletionReport(Contract obj) throws Exception {
-		Map<String,List<Contract>> objsList = new LinkedHashMap<String, List<Contract>>();
+		List<Contract> objsList = null;
 		try {
+			String hodQry ="SELECT DISTINCT cd.work_short_name ,FORMAT(c.loa_date,'dd-MM-yyyy') as loa_date,work_id_fk, c.contract_status_fk AS Contract_status, (c.contract_id) AS contract_id, c.contract_short_name AS contract_name, " + 
+					"                      ((SELECT ((cr.contractor_name)) " + 
+					"                        FROM      dbo.contractor cr " + 
+					"                        WHERE   (c.contractor_id_fk = cr.contractor_id AND c.contract_status_fk != 'Not Awarded'))) AS Contractor_name, FORMAT((IIF(c.contract_status_fk = 'Not Awarded', ISNULL(cast(CONVERT(CHAR(20), CONVERT(DATETIME, LEFT " + 
+					"                      ((SELECT (revision_planned_date_of_completion) " + 
+					"                        FROM      contract_revisions " + 
+					"                        WHERE   contract_id_fk = c.contract_id AND revision_no = " + 
+					"                                              (SELECT 'R' + '' + Max(SUBSTRING(revision_no, 2, LEN(revision_no))) " + 
+					"                                               FROM      contract_revisions " + 
+					"                                               WHERE   contract_id_fk = c.contract_id AND revision_planned_date_of_completion IS NOT NULL AND revision_planned_date_of_completion != '')), 10), 105), 101) AS date), c.planned_date_of_completion), c.doc)),'dd-MM-yyyy')  " + 
+					"                  AS Original_completion_date, FORMAT((IIF(c.contract_status_fk = 'Completed', c.actual_completion_date, IIF(c.contract_status_fk = 'Not Awarded', NULL, " + 
+					"                      (SELECT top 1 (revised_doc) " + 
+					"                       FROM      contract_revision " + 
+					"                       WHERE   contract_id_fk = c.contract_id AND revision_number = " + 
+					"                                             (SELECT 'R' + '' + Max(SUBSTRING(revision_number, 2, LEN(revision_number))) " + 
+					"                                              FROM      contract_revision " + 
+					"                                              WHERE   contract_id_fk = c.contract_id AND revised_doc IS NOT NULL AND revised_doc != ''))))),'dd-MM-yyyy') AS Revised_date_of_completion, " + 
+					"                      ((SELECT (ROUND(SUM(contract_per), 2)) " + 
+					"                        FROM      dbo.activities_scurve ac " + 
+					"                        WHERE   (ac.contract_id = c.contract_id) and category='Actual' )) AS Percent_progress,  (ISNULL " + 
+					"                      ((SELECT ((revision_estimated_cost)) " + 
+					"                        FROM      contract_revisions " + 
+					"                        WHERE   contract_id_fk = c.contract_id AND revision_no = " + 
+					"                                              (SELECT 'R' + '' + Max(SUBSTRING(revision_no, 2, LEN(revision_no))) " + 
+					"                                               FROM      contract_revisions " + 
+					"                                               WHERE   contract_id_fk = c.contract_id AND revision_estimated_cost IS NOT NULL AND revision_estimated_cost != '')), c.estimated_cost*c.estimated_cost_units)) AS Estimated_cost,  " + 
+					"                  IIF(c.contract_status_fk = 'Not Awarded', NULL, c.awarded_cost*c.awarded_cost_units) AS Awarded_cost,  IIF(contract_status_fk = 'Not Awarded', NULL, IIF(contract_status_fk = 'In progress', " + 
+					"                      ((SELECT top 1 (revised_amount* revised_amount_units) " + 
+					"                        FROM      contract_revision " + 
+					"                        WHERE   contract_id_fk = c.contract_id AND revision_number = " + 
+					"                                              (SELECT 'R' + '' + Max(SUBSTRING(revision_number, 2, LEN(revision_number))) " + 
+					"                                               FROM      contract_revision " + 
+					"                                               WHERE   contract_id_fk = c.contract_id AND revised_amount IS NOT NULL AND revised_amount != 0))), (c.completed_cost*c.completed_cost_units))) AS Revised_cost, " + 
+					"                      (SELECT IIF(contract_status_fk = 'Not Awarded', NULL, (SUM(e.gross_work_done*e.gross_work_done_units))) " + 
+					"                       FROM      dbo.expenditure e " + 
+					"                       WHERE   (e.contract_id_fk = c.contract_id)) AS Expenditure, " + 
+					"                      ((SELECT IIF(c.contract_status_fk = 'Completed', MAX(b.release_date), IIF(contract_status_fk = 'Not Awarded', NULL, IIF(b.release_date = NULL, MIN(b.valid_upto), NULL))) " + 
+					"                        FROM      dbo.bank_guarantee b " + 
+					"                        WHERE   (b.contract_id_fk = c.contract_id))) AS BG_valid_Upto, " + 
+					"                      ((SELECT IIF(contract_status_fk = 'Not Awarded', NULL, MAX((i.valid_upto))) " + 
+					"                        FROM      dbo.insurance i " + 
+					"                        WHERE   (i.contract_id_fk = c.contract_id))) AS Insurance_valid_Upto " + 
+					"FROM     ((((((dbo.contract c LEFT JOIN " + 
+					"                  dbo. WORK w ON ((c.work_id_fk = w.work_id))) LEFT JOIN " + 
+					"                  dbo.contractor cr ON ((c.contractor_id_fk = cr.contractor_id))) LEFT JOIN " + 
+					"                  dbo.activities_scurve ac ON ((ac.contract_id = c.contract_id)) LEFT JOIN " + 
+					"                  dbo.bank_guarantee b ON ((c.contract_id = b.contract_id_fk)) LEFT JOIN " + 
+					"                  dbo.bank_guarantee i ON ((c.contract_id = i.contract_id_fk)) LEFT JOIN " + 
+					"                  dbo.contract_revision crd ON (c.contract_id = crd.contract_id_fk) LEFT JOIN " + 
+					"                  dbo.contract_revisions crs ON ((c.contract_id = crs.contract_id_fk))  "  
+					+ "left join [user] u on c.hod_user_id_fk = u.user_id "
+					+ "left join [user] us on c.dy_hod_user_id_fk = us.user_id "
+					+ "left join department dt on c.department_fk = dt.department "					
+					+"left join dbo.contract_details cd ON ((cd.contract_id = c.contract_id)))))) where 0=0 ";
 			
-			String hodQry ="select u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name "
-					+"from insurance i " + 
-					"left join contract c on i.contract_id_fk = c.contract_id " +
-					"left join work w on c.work_id_fk = w.work_id  " + 
-					"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
-					"left join project p on w.project_id_fk = p.project_id " + 
-					"left join [user] u on c.hod_user_id_fk = u.user_id "+
-					"left join [user] us on c.dy_hod_user_id_fk = us.user_id "
-					+"left join department dt on c.department_fk = dt.department "
-					+"where contract_id is not null and (i.released_fk <> 'Yes' or i.released_fk is null) ";
+			int arrSize = 0;
+			NumberFormat numberFormatter = new DecimalFormat("#0.00");
 			
-			int arrSize = 0;			
-
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
 				hodQry = hodQry + " and c.contract_id = ? ";
 				arrSize++;
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designations())) {
-				hodQry = hodQry + " and u.designation in (?";
-				int length = obj.getHod_designations().length;
-				if(length > 1) {
-					for(int i1 =0; i1< (length-1); i1++) {
-						hodQry = hodQry + ",?";
-						arrSize++;
-					}
-				}
-				
-				hodQry = hodQry + " ) ";
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designation())) {
+				hodQry = hodQry + " and u.designation = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -3031,194 +3066,74 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				hodQry = hodQry + " and c.contractor_id_fk = ?";
 				arrSize++;
 			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus())) {
+				hodQry = hodQry + " and c.status = ?";
+				arrSize++;
+			}				
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
 				hodQry = hodQry + " and c.contract_status_fk = ?";
 				arrSize++;
 			}
-			/*
-			 * if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDate())) { hodQry
-			 * = hodQry + " and i.valid_upto <= ?"; arrSize++; }
-			 */
-			
-			hodQry = hodQry + " GROUP BY u.designation,us.designation,u.user_name";
-			hodQry = hodQry + " ORDER BY case when u.designation='ED Civil' then 1  " + 
-					"   when u.designation='CPM I' then 2  " + 
-					"   when u.designation='CPM II' then 3 " + 
-					"   when u.designation='CPM III' then 4  " + 
-					"   when u.designation='CPM V' then 5 " + 
-					"   when u.designation='CE' then 6  " + 
-					"   when u.designation='ED S&T' then 7  " + 
-					"   when u.designation='CSTE' then 8 " + 
-					"   when u.designation='GM Electrical' then 9 " + 
-					"   when u.designation='CEE Project I' then 10 " + 
-					"   when u.designation='CEE Project II' then 11 " + 
-					"   when u.designation='ED Finance & Planning' then 12 " + 
-					"   when u.designation='AGM Civil' then 13 " + 
-					"   when u.designation='DyCPM Civil' then 14 " + 
-					"   when u.designation='DyCPM III' then 15 " + 
-					"   when u.designation='DyCPM V' then 16 " + 
-					"   when u.designation='DyCE EE' then 17 " + 
-					"   when u.designation='DyCE Badlapur' then 18 " + 
-					"   when u.designation='DyCPM Pune' then 19 " + 
-					"   when u.designation='DyCE Proj' then 20 " + 
-					"   when u.designation='DyCEE I' then 21 " + 
-					"   when u.designation='DyCEE Projects' then 22 " + 
-					"   when u.designation='DyCEE PSI' then 23 " + 
-					"   when u.designation='DyCSTE I' then 24 " + 
-					"   when u.designation='DyCSTE IT' then 25 " + 
-					"   when u.designation='DyCSTE Projects' then 26 " + 
-					"   when u.designation='XEN Consultant' then 27 " + 
-					"   when u.designation='AEN Adhoc' then 28 " + 
-					"   when u.designation='AEN Project' then 29 " + 
-					"   when u.designation='AEN P-Way' then 30 " + 
-					"   when u.designation='AEN' then 31 " + 
-					"   when u.designation='Sr Manager Signal' then 32  " + 
-					"   when u.designation='Manager Signal' then 33 " + 
-					"   when u.designation='Manager Civil' then 34  " + 
-					"   when u.designation='Manager OHE' then 35 " + 
-					"   when u.designation='Manager GS' then 36 " + 
-					"   when u.designation='Manager Finance' then 37 " + 
-					"   when u.designation='Planning Manager' then 38 " + 
-					"   when u.designation='Manager Project' then 39 " + 
-					"   when u.designation='Manager' then 40  " + 
-					"   when u.designation='SSE' then 41 " + 
-					"   when u.designation='SSE Project' then 42 " + 
-					"   when u.designation='SSE Works' then 43 " + 
-					"   when u.designation='SSE Drg' then 44 " + 
-					"   when u.designation='SSE BR' then 45 " + 
-					"   when u.designation='SSE P-Way' then 46 " + 
-					"   when u.designation='SSE OHE' then 47 " + 
-					"   when u.designation='SPE' then 48 " + 
-					"   when u.designation='PE' then 49 " + 
-					"   when u.designation='JE' then 50 " + 
-					"   when u.designation='Demo-HOD-Elec' then 51 " + 
-					"   when u.designation='Demo-HOD-Engg' then 52 " + 
-					"   when u.designation='Demo-HOD-S&T' then 53 " + 
-					" " + 
-					"   end asc " + 
-					"";
-
+			hodQry = hodQry + " order by work_id_fk,contract_status desc";
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
 				pValues[i++] = obj.getContract_id();
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designations())) {
-				int length = obj.getHod_designations().length;
-				if(length >= 1) {
-					for(int j =0; j<= (length-1); j++) {
-						pValues[i++] = obj.getHod_designations()[j];
-					}
-				}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designation())) {
+				pValues[i++] = obj.getHod_designation();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
 				pValues[i++] = obj.getContractor_id_fk();
-			}	
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus())) {
+				pValues[i++] = obj.getStatus();
+			}				
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
 				pValues[i++] = obj.getContract_status_fk();
 			}
-			/*
-			 * if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDate())) {
-			 * pValues[i++] = obj.getDate(); }
-			 */
+			objsList = jdbcTemplate.query( hodQry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 			
-			List<Contract> hodList = jdbcTemplate.query( hodQry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
-			for (Contract hodObj : hodList) 
-			{
+			for (Contract cObj : objsList) {
 				
-				var conCatQry="case when (select FORMAT(MAX(revised_doc),'dd-MMM-yy') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id order by FORMAT(MAX(revised_doc),'dd-MMM-yy') order by FORMAT(MAX(revised_doc),'dd-MMM-yy') offset 0 rows  fetch next 1 rows only) is not null then (select FORMAT(MAX(revised_doc),'dd-MMM-yy') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id  order by FORMAT(MAX(revised_doc),'dd-MMM-yy') offset 0 rows  fetch next 1 rows only) else FORMAT(doc,'dd-MMM-yy') end";
-				if(obj.getDate()!=null && obj.getDate()!="")
-				{
-					conCatQry="case when (case when (select revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id order by revised_doc offset 0 rows  fetch next 1 rows only) is not null then (select  revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id  order by revised_doc offset 0 rows  fetch next 1 rows only) else doc end)>'"+obj.getDate()+"' then 'NO DOC' else (case when (select FORMAT(MAX(revised_doc),'dd-MMM-yy') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id order by FORMAT(MAX(revised_doc),'dd-MMM-yy') offset 0 rows  fetch next 1 rows only) is not null then (select FORMAT(MAX(revised_doc),'dd-MMM-yy') AS revised_doc from contract_revision where revised_doc is not null and action = 'Yes' and contract_id_fk = contract_id  order by FORMAT(MAX(revised_doc),'dd-MMM-yy') offset 0 rows  fetch next 1 rows only) else FORMAT(doc,'dd-MMM-yy') end) end";
+				String estimated_cost = cObj.getEstimated_cost();
+				String estimated_cost_value = "";
+				if(!StringUtils.isEmpty(estimated_cost)) {
+					double val = (Double.parseDouble(estimated_cost))/10000000;
+					estimated_cost_value = numberFormatter.format(val);
 				}
-								
+				cObj.setEstimated_cost(estimated_cost_value);
 				
-				String qry ="select contract_short_name,contractor_name,STRING_AGG( loa_date , '\n' ) as loa_date,STRING_AGG( doc , '\n' ) as doc,STRING_AGG( ContractAlertRemarks , '\n' ) as ContractAlertRemarks from (select distinct "
-						+ "w.work_id,w.work_name,w.work_short_name,dt.department_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk," + 
-						"scope_of_contract,cast(estimated_cost as CHAR) as estimated_cost,FORMAT(date_of_start,'dd-MMM-yy') AS date_of_start,"
-						+conCatQry+ " AS doc,cast(awarded_cost as CHAR) as awarded_cost,loa_letter_number,FORMAT(loa_date,'dd-MMM-yy') AS loa_date,ca_no,FORMAT(ca_date,'dd-MMM-yy') AS ca_date,FORMAT(actual_completion_date,'dd-MMM-yy') AS actual_completion_date,"
-						+"FORMAT(contract_closure_date,'dd-MMM-yy') AS contract_closure_date,FORMAT(completion_certificate_release,'dd-MMM-yy') AS completion_certificate_release,FORMAT(final_takeover,'dd-MMM-yy') AS final_takeover,FORMAT(final_bill_release,'dd-MMM-yy') AS final_bill_release,FORMAT(defect_liability_period,'dd-MMM-yy') AS defect_liability_period,cast(completed_cost as CHAR) as completed_cost,"
-						+"FORMAT(retention_money_release,'dd-MMM-yy') AS retention_money_release,FORMAT(pbg_release,'dd-MMM-yy') AS pbg_release,contract_status_fk,bg_required,insurance_required, "
-						+"(select remarks from alerts where alert_status='Active' and alert_type_fk = 'Contract Period' and contract_id = c.contract_id and alert_value ="
-
-					+ "(case when (cr1.action = 'Yes' and cr1.revised_doc is not null) then (CONCAT('Date of Completion : ',FORMAT(cr1.revised_doc,'dd-MMM-yy') )) " 
-					+ "when doc is not null then CONCAT('Date of Completion : ',FORMAT(doc,'dd-MMM-yy') ) else '' end )) as ContractAlertRemarks "						
-						
-						+"from contract c " + 
-						"LEFT JOIN contract_revision cr1 on cr1.contract_id_fk = c.contract_id and cr1.action = 'Yes' and cr1.revised_doc is not null "+
-						"left join work w on c.work_id_fk = w.work_id  " + 
-						"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
-						"left join project p on w.project_id_fk = p.project_id " + 
-						"left join [user] u on c.hod_user_id_fk = u.user_id "+
-						"left join [user] us on c.dy_hod_user_id_fk = us.user_id "
-						+"left join department dt on c.department_fk = dt.department "
-						+"where contract_id is not null ";	
 				
-				arrSize = 0;			
-	
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
-					qry = qry + " and c.contract_id = ? ";
-					arrSize++;
+				String awarded_cost = cObj.getAwarded_cost();
+				String awarded_cost_value = "";
+				if(!StringUtils.isEmpty(awarded_cost)) {
+					double val = (Double.parseDouble(awarded_cost))/10000000;
+					awarded_cost_value = numberFormatter.format(val);
 				}
+				cObj.setAwarded_cost(awarded_cost_value);
 				
-				if(!StringUtils.isEmpty(hodObj) && !StringUtils.isEmpty(hodObj.getHod_designation())) {
-					qry = qry + " and u.designation = ? ";
-					arrSize++;
+				String expenditure_value = "";
+				if(!StringUtils.isEmpty(cObj.getExpenditure())) {
+					double val = (Double.parseDouble(cObj.getExpenditure()))/10000000;
+					expenditure_value = numberFormatter.format(val);
 				}
+				cObj.setExpenditure(expenditure_value);
 				
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-					qry = qry + " and c.work_id_fk = ?";
-					arrSize++;
+				String revised_cost_value = "";
+				if(!StringUtils.isEmpty(cObj.getRevised_cost())) {
+					double val = (Double.parseDouble(cObj.getRevised_cost()))/10000000;
+					revised_cost_value = numberFormatter.format(val) ;
 				}
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
-					qry = qry + " and c.contractor_id_fk = ?";
-					arrSize++;
-				}	
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
-					qry = qry + " and c.contract_status_fk = ?";
-					arrSize++;
-				}
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDate())) {
-					qry = qry + " and c.doc <= ?";
-					arrSize++;
-				}
-				pValues = new Object[arrSize];
-				i = 0;
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
-					pValues[i++] = obj.getContract_id();
-				}
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(hodObj.getHod_designation())) {
-					pValues[i++] = hodObj.getHod_designation();
-				}
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-					pValues[i++] = obj.getWork_id_fk();
-				}
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
-					pValues[i++] = obj.getContractor_id_fk();
-				}	
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
-					pValues[i++] = obj.getContract_status_fk();
-				}
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDate())) {
-					pValues[i++] = obj.getDate();
-				}
-				
-				qry = qry + " ) as a ";
-				
-				if(obj.getDate()!=null && obj.getDate()!="")
-				{
-					qry = qry +" where 1=(case when loa_date is not null and doc='NO DOC' then 0 else 1 end) ";
-				}
-				
-				qry = qry + " GROUP BY contractor_name,contract_short_name";
-
-				List<Contract> insuranceList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
-				objsList.put(hodObj.getHod_designation(), insuranceList);
-			}
+				cObj.setRevised_cost(revised_cost_value);
+			}					
+			
+			obj.setReport1List(objsList);
+			
 		}catch(Exception e){ 
 			throw new Exception(e);
 		}

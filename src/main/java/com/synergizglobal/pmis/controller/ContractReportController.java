@@ -681,7 +681,7 @@ public class ContractReportController {
           
 	        if(!(StringUtils.isEmpty(reportData))){
 	        	
-       		 	XSSFSheet rrSheet1 = workBook.createSheet(WorkbookUtil.createSafeSheetName("List of Contracts Report"));
+       		 	XSSFSheet rrSheet1 = workBook.createSheet(WorkbookUtil.createSafeSheetName("Date of Completion Report"));
 		        XSSFRow headRow = rrSheet1.createRow(0);
 		        
 		        Cell cell = headRow.createCell(0);

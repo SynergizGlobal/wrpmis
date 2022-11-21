@@ -3,10 +3,13 @@ package com.synergizglobal.pmis.controller;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -18,7 +21,21 @@ import javax.servlet.http.HttpSession;
 import javax.xml.bind.JAXBElement;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.ss.util.WorkbookUtil;
 import org.apache.poi.util.IOUtils;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFColor;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.docx4j.Docx4jProperties;
 import org.docx4j.dml.wordprocessingDrawing.Inline;
 import org.docx4j.jaxb.Context;
@@ -105,8 +122,10 @@ import com.synergizglobal.pmis.common.EMailSender;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.constants.PageConstants2;
+import com.synergizglobal.pmis.model.ActivitiesProgressReport;
 import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Issue;
+import com.synergizglobal.pmis.model.StripChart;
 import com.synergizglobal.pmis.model.User;
 @Controller
 public class ContractReportController {
@@ -371,7 +390,508 @@ public class ContractReportController {
 		}
 		return model;
     }
+
+	@RequestMapping(value = "/generate-bg-insurance-report/{id}", method = {RequestMethod.GET,RequestMethod.POST})
+	private void generateContractBgInsuranceReport(HttpServletResponse response, String currentDate, Contract obj) {
+			try{
+				
+				SimpleDateFormat formatter = new SimpleDateFormat("d-MMM-YY");
+				
+				Contract reportData = service.generateContractBgInsuranceReport(obj);
+				
+				XSSFWorkbook  workBook = new XSSFWorkbook();
+				
+				/***************************************************************************/
+		        
+				byte[] blueRGB = new byte[]{(byte)214, (byte)255, (byte)255};
+				byte[] yellowRGB = new byte[]{(byte)255, (byte)255, (byte)153};
+		        byte[] greenRGB = new byte[]{(byte)146, (byte)208, (byte)80};
+		        byte[] redRGB = new byte[]{(byte)255, (byte)0, (byte)0};
+		        byte[] whiteRGB = new byte[]{(byte)255, (byte)255, (byte)255};
+		        byte[] greyRGB = new byte[]{(byte)211, (byte)211, (byte)211};
+		        
+		        
+		        boolean isWrapText = true;boolean isBoldText = true;boolean isItalicText = false; int fontSize = 11;String fontName = "Calibri";
+		        CellStyle greenStyle = cellFormating(workBook,greenRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle greenStyle1 = cellFormating(workBook,greenRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle bluetyle = cellFormating(workBook,blueRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle blueGreentyle = cellFormating(workBook,blueRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+
+		        CellStyle whiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        
+		        CellStyle indexWhiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		       
+		        CellStyle indexWhiteStyle1 = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle indexWhiteStyle2 = cellFormating(workBook,whiteRGB,HorizontalAlignment.RIGHT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle activityNameStyle3 = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+
+		        
+		        isWrapText = true;isBoldText = false;isItalicText = false; fontSize = 11;fontName = "Calibri";
+		        CellStyle numberStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle activityNameStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle activityNameStyle1 = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+
+		        CellStyle activityNameStyle2 = cellFormating(workBook,whiteRGB,HorizontalAlignment.RIGHT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+
+		        CellStyle indexShadedStyle = cellFormating(workBook,greyRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,true,isItalicText,11,fontName);
+
+
+		        /********************************************************/
+	          
+		        if(!(StringUtils.isEmpty(reportData))){
+		        	
+	       		 	XSSFSheet rrSheet1 = workBook.createSheet(WorkbookUtil.createSafeSheetName("List of Contracts Report"));
+			        XSSFRow headRow = rrSheet1.createRow(0);
+			        
+			        Cell cell = headRow.createCell(0);
+			        
+			        XSSFRow mainHeadingRow = rrSheet1.createRow(1);
+			        
+			        cell = mainHeadingRow.createCell(0);
+			        cell.setCellStyle(bluetyle);
+			        cell.setCellValue("List of Bank Guarantees/Insurances Report");
+			        
+			        for (int i = 1; i < 14; i++) {		        	
+				        cell = mainHeadingRow.createCell(i);
+				        cell.setCellStyle(bluetyle);
+						cell.setCellValue("");
+					}	
+			        rrSheet1.addMergedRegion(new CellRangeAddress(1, 1, 0,14));
+			int rowNo = 3;
+
+	        XSSFRow structureRow = rrSheet1.createRow(rowNo);
+
+	        /**********************************************************************/
+			String headerString = "S. No.^Contract ID^Contract Short Name^Contractor Name^BG/Insurance^BG/Insurance Type^Issuing Bank^BG Number^Amount (INR)^Raised Date^Expiry Date^Release Date";
+	        String[] headerStringArr = headerString.split("\\^");
+	        
+	        XSSFRow headingRow = rrSheet1.createRow(rowNo);
+	        for (int i = 0; i < headerStringArr.length ; i++) {	
+	        	
+	    			 cell = headingRow.createCell(i);
+	    	    	 cell.setCellStyle(whiteStyle);
+					 cell.setCellValue(headerStringArr[i]);
+			}	
+	        
+	        List<String> WorksList = new ArrayList<>(); 
+	        
+	        for (Contract zObj : reportData.getReport1List())  
+	    	{
+	    		if(WorksList.indexOf(zObj.getWork_short_name())==-1)
+	    		{
+	    			WorksList.add(zObj.getWork_short_name());
+	    		}
+	    	}       
+	        rowNo++;
+	        int x = 0,z=0;
+
+			for (int i2 = 0; i2 < WorksList.size(); i2++) 
+			{   
+				
+				int k=1;
+				int m=0;
+		        	 for (Contract zObj : reportData.getReport1List()) { 
+		        		 
+		        		 
+		        		 if(WorksList.get(i2).compareTo(zObj.getWork_short_name())==0)
+		        		 {
+		        			 if(m==0) 
+		        			 {
+				     	        XSSFRow headWorkRow = rrSheet1.createRow(rowNo);
+				    	        cell = headWorkRow.createCell(0);
+				    	        cell.setCellStyle(bluetyle);
+				    	        cell.setCellValue("Work:");
+				    	        
+				    	        cell = headWorkRow.createCell(1);
+				    	        cell.setCellStyle(blueGreentyle);
+				    	        cell.setCellValue(WorksList.get(i2));			    	        
+				    	        
+				    	        for (int i = 2; i < 14; i++) {		        	
+				    		        cell = mainHeadingRow.createCell(i);
+				    		        cell.setCellStyle(bluetyle);
+				    				cell.setCellValue("");
+				    			}	
+				    	        rrSheet1.addMergedRegion(new CellRangeAddress(rowNo, rowNo, 1,14));       
+				    	        
+				    	        rowNo++;
+				    	        m++;
+		        			 }
+		        		 
+		        		 
+		        		 
+		        		  XSSFRow row = rrSheet1.createRow(rowNo);
+					            int c = 0;
+					            
+								cell = row.createCell(c++);
+								cell.setCellStyle(activityNameStyle);
+								cell.setCellValue(k);				            
+							
+							    cell = row.createCell(c++);
+								cell.setCellStyle(activityNameStyle);
+								cell.setCellValue(zObj.getContract_id());
+								
+								cell = row.createCell(c++);
+								cell.setCellStyle(activityNameStyle);
+								cell.setCellValue(zObj.getContract_name());
+							
+							    cell = row.createCell(c++);
+								cell.setCellStyle(activityNameStyle);
+								cell.setCellValue(zObj.getContractor_name());
+								
+								cell = row.createCell(c++);
+								cell.setCellStyle(activityNameStyle);
+								cell.setCellValue(zObj.getBg_type_fk());
+								
+								cell = row.createCell(c++);
+								cell.setCellStyle(activityNameStyle);
+								cell.setCellValue(zObj.getBg_type_fk());
+							
+							    cell = row.createCell(c++);
+								cell.setCellStyle(activityNameStyle);
+								cell.setCellValue(zObj.getIssuing_bank());
+								
+								cell = row.createCell(c++);
+								cell.setCellStyle(activityNameStyle);
+								cell.setCellValue(zObj.getBg_number());
+							
+							    cell = row.createCell(c++);
+								cell.setCellStyle(activityNameStyle);
+								cell.setCellValue("");
+								
+								cell = row.createCell(c++);
+								cell.setCellStyle(activityNameStyle);
+								cell.setCellValue(zObj.getAwarded_cost());
+							
+							    cell = row.createCell(c++);
+								cell.setCellStyle(activityNameStyle);
+								cell.setCellValue(zObj.getRevised_cost());
+								
+								cell = row.createCell(c++);
+								cell.setCellStyle(activityNameStyle);
+								cell.setCellValue(zObj.getExpenditure());
+								
+								cell = row.createCell(c++);
+								cell.setCellStyle(activityNameStyle);
+								cell.setCellValue(zObj.getBg_valid_Upto());							
+
+							    cell = row.createCell(c++);
+								cell.setCellStyle(activityNameStyle);
+								cell.setCellValue(zObj.getInsurance_valid_Upto());
+						        rowNo++;
+						        k++;
+		        	 }
+		        	 }
+			}
+					  for(int columnIndex = 1; columnIndex < headerStringArr.length; columnIndex++) {
+					  	rrSheet1.setColumnWidth(columnIndex, 25 * 150);
+					  	//rrSheet1.autoSizeColumn(columnIndex);
+					  	rrSheet1.setColumnWidth(4, 35 * 235);
+						rrSheet1.setColumnWidth(5, 35 * 235);
+					   }
+
+	            /*******************************************************************************/
+	            
+	            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
+	            Date date = new Date();
+	            String fileName = "List_of_Bank_Guarantees/Insurances_Report_"+dateFormat.format(date);
+	            
+	            try{
+	                /*FileOutputStream fos = new FileOutputStream(fileDirectory +fileName+".xls");
+	                workBook.write(fos);
+	                fos.flush();*/
+	            	
+	               response.setContentType("application/.csv");
+	 			   response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+	 			   response.setContentType("application/vnd.ms-excel");
+	 			   // add response header
+	 			   response.addHeader("Content-Disposition", "attachment; filename=" + fileName+".xlsx");
+	 			   
+	 			    //copies all bytes from a file to an output stream
+	 			   workBook.write(response.getOutputStream()); // Write workbook to response.
+		           workBook.close();
+	 			    //flushes output stream
+	 			    response.getOutputStream().flush();
+	            	
+	                
+	                //attributes.addFlashAttribute("success",dataExportSucess);
+	            	//response.setContentType("application/vnd.ms-excel");
+	            	//response.setHeader("Content-Disposition", "attachment; filename=filename.xls");
+	            	//XSSFWorkbook  workbook = new XSSFWorkbook ();
+	            	// ...
+	            	// Now populate workbook the usual way.
+	            	// ...
+	            	//workbook.write(response.getOutputStream()); // Write workbook to response.
+	            	//workbook.close();
+	            }catch(FileNotFoundException e){
+	                e.printStackTrace();
+	                logger.error("generateContractBgInsuranceReport : " + e.getMessage());
+	                //attributes.addFlashAttribute("error",dataExportInvalid);
+	            }catch(IOException e){
+	                e.printStackTrace();
+	                logger.error("generateContractBgInsuranceReport : " + e.getMessage());
+	                //attributes.addFlashAttribute("error",dataExportError);
+	            }
+		      }
+			}catch (Exception e) {
+				e.printStackTrace();
+				logger.error("generateContractBgInsuranceReport : " + e.getMessage());
+			}
+	    
+		}	
 	
+	
+	@RequestMapping(value = "/generate-contract-completion-report/{id}", method = {RequestMethod.GET,RequestMethod.POST})
+	private void generateContractCompletionReport(HttpServletResponse response, String currentDate, Contract obj) {
+		try{
+			
+			SimpleDateFormat formatter = new SimpleDateFormat("d-MMM-YY");
+			
+			Contract reportData = service.generateContractCompletionReport(obj);
+			
+			XSSFWorkbook  workBook = new XSSFWorkbook();
+			
+			/***************************************************************************/
+	        
+			byte[] blueRGB = new byte[]{(byte)214, (byte)255, (byte)255};
+			byte[] yellowRGB = new byte[]{(byte)255, (byte)255, (byte)153};
+	        byte[] greenRGB = new byte[]{(byte)146, (byte)208, (byte)80};
+	        byte[] redRGB = new byte[]{(byte)255, (byte)0, (byte)0};
+	        byte[] whiteRGB = new byte[]{(byte)255, (byte)255, (byte)255};
+	        byte[] greyRGB = new byte[]{(byte)211, (byte)211, (byte)211};
+	        
+	        
+	        boolean isWrapText = true;boolean isBoldText = true;boolean isItalicText = false; int fontSize = 11;String fontName = "Calibri";
+	        CellStyle greenStyle = cellFormating(workBook,greenRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle greenStyle1 = cellFormating(workBook,greenRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle bluetyle = cellFormating(workBook,blueRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle blueGreentyle = cellFormating(workBook,blueRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+
+	        CellStyle whiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        
+	        CellStyle indexWhiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	       
+	        CellStyle indexWhiteStyle1 = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle indexWhiteStyle2 = cellFormating(workBook,whiteRGB,HorizontalAlignment.RIGHT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle activityNameStyle3 = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+
+	        
+	        isWrapText = true;isBoldText = false;isItalicText = false; fontSize = 11;fontName = "Calibri";
+	        CellStyle numberStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle activityNameStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle activityNameStyle1 = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+
+	        CellStyle activityNameStyle2 = cellFormating(workBook,whiteRGB,HorizontalAlignment.RIGHT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+
+	        CellStyle indexShadedStyle = cellFormating(workBook,greyRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,true,isItalicText,11,fontName);
+
+
+	        /********************************************************/
+          
+	        if(!(StringUtils.isEmpty(reportData))){
+	        	
+       		 	XSSFSheet rrSheet1 = workBook.createSheet(WorkbookUtil.createSafeSheetName("List of Contracts Report"));
+		        XSSFRow headRow = rrSheet1.createRow(0);
+		        
+		        Cell cell = headRow.createCell(0);
+		        
+		        XSSFRow mainHeadingRow = rrSheet1.createRow(1);
+		        
+		        cell = mainHeadingRow.createCell(0);
+		        cell.setCellStyle(bluetyle);
+		        cell.setCellValue("Date of Completion Report");
+		        
+		        for (int i = 1; i < 14; i++) {		        	
+			        cell = mainHeadingRow.createCell(i);
+			        cell.setCellStyle(bluetyle);
+					cell.setCellValue("");
+				}	
+		        rrSheet1.addMergedRegion(new CellRangeAddress(1, 1, 0,14));
+		int rowNo = 3;
+
+        XSSFRow structureRow = rrSheet1.createRow(rowNo);
+
+        /**********************************************************************/
+		String headerString = "S. No.^Status of Contract^Contract ID^Contract Short Name^Contractor Name^LOA Date^Original Completion Date^Revised Completion Date^Progress % ";
+        String[] headerStringArr = headerString.split("\\^");
+        
+        XSSFRow headingRow = rrSheet1.createRow(rowNo);
+        for (int i = 0; i < headerStringArr.length ; i++) {	
+        	
+    			 cell = headingRow.createCell(i);
+    	    	 cell.setCellStyle(whiteStyle);
+				 cell.setCellValue(headerStringArr[i]);
+		}	
+        
+        List<String> WorksList = new ArrayList<>(); 
+        
+        for (Contract zObj : reportData.getReport1List())  
+    	{
+    		if(WorksList.indexOf(zObj.getWork_short_name())==-1)
+    		{
+    			WorksList.add(zObj.getWork_short_name());
+    		}
+    	}       
+        rowNo++;
+        int x = 0,z=0;
+
+		for (int i2 = 0; i2 < WorksList.size(); i2++) 
+		{   
+			
+			int k=1;
+			int m=0;
+	        	 for (Contract zObj : reportData.getReport1List()) { 
+	        		 
+	        		 
+	        		 if(WorksList.get(i2).compareTo(zObj.getWork_short_name())==0)
+	        		 {
+	        			 if(m==0) 
+	        			 {
+			     	        XSSFRow headWorkRow = rrSheet1.createRow(rowNo);
+			    	        cell = headWorkRow.createCell(0);
+			    	        cell.setCellStyle(bluetyle);
+			    	        cell.setCellValue("Work:");
+			    	        
+			    	        cell = headWorkRow.createCell(1);
+			    	        cell.setCellStyle(blueGreentyle);
+			    	        cell.setCellValue(WorksList.get(i2));			    	        
+			    	        
+			    	        for (int i = 2; i < 14; i++) {		        	
+			    		        cell = mainHeadingRow.createCell(i);
+			    		        cell.setCellStyle(bluetyle);
+			    				cell.setCellValue("");
+			    			}	
+			    	        rrSheet1.addMergedRegion(new CellRangeAddress(rowNo, rowNo, 1,14));       
+			    	        
+			    	        rowNo++;
+			    	        m++;
+	        			 }
+	        		 
+	        		 
+	        		 
+	        		  XSSFRow row = rrSheet1.createRow(rowNo);
+				            int c = 0;
+				            
+							cell = row.createCell(c++);
+							cell.setCellStyle(activityNameStyle);
+							cell.setCellValue(k);				            
+				       
+							cell = row.createCell(c++);
+							cell.setCellStyle(activityNameStyle);
+							cell.setCellValue(zObj.getContract_status());
+						
+						    cell = row.createCell(c++);
+							cell.setCellStyle(activityNameStyle);
+							cell.setCellValue(zObj.getContract_id());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(activityNameStyle);
+							cell.setCellValue(zObj.getContract_name());
+						
+						    cell = row.createCell(c++);
+							cell.setCellStyle(activityNameStyle);
+							cell.setCellValue(zObj.getContractor_name());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(activityNameStyle);
+							cell.setCellValue(zObj.getLoa_date());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(activityNameStyle);
+							cell.setCellValue(zObj.getOriginal_completion_date());
+						
+						    cell = row.createCell(c++);
+							cell.setCellStyle(activityNameStyle);
+							cell.setCellValue(zObj.getRevised_date_of_completion());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(activityNameStyle);
+							cell.setCellValue(zObj.getPercent_progress());
+						
+						    cell = row.createCell(c++);
+							cell.setCellStyle(activityNameStyle);
+							cell.setCellValue(zObj.getEstimated_cost());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(activityNameStyle);
+							cell.setCellValue(zObj.getAwarded_cost());
+						
+						    cell = row.createCell(c++);
+							cell.setCellStyle(activityNameStyle);
+							cell.setCellValue(zObj.getRevised_cost());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(activityNameStyle);
+							cell.setCellValue(zObj.getExpenditure());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(activityNameStyle);
+							cell.setCellValue(zObj.getBg_valid_Upto());							
+
+						    cell = row.createCell(c++);
+							cell.setCellStyle(activityNameStyle);
+							cell.setCellValue(zObj.getInsurance_valid_Upto());
+					        rowNo++;
+					        k++;
+	        	 }
+	        	 }
+		}
+				  for(int columnIndex = 1; columnIndex < headerStringArr.length; columnIndex++) {
+				  	rrSheet1.setColumnWidth(columnIndex, 25 * 150);
+				  	//rrSheet1.autoSizeColumn(columnIndex);
+				  	rrSheet1.setColumnWidth(4, 35 * 235);
+					rrSheet1.setColumnWidth(5, 35 * 235);
+				   }
+
+            /*******************************************************************************/
+            
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
+            Date date = new Date();
+            String fileName = "Date_of_Completion_Report_"+dateFormat.format(date);
+            
+            try{
+                /*FileOutputStream fos = new FileOutputStream(fileDirectory +fileName+".xls");
+                workBook.write(fos);
+                fos.flush();*/
+            	
+               response.setContentType("application/.csv");
+ 			   response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+ 			   response.setContentType("application/vnd.ms-excel");
+ 			   // add response header
+ 			   response.addHeader("Content-Disposition", "attachment; filename=" + fileName+".xlsx");
+ 			   
+ 			    //copies all bytes from a file to an output stream
+ 			   workBook.write(response.getOutputStream()); // Write workbook to response.
+	           workBook.close();
+ 			    //flushes output stream
+ 			    response.getOutputStream().flush();
+            	
+                
+                //attributes.addFlashAttribute("success",dataExportSucess);
+            	//response.setContentType("application/vnd.ms-excel");
+            	//response.setHeader("Content-Disposition", "attachment; filename=filename.xls");
+            	//XSSFWorkbook  workbook = new XSSFWorkbook ();
+            	// ...
+            	// Now populate workbook the usual way.
+            	// ...
+            	//workbook.write(response.getOutputStream()); // Write workbook to response.
+            	//workbook.close();
+            }catch(FileNotFoundException e){
+                e.printStackTrace();
+                logger.error("generateContractCompletionReport : " + e.getMessage());
+                //attributes.addFlashAttribute("error",dataExportInvalid);
+            }catch(IOException e){
+                e.printStackTrace();
+                logger.error("generateContractCompletionReport : " + e.getMessage());
+                //attributes.addFlashAttribute("error",dataExportError);
+            }
+	      }
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("generateContractCompletionReport : " + e.getMessage());
+		}
+    
+	}	
+
 	private boolean generatContractReportForAll(HttpServletResponse response, String currentDate, Contract obj) {
 		//XWPFDocument document = new XWPFDocument(); 
 		//StringBuilder repositoryExcerpts = new StringBuilder(); 
@@ -448,6 +968,291 @@ public class ContractReportController {
 		}
 		
 		return flag;
+	}
+
+
+	private CellStyle cellFormating(XSSFWorkbook workBook,byte[] rgb,HorizontalAlignment hAllign, VerticalAlignment vAllign, boolean isWrapText,boolean isBoldText,boolean isItalicText,int fontSize,String fontName) {
+		CellStyle style = workBook.createCellStyle();
+		//Setting Background color  
+		//style.setFillBackgroundColor(IndexedColors.AQUA.getIndex());
+		style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+		
+		if (style instanceof XSSFCellStyle) {
+		   XSSFCellStyle xssfcellcolorstyle = (XSSFCellStyle)style;
+		   xssfcellcolorstyle.setFillForegroundColor(new XSSFColor(rgb, null));
+		}
+		//style.setFillPattern(FillPatternType.ALT_BARS);
+		style.setBorderBottom(BorderStyle.MEDIUM);
+		style.setBorderTop(BorderStyle.MEDIUM);
+		style.setBorderLeft(BorderStyle.MEDIUM);
+		style.setBorderRight(BorderStyle.MEDIUM);
+		style.setAlignment(hAllign);
+		style.setVerticalAlignment(vAllign);
+		style.setWrapText(isWrapText);
+		
+		Font font = workBook.createFont();
+        //font.setColor(HSSFColor.HSSFColorPredefined.WHITE.getIndex());
+        font.setFontHeightInPoints((short)fontSize);  
+        font.setFontName(fontName);  //"Calibri"
+        
+        font.setItalic(isItalicText); 
+        font.setBold(isBoldText);
+        // Applying font to the style  
+        style.setFont(font); 
+        
+        return style;
+	}
+	
+	@RequestMapping(value = "/generate-list-of-contracts-report/{id}", method = {RequestMethod.GET,RequestMethod.POST})
+	private void generateListofContractsReport(HttpServletResponse response, String currentDate, Contract obj) {
+		try{
+			
+			SimpleDateFormat formatter = new SimpleDateFormat("d-MMM-YY");
+			
+			Contract reportData = service.generateListofContractsReport(obj);
+			
+			XSSFWorkbook  workBook = new XSSFWorkbook();
+			
+			/***************************************************************************/
+	        
+			byte[] blueRGB = new byte[]{(byte)214, (byte)255, (byte)255};
+			byte[] yellowRGB = new byte[]{(byte)255, (byte)255, (byte)153};
+	        byte[] greenRGB = new byte[]{(byte)146, (byte)208, (byte)80};
+	        byte[] redRGB = new byte[]{(byte)255, (byte)0, (byte)0};
+	        byte[] whiteRGB = new byte[]{(byte)255, (byte)255, (byte)255};
+	        byte[] greyRGB = new byte[]{(byte)211, (byte)211, (byte)211};
+	        
+	        
+	        boolean isWrapText = true;boolean isBoldText = true;boolean isItalicText = false; int fontSize = 11;String fontName = "Calibri";
+	        CellStyle greenStyle = cellFormating(workBook,greenRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle greenStyle1 = cellFormating(workBook,greenRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle bluetyle = cellFormating(workBook,blueRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle blueGreentyle = cellFormating(workBook,blueRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+
+	        CellStyle whiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        
+	        CellStyle indexWhiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	       
+	        CellStyle indexWhiteStyle1 = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle indexWhiteStyle2 = cellFormating(workBook,whiteRGB,HorizontalAlignment.RIGHT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle activityNameStyle3 = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+
+	        
+	        isWrapText = true;isBoldText = false;isItalicText = false; fontSize = 11;fontName = "Calibri";
+	        CellStyle numberStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle activityNameStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle activityNameStyle1 = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+
+	        CellStyle activityNameStyle2 = cellFormating(workBook,whiteRGB,HorizontalAlignment.RIGHT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+
+	        CellStyle indexShadedStyle = cellFormating(workBook,greyRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,true,isItalicText,11,fontName);
+
+
+	        /********************************************************/
+          
+	        if(!(StringUtils.isEmpty(reportData))){
+	        	
+       		 	XSSFSheet rrSheet1 = workBook.createSheet(WorkbookUtil.createSafeSheetName("List of Contracts Report"));
+		        XSSFRow headRow = rrSheet1.createRow(0);
+		        
+		        Cell cell = headRow.createCell(0);
+		        
+		        XSSFRow mainHeadingRow = rrSheet1.createRow(1);
+		        
+		        cell = mainHeadingRow.createCell(0);
+		        cell.setCellStyle(bluetyle);
+		        cell.setCellValue("List of Contracts Report");
+		        
+		        for (int i = 1; i < 14; i++) {		        	
+			        cell = mainHeadingRow.createCell(i);
+			        cell.setCellStyle(bluetyle);
+					cell.setCellValue("");
+				}	
+		        rrSheet1.addMergedRegion(new CellRangeAddress(1, 1, 0,14));
+		int rowNo = 3;
+
+        XSSFRow structureRow = rrSheet1.createRow(rowNo);
+
+        /**********************************************************************/
+		String headerString = "S. No.^Status of Contract^Contract ID^Contract Short Name^Contractor Name^LOA Date^Original Completion Date^Revised Completion Date^Progress %^Estimated Cost (Cr)^Awarded Cost (Cr)^Revised Cost (Cr)^Expenditure (Cr)^BG Valid Upto^Insurance Valid Upto ";
+        String[] headerStringArr = headerString.split("\\^");
+        
+        XSSFRow headingRow = rrSheet1.createRow(rowNo);
+        for (int i = 0; i < headerStringArr.length ; i++) {	
+        	
+    			 cell = headingRow.createCell(i);
+    	    	 cell.setCellStyle(whiteStyle);
+				 cell.setCellValue(headerStringArr[i]);
+		}	
+        
+        List<String> WorksList = new ArrayList<>(); 
+        
+        for (Contract zObj : reportData.getReport1List())  
+    	{
+    		if(WorksList.indexOf(zObj.getWork_short_name())==-1)
+    		{
+    			WorksList.add(zObj.getWork_short_name());
+    		}
+    	}       
+        rowNo++;
+        int x = 0,z=0;
+
+		for (int i2 = 0; i2 < WorksList.size(); i2++) 
+		{   
+			
+			int k=1;
+			int m=0;
+	        	 for (Contract zObj : reportData.getReport1List()) { 
+	        		 
+	        		 
+	        		 if(WorksList.get(i2).compareTo(zObj.getWork_short_name())==0)
+	        		 {
+	        			 if(m==0) 
+	        			 {
+			     	        XSSFRow headWorkRow = rrSheet1.createRow(rowNo);
+			    	        cell = headWorkRow.createCell(0);
+			    	        cell.setCellStyle(bluetyle);
+			    	        cell.setCellValue("Work:");
+			    	        
+			    	        cell = headWorkRow.createCell(1);
+			    	        cell.setCellStyle(blueGreentyle);
+			    	        cell.setCellValue(WorksList.get(i2));			    	        
+			    	        
+			    	        for (int i = 2; i < 14; i++) {		        	
+			    		        cell = mainHeadingRow.createCell(i);
+			    		        cell.setCellStyle(bluetyle);
+			    				cell.setCellValue("");
+			    			}	
+			    	        rrSheet1.addMergedRegion(new CellRangeAddress(rowNo, rowNo, 1,14));       
+			    	        
+			    	        rowNo++;
+			    	        m++;
+	        			 }
+	        		 
+	        		 
+	        		 
+	        		  XSSFRow row = rrSheet1.createRow(rowNo);
+				            int c = 0;
+				            
+							cell = row.createCell(c++);
+							cell.setCellStyle(activityNameStyle);
+							cell.setCellValue(k);				            
+				       
+							cell = row.createCell(c++);
+							cell.setCellStyle(activityNameStyle);
+							cell.setCellValue(zObj.getContract_status());
+						
+						    cell = row.createCell(c++);
+							cell.setCellStyle(activityNameStyle);
+							cell.setCellValue(zObj.getContract_id());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(activityNameStyle);
+							cell.setCellValue(zObj.getContract_name());
+						
+						    cell = row.createCell(c++);
+							cell.setCellStyle(activityNameStyle);
+							cell.setCellValue(zObj.getContractor_name());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(activityNameStyle);
+							cell.setCellValue(zObj.getLoa_date());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(activityNameStyle);
+							cell.setCellValue(zObj.getOriginal_completion_date());
+						
+						    cell = row.createCell(c++);
+							cell.setCellStyle(activityNameStyle);
+							cell.setCellValue(zObj.getRevised_date_of_completion());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(activityNameStyle);
+							cell.setCellValue(zObj.getPercent_progress());
+						
+						    cell = row.createCell(c++);
+							cell.setCellStyle(activityNameStyle);
+							cell.setCellValue(zObj.getEstimated_cost());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(activityNameStyle);
+							cell.setCellValue(zObj.getAwarded_cost());
+						
+						    cell = row.createCell(c++);
+							cell.setCellStyle(activityNameStyle);
+							cell.setCellValue(zObj.getRevised_cost());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(activityNameStyle);
+							cell.setCellValue(zObj.getExpenditure());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(activityNameStyle);
+							cell.setCellValue(zObj.getBg_valid_Upto());							
+
+						    cell = row.createCell(c++);
+							cell.setCellStyle(activityNameStyle);
+							cell.setCellValue(zObj.getInsurance_valid_Upto());
+					        rowNo++;
+					        k++;
+	        	 }
+	        	 }
+		}
+				  for(int columnIndex = 1; columnIndex < headerStringArr.length; columnIndex++) {
+				  	rrSheet1.setColumnWidth(columnIndex, 25 * 150);
+				  	//rrSheet1.autoSizeColumn(columnIndex);
+				  	rrSheet1.setColumnWidth(4, 35 * 235);
+					rrSheet1.setColumnWidth(5, 35 * 235);
+				   }
+
+            /*******************************************************************************/
+            
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
+            Date date = new Date();
+            String fileName = "List_of_Contracts_Report_"+dateFormat.format(date);
+            
+            try{
+                /*FileOutputStream fos = new FileOutputStream(fileDirectory +fileName+".xls");
+                workBook.write(fos);
+                fos.flush();*/
+            	
+               response.setContentType("application/.csv");
+ 			   response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+ 			   response.setContentType("application/vnd.ms-excel");
+ 			   // add response header
+ 			   response.addHeader("Content-Disposition", "attachment; filename=" + fileName+".xlsx");
+ 			   
+ 			    //copies all bytes from a file to an output stream
+ 			   workBook.write(response.getOutputStream()); // Write workbook to response.
+	           workBook.close();
+ 			    //flushes output stream
+ 			    response.getOutputStream().flush();
+            	
+                
+                //attributes.addFlashAttribute("success",dataExportSucess);
+            	//response.setContentType("application/vnd.ms-excel");
+            	//response.setHeader("Content-Disposition", "attachment; filename=filename.xls");
+            	//XSSFWorkbook  workbook = new XSSFWorkbook ();
+            	// ...
+            	// Now populate workbook the usual way.
+            	// ...
+            	//workbook.write(response.getOutputStream()); // Write workbook to response.
+            	//workbook.close();
+            }catch(FileNotFoundException e){
+                e.printStackTrace();
+                logger.error("generateListofContractsReport : " + e.getMessage());
+                //attributes.addFlashAttribute("error",dataExportInvalid);
+            }catch(IOException e){
+                e.printStackTrace();
+                logger.error("generateListofContractsReport : " + e.getMessage());
+                //attributes.addFlashAttribute("error",dataExportError);
+            }
+	      }
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("generateListofContractsReport : " + e.getMessage());
+		}
+    
 	}
 	
 	@RequestMapping(value = "/generate-contract-doc-report/{id}", method = {RequestMethod.GET,RequestMethod.POST})

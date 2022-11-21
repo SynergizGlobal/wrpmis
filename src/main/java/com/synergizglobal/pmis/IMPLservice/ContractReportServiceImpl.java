@@ -40,6 +40,23 @@ public class ContractReportServiceImpl implements ContractReportService{
 	public Map<String,List<Contract>> getContractsListForReport(Contract obj) throws Exception {
 		return dao.getContractsListForReport(obj);
 	}
+	
+	@Override
+	public Contract generateListofContractsReport(Contract obj) throws Exception {
+		return dao.generateListofContractsReport(obj);
+	}
+	
+	@Override
+	public Contract generateContractBgInsuranceReport(Contract obj) throws Exception
+	{
+		return dao.generateContractBgInsuranceReport(obj);
+	}
+	
+	@Override
+	public Contract generateContractCompletionReport(Contract obj) throws Exception
+	{
+		return dao.generateContractCompletionReport(obj);
+	}
 
 	@Override
 	public Map<String,List<Contract>> getContractsBankGuaranteeForReport(Contract obj) throws Exception {

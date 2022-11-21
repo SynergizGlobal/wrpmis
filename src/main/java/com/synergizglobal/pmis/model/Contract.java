@@ -30,7 +30,7 @@ public class Contract {
 	
 	private String contractor_id, contractor_specilization_fk, address,
 	primary_contact_name, phone_number, pan_number, gst_number, bank_name, account_number, ifsc_code,target_doc,structure_type_per,total,last_financial_progress,
-	
+	original_completion_date,revised_date_of_completion,percent_progress,revised_cost,expenditure,bG_valid_Upto,insurance_valid_Upto,bg_valid_Upto,
 	revisionnumber,revisionestimatedcost,revisionplanneddateofaward,revisionplanneddateofcompletion,noticeinvitingtender,approvalbybank,contract_notice_inviting_tender;
 	
 	private MultipartFile contractFile;
@@ -51,6 +51,11 @@ public class Contract {
 	private List<Contract> departmentList;
 	private List<Contract> executivesList;
 	private List<Contract> responsiblePersonsList;
+	private List<Contract> report1List;
+	
+	
+	
+	private List<Contract> worksList;
 
 
 	public String getEstimated_cost_unit() {
@@ -2063,6 +2068,86 @@ public class Contract {
 
 	public void setSearchStr(String searchStr) {
 		this.searchStr = searchStr;
+	}
+
+	public List<Contract> getWorksList() {
+		return worksList;
+	}
+
+	public void setWorksList(List<Contract> worksList) {
+		this.worksList = worksList;
+	}
+
+	public List<Contract> getReport1List() {
+		return report1List;
+	}
+
+	public void setReport1List(List<Contract> report1List) {
+		this.report1List = report1List;
+	}
+
+	public String getOriginal_completion_date() {
+		return original_completion_date;
+	}
+
+	public void setOriginal_completion_date(String original_completion_date) {
+		this.original_completion_date = original_completion_date;
+	}
+
+	public String getRevised_date_of_completion() {
+		return revised_date_of_completion;
+	}
+
+	public void setRevised_date_of_completion(String revised_date_of_completion) {
+		this.revised_date_of_completion = revised_date_of_completion;
+	}
+
+	public String getPercent_progress() {
+		return percent_progress;
+	}
+
+	public void setPercent_progress(String percent_progress) {
+		this.percent_progress = percent_progress;
+	}
+
+	public String getRevised_cost() {
+		return revised_cost;
+	}
+
+	public void setRevised_cost(String revised_cost) {
+		this.revised_cost = revised_cost;
+	}
+
+	public String getExpenditure() {
+		return expenditure;
+	}
+
+	public void setExpenditure(String expenditure) {
+		this.expenditure = expenditure;
+	}
+
+	public String getbG_valid_Upto() {
+		return bG_valid_Upto;
+	}
+
+	public void setbG_valid_Upto(String bG_valid_Upto) {
+		this.bG_valid_Upto = bG_valid_Upto;
+	}
+
+	public String getInsurance_valid_Upto() {
+		return insurance_valid_Upto;
+	}
+
+	public void setInsurance_valid_Upto(String insurance_valid_Upto) {
+		this.insurance_valid_Upto = insurance_valid_Upto;
+	}
+
+	public String getBg_valid_Upto() {
+		return bg_valid_Upto;
+	}
+
+	public void setBg_valid_Upto(String bg_valid_Upto) {
+		this.bg_valid_Upto = bg_valid_Upto;
 	}
 	
 }

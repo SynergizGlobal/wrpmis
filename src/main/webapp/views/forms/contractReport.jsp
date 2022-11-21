@@ -247,6 +247,25 @@
 				$("#contractDiv").hide();
 				$("#CSdiv").hide();
 
+			}else if(ReportNo==7){
+				$("#rptName").html("List of Contracts Report");
+				$("#nextRow").hide();
+				$("#CSdiv").show();	
+
+			}else if(ReportNo==8){
+				$("#rptName").html("BG Insurance Report");
+				$("#nextRow").show();
+				$("#dateDiv").show();
+				$("#contractDiv").hide();
+				$("#CSdiv").hide();
+
+			}else if(ReportNo==9){
+				$("#rptName").html("Contract Completion Report");
+				$("#nextRow").show();
+				$("#dateDiv").show();
+				$("#contractDiv").hide();
+				$("#CSdiv").hide();
+
 			}
 		    var filters = window.localStorage.getItem("contarctReportFilters"+idNo);
             
@@ -669,7 +688,13 @@
             	$("#contractReportForm").attr("action","<%=request.getContextPath()%>/generate-contract-insurance-report/"+report_no);
     		}else if(report_no == '6'){
             	$("#contractReportForm").attr("action","<%=request.getContextPath()%>/generate-contract-doc-bg-insurance-report/"+report_no);
-    		}  
+    		}else if(report_no == '7'){
+            	$("#contractReportForm").attr("action","<%=request.getContextPath()%>/generate-list-of-contracts-report/"+report_no);
+    		}else if(report_no == '8'){
+            	$("#contractReportForm").attr("action","<%=request.getContextPath()%>/generate-bg-insurance-report/"+report_no);
+    		}else if(report_no == '9'){
+            	$("#contractReportForm").attr("action","<%=request.getContextPath()%>/generate-contract-completion-report/"+report_no);
+    		}   
         	if(report_no != '2'){
        			$("#contractReportForm").submit();
        		}

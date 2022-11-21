@@ -50,5 +50,11 @@ public interface ContractReportDao {
 
 	List<Contract> getStatsuListInContractReport(Contract obj) throws Exception;
 
+	Contract generateListofContractsReport(Contract obj)  throws Exception;
+
+	Contract generateContractBgInsuranceReport(Contract obj) throws Exception;
+
+	Contract generateContractCompletionReport(Contract obj) throws Exception;
+
 	
 }

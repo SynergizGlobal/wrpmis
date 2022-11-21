@@ -31,7 +31,9 @@ public class Contract {
 	private String contractor_id, contractor_specilization_fk, address,
 	primary_contact_name, phone_number, pan_number, gst_number, bank_name, account_number, ifsc_code,target_doc,structure_type_per,total,last_financial_progress,
 	original_completion_date,revised_date_of_completion,percent_progress,revised_cost,expenditure,bG_valid_Upto,insurance_valid_Upto,bg_valid_Upto,
-	revisionnumber,revisionestimatedcost,revisionplanneddateofaward,revisionplanneddateofcompletion,noticeinvitingtender,approvalbybank,contract_notice_inviting_tender;
+	revisionnumber,revisionestimatedcost,revisionplanneddateofaward,revisionplanneddateofcompletion,noticeinvitingtender,approvalbybank,contract_notice_inviting_tender,
+	
+	bg_insurance,bg_insurance_type,bg_insurance_number,amount_inr,raised_date,expiry_date;
 	
 	private MultipartFile contractFile;
 	
@@ -2148,6 +2150,54 @@ public class Contract {
 
 	public void setBg_valid_Upto(String bg_valid_Upto) {
 		this.bg_valid_Upto = bg_valid_Upto;
+	}
+
+	public String getBg_insurance() {
+		return bg_insurance;
+	}
+
+	public void setBg_insurance(String bg_insurance) {
+		this.bg_insurance = bg_insurance;
+	}
+
+	public String getBg_insurance_type() {
+		return bg_insurance_type;
+	}
+
+	public void setBg_insurance_type(String bg_insurance_type) {
+		this.bg_insurance_type = bg_insurance_type;
+	}
+
+	public String getBg_insurance_number() {
+		return bg_insurance_number;
+	}
+
+	public void setBg_insurance_number(String bg_insurance_number) {
+		this.bg_insurance_number = bg_insurance_number;
+	}
+
+	public String getAmount_inr() {
+		return amount_inr;
+	}
+
+	public void setAmount_inr(String amount_inr) {
+		this.amount_inr = amount_inr;
+	}
+
+	public String getRaised_date() {
+		return raised_date;
+	}
+
+	public void setRaised_date(String raised_date) {
+		this.raised_date = raised_date;
+	}
+
+	public String getExpiry_date() {
+		return expiry_date;
+	}
+
+	public void setExpiry_date(String expiry_date) {
+		this.expiry_date = expiry_date;
 	}
 	
 }

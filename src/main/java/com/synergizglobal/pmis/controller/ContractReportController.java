@@ -440,7 +440,7 @@ public class ContractReportController {
 	          
 		        if(!(StringUtils.isEmpty(reportData))){
 		        	
-	       		 	XSSFSheet rrSheet1 = workBook.createSheet(WorkbookUtil.createSafeSheetName("List of Contracts Report"));
+	       		 	XSSFSheet rrSheet1 = workBook.createSheet(WorkbookUtil.createSafeSheetName("List of Bank Guarantees/Insurances Report"));
 			        XSSFRow headRow = rrSheet1.createRow(0);
 			        
 			        Cell cell = headRow.createCell(0);
@@ -451,12 +451,12 @@ public class ContractReportController {
 			        cell.setCellStyle(bluetyle);
 			        cell.setCellValue("List of Bank Guarantees/Insurances Report");
 			        
-			        for (int i = 1; i < 14; i++) {		        	
+			        for (int i = 1; i < 12; i++) {		        	
 				        cell = mainHeadingRow.createCell(i);
 				        cell.setCellStyle(bluetyle);
 						cell.setCellValue("");
 					}	
-			        rrSheet1.addMergedRegion(new CellRangeAddress(1, 1, 0,14));
+			        rrSheet1.addMergedRegion(new CellRangeAddress(1, 1, 0,12));
 			int rowNo = 3;
 
 	        XSSFRow structureRow = rrSheet1.createRow(rowNo);
@@ -506,12 +506,12 @@ public class ContractReportController {
 				    	        cell.setCellStyle(blueGreentyle);
 				    	        cell.setCellValue(WorksList.get(i2));			    	        
 				    	        
-				    	        for (int i = 2; i < 14; i++) {		        	
+				    	        for (int i = 2; i < 12; i++) {		        	
 				    		        cell = mainHeadingRow.createCell(i);
 				    		        cell.setCellStyle(bluetyle);
 				    				cell.setCellValue("");
 				    			}	
-				    	        rrSheet1.addMergedRegion(new CellRangeAddress(rowNo, rowNo, 1,14));       
+				    	        rrSheet1.addMergedRegion(new CellRangeAddress(rowNo, rowNo, 1,12));       
 				    	        
 				    	        rowNo++;
 				    	        m++;
@@ -540,11 +540,11 @@ public class ContractReportController {
 								
 								cell = row.createCell(c++);
 								cell.setCellStyle(activityNameStyle);
-								cell.setCellValue(zObj.getBg_type_fk());
+								cell.setCellValue(zObj.getBg_insurance());
 								
 								cell = row.createCell(c++);
 								cell.setCellStyle(activityNameStyle);
-								cell.setCellValue(zObj.getBg_type_fk());
+								cell.setCellValue(zObj.getBg_insurance_type());
 							
 							    cell = row.createCell(c++);
 								cell.setCellStyle(activityNameStyle);
@@ -552,31 +552,23 @@ public class ContractReportController {
 								
 								cell = row.createCell(c++);
 								cell.setCellStyle(activityNameStyle);
-								cell.setCellValue(zObj.getBg_number());
+								cell.setCellValue(zObj.getBg_insurance_number());
 							
 							    cell = row.createCell(c++);
 								cell.setCellStyle(activityNameStyle);
-								cell.setCellValue("");
+								cell.setCellValue(zObj.getAmount_inr());
 								
 								cell = row.createCell(c++);
 								cell.setCellStyle(activityNameStyle);
-								cell.setCellValue(zObj.getAwarded_cost());
+								cell.setCellValue(zObj.getRaised_date());
 							
 							    cell = row.createCell(c++);
 								cell.setCellStyle(activityNameStyle);
-								cell.setCellValue(zObj.getRevised_cost());
+								cell.setCellValue(zObj.getExpiry_date());
 								
 								cell = row.createCell(c++);
 								cell.setCellStyle(activityNameStyle);
-								cell.setCellValue(zObj.getExpenditure());
-								
-								cell = row.createCell(c++);
-								cell.setCellStyle(activityNameStyle);
-								cell.setCellValue(zObj.getBg_valid_Upto());							
-
-							    cell = row.createCell(c++);
-								cell.setCellStyle(activityNameStyle);
-								cell.setCellValue(zObj.getInsurance_valid_Upto());
+								cell.setCellValue(zObj.getRelease_date());
 						        rowNo++;
 						        k++;
 		        	 }

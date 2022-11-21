@@ -2823,8 +2823,10 @@ public class ContractReportDaoImpl implements ContractReportDao {
 	public Contract generateContractBgInsuranceReport(Contract obj) throws Exception {
 					List<Contract> objsList = null;
 					try {
-						String hodQry =" select  work as work_short_name,contractor_name,contract_id,bg_insurance,bg_insurance_type,issuing_bank,bg_insurance_number,amount_inr,raised_date,expiry_date,release_date\r\n" + 
-								" from bg_insurance_view where 0=0 ";
+						String hodQry ="  select work as work_short_name,contract_name,contractor_name,contract_id,bg_insurance,bg_insurance_type,issuing_bank,bg_insurance_number,amount_inr,raised_date,expiry_date,release_date from(SELECT DISTINCT w.work_short_name AS Work,c.contract_name,contractor_name,bg.contract_id_fk AS 'Contract_ID','BG' As BG_Insurance,bg.bg_type_fk AS 'BG_Insurance_Type',bg.issuing_bank AS 'Issuing_Bank', bg.bg_number AS 'BG_Insurance_Number',bg.bg_value AS 'Amount_INR',CAST(bg.bg_date as varchar) AS 'Raised_Date',bg.valid_upto AS 'Expiry_Date',CAST(bg.release_date as varchar) AS 'Release_Date'  From bank_guarantee bg inner join contract cd on contract_id_fk=cd.contract_id   inner join contractor cr on cr.contractor_id=cd.contractor_id_fk " + 
+								" inner join work w on w.work_id=cd.work_id_fk  inner join (select  w1.work_short_name,contract_id_fk,bg_number,max(bank_guarantee_id) as bank_guarantee_id  from bank_guarantee bg1 left join contract cd1 on bg1.contract_id_fk=cd1.contract_id  " + 
+								" inner join contractor cr1 on cr1.contractor_id=cd1.contractor_id_fk " + 
+								" inner join work w1 on w1.work_id=cd1.work_id_fk where bg1.bg_number is not null group by w1.work_short_name,contract_id_fk,bg_number) as AA on AA.work_short_name=w.work_short_name and AA.contract_id_fk=bg.contract_id_fk  and AA.bank_guarantee_id=BG.bank_guarantee_id where bg.bg_number is not null ";
 						
 						int arrSize = 0;			
 						
@@ -2852,7 +2854,42 @@ public class ContractReportDaoImpl implements ContractReportDao {
 							hodQry = hodQry + " and c.contract_status_fk = ?";
 							arrSize++;
 						}
-						hodQry = hodQry + " order by work_id_fk,contract_status desc";
+						hodQry = hodQry + " union all ";
+						
+						
+						hodQry =hodQry+"  SELECT DISTINCT w.work_short_name AS Work,c.contract_name,contractor_name,i.contract_id_fk AS 'Contract_ID','Insurance' As BG_Insurance,i.insurance_type_fk AS 'BG_Insurance_Type',i.issuing_agency AS 'Issuing_Bank', i.insurance_number AS 'BG_Insurance_Number',i.insurance_value AS 'Amount_INR','NA' AS 'Raised_Date',i.valid_upto AS 'Expiry_Date','NA' AS 'Release_Date'  From insurance i inner join contract cd on contract_id_fk=cd.contract_id   " + 
+								" inner join contractor cr on cr.contractor_id=cd.contractor_id_fk " + 
+								"inner join work w on w.work_id=cd.work_id_fk  inner join (select  w1. " + 
+								"work_short_name,contract_id_fk,insurance_number,max(insurance_id) as bank_guarantee_id  from insurance i1 left join contract cd1 on i1.contract_id_fk=cd1.contract_id  inner join contractor cr1 on cr1.contractor_id=cd1.contractor_id_fk inner join work w1 on w1.work_id=cd1.work_id_fk where i1.insurance_number is not null  " + 
+								"group by w1.work_short_name,contract_id_fk,insurance_number) as AA on AA.work_short_name=w.work_short_name and AA.contract_id_fk=i.contract_id_fk  and AA.bank_guarantee_id=i.insurance_id where i.insurance_number is not null ";
+						
+						
+						if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
+							hodQry = hodQry + " and c.contract_id = ? ";
+							arrSize++;
+						}
+						if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designation())) {
+							hodQry = hodQry + " and u.designation = ? ";
+							arrSize++;
+						}
+						if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+							hodQry = hodQry + " and c.work_id_fk = ?";
+							arrSize++;
+						}
+						if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+							hodQry = hodQry + " and c.contractor_id_fk = ?";
+							arrSize++;
+						}	
+						if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus())) {
+							hodQry = hodQry + " and c.status = ?";
+							arrSize++;
+						}				
+						if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
+							hodQry = hodQry + " and c.contract_status_fk = ?";
+							arrSize++;
+						}	
+						
+						hodQry = hodQry + " ) as a ";
 						
 						Object[] pValues = new Object[arrSize];
 						int i = 0;
@@ -2874,6 +2911,26 @@ public class ContractReportDaoImpl implements ContractReportDao {
 						if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
 							pValues[i++] = obj.getContract_status_fk();
 						}
+						
+						if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
+							pValues[i++] = obj.getContract_id();
+						}
+						if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designation())) {
+							pValues[i++] = obj.getHod_designation();
+						}
+						if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+							pValues[i++] = obj.getWork_id_fk();
+						}
+						if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
+							pValues[i++] = obj.getContractor_id_fk();
+						}
+						if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus())) {
+							pValues[i++] = obj.getStatus();
+						}				
+						if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
+							pValues[i++] = obj.getContract_status_fk();
+						}						
+						
 						objsList = jdbcTemplate.query( hodQry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 						obj.setReport1List(objsList);
 						

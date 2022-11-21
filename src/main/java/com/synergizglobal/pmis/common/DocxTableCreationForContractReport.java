@@ -1169,6 +1169,184 @@ public class DocxTableCreationForContractReport {
 
         return p;
     } 
+	
+	public static void createTableForListOfContractsReport(WordprocessingMLPackage wordMLPackage, MainDocumentPart mp,
+			ObjectFactory factory, Map<String, List<Contract>> contractsData,String report_created_date) throws Exception {
+
+		try {
+
+			RPr titleRpr = getRPr(factory, "Calibri", "000000", "12", STHint.EAST_ASIA, true, false, false,
+					false);
+
+			RPr contentRpr = getRPr(factory, "Calibri", "000000", "12", STHint.EAST_ASIA, false, false, false,
+					false);
+
+			RPr contentRprParent = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA, true, false,
+					false, false);
+
+			RPr titleRPr = getRPr(factory, "Calibri", "000000", "28", STHint.EAST_ASIA, true, true, false, false);
+			RPr boldRPr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA, true, false, false, false);
+			RPr fontRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA, false, false, false,
+					false);
+			
+			RPr calibriBoldRPr = getRPr(factory, "Calibri", "000000", "24", STHint.EAST_ASIA,
+					true, false, false, false);	
+			
+			RPr calibriBoldRPr1 = getRPr(factory, "Calibri", "808080", "22", STHint.EAST_ASIA,
+					true, false, false, false);	
+			
+			RPr calibriBoldRPr2 = getRPr(factory, "Calibri", "000000", "26", STHint.EAST_ASIA,
+					true, false, false, false);				
+			
+			RPr calibriBoldDateRPr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA,
+					true, false, false, false);	
+			
+			RPr garamondBoldRPr = getRPr(factory, "Garamond", "000000", "20", STHint.EAST_ASIA,
+					true, false, false, false);
+			RPr garamondRPr = getRPr(factory, "Garamond", "000000", "22", STHint.EAST_ASIA,
+					false, false, false, false);
+
+			Tbl table = factory.createTbl();
+			addBorders(table, "2");
+			Tr titleRow0 = factory.createTr();
+			List<String> tableHeader0 = new ArrayList<String>();
+			tableHeader0.add("S. No.");
+			tableHeader0.add("Status of Contract");
+			tableHeader0.add("Contract ID");
+			tableHeader0.add("Contract Short Name");
+			tableHeader0.add("Contractor Name");
+			tableHeader0.add("LOA Date");	
+			tableHeader0.add("Original Completion Date");
+			tableHeader0.add("Revised Completion Date");					
+			tableHeader0.add("Progress %");
+			tableHeader0.add("Estimated Cost (Cr)");
+			tableHeader0.add("Awarded Cost (Cr)");
+			tableHeader0.add("Revised Cost (Cr)");
+			tableHeader0.add("Expenditure (Cr)");
+			tableHeader0.add("BG Valid Upto");
+			tableHeader0.add("Insurance Valid Upto");
+			
+			int columnNo = 1;
+			for (String headerValue : tableHeader0) {
+				int width = 0;
+				if(1 == columnNo) {
+					width = 230;
+				}else if(2 == columnNo) {
+					width = 830;
+				}else if(3 == columnNo) {
+					width = 1100;
+				}else if(4 == columnNo) {
+					width = 750;
+				}else if(5 == columnNo) {
+					width = 620;
+				}else if(6 == columnNo) {
+					width = 620;
+				}else if(7 == columnNo) {
+					width = 750;
+				}else if(8 == columnNo) {
+					width = 750;
+				}
+				else if(9 == columnNo) {
+					width = 760;
+				}
+				else if(10 == columnNo) {
+					width = 760;
+				}
+				else if(11 == columnNo) {
+					width = 700;
+				}
+				else if(12 == columnNo) {
+					width = 700;
+				}
+				else if(13 == columnNo) {
+					width = 750;
+				}
+				else if(14 == columnNo) {
+					width = 800;
+				}
+				else if(15 == columnNo) {
+					width = 800;
+				}					
+				columnNo++;
+				addTableCellAndWidth(factory, wordMLPackage, titleRow0, headerValue, garamondBoldRPr, JcEnumeration.CENTER, true,
+						"ecf2ff",width);
+			}
+			table.getContent().add(titleRow0);
+
+			
+			/************************************************************************************/
+			Tr titleRow = factory.createTr();
+			List<String> tableHeader = new ArrayList<String>();
+			tableHeader.add("Work:");
+			tableHeader.add("");
+			tableHeader.add("");
+			tableHeader.add("");
+			tableHeader.add("");
+			tableHeader.add("");
+			tableHeader.add("");
+			tableHeader.add("");
+			tableHeader.add("");
+			tableHeader.add("");
+			tableHeader.add("");
+			tableHeader.add("");
+			tableHeader.add("");
+			tableHeader.add("");
+			tableHeader.add("");
+			
+			columnNo = 1;
+			for (String headerValue : tableHeader) {
+				int width = 0;
+				if(1 == columnNo) {
+					width = 230;
+				}else if(2 == columnNo) {
+					width = 830;
+				}else if(3 == columnNo) {
+					width = 1100;
+				}else if(4 == columnNo) {
+					width = 750;
+				}else if(5 == columnNo) {
+					width = 620;
+				}else if(6 == columnNo) {
+					width = 620;
+				}else if(7 == columnNo) {
+					width = 750;
+				}else if(8 == columnNo) {
+					width = 750;
+				}
+				else if(9 == columnNo) {
+					width = 760;
+				}
+				else if(10 == columnNo) {
+					width = 760;
+				}
+				else if(11 == columnNo) {
+					width = 700;
+				}
+				else if(12 == columnNo) {
+					width = 700;
+				}
+				else if(13 == columnNo) {
+					width = 760;
+				}
+				else if(14 == columnNo) {
+					width = 800;
+				}	
+				else if(15 == columnNo) {
+					width = 800;
+				}				
+				columnNo++;
+				addTableCellAndWidth(factory, wordMLPackage, titleRow, headerValue, garamondBoldRPr, JcEnumeration.CENTER, true,"ecf2ff",width);
+			}
+			table.getContent().add(titleRow);
+			mp.addObject(table);
+			
+
+		} catch (Exception e) {
+			throw new Exception(e);
+		}
+
+	}	
+	
 
 	public static void createTableForContractReportAll(WordprocessingMLPackage wordMLPackage, MainDocumentPart mp,
 			ObjectFactory factory, Map<String, List<Contract>> contractsData,String report_created_date) throws Exception {

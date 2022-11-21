@@ -2859,7 +2859,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 	public Contract generateContractBgInsuranceReport(Contract obj) throws Exception {
 					List<Contract> objsList = null;
 					try {
-						String hodQry ="  select work as work_short_name,contract_name,contractor_name,contract_id,bg_insurance,bg_insurance_type,issuing_bank,bg_insurance_number,amount_inr,raised_date,expiry_date,release_date from(SELECT DISTINCT w.work_short_name AS Work,c.contract_name,contractor_name,bg.contract_id_fk AS 'Contract_ID','BG' As BG_Insurance,bg.bg_type_fk AS 'BG_Insurance_Type',bg.issuing_bank AS 'Issuing_Bank', bg.bg_number AS 'BG_Insurance_Number',bg.bg_value AS 'Amount_INR',CAST(bg.bg_date as varchar) AS 'Raised_Date',bg.valid_upto AS 'Expiry_Date',CAST(bg.release_date as varchar) AS 'Release_Date'  From bank_guarantee bg inner join contract cd on contract_id_fk=cd.contract_id   inner join contractor cr on cr.contractor_id=cd.contractor_id_fk " + 
+						String hodQry ="  select work as work_short_name,contract_name,contractor_name,contract_id,bg_insurance,bg_insurance_type,issuing_bank,bg_insurance_number,amount_inr,raised_date,expiry_date,release_date from(SELECT DISTINCT w.work_short_name AS Work,cd.contract_name,contractor_name,bg.contract_id_fk AS 'Contract_ID','BG' As BG_Insurance,bg.bg_type_fk AS 'BG_Insurance_Type',bg.issuing_bank AS 'Issuing_Bank', bg.bg_number AS 'BG_Insurance_Number',(bg.bg_value*bg_value_units) AS 'Amount_INR', CAST(format(bg.bg_date,'dd-MM-yyyy') as varchar) AS 'Raised_Date',format(bg.valid_upto,'dd-MM-yyyy') AS 'Expiry_Date',CAST(format(bg.release_date,'dd-MM-yyyy') as varchar) AS 'Release_Date'  From bank_guarantee bg inner join contract cd on contract_id_fk=cd.contract_id   inner join contractor cr on cr.contractor_id=cd.contractor_id_fk " + 
 								" inner join work w on w.work_id=cd.work_id_fk  inner join (select  w1.work_short_name,contract_id_fk,bg_number,max(bank_guarantee_id) as bank_guarantee_id  from bank_guarantee bg1 left join contract cd1 on bg1.contract_id_fk=cd1.contract_id  " + 
 								" inner join contractor cr1 on cr1.contractor_id=cd1.contractor_id_fk " + 
 								" inner join work w1 on w1.work_id=cd1.work_id_fk where bg1.bg_number is not null group by w1.work_short_name,contract_id_fk,bg_number) as AA on AA.work_short_name=w.work_short_name and AA.contract_id_fk=bg.contract_id_fk  and AA.bank_guarantee_id=BG.bank_guarantee_id where bg.bg_number is not null ";
@@ -2893,7 +2893,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 						hodQry = hodQry + " union all ";
 						
 						
-						hodQry =hodQry+"  SELECT DISTINCT w.work_short_name AS Work,c.contract_name,contractor_name,i.contract_id_fk AS 'Contract_ID','Insurance' As BG_Insurance,i.insurance_type_fk AS 'BG_Insurance_Type',i.issuing_agency AS 'Issuing_Bank', i.insurance_number AS 'BG_Insurance_Number',i.insurance_value AS 'Amount_INR','NA' AS 'Raised_Date',i.valid_upto AS 'Expiry_Date','NA' AS 'Release_Date'  From insurance i inner join contract cd on contract_id_fk=cd.contract_id   " + 
+						hodQry =hodQry+"  SELECT DISTINCT w.work_short_name AS Work,cd.contract_name,contractor_name,i.contract_id_fk AS 'Contract_ID','Insurance' As BG_Insurance,i.insurance_type_fk AS 'BG_Insurance_Type',i.issuing_agency AS 'Issuing_Bank', i.insurance_number AS 'BG_Insurance_Number',(i.insurance_value*i.insurance_value_units) AS 'Amount_INR','NA' AS 'Raised_Date',format(i.valid_upto,'dd-MM-yyyy') AS 'Expiry_Date','NA' AS 'Release_Date'  From insurance i inner join contract cd on contract_id_fk=cd.contract_id   " + 
 								" inner join contractor cr on cr.contractor_id=cd.contractor_id_fk " + 
 								"inner join work w on w.work_id=cd.work_id_fk  inner join (select  w1. " + 
 								"work_short_name,contract_id_fk,insurance_number,max(insurance_id) as bank_guarantee_id  from insurance i1 left join contract cd1 on i1.contract_id_fk=cd1.contract_id  inner join contractor cr1 on cr1.contractor_id=cd1.contractor_id_fk inner join work w1 on w1.work_id=cd1.work_id_fk where i1.insurance_number is not null  " + 
@@ -2968,6 +2968,18 @@ public class ContractReportDaoImpl implements ContractReportDao {
 						}						
 						
 						objsList = jdbcTemplate.query( hodQry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
+						NumberFormat numberFormatter = new DecimalFormat("#0.00");
+						for (Contract cObj : objsList) {
+							
+							String amount_inr_cost = cObj.getAmount_inr();
+							String amount_inr_cost_value = "";
+							if(!StringUtils.isEmpty(amount_inr_cost)) {
+								double val = (Double.parseDouble(amount_inr_cost))/10000000;
+								amount_inr_cost_value = numberFormatter.format(val);
+							}
+							cObj.setAmount_inr(amount_inr_cost_value);
+						}						
+						
 						obj.setReport1List(objsList);
 						
 					}catch(Exception e){ 

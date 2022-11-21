@@ -1031,18 +1031,18 @@ public class ContractReportController {
 		        cell.setCellStyle(bluetyle);
 		        cell.setCellValue("List of Contracts Report");
 		        
-		        for (int i = 1; i < 14; i++) {		        	
+		        for (int i = 1; i < 12; i++) {		        	
 			        cell = mainHeadingRow.createCell(i);
 			        cell.setCellStyle(bluetyle);
 					cell.setCellValue("");
 				}	
-		        rrSheet1.addMergedRegion(new CellRangeAddress(1, 1, 0,14));
+		        rrSheet1.addMergedRegion(new CellRangeAddress(1, 1, 0,13));
 		int rowNo = 3;
 
         XSSFRow structureRow = rrSheet1.createRow(rowNo);
 
         /**********************************************************************/
-		String headerString = "S. No.^Status of Contract^Contract ID^Contract Short Name^Contractor Name^LOA Date^Original Completion Date^Revised Completion Date^Progress %^Estimated Cost (Cr)^Awarded Cost (Cr)^Revised Cost (Cr)^Expenditure (Cr)^BG Valid Upto^Insurance Valid Upto ";
+		String headerString = "S. No.^Status of Contract^Contract ID^Contract Short Name^Contractor Name^LOA Date^Original Completion Date^Revised Completion Date^Progress %^Estimated Cost (Cr)^Awarded Cost (Cr)^Revised Cost (Cr)^Expenditure (Cr) ";
         String[] headerStringArr = headerString.split("\\^");
         
         XSSFRow headingRow = rrSheet1.createRow(rowNo);
@@ -1086,12 +1086,12 @@ public class ContractReportController {
 			    	        cell.setCellStyle(blueGreentyle);
 			    	        cell.setCellValue(WorksList.get(i2));			    	        
 			    	        
-			    	        for (int i = 2; i < 14; i++) {		        	
+			    	        for (int i = 2; i < 12; i++) {		        	
 			    		        cell = mainHeadingRow.createCell(i);
 			    		        cell.setCellStyle(bluetyle);
 			    				cell.setCellValue("");
 			    			}	
-			    	        rrSheet1.addMergedRegion(new CellRangeAddress(rowNo, rowNo, 1,14));       
+			    	        rrSheet1.addMergedRegion(new CellRangeAddress(rowNo, rowNo, 1,12));       
 			    	        
 			    	        rowNo++;
 			    	        m++;
@@ -1154,13 +1154,6 @@ public class ContractReportController {
 							cell.setCellStyle(activityNameStyle);
 							cell.setCellValue(zObj.getExpenditure());
 							
-							cell = row.createCell(c++);
-							cell.setCellStyle(activityNameStyle);
-							cell.setCellValue(zObj.getBg_valid_Upto());							
-
-						    cell = row.createCell(c++);
-							cell.setCellStyle(activityNameStyle);
-							cell.setCellValue(zObj.getInsurance_valid_Upto());
 					        rowNo++;
 					        k++;
 	        	 }

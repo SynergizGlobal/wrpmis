@@ -2707,40 +2707,40 @@ public class ContractReportDaoImpl implements ContractReportDao {
 	public Contract generateListofContractsReport(Contract obj) throws Exception {
 				List<Contract> objsList = null;
 				try {
-					String hodQry ="SELECT DISTINCT cd.work_short_name ,work_id_fk, c.contract_status_fk AS Contract_status, (c.contract_id) AS contract_id, c.contract_short_name AS contract_name, " + 
+					String hodQry ="SELECT DISTINCT cd.work_short_name ,FORMAT(c.loa_date,'dd-MM-yyyy') as loa_date,work_id_fk, c.contract_status_fk AS Contract_status, (c.contract_id) AS contract_id, c.contract_short_name AS contract_name, " + 
 							"                      ((SELECT ((cr.contractor_name)) " + 
 							"                        FROM      dbo.contractor cr " + 
-							"                        WHERE   (c.contractor_id_fk = cr.contractor_id AND c.contract_status_fk != 'Not Awarded'))) AS Contractor_name, IIF(c.contract_status_fk = 'Not Awarded', ISNULL(cast(CONVERT(CHAR(20), CONVERT(DATETIME, LEFT " + 
+							"                        WHERE   (c.contractor_id_fk = cr.contractor_id AND c.contract_status_fk != 'Not Awarded'))) AS Contractor_name, FORMAT((IIF(c.contract_status_fk = 'Not Awarded', ISNULL(cast(CONVERT(CHAR(20), CONVERT(DATETIME, LEFT " + 
 							"                      ((SELECT (revision_planned_date_of_completion) " + 
 							"                        FROM      contract_revisions " + 
 							"                        WHERE   contract_id_fk = c.contract_id AND revision_no = " + 
 							"                                              (SELECT 'R' + '' + Max(SUBSTRING(revision_no, 2, LEN(revision_no))) " + 
 							"                                               FROM      contract_revisions " + 
-							"                                               WHERE   contract_id_fk = c.contract_id AND revision_planned_date_of_completion IS NOT NULL AND revision_planned_date_of_completion != '')), 10), 105), 101) AS date), c.planned_date_of_completion), c.doc)  " + 
-							"                  AS Original_completion_date, IIF(c.contract_status_fk = 'Completed', c.actual_completion_date, IIF(c.contract_status_fk = 'Not Awarded', NULL, " + 
+							"                                               WHERE   contract_id_fk = c.contract_id AND revision_planned_date_of_completion IS NOT NULL AND revision_planned_date_of_completion != '')), 10), 105), 101) AS date), c.planned_date_of_completion), c.doc)),'dd-MM-yyyy')  " + 
+							"                  AS Original_completion_date, FORMAT((IIF(c.contract_status_fk = 'Completed', c.actual_completion_date, IIF(c.contract_status_fk = 'Not Awarded', NULL, " + 
 							"                      (SELECT top 1 (revised_doc) " + 
 							"                       FROM      contract_revision " + 
 							"                       WHERE   contract_id_fk = c.contract_id AND revision_number = " + 
 							"                                             (SELECT 'R' + '' + Max(SUBSTRING(revision_number, 2, LEN(revision_number))) " + 
 							"                                              FROM      contract_revision " + 
-							"                                              WHERE   contract_id_fk = c.contract_id AND revised_doc IS NOT NULL AND revised_doc != '')))) AS Revised_date_of_completion, " + 
+							"                                              WHERE   contract_id_fk = c.contract_id AND revised_doc IS NOT NULL AND revised_doc != ''))))),'dd-MM-yyyy') AS Revised_date_of_completion, " + 
 							"                      ((SELECT (ROUND(SUM(contract_per), 2)) " + 
 							"                        FROM      dbo.activities_scurve ac " + 
-							"                        WHERE   (ac.contract_id = c.contract_id))) AS Percent_progress,  (ISNULL " + 
+							"                        WHERE   (ac.contract_id = c.contract_id) and category='Actual' )) AS Percent_progress,  (ISNULL " + 
 							"                      ((SELECT ((revision_estimated_cost)) " + 
 							"                        FROM      contract_revisions " + 
 							"                        WHERE   contract_id_fk = c.contract_id AND revision_no = " + 
 							"                                              (SELECT 'R' + '' + Max(SUBSTRING(revision_no, 2, LEN(revision_no))) " + 
 							"                                               FROM      contract_revisions " + 
-							"                                               WHERE   contract_id_fk = c.contract_id AND revision_estimated_cost IS NOT NULL AND revision_estimated_cost != '')), c.estimated_cost)) AS Estimated_cost,  " + 
-							"                  IIF(c.contract_status_fk = 'Not Awarded', NULL, c.awarded_cost) AS Awarded_cost,  IIF(contract_status_fk = 'Not Awarded', NULL, IIF(contract_status_fk = 'In progress', " + 
-							"                      ((SELECT top 1 (revised_amount) " + 
+							"                                               WHERE   contract_id_fk = c.contract_id AND revision_estimated_cost IS NOT NULL AND revision_estimated_cost != '')), c.estimated_cost*c.estimated_cost_units)) AS Estimated_cost,  " + 
+							"                  IIF(c.contract_status_fk = 'Not Awarded', NULL, c.awarded_cost*c.awarded_cost_units) AS Awarded_cost,  IIF(contract_status_fk = 'Not Awarded', NULL, IIF(contract_status_fk = 'In progress', " + 
+							"                      ((SELECT top 1 (revised_amount* revised_amount_units) " + 
 							"                        FROM      contract_revision " + 
 							"                        WHERE   contract_id_fk = c.contract_id AND revision_number = " + 
 							"                                              (SELECT 'R' + '' + Max(SUBSTRING(revision_number, 2, LEN(revision_number))) " + 
 							"                                               FROM      contract_revision " + 
-							"                                               WHERE   contract_id_fk = c.contract_id AND revised_amount IS NOT NULL AND revised_amount != 0))), (c.completed_cost))) AS Revised_cost, " + 
-							"                      (SELECT IIF(contract_status_fk = 'Not Awarded', NULL, (SUM(e.gross_work_done))) " + 
+							"                                               WHERE   contract_id_fk = c.contract_id AND revised_amount IS NOT NULL AND revised_amount != 0))), (c.completed_cost*c.completed_cost_units))) AS Revised_cost, " + 
+							"                      (SELECT IIF(contract_status_fk = 'Not Awarded', NULL, (SUM(e.gross_work_done*e.gross_work_done_units))) " + 
 							"                       FROM      dbo.expenditure e " + 
 							"                       WHERE   (e.contract_id_fk = c.contract_id)) AS Expenditure, " + 
 							"                      ((SELECT IIF(c.contract_status_fk = 'Completed', MAX(b.release_date), IIF(contract_status_fk = 'Not Awarded', NULL, IIF(b.release_date = NULL, MIN(b.valid_upto), NULL))) " + 
@@ -2762,7 +2762,8 @@ public class ContractReportDaoImpl implements ContractReportDao {
 							+ "left join department dt on c.department_fk = dt.department "					
 							+"left join dbo.contract_details cd ON ((cd.contract_id = c.contract_id)))))) where 0=0 ";
 					
-					int arrSize = 0;			
+					int arrSize = 0;
+					NumberFormat numberFormatter = new DecimalFormat("#0.00");
 					
 					if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
 						hodQry = hodQry + " and c.contract_id = ? ";
@@ -2811,6 +2812,41 @@ public class ContractReportDaoImpl implements ContractReportDao {
 						pValues[i++] = obj.getContract_status_fk();
 					}
 					objsList = jdbcTemplate.query( hodQry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
+					
+					for (Contract cObj : objsList) {
+						
+						String estimated_cost = cObj.getEstimated_cost();
+						String estimated_cost_value = "";
+						if(!StringUtils.isEmpty(estimated_cost)) {
+							double val = (Double.parseDouble(estimated_cost))/10000000;
+							estimated_cost_value = numberFormatter.format(val);
+						}
+						cObj.setEstimated_cost(estimated_cost_value);
+						
+						
+						String awarded_cost = cObj.getAwarded_cost();
+						String awarded_cost_value = "";
+						if(!StringUtils.isEmpty(awarded_cost)) {
+							double val = (Double.parseDouble(awarded_cost))/10000000;
+							awarded_cost_value = numberFormatter.format(val);
+						}
+						cObj.setAwarded_cost(awarded_cost_value);
+						
+						String expenditure_value = "";
+						if(!StringUtils.isEmpty(cObj.getExpenditure())) {
+							double val = (Double.parseDouble(cObj.getExpenditure()))/10000000;
+							expenditure_value = numberFormatter.format(val);
+						}
+						cObj.setExpenditure(expenditure_value);
+						
+						String revised_cost_value = "";
+						if(!StringUtils.isEmpty(cObj.getRevised_cost())) {
+							double val = (Double.parseDouble(cObj.getRevised_cost()))/10000000;
+							revised_cost_value = numberFormatter.format(val) ;
+						}
+						cObj.setRevised_cost(revised_cost_value);
+					}					
+					
 					obj.setReport1List(objsList);
 					
 				}catch(Exception e){ 

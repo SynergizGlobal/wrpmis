@@ -798,30 +798,6 @@ public class ContractReportController {
 							cell = row.createCell(c++);
 							cell.setCellStyle(activityNameStyle);
 							cell.setCellValue(zObj.getPercent_progress());
-						
-						    cell = row.createCell(c++);
-							cell.setCellStyle(activityNameStyle);
-							cell.setCellValue(zObj.getEstimated_cost());
-							
-							cell = row.createCell(c++);
-							cell.setCellStyle(activityNameStyle);
-							cell.setCellValue(zObj.getAwarded_cost());
-						
-						    cell = row.createCell(c++);
-							cell.setCellStyle(activityNameStyle);
-							cell.setCellValue(zObj.getRevised_cost());
-							
-							cell = row.createCell(c++);
-							cell.setCellStyle(activityNameStyle);
-							cell.setCellValue(zObj.getExpenditure());
-							
-							cell = row.createCell(c++);
-							cell.setCellStyle(activityNameStyle);
-							cell.setCellValue(zObj.getBg_valid_Upto());							
-
-						    cell = row.createCell(c++);
-							cell.setCellStyle(activityNameStyle);
-							cell.setCellValue(zObj.getInsurance_valid_Upto());
 					        rowNo++;
 					        k++;
 	        	 }

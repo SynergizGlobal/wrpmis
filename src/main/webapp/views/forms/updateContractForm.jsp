@@ -3615,7 +3615,7 @@
         		 	  },"contract_type_fk": {
         		 		required: true
         		 	  },"contractor_id_fk": {
-        	 		    required: false,
+        	 		    required: true,
         	 	   	  },"scope_of_contract": {
         	 		    required: false,
         	 	   	  },"hod_user_id_fk": {
@@ -3623,7 +3623,7 @@
         		 	  },"dy_hod_user_id_fk": {
         	 		    required: true
         	 	   	  },"doc": {
-        		 		required: false,
+        		 		required: true,
    				 		//dateBefore1:"#date_of_start"
         		 	  },"target_doc":{
         		 		 required: false,

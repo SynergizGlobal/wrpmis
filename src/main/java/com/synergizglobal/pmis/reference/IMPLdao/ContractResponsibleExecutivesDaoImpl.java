@@ -197,16 +197,6 @@ public class ContractResponsibleExecutivesDaoImpl implements ContractResponsible
 		List<TrainingType> objList = null;
 		try {
 			String qry = "	select distinct user_id,user_name,designation from( " + 
-					"	select distinct u.user_id,u.user_name,w.work_id,u.designation from work w " + 
-					"	inner join contract c on c.work_id_fk=w.work_id " + 
-					"	left join [user] u on c.hod_user_id_fk = u.user_id  " + 
-					"	where u.user_name is not null " + 
-					"	union all " + 
-					"	select distinct us.user_id,us.user_name,w.work_id,us.designation from work w " + 
-					"	inner join contract c on c.work_id_fk=w.work_id " + 
-					"	left join [user] us on c.dy_hod_user_id_fk = us.user_id   " + 
-					"	where us.user_name is not null " + 
-					"	union all " + 
 					"	select distinct ur.user_id,ur.user_name,w.work_id,ur.designation from work w " + 
 					"	inner join contract c on c.work_id_fk=w.work_id " + 
 					"	left join [user] u on c.hod_user_id_fk = u.user_id  " + 

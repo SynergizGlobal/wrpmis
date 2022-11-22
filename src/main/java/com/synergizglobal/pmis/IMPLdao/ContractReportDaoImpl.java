@@ -2867,7 +2867,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 						int arrSize = 0;			
 						
 						if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
-							hodQry = hodQry + " and c.contract_id = ? ";
+							hodQry = hodQry + " and cd.contract_id = ? ";
 							arrSize++;
 						}
 						if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designation())) {
@@ -2875,19 +2875,19 @@ public class ContractReportDaoImpl implements ContractReportDao {
 							arrSize++;
 						}
 						if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-							hodQry = hodQry + " and c.work_id_fk = ?";
+							hodQry = hodQry + " and cd.work_id_fk = ?";
 							arrSize++;
 						}
 						if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
-							hodQry = hodQry + " and c.contractor_id_fk = ?";
+							hodQry = hodQry + " and cd.contractor_id_fk = ?";
 							arrSize++;
 						}	
 						if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus())) {
-							hodQry = hodQry + " and c.status = ?";
+							hodQry = hodQry + " and cd.status = ?";
 							arrSize++;
 						}				
 						if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
-							hodQry = hodQry + " and c.contract_status_fk = ?";
+							hodQry = hodQry + " and cd.contract_status_fk = ?";
 							arrSize++;
 						}
 						hodQry = hodQry + " union all ";
@@ -2901,7 +2901,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 						
 						
 						if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
-							hodQry = hodQry + " and c.contract_id = ? ";
+							hodQry = hodQry + " and cd.contract_id = ? ";
 							arrSize++;
 						}
 						if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designation())) {
@@ -2909,19 +2909,19 @@ public class ContractReportDaoImpl implements ContractReportDao {
 							arrSize++;
 						}
 						if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-							hodQry = hodQry + " and c.work_id_fk = ?";
+							hodQry = hodQry + " and cd.work_id_fk = ?";
 							arrSize++;
 						}
 						if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
-							hodQry = hodQry + " and c.contractor_id_fk = ?";
+							hodQry = hodQry + " and cd.contractor_id_fk = ?";
 							arrSize++;
 						}	
 						if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStatus())) {
-							hodQry = hodQry + " and c.status = ?";
+							hodQry = hodQry + " and cd.status = ?";
 							arrSize++;
 						}				
 						if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
-							hodQry = hodQry + " and c.contract_status_fk = ?";
+							hodQry = hodQry + " and cd.contract_status_fk = ?";
 							arrSize++;
 						}	
 						

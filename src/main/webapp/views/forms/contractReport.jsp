@@ -55,7 +55,7 @@
                             <div class="col m8 s12 offset-m2">
                             	<form id="contractReportForm" name="contractReportForm" method="post">
 	                                <div class="row no-mar">	
-	                                    <div class="col s12 m12 l3 input-field">
+	                                    <div class="col s12 m12 l3 input-field" id="hodDiv">
 	                                        <p class="searchable_label" style="text-align:left">HOD</p>
 	                                        <select id="hod_designation" class="searchable validate-dropdown" name="hod_designations" onchange="addInQueHOD();getResetFiltersList();"  multiple="multiple" >
 	                                        </select>
@@ -68,7 +68,7 @@
 	                                        </select>
 	                                        <span id="work_id_fkError" class="error-msg" ></span>
 	                                    </div>
-	                                    <div class="col s6 m6 l2 input-field">
+	                                    <div class="col s6 m6 l4 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Contractor</p>
 	                                        <select id="contractor_id_fk" name="contractor_id_fk" onchange="addInQueContractor(this.value);getResetFiltersList();" class="searchable validate-dropdown">
 	                                            <option value="">All </option>
@@ -84,7 +84,7 @@
 	                                        </select>
 	                                        <span id="contract_status_fkError" class="error-msg" ></span>
 	                                    </div>	                                    
-	                                    <div class="col s6 m6 l2 input-field">
+	                                    <div class="col s6 m6 l4 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Status of Work</p>
 	                                        <select id="contract_status_fk" name="contract_status_fk" onchange="addInQueStatusOfWork(this.value);getResetFiltersList();" class="searchable validate-dropdown">
 	                                            <option value="">All </option>
@@ -93,11 +93,11 @@
 	                                    </div>	                                    
 	                                </div>  
 	                                <div class="row" id="nextRow" style="display:none;">
-	                                    <div class="col s6 m6 l3 input-field" id="dateDiv">
+<!-- 	                                    <div class="col s6 m6 l3 input-field" id="dateDiv">
 	                                        <input id="date" name="date" type="text" class="validate datepicker"> <label for="date" class="fs-sm-8rem"> Validity Expiry By Date</label>
 											<button type="button" id="date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 											<span id="dateError" class="error-msg"></span>
-	                                    </div>
+	                                    </div> -->
 	                                    <div class="col s6 m6 l3 input-field" id="contractDiv">
 	                                        <p class="searchable_label" style="text-align:left">Contract <span class="required">*</span></p>
 	                                        <select id="contract_id" name="contract_id" onchange="addInQueContract(this.value);getResetFiltersList();" class="searchable validate-dropdown">
@@ -209,13 +209,15 @@
 			if(ReportNo==1){
 				$("#rptName").html("List of Contracts");
 				$("#nextRow").hide();
-				$("#CSdiv").show();					
+				$("#CSdiv").show();	
+				$("#hodDiv").show();
 				
 			}else if(ReportNo==2){
 				$("#rptName").html("Contract Detail Report");
 				$("#nextRow").show();
 				$("#dateDiv").hide();
 				$("#contractDiv").show();
+				$("#hodDiv").show();
 				$("#CSdiv").hide();
 
 			}else if(ReportNo==3){
@@ -224,6 +226,7 @@
 				$('#toremove').hide();
 				$("#dateDiv").show();
 				$("#contractDiv").hide();
+				$("#hodDiv").show();
 				$("#CSdiv").hide();
 
 			}else if(ReportNo==4){
@@ -231,6 +234,7 @@
 				$("#nextRow").show();
 				$("#dateDiv").show();
 				$("#contractDiv").hide();
+				$("#hodDiv").show();
 				$("#CSdiv").hide();
 
 			}else if(ReportNo==5){
@@ -238,6 +242,7 @@
 				$("#nextRow").show();
 				$("#dateDiv").show();
 				$("#contractDiv").hide();
+				$("#hodDiv").show();
 				$("#CSdiv").hide();
 
 			}else if(ReportNo==6){
@@ -245,18 +250,21 @@
 				$("#nextRow").show();
 				$("#dateDiv").show();
 				$("#contractDiv").hide();
+				$("#hodDiv").show();
 				$("#CSdiv").hide();
 
 			}else if(ReportNo==7){
 				$("#rptName").html("List of Contracts Report");
 				$("#nextRow").hide();
 				$("#CSdiv").show();	
+				$("#hodDiv").show();
 
 			}else if(ReportNo==8){
 				$("#rptName").html("BG Insurance Report");
 				$("#nextRow").show();
 				$("#dateDiv").show();
 				$("#contractDiv").hide();
+				$("#hodDiv").hide();
 				$("#CSdiv").hide();
 
 			}else if(ReportNo==9){
@@ -264,6 +272,7 @@
 				$("#nextRow").show();
 				$("#dateDiv").show();
 				$("#contractDiv").hide();
+				$("#hodDiv").show();
 				$("#CSdiv").hide();
 
 			}

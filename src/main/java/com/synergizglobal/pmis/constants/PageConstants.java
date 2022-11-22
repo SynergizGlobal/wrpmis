@@ -359,6 +359,8 @@ public class PageConstants {
 	
 	public static final String landExecutives = "referenceForms/landExecutives";
 	
+	public static final String contractExecutives = "referenceForms/contractExecutives";
+	
 	public static final String UtilityExecutives = "referenceForms/utilityExecutives";
 
 	public static final String usUtilityType = "referenceForms/usUtilityType";

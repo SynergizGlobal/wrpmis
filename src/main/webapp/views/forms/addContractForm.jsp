@@ -398,7 +398,7 @@
 	                                        <div class="col s6 m4 l4 input-field">
 	                                        	<!-- <p class="searchable_label">Dy HOD<span class="required">*</span></p> -->
 	                                        	<label class="selected" for="dy_hod_user_id_fk">Contract Department<span class="required">*</span></label>
-	                                            <select name="contract_department" id="contract_department" class="validate-dropdown searchable" onchange="getContractDepartment();" <c:if test="${sessionScope.USER_TYPE eq 'DyHOD'}"> disabled  </c:if>>
+	                                            <select name="contract_department" id="contract_department" class="validate-dropdown searchable">
 				                                	<option value="" >Select</option>  
 											          <c:forEach var="obj" items="${departmentList }">
 			                                      	    <option value= "${ obj.department_fk}" >${ obj.department_name}</option>

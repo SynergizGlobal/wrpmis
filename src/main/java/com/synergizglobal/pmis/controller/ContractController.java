@@ -437,6 +437,7 @@ public class ContractController {
 			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
 			
 			obj.setCreated_by_user_id_fk(user_Id);
+			obj.setUser_id(user_Id);
 			obj.setUser_name(userName);
 			obj.setDesignation(userDesignation);
 			
@@ -492,9 +493,23 @@ public class ContractController {
 	
 	
 	@RequestMapping(value = "/add-contract-form", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView addContractForm(@ModelAttribute Contract obj){
+	public ModelAndView addContractForm(@ModelAttribute Contract obj,HttpSession session){
 		ModelAndView model = new ModelAndView();
 		try{
+			
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			obj.setCreated_by_user_id_fk(user_Id);
+			obj.setUser_id(user_Id);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
+			
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			
 			model.setViewName(PageConstants.addContractForm);	
 			List<Contract> projectsList = contractService.getProjectsListForContractForm(obj);
 			model.addObject("projectsList", projectsList);
@@ -555,8 +570,22 @@ public class ContractController {
 	
 	@RequestMapping(value = "/ajax/getProjectsListForContractForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Contract> getProjectsListForContractForm(@ModelAttribute Contract obj) {
+	public List<Contract> getProjectsListForContractForm(@ModelAttribute Contract obj,HttpSession session) {
 		List<Contract> objsList = null;
+		
+		String user_Id = (String) session.getAttribute("USER_ID");
+		String userName = (String) session.getAttribute("USER_NAME");
+		String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+		
+		obj.setCreated_by_user_id_fk(user_Id);
+		obj.setUser_id(user_Id);
+		obj.setUser_name(userName);
+		obj.setDesignation(userDesignation);
+		
+		User uObj = (User) session.getAttribute("user");
+		obj.setUser_type_fk(uObj.getUser_type_fk());
+		obj.setUser_role_code(uObj.getUser_role_code());
+		
 		try {
 			objsList = contractService.getProjectsListForContractForm(obj);
 		}catch (Exception e) {
@@ -568,8 +597,23 @@ public class ContractController {
 	
 	@RequestMapping(value = "/ajax/getWorkListForContractForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Contract> getWorkListForContractForm(@ModelAttribute Contract obj) {
+	public List<Contract> getWorkListForContractForm(@ModelAttribute Contract obj,HttpSession session) {
 		List<Contract> objsList = null;
+		
+		String user_Id = (String) session.getAttribute("USER_ID");
+		String userName = (String) session.getAttribute("USER_NAME");
+		String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+		
+		obj.setCreated_by_user_id_fk(user_Id);
+		obj.setUser_id(user_Id);
+		obj.setUser_name(userName);
+		obj.setDesignation(userDesignation);
+		
+		User uObj = (User) session.getAttribute("user");
+		obj.setUser_type_fk(uObj.getUser_type_fk());
+		obj.setUser_role_code(uObj.getUser_role_code());
+		
+		
 		try {
 			objsList = contractService.getWorkListForContractForm(obj);
 		}catch (Exception e) {
@@ -588,8 +632,13 @@ public class ContractController {
 			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
 			
 			contract.setCreated_by_user_id_fk(user_Id);
+			contract.setUser_id(user_Id);
 			contract.setUser_name(userName);
 			contract.setDesignation(userDesignation);
+			
+			User uObj = (User) session.getAttribute("user");
+			contract.setUser_type_fk(uObj.getUser_type_fk());
+			contract.setUser_role_code(uObj.getUser_role_code());
 			
 			contract.setDoc(DateParser.parse(contract.getDoc()));
 			contract.setCa_date(DateParser.parse(contract.getCa_date()));
@@ -628,8 +677,13 @@ public class ContractController {
 			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
 			
 			contract.setCreated_by_user_id_fk(user_Id);
+			contract.setUser_id(user_Id);
 			contract.setUser_name(userName);
 			contract.setDesignation(userDesignation);
+			
+			User uObj = (User) session.getAttribute("user");
+			contract.setUser_type_fk(uObj.getUser_type_fk());
+			contract.setUser_role_code(uObj.getUser_role_code());
 			
 			model.setViewName("redirect:/contract");
 			contract.setDoc(DateParser.parse(contract.getDoc()));
@@ -666,9 +720,25 @@ public class ContractController {
 	}
 	
 	@RequestMapping(value = "/get-contract", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView getcontract(@ModelAttribute Contract obj){
+	public ModelAndView getcontract(@ModelAttribute Contract obj,HttpSession session){
 		ModelAndView model = new ModelAndView();
 		try{
+			
+
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			
+			obj.setCreated_by_user_id_fk(user_Id);
+			obj.setUser_id(user_Id);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
+			
+			
 			model.setViewName(PageConstants.updateContractForm);
 			List<Contract> projectsList = contractService.getProjectsListForContractForm(obj);
 			model.addObject("projectsList", projectsList);
@@ -732,9 +802,24 @@ public class ContractController {
 	}
 	
 	@RequestMapping(value = "/get-contract/{contract_id}", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView getcontract(@ModelAttribute Contract obj,@PathVariable("contract_id") String contract_id ){
+	public ModelAndView getcontract(@ModelAttribute Contract obj,@PathVariable("contract_id") String contract_id,HttpSession session ){
 		ModelAndView model = new ModelAndView();
 		try{
+			
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			
+			obj.setCreated_by_user_id_fk(user_Id);
+			obj.setUser_id(user_Id);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
+			
+			
 			model.setViewName(PageConstants.updateContractForm);
 			List<Contract> projectsList = contractService.getProjectsListForContractForm(obj);
 			model.addObject("projectsList", projectsList);
@@ -804,9 +889,15 @@ public class ContractController {
 			String userName = (String) session.getAttribute("USER_NAME");
 			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
 			
+			User uObj = (User) session.getAttribute("user");
+			contract.setUser_type_fk(uObj.getUser_type_fk());
+			contract.setUser_role_code(uObj.getUser_role_code());
+			
 			contract.setCreated_by_user_id_fk(user_Id);
+			contract.setUser_id(user_Id);
 			contract.setUser_name(userName);
 			contract.setDesignation(userDesignation);
+
 			
 			contract.setUser_id(user_Id);
 			

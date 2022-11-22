@@ -194,7 +194,7 @@
 								<h6 class="mob-mar">Contract</h6>	
 								<div class="col s12 m12 right-align exportButton">
     								<div class="m-n1">
-    								<c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD'   || sessionScope.USER_TYPE eq 'DyHOD'}">
+    								<c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD'   || sessionScope.USER_TYPE eq 'DyHOD' || sessionScope.USER_ROLE_NAME eq 'Regular User'}">
     									<a href="add-contract-form"
 											class="btn waves-effect waves-light bg-s t-c"> <strong><i
 												class="fa fa-plus-circle"></i> Add</strong></a>

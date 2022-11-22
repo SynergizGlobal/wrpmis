@@ -74,7 +74,8 @@ public class ContractDaoImpl implements ContractDao {
 					"left join [user] u on c.hod_user_id_fk = u.user_id "+
 					"left join department hoddt on u.department_fk = hoddt.department "+
 					"left join [user] us on c.dy_hod_user_id_fk = us.user_id "+
-					"left join contract_executive ce on c.contract_id = ce.contract_id_fk "
+					"left join contract_executive ce on c.contract_id = ce.contract_id_fk "+
+					"LEFT JOIN contractexecutives ce1 on ce1.work_id_fk = c.work_id_fk " 
 					+"left join department dt on ce.department_id_fk = dt.department "
 					+"where contract_id is not null ";
 			
@@ -109,7 +110,9 @@ public class ContractDaoImpl implements ContractDao {
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? or "
-						+ "contract_id in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk))";
+						+ "contract_id in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk) or contract_id in(	select distinct contract_id from contractexecutives ce inner join work w on w.work_id=ce.work_id_fk inner join contract c on c.work_id_fk=w.work_id where executive_user_id_fk = ?\r\n" + 
+						") )";
+				arrSize++;
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -145,7 +148,8 @@ public class ContractDaoImpl implements ContractDao {
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
-				pValues[i++] = obj.getUser_id();	
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
 			}
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
@@ -2615,11 +2619,12 @@ public class ContractDaoImpl implements ContractDao {
 	public List<Contract> worksFilterList(Contract obj) throws Exception {
 		List<Contract> objsList = null;
 		try {
-			String qry = "SELECT work_id_fk,w.work_name,w.work_short_name "
+			String qry = "SELECT c.work_id_fk,w.work_name,w.work_short_name "
 					+ "from contract c " + 
+					"LEFT JOIN contractexecutives ce on ce.work_id_fk = c.work_id_fk " +
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
-					"where work_id_fk is not null and work_id_fk <> '' ";
+					"where c.work_id_fk is not null and c.work_id_fk <> '' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and c.work_id_fk = ? ";
@@ -2660,7 +2665,13 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and c.department_fk = ? ";
 				arrSize++;
 			}
-			qry = qry + " GROUP BY work_id_fk,w.work_name,w.work_short_name ";
+
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  !CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk()) &&  !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
+				qry = qry + " and ce.executive_user_id_fk = ? ";
+				arrSize++;
+			}
+			
+			qry = qry + " GROUP BY c.work_id_fk,w.work_name,w.work_short_name ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -2692,6 +2703,9 @@ public class ContractDaoImpl implements ContractDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				pValues[i++] = obj.getDepartment_fk();
 			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  !CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk()) &&  !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
+				pValues[i++] = obj.getUser_id();
+			}			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 			
 		}catch(Exception e){ 
@@ -2798,18 +2812,23 @@ public class ContractDaoImpl implements ContractDao {
 	public List<Contract> getWorkListForContractForm(Contract obj) throws Exception {
 		List<Contract> objsList = new ArrayList<Contract>();
 		try {
-			String qry = "select work_id,work_name,work_short_name,project_id_fk,project_name "
-					+ "from work w "
+			String qry = "select w.work_id,work_name,work_short_name,project_id_fk,project_name "
+					+ "from work w "+
+					"LEFT JOIN contractexecutives ce on ce.work_id_fk = w.work_id " 
 					+ "LEFT OUTER JOIN project p ON project_id_fk = project_id "
-					+ "where work_id is not null ";
+					+ "where w.work_id is not null ";
 					
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
 				qry = qry + "and project_id_fk = ? ";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  !CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk()) &&  !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
+				qry = qry + " and ce.executive_user_id_fk = ? ";
+				arrSize++;
+			}			
 			
-			qry = qry + " order by work_id asc";
+			qry = qry + " order by w.work_id asc";
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -2817,7 +2836,9 @@ public class ContractDaoImpl implements ContractDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
 				pValues[i++] = obj.getProject_id_fk();
 			}	
-			
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  !CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk()) &&  !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
+				pValues[i++] = obj.getUser_id();
+			}			
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 			
 		}catch(Exception e){ 
@@ -3288,7 +3309,8 @@ public class ContractDaoImpl implements ContractDao {
 					"left join project p on w.project_id_fk = p.project_id "+
 					"left join [user] u on c.hod_user_id_fk = u.user_id "+
 					"left join [user] us on c.dy_hod_user_id_fk = us.user_id "+
-					"left join contract_executive ce on c.contract_id = ce.contract_id_fk "
+					"left join contract_executive ce on c.contract_id = ce.contract_id_fk "+
+					"LEFT JOIN contractexecutives ce1 on ce1.work_id_fk = c.work_id_fk " 
 					+"left join department dt on ce.department_id_fk = dt.department "
 					+"where contract_id is not null ";
 			int arrSize = 0;
@@ -3322,7 +3344,9 @@ public class ContractDaoImpl implements ContractDao {
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? or "
-						+ "contract_id in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk))";
+						+ "contract_id in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk) or contract_id in(	select distinct contract_id from contractexecutives ce inner join work w on w.work_id=ce.work_id_fk inner join contract c on c.work_id_fk=w.work_id where executive_user_id_fk = ?\r\n" + 
+						") )";
+				arrSize++;
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -3338,7 +3362,7 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 				arrSize++;
 				arrSize++;
-			}	
+			}
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContractor_id_fk())) {
@@ -3366,6 +3390,7 @@ public class ContractDaoImpl implements ContractDao {
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
 			}
 			if(!StringUtils.isEmpty(searchParameter)) {
 				pValues[i++] = "%"+searchParameter+"%";
@@ -3376,7 +3401,8 @@ public class ContractDaoImpl implements ContractDao {
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
-			} 
+			}
+			
 			totalRecords = jdbcTemplate.queryForObject( qry,pValues,Integer.class);
 		}catch(Exception e){ 
 			e.printStackTrace();
@@ -3401,7 +3427,8 @@ public class ContractDaoImpl implements ContractDao {
 					"left join [user] u on c.hod_user_id_fk = u.user_id "+
 					"left join department hoddt on u.department_fk = hoddt.department "+
 					"left join [user] us on c.dy_hod_user_id_fk = us.user_id "+
-					"left join contract_executive ce on c.contract_id = ce.contract_id_fk "
+					"left join contract_executive ce on c.contract_id = ce.contract_id_fk "+
+					"LEFT JOIN contractexecutives ce1 on ce1.work_id_fk = c.work_id_fk " 
 					+"left join department dt on ce.department_id_fk = dt.department "
 					+"where contract_id is not null ";
 			
@@ -3436,7 +3463,9 @@ public class ContractDaoImpl implements ContractDao {
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? or "
-						+ "contract_id in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk))";
+						+ "contract_id in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk) or contract_id in(	select distinct contract_id from contractexecutives ce inner join work w on w.work_id=ce.work_id_fk inner join contract c on c.work_id_fk=w.work_id where executive_user_id_fk = ?\r\n" + 
+						") )";
+				arrSize++;
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -3452,7 +3481,8 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 				arrSize++;
 				arrSize++;
-			}	
+			}
+			
 			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
 				qry = qry + " GROUP BY contract_id ORDER BY contract_id ASC offset ? rows  fetch next ? rows only";
 				arrSize++;
@@ -3484,7 +3514,8 @@ public class ContractDaoImpl implements ContractDao {
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
-				pValues[i++] = obj.getUser_id();	
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
 			}
 			if(!StringUtils.isEmpty(searchParameter)) {
 				pValues[i++] = "%"+searchParameter+"%";
@@ -3496,6 +3527,7 @@ public class ContractDaoImpl implements ContractDao {
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
 			}
+			
 			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
 				pValues[i++] = startIndex;
 				pValues[i++] = offset;

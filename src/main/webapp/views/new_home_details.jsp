@@ -758,9 +758,7 @@
                                             <c:if
                                                 test="${projectOverview.project_status eq 'Closed' }">
                                                 Completion Cost </c:if>
-                                            <c:if
-                                                test="${projectOverview.project_status eq 'Open' }">
-                                                Latest Revised Cost </c:if>
+                                           
                                         </p>
                                         <p class="aligncenter">:</p>
                                         <p class="alignleft pdlr20px">
@@ -769,13 +767,6 @@
                                                 <c:if
                                                     test="${not empty projectOverview.completion_cost }">
                                                     ₹ ${projectOverview.completion_cost } Cr </c:if>
-                                            </c:if>
-                                            <c:if
-                                                test="${projectOverview.project_status eq 'Open' }">
-                                                <c:if
-                                                    test="${not empty projectOverview.latest_revised_cost }">
-                                                    ₹ ${projectOverview.latest_revised_cost } Cr
-                                                </c:if>
                                             </c:if>
                                         </p>
                                     </div>

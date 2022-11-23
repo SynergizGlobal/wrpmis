@@ -744,12 +744,12 @@
                                             ${projectOverview.pink_book_item_number }</p>
                                     </div>
                                     <div class="line">
-                                        <p class="alignleft w150">Sanctioned Estimated Cost (in Cr) </p>
+                                        <p class="alignleft w150">Sanctioned Completion Cost (in Cr) </p>
                                         <p class="aligncenter">:</p>
                                         <p class="alignleft pdlr20px">
                                             <c:if
-                                                test="${not empty projectOverview.sanctioned_estimated_cost }">
-                                                ₹ ${projectOverview.sanctioned_estimated_cost } Cr
+                                                test="${not empty projectOverview.latest_revised_cost }">
+                                                ₹ ${projectOverview.latest_revised_cost } Cr
                                             </c:if>
                                         </p>
                                     </div>

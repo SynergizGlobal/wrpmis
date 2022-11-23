@@ -57,7 +57,7 @@ public class HomeNewDaoImpl implements HomeNewDao{
 					+ "sum(wr.completion_cost) as completion_cost,max(wr.year_of_completion) as year_of_completion, "
 					+ "(SELECT (CASE WHEN MONTH(wr.projected_completion) >= 4 THEN concat(YEAR(wr.projected_completion), '-',SUBSTRING(cast(YEAR(wr.projected_completion)+1 as varchar),3,2)) ELSE concat(YEAR(wr.projected_completion)-1,'-', SUBSTRING(cast(YEAR(wr.projected_completion) as varchar),3,2)) END) AS financial_year) as projected_completion_year," 
 					//+ "max(wr.projected_completion) as projected_completion_year,"
-					+ "(select round((latest_revised_cost/10000000),2) from project_view where project_id=? )as latest_revised_cost " 
+					+ "(select round(sum(sanctioned_completion_cost/10000000),2) from work_view where project_id_fk=?)as latest_revised_cost " 
 					+ "from work wr where wr.project_id_fk = ? GROUP BY projected_completion,wr.project_id_fk";
 			
 			String workQry = "select *,round((cumulative_expenditure/sanctioned_cost)*100,2) as financial_progress,round(actual_progress*100,2) as physical_progress,case when isnull(latest_revised_cost,0)>0 then round((latest_revised_cost/10000000),2) else round((sanctioned_estimated_cost/10000000),2) end as latest_revised_cost,work_id as work_id_fk  from work_view where project_id_fk = ?";

@@ -2114,10 +2114,32 @@
 	                                          	    	  }
 	                                                 }); */
 	                                                
-                                                	var amount = $('#revised_amounts${index.count }').val();
-                                                	if(amount == ""){
-                                                		$('#revision_amounts_status${index.count }').attr('disabled', true);
-                                                	}
+	                                                 if("${contractDeatils.bank_funded}"=="Yes")
+	                                                	 {
+		                                                	var amount = $('#revised_amounts${index.count }').val();
+			                                                 var rsval = $('#revision_amounts_status${index.count }').is(':checked');
+		                                                	if(rsval == false){
+		                                                		$('#revision_amounts_status${index.count }').attr('disabled', true);
+		                                                	}
+	                                                	 }
+	                                                 	else if($('#revised_amounts${index.count }').val()=="")
+	                                                 			{
+	                                                 				$('#revision_amounts_status${index.count }').attr('disabled', true);
+	                                                 			
+	                                                	 }
+	                                                 if("${contractDeatils.bank_funded}"=="Yes")
+	                                                	 {
+		                                                 	var rsval = $('#revision_status${index.count }').is(':checked');
+		                                                	if(rsval == false){
+		                                                		$('#revision_status${index.count }').attr('disabled', true);
+		                                                	} 
+	                                                	 }
+	                                                 else if($('#revised_docs${index.count }').val()=="")
+	                                                	 {
+	                                                	 	$('#revision_status${index.count }').attr('disabled', true);
+	                                                	 }
+	                                                	
+                                                	
                                                 	var date = $('#revised_docs${index.count }').val();
                                                 	if(date == ""){
                                                 		$('#revision_status${index.count }').attr('disabled', true);
@@ -3557,7 +3579,7 @@
 	  			$('form input[name=revision_remarks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
 	  			$('form input[name=contractDocumentNames]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
 	  			$('form input[name=contractDocumentFileNames]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
-	  			$('form input[name=contractKeyPersonnelNames]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	
+	  			$('form input[name=contractKeyPersonnelNames]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=contractKeyPersonnelDesignations]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=contractKeyPersonnelMobileNos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=contractKeyPersonnelEmailIds]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
@@ -3565,7 +3587,7 @@
 	  			var flag = validateContract();
 	        	if(flag){
 	        		
-/* 	        		var RevTableLenxgth=ravTable
+ 	        		var RevTableLenxgth=ravTable
 	        		var RevTableLength = $('#ravTable tbody tr').length ;
 	        		
  	        			for(var k=0;k<RevTableLength;k++)
@@ -3573,14 +3595,32 @@
 	        				if($("#approval_by_bank"+(k+1)).prop('checked')==true)
 	        					{
 	        						$("#approval_by_bank"+(k+1)).val("Yes");
-	        						$("#approval_by_bank"+(k+1)).val("Yes");
+	        						$("#approvalbybankstatus"+(k+1)).val("Yes");
 	        					}
 	        				else
 	        					{
 	        						$("#approval_by_bank"+(k+1)).val("No");
-	        						$("#approval_by_bank"+(k+1)).val("No");
+	        						$("#approvalbybankstatus"+(k+1)).val("No");
 	        					}
-	        			}  */
+	        				
+		        				if($("#revision_status"+(k+1)).prop('checked')==true)
+	        					{
+	        						$("#revision_statuss"+(k+1)).val("Yes");
+	        					}
+	        					else
+	        					{
+	        						$("#revision_statuss"+(k+1)).val("No");
+	        					}
+		        				if($("#revision_amounts_status"+(k+1)).prop('checked')==true)
+	        					{
+	        						$("#revision_amounts_statuss"+(k+1)).val("Yes");
+	        					}
+	        					else
+	        					{
+	        						$("#revision_amounts_statuss"+(k+1)).val("No");
+	        					}		        				
+		        				
+	        			}  
 	        		
 /* 	                	$("#ravTable input").prop("disabled", false);
 	                	$("#ravTable input.checkbox").prop("disabled", false);	     */ 

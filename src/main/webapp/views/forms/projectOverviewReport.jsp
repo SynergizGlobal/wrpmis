@@ -487,14 +487,6 @@
 						<div class="col m12 l7 offset-l2 s12">
 						 	<fieldset class="p-2 con-center fs16rm">
                                    <div class="">
-                                       <span class="box engineering"></span>
-                                       <span class="description">Bank Funds</span>
-                                   </div>
-                                   <div class="">
-                                       <span class="box nbf"></span>
-                                       <span class="description">Non Bank Funds</span>
-                                   </div> 
-                                   <div class="">
                                        <span class="box aw"></span>
                                        <span class="description">Awarded</span>
                                    </div>
@@ -676,7 +668,7 @@
   
    
     function getProjectOverviewDetailList(){
-    	$(".page-loader-2").show();
+    	//$(".page-loader-2").show();
     	$('#divCollapase ul').html("");
     	getDepartmentFilterList('');
     	getWorkFilterList('');
@@ -691,7 +683,9 @@
 		});
      		
 		
-		var DepartmentArray=new Array(); 
+		var DepartmentArray=new Array();
+		var DepartmentIndexArray=new Array(); 
+		var DepartmentValuesArray=new Array(); 
 
 	 
 	 	var myParams = { work_id_fk : work_id_fk,department_fk : department_fk};
@@ -701,67 +695,64 @@
 			
 			if(data != null && data != '' && data.length > 0){  
 				var CheckLp=1;
-				var sumVal1=0,sumVal11=0,sumVal111=0,sumVal1111=0,sumVal11111=0;
-				var sumVal2=0,sumVal22=0,sumVal222=0,sumVal2222=0,sumVal22222=0;
-				var sumVal3=0,sumVal33=0,sumVal333=0,sumVal3333=0,sumVal33333=0;
-				var sumVal4=0,sumVal44=0,sumVal444=0,sumVal4444=0,sumVal44444=0;
-				var sumVal5=0,sumVal55=0,sumVal555=0,sumVal5555=0,sumVal55555=0;
+				var sumVal1=0;
+				var sumVal2=0;
+				var sumVal3=0;
+				var sumVal4=0;
+				var sumVal5=0;
 				var cumVal=0,cumVal1=0,cumVal2=0,cumVal3=0,cumVal4=0;
 				var conHtm="";
-
+				var a11=0,a22=0,a33=0,a44=0,a55=0;
+				
          		$.each(data,function(key,val)
          				{	
-         					loop=0;
-							var a1=0,a2=0,a3=0,a4=0,a5=0;
-							if(val.estimated_cost!="" && val.estimated_cost!=undefined && val.estimated_cost!=null){a5=val.estimated_cost;}else{a5=0;}
-							if(val.awarded_cost!="" && val.awarded_cost!=undefined && val.awarded_cost!=0){a1=val.awarded_cost;}else{a1=val.estimated_cost;}
-							if(val.cumulative_expenditure!="" && val.cumulative_expenditure!=undefined && val.cumulative_expenditure!=null){a2=val.cumulative_expenditure;}else{a2=0;}
-							if(val.actual_financial_progress!="" && val.actual_financial_progress!=undefined && val.actual_financial_progress!=null){a3=val.actual_financial_progress;}else{a3=0;}
-							if(val.actual_physical_progress!="" && val.actual_physical_progress!=undefined && val.actual_physical_progress!=null){a4=val.actual_physical_progress;}else{a4=0;}
-							
-         						if(val.department_name=="Engineering")
-         						{
-       									sumVal1=parseFloat(sumVal1)+parseFloat(a1);
-       									sumVal2=parseFloat(sumVal2)+parseFloat(a2);
-         								sumVal3=parseFloat(sumVal3)+parseFloat(a3);
-       									sumVal4=parseFloat(sumVal4)+parseFloat(a4);
-       									sumVal5=parseFloat(sumVal5)+parseFloat(a5);
-         						}
-         						else if(val.department_name=="Electrical")
-       							{
-     									sumVal11=parseFloat(sumVal11)+parseFloat(a1);
-     									sumVal22=parseFloat(sumVal22)+parseFloat(a2);
-       									sumVal33=parseFloat(sumVal33)+parseFloat(a3);
-     									sumVal44=parseFloat(sumVal44)+parseFloat(a4); 
-     									sumVal55=parseFloat(sumVal55)+parseFloat(a5);
-       							}
-         						else if(val.department_name=="Signalling & Telecom")
-     							{
-     									sumVal111=parseFloat(sumVal111)+parseFloat(a1);
-     									sumVal222=parseFloat(sumVal222)+parseFloat(a2);
-       									sumVal333=parseFloat(sumVal333)+parseFloat(a3);
-     									sumVal444=parseFloat(sumVal444)+parseFloat(a4);
-     									sumVal555=parseFloat(sumVal555)+parseFloat(a5); 
-     							}
-         						else if(val.department_name=="Non Bank Funds")
-     							{
-      									sumVal1111=parseFloat(sumVal1111)+parseFloat(a1);
-      									sumVal2222=parseFloat(sumVal2222)+parseFloat(a2);
-        								sumVal3333=parseFloat(sumVal3333)+parseFloat(a3);
-      									sumVal4444=parseFloat(sumVal4444)+parseFloat(a4); 
-      									sumVal5555=parseFloat(sumVal5555)+parseFloat(a5);
-     							} 
-         						else if(val.department_name=="Planning")
-     							{
-  									sumVal11111=parseFloat(sumVal11111)+parseFloat(a1);
-  									sumVal22222=parseFloat(sumVal22222)+parseFloat(a2);
-    								sumVal33333=parseFloat(sumVal33333)+parseFloat(a3);
-  									sumVal44444=parseFloat(sumVal44444)+parseFloat(a4); 
-  									sumVal55555=parseFloat(sumVal55555)+parseFloat(a5);
-     							}         						
-         				});
+         			
+			               		if(DepartmentIndexArray.indexOf(val.department_name)==-1)
+			               		{
+			               			DepartmentIndexArray.push(val.department_name);
+			               		}
+        						
+         				});				
+				
+				for(var t=0;t<DepartmentIndexArray.length;t++)
+					{
+						
+		         		$.each(data,function(key,val)
+		         				{
+									if(DepartmentIndexArray[t]==val.department_name)
+										{
+				         					loop=0;
+											var a1=0,a2=0,a3=0,a4=0,a5=0;
+											if(val.estimated_cost!="" && val.estimated_cost!=undefined && val.estimated_cost!=null){a5=val.estimated_cost;}else{a5=0;}
+											if(val.awarded_cost!="" && val.awarded_cost!=undefined && val.awarded_cost!=0){a1=val.awarded_cost;}else{a1=val.estimated_cost;}
+											if(val.cumulative_expenditure!="" && val.cumulative_expenditure!=undefined && val.cumulative_expenditure!=null){a2=val.cumulative_expenditure;}else{a2=0;}
+											if(val.actual_financial_progress!="" && val.actual_financial_progress!=undefined && val.actual_financial_progress!=null){a3=val.actual_financial_progress;}else{a3=0;}
+											if(val.actual_physical_progress!="" && val.actual_physical_progress!=undefined && val.actual_physical_progress!=null){a4=val.actual_physical_progress;}else{a4=0;}
+											
+											
+												sumVal1=parseFloat(sumVal1)+parseFloat(a1);
+													sumVal2=parseFloat(sumVal2)+parseFloat(a2);
+				 								sumVal3=parseFloat(sumVal3)+parseFloat(a3);
+													sumVal4=parseFloat(sumVal4)+parseFloat(a4);
+													sumVal5=parseFloat(sumVal5)+parseFloat(a5);	
+										}
+		        						
+		         				});
+								var concatString=DepartmentIndexArray[t]+'__'+sumVal1+'__'+sumVal2+'__'+sumVal3+'__'+sumVal4+'__'+sumVal5;
+								DepartmentValuesArray.push(concatString);
+								a11=a11+sumVal1;
+								a22=a22+sumVal2;
+								a33=a33+sumVal3;
+								a44=a44+sumVal4;
+								a55=a55+sumVal5;
+								 sumVal1=0;
+								 sumVal2=0;
+								 sumVal3=0;
+								 sumVal4=0;
+								 sumVal5=0;								
+						}
          		
-					
+					var nm=0;
          		$.each(data,function(key,val)
          				{
 
@@ -789,120 +780,52 @@
 			             		
 	                   				DepartmentArray.push(val.department_name);
 				         			var html=conHtm+"<li>", class_name='', internal_text='';
-				         			if(val.department_name=="Engineering") {
-				         				class_name="engineering";
-				         				var yji1=sumVal2-sumVal3;
-				         				var yji=yji1+sumVal3;
-				         				var mnb=sumVal1.toFixed(1);
-				         				if(mnb>0)
-				         					{
-				         					
-				         					}
-				         				else
-				         					{
-				         						mnb=sumVal5.toFixed(1);
-				         					}
-				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:10%;width:10%;">'+sumVal5.toFixed(1)+'</span>';
-				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:20.5%;width:20.5%;">'+mnb+'</span>';
-					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:11%;width:13%;">'+yji1.toFixed(1)+'</span>';
-					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:19%;width:21%;">'+sumVal3.toFixed(1)+'</span>';
-					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:7%;width:9%;">'+yji.toFixed(1)+'</span>';
+	                   				class_name="engineering";
 
-				         			}
-				         			else if(val.department_name=="Electrical") {
-				         				class_name="electrical";
-				         				var yui1=sumVal22-sumVal33;
-				         				var yui=yui1+sumVal33;
-				         				
-				         				var mnb=sumVal11.toFixed(1);
-				         				if(mnb>0)
-				         					{
-				         					
-				         					}
-				         				else
-				         					{
-				         						mnb=sumVal55.toFixed(1);
-				         					}				         				
-				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:10%;width:10%;">'+sumVal55.toFixed(1)+'</span>';
-				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:20.5%;width:20.5%;">'+mnb+'</span>';
-					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:11%;width:13%;">'+yui1.toFixed(1)+'</span>';
-					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:19%;width:21%;">'+sumVal33.toFixed(1)+'</span>';
-					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:7%;width:9%;">'+yui.toFixed(1)+'</span>';  
-			         				}
-				         			else if(val.department_name=="Signalling & Telecom") {
-				         				class_name="sandt";
-				         				var fgh1=sumVal222-sumVal333;
-				         				var fgh=fgh1+sumVal333;
-
-				         				var mnb=sumVal111.toFixed(1);
-				         				if(mnb>0)
-				         					{
-				         					
-				         					}
-				         				else
-				         					{
-				         						mnb=sumVal555.toFixed(1);
-				         					}
-				         				
-				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:10%;width:10%;">'+sumVal555.toFixed(1)+'</span>';
-				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:20.5%;width:20.5%;">'+mnb+'</span>';
-					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:11%;width:13%;">'+fgh1.toFixed(1)+'</span>';
-					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:19%;width:21%;">'+sumVal333.toFixed(1)+'</span>';
-					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:7%;width:9%;">'+fgh.toFixed(1)+'</span>'; 
-			         				}
-				         			else if(val.department_name=="Non Bank Funds") {
-				         				class_name="nbf";
-				         				var wer1=sumVal2222+sumVal3333;
-				         				var wer=wer1+sumVal3333;
-				         				
-				         				var mnb=sumVal1111.toFixed(1);
-				         				if(mnb>0)
-				         					{
-				         					
-				         					}
-				         				else
-				         					{
-				         						mnb=sumVal5555.toFixed(1);
-				         					}
-				         				
-				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:10%;width:10%;">'+sumVal5555.toFixed(1)+'</span>';
-				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:20.5%;width:20.5%;">'+mnb+'</span>';
-					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:11%;width:13%;">'+wer1.toFixed(1)+'</span>';
-					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:19%;width:21%;">'+sumVal3333.toFixed(1)+'</span>';
-					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:7%;width:9%;">'+wer.toFixed(1)+'</span>'; 
-			         				}
-				         			else if(val.department_name=="Planning") {
-				         				class_name="pln";
-				         				var cvb1=sumVal22222-sumVal33333;
-				         				var cvb=cvb1+sumVal33333;
-
-				         				var mnb=sumVal11111.toFixed(1);
-				         				if(mnb>0)
-				         					{
-				         					
-				         					}
-				         				else
-				         					{
-				         						mnb=sumVal55555.toFixed(1);
-				         					}
-				         				
-				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:10%;width:10%;">'+sumVal55555.toFixed(1)+'</span>';
-				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:20.5%;width:20.5%;">'+mnb+'</span>';
-					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:11%;width:13%;">'+cvb1.toFixed(1)+'</span>';
-					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:19%;width:21%;">'+sumVal33333.toFixed(1)+'</span>';
-					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:7%;width:9%;">'+cvb.toFixed(1)+'</span>'; 
-			         				}					         			
+	                   				var SplitStr=DepartmentValuesArray[nm];
+	                   				var CTRStr=SplitStr.toString();
+	                   				var WERStr=CTRStr.split("__");
+				         			if(WERStr[0]==val.department_name)
+				         				{
 				         			
-				         			
-				         				cumVal=sumVal1+sumVal11+sumVal111+sumVal1111+sumVal11111;
-										cumVal1=sumVal2+sumVal22+sumVal222+sumVal2222+sumVal22222;
-				         				cumVal2=sumVal3+sumVal33+sumVal333+sumVal3333+sumVal33333;
+				         				cumVal=a11;
+										cumVal1=a22;
+				         				cumVal2=a33;
 										var ttty=cumVal1-cumVal2;
 										cumVal1=ttty;
 										
 				         				cumVal3=cumVal1+cumVal2;
-				         				cumVal4=sumVal5+sumVal55+sumVal555+sumVal5555+sumVal55555;
+				         				cumVal4=a55;
 				         				
+				         				
+				         				
+				         				var yji1=parseFloat(WERStr[2])-parseFloat(WERStr[3]);
+				         				var yji=yji1+parseFloat(WERStr[3]);
+				         				var ghyu=WERStr[1].toString();
+				         				var mnb=parseFloat(ghyu).toFixed(1);
+				         				if(mnb>0)
+				         					{
+				         					
+				         					}
+				         				else
+				         					{
+				         						var FTYUOP=WERStr[5].toString();
+				         						mnb=FTYUOP.toFixed(1);
+				         					}
+				         				
+				         				
+				         				
+				         				
+				         				var HJUIO=parseFloat(WERStr[5]).toFixed(1);
+				         				var GHTYU=parseFloat(WERStr[3]).toFixed(1);
+				         				
+				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:10%;width:10%;">'+HJUIO+'</span>';
+				         				internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:20.5%;width:20.5%;">'+mnb+'</span>';
+					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:11%;width:13%;">'+parseFloat(yji1).toFixed(1)+'</span>';
+					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:19%;width:21%;">'+GHTYU+'</span>';
+					                    internal_text=internal_text+'<span class="txt-cntr-3" style="min-width:7%;width:9%;">'+parseFloat(yji).toFixed(1)+'</span>'; 
+				         				}
+	                   		
 			         								         			
 				         			
 				         			
@@ -968,16 +891,17 @@
 			    	         								
 			    	         						}
 			    	         				});
+			    	         		nm++;
 			    	         		html=html+'</tbody></table></span></div>';
 			    	         		$('.collapsible').append(html);
 			    	         		CheckLp++;
 			    	         		conHtm="";
 			    	         		
-									$(".scVal").html(cumVal.toFixed(1));
-									$(".scVal1").html(cumVal1.toFixed(1));
-									$(".scVal2").html(cumVal2.toFixed(1));
-									$(".scVal3").html(cumVal3.toFixed(1));
-									$(".scVal4").html(cumVal4.toFixed(1));
+									$(".scVal").html(parseFloat(cumVal).toFixed(1));
+									$(".scVal1").html(parseFloat(cumVal1).toFixed(1));
+									$(".scVal2").html(parseFloat(cumVal2).toFixed(1));
+									$(".scVal3").html(parseFloat(cumVal3).toFixed(1));
+									$(".scVal4").html(parseFloat(cumVal4).toFixed(1));
 									
 			    	         		
 	                   		}

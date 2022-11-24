@@ -846,8 +846,7 @@
 			    	         							{
 			    	         								contractstatuscolor="style='background-color:#fff;'";
 			    	         							}
-														if(val1.contract_short_name.indexOf("Demo")=="-1")
-															{
+
 																var mnb=parseFloat(val1.last_financial_progress);
 																var mnf=parseFloat(val1.actual_financial_progress);
 																var rty=mnb+mnf;
@@ -887,7 +886,7 @@
 								    	         					html=html+'</tr>';			    	         								
 				    	         								}
 					    	         							t1++;
-															}
+															
 			    	         								
 			    	         						}
 			    	         				});

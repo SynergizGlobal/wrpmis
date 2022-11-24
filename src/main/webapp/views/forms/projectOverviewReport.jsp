@@ -810,7 +810,7 @@
 				         				else
 				         					{
 				         						var FTYUOP=WERStr[5].toString();
-				         						mnb=FTYUOP.toFixed(1);
+				         						mnb=parseFloat(FTYUOP).toFixed(1);
 				         					}
 				         				
 				         				

@@ -270,13 +270,26 @@
         	min-width:10%;
         	width:10%;
         }
+        .fw-12p{
+        	min-width:12%;
+        	width:12%;
+        }
+         .fw-13p{
+        	min-width:13%;
+        	width:13%;
+        } 
+        .fw-14p{
+        	min-width:14%;
+        	width:14%;
+        }                        
         .fw-15p{
         	min-width:15%;
         	width:15%;
+        	text-align:center !important;
         }
         .fw-42p{
-        	min-width:15%;
-        	width:15%;
+        	min-width:12%;
+        	width:12%;
         }
         .fw-43p{
         	min-width:43%;
@@ -501,8 +514,8 @@
 									<tr class="st-1">										
 										<th class="fw-5p fs16r">S. No.</th>
 										<th class="fw-15p fs16r">Description</th>
-										<th class="fw-10p fs16r">Estimated Costs</th>
-										<th class="fw-10p fs16r">LCP</th>
+										<th class="fw-13p fs16r">Estimated Costs</th>
+										<th class="fw-15p fs16r">LCP</th>
 										<th class="fw-15p fs16r">Exp. till Last FY</th>
 										<th class="fw-15p fs16r">Exp. this FY</th>
 										<th class="fw-15p fs16r">Exp. till Date</th>
@@ -763,9 +776,9 @@
 													'<thead>'+
 														'<tr class="st-2">'	+									
 															'<th class="st2-th1" colspan="2">'+val.work_short_name+'</th>'+
-															'<th class="scVal4 fs16r-2 fw-10p txt-cntr-2" style="padding-left: 0px !important;"></th>'+
-															'<th class="scVal fs16r-2 fw-15p txt-cntr-2 pdr50px"></th>'+
-															'<th class="scVal1 fs16r-2 fw-15p txt-cntr-2 pdr50px"></th>'+
+															'<th class="scVal4 fs16r-2 fw-10p txt-cntr-2" style="text-align: left !important;"></th>'+
+															'<th class="scVal fs16r-2 fw-13p txt-cntr-2 pdr50px" style="padding-left: 85px !important;text-align: left !important;"></th>'+
+															'<th class="scVal1 fs16r-2 fw-13p txt-cntr-2 pdr50px"></th>'+
 															'<th class="scVal2 fs16r-2 fw-15p txt-cntr-2 pdr80px"></th>'+
 															'<th class="scVal3 fs16r-2 fw-10p txt-cntr-2 pdr80px"></th>'+
 														'</tr>'+
@@ -926,8 +939,8 @@
 								    	         							{
 								    	         								awcost=parseFloat(val1.estimated_cost).toFixed(1);
 								    	         							}
-								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr" style="color:red;">'+parseFloat(val1.estimated_cost).toFixed(1)+'</td>';
-								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr" style="color:red;">'+awcost+'</td>';
+								    	         						html=html+'<td class="fw-12p fs16rem txt-cntr" style="color:red;">'+parseFloat(val1.estimated_cost).toFixed(1)+'</td>';
+								    	         						html=html+'<td class="fw-12p fs16rem txt-cntr" style="color:red;">'+awcost+'</td>';
 								    	         						html=html+'<td class="fw-15p fs16rem txt-cntr" style="color:red;">'+parseFloat(val1.last_financial_progress).toFixed(1)+'</td>';
 								    	         						html=html+'<td class="fw-15p fs16rem txt-cntr" style="color:red;">'+parseFloat(val1.actual_financial_progress).toFixed(1)+'</td>';
 								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr" style="color:red;">'+parseFloat(rty).toFixed(1)+'</td>';
@@ -943,8 +956,8 @@
 								    	         							{
 								    	         								gh=val1.revisionnumber;
 								    	         							}
-								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr">'+parseFloat(val1.estimated_cost).toFixed(1)+'('+gh+')</td>';
-								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr">'+parseFloat(val1.awarded_cost).toFixed(1)+'</td>';
+								    	         						html=html+'<td class="fw-12p fs16rem txt-cntr">'+parseFloat(val1.estimated_cost).toFixed(1)+'('+gh+')</td>';
+								    	         						html=html+'<td class="fw-12p fs16rem txt-cntr">'+parseFloat(val1.awarded_cost).toFixed(1)+'</td>';
 								    	         						html=html+'<td class="fw-15p fs16rem txt-cntr">'+parseFloat(val1.last_financial_progress).toFixed(1)+'</td>';
 								    	         						html=html+'<td class="fw-15p fs16rem txt-cntr">'+parseFloat(val1.actual_financial_progress).toFixed(1)+'</td>';
 								    	         						html=html+'<td class="fw-10p fs16rem txt-cntr">'+parseFloat(rty).toFixed(1)+'</td>';

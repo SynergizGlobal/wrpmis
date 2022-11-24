@@ -269,6 +269,23 @@ public class ContractController {
 		return worksFilterList;
 	}
 	
+	@RequestMapping(value = "/ajax/getDOCWorksFilterListInContract", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Contract> getDOCWorksFilterList(@ModelAttribute Contract obj,HttpSession session) {
+		List<Contract> worksFilterList = null;
+		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			worksFilterList = contractService.getDOCWorksFilterList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getWorksFilterList : " + e.getMessage());
+		}
+		return worksFilterList;
+	}	
+	
 	@RequestMapping(value = "/ajax/getProjectsFilterListInContract", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Contract> getProjectsFilterList(@ModelAttribute Contract obj,HttpSession session) {
@@ -355,6 +372,23 @@ public class ContractController {
 		}
 		return dataList;
 	}
+	
+	@RequestMapping(value = "/ajax/getDOCStatusFilterListInContract", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Contract> getDOCStatusFilterListInContract(@ModelAttribute Contract obj,HttpSession session) {
+		List<Contract> dataList = null;  
+		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			dataList = contractService.getDOCStatusFilterListInContract(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getStatusFilterListInContract : " + e.getMessage());
+		}
+		return dataList;
+	}	
 	
 	@RequestMapping(value = "/ajax/getDepartmentsListForContractForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
@@ -1632,6 +1666,24 @@ public class ContractController {
 		}
 		return dataList;
 	}
+	
+	
+	@RequestMapping(value = "/ajax/getDOCDepartmentsFilterListInContract", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Contract> getDOCDepartmentsFilterListInContract(@ModelAttribute Contract obj,HttpSession session) {
+		List<Contract> dataList = null;  
+		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			dataList = contractService.getDOCDepartmentsFilterListInContract(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getDepartmentsFilterListInContract : " + e.getMessage());
+		}
+		return dataList;
+	}	
 	
 	@RequestMapping(value = "/export-details-of-contract", method = {RequestMethod.GET,RequestMethod.POST})
 	public void exportDetailsOfContracts(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute Contract contract,RedirectAttributes attributes){

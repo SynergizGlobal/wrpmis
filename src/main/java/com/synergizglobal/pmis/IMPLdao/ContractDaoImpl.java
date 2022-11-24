@@ -4400,7 +4400,7 @@ public class ContractDaoImpl implements ContractDao {
 		List<Contract> objsList = null;
 		NumberFormat numberFormatter = new DecimalFormat("#0.00");
 		try {
-			String qry = "select * from detailsofcontractshistory where 0=0 ";
+			String qry = "select * from vw_ContractDetails where 0=0 ";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
@@ -4519,6 +4519,123 @@ public class ContractDaoImpl implements ContractDao {
 		}catch(Exception e){ 
 			e.printStackTrace();
 		throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Contract> getDOCStatusFilterListInContract(Contract obj) throws Exception {
+		List<Contract> objsList = null;
+		try {
+			String qry = "select distinct contract_status_fk from vw_ContractDetails where 0=0 ";
+			
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				qry = qry + " and department_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
+				qry = qry + " and contract_status_fk = ?";
+				arrSize++;
+			}
+
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				pValues[i++] = obj.getDepartment_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
+				pValues[i++] = obj.getContract_status_fk();
+			}
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
+			
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Contract> getDOCWorksFilterList(Contract obj) throws Exception {
+		List<Contract> objsList = null;
+		try {
+			String qry = "select distinct work_id_fk,work_name,work_short_name from vw_ContractDetails where 0=0 ";
+			
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				qry = qry + " and department_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
+				qry = qry + " and contract_status_fk = ?";
+				arrSize++;
+			}
+
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				pValues[i++] = obj.getDepartment_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
+				pValues[i++] = obj.getContract_status_fk();
+			}
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
+			
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Contract> getDOCDepartmentsFilterListInContract(Contract obj) throws Exception {
+		List<Contract> objsList = null;
+		try {
+			String qry = "select distinct department_fk,department_name from vw_ContractDetails where 0=0 ";
+			
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				qry = qry + " and department_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
+				qry = qry + " and contract_status_fk = ?";
+				arrSize++;
+			}
+
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+				pValues[i++] = obj.getDepartment_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
+				pValues[i++] = obj.getContract_status_fk();
+			}
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
+			
+		}catch(Exception e){ 
+			throw new Exception(e);
 		}
 		return objsList;
 	}

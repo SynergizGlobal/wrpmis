@@ -57,19 +57,14 @@ public class ProjectOverviewReportDaoImpl implements ProjectOverviewReportDao{
 	public List<Contract> getWorksFilterListInPOR(Contract obj) throws Exception {
 		List<Contract> objsList = null;
 		try {
-			String qry = "SELECT distinct work_id_fk,w.work_name,w.work_short_name "
-					+ "from contract c " + 
-					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
-					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
-					"left join department d on d.department=c.department_fk "+
-					"where work_id_fk is not null and work_id_fk <> ''   ";
+			String qry = "select distinct work_id,work_id_fk,work_short_name from vw_ProjectOverviewReport where 0=0 ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and c.work_id_fk = ? ";
+				qry = qry + " and work_id= ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and d.department = ? ";
+				qry = qry + " and department = ? ";
 				arrSize++;
 			}
 			/*if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
@@ -79,7 +74,6 @@ public class ProjectOverviewReportDaoImpl implements ProjectOverviewReportDao{
 				arrSize++;
 				arrSize++;
 			}*/
-			qry = qry + " GROUP BY work_id_fk,w.work_name,w.work_short_name ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -104,24 +98,16 @@ public class ProjectOverviewReportDaoImpl implements ProjectOverviewReportDao{
 	public List<Contract> getDepartmentFilterListInPOR(Contract obj) throws Exception {
 		List<Contract> objsList = null;
 		try {
-			String qry = "select * from(select distinct hoddt.department as department_fk,hoddt.department_name   " + 
-					"from contract c      " + 
-					"left join work w on c.work_id_fk = w.work_id       " + 
-					"left join contractor cr on c.contractor_id_fk = cr.contractor_id      " + 
-					"left join project p on w.project_id_fk = p.project_id      " + 
-					"left join [user] u on c.hod_user_id_fk = u.user_id    " + 
-					"left join department hoddt on u.department_fk = hoddt.department    " + 
-					"where contract_id is not null and hoddt.department_name is not null ";
+			String qry = "select distinct department as department_fk,department_name from vw_ProjectOverviewReport where 0=0 ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and c.work_id_fk = ? ";
+				qry = qry + " and work_id = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and hoddt.department = ? ";
+				qry = qry + " department = ? ";
 				arrSize++;
 			}
-			qry=qry+"  ) as a ORDER BY case when department_name='Engineering' then 1 when department_name='Electrical' then 2 when department_name='Signalling & Telecom' then 3 when department_name='Planning' then 4 end asc ";
 
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
@@ -143,30 +129,7 @@ public class ProjectOverviewReportDaoImpl implements ProjectOverviewReportDao{
 		List<Contract> objsList = null;
 		NumberFormat numberFormatter = new DecimalFormat("#0.00");
 		try {
-			String qry = "select * from (SELECT distinct contract_short_name,work_short_name,ISNULL((select sum(e1.gross_work_done*e1.gross_work_done_units) from expenditure e1  					where contract_id_fk=c.contract_id  and voucher_type!='2022-23'  					)  					 ,0) as last_financial_progress,  " + 
-					 
-					 
-					"					isnull(cast(isnull(c.estimated_cost,0)*c.estimated_cost_units as CHAR),0) as estimated_cost,\r\n" + 
-					"										(case when  ((select count(*) from contract_revision where contract_id_fk=c.contract_id)>0 and isnull(revised_amount,0)>0)\r\n" + 
-					"					\r\n" + 
-					"						then\r\n" + 
-					"						\r\n" + 
-					"(select cast(revised_amount*revised_amount_units as CHAR) from contract_revision where contract_id_fk=c.contract_id\r\n" + 
-					"and contract_revision_id=(select Max(contract_revision_id) from contract_revision where contract_id_fk=c.contract_id))\r\n" + 
-					"\r\n" + 
-					"\r\n" + 
-					"					    \r\n" + 
-					"						 \r\n" + 
-					"						 else \r\n" + 
-					"							cast(c.awarded_cost*c.awarded_cost_units as CHAR)\r\n" + 
-					"						 \r\n" + 
-					"						 end)  as awarded_cost,(select Max(revision_no) from contract_revisions where contract_id_fk=c.contract_id) as revisionnumber, " + 
-					 
-
-					"isnull(SUM((e.gross_work_done * e.gross_work_done_units)),0) cumulative_expenditure,w.work_id,  					                    ISNULL((select sum(e1.gross_work_done*e1.gross_work_done_units) from expenditure e1  					where contract_id_fk=c.contract_id  					and voucher_type=(SELECT CASE WHEN MONTH(CONVERT(date, getdate())) >= 4 THEN concat(YEAR(CONVERT(date, getdate())), '-',SUBSTRING(cast(YEAR(CONVERT(date, getdate()))+1 as varchar),3,2)) ELSE concat(cast(YEAR(CONVERT(date, getdate()))-1 as varchar),'-', SUBSTRING(cast(YEAR(CONVERT(date, getdate())) as varchar),3,2)) END)  					)  					 ,0) as actual_financial_progress,d1.department as department,  					                    ISNULL((case when (case when cr.revised_amount is null then awarded_cost*awarded_cost_units else revised_amount*revised_amount_units end) is null then (estimated_cost*estimated_cost_units) else (case when cr.revised_amount is null then awarded_cost*awarded_cost_units else revised_amount*revised_amount_units end) end),0)-ISNULL((SUM((e.gross_work_done * e.gross_work_done_units))),0) AS actual_physical_progress,case when c.contract_id like '%null%' and (contract_name like '%Miscellaneous-%' or contract_name like '%Land-%') then 'Non Bank Funds' else d1.department_name end department_name   										,contract_status_fk from contract c   										LEFT JOIN work w on c.work_id_fk = w.work_id  										LEFT JOIN project p on w.project_id_fk = p.project_id  						LEFT JOIN [user] u ON c.hod_user_id_fk = u.user_id 	left join department d1 on d1.department=u.department_fk                     left join contract_revision cr on cr.contract_id_fk = c.contract_id and cr.revision_amounts_status = 'Yes'  					                    left join expenditure e on e.contract_id_fk= c.contract_id  					LEFT join money_unit mu1 ON c.estimated_cost_units = mu1.value LEFT join money_unit mu2 ON c.awarded_cost_units = mu2.value LEFT join money_unit mu3 ON c.completed_cost_units = mu3.value 	where work_id_fk is not null and work_id_fk <> ''     					 					group by work_id,contract_id,contract_name,department,contract_status_fk,department_name,contract_short_name,work_short_name,revised_amount,awarded_cost,					revised_amount_units,estimated_cost,estimated_cost_units,awarded_cost_units,revised_amount_units ) as a  " + 
-					 
-					 
-					"where 0=0 " ; 
+			String qry = "select * from vw_ProjectOverviewReport where 0=0 " ; 
 
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {

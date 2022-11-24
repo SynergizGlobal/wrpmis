@@ -187,5 +187,20 @@ public class ContractServiceImpl implements ContractService{
 	public List<Contract> getDepartmentsFilterListInContract(Contract obj) throws Exception {
 		return contractDao.getDepartmentsFilterListInContract(obj);
 	}
-
+	
+	@Override
+	public List<Contract> getDOCStatusFilterListInContract(Contract obj) throws Exception{
+		return contractDao.getDOCStatusFilterListInContract(obj);
+	}
+	
+	@Override
+	public List<Contract> getDOCWorksFilterList(Contract obj) throws Exception{
+		return contractDao.getDOCWorksFilterList(obj);
+	}
+	
+	@Override
+	public List<Contract> getDOCDepartmentsFilterListInContract(Contract obj) throws Exception{
+		return contractDao.getDOCDepartmentsFilterListInContract(obj);
+	}
+	
 }

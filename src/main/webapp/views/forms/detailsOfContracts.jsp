@@ -869,7 +869,7 @@ width: 90%;
 	        	$("#department_fk option:not(:first)").remove();
 	    	 	var myParams = { department_fk : department_fk, work_id_fk : work_id_fk, contract_status_fk : contract_status_fk};
 	            $.ajax({
-	                url: "<%=request.getContextPath()%>/ajax/getDepartmentsFilterListInContract",
+	                url: "<%=request.getContextPath()%>/ajax/getDOCDepartmentsFilterListInContract",
 	                data: myParams, cache: false,async: false,
 	                success: function (data) {
 	                    if (data.length > 0) {
@@ -902,7 +902,7 @@ width: 90%;
 		    	$("#contract_status_fk option:not(:first)").remove();
 			 	var myParams = {department_fk : department_fk, work_id_fk : work_id_fk, contract_status_fk : contract_status_fk};
 	            $.ajax({
-	                url: "<%=request.getContextPath()%>/ajax/getStatusFilterListInContract",
+	                url: "<%=request.getContextPath()%>/ajax/getDOCStatusFilterListInContract",
 	                data: myParams, cache: false,async: false,
 	                success: function (data) {
 	                    if (data.length > 0) {
@@ -939,7 +939,7 @@ width: 90%;
 	    	$("#work_id_fk option:not(:first)").remove();
 		 	var myParams = {department_fk : department_fk, work_id_fk : work_id_fk, contract_status_fk : contract_status_fk};
             $.ajax({
-                url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInContract",
+                url: "<%=request.getContextPath()%>/ajax/getDOCWorksFilterListInContract",
                 data: myParams, cache: false,async: false,
                 success: function (data) {
                     if (data.length > 0) {

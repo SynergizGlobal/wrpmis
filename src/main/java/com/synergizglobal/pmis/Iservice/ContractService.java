@@ -87,5 +87,11 @@ public interface ContractService {
 
 	public List<Contract> getDepartmentsFilterListInContract(Contract obj) throws Exception;
 	public List<Contract> getUnitsList(Contract obj) throws Exception;
+	
+	
+	public List<Contract> getDOCStatusFilterListInContract(Contract obj)throws Exception;
+	public List<Contract> getDOCWorksFilterList(Contract obj)throws Exception;
+	public List<Contract> getDOCDepartmentsFilterListInContract(Contract obj)throws Exception;
+	
 
 }

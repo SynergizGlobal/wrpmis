@@ -1074,7 +1074,7 @@ public class ContractDaoImpl implements ContractDao {
 		try{
 			con = dataSource.getConnection();
 			String contract_updateQry = "select w.work_name,w.work_short_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,"
-									+ "c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.department_fk,dt.department_name,c.hod_user_id_fk,c.dy_hod_user_id_fk,  " 
+									+ "c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,dt.department as department_fk,dt.department_name,c.hod_user_id_fk,c.dy_hod_user_id_fk,  " 
 									+ "scope_of_contract,cast(estimated_cost as decimal(18,2)) as estimated_cost,FORMAT(date_of_start,'dd-MM-yyyy') AS date_of_start,"
 									+ "FORMAT(doc,'dd-MM-yyyy') AS doc,cast(awarded_cost as decimal(18,2)) as awarded_cost,loa_letter_number,FORMAT(loa_date,'dd-MM-yyyy') AS loa_date,"
 									+ "ca_no,FORMAT(ca_date,'dd-MM-yyyy') AS ca_date,FORMAT(actual_completion_date,'dd-MM-yyyy') AS actual_completion_date,"
@@ -1090,7 +1090,7 @@ public class ContractDaoImpl implements ContractDao {
 									"left join [user] u on c.hod_user_id_fk = u.user_id "+
 									"left join [user] us on c.dy_hod_user_id_fk = us.user_id "+
 									"left join money_unit mu on c.completed_cost_units = mu.value  "
-									+"left join department dt on c.department_fk = dt.department where contract_id = ?" ;
+									+"left join department dt on c.contract_department = dt.department where contract_id = ?" ;
 			stmt = con.prepareStatement(contract_updateQry);
 			stmt.setString(1, obj.getContract_id());
 			resultSet = stmt.executeQuery();
@@ -2665,7 +2665,7 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and c.department_fk = ? ";
+				qry = qry + " and c.contract_department = ? ";
 				arrSize++;
 			}
 
@@ -3206,7 +3206,7 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and c.department_fk = ? ";
+				qry = qry + " and c.contract_department = ? ";
 				arrSize++;
 			}
 			qry = qry + " GROUP BY contract_status_fk ";
@@ -3898,7 +3898,7 @@ public class ContractDaoImpl implements ContractDao {
 		List<Contract> objsList = new ArrayList<Contract>();
 		try {
 			String qry ="SELECT distinct revision_number,revised_amount,revised_amount_units ,FORMAT(revised_doc,'dd-MM-yyyy') AS revised_doc,"
-					+ "action as revision_status,cr.remarks,mu.unit,revision_amounts_status,c.contract_short_name,c.contract_id,approval_by_bank,attachment "
+					+ "action as revision_status,cr.remarks,mu.unit,revision_amounts_status,c.contract_short_name,c.contract_id,approval_by_bank as approvalbybank,attachment "
 					+ "from contract_revision cr "
 					+ "left join money_unit mu on cr.revised_amount_units = mu.value  "
 					+ "left join contract c on cr.contract_id_fk = c.contract_id "
@@ -3910,7 +3910,7 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and c.department_fk = ?";
+				qry = qry + " and c.contract_department = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -4008,7 +4008,7 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and c.department_fk = ?";
+				qry = qry + " and c.contract_department = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -4101,7 +4101,7 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and c.department_fk = ?";
+				qry = qry + " and c.contract_department = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -4194,7 +4194,7 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and c.department_fk = ?";
+				qry = qry + " and c.contract_department = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -4275,17 +4275,17 @@ public class ContractDaoImpl implements ContractDao {
 	public List<Contract> contractListForExport(Contract obj) throws Exception {
 		List<Contract> objsList = null;
 		try {
-			String qry ="select w.work_name,w.work_short_name,dt.department_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation,us.designation as dy_hod_designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk  " + 
+			String qry ="select w.work_name,w.work_short_name,dt.department_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation,us.designation as dy_hod_designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,dt.department as department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk  " + 
 					",scope_of_contract,estimated_cost,FORMAT(date_of_start,'dd-MM-yyyy') AS date_of_start,FORMAT(doc,'dd-MM-yyyy') AS doc,awarded_cost,loa_letter_number,FORMAT(loa_date,'dd-MM-yyyy') AS loa_date,ca_no,FORMAT(ca_date,'dd-MM-yyyy') AS ca_date,FORMAT(actual_completion_date,'dd-MM-yyyy') AS actual_completion_date,"
 					+"FORMAT(contract_closure_date,'dd-MM-yyyy') AS contract_closure_date,FORMAT(completion_certificate_release,'dd-MM-yyyy') AS completion_certificate_release,FORMAT(final_takeover,'dd-MM-yyyy') AS final_takeover,FORMAT(final_bill_release,'dd-MM-yyyy') AS final_bill_release,FORMAT(defect_liability_period,'dd-MM-yyyy') AS defect_liability_period,completed_cost,"
-					+"FORMAT(retention_money_release,'dd-MM-yyyy') AS retention_money_release,FORMAT(pbg_release,'dd-MM-yyyy') AS pbg_release,c.status as contract_status, contract_status_fk,bg_required,insurance_required,dth.department_name as hod_department,estimated_cost_units,awarded_cost_units,completed_cost_units,mu1.unit as estimated_cost_unit,mu2.unit as awarded_cost_unit,mu3.unit as completed_cost_unit,FORMAT(notice_inviting_tender,'dd-MM-yyyy') AS contract_notice_inviting_tender,FORMAT(planned_date_of_award,'dd-MM-yyyy') AS planned_date_of_award " + 
+					+"FORMAT(retention_money_release,'dd-MM-yyyy') AS retention_money_release,FORMAT(pbg_release,'dd-MM-yyyy') AS pbg_release,c.status as contract_status, contract_status_fk,bg_required,insurance_required,dth.department_name as hod_department,estimated_cost_units,awarded_cost_units,completed_cost_units,mu1.unit as estimated_cost_unit,mu2.unit as awarded_cost_unit,mu3.unit as completed_cost_unit,FORMAT(notice_inviting_tender,'dd-MM-yyyy') AS contract_notice_inviting_tender,FORMAT(planned_date_of_award,'dd-MM-yyyy') AS planned_date_of_award,bank_funded,c.bank_name,type_of_review,c.notice_inviting_tender as notice_inviting_tender " + 
 					"from contract c " + 
 					"left join work w on c.work_id_fk = w.work_id  " + 
 					"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
 					"left join project p on w.project_id_fk = p.project_id " + 
 					"left join [user] u on c.hod_user_id_fk = u.user_id "+
 					"left join [user] us on c.dy_hod_user_id_fk = us.user_id "
-					+"left join department dt on c.department_fk = dt.department "
+					+"left join department dt on c.contract_department = dt.department "
 					+"left join department dth on u.department_fk = dth.department "
 					+"left join money_unit mu1 on c.estimated_cost_units = mu1.value "
 					+"left join money_unit mu2 on c.awarded_cost_units = mu2.value "
@@ -4298,7 +4298,7 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
-				qry = qry + " and c.department_fk = ?";
+				qry = qry + " and c.contract_department = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {

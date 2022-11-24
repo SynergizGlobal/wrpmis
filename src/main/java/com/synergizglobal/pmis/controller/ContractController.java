@@ -1029,7 +1029,7 @@ public class ContractController {
 		        
 		        
 	            XSSFRow headingRow = contractsSheet.createRow(0);
-	            String headerString = "Work^Contract ID^Contract Name^Contract Short Name^Contractor^Department^HOD^DY HOD^Contract Type^Scope of Contract"
+	            String headerString = "Work^Contract ID^Contract Name^Contract Short Name^Contractor^Department^HOD^DY HOD^Bank Funded(Yes/No)^Bank Name^Type of Review^Notice Inviting Tender^Contract Type^Scope of Contract"
 	            		+ "^Estimated Cost\n(Rs in Lakhs)^Planned Date of Award^Awarded Cost\n(Rs in Lakhs)^LOA Letter Number^LOA Date^CA NO^CA Date^Date of Start^DOC^"
 	            		+ "Actual Completion Date^Final Taking over by Client^Date of issue of Completion Certificate^Date of Payment of Final bill^Date of release of Final Retention / BG^Completion  Cost\n(Rs in Lakhs)^"
 	            		+ "End date of Defect Liability Period^Date of release of PBG^Date of Contract Closure^Contract Status^Status of Work^Bank Guarantee Requried^Insurance Requried^Tally Head";
@@ -1080,6 +1080,22 @@ public class ContractController {
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
 					cell.setCellValue(obj.getDy_hod_designation());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getBank_funded());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getBank_name());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getType_of_review());	
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getNoticeinvitingtender());						
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
@@ -1246,7 +1262,7 @@ public class ContractController {
 	            /********************************** Revision Details *********************************************************/
 	            
 	            headingRow = revisionsSheet.createRow(0);
-	            headerString = "Contract ID^Contract Short Name^Revision Number^Revised Contract Value\n(Rs in Lakhs)^Current^Revised DOC^Current^Remarks";
+	            headerString = "Contract ID^Contract Short Name^Revision Number^Revised Contract Value\n(Rs in Lakhs)^Current^Revised DOC^Current^Approval by Bank(Yes/No)^Remarks";
 	            
 	            headerStringArr = headerString.split("\\^");
 	            
@@ -1305,6 +1321,10 @@ public class ContractController {
 					cell = row.createCell(c++);
 					cell.setCellStyle(centerStyle);
 					cell.setCellValue(obj.getRevision_status());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(centerStyle);
+					cell.setCellValue(obj.getApprovalbybank());				
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);

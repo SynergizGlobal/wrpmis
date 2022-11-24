@@ -720,7 +720,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				
 				obj.setHod_designation(hodObj.getHod_designation());
 				
-				String qry ="select w.work_name,w.work_short_name,dt.department_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk,"  
+				String qry ="select w.work_name,w.work_short_name,dt.department_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,dt.department as department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk,"  
 						+"scope_of_contract,cast(estimated_cost as CHAR) as estimated_cost,FORMAT(date_of_start,'dd-MM-yyyy') AS date_of_start,FORMAT(doc,'dd-MMM-yy') AS doc,doc as doc_date,cast((ISNULL(awarded_cost,0)*ISNULL(awarded_cost_units,0)/10000000) as decimal(10,2)) as awarded_cost,loa_letter_number,FORMAT(loa_date,'dd-MMM-yy') AS loa_date,ca_no,FORMAT(ca_date,'dd-MM-yyyy') AS ca_date,FORMAT(actual_completion_date,'dd-MMM-yy') AS actual_completion_date,"
 						+"FORMAT(contract_closure_date,'dd-MM-yyyy') AS contract_closure_date,FORMAT(completion_certificate_release,'dd-MM-yyyy') AS completion_certificate_release,FORMAT(final_takeover,'dd-MM-yyyy') AS final_takeover,FORMAT(final_bill_release,'dd-MM-yyyy') AS final_bill_release,FORMAT(defect_liability_period,'dd-MM-yyyy') AS defect_liability_period,cast(completed_cost as CHAR) as completed_cost,"
 						+"FORMAT(retention_money_release,'dd-MM-yyyy') AS retention_money_release,FORMAT(pbg_release,'dd-MM-yyyy') AS pbg_release,contract_status_fk,bg_required,insurance_required, "
@@ -748,7 +748,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 						+ "left join project p on w.project_id_fk = p.project_id "  
 						+ "left join [user] u on c.hod_user_id_fk = u.user_id "
 						+ "left join [user] us on c.dy_hod_user_id_fk = us.user_id "
-						+ "left join department dt on c.department_fk = dt.department "
+						+ "left join department dt on c.contract_department = dt.department "
 						+ "where contract_id is not null and status is not null ";
 				
 				arrSize = 0;			
@@ -871,7 +871,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 					"left join project p on w.project_id_fk = p.project_id " + 
 					"left join [user] u on c.hod_user_id_fk = u.user_id "+
 					"left join [user] us on c.dy_hod_user_id_fk = us.user_id "
-					+"left join department dt on c.department_fk = dt.department "
+					+"left join department dt on c.contracxt_department = dt.department "
 					+"where contract_id is not null and bg.release_date is null ";
 			
 			int arrSize = 0;			
@@ -998,7 +998,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			List<Contract> hodList = jdbcTemplate.query( hodQry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 			for (Contract hodObj : hodList) {			
 				String qry ="select DISTINCT contract_short_name,contractor_name,STRING_AGG( bg_number , '\n<space>' ) as bg_number,STRING_AGG( bg_value , '\n<space>' ) as bg_value,STRING_AGG(bg_valid_upto , '\n<space>' ) as bg_valid_upto,STRING_AGG( ContractAlertRemarks , '\n' ) as ContractAlertRemarks from(select distinct bank_guarantee_id,bg.contract_id_fk,bg_type_fk,issuing_bank,bg_number,cast((ISNULL(bg_value,0)*ISNULL(bg_value_units,0)/100000) as decimal(10,2)) as bg_value,FORMAT(valid_upto,'dd-MMM-yy') AS bg_valid_upto,FORMAT(bg_date,'dd-MMM-yy') AS bg_date,FORMAT(release_date,'dd-MMM-yy') AS release_date,"
-						+ "w.work_id,w.work_name,w.work_short_name,dt.department_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk," + 
+						+ "w.work_id,w.work_name,w.work_short_name,dt.department_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,dt.department as department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk," + 
 						"scope_of_contract,cast(estimated_cost as CHAR) as estimated_cost,FORMAT(date_of_start,'dd-MMM-yy') AS date_of_start,FORMAT(doc,'dd-MMM-yy') AS doc,cast(awarded_cost as CHAR) as awarded_cost,loa_letter_number,FORMAT(loa_date,'dd-MMM-yy') AS loa_date,ca_no,FORMAT(ca_date,'dd-MMM-yy') AS ca_date,FORMAT(actual_completion_date,'dd-MM-yyyy') AS actual_completion_date,"
 						+"FORMAT(contract_closure_date,'dd-MMM-yy') AS contract_closure_date,FORMAT(completion_certificate_release,'dd-MM-yyyy') AS completion_certificate_release,FORMAT(final_takeover,'dd-MMM-yy') AS final_takeover,FORMAT(final_bill_release,'dd-MMM-yy') AS final_bill_release,FORMAT(defect_liability_period,'dd-MMM-yy') AS defect_liability_period,cast(completed_cost as CHAR) as completed_cost,"
 						+"FORMAT(retention_money_release,'dd-MMM-yy') AS retention_money_release,FORMAT(pbg_release,'dd-MMM-yy') AS pbg_release,contract_status_fk,bg_required,insurance_required, " + 
@@ -1018,7 +1018,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 						"left join project p on w.project_id_fk = p.project_id " + 
 						"left join [user] u on c.hod_user_id_fk = u.user_id "+
 						"left join [user] us on c.dy_hod_user_id_fk = us.user_id "
-						+"left join department dt on c.department_fk = dt.department "
+						+"left join department dt on c.contract_department = dt.department "
 						+"where contract_id is not null and bg.release_date is null ";
 				
 				arrSize = 0;			
@@ -1101,7 +1101,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 					"left join project p on w.project_id_fk = p.project_id " + 
 					"left join [user] u on c.hod_user_id_fk = u.user_id "+
 					"left join [user] us on c.dy_hod_user_id_fk = us.user_id "
-					+"left join department dt on c.department_fk = dt.department "
+					+"left join department dt on c.contract_department = dt.department "
 					+"where contract_id is not null and (i.released_fk <> 'Yes' or i.released_fk is null) ";
 			
 			int arrSize = 0;			
@@ -1310,7 +1310,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 						"left join project p on w.project_id_fk = p.project_id " + 
 						"left join [user] u on c.hod_user_id_fk = u.user_id "+
 						"left join [user] us on c.dy_hod_user_id_fk = us.user_id "
-						+"left join department dt on c.department_fk = dt.department "
+						+"left join department dt on c.contract_department = dt.department "
 						+"where contract_id is not null ";
 				
 				arrSize = 0;			
@@ -1425,7 +1425,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 					"left join project p on w.project_id_fk = p.project_id " + 
 					"left join [user] u on c.hod_user_id_fk = u.user_id "+
 					"left join [user] us on c.dy_hod_user_id_fk = us.user_id "
-					+"left join department dt on c.department_fk = dt.department "
+					+"left join department dt on c.contract_department = dt.department "
 					+"where contract_id is not null and (i.released_fk <> 'Yes' or i.released_fk is null) and c.contract_status_fk in ('In Progress') ";
 			
 			int arrSize = 0;			
@@ -1634,7 +1634,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 						"left join project p on w.project_id_fk = p.project_id " + 
 						"left join [user] u on c.hod_user_id_fk = u.user_id "+
 						"left join [user] us on c.dy_hod_user_id_fk = us.user_id "
-						+"left join department dt on c.department_fk = dt.department "
+						+"left join department dt on c.contract_department = dt.department "
 						+"where contract_id is not null and c.contract_status_fk in ('In Progress') ";
 				
 				arrSize = 0;			
@@ -1749,7 +1749,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 					"left join project p on w.project_id_fk = p.project_id " + 
 					"left join [user] u on c.hod_user_id_fk = u.user_id "+
 					"left join [user] us on c.dy_hod_user_id_fk = us.user_id "
-					+"left join department dt on c.department_fk = dt.department "
+					+"left join department dt on c.contract_department = dt.department "
 					+"where contract_id is not null and (i.released_fk <> 'Yes' or i.released_fk is null) ";
 			
 			int arrSize = 0;			
@@ -1886,7 +1886,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 								
 				
 				String qry ="select contract_short_name,contractor_name,STRING_AGG( loa_date , '\n' ) as loa_date,STRING_AGG( doc , '\n' ) as doc,STRING_AGG( ContractAlertRemarks , '\n' ) as ContractAlertRemarks from (select distinct "
-						+ "w.work_id,w.work_name,w.work_short_name,dt.department_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk," + 
+						+ "w.work_id,w.work_name,w.work_short_name,dt.department_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,dt.department as department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk," + 
 						"scope_of_contract,cast(estimated_cost as CHAR) as estimated_cost,FORMAT(date_of_start,'dd-MMM-yy') AS date_of_start,"
 						+conCatQry+ " AS doc,cast(awarded_cost as CHAR) as awarded_cost,loa_letter_number,FORMAT(loa_date,'dd-MMM-yy') AS loa_date,ca_no,FORMAT(ca_date,'dd-MMM-yy') AS ca_date,FORMAT(actual_completion_date,'dd-MMM-yy') AS actual_completion_date,"
 						+"FORMAT(contract_closure_date,'dd-MMM-yy') AS contract_closure_date,FORMAT(completion_certificate_release,'dd-MMM-yy') AS completion_certificate_release,FORMAT(final_takeover,'dd-MMM-yy') AS final_takeover,FORMAT(final_bill_release,'dd-MMM-yy') AS final_bill_release,FORMAT(defect_liability_period,'dd-MMM-yy') AS defect_liability_period,cast(completed_cost as CHAR) as completed_cost,"
@@ -1903,7 +1903,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 						"left join project p on w.project_id_fk = p.project_id " + 
 						"left join [user] u on c.hod_user_id_fk = u.user_id "+
 						"left join [user] us on c.dy_hod_user_id_fk = us.user_id "
-						+"left join department dt on c.department_fk = dt.department "
+						+"left join department dt on c.contract_department = dt.department "
 						+"where contract_id is not null ";	
 				
 				arrSize = 0;			
@@ -1986,7 +1986,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 					"left join project p on w.project_id_fk = p.project_id " + 
 					"left join [user] u on c.hod_user_id_fk = u.user_id "+
 					"left join [user] us on c.dy_hod_user_id_fk = us.user_id "
-					+"left join department dt on c.department_fk = dt.department "
+					+"left join department dt on c.contract_department = dt.department "
 					+"where contract_id is not null and (i.released_fk <> 'Yes' or i.released_fk is null) ";
 			
 			int arrSize = 0;			
@@ -2114,7 +2114,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			List<Contract> hodList = jdbcTemplate.query( hodQry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 			for (Contract hodObj : hodList) {			
 				String qry ="select contract_short_name,contractor_name,STRING_AGG( insurance_number , '\n<space>' ) as insurance_number,STRING_AGG( insurance_value , '\n<space>' ) as insurance_value,STRING_AGG(insurance_valid_upto , '\n<space>' ) as insurance_valid_upto,STRING_AGG( ContractAlertRemarks , '\n' ) as ContractAlertRemarks from(select insurance_id,i.contract_id_fk,insurance_type_fk,issuing_agency,agency_address,insurance_number,cast((ISNULL(insurance_value,0)*ISNULL(insurance_value_units,0)/100000) as decimal(10,2)) as insurance_value,FORMAT(valid_upto,'dd-MMM-yy') AS insurance_valid_upto,released_fk,"
-						+ "w.work_id,w.work_name,w.work_short_name,dt.department_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,c.department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk," + 
+						+ "w.work_id,w.work_name,w.work_short_name,dt.department_name,dt.contract_id_code,w.project_id_fk,p.project_name,u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name,c.work_id_fk,contract_type_fk,c.contract_id,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name,dt.department as department_fk,c.hod_user_id_fk,c.dy_hod_user_id_fk," + 
 						"scope_of_contract,cast(estimated_cost as CHAR) as estimated_cost,FORMAT(date_of_start,'dd-MMM-yy') AS date_of_start,FORMAT(doc,'dd-MMM-yy') AS doc,cast(awarded_cost as CHAR) as awarded_cost,loa_letter_number,FORMAT(loa_date,'dd-MMM-yy') AS loa_date,ca_no,FORMAT(ca_date,'dd-MMM-yy') AS ca_date,FORMAT(actual_completion_date,'dd-MMM-yy') AS actual_completion_date,"
 						+"FORMAT(contract_closure_date,'dd-MMM-yy') AS contract_closure_date,FORMAT(completion_certificate_release,'dd-MMM-yy') AS completion_certificate_release,FORMAT(final_takeover,'dd-MMM-yy') AS final_takeover,FORMAT(final_bill_release,'dd-MMM-yy') AS final_bill_release,FORMAT(defect_liability_period,'dd-MMM-yy') AS defect_liability_period,cast(completed_cost as CHAR) as completed_cost,"
 						+"FORMAT(retention_money_release,'dd-MMM-yy') AS retention_money_release,FORMAT(pbg_release,'dd-MMM-yy') AS pbg_release ,contract_status_fk,bg_required,insurance_required, "
@@ -2134,7 +2134,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 						"left join project p on w.project_id_fk = p.project_id " + 
 						"left join [user] u on c.hod_user_id_fk = u.user_id "+
 						"left join [user] us on c.dy_hod_user_id_fk = us.user_id "
-						+"left join department dt on c.department_fk = dt.department "
+						+"left join department dt on c.contract_department = dt.department "
 						+"where contract_id is not null and (i.released_fk <> 'Yes' or i.released_fk is null) ";
 				
 				arrSize = 0;			
@@ -2759,7 +2759,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 							"                  dbo.contract_revisions crs ON ((c.contract_id = crs.contract_id_fk))  "  
 							+ "left join [user] u on c.hod_user_id_fk = u.user_id "
 							+ "left join [user] us on c.dy_hod_user_id_fk = us.user_id "
-							+ "left join department dt on c.department_fk = dt.department "					
+							+ "left join department dt on c.contract_department = dt.department "					
 							+"left join dbo.contract_details cd ON ((cd.contract_id = c.contract_id)))))) where 0=0 ";
 					
 					int arrSize = 0;
@@ -3044,7 +3044,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 					"                  dbo.contract_revisions crs ON ((c.contract_id = crs.contract_id_fk))  "  
 					+ "left join [user] u on c.hod_user_id_fk = u.user_id "
 					+ "left join [user] us on c.dy_hod_user_id_fk = us.user_id "
-					+ "left join department dt on c.department_fk = dt.department "					
+					+ "left join department dt on c.contract_department = dt.department "					
 					+"left join dbo.contract_details cd ON ((cd.contract_id = c.contract_id)))))) where 0=0 ";
 			
 			int arrSize = 0;

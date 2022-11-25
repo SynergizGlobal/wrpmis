@@ -98,8 +98,8 @@ public class BudgetDaoImpl implements BudgetDao {
 			budget = (Budget)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<Budget>(Budget.class));	
 			if(!StringUtils.isEmpty(budget) && !StringUtils.isEmpty(budget.getBudget_id())) {
 				List<Budget> objsList = null;
-				String qryDetails = "select budget_id,b.financial_year_fk,cast(budget_estimate as CHAR) as budget_estimate, cast(revised_estimate as CHAR) as revised_estimate, cast(final_estimate as CHAR) as final_estimate,"+
-						"cast(budget_grant as CHAR) as budget_grant, cast(revised_grant as CHAR) as revised_grant, cast(final_grant as CHAR) as final_grant "
+				String qryDetails = "select budget_id,b.financial_year_fk,budget_estimate, revised_estimate, final_estimate,"+
+						"budget_grant, revised_grant,final_grant "
 						+ "from budget b " 
 						+"left join financial_year f on b.financial_year_fk = f.financial_year where work_id_fk = ?  ORDER BY financial_year_fk DESC";
 				
@@ -234,7 +234,7 @@ public class BudgetDaoImpl implements BudgetDao {
 														 insertStmt1.setString(k++,(budget.getWork_id_fk()));
 														 insertStmt1.setString(k++,(budget.getAttachment()));
 														 //insertStmt1.addBatch();
-														 insertStmt.executeUpdate();
+														 insertStmt1.executeUpdate();
 														 j++;
 													 }
 											    }else {
@@ -409,7 +409,7 @@ public class BudgetDaoImpl implements BudgetDao {
 															 insertStmt1.setString(k++,(budget.getWork_id_fk()));
 															 insertStmt1.setString(k++,(budgetFileName));
 															 //insertStmt1.addBatch();
-															 insertStmt.executeUpdate();
+															 insertStmt1.executeUpdate();
 															 j++;
 														}
 											    }else {
@@ -753,9 +753,11 @@ public class BudgetDaoImpl implements BudgetDao {
 					+ "LEFT JOIN work w on b.work_id_fk = w.work_id "
 					+ "LEFT JOIN financial_year f on b.financial_year_fk = f.financial_year " 
 					+ "LEFT JOIN project p on  w.project_id_fk = p.project_id "
-					+ "WHERE b.financial_year_fk = (SELECT (CASE WHEN MONTH(CONVERT(date, getdate())) >= 4 THEN concat(YEAR(CONVERT(date, getdate())), '-',SUBSTRING(cast(YEAR(CONVERT(date, getdate()))+1 as varchar),3,2)) ELSE concat(cast(YEAR(CONVERT(date, getdate()))-1 as varchar),'-', \r\n" + 
+					+ "WHERE "
+					+ "b.financial_year_fk = (SELECT (CASE WHEN MONTH(CONVERT(date, getdate())) >= 4 THEN concat(YEAR(CONVERT(date, getdate())), '-',SUBSTRING(cast(YEAR(CONVERT(date, getdate()))+1 as varchar),3,2)) ELSE concat(cast(YEAR(CONVERT(date, getdate()))-1 as varchar),'-', \r\n" + 
 					"SUBSTRING(cast(YEAR(CONVERT(date, getdate())) as varchar),3,2)) END) AS financial_year) " 
-					+ "AND budget_id is not null and status = ? ";
+					+ "AND "
+					+ "budget_id is not null and status = ? ";
 			
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {

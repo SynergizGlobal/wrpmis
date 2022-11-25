@@ -674,9 +674,10 @@
     } 
     
     function getBudget(budget_id,contract_id){
+    	
     	$("#budget_id").val(budget_id);
     	$("#contract_id").val(contract_id);
-    	$('#getForm').attr('action', '<%=request.getContextPath()%>/get-new-budget');
+    	$('#getForm').attr('action', '<%=request.getContextPath()%>/get-new-budget?contract_id='+contract_id);
     	$('#getForm').submit();
     }
     function deleteBudget(budget_id){

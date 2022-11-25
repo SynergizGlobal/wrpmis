@@ -913,7 +913,7 @@
        	["1st January__22 - 15th January__22","16th January__22 - 31st January__22","1st February__22 - 15th February__22","16th February__22 - 31st February__22","1st March__22 - 15th March__22","16th March__22 - 31st March__22"],
        	["1st April__22 - 15th April__22","16th April__22 - 31st April__22","1st May__22 - 15th May__22","16th May__22 - 31st May__22","1st June__22 - 15th June__22","16th June__22 - 30th June__22"],
        	["1st July__22 - 15th July__22","16th July__22 - 31st July__22","1st August__22 - 15th August__22","16th August__22 - 31st August__22","1st September__22 - 15th September__22","16th September__22 - 30th September__22"],
-       	["1st October__22 - 15th October__22","16th October__22 - 31st October__22","1st November__22 - 15th November__22","16th November__22 - 31st November__22","1st December__22 - 15th December__22","16th December__22 - 31st December__22"]
+       	["1st October__22 - 15th October__22","16th October__22 - 31st October__22","1st November__22 - 15th November__22","16th November__22 - 30th November__22","1st December__22 - 15th December__22","16th December__22 - 31st December__22"]
         ];    
         
         function getFortnights(Iteration)

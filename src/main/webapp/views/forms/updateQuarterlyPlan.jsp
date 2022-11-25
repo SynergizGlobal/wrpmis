@@ -272,13 +272,6 @@
                             <div class="row">  
                                 <h5 class="center-align" style="margin-bottom: 40px;"></h5>
                                 <div class="col s6 m4 input-field">
-                                    <p class="searchable_label"> Work: <span class="required">*</span></p>
-                                    <select id="work_id_fk" class="searchable" name="work_id_fk" onChange="changeWork();">
-                                        <option value="">Select</option>
-                                    </select>
-                                    <span id="workError" class="workError" style="color:red;"></span>
-                                </div>
-                                <div class="col s6 m4 input-field">
                                     <p class="searchable_label"> Period: </p>
                                     <select id="period" class="searchable" name="period" class="period" onChange="fortnightUpdateonSubjectiveActivities();">
                                        <option value="">Select</option>
@@ -291,6 +284,13 @@
                                        <option value="">Select</option>
                                    </select>
                                 </div>
+                                <div class="col s6 m4 input-field">
+                                    <p class="searchable_label"> Work: <span class="required">*</span></p>
+                                    <select id="work_id_fk" class="searchable" name="work_id_fk" onChange="changeWork();">
+                                        <option value="">Select</option>
+                                    </select>
+                                    <span id="workError" class="workError" style="color:red;"></span>
+                                </div>                                
                             </div>
                            
                             </div>
@@ -458,6 +458,26 @@
 	   	document.getElementById("getForm").submit();	
    }
    
+   
+   var monthNumbers = {
+		   January: '1',
+		   February: '2',
+		   March: '3',
+		   April: '4',
+		   May: '5',
+		   June: '6',
+		   July: '7',
+		   August: '8',
+		   September: '9',
+		   October: '10',
+		   November: '11',
+		   December: '12',
+		 };
+   
+   var dateCurrent  = new Date();
+   var monthCurrent = dateCurrent.getMonth()+1;
+   var dateCurrent = dateCurrent.getDate();
+   
    function getPeriodFilterList(period){
    	$(".page-loader").show();
 	 	var work_id_fk = $("#work_id_fk").val();
@@ -473,6 +493,35 @@
                   if(data != null && data != '' && data.length > 0){  
                        $.each(data, function (i, val) {
                        		var selectedFlag = (period == val.period)?'selected':'';
+                       		
+                       			var splitStr=val.period;
+                       		   splitStr=splitStr.toString();
+                       		   var hyphonStr=splitStr.split("-");
+                       		   var resultStr=hyphonStr[0];
+                       		   resultStr=resultStr.toString();
+                       		   var commaStr=resultStr.split(",");
+                       		   var resultComma=commaStr[0];
+                       		   
+                       		   resultComma=resultComma.toString();
+                       		   var spaceStr=resultComma.split(" ");
+                       		   var resultSpace=spaceStr[1];
+                       		   
+                       		   
+                       		   var resultStr1=hyphonStr[1];
+                       		   resultStr1=resultStr1.toString();
+                       		   var commaStr1=resultStr1.split(",");
+                       		   var resultComma1=commaStr1[0];
+
+                       		   
+                       		   resultComma1=resultComma1.toString();
+                       		   var spaceStr1=resultComma1.split(" ");
+
+                       		   var resultSpace1=spaceStr1[2];
+                       		   
+                     		   if(monthCurrent>=monthNumbers[resultSpace] && monthCurrent<=monthNumbers[resultSpace1])
+                   			   {
+                   					selectedFlag='selected';
+                   			   }
 	                           $("#period").append('<option value="' + val.period + '"'+selectedFlag+'>' + $.trim(val.period) + '</option>');
                        });
                    }
@@ -503,6 +552,67 @@
               	if(data != null && data != '' && data.length > 0){  
                       $.each(data, function (i, val) {
                            var selectedFlag = (fortnight == val.fortnight)?'selected':'';
+                           
+                  			   var splitStr=val.fortnight;
+                    		   splitStr=splitStr.toString();
+                    		   var hyphonStr=splitStr.split("-");
+                    		   var resultStr=hyphonStr[0];
+                    		   resultStr=resultStr.toString();
+                    		   var commaStr=resultStr.split(",");
+                    		   var resultComma=commaStr[0];
+                    		   
+                    		   resultComma=resultComma.toString();
+                    		   var spaceStrUI=resultComma.split(" ");
+                    		   var spaceStr=spaceStrUI[0];
+                   		   
+                    		   
+                    		   
+                    		   var spaceStrMM=spaceStr.split("th");
+                    		   var resultSpaceAA="";
+                    		   if(spaceStrMM.length>0)
+                    			   {
+                    		   			resultSpaceAA=spaceStrMM[0]; 
+                    			   } 
+                    		   else
+                    			   {
+                    			   		var spaceStrRNM=spaceStr.toString().split("st");
+                    			   		resultSpaceAA=spaceStrRNM[0]; 
+                    			   }
+
+                    		   
+                    		   var resultStr1=hyphonStr[1];
+                    		   resultStr1=resultStr1.toString();
+                    		   var commaStr1=resultStr1.split(",");
+                    		   var resultComma1=commaStr1[0];
+
+                    		   
+                    		   resultComma1=resultComma1.toString();
+                    		   var spaceStr12=resultComma1.split(" ");
+                    		   var spaceStr1=spaceStr12[1];
+
+                    		   var spaceStrMM1=spaceStr1.split("th");
+                    		   var resultSpaceAA1="";
+                    		   if(spaceStrMM1.length>0)
+                    			   {
+                    		   			resultSpaceAA1=spaceStrMM1[0]; 
+                    			   } 
+                    		   else
+                    			   {
+                    			   		var spaceStrRNM1=spaceStr1.split("st");
+                    			   		resultSpaceAA1=spaceStrRNM1[0]; 
+                    			   }  
+                    		   
+                  		       if(monthCurrent==monthNumbers[spaceStrUI[1]])
+                  			   {
+                 		    	   
+	                  		   	   if(dateCurrent>=resultSpaceAA && monthCurrent<=resultSpaceAA1)
+	                			   {
+	                					selectedFlag='selected';
+	                			   } 
+                  			   }
+                           
+                           
+                           
 	                         $("#fortnight").append('<option value="' + val.fortnight + '"'+selectedFlag+'>' + $.trim(val.fortnight)+ '</option>');
                       });
                   }

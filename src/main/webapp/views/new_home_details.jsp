@@ -391,8 +391,10 @@
 
         body:after {
             content: '';
-            background-color: rgba(0, 0, 0, .1);
+            background: linear-gradient(to top, rgba(255, 255, 255, 1), rgba(101, 150, 255, .75));
             position: fixed;
+            background-size: cover;
+            background-repeat: no-repeat;            
             top: 0;
             left: 0;
             right: 0;
@@ -834,7 +836,7 @@
                                         <a
                                             href="javascript:getTableauDashboard('${wObj.work_id_fk }');">
                                             <div >
-								    <div class="btn diamond">
+								    <div class="btn diamond" style="font-size:18px;font-weight:bold;">
 								         <span>${wObj.work_short_name}</span>
 								    </div>
 								</div>

@@ -485,7 +485,7 @@ width: 90%;
 									</div>									
 									<div class="col s12 m2 l2 input-field">
 										<p class="searchable_label fs16rem" style="color:#000000;"></p><br>
-										L.C.P=Latest Contract Price
+										L.A.C=Latest Anticipated Cost
 										<br>
 										OCD=Original Completion Date
 										<br>
@@ -523,7 +523,7 @@ width: 90%;
 										<th class="fs16rem" style="background-color: #162D6E;width:5%;white-space:nowrap;">S.No</th>
 										<th class="fs16rem" style="background-color: #162D6E;">Contract Status</th>
 										<th class="fs16rem" style="background-color: #162D6E;width:15%;white-space:nowrap;">Contract</th>
-										<th class="fs16rem" style="background-color: #162D6E;width:15%;white-space:nowrap;">L.C.P (Cr)</th>
+										<th class="fs16rem" style="background-color: #162D6E;width:15%;white-space:nowrap;">L.A.C (Cr)</th>
 										<th class="fs16rem" style="background-color: #162D6E;width:15%;white-space:nowrap;">Exp. (Cr)</th>
 										<th class="fs16rem" style="background-color: #162D6E;width:10%;white-space:nowrap;">% Progress</th>
 										<th class="fs16rem" style="background-color: #162D6E;width:10%;white-space:nowrap;">LOA Date</th>

@@ -507,7 +507,7 @@
 										<th class="fw-5p fs16r">S. No.</th>
 										<th class="fw-15p fs16r">Description</th>
 										<th class="fw-13p fs16r">Estimated Costs</th>
-										<th class="fw-15p fs16r">LCP</th>
+										<th class="fw-15p fs16r">LAC</th>
 										<th class="fw-15p fs16r">Exp. till Last FY</th>
 										<th class="fw-15p fs16r">Exp. this FY</th>
 										<th class="fw-15p fs16r">Exp. till Date</th>

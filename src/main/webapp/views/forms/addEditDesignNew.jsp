@@ -326,6 +326,8 @@
 						  </c:if>
 						  
 						   <input type="hidden" id="design_id" name="design_id" value="${designDetails.design_id }">
+						   <input type="hidden" id="design_seq_id" name="design_seq_id" value="${designDetails.design_seq_id }">
+						   
 						   <c:if test="${action eq 'edit'}"> 
 						    <div class="row no-mar p-sticky t-48 z-1">
 							    <div class="col s12 m12">
@@ -421,7 +423,7 @@
                                 </div>
                                  </div>
                                  <div class="row">                       
-                                 <div class="col s12 m4 l4 input-field " id="structureRow">
+                                 <div class="col s6 m4 l4 input-field " id="structureRow">
                                     <p class="searchable_label">Structure <span class="required">*</span></p>
                                     <select id="structure_type_fk" name="structure_type_fk" class="searchable validate-dropdown">
                                         <option value="" selected>Select</option>
@@ -431,7 +433,7 @@
                                     </select>
                                     <span id="structure_type_fkError" class="error-msg" ></span>
                                 </div>
-                                 <div class="col s12 m4 l4 input-field " id="structureIdRow">
+                                 <div class="col s6 m4 l4 input-field " id="structureIdRow">
                                     <p class="searchable_label">Structure Id<span class="required">*</span></p>
                                     <select id="structure_id_fk" name="structure_id_fk" class="searchable validate-dropdown">
                                         <option value="" selected>Select</option> 
@@ -441,21 +443,21 @@
                                     </select>
                                     <span id="structure_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 l4 input-field optionalFileds" >
-                                    <p class="searchable_label">Prepared By <span class="required"></span></p>
-                                    <select class="searchable validate-dropdown" name="prepared_by_id_fk" id="prepared_by_id_fk">
+                                <div class="col s6 m4 l4 input-field " >
+                                    <p class="searchable_label">Component <span class="required"></span></p>
+                                    <select class="searchable validate-dropdown" name="component" id="component">
                                         <option value="" selected>Select</option>
-                                         <c:forEach var="obj" items="${preparedBy }">
-                                      	    <option value= "${ obj.prepared_by_id_fk}" <c:if test="${designDetails.prepared_by_id_fk eq obj.prepared_by_id_fk}">selected</c:if>>${obj.prepared_by_id_fk}</option>
+                                         <c:forEach var="obj" items="${componentList }">
+                                      	    <option value= "${ obj.component}" <c:if test="${designDetails.component eq obj.component}">selected</c:if>>${obj.component}</option>
                                           </c:forEach>
                                     </select>
-                                    <span id="prepared_by_id_fkError" class="error-msg" ></span>
+                                    <span id="componentError" class="error-msg" ></span>
                                 </div>
                               </div>
                             
                             <div class="row optionalFileds">      
                             <%--  <c:if test="${action eq 'add'}">   --%>                         
-                                <div class="col s12 m4 l4 input-field">
+                                <div class="col s12 m3 l3 input-field">
                                     <p class="searchable_label">Contract </p>
                                     <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" 
                                      	<c:if test="${action eq 'add'}"> onchange="resetWorksAndProjectsDropdowns();"</c:if> >
@@ -474,7 +476,7 @@
 									    <input type="hidden" name="contract_id_fk" id="contract_id_fk" value="${designDetails.contract_id_fk}" readonly />
 	                                </div>
                                 </c:if> --%>
-                                <div class="col s6 m4 l4 input-field min4">
+                                <div class="col s6 m3 l3 input-field min4">
                                     <p class="searchable_label">Consultant</p>
                                     <select name="consultant_contract_id_fk" id="consultant_contract_id_fk" class="searchable validate-dropdown">
                                         <option value="" >Select</option>
@@ -484,7 +486,7 @@
                                     </select>
                                      <span id="consultant_contract_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 l4 input-field min4">
+                                <div class="col s6 m3 l3 input-field min4">
                                     <p class="searchable_label fs-sm-67rem">Proof Consultant </p>
                                     <select id="proof_consultant_contract_id_fk" name="proof_consultant_contract_id_fk" class="searchable validate-dropdown">
                                         <option value="" >Select</option>
@@ -495,6 +497,16 @@
                                     </select>
                                     <span id="proof_consultant_contract_id_fkError" class="error-msg" ></span>
                                 </div>
+                                 <div class="col s6 m3 l3 input-field optionalFileds" >
+                                    <p class="searchable_label">Prepared By <span class="required"></span></p>
+                                    <select class="searchable validate-dropdown" name="prepared_by_id_fk" id="prepared_by_id_fk">
+                                        <option value="" selected>Select</option>
+                                         <c:forEach var="obj" items="${preparedBy }">
+                                      	    <option value= "${ obj.prepared_by_id_fk}" <c:if test="${designDetails.prepared_by_id_fk eq obj.prepared_by_id_fk}">selected</c:if>>${obj.prepared_by_id_fk}</option>
+                                          </c:forEach>
+                                    </select>
+                                    <span id="prepared_by_id_fkError" class="error-msg" ></span>
+                                </div>                               
                                 </div>
                                 <div class="row">
                                 <div class="col s6 m4 l4 input-field" id="drawingType">

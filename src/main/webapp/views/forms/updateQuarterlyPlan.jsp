@@ -281,7 +281,7 @@
                                  <div class="col s6 m4 input-field">
                                     <p class="searchable_label"> Fortnight: </p>
                                     <select id="fortnight" class="searchable" name="fortnight" class="fortnight" onChange="fortnightUpdateonSubjectiveActivities();">
-                                       <option value="">Select</option>
+                                       <option value="">All</option>
                                    </select>
                                 </div>
                                 <div class="col s6 m4 input-field">

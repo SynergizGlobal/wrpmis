@@ -588,6 +588,7 @@
 	   
 	   
 	   
+	   
    	if("${(fn:length(FortnightPlan))}">0)
 	{
    		var i=0;	  			 
@@ -756,6 +757,9 @@
 	                success: function (data) {
 	                    if (data.length > 0) 
 	                    {
+                				$("#revisionno0").val(data[0]["revision_no"]);
+                				$("#tdc_revisiondate0").val(data[0]["tdc_date"]);
+                			
                         		for(var i=1;i<data.length;i++)
                         		{
                         			addTDCRow();
@@ -764,7 +768,10 @@
                         		{
                         			$("#revisionno"+i).val(data[i]["revision_no"]);
                         			$("#tdc_revisiondate"+i).val(data[i]["tdc_date"]);
-                        		}                       		
+                        		}
+                        		$('#revisedtdc').html("");
+                        		$("#revised_tdc").val($("#tdc_revisiondate"+$("#rowNoRevision").val()).val());
+
 	                    }
 	                }
 	            });

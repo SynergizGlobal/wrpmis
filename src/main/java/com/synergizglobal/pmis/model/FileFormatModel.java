@@ -15,18 +15,35 @@ public class FileFormatModel {
 		return fileFormat;
 	}
 	
+	public static List<String> getOverviewDashboardFileFormat() {
+		List<String> fileFormat = new ArrayList<String>();
+		String columns = "Work_id,Contract_Id,Contract Short Name,Structure Type,Structure,Component,Unit,Bal. Scope this FY,Target Current FY,Actual till Last Month,Target Backlog,Target Current Month,Actual Current Month,Critical Item,Remarks";
+		String[] convertedColumnsArray = columns.split(",");
+		for (String column : convertedColumnsArray) {
+			fileFormat.add(column.trim());
+		}
+		return fileFormat;
+	}	
+	
 	public static List<String> getDesignFileFormat() {
 		List<String> fileFormat = new ArrayList<String>();
-		String columns = "Work ID,Contract ID,Approving Railway,Department,HOD,Dy HOD,Structure Type,Structure ID,Prepared By,Consultant  Contract ID,"
-				+ "Proof Consultant Contract ID,Drawing Type,Drawing Title,Approval Authority,Required Date,Contractor Drawing No,MRVC Drawing No,Division Drawing No,"
-				+ "HQ Drawing No,Stage,Submitted By,Submitted To,Purpose of Submission,Submission Date,GFC Released,Remarks" + 
-				"";
+		String columns = "PMIS Drawing No,Work ID,Approving Railway,Department,HOD,Dy HOD,Structure,Structure ID,Component,Prepared By,Contract ID,Consultant ,Proof Consultant ID,Drawing Type,Approval Authority,Required Date,GFC Release Date,Drawing Title,Agency Drawing No,MRVC Drawing No,Division Drawing No,HQ Drawing No,Stage,Submtted by,Submitted to,Purpose of Submission/Remarks,Submitted Date,Remarks";
 		String[] convertedColumnsArray = columns.split(",");
 		for (String column : convertedColumnsArray) {
 			fileFormat.add(column.trim());
 		}
 		return fileFormat;
 	}
+	
+	public static List<String> getDesignFirstFileFormat() {
+		List<String> fileFormat = new ArrayList<String>();
+		String columns = "Work ID,Approving Railway,Department,HOD,Dy HOD,Structure,Structure ID,Component,Prepared By,Contract ID,Consultant ,Proof Consultant ID,Drawing Type,Approval Authority,Required Date,GFC Release Date,Drawing Title,Agency Drawing No,MRVC Drawing No,Division Drawing No,HQ Drawing No,Stage,Submtted by,Submitted to,Purpose of Submission/Remarks,Submitted Date,Remarks";
+		String[] convertedColumnsArray = columns.split(",");
+		for (String column : convertedColumnsArray) {
+			fileFormat.add(column.trim());
+		}
+		return fileFormat;
+	}	
 	
 	public static List<String> getLAFileFormat() {
 		List<String> fileFormat = new ArrayList<String>();

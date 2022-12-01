@@ -67,15 +67,15 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 	public List<FortnightPlan> getFortnightPlanList(FortnightPlan obj) throws Exception {
 		List<FortnightPlan> objsList = null;
 		try {
-			String qry = "SELECT distinct min(F.ID) as fortnightly_plan_id,category,contract_short_name,structure_type as structure_type_fk,structure,\r\n" + 
-					"cast(max(isnull(s_cum_planned_till_date,0)) as varchar) as cum_planned_last_st,\r\n" + 
-					"cast(max(isnull(s_cum_actual_till_date,0)) as varchar) as cum_actual_last_st,\r\n" + 
-					"cast(max(isnull(s_planned_current_fortnight,0)) as varchar) as planned_current_st,\r\n" + 
-					"\r\n" + 
-					"cast(max(isnull(s_actual_current_fortnight,0)) as varchar)  as actual_current_st,0 as data_id,case when isnull([float],0)<=15 then 'red' when DATEDIFF(day,getdate(),expected_finish)<=30 then 'orange' else 'black' end as color \r\n" + 
-					"from fortnight_temp f \r\n" + 
-					"LEFT JOIN contract c ON c.contract_id  = f.contract_id_fk \r\n" + 
-					"LEFT JOIN work w on c.work_id_fk =w.work_id \r\n" + 
+			String qry = "SELECT distinct min(F.ID) as fortnightly_plan_id,category,contract_short_name,structure_type as structure_type_fk,structure, " + 
+					"cast(max(isnull(s_cum_planned_till_date,0)) as varchar) as cum_planned_last_st, " + 
+					"cast(max(isnull(s_cum_actual_till_date,0)) as varchar) as cum_actual_last_st, " + 
+					"cast(max(isnull(s_planned_current_fortnight,0)) as varchar) as planned_current_st, " + 
+					" " + 
+					"cast(max(isnull(s_actual_current_fortnight,0)) as varchar)  as actual_current_st,0 as data_id,case when isnull([float],0)<=15 then 'red' when DATEDIFF(day,getdate(),expected_finish)<=30 then 'orange' else 'black' end as color  " + 
+					"from fortnight_temp f  " + 
+					"LEFT JOIN contract c ON c.contract_id  = f.contract_id_fk  " + 
+					"LEFT JOIN work w on c.work_id_fk =w.work_id  " + 
 					"where f.status='Active' " ;
 			int arrSize = 0;
 			
@@ -210,19 +210,19 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 	public List<FortnightPlan> getFortnightPlan(FortnightPlan obj) throws Exception {
 		List<FortnightPlan> objsList = null;
 		try {
-			String qry = "SELECT  work_id as work_id_fk,ID AS fortnightly_plan_id,t.contract_id_fk,t.category,t.structure_type as total_items,cum_planned_last_structure,\r\n" + 
-					"					cum_actual_last_structure, planned_current_structure,t.structure,t.component					\r\n" + 
-					"					\r\n" + 
-					"					from fortnight_temp t\r\n" + 
-					"\r\n" + 
-					"					inner join (SELECT  w.work_id as work_id_fk,ID AS fortnightly_plan_id,f.contract_id_fk,category,structure_type as critical_item,sum(cast(isnull(planned_last_fortnight,0) as decimal(10,2))) as cum_planned_last_structure,\r\n" + 
-					"					sum(cast(isnull(actual_last_fortnight,0) as decimal(10,2))) as cum_actual_last_structure,sum(cast(isnull(planned_current_fortnight,0) as decimal(10,2))) as planned_current_structure,structure,component\r\n" + 
-					"					from fortnight_temp f \r\n" + 
-					"					LEFT join contract c ON c.contract_id  = f.contract_id_fk\r\n" + 
-					"					LEFT JOIN work w on c.work_id_fk =w.work_id \r\n" + 
-					"					where f.ID = "+obj.getFortnightly_plan_id()+" and f.status='Active' \r\n" + 
-					"					group by w.work_id,f.ID,f.contract_id_fk,f.category,structure,component,structure_type) as a\r\n" + 
-					"\r\n" + 
+			String qry = "SELECT  work_id as work_id_fk,ID AS fortnightly_plan_id,t.contract_id_fk,t.category,t.structure_type as total_items,cum_planned_last_structure, " + 
+					"					cum_actual_last_structure, planned_current_structure,t.structure,t.component					 " + 
+					"					 " + 
+					"					from fortnight_temp t " + 
+					" " + 
+					"					inner join (SELECT  w.work_id as work_id_fk,ID AS fortnightly_plan_id,f.contract_id_fk,category,structure_type as critical_item,sum(cast(isnull(planned_last_fortnight,0) as decimal(10,2))) as cum_planned_last_structure, " + 
+					"					sum(cast(isnull(actual_last_fortnight,0) as decimal(10,2))) as cum_actual_last_structure,sum(cast(isnull(planned_current_fortnight,0) as decimal(10,2))) as planned_current_structure,structure,component " + 
+					"					from fortnight_temp f  " + 
+					"					LEFT join contract c ON c.contract_id  = f.contract_id_fk " + 
+					"					LEFT JOIN work w on c.work_id_fk =w.work_id  " + 
+					"					where f.ID = "+obj.getFortnightly_plan_id()+" and f.status='Active'  " + 
+					"					group by w.work_id,f.ID,f.contract_id_fk,f.category,structure,component,structure_type) as a " + 
+					" " + 
 					"					on a.contract_id_fk=t.contract_id_fk and a.work_id_fk=t.work_id and a.critical_item=t.structure_type and a.category=t.category and a.structure=t.structure and t.status='Active' ";
 
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<FortnightPlan>(FortnightPlan.class));	
@@ -583,7 +583,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 				qry = qry + " and contract_id_fk = ?";
 				arrSize++;
 			}	
-			qry = qry+ " group by w.work_id,w.work_short_name union all\r\n" + 
+			qry = qry+ " group by w.work_id,w.work_short_name union all " + 
 					"select w.work_id as work_id_fk,w.work_short_name    from fortnightly_plan_update_data f LEFT JOIN work w on f.work_id =w.work_id group by w.work_id,w.work_short_name) as a ";
 			
 			Object[] pValues = new Object[arrSize];
@@ -1052,9 +1052,9 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 		List<FortnightPlan> objsList = null;
 		try {
 		
-			String qry = "select distinct w.work_id as work_id_fk,w.work_short_name from fortnight_quarterly_plan p\r\n" + 
-					"left join fortnight_quarterly_plan_activities a on a.fortnight_quarterly_plan_id=p.fortnight_quarterly_plan_id\r\n" + 
-					"LEFT JOIN work w on p.work_id_fk =w.work_id\r\n" + 
+			String qry = "select distinct w.work_id as work_id_fk,w.work_short_name from fortnight_quarterly_plan p " + 
+					"left join fortnight_quarterly_plan_activities a on a.fortnight_quarterly_plan_id=p.fortnight_quarterly_plan_id " + 
+					"LEFT JOIN work w on p.work_id_fk =w.work_id " + 
 					"where p.work_id_fk is not null and fortnight is not  null and isnull(pending_progress,'')!='Completed'   " ;			
 			
 			int arrSize =0;
@@ -1096,9 +1096,9 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 		List<FortnightPlan> objsList = null;
 		try {
 		
-			String qry = "select distinct period from fortnight_quarterly_plan p\r\n" + 
-					"left join fortnight_quarterly_plan_activities a on a.fortnight_quarterly_plan_id=p.fortnight_quarterly_plan_id\r\n" + 
-					"LEFT JOIN work w on p.work_id_fk =w.work_id\r\n" + 
+			String qry = "select distinct period from fortnight_quarterly_plan p " + 
+					"left join fortnight_quarterly_plan_activities a on a.fortnight_quarterly_plan_id=p.fortnight_quarterly_plan_id " + 
+					"LEFT JOIN work w on p.work_id_fk =w.work_id " + 
 					"where p.work_id_fk is not null and fortnight is not  null and isnull(pending_progress,'')!='Completed'   " ;			
 			
 			int arrSize =0;
@@ -1167,9 +1167,9 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 		List<FortnightPlan> objsList = null;
 		try {
 			String qry = "SELECT distinct p.fortnight_quarterly_plan_id as fortnight_quarterly_plan_id,work_id_fk,structure,item,criticality,scope_of_work as scope_of_work_quarterly,TDC as tdc_calendar " + 
-					"from fortnight_quarterly_plan p\r\n" + 
-					"left join fortnight_quarterly_plan_activities a on a.fortnight_quarterly_plan_id=p.fortnight_quarterly_plan_id\r\n" + 
-					"LEFT JOIN work w on p.work_id_fk =w.work_id\r\n" + 
+					"from fortnight_quarterly_plan p " + 
+					"left join fortnight_quarterly_plan_activities a on a.fortnight_quarterly_plan_id=p.fortnight_quarterly_plan_id " + 
+					"LEFT JOIN work w on p.work_id_fk =w.work_id " + 
 					"where p.work_id_fk is not null and fortnight is not null and isnull(pending_progress,'')!='Completed'   ";
 			int arrSize = 0;
 			
@@ -1223,9 +1223,9 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 		List<FortnightPlan> objsList = null;
 		try {
 		
-			String qry = "select distinct fortnight from fortnight_quarterly_plan p\r\n" + 
-					"left join fortnight_quarterly_plan_activities a on a.fortnight_quarterly_plan_id=p.fortnight_quarterly_plan_id\r\n" + 
-					"LEFT JOIN work w on p.work_id_fk =w.work_id\r\n" + 
+			String qry = "select distinct fortnight from fortnight_quarterly_plan p " + 
+					"left join fortnight_quarterly_plan_activities a on a.fortnight_quarterly_plan_id=p.fortnight_quarterly_plan_id " + 
+					"LEFT JOIN work w on p.work_id_fk =w.work_id " + 
 					"where p.work_id_fk is not null and fortnight is not  null and isnull(pending_progress,'')!='Completed'   " ;			
 			
 			int arrSize =0;
@@ -1264,10 +1264,10 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 	public List<FortnightPlan> getfortnightActivities(FortnightPlan obj) throws Exception {
 		List<FortnightPlan> objsList = null;
 		try {
-			String qry = "SELECT fortnight_quarterly_plan_activity_id as fortnightly_plan_id,structure,units,cumulative_progress,activity_name,item,criticality,scope_of_work as scope_of_work_quarterly,TDC as tdc_calendar,isnull(pending_progress,'') as pending_progress,isnull(reason_for_shortfall,'')  as reason_for_shortfall,fortnight " + 
-					"from fortnight_quarterly_plan p\r\n" + 
-					"left join fortnight_quarterly_plan_activities a on a.fortnight_quarterly_plan_id=p.fortnight_quarterly_plan_id\r\n" + 
-					"LEFT JOIN work w on p.work_id_fk =w.work_id\r\n" + 
+			String qry = "SELECT fortnight_quarterly_plan_activity_id as fortnightly_plan_id,structure,units,cumulative_progress,activity_name,item,criticality,scope_of_work as scope_of_work_quarterly,isnull(TDC,'') as tdc_calendar,isnull(pending_progress,'') as pending_progress,isnull(reason_for_shortfall,'')  as reason_for_shortfall,fortnight " + 
+					"from fortnight_quarterly_plan p " + 
+					"left join fortnight_quarterly_plan_activities a on a.fortnight_quarterly_plan_id=p.fortnight_quarterly_plan_id " + 
+					"LEFT JOIN work w on p.work_id_fk =w.work_id " + 
 					"where p.work_id_fk is not null and fortnight is not null and isnull(pending_progress,'')!='Completed'  " ;
 			int arrSize = 0;
 			
@@ -1359,9 +1359,9 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 		try {
 
 			String qry = "SELECT p.fortnight_quarterly_plan_id as fortnightly_plan_id,fortnight as fortnight_date,work_id_fk,period,structure,units as unit,cumulative_progress as cum_progress,activity_name,item,criticality,scope_of_work as scope_of_work_quarterly,TDC as tdc_calendar,isnull(pending_progress,'') as pending_progress,isnull(reason_for_shortfall,'')  as reason_for_shortfall " + 
-					"from fortnight_quarterly_plan p\r\n" + 
-					"left join fortnight_quarterly_plan_activities a on a.fortnight_quarterly_plan_id=p.fortnight_quarterly_plan_id\r\n" + 
-					"LEFT JOIN work w on p.work_id_fk =w.work_id\r\n" + 
+					"from fortnight_quarterly_plan p " + 
+					"left join fortnight_quarterly_plan_activities a on a.fortnight_quarterly_plan_id=p.fortnight_quarterly_plan_id " + 
+					"LEFT JOIN work w on p.work_id_fk =w.work_id " + 
 					"where p.work_id_fk is not null and fortnight is not null and isnull(pending_progress,'')!='Completed'  and p.fortnight_quarterly_plan_id="+obj.getFortnightly_plan_id();
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<FortnightPlan>(FortnightPlan.class));	
@@ -1422,15 +1422,15 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 	public FortnightPlan generateFortnightReport(FortnightPlan obj) throws Exception {
 		FortnightPlan objsList = null;
 		try {
-			String qry = "SELECT distinct min(F.ID) as fortnightly_plan_id,contract_id,contract_short_name,w.work_id ,c.work_id_fk,w.work_name,w.work_short_name,category,contract_short_name,structure_type as structure_type_fk,structure,\r\n" + 
-					"cast(max(isnull(s_cum_planned_till_date,0)) as varchar) as cum_planned_last_st,\r\n" + 
-					"cast(max(isnull(s_cum_actual_till_date,0)) as varchar) as cum_actual_last_st,\r\n" + 
-					"cast(max(isnull(s_planned_current_fortnight,0)) as varchar) as planned_current_st,\r\n" + 
-					"\r\n" + 
-					"cast(max(isnull(s_actual_current_fortnight,0)) as varchar)  as actual_current_st,0 as data_id,case when isnull([float],0)<=15 then 'red' when DATEDIFF(day,getdate(),expected_finish)<=30 then 'orange' else 'black' end as color \r\n" + 
-					"from fortnight_temp f \r\n" + 
-					"LEFT JOIN contract c ON c.contract_id  = f.contract_id_fk \r\n" + 
-					"LEFT JOIN work w on c.work_id_fk =w.work_id \r\n" + 
+			String qry = "SELECT distinct min(F.ID) as fortnightly_plan_id,contract_id,contract_short_name,w.work_id ,c.work_id_fk,w.work_name,w.work_short_name,category,contract_short_name,structure_type as structure_type_fk,structure, " + 
+					"cast(max(isnull(s_cum_planned_till_date,0)) as varchar) as cum_planned_last_st, " + 
+					"cast(max(isnull(s_cum_actual_till_date,0)) as varchar) as cum_actual_last_st, " + 
+					"cast(max(isnull(s_planned_current_fortnight,0)) as varchar) as planned_current_st, " + 
+					" " + 
+					"cast(max(isnull(s_actual_current_fortnight,0)) as varchar)  as actual_current_st,0 as data_id,case when isnull([float],0)<=15 then 'red' when DATEDIFF(day,getdate(),expected_finish)<=30 then 'orange' else 'black' end as color  " + 
+					"from fortnight_temp f  " + 
+					"LEFT JOIN contract c ON c.contract_id  = f.contract_id_fk  " + 
+					"LEFT JOIN work w on c.work_id_fk =w.work_id  " + 
 					"where f.status='Active' " ;
 			
 			int arrSize = 0;

@@ -24,14 +24,16 @@ public interface DesignService {
 	public List<Design> getContractList() throws Exception;
 
 	public List<Design> getPreparedByList() throws Exception;
+	
+	public List<Design> componentList() throws Exception;
 
 	public List<Design> getRevisionStatuses() throws Exception;
 	
 	public List<Design> getAsBuiltStatuses()throws Exception;
 
-	public boolean addDesign(Design obj) throws Exception;
+	public String addDesign(Design obj) throws Exception;
 
-	public boolean updateDesign(Design obj) throws Exception;
+	public String updateDesign(Design obj) throws Exception;
 
 	public int uploadDesigns(List<Design> designsList) throws Exception;
 

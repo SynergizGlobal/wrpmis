@@ -38,11 +38,8 @@ import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
-import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Design;
-import com.synergizglobal.pmis.model.FOB;
 import com.synergizglobal.pmis.model.FormHistory;
-import com.synergizglobal.pmis.model.Risk;
 
 @Repository
 public class DesignDaoImpl implements DesignDao{
@@ -63,36 +60,32 @@ public class DesignDaoImpl implements DesignDao{
 	public List<Design> getDesigns(Design obj)throws Exception{
 		List<Design> objsList = null;
 		try {
-			String qry ="select design_id,d.work_id_fk,w.project_id_fk,d.structure_type_fk,d.structure_id_fk,w.work_short_name,d.approving_railway,d.approval_authority_fk,w.work_name,c.contract_name,c.contract_short_name,d.contract_id_fk,d.department_id_fk,d.consultant_contract_id_fk,d.proof_consultant_contract_id_fk,d.hod,d.dy_hod," + 
-					"d.prepared_by_id_fk,d.structure_type_fk,d.drawing_type_fk,d.contractor_drawing_no,d.mrvc_drawing_no,d.division_drawing_no"
-					+",d.hq_drawing_no,d.drawing_title,"+
-					 "FORMAT(d.required_date,'dd-MM-yyyy') AS required_date, FORMAT(d.gfc_released,'dd-MM-yyyy') AS gfc_released,d.remarks,"
-					 + "(case when (SELECT count(dss.submitted_date) FROM design_status dss where dss.submitted_date = max(ds.submitted_date)) > 1 " + 
-					 "then  (SELECT submssion_purpose FROM design_status dss where max(ds.id) = dss.id  ORDER BY submitted_date desc) " + 
-					 "else (SELECT submssion_purpose FROM design_status dss where dss.submitted_date = max(ds.submitted_date)) end) as submission_purpose," + 
-					 "(case when (SELECT count(dss.submitted_date) FROM design_status dss where dss.submitted_date = max(ds.submitted_date)) > 1 " + 
-					 "then  (SELECT stage_fk FROM design_status dss where max(ds.id) = dss.id  ORDER BY submitted_date desc)" + 
-					 " else (SELECT stage_fk FROM design_status dss where dss.submitted_date = max(ds.submitted_date)) end) as stage_fk," + 
-					 "(case when (SELECT count(dss.submitted_date) FROM design_status dss where dss.submitted_date = max(ds.submitted_date)) > 1 " + 
-					 "then  (SELECT submitted_by FROM design_status dss where max(ds.id) = dss.id  ORDER BY submitted_date desc)" + 
-					 " else (SELECT submitted_by FROM design_status dss where dss.submitted_date = max(ds.submitted_date)) end) as submitted_by," + 
-					 "(case when (SELECT count(dss.submitted_date) FROM design_status dss where dss.submitted_date = max(ds.submitted_date)) > 1 " + 
-					 "then  (SELECT submitted_to FROM design_status dss where max(ds.id) = dss.id  ORDER BY submitted_date desc) " + 
-					 "else (SELECT submitted_to FROM design_status dss where dss.submitted_date = max(ds.submitted_date)) end) as submitted_to ,"
-					 + "FORMAT(max(ds.submitted_date) ,'dd-MM-yyyy') AS submitted_date, FORMAT(required_date ,'dd-MM-yyyy') AS required_date ,"
-					 + "u.user_name,u.designation as hod_designation,u1.user_name,u1.designation as dy_hod_designation,dt.department_name ,"
-					 + "c1.contract_short_name as consult_contarct, c2.contract_short_name as proof_consult_contarct  "
-					+ "from design d "  
-					+"LEFT OUTER JOIN contract c ON d.contract_id_fk = c.contract_id "
-					+"LEFT OUTER JOIN contract c1 ON d.consultant_contract_id_fk = c1.contract_id "
-					+"LEFT OUTER JOIN contract c2 ON d.proof_consultant_contract_id_fk = c2.contract_id "
-					+"LEFT OUTER JOIN work w  ON d.work_id_fk  =  w.work_id " 
-					+"LEFT OUTER JOIN project p  ON w.project_id_fk  =  p.project_id "
-					+"left outer join [user] u  ON d.hod  =  u.user_id " 
-					+"left outer join [user] u1  ON d.dy_hod  =  u1.user_id " 
-					+"LEFT OUTER JOIN department dt  ON d.department_id_fk  =  dt.department " 
-					+ " left join design_status ds on d.design_id = ds.design_id_fk "
-					+ " where design_id is not null";
+			String qry ="select design_id,d.work_id_fk,w.project_id_fk,d.structure_type_fk,d.structure_id_fk,w.work_short_name,d.approving_railway,d.approval_authority_fk,w.work_name,c.contract_name, " + 
+					"c.contract_short_name,d.contract_id_fk,d.department_id_fk,d.consultant_contract_id_fk,d.proof_consultant_contract_id_fk,d.hod,d.dy_hod,d.prepared_by_id_fk,d.structure_type_fk, " + 
+					"d.drawing_type_fk,d.contractor_drawing_no,d.mrvc_drawing_no,d.division_drawing_no,d.hq_drawing_no,d.drawing_title,FORMAT(d.required_date,'dd-MM-yyyy') AS required_date,  " + 
+					"FORMAT(d.gfc_released,'dd-MM-yyyy') AS gfc_released,d.remarks,(case when (SELECT count(dss.submitted_date) FROM design_status dss  " + 
+					"where dss.submitted_date = max(ds.submitted_date)) > 1 then  (SELECT submssion_purpose FROM design_status dss where max(ds.id) = dss.id )  " + 
+					"else (SELECT submssion_purpose FROM design_status dss where dss.submitted_date = max(ds.submitted_date)) end) as submission_purpose, " + 
+					"(case when (SELECT count(dss.submitted_date) FROM design_status dss where dss.submitted_date = max(ds.submitted_date)) > 1 then   " + 
+					"(SELECT stage_fk FROM design_status dss where max(ds.id) = dss.id  ) else (SELECT stage_fk FROM design_status dss where dss.submitted_date = max(ds.submitted_date)) end) as stage_fk, " + 
+					"(case when (SELECT count(dss.submitted_date) FROM design_status dss where dss.submitted_date = max(ds.submitted_date)) > 1 then   " + 
+					"(SELECT submitted_by FROM design_status dss where max(ds.id) = dss.id ) else (SELECT submitted_by FROM design_status dss where dss.submitted_date = max(ds.submitted_date)) end) as submitted_by, " + 
+					"(case when (SELECT count(dss.submitted_date) FROM design_status dss where dss.submitted_date = max(ds.submitted_date)) > 1 then   " + 
+					"(SELECT submitted_to FROM design_status dss where max(ds.id) = dss.id) else (SELECT submitted_to FROM design_status dss  " + 
+					"where dss.submitted_date = max(ds.submitted_date)) end) as submitted_to ,FORMAT(max(ds.submitted_date) ,'dd-MM-yyyy') AS submitted_date,  " + 
+					"FORMAT(required_date ,'dd-MM-yyyy') AS required_date ,u.user_name,u.designation as hod_designation,u1.user_name,u1.designation as dy_hod_designation, " + 
+					"dt.department_name ,c1.contract_short_name as consult_contarct, c2.contract_short_name as proof_consult_contarct,component   " + 
+					" " + 
+					"from design d  " + 
+					"LEFT OUTER JOIN contract c ON d.contract_id_fk = c.contract_id  " + 
+					"LEFT OUTER JOIN contract c1 ON d.consultant_contract_id_fk = c1.contract_id  " + 
+					"LEFT OUTER JOIN contract c2 ON d.proof_consultant_contract_id_fk = c2.contract_id  " + 
+					"LEFT OUTER JOIN work w  ON d.work_id_fk  =  w.work_id  " + 
+					"LEFT OUTER JOIN project p  ON w.project_id_fk  =  p.project_id  " + 
+					"left outer join [user] u  ON d.hod  =  u.user_id  " + 
+					"left outer join [user] u1  ON d.dy_hod  =  u1.user_id  " + 
+					"LEFT OUTER JOIN department dt  ON d.department_id_fk  =  dt.department   " + 
+					"left join design_status ds on d.design_id = ds.design_id_fk  where design_id is not null ";
 				
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -119,7 +112,10 @@ public class DesignDaoImpl implements DesignDao{
 				qry = qry + " and drawing_type_fk = ?";
 				arrSize++;
 			}
-			qry = qry + " group by design_id ";
+			qry = qry + " group by design_id,d.work_id_fk,w.project_id_fk,d.structure_type_fk,d.structure_id_fk,w.work_short_name, " + 
+					"d.approving_railway,d.approval_authority_fk,w.work_name,c.contract_name,c.contract_short_name,d.contract_id_fk,d.department_id_fk,d.consultant_contract_id_fk,d.proof_consultant_contract_id_fk,d.hod,d.dy_hod,d.prepared_by_id_fk,d.structure_type_fk, " + 
+					"d.drawing_type_fk,d.contractor_drawing_no,d.mrvc_drawing_no,d.division_drawing_no,d.hq_drawing_no,d.drawing_title,FORMAT(d.required_date,'dd-MM-yyyy'),FORMAT(d.gfc_released,'dd-MM-yyyy'),d.remarks, " + 
+					"u.user_name,u.designation,u1.user_name,u1.designation,dt.department_name,c1.contract_short_name,c2.contract_short_name,component ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -436,7 +432,7 @@ public class DesignDaoImpl implements DesignDao{
 					"d.prepared_by_id_fk,d.structure_type_fk,d.drawing_type_fk,d.contractor_drawing_no,d.mrvc_drawing_no,d.division_drawing_no" + 
 					",d.hq_drawing_no,d.drawing_title"+
 					",FORMAT(d.gfc_released,'dd-MM-yyyy') AS gfc_released,"
-					+ "d.remarks "
+					+ "d.remarks,d.component,d.design_seq_id "
 					+ "from design d "  
 					+"LEFT OUTER JOIN contract c ON d.contract_id_fk = c.contract_id "
 					+"LEFT OUTER JOIN work w  ON d.work_id_fk  =  w.work_id " + 
@@ -457,7 +453,7 @@ public class DesignDaoImpl implements DesignDao{
 				dObj.setDesignFilesList(objList);
 			}
 			if(!StringUtils.isEmpty(dObj)) {
-				String qry3 ="select id, design_id_fk, stage_fk, submitted_by, submitted_to,FORMAT(submitted_date,'dd-MM-yyyy') AS submitted_date, submssion_purpose,latest from design_status where design_id_fk = ? and (latest is null or latest = 'Yes' ) order by submitted_date DESC, id DESC ";
+				String qry3 ="select id, design_id_fk, stage_fk, submitted_by, submitted_to,FORMAT(submitted_date,'dd-MM-yyyy') AS submitted_date, submssion_purpose,latest from design_status where design_id_fk = ? and (latest is null or latest = 'Yes' or latest='No') order by submitted_date DESC, id DESC ";
 				List<Design> objList = jdbcTemplate.query( qry3,new Object[] {obj.getDesign_id()}, new BeanPropertyRowMapper<Design>(Design.class));
 				dObj.setDesignStatusList(objList);
 			}
@@ -469,26 +465,34 @@ public class DesignDaoImpl implements DesignDao{
 	}
 
 	@Override
-	public boolean addDesign(Design obj) throws Exception {
+	public String addDesign(Design obj) throws Exception {
 		boolean flag = false;
 		TransactionDefinition def = new DefaultTransactionDefinition();
 		TransactionStatus status = transactionManager.getTransaction(def);
+		String design_seq_id = null;
+		String designId = null;
+		
 		try{
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
+			
+			design_seq_id = getAutoGeneratedDesignId(obj);
+			obj.setDesign_seq_id(design_seq_id);
+			
+			
 			String qry = "INSERT INTO design (work_id_fk,contract_id_fk,department_id_fk,hod,dy_hod,prepared_by_id_fk,consultant_contract_id_fk,proof_consultant_contract_id_fk,"
 					+ "structure_type_fk,drawing_type_fk,contractor_drawing_no,mrvc_drawing_no,division_drawing_no,hq_drawing_no,drawing_title,"
 					+ "gfc_released,remarks," + 
-					"approving_railway,approval_authority_fk,structure_id_fk,required_date) "
+					"approving_railway,approval_authority_fk,structure_id_fk,required_date,component,design_seq_id) "
 					+ "VALUES(:work_id_fk,:contract_id_fk,:department_id_fk,:hod,:dy_hod,:prepared_by_id_fk,:consultant_contract_id_fk,:proof_consultant_contract_id_fk,:structure_type_fk"
 					+ ",:drawing_type_fk,:contractor_drawing_no,:mrvc_drawing_no,:division_drawing_no,:hq_drawing_no,:drawing_title,"
 					+ ":gfc_released,:remarks"
-					+ ",:approving_railway,:approval_authority_fk,:structure_id_fk,:required_date)";
+					+ ",:approving_railway,:approval_authority_fk,:structure_id_fk,:required_date,:component,:design_seq_id)";
 			
 			SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
 		    KeyHolder keyHolder = new GeneratedKeyHolder();
 		    int count = namedParamJdbcTemplate.update(qry, paramSource, keyHolder);
 		    //return keyHolder.getKey().intValue();
-		    String designId = null;
+		   
 		    designId = String.valueOf(keyHolder.getKey().intValue());
 			 obj.setDesign_id(designId);
 			//BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
@@ -720,11 +724,41 @@ public class DesignDaoImpl implements DesignDao{
 			throw new Exception(e);
 		}
 			
-		return flag;
+		return design_seq_id;
 	}
+	
+	
+	private String getAutoGeneratedDesignId(Design obj) {
+		Design dObj = null;
+		Design WorkCodedObj = null;
+		Design DrawTypeObj = null;
+		String designid=null;
+		try {
+			String qry ="select work_code  from work where work_id='"+obj.getWork_id_fk()+"'" ;
+			WorkCodedObj = (Design)jdbcTemplate.queryForObject(qry, new BeanPropertyRowMapper<Design>(Design.class));
+			
+			String qry1 ="select drawing_type_code  from drawing_type where drawing_type='"+obj.getDrawing_type_fk()+"'" ;
+			DrawTypeObj = (Design)jdbcTemplate.queryForObject(qry1, new BeanPropertyRowMapper<Design>(Design.class));			
+			
+			
+			String input = obj.getStructure_type_fk()+"-"+obj.getStructure_id_fk()+"-"+obj.getComponent()+"-"+DrawTypeObj.getDrawing_type_code();
+			String lastFourDigits = input;   
+	
+
+
+				String qry2="select CONCAT('"+WorkCodedObj.getWork_code()+"','-"+lastFourDigits+"-',case when len(design_seq_id)=3 then concat('0',design_seq_id) when len(design_seq_id)=2 then concat('00',design_seq_id) when len(design_seq_id)=1 then concat('000',design_seq_id) end) as design_id from(" + 
+						"select (case when (select count(*) from design where left(design_seq_id,2) ='"+WorkCodedObj.getWork_code()+"')>0 then Max(SUBSTRING( design_seq_id , LEN(design_seq_id) -  CHARINDEX('-',REVERSE(design_seq_id)) + 2  , LEN(design_seq_id)  ))+1 else 1 end )as design_seq_id from design where left(design_seq_id,2) ='"+WorkCodedObj.getWork_code()+"') as a";
+						dObj = (Design)jdbcTemplate.queryForObject(qry2, new Object[] {}, new BeanPropertyRowMapper<Design>(Design.class));
+						designid = dObj.getDesign_id();
+			
+		}catch(Exception e){ 
+			e.printStackTrace();
+		}
+	    return designid;
+	}	
 
 	@Override
-	public boolean updateDesign(Design obj) throws Exception {
+	public String updateDesign(Design obj) throws Exception {
 		boolean flag = false;
 		TransactionDefinition def = new DefaultTransactionDefinition();
 		TransactionStatus status = transactionManager.getTransaction(def);
@@ -733,7 +767,7 @@ public class DesignDaoImpl implements DesignDao{
 			String qry = "UPDATE design SET contract_id_fk= :contract_id_fk,department_id_fk=:department_id_fk,hod=:hod,dy_hod=:dy_hod,prepared_by_id_fk=:prepared_by_id_fk,consultant_contract_id_fk=:consultant_contract_id_fk,proof_consultant_contract_id_fk=:proof_consultant_contract_id_fk,structure_type_fk=:structure_type_fk"
 					+ ",drawing_type_fk=:drawing_type_fk,contractor_drawing_no=:contractor_drawing_no,mrvc_drawing_no=:mrvc_drawing_no,division_drawing_no=:division_drawing_no,hq_drawing_no=:hq_drawing_no,drawing_title=:drawing_title,"
 					+ "gfc_released=:gfc_released,remarks=:remarks,"
-					+ "approving_railway=:approving_railway,approval_authority_fk=:approval_authority_fk,required_date=:required_date,structure_id_fk=:structure_id_fk,modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP   "
+					+ "approving_railway=:approving_railway,approval_authority_fk=:approval_authority_fk,required_date=:required_date,structure_id_fk=:structure_id_fk,modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP,component=:component   "
 					+ "WHERE design_id = :design_id";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(qry, paramSource);			
@@ -987,7 +1021,7 @@ public class DesignDaoImpl implements DesignDao{
 			throw new Exception(e);
 		}
 			
-		return flag;
+		return obj.getDesign_seq_id();
 	}
 
 	@Override
@@ -1135,61 +1169,61 @@ public class DesignDaoImpl implements DesignDao{
 				qry = qry + " and drawing_type_fk = ?";
 				arrSize++;
 			}
-			qry = qry + " group by user_id,u.designation,u.user_name  ORDER BY case when u.designation='ED Civil' then 1 \r\n" + 
-					"   when u.designation='CPM I' then 2 \r\n" + 
-					"   when u.designation='CPM II' then 3\r\n" + 
-					"   when u.designation='CPM III' then 4 \r\n" + 
-					"   when u.designation='CPM V' then 5\r\n" + 
-					"   when u.designation='CE' then 6 \r\n" + 
-					"   when u.designation='ED S&T' then 7 \r\n" + 
-					"   when u.designation='CSTE' then 8\r\n" + 
-					"   when u.designation='GM Electrical' then 9\r\n" + 
-					"   when u.designation='CEE Project I' then 10\r\n" + 
-					"   when u.designation='CEE Project II' then 11\r\n" + 
-					"   when u.designation='ED Finance & Planning' then 12\r\n" + 
-					"   when u.designation='AGM Civil' then 13\r\n" + 
-					"   when u.designation='DyCPM Civil' then 14\r\n" + 
-					"   when u.designation='DyCPM III' then 15\r\n" + 
-					"   when u.designation='DyCPM V' then 16\r\n" + 
-					"   when u.designation='DyCE EE' then 17\r\n" + 
-					"   when u.designation='DyCE Badlapur' then 18\r\n" + 
-					"   when u.designation='DyCPM Pune' then 19\r\n" + 
-					"   when u.designation='DyCE Proj' then 20\r\n" + 
-					"   when u.designation='DyCEE I' then 21\r\n" + 
-					"   when u.designation='DyCEE Projects' then 22\r\n" + 
-					"   when u.designation='DyCEE PSI' then 23\r\n" + 
-					"   when u.designation='DyCSTE I' then 24\r\n" + 
-					"   when u.designation='DyCSTE IT' then 25\r\n" + 
-					"   when u.designation='DyCSTE Projects' then 26\r\n" + 
-					"   when u.designation='XEN Consultant' then 27\r\n" + 
-					"   when u.designation='AEN Adhoc' then 28\r\n" + 
-					"   when u.designation='AEN Project' then 29\r\n" + 
-					"   when u.designation='AEN P-Way' then 30\r\n" + 
-					"   when u.designation='AEN' then 31\r\n" + 
-					"   when u.designation='Sr Manager Signal' then 32 \r\n" + 
-					"   when u.designation='Manager Signal' then 33\r\n" + 
-					"   when u.designation='Manager Civil' then 34 \r\n" + 
-					"   when u.designation='Manager OHE' then 35\r\n" + 
-					"   when u.designation='Manager GS' then 36\r\n" + 
-					"   when u.designation='Manager Finance' then 37\r\n" + 
-					"   when u.designation='Planning Manager' then 38\r\n" + 
-					"   when u.designation='Manager Project' then 39\r\n" + 
-					"   when u.designation='Manager' then 40 \r\n" + 
-					"   when u.designation='SSE' then 41\r\n" + 
-					"   when u.designation='SSE Project' then 42\r\n" + 
-					"   when u.designation='SSE Works' then 43\r\n" + 
-					"   when u.designation='SSE Drg' then 44\r\n" + 
-					"   when u.designation='SSE BR' then 45\r\n" + 
-					"   when u.designation='SSE P-Way' then 46\r\n" + 
-					"   when u.designation='SSE OHE' then 47\r\n" + 
-					"   when u.designation='SPE' then 48\r\n" + 
-					"   when u.designation='PE' then 49\r\n" + 
-					"   when u.designation='JE' then 50\r\n" + 
-					"   when u.designation='Demo-HOD-Elec' then 51\r\n" + 
-					"   when u.designation='Demo-HOD-Engg' then 52\r\n" + 
-					"   when u.designation='Demo-HOD-S&T' then 53\r\n" + 
-					"\r\n" + 
-					"   end asc\r\n" + 
+			qry = qry + " group by user_id,u.designation,u.user_name  ORDER BY case when u.designation='ED Civil' then 1  " + 
+					"   when u.designation='CPM I' then 2  " + 
+					"   when u.designation='CPM II' then 3 " + 
+					"   when u.designation='CPM III' then 4  " + 
+					"   when u.designation='CPM V' then 5 " + 
+					"   when u.designation='CE' then 6  " + 
+					"   when u.designation='ED S&T' then 7  " + 
+					"   when u.designation='CSTE' then 8 " + 
+					"   when u.designation='GM Electrical' then 9 " + 
+					"   when u.designation='CEE Project I' then 10 " + 
+					"   when u.designation='CEE Project II' then 11 " + 
+					"   when u.designation='ED Finance & Planning' then 12 " + 
+					"   when u.designation='AGM Civil' then 13 " + 
+					"   when u.designation='DyCPM Civil' then 14 " + 
+					"   when u.designation='DyCPM III' then 15 " + 
+					"   when u.designation='DyCPM V' then 16 " + 
+					"   when u.designation='DyCE EE' then 17 " + 
+					"   when u.designation='DyCE Badlapur' then 18 " + 
+					"   when u.designation='DyCPM Pune' then 19 " + 
+					"   when u.designation='DyCE Proj' then 20 " + 
+					"   when u.designation='DyCEE I' then 21 " + 
+					"   when u.designation='DyCEE Projects' then 22 " + 
+					"   when u.designation='DyCEE PSI' then 23 " + 
+					"   when u.designation='DyCSTE I' then 24 " + 
+					"   when u.designation='DyCSTE IT' then 25 " + 
+					"   when u.designation='DyCSTE Projects' then 26 " + 
+					"   when u.designation='XEN Consultant' then 27 " + 
+					"   when u.designation='AEN Adhoc' then 28 " + 
+					"   when u.designation='AEN Project' then 29 " + 
+					"   when u.designation='AEN P-Way' then 30 " + 
+					"   when u.designation='AEN' then 31 " + 
+					"   when u.designation='Sr Manager Signal' then 32  " + 
+					"   when u.designation='Manager Signal' then 33 " + 
+					"   when u.designation='Manager Civil' then 34  " + 
+					"   when u.designation='Manager OHE' then 35 " + 
+					"   when u.designation='Manager GS' then 36 " + 
+					"   when u.designation='Manager Finance' then 37 " + 
+					"   when u.designation='Planning Manager' then 38 " + 
+					"   when u.designation='Manager Project' then 39 " + 
+					"   when u.designation='Manager' then 40  " + 
+					"   when u.designation='SSE' then 41 " + 
+					"   when u.designation='SSE Project' then 42 " + 
+					"   when u.designation='SSE Works' then 43 " + 
+					"   when u.designation='SSE Drg' then 44 " + 
+					"   when u.designation='SSE BR' then 45 " + 
+					"   when u.designation='SSE P-Way' then 46 " + 
+					"   when u.designation='SSE OHE' then 47 " + 
+					"   when u.designation='SPE' then 48 " + 
+					"   when u.designation='PE' then 49 " + 
+					"   when u.designation='JE' then 50 " + 
+					"   when u.designation='Demo-HOD-Elec' then 51 " + 
+					"   when u.designation='Demo-HOD-Engg' then 52 " + 
+					"   when u.designation='Demo-HOD-S&T' then 53 " + 
+					" " + 
+					"   end asc " + 
 					"";
 			
 			Object[] pValues = new Object[arrSize];
@@ -1686,61 +1720,61 @@ public class DesignDaoImpl implements DesignDao{
 				qry = qry + " and u.user_id = ? ";
 				arrSize++;
 			}
-			qry = qry + " ORDER BY case when u.designation='ED Civil' then 1 \r\n" + 
-					"   when u.designation='CPM I' then 2 \r\n" + 
-					"   when u.designation='CPM II' then 3\r\n" + 
-					"   when u.designation='CPM III' then 4 \r\n" + 
-					"   when u.designation='CPM V' then 5\r\n" + 
-					"   when u.designation='CE' then 6 \r\n" + 
-					"   when u.designation='ED S&T' then 7 \r\n" + 
-					"   when u.designation='CSTE' then 8\r\n" + 
-					"   when u.designation='GM Electrical' then 9\r\n" + 
-					"   when u.designation='CEE Project I' then 10\r\n" + 
-					"   when u.designation='CEE Project II' then 11\r\n" + 
-					"   when u.designation='ED Finance & Planning' then 12\r\n" + 
-					"   when u.designation='AGM Civil' then 13\r\n" + 
-					"   when u.designation='DyCPM Civil' then 14\r\n" + 
-					"   when u.designation='DyCPM III' then 15\r\n" + 
-					"   when u.designation='DyCPM V' then 16\r\n" + 
-					"   when u.designation='DyCE EE' then 17\r\n" + 
-					"   when u.designation='DyCE Badlapur' then 18\r\n" + 
-					"   when u.designation='DyCPM Pune' then 19\r\n" + 
-					"   when u.designation='DyCE Proj' then 20\r\n" + 
-					"   when u.designation='DyCEE I' then 21\r\n" + 
-					"   when u.designation='DyCEE Projects' then 22\r\n" + 
-					"   when u.designation='DyCEE PSI' then 23\r\n" + 
-					"   when u.designation='DyCSTE I' then 24\r\n" + 
-					"   when u.designation='DyCSTE IT' then 25\r\n" + 
-					"   when u.designation='DyCSTE Projects' then 26\r\n" + 
-					"   when u.designation='XEN Consultant' then 27\r\n" + 
-					"   when u.designation='AEN Adhoc' then 28\r\n" + 
-					"   when u.designation='AEN Project' then 29\r\n" + 
-					"   when u.designation='AEN P-Way' then 30\r\n" + 
-					"   when u.designation='AEN' then 31\r\n" + 
-					"   when u.designation='Sr Manager Signal' then 32 \r\n" + 
-					"   when u.designation='Manager Signal' then 33\r\n" + 
-					"   when u.designation='Manager Civil' then 34 \r\n" + 
-					"   when u.designation='Manager OHE' then 35\r\n" + 
-					"   when u.designation='Manager GS' then 36\r\n" + 
-					"   when u.designation='Manager Finance' then 37\r\n" + 
-					"   when u.designation='Planning Manager' then 38\r\n" + 
-					"   when u.designation='Manager Project' then 39\r\n" + 
-					"   when u.designation='Manager' then 40 \r\n" + 
-					"   when u.designation='SSE' then 41\r\n" + 
-					"   when u.designation='SSE Project' then 42\r\n" + 
-					"   when u.designation='SSE Works' then 43\r\n" + 
-					"   when u.designation='SSE Drg' then 44\r\n" + 
-					"   when u.designation='SSE BR' then 45\r\n" + 
-					"   when u.designation='SSE P-Way' then 46\r\n" + 
-					"   when u.designation='SSE OHE' then 47\r\n" + 
-					"   when u.designation='SPE' then 48\r\n" + 
-					"   when u.designation='PE' then 49\r\n" + 
-					"   when u.designation='JE' then 50\r\n" + 
-					"   when u.designation='Demo-HOD-Elec' then 51\r\n" + 
-					"   when u.designation='Demo-HOD-Engg' then 52\r\n" + 
-					"   when u.designation='Demo-HOD-S&T' then 53\r\n" + 
-					"\r\n" + 
-					"   end asc\r\n" + 
+			qry = qry + " ORDER BY case when u.designation='ED Civil' then 1  " + 
+					"   when u.designation='CPM I' then 2  " + 
+					"   when u.designation='CPM II' then 3 " + 
+					"   when u.designation='CPM III' then 4  " + 
+					"   when u.designation='CPM V' then 5 " + 
+					"   when u.designation='CE' then 6  " + 
+					"   when u.designation='ED S&T' then 7  " + 
+					"   when u.designation='CSTE' then 8 " + 
+					"   when u.designation='GM Electrical' then 9 " + 
+					"   when u.designation='CEE Project I' then 10 " + 
+					"   when u.designation='CEE Project II' then 11 " + 
+					"   when u.designation='ED Finance & Planning' then 12 " + 
+					"   when u.designation='AGM Civil' then 13 " + 
+					"   when u.designation='DyCPM Civil' then 14 " + 
+					"   when u.designation='DyCPM III' then 15 " + 
+					"   when u.designation='DyCPM V' then 16 " + 
+					"   when u.designation='DyCE EE' then 17 " + 
+					"   when u.designation='DyCE Badlapur' then 18 " + 
+					"   when u.designation='DyCPM Pune' then 19 " + 
+					"   when u.designation='DyCE Proj' then 20 " + 
+					"   when u.designation='DyCEE I' then 21 " + 
+					"   when u.designation='DyCEE Projects' then 22 " + 
+					"   when u.designation='DyCEE PSI' then 23 " + 
+					"   when u.designation='DyCSTE I' then 24 " + 
+					"   when u.designation='DyCSTE IT' then 25 " + 
+					"   when u.designation='DyCSTE Projects' then 26 " + 
+					"   when u.designation='XEN Consultant' then 27 " + 
+					"   when u.designation='AEN Adhoc' then 28 " + 
+					"   when u.designation='AEN Project' then 29 " + 
+					"   when u.designation='AEN P-Way' then 30 " + 
+					"   when u.designation='AEN' then 31 " + 
+					"   when u.designation='Sr Manager Signal' then 32  " + 
+					"   when u.designation='Manager Signal' then 33 " + 
+					"   when u.designation='Manager Civil' then 34  " + 
+					"   when u.designation='Manager OHE' then 35 " + 
+					"   when u.designation='Manager GS' then 36 " + 
+					"   when u.designation='Manager Finance' then 37 " + 
+					"   when u.designation='Planning Manager' then 38 " + 
+					"   when u.designation='Manager Project' then 39 " + 
+					"   when u.designation='Manager' then 40  " + 
+					"   when u.designation='SSE' then 41 " + 
+					"   when u.designation='SSE Project' then 42 " + 
+					"   when u.designation='SSE Works' then 43 " + 
+					"   when u.designation='SSE Drg' then 44 " + 
+					"   when u.designation='SSE BR' then 45 " + 
+					"   when u.designation='SSE P-Way' then 46 " + 
+					"   when u.designation='SSE OHE' then 47 " + 
+					"   when u.designation='SPE' then 48 " + 
+					"   when u.designation='PE' then 49 " + 
+					"   when u.designation='JE' then 50 " + 
+					"   when u.designation='Demo-HOD-Elec' then 51 " + 
+					"   when u.designation='Demo-HOD-Engg' then 52 " + 
+					"   when u.designation='Demo-HOD-S&T' then 53 " + 
+					" " + 
+					"   end asc " + 
 					"" ;
 
 			//qry = qry + " ORDER BY Field(u.designation, 'ED Civil','CPM I','CPM II','CPM III','CPM V','CE','ED S&T','CSTE','GM Electrical','GGM Civil','CEE Project I','CEE Project II','ED Finance & Planning')";
@@ -1884,17 +1918,17 @@ public class DesignDaoImpl implements DesignDao{
 			String qry = "INSERT INTO design (work_id_fk,contract_id_fk,department_id_fk,hod,dy_hod,prepared_by_id_fk,consultant_contract_id_fk,proof_consultant_contract_id_fk,"
 					+ "structure_type_fk,drawing_type_fk,contractor_drawing_no,mrvc_drawing_no,division_drawing_no,hq_drawing_no,drawing_title,"
 					+ "gfc_released,remarks," + 
-					"approving_railway,approval_authority_fk,structure_id_fk,required_date) "
+					"approving_railway,approval_authority_fk,structure_id_fk,required_date,component,design_seq_id) "
 					+ "VALUES(:work_id_fk,:contract_id_fk,:department_id_fk,:hod,:dy_hod,:prepared_by_id_fk,:consultant_contract_id_fk,:proof_consultant_contract_id_fk,:structure_type_fk"
-					+ ",:drawing_type_fk,:contractor_drawing_no,:mrvc_drawing_no,:division_drawing_no,:hq_drawing_no,:drawing_title,"
+					+ ",:drawing_type_fk,:mrvc_drawing_no,:mrvc_drawing_no,:division_drawing_no,:hq_drawing_no,:drawing_title,"
 					+ ":gfc_released,:remarks,"
-					+ ":approving_railway,:approval_authority_fk,:structure_id_fk,:required_date)";
+					+ ":approving_railway,:approval_authority_fk,:structure_id_fk,:required_date,:component,:design_seq_id)";
 			
 			String updateQry = "UPDATE design set contract_id_fk= :contract_id_fk, approving_railway= :approving_railway, department_id_fk= :department_id_fk,hod= :hod,"
 					+ "dy_hod= :dy_hod,structure_type_fk= :structure_type_fk,structure_id_fk= :structure_id_fk,prepared_by_id_fk= :prepared_by_id_fk ,consultant_contract_id_fk= :consultant_contract_id_fk,"
 					+ "proof_consultant_contract_id_fk= :proof_consultant_contract_id_fk,drawing_type_fk= :drawing_type_fk,drawing_title= :drawing_title,approval_authority_fk= :approval_authority_fk,"
 					+ "required_date=:required_date,contractor_drawing_no= :contractor_drawing_no,mrvc_drawing_no= :mrvc_drawing_no,division_drawing_no= :division_drawing_no,"
-					+ "hq_drawing_no= :hq_drawing_no,gfc_released= :gfc_released,remarks=:remarks,modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP where design_id= :design_id ";
+					+ "hq_drawing_no= :hq_drawing_no,gfc_released= :gfc_released,remarks=:remarks,modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP where design_seq_id= :design_seq_id ";
 			for (Design obj : designsList) {
 				/*String department = null;
 				if(!StringUtils.isEmpty(obj.getDepartment_id_fk())) { 
@@ -1906,8 +1940,8 @@ public class DesignDaoImpl implements DesignDao{
 				String dyHod = getDyHod(obj.getDy_hod());
 				obj.setHod(hod);obj.setDy_hod(dyHod);
 				if(!StringUtils.isEmpty(obj.getPrepared_by_id_fk())) {
-					String preparedByQry = "INSERT INTO design_prepared_by (prepared_by) SELECT * FROM (SELECT ?) AS tmp "
-							+ "WHERE NOT EXISTS ( SELECT prepared_by FROM design_prepared_by WHERE prepared_by = ? offset 0 rows  fetch next 1 rows only )";
+					String preparedByQry = "INSERT INTO design_prepared_by (prepared_by) SELECT * FROM (SELECT ? AS tmp " + 
+							"WHERE NOT EXISTS ( SELECT prepared_by FROM design_prepared_by WHERE prepared_by = ?  )) as tmp";
 					jdbcTemplate.update( preparedByQry, new Object[] {obj.getPrepared_by_id_fk(),obj.getPrepared_by_id_fk()});
 				}
 				
@@ -1918,14 +1952,14 @@ public class DesignDaoImpl implements DesignDao{
 				}*/
 				
 				if(!StringUtils.isEmpty(obj.getDrawing_type_fk())) {
-					String dtQry = "INSERT INTO drawing_type (drawing_type) SELECT * FROM (SELECT ?) AS tmp "
-							+ "WHERE NOT EXISTS ( SELECT drawing_type FROM drawing_type WHERE drawing_type = ? offset 0 rows  fetch next 1 rows only )";
+					String dtQry = "INSERT INTO drawing_type (drawing_type) SELECT * FROM (SELECT ? AS tmp "
+							+ "WHERE NOT EXISTS ( SELECT drawing_type FROM drawing_type WHERE drawing_type = ? )) as tmp";
 					jdbcTemplate.update( dtQry, new Object[] {obj.getDrawing_type_fk(),obj.getDrawing_type_fk()});
 				}
 				
-				String designId = getDesignId(obj);
+				String designId = obj.getDesign_seq_id();
 				if(!StringUtils.isEmpty(designId)) {
-					obj.setDesign_id(designId);
+					obj.setDesign_id(getDesignId(obj));
 					SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
 				    count = namedParamJdbcTemplate.update(updateQry, paramSource);
 				    if(count > 0) {
@@ -1935,13 +1969,17 @@ public class DesignDaoImpl implements DesignDao{
 						 count = namedParamJdbcTemplate.update(deleteQryForDesignStatus, paramSource);
 					}
 				}else {
+					
+					String design_seq_id = getAutoGeneratedDesignId(obj);
+					obj.setDesign_seq_id(design_seq_id);
+					
 					SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
 				    KeyHolder keyHolder = new GeneratedKeyHolder();
 				    count = namedParamJdbcTemplate.update(qry, paramSource, keyHolder);
 				    designId = null;
 					if(count > 0) {
 						 designId = String.valueOf(keyHolder.getKey().intValue());
-						 obj.setDesign_id(designId);
+						 obj.setDesign_id(getDesignId(obj));
 						 flag = true;
 					}
 				}
@@ -2026,6 +2064,18 @@ public class DesignDaoImpl implements DesignDao{
 			throw new Exception(e);
 		}
 		return userId;
+	}
+
+	@Override
+	public List<Design> componentList() throws Exception {
+		List<Design> objsList = null;
+		try {
+			String qry ="select distinct component from p6_activities";
+				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Design>(Design.class));	
+		}catch(Exception e){ 
+		throw new Exception(e);
+		}
+		return objsList;
 	}
 	
 }

@@ -70,12 +70,12 @@ public class DesignServiceImpl implements DesignService{
 	}
 
 	@Override
-	public boolean addDesign(Design obj) throws Exception {
+	public String addDesign(Design obj) throws Exception {
 		return designDao.addDesign(obj);
 	}
 
 	@Override
-	public boolean updateDesign(Design obj) throws Exception {
+	public String updateDesign(Design obj) throws Exception {
 		return designDao.updateDesign(obj);
 	}
 
@@ -188,5 +188,12 @@ public class DesignServiceImpl implements DesignService{
 	public int uploadDesignsNew(List<Design> designsList) throws Exception {
 		return designDao.uploadDesignsNew(designsList);
 	}
+	
+	@Override
+	public List<Design> componentList() throws Exception{
+		return designDao.componentList();
+	}	
+	
+	
 
 }

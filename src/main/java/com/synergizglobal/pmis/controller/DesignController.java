@@ -669,6 +669,34 @@ public class DesignController {
 		return objsList;
 	}
 	
+	@RequestMapping(value = "/ajax/getComponentsforDesign", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Design> getComponentsforDesign(@ModelAttribute Design obj) {
+		List<Design> objsList = null;
+		try {
+			objsList = designService.getComponentsforDesign(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getComponentsforDesign : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
+	@RequestMapping(value = "/ajax/getStructureIdsforDesign", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Design> getStructureIdsforDesign(@ModelAttribute Design obj) {
+		List<Design> objsList = null;
+		try {
+			objsList = designService.getStructureIdsforDesign(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getStructureIdsforDesign : " + e.getMessage());
+		}
+		return objsList;
+	}	
+	
+	
+	
 	@RequestMapping(value = "/ajax/getContractsListForDesignForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Design> getContractsListForDesignForm(@ModelAttribute Design obj) {
@@ -680,7 +708,7 @@ public class DesignController {
 			logger.error("getContractsListForDesignForm : " + e.getMessage());
 		}
 		return objsList;
-	}
+	}	
 	
 	@RequestMapping(value = "/ajax/getDesignUploadsList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody

@@ -112,6 +112,21 @@ public class DesignDaoImpl implements DesignDao{
 				qry = qry + " and drawing_type_fk = ?";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSearchStr())) {
+				qry = qry + " and (contract_id_fk like ? or c.contract_short_name like ? or d.drawing_title like ? or d.structure_type_fk like ?"
+						+ " or drawing_type_fk like ? or d.contractor_drawing_no like ? or d.mrvc_drawing_no like ? or d.division_drawing_no like ? or d.hq_drawing_no like ? or d.design_seq_id like ?)";
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+				arrSize++;
+			}
+			
 			qry = qry + " group by design_id,d.work_id_fk,w.project_id_fk,d.structure_type_fk,d.structure_id_fk,w.work_short_name, " + 
 					"d.approving_railway,d.approval_authority_fk,w.work_name,c.contract_name,c.contract_short_name,d.contract_id_fk,d.department_id_fk,d.consultant_contract_id_fk,d.proof_consultant_contract_id_fk,d.hod,d.dy_hod,d.prepared_by_id_fk,d.structure_type_fk, " + 
 					"d.drawing_type_fk,d.contractor_drawing_no,d.mrvc_drawing_no,d.division_drawing_no,d.hq_drawing_no,d.drawing_title,FORMAT(d.required_date,'dd-MM-yyyy'),FORMAT(d.gfc_released,'dd-MM-yyyy'),d.remarks, " + 
@@ -136,7 +151,18 @@ public class DesignDaoImpl implements DesignDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDrawing_type_fk())) {
 				pValues[i++] = obj.getDrawing_type_fk();
 			}
-			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSearchStr())) {		
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+				pValues[i++] = "%"+obj.getSearchStr()+"%";	
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+			}
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Design>(Design.class));
 			
 		}catch(Exception e){ 
@@ -153,7 +179,7 @@ public class DesignDaoImpl implements DesignDao{
 			String qry ="select design_id,d.work_id_fk,w.project_id_fk,w.work_name,d.structure_id_fk,c.contract_name,c.contract_short_name,d.contract_id_fk,d.department_id_fk,d.consultant_contract_id_fk,d.proof_consultant_contract_id_fk,d.hod,d.dy_hod," + 
 					"d.prepared_by_id_fk,d.structure_type_fk,d.drawing_type_fk,d.contractor_drawing_no,d.mrvc_drawing_no,d.division_drawing_no" + 
 					",d.hq_drawing_no,d.drawing_title"
-					+",FORMAT(d.gfc_released,'dd-MM-yyyy') AS gfc_released,d.remarks,d.modified_by,FORMAT(d.modified_date,'dd-MM-yyyy') as modified_date   "
+					+",FORMAT(d.gfc_released,'dd-MM-yyyy') AS gfc_released,d.remarks,d.modified_by,FORMAT(d.modified_date,'dd-MM-yyyy') as modified_date,d.design_seq_id   "
 					+ "from design d "  
 					+"LEFT OUTER JOIN contract c ON d.contract_id_fk = c.contract_id "
 					+"LEFT OUTER JOIN work w  ON d.work_id_fk  =  w.work_id " 
@@ -188,7 +214,8 @@ public class DesignDaoImpl implements DesignDao{
 			
 			if(!StringUtils.isEmpty(searchParameter)) {
 				qry = qry + " and (contract_id_fk like ? or c.contract_short_name like ? or d.drawing_title like ? or d.structure_type_fk like ?"
-						+ " or drawing_type_fk like ? or d.contractor_drawing_no like ? or d.mrvc_drawing_no like ? or d.division_drawing_no like ? or d.hq_drawing_no like ?)";
+						+ " or drawing_type_fk like ? or d.contractor_drawing_no like ? or d.mrvc_drawing_no like ? or d.division_drawing_no like ? or d.hq_drawing_no like ? or d.design_seq_id like ?)";
+				arrSize++;
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -228,6 +255,7 @@ public class DesignDaoImpl implements DesignDao{
 			}
 			
 			if(!StringUtils.isEmpty(searchParameter)) {
+				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
@@ -289,7 +317,8 @@ public class DesignDaoImpl implements DesignDao{
 			
 			if(!StringUtils.isEmpty(searchParameter)) {
 				qry = qry + " and (contract_id_fk like ? or c.contract_short_name like ? or d.drawing_title like ? or d.structure_type_fk like ?"
-						+ " or drawing_type_fk like ? or d.contractor_drawing_no like ? or d.mrvc_drawing_no like ? or d.division_drawing_no like ? or d.hq_drawing_no like ?)";
+						+ " or drawing_type_fk like ? or d.contractor_drawing_no like ? or d.mrvc_drawing_no like ? or d.division_drawing_no like ? or d.hq_drawing_no like ? or d.design_seq_id like ?)";
+				arrSize++;
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -324,6 +353,7 @@ public class DesignDaoImpl implements DesignDao{
 			}
 			
 			if(!StringUtils.isEmpty(searchParameter)) {
+				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";
@@ -2072,6 +2102,60 @@ public class DesignDaoImpl implements DesignDao{
 		try {
 			String qry ="select distinct component from p6_activities";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Design>(Design.class));	
+		}catch(Exception e){ 
+		throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Design> getComponentsforDesign(Design obj) throws Exception {
+		List<Design> objsList = null;
+		try {
+			String qry ="select distinct component from p6_activities a left join structure s on s.structure_id=a.structure_id_fk where 0=0  ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type_fk())) {
+				qry = qry + " and s.structure_type_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_id_fk())) {
+				qry = qry + " and s.structure = ? ";
+				arrSize++;
+			}
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type_fk())) {
+				pValues[i++] = obj.getStructure_type_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_id_fk())) {
+				pValues[i++] = obj.getStructure_id_fk();
+			}
+				
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Design>(Design.class));	
+		}catch(Exception e){ 
+		throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Design> getStructureIdsforDesign(Design obj) throws Exception {
+		List<Design> objsList = null;
+		try {
+			String qry ="select distinct structure as structure_id_fk from p6_activities a left join structure s on s.structure_id=a.structure_id_fk where 0=0  ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type_fk())) {
+				qry = qry + " and s.structure_type_fk = ? ";
+				arrSize++;
+			}
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type_fk())) {
+				pValues[i++] = obj.getStructure_type_fk();
+			}
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Design>(Design.class));	
 		}catch(Exception e){ 
 		throw new Exception(e);
 		}

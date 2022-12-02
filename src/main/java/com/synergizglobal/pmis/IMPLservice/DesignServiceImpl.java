@@ -123,6 +123,11 @@ public class DesignServiceImpl implements DesignService{
 	public List<Design> getWorkListForDesignForm(Design obj) throws Exception {
 		return designDao.getWorkListForDesignForm(obj);
 	}
+	
+	@Override
+	public List<Design> getComponentsforDesign(Design obj) throws Exception{
+		return designDao.getComponentsforDesign(obj);
+	}
 
 	@Override
 	public List<Design> getContractsListForDesignForm(Design obj) throws Exception {
@@ -193,6 +198,11 @@ public class DesignServiceImpl implements DesignService{
 	public List<Design> componentList() throws Exception{
 		return designDao.componentList();
 	}	
+	
+	@Override
+	public List<Design> getStructureIdsforDesign(Design obj) throws Exception{
+		return designDao.getStructureIdsforDesign(obj);
+	}
 	
 	
 

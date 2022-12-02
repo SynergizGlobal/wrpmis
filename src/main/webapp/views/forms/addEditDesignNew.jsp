@@ -310,7 +310,7 @@
                         <span class="card-title headbg">
                             <div class="center-align p-2 bg-m">
                                 <h6>
-                               	    <c:if test="${action eq 'edit'}">Update Design & Drawing</c:if>
+                               	    <c:if test="${action eq 'edit'}">Update Design & Drawing(${designDetails.design_seq_id })</c:if>
 									<c:if test="${action eq 'add'}"> Add Design & Drawing</c:if>
                                 </h6>
                             </div>
@@ -425,7 +425,7 @@
                                  <div class="row">                       
                                  <div class="col s6 m4 l4 input-field " id="structureRow">
                                     <p class="searchable_label">Structure <span class="required">*</span></p>
-                                    <select id="structure_type_fk" name="structure_type_fk" class="searchable validate-dropdown">
+                                    <select id="structure_type_fk" name="structure_type_fk" class="searchable validate-dropdown" onChange="getStructureIds();">
                                         <option value="" selected>Select</option>
                                  		<c:forEach var="obj" items="${structureTypeList}">
                   						   <option value="${obj.structure_type_fk }" <c:if test="${designDetails.structure_type_fk eq obj.structure_type_fk }">selected</c:if>>${obj.structure_type_fk}</option>
@@ -435,7 +435,7 @@
                                 </div>
                                  <div class="col s6 m4 l4 input-field " id="structureIdRow">
                                     <p class="searchable_label">Structure Id<span class="required">*</span></p>
-                                    <select id="structure_id_fk" name="structure_id_fk" class="searchable validate-dropdown">
+                                    <select id="structure_id_fk" name="structure_id_fk" class="searchable validate-dropdown" onChange="getComponents();">
                                         <option value="" selected>Select</option> 
                                         <c:forEach var="obj" items="${structureId }">
                              				<option value="${obj.structure }" <c:if test="${designDetails.structure_id_fk eq obj.structure }">selected</c:if>>${obj.structure }</option>
@@ -444,7 +444,7 @@
                                     <span id="structure_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 l4 input-field " >
-                                    <p class="searchable_label">Component <span class="required"></span></p>
+                                    <p class="searchable_label">Component <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" name="component" id="component">
                                         <option value="" selected>Select</option>
                                          <c:forEach var="obj" items="${componentList }">
@@ -490,7 +490,6 @@
                                     <p class="searchable_label fs-sm-67rem">Proof Consultant </p>
                                     <select id="proof_consultant_contract_id_fk" name="proof_consultant_contract_id_fk" class="searchable validate-dropdown">
                                         <option value="" >Select</option>
-                                          <option value="" selected>Select</option>
                                       	   <c:forEach var="obj" items="${contractList }">
                                       	    <option value= "${ obj.contract_id_fk}" <c:if test="${designDetails.proof_consultant_contract_id_fk eq obj.contract_id_fk}">selected</c:if>>${obj.contract_id_fk}<c:if test="${not empty obj.contract_name}"> - </c:if> ${obj.contract_name }</option>
                                            </c:forEach>
@@ -1150,6 +1149,19 @@
                 return false;
             }
         });
+        
+        if("${designDetails.structure_type_fk}"!="")
+       	{
+        	getStructureIds();
+        	$('#structure_id_fk').val("${designDetails.structure_id_fk}");
+       	}        
+        
+        if("${designDetails.structure_type_fk}"!="" && "${designDetails.structure_id_fk}"!="")
+       	{
+        	getComponents();
+        	$('#component').val("${designDetails.component}");
+       	}
+    	      
     });
 	$(".num").characterCounter();
 	
@@ -1398,6 +1410,21 @@
             } */
           
            getContractsList();
+            
+           $('#box').prop('checked', true).trigger("change");
+   		$('#box').val('show');
+   		$('.optionalFileds').show();
+   		$('.hideTab').show();
+   		$('#structureRow,#structureIdRow').removeClass('l6').addClass('l4');
+   		$('#hideResponsive').removeClass('m6').addClass('m12'); 
+   		$('#hideResponsive1').removeClass('m6').addClass('m3');
+   		$('#mrvc_drawing_no').removeClass('w70').addClass('w85');
+   		$('#drawingType').removeClass('l6').addClass('l4');
+   		$('#hideResponsive1').css("bottom","");
+   		$('#approval_authority_fk').prop('disabled', false);
+   		$('#approval_authority_fks').prop('disabled', true);
+   		$('.hideAuthority').hide();
+   		
         });
 
       
@@ -1459,7 +1486,57 @@
                 });
            
         }
-        
+        function getStructureIds()
+        {
+        	$(".page-loader").show();
+            var structure_type_fk = $("#structure_type_fk").val();
+            $("#structure_id_fk option:not(:first)").remove();
+                var myParams = { structure_type_fk: structure_type_fk};
+                $.ajax({
+                	url: "<%=request.getContextPath()%>/ajax/getStructureIdsforDesign",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                                var structure_id_fk = "${designDetails.structure_id_fk }";
+                                if ($.trim(structure_id_fk) != '' && val.structure_id_fk == $.trim(structure_id_fk)) {
+                                	$("#structure_id_fk").append('<option value="' + val.structure_id_fk + '" selected>' + val.structure_id_fk + '</option>');
+                                } else {
+                                	$("#structure_id_fk").append('<option value="' + val.structure_id_fk + '">' + val.structure_id_fk + '</option>');
+                                }
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    }
+                });          	
+        }
+        function getComponents()
+        {
+        	$(".page-loader").show();
+            var structure_type_fk = $("#structure_type_fk").val();
+            var structure_id_fk = $("#structure_id_fk").val();
+            $("#component option:not(:first)").remove();
+                var myParams = { structure_type_fk: structure_type_fk, structure_id_fk:structure_id_fk};
+                $.ajax({
+                	url: "<%=request.getContextPath()%>/ajax/getComponentsforDesign",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                                var component = "${designDetails.component }";
+                                if ($.trim(component) != '' && val.component == $.trim(component)) {
+                                	$("#component").append('<option value="' + val.component + '" selected>' + val.component + '</option>');
+                                } else {
+                                	$("#component").append('<option value="' + val.component + '">' + val.component + '</option>');
+                                }
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    }
+                });        	
+        }
         function resetWorksAndProjectsDropdowns(){
         	$(".page-loader").show();        	
         	var projectId = '';
@@ -1598,6 +1675,8 @@
     				 		required: true
     				 	  },"structure_id_fk": {
     				 		required: true
+    				 	  },"component": {
+    				 		required: true
     				 	  },"approving_railway": {
     				 		required: true
     				 	  },"mrvc_drawing_no": {
@@ -1636,6 +1715,8 @@
 	   				 		required: 'Required'
 	   				 	 },"structure_id_fk": {
 	   				 		required: 'Required'
+	   				 	 },"component": {
+	   				 		required: 'Required'
 	   				 	 },"approving_railway": {
 	   				 		required: 'Required'
 	   				 	 }      
@@ -1663,6 +1744,9 @@
 			 	    	}else if (element.attr("id") == "structure_id_fk" ){
 	   			 		     document.getElementById("structure_id_fkError").innerHTML="";
 				 			 error.appendTo('#structure_id_fkError');
+			 	    	}else if (element.attr("id") == "component" ){
+	   			 		     document.getElementById("componentError").innerHTML="";
+				 			 error.appendTo('#componentError');
 			 	    	}else if (element.attr("id") == "contract_id_fk" ){
     			 	    	 document.getElementById("contract_id_fkError").innerHTML="";
     			 			 error.appendTo('#contract_id_fkError');

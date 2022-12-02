@@ -14,7 +14,7 @@ public class Design {
 	mrvc_reviewed, divisional_approval, hq_approval, gfc_released, as_built_status, as_built_date, remarks,submited_to_proof_consultant_fk,approval_by_proof_consultant_fk,
 	 revision_status_fk,revision_date,revision_remarks,divisional_submission_fk,hq_submission_fk,attachment,is_there_issue,issue_description,issue_priority_id,
 	 issue_category_id,created_by_user_id_fk,contract_short_name,submitted_to_division,submitted_to_hq,query_raised_by_division,query_replied_to_division,query_raised_by_hq,
-	 query_replied_to_hq,crs_sanction_fk,submitted_for_crs_sanction,query_raised_for_crs_sanction,query_replied_for_crs_sanction,crs_sanction_approved,design_seq_id,
+	 query_replied_to_hq,crs_sanction_fk,submitted_for_crs_sanction,query_raised_for_crs_sanction,query_replied_for_crs_sanction,crs_sanction_approved,design_seq_id,searchStr,
 	 project_id,work_id,work_code,consult_contarct,proof_consult_contarct,project_name,contract_id,required_date,revision_status,status,uploaded_by_user_id_fk,design_data_id, railway_id,uploaded_file, user_id,uploaded_on,user_role_code,user_name,modified_by,modified_date;
 	
 	private String id, design_file_id,design_id_fk,latest,submission_purpose,structure_id_fk,design_file_type,submssionpurpose,design_file_types,name,structure, stage_fk,design_status_submit, approving_railway,approval_authority_fk,submitted_by, submitted_to, submitted_date, submssion_purpose,design_file_type_fk,current;
@@ -1129,6 +1129,14 @@ public class Design {
 
 	public void setDrawing_type_code(String drawing_type_code) {
 		this.drawing_type_code = drawing_type_code;
+	}
+
+	public String getSearchStr() {
+		return searchStr;
+	}
+
+	public void setSearchStr(String searchStr) {
+		this.searchStr = searchStr;
 	}
 
 }

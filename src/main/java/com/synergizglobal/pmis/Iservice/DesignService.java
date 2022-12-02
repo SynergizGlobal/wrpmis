@@ -52,6 +52,10 @@ public interface DesignService {
 	List<Design> getProjectsListForDesignForm(Design obj) throws Exception;
 
 	List<Design> getWorkListForDesignForm(Design obj) throws Exception;
+	
+	List<Design> getComponentsforDesign(Design obj) throws Exception;
+	
+	List<Design> getStructureIdsforDesign(Design obj) throws Exception;
 
 	List<Design> getContractsListForDesignForm(Design obj) throws Exception;
 

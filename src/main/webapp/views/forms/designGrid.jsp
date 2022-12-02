@@ -310,8 +310,8 @@
 									<table id="datatable-design" class="mdl-data-table">
 										<thead>
 											<tr>
-<!-- 												<th class="fw-200">Contract</th>
- -->												<th>Structure <br>Type</th>
+ 												<th class="fw-200">PMIS Drawing No.</th>
+ 												<th>Structure <br>Type</th>
 												<th>Structure</th>
 
 												<th class="fw-300">Title</th>
@@ -490,6 +490,7 @@
         <input type="hidden" name="hod" id="exportHod" />
         <input type="hidden" name="structure_type_fk" id="exportStructure_type_fk" />
         <input type="hidden" name="drawing_type_fk" id="exportDrawing_type_fk" />
+        <input type="hidden" name="searchStr" id="exportsearchStr" />
 	</form>
 	
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
@@ -842,14 +843,12 @@
 													
 						        "aoColumns": [
 						        	{ "mData": function(data,type,row){
-						            	if($.trim(data.structure_type_fk) == ''){ return '-'; }else{ return data.structure_type_fk; }
+				                     	if($.trim(data.design_seq_id) == ''){ return '-'; }else{ return data.design_seq_id; }
 						            } },
 						        	
-						        /*     { "mData": function(data,type,row){
-						            	var contract_short_name = '';
-				                        if ($.trim(data.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(data.contract_short_name) }    	
-				                     	if($.trim(data.contract_id_fk) == ''){ return '-'; }else{ return data.contract_id_fk + contract_short_name; }
-			            			} }, */   	
+						            { "mData": function(data,type,row){
+						            	if($.trim(data.structure_type_fk) == ''){ return '-'; }else{ return data.structure_type_fk; }
+			            			} },    	
 			            			 { "mData": function(data,type,row){
 							            	if($.trim(data.structure_id_fk) == ''){ return '-'; }else{ return data.structure_id_fk; }
 							            } },
@@ -1140,6 +1139,7 @@
 	    	var hod = $("#hod").val();
 	    	var structure_type_fk = $("#structure_type_fk").val();
 	    	var drawing_type_fk = $("#drawing_type_fk").val();
+	    	var searchStrValue = $('[type=search]').val();
 	     	 
 	    	 $("#exportWork_id_fk").val(work_id_fk);
 	     	 $("#exportContract_id_fk").val(contract_id_fk);
@@ -1147,6 +1147,7 @@
 	     	 $("#exportHod").val(hod);
 	     	 $("#exportStructure_type_fk").val(structure_type_fk);
 	     	 $("#exportDrawing_type_fk").val(drawing_type_fk);
+	     	$("#exportsearchStr").val(searchStrValue);
 	     	 $("#exportDesignForm ").submit();
 	  	}
     

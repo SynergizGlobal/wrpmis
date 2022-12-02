@@ -1377,7 +1377,17 @@ public class DesignController {
 							count = uploadDesignsFirst(design,userId,userName);
 						}
 						if(count > 0) {
-							attributes.addFlashAttribute("success", count + " Designs added successfully.");	
+							
+							if(headerRow.getCell(0).getStringCellValue().trim().equals("PMIS Drawing No"))
+							{
+								attributes.addFlashAttribute("success", count + " Designs updated successfully.");	
+
+							}
+							else
+							{
+								attributes.addFlashAttribute("success", count + " Designs added successfully.");	
+							}
+							
 							msg = count + " Designs added successfully.";
 							
 							FormHistory formHistory = new FormHistory();

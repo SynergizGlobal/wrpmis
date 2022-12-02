@@ -1073,11 +1073,11 @@ public class DesignController {
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getConsult_contarct());
+					cell.setCellValue(obj.getConsultant_contract_id_fk()+" - "+obj.getConsult_contarct());
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getProof_consult_contarct());
+					cell.setCellValue(obj.getProof_consultant_contract_id_fk()+" - "+obj.getProof_consult_contarct());
 
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
@@ -1521,13 +1521,11 @@ public class DesignController {
 							val = formatter.formatCellValue(row.getCell(13)).trim();
 							if(!StringUtils.isEmpty(val)) { design.setDrawing_type_fk(val);}
 							
+
 							val = formatter.formatCellValue(row.getCell(14)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setDrawing_title(val);}	
-							
-							val = formatter.formatCellValue(row.getCell(15)).trim();
 							if(!StringUtils.isEmpty(val)) { design.setApproval_authority_fk(val);}
 							
-							val = formatter.formatCellValue(row.getCell(16)).trim();
+							val = formatter.formatCellValue(row.getCell(15)).trim();
 							if(!StringUtils.isEmpty(val)) { 
 								if(val.contains("/")) {
 									LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("M/dd/yy"));
@@ -1535,33 +1533,41 @@ public class DesignController {
 								}
 								design.setRequired_date(val);}
 							
+							val = formatter.formatCellValue(row.getCell(16)).trim();
+							if(!StringUtils.isEmpty(val)) { design.setGfc_released(val);}	
+														
+							
 							val = formatter.formatCellValue(row.getCell(17)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setContractor_drawing_no(val);}
+							if(!StringUtils.isEmpty(val)) { design.setDrawing_title(val);}	
+														
 							
 							val = formatter.formatCellValue(row.getCell(18)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setMrvc_drawing_no(val);}
+							if(!StringUtils.isEmpty(val)) { design.setContractor_drawing_no(val);}
 							
 							val = formatter.formatCellValue(row.getCell(19)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setDivision_drawing_no(val);}								
+							if(!StringUtils.isEmpty(val)) { design.setMrvc_drawing_no(val);}
 							
 							val = formatter.formatCellValue(row.getCell(20)).trim();
+							if(!StringUtils.isEmpty(val)) { design.setDivision_drawing_no(val);}								
+							
+							val = formatter.formatCellValue(row.getCell(21)).trim();
 							if(!StringUtils.isEmpty(val)) { design.setHq_drawing_no(val);}											
 							
 													
 							
-							val = formatter.formatCellValue(row.getCell(21)).trim();
+							val = formatter.formatCellValue(row.getCell(22)).trim();
 							if(!StringUtils.isEmpty(val)) { design.setStage_fk(val);}										
 						
-							val = formatter.formatCellValue(row.getCell(22)).trim();
+							val = formatter.formatCellValue(row.getCell(23)).trim();
 							if(!StringUtils.isEmpty(val)) { design.setSubmitted_by(val);}
 							
-							val = formatter.formatCellValue(row.getCell(23)).trim();
+							val = formatter.formatCellValue(row.getCell(24)).trim();
 							if(!StringUtils.isEmpty(val)) { design.setSubmitted_to(val);}
 							
-							val = formatter.formatCellValue(row.getCell(24)).trim();
+							val = formatter.formatCellValue(row.getCell(25)).trim();
 							if(!StringUtils.isEmpty(val)) { design.setSubmission_purpose(val);}
 							
-							val = formatter.formatCellValue(row.getCell(25)).trim();
+							val = formatter.formatCellValue(row.getCell(26)).trim();
 							if(!StringUtils.isEmpty(val)) { 
 								/*if(val.contains("/")) {
 									LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("M/dd/yy"));
@@ -1569,7 +1575,7 @@ public class DesignController {
 								}*/
 								design.setSubmitted_date(val);}
 							
-							val = formatter.formatCellValue(row.getCell(26)).trim();
+							val = formatter.formatCellValue(row.getCell(27)).trim();
 							if(!StringUtils.isEmpty(val)) { 
 								/*	if(val.contains("/")) {
 										LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("M/dd/yy"));
@@ -1577,7 +1583,7 @@ public class DesignController {
 									}*/
 								design.setGfc_released(val);}
 							
-							val = formatter.formatCellValue(row.getCell(27)).trim();
+							val = formatter.formatCellValue(row.getCell(28)).trim();
 							if(!StringUtils.isEmpty(val)) { design.setRemarks(val);}
 							
 							design.setGfc_released(DateParser.parse(design.getGfc_released()));
@@ -1746,12 +1752,9 @@ public class DesignController {
 							if(!StringUtils.isEmpty(val)) { design.setDrawing_type_fk(val);}
 							
 							val = formatter.formatCellValue(row.getCell(13)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setDrawing_title(val);}	
-							
-							val = formatter.formatCellValue(row.getCell(14)).trim();
 							if(!StringUtils.isEmpty(val)) { design.setApproval_authority_fk(val);}
 							
-							val = formatter.formatCellValue(row.getCell(15)).trim();
+							val = formatter.formatCellValue(row.getCell(14)).trim();
 							if(!StringUtils.isEmpty(val)) { 
 								if(val.contains("/")) {
 									LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("M/dd/yy"));
@@ -1759,33 +1762,39 @@ public class DesignController {
 								}
 								design.setRequired_date(val);}
 							
+							val = formatter.formatCellValue(row.getCell(15)).trim();
+							if(!StringUtils.isEmpty(val)) { design.setGfc_released(val);}	
+							
 							val = formatter.formatCellValue(row.getCell(16)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setContractor_drawing_no(val);}
+							if(!StringUtils.isEmpty(val)) { design.setDrawing_title(val);}								
 							
 							val = formatter.formatCellValue(row.getCell(17)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setMrvc_drawing_no(val);}
+							if(!StringUtils.isEmpty(val)) { design.setContractor_drawing_no(val);}
 							
 							val = formatter.formatCellValue(row.getCell(18)).trim();
-							if(!StringUtils.isEmpty(val)) { design.setDivision_drawing_no(val);}								
+							if(!StringUtils.isEmpty(val)) { design.setMrvc_drawing_no(val);}
 							
 							val = formatter.formatCellValue(row.getCell(19)).trim();
+							if(!StringUtils.isEmpty(val)) { design.setDivision_drawing_no(val);}								
+							
+							val = formatter.formatCellValue(row.getCell(20)).trim();
 							if(!StringUtils.isEmpty(val)) { design.setHq_drawing_no(val);}											
 							
 													
 							
-							val = formatter.formatCellValue(row.getCell(20)).trim();
+							val = formatter.formatCellValue(row.getCell(21)).trim();
 							if(!StringUtils.isEmpty(val)) { design.setStage_fk(val);}										
 						
-							val = formatter.formatCellValue(row.getCell(21)).trim();
+							val = formatter.formatCellValue(row.getCell(22)).trim();
 							if(!StringUtils.isEmpty(val)) { design.setSubmitted_by(val);}
 							
-							val = formatter.formatCellValue(row.getCell(22)).trim();
+							val = formatter.formatCellValue(row.getCell(23)).trim();
 							if(!StringUtils.isEmpty(val)) { design.setSubmitted_to(val);}
 							
-							val = formatter.formatCellValue(row.getCell(23)).trim();
+							val = formatter.formatCellValue(row.getCell(24)).trim();
 							if(!StringUtils.isEmpty(val)) { design.setSubmission_purpose(val);}
 							
-							val = formatter.formatCellValue(row.getCell(24)).trim();
+							val = formatter.formatCellValue(row.getCell(25)).trim();
 							if(!StringUtils.isEmpty(val)) { 
 								/*if(val.contains("/")) {
 									LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("M/dd/yy"));
@@ -1793,7 +1802,7 @@ public class DesignController {
 								}*/
 								design.setSubmitted_date(val);}
 							
-							val = formatter.formatCellValue(row.getCell(25)).trim();
+							val = formatter.formatCellValue(row.getCell(26)).trim();
 							if(!StringUtils.isEmpty(val)) { 
 								/*	if(val.contains("/")) {
 										LocalDate receivedDate = LocalDate.parse(val, DateTimeFormatter.ofPattern("M/dd/yy"));
@@ -1801,7 +1810,7 @@ public class DesignController {
 									}*/
 								design.setGfc_released(val);}
 							
-							val = formatter.formatCellValue(row.getCell(26)).trim();
+							val = formatter.formatCellValue(row.getCell(27)).trim();
 							if(!StringUtils.isEmpty(val)) { design.setRemarks(val);}
 							
 							design.setGfc_released(DateParser.parse(design.getGfc_released()));

@@ -74,7 +74,7 @@ public class DesignDaoImpl implements DesignDao{
 					"(SELECT submitted_to FROM design_status dss where max(ds.id) = dss.id) else (SELECT submitted_to FROM design_status dss  " + 
 					"where dss.submitted_date = max(ds.submitted_date)) end) as submitted_to ,FORMAT(max(ds.submitted_date) ,'dd-MM-yyyy') AS submitted_date,  " + 
 					"FORMAT(required_date ,'dd-MM-yyyy') AS required_date ,u.user_name,u.designation as hod_designation,u1.user_name,u1.designation as dy_hod_designation, " + 
-					"dt.department_name ,c1.contract_short_name as consult_contarct, c2.contract_short_name as proof_consult_contarct,component   " + 
+					"dt.department_name ,c1.contract_short_name as consult_contarct, c2.contract_short_name as proof_consult_contarct,component,design_seq_id   " + 
 					" " + 
 					"from design d  " + 
 					"LEFT OUTER JOIN contract c ON d.contract_id_fk = c.contract_id  " + 
@@ -130,7 +130,7 @@ public class DesignDaoImpl implements DesignDao{
 			qry = qry + " group by design_id,d.work_id_fk,w.project_id_fk,d.structure_type_fk,d.structure_id_fk,w.work_short_name, " + 
 					"d.approving_railway,d.approval_authority_fk,w.work_name,c.contract_name,c.contract_short_name,d.contract_id_fk,d.department_id_fk,d.consultant_contract_id_fk,d.proof_consultant_contract_id_fk,d.hod,d.dy_hod,d.prepared_by_id_fk,d.structure_type_fk, " + 
 					"d.drawing_type_fk,d.contractor_drawing_no,d.mrvc_drawing_no,d.division_drawing_no,d.hq_drawing_no,d.drawing_title,FORMAT(d.required_date,'dd-MM-yyyy'),FORMAT(d.gfc_released,'dd-MM-yyyy'),d.remarks, " + 
-					"u.user_name,u.designation,u1.user_name,u1.designation,dt.department_name,c1.contract_short_name,c2.contract_short_name,component ";
+					"u.user_name,u.designation,u1.user_name,u1.designation,dt.department_name,c1.contract_short_name,c2.contract_short_name,component,design_seq_id ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -1960,6 +1960,16 @@ public class DesignDaoImpl implements DesignDao{
 					+ "required_date=:required_date,contractor_drawing_no= :contractor_drawing_no,mrvc_drawing_no= :mrvc_drawing_no,division_drawing_no= :division_drawing_no,"
 					+ "hq_drawing_no= :hq_drawing_no,gfc_released= :gfc_released,remarks=:remarks,modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP where design_seq_id= :design_seq_id ";
 			for (Design obj : designsList) {
+				
+
+				String[] splitStr=obj.getConsultant_contract_id_fk().split(" - "); 
+				obj.setConsultant_contract_id_fk(splitStr[0]);
+				
+				String[] splitStr1=obj.getProof_consultant_contract_id_fk().split(" - "); 
+				obj.setProof_consultant_contract_id_fk(splitStr1[0]);				
+				
+				
+				
 				/*String department = null;
 				if(!StringUtils.isEmpty(obj.getDepartment_id_fk())) { 
 				  String deptqry ="SELECT department from department where department_name = ?"; 
@@ -2068,7 +2078,7 @@ public class DesignDaoImpl implements DesignDao{
 		Design dObj = null;
 		String userId = null;
 		try {
-			String qry ="select user_id FROM [user] where designation = ?" ;
+			String qry ="select top 1 user_id FROM [user] where designation = ?" ;
 			
 			dObj = (Design)jdbcTemplate.queryForObject(qry, new Object[] {dy_hod}, new BeanPropertyRowMapper<Design>(Design.class));
 			userId = dObj.getUser_id();
@@ -2084,7 +2094,7 @@ public class DesignDaoImpl implements DesignDao{
 		Design dObj = null;
 		String userId = null;
 		try {
-			String qry ="select user_id FROM [user] where designation = ?" ;
+			String qry ="select top 1 user_id FROM [user] where designation = ?" ;
 			
 			dObj = (Design)jdbcTemplate.queryForObject(qry, new Object[] {hod}, new BeanPropertyRowMapper<Design>(Design.class));
 			userId = dObj.getUser_id();

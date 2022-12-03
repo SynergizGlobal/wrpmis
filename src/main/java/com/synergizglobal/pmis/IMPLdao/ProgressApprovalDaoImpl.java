@@ -845,7 +845,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 			List<Activity> approvableList = new ArrayList<Activity>();
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProgress_id())) {
 				String qry = "select progress_id,progress_date,ap.p6_activity_id_fk as activity_id,ISNULL(a.scope,0) as scope,ISNULL(a.completed,0) as completed,"
-						+ "ap.completed_scope as actual_for_the_day,(ISNULL(a.scope,0) - ISNULL(a.completed,0)) as remaining_scope,"
+						+ "cast(ap.completed_scope as varchar) as actual_for_the_day,(ISNULL(a.scope,0) - ISNULL(a.completed,0)) as remaining_scope,"
 						+ "attachment_url,ap.remarks,FORMAT(ap.created_date,'dd-MM-yyyy') as updated_on,"
 						+ "ap.created_by_user_id_fk,approved_or_rejected_by,u.user_name as updated_by,"
 						+ "FORMAT(approved_on,'dd-MM-yyyy') as approved_on,FORMAT(rejected_on,'dd-MM-yyyy') as rejected_on,approval_status_fk,"

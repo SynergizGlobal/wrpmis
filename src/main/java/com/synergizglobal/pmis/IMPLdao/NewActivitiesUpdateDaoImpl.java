@@ -1469,7 +1469,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 						String messageType = "Activity Progress";
 						String redirect_url = "/progress-approval-page";
 						
-						String qryFOBName ="SELECT structure_name FROM structure where structure = ? and structure_type_fk= ? ";
+						String qryFOBName ="SELECT distinct structure_name FROM structure where structure = ? and structure_type_fk= ? ";
 						String fob_name = jdbcTemplate.queryForObject( qryFOBName,new Object[]{obj.getStrip_chart_structure_id_fk(),obj.getStructure_type_fk()}, String.class);	
 						if(StringUtils.isEmpty(fob_name)) {
 							fob_name = obj.getStrip_chart_structure_id_fk();

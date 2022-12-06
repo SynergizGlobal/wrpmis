@@ -277,6 +277,10 @@ public class PageConstants {
 	public static final String bankGuaranteeType = "referenceForms/bankGuaranteeType";
 	public static final String bankName = "referenceForms/bankName";
 	
+	public static final String workModuleUserAccess = "referenceForms/workModuleUserAccess";
+	
+	public static final String dashboardAccessForm = "referenceForms/dashboardAccessForm";
+	
 	public static final String referenceFormsMainPage = "referenceForms/referenceFormsMainPage";
 	
 	public static final String zonalRailwayFunds = "referenceForms/zonalRailwayFunds";

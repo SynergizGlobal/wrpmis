@@ -63,6 +63,7 @@ import com.synergizglobal.pmis.model.UtilityShifting;
 import com.synergizglobal.pmis.model.UtilityShiftingPaginationObject;
 import com.synergizglobal.pmis.model.UtilityShifting;
 import com.synergizglobal.pmis.model.UtilityShifting;
+import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.FileFormatModel;
 import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.Safety;
@@ -158,6 +159,26 @@ public class UtilityShiftingController {
 		return objsList;
 	}
 	
+	@RequestMapping(value = "/ajax/getImpactedContractsListForUSForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<UtilityShifting> getImpactedContractsListForUSForm(HttpSession session,@ModelAttribute UtilityShifting obj) {
+		List<UtilityShifting> objsList = null;
+		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			
+			objsList = utilityShiftingService.getImpactedContractsListForUtilityShifting(obj);
+
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getImpactedContractsListForUtilityShifting : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
 	@RequestMapping(value = "/ajax/getLocationListFilter", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<UtilityShifting> getLocationListFilter(HttpSession session,@ModelAttribute UtilityShifting obj) {
@@ -232,6 +253,58 @@ public class UtilityShiftingController {
 		}
 		return objList;
 	}
+	
+	@RequestMapping(value = "/ajax/getHodListForUtilityShifting", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<UtilityShifting> getHodListForUtilityShifting(@ModelAttribute UtilityShifting obj,HttpSession session) {
+		List<UtilityShifting> dataList = null;  
+		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			
+			dataList = utilityShiftingService.getHodListForUtilityShifting(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getHodListForUtilityShifting : " + e.getMessage());
+		}
+		return dataList;
+	}
+	
+	@RequestMapping(value = "/ajax/getReqStageListForUSForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<UtilityShifting> getReqStageListForUSForm(@ModelAttribute UtilityShifting obj,HttpSession session) {
+		List<UtilityShifting> dataList = null;  
+		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			
+			dataList = utilityShiftingService.getReqStageList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getReqStageListForUSForm : " + e.getMessage());
+		}
+		return dataList;
+	}
+	
+	@RequestMapping(value = "/ajax/getImpactedElementListForUSForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<UtilityShifting> getImpactedElementListForUSForm(@ModelAttribute UtilityShifting obj,HttpSession session) {
+		List<UtilityShifting> dataList = null;  
+		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			
+			dataList = utilityShiftingService.getImpactedElementList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getImpactedElementListForUSForm : " + e.getMessage());
+		}
+		return dataList;
+	}
+	
 	@RequestMapping(value="/add-utility-shifting",method=RequestMethod.GET)
 	public ModelAndView addUtilityShiftingForm(HttpSession session,@ModelAttribute UtilityShifting obj) {
 		ModelAndView model = new ModelAndView();
@@ -278,7 +351,20 @@ public class UtilityShiftingController {
 			model.addObject("utilityshiftingfiletypeList", utilityshiftingfiletypeList);			
 			
 			List<UtilityShifting> statusList = utilityShiftingService.getStatusListForUtilityShifting(obj);
-			model.addObject("statusList", statusList);			
+			model.addObject("statusList", statusList);	
+			
+			List<UtilityShifting> utilityHODList = utilityShiftingService.getHodListForUtilityShifting(obj);
+			model.addObject("utilityHODList", utilityHODList);	
+			
+			List<UtilityShifting> impactedContractsList = utilityShiftingService.getImpactedContractsListForUtilityShifting(obj);
+			model.addObject("impactedContractsList", impactedContractsList);
+			
+			List<UtilityShifting> reqStageList = utilityShiftingService.getReqStageList(obj);
+			model.addObject("reqStageList", reqStageList);
+			
+			List<UtilityShifting> impactedElementList = utilityShiftingService.getImpactedElementList(obj);
+			model.addObject("impactedElementList", impactedElementList);
+			
 			
 
 		} catch (Exception e) {
@@ -484,6 +570,18 @@ public class UtilityShiftingController {
 			
 			List<UtilityShifting> statusList = utilityShiftingService.getStatusListForUtilityShifting(obj);
 			model.addObject("statusList", statusList);	
+			
+			List<UtilityShifting> utilityHODList = utilityShiftingService.getHodListForUtilityShifting(obj);
+			model.addObject("utilityHODList", utilityHODList);	
+			
+			List<UtilityShifting> impactedContractsList = utilityShiftingService.getImpactedContractsListForUtilityShifting(obj);
+			model.addObject("impactedContractsList", impactedContractsList);
+			
+			List<UtilityShifting> reqStageList = utilityShiftingService.getReqStageList(obj);
+			model.addObject("reqStageList", reqStageList);
+			
+			List<UtilityShifting> impactedElementList = utilityShiftingService.getImpactedElementList(obj);
+			model.addObject("impactedElementList", impactedElementList);
 			
 			UtilityShifting utilityShifting = utilityShiftingService.getUtilityShifting(obj);
 			model.addObject("utilityShifting", utilityShifting);

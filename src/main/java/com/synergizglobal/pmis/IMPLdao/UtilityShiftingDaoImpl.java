@@ -39,6 +39,7 @@ import com.synergizglobal.pmis.common.Mail;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.UtilityShifting;
+import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.LandAcquisition;
 import com.synergizglobal.pmis.model.Messages;
@@ -63,7 +64,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 		List<UtilityShifting> objsList = null;
 		try {
 			String qry = "SELECT work_id as work_id_fk,w.work_short_name " + "from utility_shifting i "
-					+ "LEFT JOIN contract c on i.contract_id_fk = c.contract_id "
+					+ "LEFT JOIN contract c on i.impacted_contract_id_fk = c.contract_id "
 					
 					+ "LEFT JOIN work w on i.work_id_fk = w.work_id "
 					+ "left join utility_shifting_executives us on i.work_id_fk = us.work_id_fk  "
@@ -76,7 +77,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 				arrSize++;
 			}
 			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				qry = qry + " and contract_id_fk = ?";
+				qry = qry + " and impacted_contract_id_fk = ?";
 				arrSize++;
 			}
 			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCategory_fk())) {
@@ -131,9 +132,9 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 		int totalRecords = 0;
 		try {
 			String qry = "SELECT count(DISTINCT utility_shifting_id) as total_records from utility_shifting s "
-					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
-					+ "LEFT OUTER JOIN work w ON s.work_id_fk  = w.work_id "
-					+ "left join utility_shifting_executives us on s.work_id_fk = us.work_id_fk  "
+					+ "LEFT OUTER JOIN contract c ON s.impacted_contract_id_fk  = c.contract_id "
+					+ "LEFT OUTER JOIN work w ON c.work_id_fk  = w.work_id "
+					+ "left join utility_shifting_executives us on w.work_id = us.work_id_fk  "
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk  = p.project_id "
 					+ "where utility_shifting_id is not null " ;
 			int arrSize = 0;
@@ -220,17 +221,17 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 	public List<UtilityShifting> getUtilityShiftingList(UtilityShifting obj, int startIndex, int offset, String searchParameter) throws Exception {
 		List<UtilityShifting> objsList = null;
 		try {
-			String qry = "SELECT *,s.modified_by,FORMAT(s.modified_date,'dd-MM-yyyy') as modified_date "
+			String qry = "SELECT distinct s.*,s.modified_by,FORMAT(s.modified_date,'dd-MM-yyyy') as modified_date "
 					+ "from utility_shifting s "
-					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
-					+ "LEFT OUTER JOIN work w ON s.work_id_fk  = w.work_id "
-					+ "left join utility_shifting_executives us on s.work_id_fk = us.work_id_fk  "
+					+ "LEFT OUTER JOIN contract c ON s.impacted_contract_id_fk  = c.contract_id "
+					+ "LEFT OUTER JOIN work w ON c.work_id_fk  = w.work_id "
+					+ "left join utility_shifting_executives us on w.work_id = us.work_id_fk  "
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk  = p.project_id "
 					+ "where utility_shifting_id is not null " ;
 			int arrSize = 0;
 		
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and s.work_id_fk = ?";
+				qry = qry + " and c.work_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLocation_name())) {
@@ -270,6 +271,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 				arrSize++;
 				arrSize++;
 			}			
+			
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
@@ -319,7 +321,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 		List<UtilityShifting> objsList = null;
 		try {
 			String qry = "SELECT location_name " + "from utility_shifting i "
-					+ "LEFT JOIN contract c on i.contract_id_fk = c.contract_id "
+					+ "LEFT JOIN contract c on i.impacted_contract_id_fk = c.contract_id "
 					
 					+ "LEFT JOIN work w on i.work_id_fk = w.work_id "
 					+ "left join utility_shifting_executives us on i.work_id_fk = us.work_id_fk  "
@@ -332,7 +334,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 				arrSize++;
 			}
 			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				qry = qry + " and contract_id_fk = ?";
+				qry = qry + " and impacted_contract_id_fk = ?";
 				arrSize++;
 			}
 			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCategory_fk())) {
@@ -387,10 +389,10 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 		List<UtilityShifting> objsList = null;
 		try {
 			String qry = "SELECT utility_category_fk " + "from utility_shifting i "
-					+ "LEFT JOIN contract c on i.contract_id_fk = c.contract_id "
+					+ "LEFT JOIN contract c on i.impacted_contract_id_fk = c.contract_id "
 					
-					+ "LEFT JOIN work w on i.work_id_fk = w.work_id "
-					+ "left join utility_shifting_executives us on i.work_id_fk = us.work_id_fk  "
+					+ "LEFT JOIN work w on c.work_id_fk = w.work_id "
+					+ "left join utility_shifting_executives us on w.work_id = us.work_id_fk  "
 					+ "LEFT JOIN [user] u on c.hod_user_id_fk = u.user_id "
 					+ "where i.work_id_fk is not null and i.work_id_fk <> '' ";
 
@@ -400,7 +402,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 				arrSize++;
 			}
 			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				qry = qry + " and contract_id_fk = ?";
+				qry = qry + " and impacted_contract_id_fk = ?";
 				arrSize++;
 			}
 			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCategory_fk())) {
@@ -455,7 +457,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 		List<UtilityShifting> objsList = null;
 		try {
 			String qry = "SELECT utility_type_fk " + "from utility_shifting i "
-					+ "LEFT JOIN contract c on i.contract_id_fk = c.contract_id "
+					+ "LEFT JOIN contract c on i.impacted_contract_id_fk = c.contract_id "
 					
 					+ "LEFT JOIN work w on i.work_id_fk = w.work_id "
 					+ "left join utility_shifting_executives us on i.work_id_fk = us.work_id_fk  "
@@ -468,7 +470,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 				arrSize++;
 			}
 			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				qry = qry + " and contract_id_fk = ?";
+				qry = qry + " and impacted_contract_id_fk = ?";
 				arrSize++;
 			}
 			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCategory_fk())) {
@@ -523,7 +525,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 		List<UtilityShifting> objsList = null;
 		try {
 			String qry = "SELECT shifting_status_fk " + "from utility_shifting i "
-					+ "LEFT JOIN contract c on i.contract_id_fk = c.contract_id "
+					+ "LEFT JOIN contract c on i.impacted_contract_id_fk = c.contract_id "
 					
 					+ "LEFT JOIN work w on i.work_id_fk = w.work_id "
 					+ "left join utility_shifting_executives us on i.work_id_fk = us.work_id_fk  "
@@ -536,7 +538,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 				arrSize++;
 			}
 			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				qry = qry + " and contract_id_fk = ?";
+				qry = qry + " and impacted_contract_id_fk = ?";
 				arrSize++;
 			}
 			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCategory_fk())) {
@@ -873,7 +875,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 					+ "(utility_shifting_id, work_id_fk, identification, location_name, reference_number, utility_description, utility_type_fk, utility_category_fk, owner_name, "
 					+ "execution_agency_fk, contract_id_fk, "
 					+ "start_date, scope, completed, shifting_status_fk, shifting_completion_date, remarks, latitude,  impacted_contract_id_fk, requirement_stage_fk, "
-					+ "planned_completion_date, unit_fk) "
+					+ "planned_completion_date, unit_fk,hod_user_id_fk,custodian,executed_by,impacted_element,affected_structures) "
 					+ "VALUES "
 					+ "('"+USID+"',:work_id_fk,:identification,:location_name,:reference_number,:utility_description,"
 							+ ":utility_type_fk,"
@@ -881,7 +883,8 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 							+ ":execution_agency_fk,"
 							+ ":contract_id_fk,:start_date,:scope,:completed,:shifting_status_fk,"
 							+ ":shifting_completion_date,:remarks,:latitude,"
-							+ ":impacted_contract_id_fk,:requirement_stage_fk,:planned_completion_date,:unit_fk"
+							+ ":impacted_contract_id_fk,:requirement_stage_fk,:planned_completion_date,:unit_fk,"
+							+ ":hod_user_id_fk,:custodian,:executed_by,:impacted_element,:affected_structures"
 							+ ")";	
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -1025,15 +1028,15 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 					
 					UtilityShifting sobj = null;
 
-					String query = "SELECT s.*,FORMAT(identification,'dd-MM-yyyy') as identification,FORMAT(start_date,'dd-MM-yyyy') as start_date,"
+					String query = "SELECT distinct s.*,FORMAT(identification,'dd-MM-yyyy') as identification,FORMAT(start_date,'dd-MM-yyyy') as start_date,"
 							+ "FORMAT(planned_completion_date,'dd-MM-yyyy') as planned_completion_date,FORMAT(shifting_completion_date,'dd-MM-yyyy') as shifting_completion_date,"
 							+ "p.project_name,w.work_short_name,c.contract_short_name,p.project_id as project_id_fk "
 							+ "from utility_shifting s "
-							+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
-							+ "LEFT OUTER JOIN work w ON s.work_id_fk  = w.work_id "
-							+ "left join utility_shifting_executives us on s.work_id_fk = us.work_id_fk  "
-							+ "LEFT OUTER JOIN project p ON w.project_id_fk  = p.project_id "
-							+ "where utility_shifting_id =? " ;
+							+ "LEFT JOIN contract c ON s.impacted_contract_id_fk  = c.contract_id "
+							+ "LEFT JOIN work w ON c.work_id_fk  = w.work_id "
+							+ "LEFT JOIN utility_shifting_executives us on w.work_id = us.work_id_fk  "
+							+ "LEFT JOIN project p ON w.project_id_fk  = p.project_id "
+							+ "where utility_shifting_id = ? " ;
 					Object[] pValues = new Object[] { USID };
 							
 					sobj = (UtilityShifting)jdbcTemplate.queryForObject( query, pValues, new BeanPropertyRowMapper<UtilityShifting>(UtilityShifting.class));						
@@ -1109,39 +1112,39 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 
 			if(!StringUtils.isEmpty(objsList) && objsList.size() > 0)
 			{
-					if(objsList.get(0).getWork_id_fk().compareTo(obj.getWork_id_fk())!=0)
+					if(!StringUtils.isEmpty(objsList.get(0).getWork_id_fk()) && objsList.get(0).getWork_id_fk().compareTo(obj.getWork_id_fk())!=0)
 					{
 						checkCnt=1;
 					}
-					if(objsList.get(0).getLocation_name().compareTo(obj.getLocation_name())!=0)
+					if(!StringUtils.isEmpty(objsList.get(0).getLocation_name()) && objsList.get(0).getLocation_name().compareTo(obj.getLocation_name())!=0)
 					{
 						checkCnt=1;
 					}
-					if(objsList.get(0).getReference_number().compareTo(obj.getReference_number())!=0)
+					if(!StringUtils.isEmpty(objsList.get(0).getReference_number()) && objsList.get(0).getReference_number().compareTo(obj.getReference_number())!=0)
 					{
 						checkCnt=1;
 					}
-					if(objsList.get(0).getUtility_description().compareTo(obj.getUtility_description())!=0)
+					if(!StringUtils.isEmpty(objsList.get(0).getUtility_description()) && objsList.get(0).getUtility_description().compareTo(obj.getUtility_description())!=0)
 					{
 						checkCnt=1;
 					}
-					if(objsList.get(0).getOwner_name().compareTo(obj.getOwner_name())!=0)
+					if(!StringUtils.isEmpty(objsList.get(0).getOwner_name()) && objsList.get(0).getOwner_name().compareTo(obj.getOwner_name())!=0)
 					{
 						checkCnt=1;
 					}
-					if(objsList.get(0).getUtility_type_fk().compareTo(obj.getUtility_type_fk())!=0)
+					if(!StringUtils.isEmpty(objsList.get(0).getUtility_type_fk()) && objsList.get(0).getUtility_type_fk().compareTo(obj.getUtility_type_fk())!=0)
 					{
 						checkCnt=1;
 					}
-					if(objsList.get(0).getUtility_category_fk().compareTo(obj.getUtility_category_fk())!=0)
+					if(!StringUtils.isEmpty(objsList.get(0).getUtility_category_fk()) && objsList.get(0).getUtility_category_fk().compareTo(obj.getUtility_category_fk())!=0)
 					{
 						checkCnt=1;
 					}
-					if(objsList.get(0).getExecution_agency_fk().compareTo(obj.getExecution_agency_fk())!=0)
+					if(!StringUtils.isEmpty(objsList.get(0).getExecution_agency_fk()) && objsList.get(0).getExecution_agency_fk().compareTo(obj.getExecution_agency_fk())!=0)
 					{
 						checkCnt=1;
 					}
-					if(objsList.get(0).getPlanned_completion_date().compareTo(obj.getPlanned_completion_date())!=0)
+					if(!StringUtils.isEmpty(objsList.get(0).getPlanned_completion_date()) && objsList.get(0).getPlanned_completion_date().compareTo(obj.getPlanned_completion_date())!=0)
 					{
 						checkCnt=1;
 					}
@@ -1149,6 +1152,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 			}
 			
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new Exception(e);
 		}		
 		return checkCnt;
@@ -1167,7 +1171,9 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 					+ "reference_number=:reference_number, utility_description=:utility_description, utility_type_fk=:utility_type_fk, utility_category_fk=:utility_category_fk,"
 					+ " owner_name=:owner_name, execution_agency_fk=:execution_agency_fk, contract_id_fk=:contract_id_fk, start_date=:start_date, scope=:scope, completed=:completed,"
 					+ " shifting_status_fk=:shifting_status_fk, shifting_completion_date=:shifting_completion_date, remarks=:remarks, latitude=:latitude,"
-					+ " impacted_contract_id_fk=:impacted_contract_id_fk, requirement_stage_fk=:requirement_stage_fk, planned_completion_date=:planned_completion_date, unit_fk=:unit_fk,modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP "
+					+ " impacted_contract_id_fk=:impacted_contract_id_fk, requirement_stage_fk=:requirement_stage_fk, planned_completion_date=:planned_completion_date, unit_fk=:unit_fk,"
+					+ "modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP,"
+					+ "hod_user_id_fk=:hod_user_id_fk,custodian=:custodian,executed_by=:executed_by,impacted_element=:impacted_element,affected_structures=:affected_structures "
 					+ " WHERE id = :id";		 
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = template.update(qry, paramSource);			
@@ -1317,13 +1323,14 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 	public UtilityShifting getUtilityShifting(UtilityShifting obj) throws Exception {
 		UtilityShifting sobj = null;
 		try {
-			String qry = "SELECT s.*,(select executive_user_id_fk from utility_shifting_executives re where s.work_id_fk = re.work_id_fk and executive_user_id_fk = ?) as executive_user_id_fk,FORMAT(identification,'dd-MM-yyyy') as identification,FORMAT(start_date,'dd-MM-yyyy') as start_date,"
+			String qry = "SELECT distinct s.*,(select executive_user_id_fk from utility_shifting_executives re where s.work_id_fk = re.work_id_fk and executive_user_id_fk = ?) as executive_user_id_fk,FORMAT(identification,'dd-MM-yyyy') as identification,FORMAT(start_date,'dd-MM-yyyy') as start_date,"
 					+ "FORMAT(planned_completion_date,'dd-MM-yyyy') as planned_completion_date,FORMAT(shifting_completion_date,'dd-MM-yyyy') as shifting_completion_date,"
-					+ "p.project_name,w.work_short_name,c.contract_short_name,p.project_id as project_id_fk "
+					+ "p.project_name,w.work_short_name,c.contract_short_name,p.project_id as project_id_fk,"
+					+ "s.hod_user_id_fk,custodian,executed_by,impacted_element,affected_structures "
 					+ "from utility_shifting s "
-					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
-					+ "LEFT OUTER JOIN work w ON s.work_id_fk  = w.work_id "
-					+ "left join utility_shifting_executives us on s.work_id_fk = us.work_id_fk  "
+					+ "LEFT OUTER JOIN contract c ON s.impacted_contract_id_fk  = c.contract_id "
+					+ "LEFT OUTER JOIN work w ON c.work_id_fk  = w.work_id "
+					+ "left join utility_shifting_executives us on w.work_id = us.work_id_fk  "
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk  = p.project_id "
 					+ "where utility_shifting_id =? " ;
 			
@@ -1435,11 +1442,11 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 			String qry = "SELECT s.id, utility_shifting_id, s.work_id_fk,w.work_short_name,w.work_name,w.project_id_fk,p.project_name,c.contract_short_name,FORMAT(s.identification ,'dd-MM-yyyy') AS  identification, s.location_name, reference_number, utility_description, utility_type_fk, "
 					+ "utility_category_fk, s.owner_name, execution_agency_fk, contract_id_fk,  FORMAT(s.start_date ,'dd-MM-yyyy') AS start_date, s.scope, s.completed, s.shifting_status_fk, FORMAT(shifting_completion_date ,'dd-MM-yyyy') AS shifting_completion_date, "
 					+ "s.remarks, s.latitude, s.longitude, impacted_contract_id_fk, requirement_stage_fk, FORMAT(s.planned_completion_date ,'dd-MM-yyyy') AS planned_completion_date, unit_fk, s.created_by, s.created_date, s.modified_by,"
-					+ " s.modified_date from utility_shifting s "
-					+ "left join utility_shifting_executives us on s.work_id_fk = us.work_id_fk  "
-					+ "LEFT OUTER JOIN contract c ON s.contract_id_fk  = c.contract_id "
-					+ "LEFT OUTER JOIN work w ON s.work_id_fk = w.work_id "
+					+ " s.modified_date from utility_shifting s "					
+					+ "LEFT OUTER JOIN contract c ON s.impacted_contract_id_fk  = c.contract_id "
+					+ "LEFT OUTER JOIN work w ON c.work_id_fk = w.work_id "
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk = p.project_id "
+					+ "left join utility_shifting_executives us on w.work_id = us.work_id_fk  "
 					+ "where utility_shifting_id is not null " ;
 			int arrSize = 0;
 		
@@ -1467,7 +1474,9 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				qry = qry + " and us.executive_user_id_fk = ? ";
 				arrSize++;
-			}			
+			}	
+			
+			qry = qry + " group by utility_shifting_id";
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -1780,6 +1789,305 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 			throw new Exception(e);
 		}
 		return flag;
+	}
+
+	@Override
+	public List<UtilityShifting> getHodListForUtilityShifting(UtilityShifting obj) throws Exception {
+		List<UtilityShifting> objsList = null;
+		try {
+			String qry ="SELECT u.user_id as hod_user_id_fk,u.user_name,u.designation,u.department_fk,d.contract_id_code,u.reporting_to_id_srfk "
+					+ "FROM [user] u " 
+					+ "left join [user] u1 on u.reporting_to_id_srfk = u1.user_id "
+					+ "LEFT JOIN department d on u.department_fk = d.department "
+					+ "where  u.user_type_fk = ?  ";
+			
+			int arrSize = 1;
+			/*
+			 * if(!StringUtils.isEmpty(obj) &&
+			 * !StringUtils.isEmpty(obj.getDy_hod_user_id_fk()) &&
+			 * !obj.getUser_role_code().equals(CommonConstants.ROLE_CODE_IT_ADMIN)) { qry =
+			 * qry + " and u.user_id = ? "; arrSize++; }
+			 */
+			qry = qry + " ORDER BY case when u.designation='ED Civil' then 1 " + 
+					"   when u.designation='CPM I' then 2 " + 
+					"   when u.designation='CPM II' then 3" + 
+					"   when u.designation='CPM III' then 4 " + 
+					"   when u.designation='CPM V' then 5" + 
+					"   when u.designation='CE' then 6 " + 
+					"   when u.designation='ED S&T' then 7 " + 
+					"   when u.designation='CSTE' then 8" + 
+					"   when u.designation='GM Electrical' then 9" + 
+					"   when u.designation='CEE Project I' then 10" + 
+					"   when u.designation='CEE Project II' then 11" + 
+					"   when u.designation='ED Finance & Planning' then 12" + 
+					"   when u.designation='AGM Civil' then 13" + 
+					"   when u.designation='DyCPM Civil' then 14" + 
+					"   when u.designation='DyCPM III' then 15" + 
+					"   when u.designation='DyCPM V' then 16" + 
+					"   when u.designation='DyCE EE' then 17" + 
+					"   when u.designation='DyCE Badlapur' then 18" + 
+					"   when u.designation='DyCPM Pune' then 19" + 
+					"   when u.designation='DyCE Proj' then 20" + 
+					"   when u.designation='DyCEE I' then 21" + 
+					"   when u.designation='DyCEE Projects' then 22" + 
+					"   when u.designation='DyCEE PSI' then 23" + 
+					"   when u.designation='DyCSTE I' then 24" + 
+					"   when u.designation='DyCSTE IT' then 25" + 
+					"   when u.designation='DyCSTE Projects' then 26" + 
+					"   when u.designation='XEN Consultant' then 27" + 
+					"   when u.designation='AEN Adhoc' then 28" + 
+					"   when u.designation='AEN Project' then 29" + 
+					"   when u.designation='AEN P-Way' then 30" + 
+					"   when u.designation='AEN' then 31" + 
+					"   when u.designation='Sr Manager Signal' then 32 " + 
+					"   when u.designation='Manager Signal' then 33" + 
+					"   when u.designation='Manager Civil' then 34 " + 
+					"   when u.designation='Manager OHE' then 35" + 
+					"   when u.designation='Manager GS' then 36" + 
+					"   when u.designation='Manager Finance' then 37" + 
+					"   when u.designation='Planning Manager' then 38" + 
+					"   when u.designation='Manager Project' then 39" + 
+					"   when u.designation='Manager' then 40 " + 
+					"   when u.designation='SSE' then 41" + 
+					"   when u.designation='SSE Project' then 42" + 
+					"   when u.designation='SSE Works' then 43" + 
+					"   when u.designation='SSE Drg' then 44" + 
+					"   when u.designation='SSE BR' then 45" + 
+					"   when u.designation='SSE P-Way' then 46" + 
+					"   when u.designation='SSE OHE' then 47" + 
+					"   when u.designation='SPE' then 48" + 
+					"   when u.designation='PE' then 49" + 
+					"   when u.designation='JE' then 50" + 
+					"   when u.designation='Demo-HOD-Elec' then 51" + 
+					"   when u.designation='Demo-HOD-Engg' then 52" + 
+					"   when u.designation='Demo-HOD-S&T' then 53" + 
+					"" + 
+					"   end asc" ;
+
+			//qry = qry + " ORDER BY Field(u.designation, ED Civil,CPM I,CPM II,CPM III,CPM V,CE,ED S&T,CSTE,GM Electrical,GGM Civil,CEE Project I,CEE Project II,ED Finance & Planning)";
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			pValues[i++] = CommonConstants.USER_TYPE_HOD;
+			/*
+			 * if(!StringUtils.isEmpty(obj) &&
+			 * !StringUtils.isEmpty(obj.getDy_hod_user_id_fk()) &&
+			 * !obj.getUser_role_code().equals(CommonConstants.ROLE_CODE_IT_ADMIN)) {
+			 * pValues[i++] = obj.getDy_hod_user_id_fk(); }
+			 */
+			
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<UtilityShifting>(UtilityShifting.class));
+				
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<UtilityShifting> getImpactedContractsListForUtilityShifting(UtilityShifting obj) throws Exception {
+		List<UtilityShifting> objsList = null;
+		try {
+			String qry ="select distinct a.contract_id_fk,c.hod_user_id_fk,c.contract_name,w.work_code,c.contract_short_name,c.work_id_fk "
+					+ "from p6_activities a "
+					+ "left join contract c on c.contract_id = a.contract_id_fk "
+					+ "left join contract_executive c1 on c1.contract_id_fk = c.contract_id "
+					+ "left join work w on c.work_id_fk = w.work_id "
+					+ "left join utility_shifting u1 on u1.work_id_fk = w.work_id  "
+					+ "left join utility_shifting_executives us on u1.work_id_fk = us.work_id_fk  "					
+					+ "LEFT JOIN [user] u ON c.hod_user_id_fk= u.user_id "
+					+ "where a.contract_id_fk is not null ";
+			
+			int arrSize = 0;			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and c.work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + "and project_id_fk = ?";
+				arrSize++;
+			}			
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) 
+			{			
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+					qry = qry + " and c1.department_id_fk = ? and u.department_fk = ?";
+					arrSize++;
+					arrSize++;
+				}
+				qry = qry + " and us.executive_user_id_fk = ? ";
+				arrSize++;				
+			}			
+			qry = qry + " order by a.contract_id_fk asc";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}				
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) 
+			{			
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+					pValues[i++] = obj.getDepartment_fk();
+					pValues[i++] = obj.getDepartment_fk();
+				
+				}
+				pValues[i++] = obj.getUser_id();
+			}			
+				
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<UtilityShifting>(UtilityShifting.class));
+				
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<UtilityShifting> getReqStageList(UtilityShifting obj) throws Exception {
+		List<UtilityShifting> objsList = null;
+		try {
+			String qry ="select distinct a.component as requirement_stage_fk "
+					+ "from p6_activities a "
+					+ "left join contract c on c.contract_id = a.contract_id_fk "
+					+ "left join contract_executive c1 on c1.contract_id_fk = c.contract_id "
+					+ "left join work w on c.work_id_fk = w.work_id "
+					+ "left join utility_shifting u1 on u1.work_id_fk = w.work_id  "
+					+ "left join utility_shifting_executives us on u1.work_id_fk = us.work_id_fk  "					
+					+ "LEFT JOIN [user] u ON c.hod_user_id_fk= u.user_id "
+					+ "where a.component is not null ";
+			
+			int arrSize = 0;	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getImpacted_contract_id_fk())) {
+				qry = qry + " and a.contract_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and c.work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + "and project_id_fk = ?";
+				arrSize++;
+			}			
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) 
+			{			
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+					qry = qry + " and c1.department_id_fk = ? and u.department_fk = ?";
+					arrSize++;
+					arrSize++;
+				}
+				qry = qry + " and us.executive_user_id_fk = ? ";
+				arrSize++;				
+			}			
+			qry = qry + " order by a.component asc";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getImpacted_contract_id_fk())) {
+				pValues[i++] = obj.getImpacted_contract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}				
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) 
+			{			
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+					pValues[i++] = obj.getDepartment_fk();
+					pValues[i++] = obj.getDepartment_fk();
+				
+				}
+				pValues[i++] = obj.getUser_id();
+			}			
+				
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<UtilityShifting>(UtilityShifting.class));
+				
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<UtilityShifting> getImpactedElementList(UtilityShifting obj) throws Exception {
+		List<UtilityShifting> objsList = null;
+		try {
+			String qry ="select distinct a.component_id as impacted_element "
+					+ "from p6_activities a "
+					+ "left join contract c on c.contract_id = a.contract_id_fk "
+					+ "left join contract_executive c1 on c1.contract_id_fk = c.contract_id "
+					+ "left join work w on c.work_id_fk = w.work_id "
+					+ "left join utility_shifting u1 on u1.work_id_fk = w.work_id  "
+					+ "left join utility_shifting_executives us on u1.work_id_fk = us.work_id_fk  "					
+					+ "LEFT JOIN [user] u ON c.hod_user_id_fk= u.user_id "
+					+ "where a.component_id is not null ";
+			
+			int arrSize = 0;	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getRequirement_stage_fk())) {
+				qry = qry + " and a.component = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getImpacted_contract_id_fk())) {
+				qry = qry + " and a.contract_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and c.work_id_fk = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + "and project_id_fk = ?";
+				arrSize++;
+			}			
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) 
+			{			
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+					qry = qry + " and c1.department_id_fk = ? and u.department_fk = ?";
+					arrSize++;
+					arrSize++;
+				}
+				qry = qry + " and us.executive_user_id_fk = ? ";
+				arrSize++;				
+			}			
+			qry = qry + " order by a.component_id asc";
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getRequirement_stage_fk())) {
+				pValues[i++] = obj.getRequirement_stage_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getImpacted_contract_id_fk())) {
+				pValues[i++] = obj.getImpacted_contract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				pValues[i++] = obj.getProject_id_fk();
+			}				
+			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) 
+			{			
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
+					pValues[i++] = obj.getDepartment_fk();
+					pValues[i++] = obj.getDepartment_fk();
+				
+				}
+				pValues[i++] = obj.getUser_id();
+			}			
+				
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<UtilityShifting>(UtilityShifting.class));
+				
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
 	}
 
 	

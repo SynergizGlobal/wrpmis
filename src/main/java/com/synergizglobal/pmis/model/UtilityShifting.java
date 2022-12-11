@@ -23,6 +23,47 @@ public class UtilityShifting {
 	private List<UtilityShifting> utilityShiftingFilesList;
 	private List<UtilityShifting> utilityShiftingProgressDetailsList;
 	
+	private String custodian,executed_by,impacted_element,affected_structures,target_date,contract_id_code,reporting_to_id_srfk;
+
+	public String getCustodian() {
+		return custodian;
+	}
+
+	public void setCustodian(String custodian) {
+		this.custodian = custodian;
+	}
+
+	public String getExecuted_by() {
+		return executed_by;
+	}
+
+	public void setExecuted_by(String executed_by) {
+		this.executed_by = executed_by;
+	}
+
+	public String getImpacted_element() {
+		return impacted_element;
+	}
+
+	public void setImpacted_element(String impacted_element) {
+		this.impacted_element = impacted_element;
+	}
+
+	public String getAffected_structures() {
+		return affected_structures;
+	}
+
+	public void setAffected_structures(String affected_structures) {
+		this.affected_structures = affected_structures;
+	}
+
+	public String getTarget_date() {
+		return target_date;
+	}
+
+	public void setTarget_date(String target_date) {
+		this.target_date = target_date;
+	}
 
 	public String getUtilities() {
 		return utilities;
@@ -627,5 +668,21 @@ public class UtilityShifting {
 
 	public void setMail_body_header(String mail_body_header) {
 		this.mail_body_header = mail_body_header;
+	}
+
+	public String getContract_id_code() {
+		return contract_id_code;
+	}
+
+	public void setContract_id_code(String contract_id_code) {
+		this.contract_id_code = contract_id_code;
+	}
+
+	public String getReporting_to_id_srfk() {
+		return reporting_to_id_srfk;
+	}
+
+	public void setReporting_to_id_srfk(String reporting_to_id_srfk) {
+		this.reporting_to_id_srfk = reporting_to_id_srfk;
 	}
 }

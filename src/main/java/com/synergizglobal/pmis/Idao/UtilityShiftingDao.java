@@ -60,5 +60,13 @@ public interface UtilityShiftingDao {
 	List<UtilityShifting> getUtilityShiftingUploadsList(UtilityShifting obj) throws Exception;
 
 	boolean saveUSDataUploadFile(UtilityShifting obj) throws Exception;
+	
+	List<UtilityShifting> getHodListForUtilityShifting(UtilityShifting obj) throws Exception;
+
+	List<UtilityShifting> getImpactedContractsListForUtilityShifting(UtilityShifting obj) throws Exception;
+	
+	List<UtilityShifting> getReqStageList(UtilityShifting obj) throws Exception;
+
+	List<UtilityShifting> getImpactedElementList(UtilityShifting obj) throws Exception;
 
 }

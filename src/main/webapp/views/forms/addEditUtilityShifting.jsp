@@ -324,22 +324,22 @@
 						  						  
 						    <div class="container container-no-margin">
                             <div class="row" style="margin-top:1rem;">
-                                <div class="col s6 m4 l4 input-field">
+                                <div class="col s12 m3 l3 input-field">
                                 <p class="searchable_label"> Project </p>
                                     <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"
                                         onchange="getWorksList(this.value);">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${projectsList }">
-                                            <option value="${obj.project_id_fk }" <c:if test="${obj.project_id_fk eq utilityShifting.project_id_fk}">selected</c:if>>${obj.project_id_fk}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
+                                            <option value="${obj.project_id_fk }" <c:if test="${obj.project_id_fk eq utilityShifting.project_id_fk}">selected</c:if>>${utilityShifting.project_id_fk}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
                                         </c:forEach>
                                     </select>                                   
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
                                  <input type="hidden" id= "work_code" name= "work_code"/>
-                                <div class="col s6 m4 l4 input-field">
+                                <div class="col s12 m3 l3 input-field">
                                 <p class="searchable_label"> Work <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
-                                        onchange="getContractsList(this.value);">
+                                        onchange="getImpactedContractsList(this.value);">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${worksList }">
                                       	   <option name="${ obj.work_code}" value= "${ obj.work_id_fk}" <c:if test="${obj.work_id_fk eq utilityShifting.work_id_fk}">selected</c:if>>${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
@@ -347,7 +347,7 @@
                                     </select>
                                     <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 l4 input-field">
+                                <%-- <div class="col s12 m4 l4 input-field">
                                 	<p class="searchable_label"> Contract </p>
                                     <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="resetWorksAndProjectsDropdowns();">
                                         <option value="">Select</option>
@@ -356,68 +356,8 @@
                                          </c:forEach>
                                     </select>
                                     <span id="contract_id_fkError" class="error-msg" ></span>
-                                </div>
-							</div>
-							<input type="hidden" name="utility_shifting_id" id="utility_shifting_id" value="${utilityShifting.utility_shifting_id }"  />
-							  <input type="hidden" name="id" id="id" value="${utilityShifting.id }"  />
-							
-							<div class="row">
-								 <div class="col s12 m4 input-field">
-                                     <input id="identification" name="identification" type="text" class="validate datepicker" value="${utilityShifting.identification }">                                     
-                                     <label for="identification">Identification Date</label>
-	                                 <button type="button" id="identification_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> 											                              
-	                                 <span id="identificationError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s6 m4 input-field">
-                                     <input id="location_name" maxlength="50" data-length="50" name="location_name" type="text" class="validate w85 pdr4em" value="${utilityShifting.location_name }">                                     
-                                     <label for="location_name">Location Name<span class="required">*</span></label>
-	                                 <span id="location_nameError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s6 m4 input-field">
-                                    <input id="reference_number" maxlength="25" data-length="25" name="reference_number" type="text" class="validate w85 pdr4em" value="${utilityShifting.reference_number }">                                     
-                                     <label for="reference_number">Reference Number<span class="required">*</span> </label>
-	                                 <span id="reference_numberError" class="error-msg" ></span>
-                                </div>
-							</div>
-							<div class="row">
-								 <div class="col s6 m4 input-field">
-                                     <input id="latitude" maxlength="25" data-length="25" name="latitude" type="text" class="validate w85 pdr4em" value="${utilityShifting.latitude }">                                     
-                                     <label for="latitude">Chainage</label>
-	                                 <span id="latitudeError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s6 m4 input-field">
-                                     <input id="utility_description" maxlength="50" data-length="50" name="utility_description" type="text" class="validate w85 pdr4em" value="${utilityShifting.utility_description }">                                     
-                                     <label for="utility_description">Utility Description<span class="required">*</span></label>
-	                                 <span id="utility_descriptionError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s12 m4 input-field">
-                                    <input id="owner_name" maxlength="25" data-length="25" name="owner_name" type="text" class="validate w85 pdr4em" value="${utilityShifting.owner_name }">                                     
-                                     <label for="owner_name">Owner <span class="required">*</span></label>
-	                                 <span id="owner_nameError" class="error-msg" ></span>
-                                </div>
-							</div>
-							<div class="row">
-								<div class="col s6 m4 l4 input-field ">
-                                    <p class="searchable_label"> Utility Type <span class="required">*</span></p>
-                                    <select class="searchable validate-dropdown" id="utility_type_fk" name="utility_type_fk">
-                                         <option value="" >Select</option>
-                                        <c:forEach var="obj" items="${utilityTypeList }">
-                                      	   <option value= "${ obj.utility_type_fk}" <c:if test="${obj.utility_type_fk eq utilityShifting.utility_type_fk }">selected</c:if>>${obj.utility_type_fk}</option>
-                                         </c:forEach>
-                                    </select>
-                                    <span id="utility_type_fkError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s6 m4 l4 input-field">
-                                    <p class="searchable_label"> Category <span class="required">*</span></p>
-                                    <select class="searchable validate-dropdown" id="utility_category_fk" name="utility_category_fk" >
-                                        <option value="" >Select</option>
-                                        <c:forEach var="obj" items="${utilityCategoryList }">
-                                      	   <option value= "${ obj.utility_category_fk}" <c:if test="${obj.utility_category_fk eq utilityShifting.utility_category_fk }">selected</c:if>>${obj.utility_category_fk}</option>
-                                         </c:forEach>
-                                    </select>
-                                      <span id="utility_category_fkError" class="error-msg" ></span> 
-                                </div>
-                             	<div class="col s12 m4 l4 input-field">
+                                </div> --%>
+                                <div class="col s12 m3 l3 input-field">
                                     <p class="searchable_label"> Execution Agency <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="execution_agency_fk" name="execution_agency_fk" >
                                         <option value="" >Select</option>
@@ -427,28 +367,169 @@
                                     </select>
                                       <span id="execution_agency_fkError" class="error-msg" ></span>
                                 </div>
+                                <div class="col s12 m3 l3 input-field">
+                                    <p class="searchable_label"> HOD <span class="required">*</span></p>
+                                    <select class="searchable validate-dropdown" id="hod_user_id_fk" name="hod_user_id_fk" >
+                                        <option value="" >Select</option>
+                                        <c:forEach var="obj" items="${utilityHODList }">
+                                      	   <option value= "${ obj.hod_user_id_fk}" <c:if test="${obj.hod_user_id_fk eq utilityShifting.hod_user_id_fk }">selected</c:if>>${obj.hod_user_id_fk} - ${obj.user_name}</option>
+                                         </c:forEach>
+                                    </select>
+                                      <span id="hod_user_id_fkError" class="error-msg" ></span>
+                                </div>
+							</div>
+							<input type="hidden" name="utility_shifting_id" id="utility_shifting_id" value="${utilityShifting.utility_shifting_id }"  />
+							  <input type="hidden" name="id" id="id" value="${utilityShifting.id }"  />
+							
+							<div class="row">
+								 
+                                <div class="col s12 m3 l3 input-field ">
+                                    <p class="searchable_label"> Utility Type <span class="required">*</span></p>
+                                    <select class="searchable validate-dropdown" id="utility_type_fk" name="utility_type_fk">
+                                         <option value="" >Select</option>
+                                        <c:forEach var="obj" items="${utilityTypeList }">
+                                      	   <option value= "${ obj.utility_type_fk}" <c:if test="${obj.utility_type_fk eq utilityShifting.utility_type_fk }">selected</c:if>>${obj.utility_type_fk}</option>
+                                         </c:forEach>
+                                    </select>
+                                    <span id="utility_type_fkError" class="error-msg" ></span>
+                                </div>
+                                <div class="col s12 m3 l3 input-field">
+                                     <input id="utility_description" maxlength="50" data-length="50" name="utility_description" type="text" class="validate w85 pdr3em" value="${utilityShifting.utility_description }">                                     
+                                     <label for="utility_description">Utility Description<span class="required">*</span></label>
+	                                 <span id="utility_descriptionError" class="error-msg" ></span>
+                                </div>
+                                <div class="col s12 m3 l3 input-field">
+                                     <input id="location_name" maxlength="50" data-length="50" name="location_name" type="text" class="validate w85 pdr3em" value="${utilityShifting.location_name }">                                     
+                                     <label for="location_name">Location Name<span class="required">*</span></label>
+	                                 <span id="location_nameError" class="error-msg" ></span>
+                                </div>
+                               
+                                <div class="col s12 m3 l3 input-field">
+                                    <input id="custodian" maxlength="100" data-length="100" name="custodian" type="text" class="validate w85 pdr3em" value="${utilityShifting.custodian }">                                     
+                                     <label for="custodian">Custodian </label>
+	                                 <span id="custodianError" class="error-msg" ></span>
+                                </div>
 							</div>
 							<div class="row">
-								<div class="col s6 m3 l3 input-field ">
-                                    <p class="searchable_label mb-8"> Impacted Contract </p>
-                                    <select class="searchable validate-dropdown" id="impacted_contract_id_fk" name="impacted_contract_id_fk"  >
+								<div class="col s12 m3 l3 input-field">
+                                     <input id="identification" name="identification" type="text" class="validate datepicker" value="${utilityShifting.identification }">                                     
+                                     <label for="identification">Identification Date</label>
+	                                 <button type="button" id="identification_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> 											                              
+	                                 <span id="identificationError" class="error-msg" ></span>
+                                </div>
+                                 <div class="col s12 m3 l3 input-field">
+                                    <input id="reference_number" maxlength="25" data-length="25" name="reference_number" type="text" class="validate w85 pdr3em" value="${utilityShifting.reference_number }">                                     
+                                     <label for="reference_number">Reference Number<span class="required">*</span> </label>
+	                                 <span id="reference_numberError" class="error-msg" ></span>
+                                </div>
+								 <div class="col s12 m3 l3 input-field">
+                                     <input id="latitude" maxlength="25" data-length="25" name="latitude" type="text" class="validate w85 pdr3em" value="${utilityShifting.latitude }">                                     
+                                     <label for="latitude">Chainage</label>
+	                                 <span id="latitudeError" class="error-msg" ></span>
+                                </div>
+                                
+                                <%-- <div class="col s12 m3 l3 input-field">
+                                    <input id="owner_name" maxlength="25" data-length="25" name="owner_name" type="text" class="validate w85 pdr3em" value="${utilityShifting.owner_name }">                                     
+                                     <label for="owner_name">Owner <span class="required">*</span></label>
+	                                 <span id="owner_nameError" class="error-msg" ></span>
+                                </div> --%>
+                                <div class="col s12 m3 l3 input-field">
+                                    <input id="executed_by" maxlength="100" data-length="100" name="executed_by" type="text" class="validate w85 pdr3em" value="${utilityShifting.executed_by }">                                     
+                                     <label for="executed_by">Executed by </label>
+	                                 <span id="executed_byError" class="error-msg" ></span>
+                                </div>
+							</div>
+							<div class="row">
+								<%-- <div class="col s6 m4 l4 input-field ">
+                                    <p class="searchable_label"> Utility Type <span class="required">*</span></p>
+                                    <select class="searchable validate-dropdown" id="utility_type_fk" name="utility_type_fk">
+                                         <option value="" >Select</option>
+                                        <c:forEach var="obj" items="${utilityTypeList }">
+                                      	   <option value= "${ obj.utility_type_fk}" <c:if test="${obj.utility_type_fk eq utilityShifting.utility_type_fk }">selected</c:if>>${obj.utility_type_fk}</option>
+                                         </c:forEach>
+                                    </select>
+                                    <span id="utility_type_fkError" class="error-msg" ></span>
+                                </div> --%>
+                                <%-- <div class="col s6 m4 l4 input-field">
+                                    <p class="searchable_label"> Category <span class="required">*</span></p>
+                                    <select class="searchable validate-dropdown" id="utility_category_fk" name="utility_category_fk" >
+                                        <option value="" >Select</option>
+                                        <c:forEach var="obj" items="${utilityCategoryList }">
+                                      	   <option value= "${ obj.utility_category_fk}" <c:if test="${obj.utility_category_fk eq utilityShifting.utility_category_fk }">selected</c:if>>${obj.utility_category_fk}</option>
+                                         </c:forEach>
+                                    </select>
+                                      <span id="utility_category_fkError" class="error-msg" ></span> 
+                                </div> --%>
+							</div>
+							<div class="row">
+								<div class="col s12 m3 l3 input-field ">
+                                    <p class="searchable_label mb-8"> Impacted Contract <span class="required">*</span></p>
+                                    <select class="searchable validate-dropdown" id="impacted_contract_id_fk" name="impacted_contract_id_fk" 
+                                    onchange="getRequirementStageList(this.value);" >
                                         <option value="">Select</option>
-                                        <c:forEach var="obj" items="${contractsList }">
+                                        <c:forEach var="obj" items="${impactedContractsList }">
                                       	   <option  value= "${ obj.contract_id_fk}" <c:if test="${obj.contract_id_fk eq utilityShifting.impacted_contract_id_fk }">selected</c:if>>${obj.contract_id_fk}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
                                          </c:forEach>
                                     </select>
                                     <span id="impacted_contract_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m3 l3 input-field">
-                                    <p class="searchable_label mb-8"> Requirement stage </p>
-                                    <select class="searchable validate-dropdown" id="requirement_stage_fk" name="requirement_stage_fk" >
+                                <div class="col s12 m3 l3 input-field">
+                                    <p class="searchable_label mb-8"> Requirement stage <span class="required">*</span></p>
+                                    <select class="searchable validate-dropdown" id="requirement_stage_fk" name="requirement_stage_fk" 
+                                    onchange="getImpactedElementList(this.value);">
                                         <option value="" >Select</option>
-                                        <c:forEach var="obj" items="${requirementStageList }">
+                                        <c:forEach var="obj" items="${reqStageList }">
                                       	   <option value= "${ obj.requirement_stage_fk}" <c:if test="${obj.requirement_stage_fk eq utilityShifting.requirement_stage_fk }">selected</c:if>>${obj.requirement_stage_fk}</option>
                                          </c:forEach>
                                     </select>
                                       <span id="requirement_stage_fkError" class="error-msg" ></span>
                                 </div>
+                                <div class="col s12 m3 l3 input-field">
+                                    <p class="searchable_label mb-8"> Impacted Element <span class="required">*</span></p>
+                                    <select class="searchable validate-dropdown" id="impacted_element" name="impacted_element" >
+                                        <option value="" >Select</option>
+                                        <c:forEach var="obj" items="${impactedElementList }">
+                                      	   <option value= "${ obj.impacted_element}" <c:if test="${obj.impacted_element eq utilityShifting.impacted_element }">selected</c:if>>${obj.impacted_element}</option>
+                                         </c:forEach>
+                                    </select>
+                                      <span id="impacted_elementError" class="error-msg" ></span>
+                                </div>
+                                <div class="col s12 m3 l3 input-field">
+                                     <input id="affected_structures" maxlength="100" data-length="100" name="affected_structures" type="text" class="validate w85 pdr3em" value="${utilityShifting.affected_structures }" >                                     
+                                     <label for="affected_structures">Affected Structures <span class="required">*</span></label>
+	                                 <span id="affected_structuresError" class="error-msg" ></span>
+                                </div>
+							</div>
+							<div class="row">
+                                <div class="col s12 m3 l3 input-field">
+                                     <input id="planned_completion_date" name="planned_completion_date" type="text" class="validate datepicker" value="${utilityShifting.planned_completion_date }">                                     
+                                     <label for="planned_completion_date">Target Date <span class="required">*</span></label>
+	                                 <button type="button" id="planned_completion_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> 											                              
+	                                 <span id="planned_completion_dateError" class="error-msg" ></span> 
+                                </div>
+                                <div class="col s12 m2 l3 input-field">
+                                     <input id="scope" maxlength="25" data-length="25" name="scope" type="number" class="validate w85 pdr3em num" value="${utilityShifting.scope }" onkeypress='return restrictAlphabets(event)' onkeyup='scopeValidation();'>                                     
+                                     <label for="scope">Scope <span class="required"></span></label>
+	                                 <span id="scopeError" class="error-msg" ></span>
+                                </div>
+                                <div class="col s6 m2 l3 input-field">
+                                     <input id="completed" maxlength="25" data-length="25" name="completed" type="number" class="validate w100 pdr2em num" value="${utilityShifting.completed }" onkeypress='return restrictAlphabets(event)' onkeyup='scopeValidation();'>                                     
+                                     <label for="completed">Completed <span class="required"></span></label>
+	                                 <span id="completedError" class="error-msg" ></span>
+                                </div>
+                                <div class="col s6 m2 l3 input-field">
+                                    <p class="searchable_label mb-8"> Unit <span class="required" id="unit"></span></p>
+                                    <select class="searchable validate-dropdown" id="unit_fk" name="unit_fk" >
+                                        <option value="" >Select</option>
+                                        <c:forEach var="obj" items="${unitList }">
+                                      	   <option value= "${ obj.unit_fk}" <c:if test="${obj.unit_fk eq utilityShifting.unit_fk }">selected</c:if>>${obj.unit_fk}</option>
+                                         </c:forEach>
+                                    </select>
+                                      <span id="unit_fkError" class="error-msg" ></span>
+                                </div>
+							</div>
+							<%-- <div class="row">
+								
                              	<div class="col s12 m3 l3 input-field">
                                      <input id="planned_completion_date" name="planned_completion_date" type="text" class="validate datepicker" value="${utilityShifting.planned_completion_date }">                                     
                                      <label for="planned_completion_date">Planned Completion <span class="required">*</span></label>
@@ -461,14 +542,14 @@
 	                                 <button type="button" id="start_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> 											                              
 	                                 <span id="start_dateError" class="error-msg" ></span>
                                 </div>
-							</div>
+							</div> --%>
 							<div class="row">
-								<div class="col s6 m2 l2 input-field">
+								<%-- <div class="col s6 m2 l2 input-field">
                                      <input id="scope" maxlength="25" data-length="25" name="scope" type="number" class="validate w65 pdr3em num" value="${utilityShifting.scope }" onkeypress='return restrictAlphabets(event)' onkeyup='scopeValidation();'>                                     
                                      <label for="scope">Scope <span class="required"></span></label>
 	                                 <span id="scopeError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s6 m2 l2 input-field">
+                                </div> --%>
+                                <%-- <div class="col s6 m2 l2 input-field">
                                      <input id="completed" maxlength="25" data-length="25" name="completed" type="number" class="validate w65 pdr3em num" value="${utilityShifting.completed }" onkeypress='return restrictAlphabets(event)' onkeyup='scopeValidation();'>                                     
                                      <label for="completed">Completed <span class="required"></span></label>
 	                                 <span id="completedError" class="error-msg" ></span>
@@ -482,8 +563,14 @@
                                          </c:forEach>
                                     </select>
                                       <span id="unit_fkError" class="error-msg" ></span>
+                                </div> --%>
+                                <div class="col s12 m3 l3 input-field">
+                                     <input id="start_date" name="start_date" type="text" class="validate datepicker" value="${utilityShifting.start_date }">                                     
+                                     <label for="start_date">Start Date <span class="required"></span></label>
+	                                 <button type="button" id="start_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> 											                              
+	                                 <span id="start_dateError" class="error-msg" ></span>
                                 </div>
-                             	<div class="col s6 m2 l2 input-field">
+                             	<div class="col s12 m3 l3 input-field">
                                     <p class="searchable_label mb-8"> Status <span class="required"></span></p>
                                     <select class="searchable validate-dropdown" id="shifting_status_fk" name="shifting_status_fk" >
                                         <option value="" >Select</option>
@@ -493,9 +580,10 @@
                                     </select>
                                       <span id="shifting_status_fkError" class="error-msg" ></span>
                                 </div>
-                             	<div class="col s12 m4 l4 input-field">
+                                
+                             	<div class="col s12 m3 l3 input-field">
                                      <input id="shifting_completion_date" name="shifting_completion_date" type="text" class="validate datepicker" value="${utilityShifting.shifting_completion_date }">                                     
-                                     <label for="shifting_completion_date">Shifting Completed <span class="required"></span></label>
+                                     <label for="shifting_completion_date">Completion Date <span class="required"></span></label>
 	                                 <button type="button" id="shifting_completion_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> 											                              
 	                                 <span id="shifting_completion_dateError" class="error-msg" ></span>
                                 </div>
@@ -921,6 +1009,25 @@
 			$('#unit').text('*');   
 
     	} 
+         
+        var project_id_fk = "${utilityShifting.project_id_fk}";
+        var work_id_fk = "${utilityShifting.work_id_fk}";
+        var impacted_contract_id_fk = "${utilityShifting.impacted_contract_id_fk}";
+        var requirement_stage_fk = "${utilityShifting.requirement_stage_fk}";
+        var impacted_element = "${utilityShifting.impacted_element}";
+        
+        if($.trim(project_id_fk) != '' ){
+        	getWorksList(project_id_fk);
+        }
+        if($.trim(work_id_fk) != '' ){
+        	getImpactedContractsList(work_id_fk);
+        }
+        if($.trim(impacted_contract_id_fk) != '' ){
+        	getRequirementStageList(impacted_contract_id_fk);
+        }
+        if($.trim(requirement_stage_fk) != '' ){
+        	getImpactedElementList(requirement_stage_fk);
+        }
         
    });
    
@@ -1025,7 +1132,8 @@
     
     function removeProgressDetailsRow(rowNo){
     	$("#progressDetailsRow"+rowNo).remove();
-    }
+    }   
+    
     
     function getWorksList(projectId) {
     	$(".page-loader").show();
@@ -1042,7 +1150,12 @@
                         $.each(data, function (i, val) {
                             var workShortName = '';
                             if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
-                            $("#work_id_fk").append('<option name = "' + val.work_code + '" value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk) + $.trim(workShortName) + '</option>');
+                            var work_id_fk_exists = "${utilityShifting.work_id_fk}";
+                            var selected = '';
+                            if(work_id_fk_exists == val.work_id_fk){
+                            	selected = 'selected';
+                            }
+                            $("#work_id_fk").append('<option name = "' + val.work_code + '" value="' + val.work_id_fk + '" '+selected+'>' + $.trim(val.work_id_fk) + $.trim(workShortName) + '</option>');
                         });
                     }
                     $('.searchable').select2();
@@ -1083,14 +1196,50 @@
         }
     }   
     
+  //geting contracts list    
+    function getImpactedContractsList(work_id_fk) {
+    	var work_code =   $('#work_id_fk option:selected').attr('name');
+		$("#work_code").val(work_code);
+    	$(".page-loader").show();
+        $("#impacted_contract_id_fk option:not(:first)").remove();
+        $("#requirement_stage_fk option:not(:first)").remove();
+        $("#impacted_element option:not(:first)").remove();
+        
+        if ($.trim(work_id_fk) != "") {
+            var myParams = { work_id_fk: work_id_fk };
+            $.ajax({
+            	url: "<%=request.getContextPath()%>/ajax/getImpactedContractsListForUSForm",
+                data: myParams, cache: false,
+                success: function (data) {
+                    if (data.length > 0) {
+                        $.each(data, function (i, val) {
+                        	var contract_short_name = '';
+                            if ($.trim(val.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(val.contract_short_name) }
+                            var impacted_contract_id_fk_exists = "${utilityShifting.impacted_contract_id_fk}";
+                            var selected = '';
+                            if(impacted_contract_id_fk_exists == val.contract_id_fk){
+                            	selected = 'selected';
+                            }
+                            $("#impacted_contract_id_fk").append('<option  workId="'+val.work_id_fk +'" hod_user_id="'+val.hod_user_id_fk +'" value="' + val.contract_id_fk + '" '+selected+'>' + $.trim(val.contract_id_fk) + $.trim(contract_short_name) + '</option>');
+                        });
+                    }
+                    $('.searchable').select2();
+                    $(".page-loader").hide();
+                }
+            });
+        }else{
+        	$(".page-loader").hide();
+        }
+    } 
+    
     function resetWorksAndProjectsDropdowns(){
     	$(".page-loader").show();        	
     	var projectId = '';
     	var workId = ''
-   		var contract_id_fk = $("#contract_id_fk").val();
+   		var contract_id_fk = $("#impacted_contract_id_fk").val();
    		if($.trim(contract_id_fk) != ''){        			
    			
-        	var workId = $("#contract_id_fk").find('option:selected').attr("workId");
+        	var workId = $("#impacted_contract_id_fk").find('option:selected').attr("workId");
         	projectId = workId.substring(0, 3);    
    			//workId = workId.substring(3, work_id.length);
    			$("#project_id_fk").val(projectId);
@@ -1122,7 +1271,70 @@
             });
             $('.searchable').select2();
         }       		
-    }        
+    }      
+    
+    
+    
+    function getRequirementStageList(impacted_contract_id_fk) {
+    	$(".page-loader").show();
+        $("#requirement_stage_fk option:not(:first)").remove();
+        $("#impacted_element option:not(:first)").remove();
+        
+        if ($.trim(impacted_contract_id_fk) != "") {
+            var myParams = { impacted_contract_id_fk: impacted_contract_id_fk };
+            $.ajax({
+            	url: "<%=request.getContextPath()%>/ajax/getReqStageListForUSForm",
+                data: myParams, cache: false,
+                success: function (data) {
+                    if (data.length > 0) {
+                        $.each(data, function (i, val) {
+                        	var requirement_stage_fk_exists = "${utilityShifting.requirement_stage_fk}";
+                            var selected = '';
+                            if(requirement_stage_fk_exists == val.requirement_stage_fk){
+                            	selected = 'selected';
+                            }
+                        	$("#requirement_stage_fk").append('<option value="' + val.requirement_stage_fk + '" '+selected+'>' + $.trim(val.requirement_stage_fk) + '</option>');
+                        });
+                    }
+                    $('.searchable').select2();
+                    $(".page-loader").hide();
+                }
+            });
+        }else{
+        	$(".page-loader").hide();
+        }
+    } 
+    
+    function getImpactedElementList(requirement_stage_fk) {
+    	$(".page-loader").show();
+        $("#impacted_element option:not(:first)").remove();
+        var impacted_contract_id_fk = $("#impacted_contract_id_fk").val();
+        
+        if ($.trim(requirement_stage_fk) != "") {
+            var myParams = { impacted_contract_id_fk: impacted_contract_id_fk,requirement_stage_fk: requirement_stage_fk };
+            $.ajax({
+            	url: "<%=request.getContextPath()%>/ajax/getImpactedElementListForUSForm",
+                data: myParams, cache: false,
+                success: function (data) {
+                    if (data.length > 0) {
+                        $.each(data, function (i, val) {
+                        	var impacted_element_exists = "${utilityShifting.impacted_element}";
+                            var selected = '';
+                            if(impacted_element_exists == val.impacted_element){
+                            	selected = 'selected';
+                            }
+                        	$("#impacted_element").append('<option value="' + val.impacted_element + '" '+selected+'>' + $.trim(val.impacted_element) + '</option>');
+                        });
+                    }
+                    $('.searchable').select2();
+                    $(".page-loader").hide();
+                }
+            });
+        }else{
+        	$(".page-loader").hide();
+        }
+    }
+    
     
     $('form').on('reset', function () {
         $(".searchable").trigger("change");
@@ -1173,7 +1385,7 @@
 				 	  },"impacted_contract_id_fk": {
 				 		required: false
 				 	  },"requirement_stage_fk": {
-				 		required: false
+				 		required: true
 				 	  },"planned_completion_date": {
 				 		required: true
 				 	  },"shifting_completion_date": {
@@ -1190,6 +1402,17 @@
 				 		 required:false
 			 	   	  },"shifting_status_fk": {
 				 		required: false
+				 	  },
+				 	  "hod_user_id_fk":{	
+				 		 required: true
+				 	  },"custodian": {
+				 		 required: true
+			 	   	  },"executed_by": {
+			 	   		required: true
+				 	  },"impacted_element": {
+				 		 required: true
+			 	   	  },"affected_structures": {
+				 		required: true
 				 	  }
 				 				
 			 	},
@@ -1236,7 +1459,18 @@
   			 		    required: 'Required'
   			 	   	  },"shifting_status_fk": {
   				 		required: 'Required'
-  				 	  }  			 				      
+  				 	  },
+				 	  "hod_user_id_fk":{	
+				 		 required: 'Required'
+				 	  },"custodian": {
+				 		 required: 'Required'
+			 	   	  },"executed_by": {
+			 	   		required: 'Required'
+				 	  },"impacted_element": {
+				 		 required: 'Required'
+			 	   	  },"affected_structures": {
+			 	   		required: 'Required'
+				 	  }			 				      
 		    },
 			  errorPlacement:
 			 	function(error, element){
@@ -1307,6 +1541,22 @@
   			 		     document.getElementById("shifting_status_fkError").innerHTML="";
   			 			 error.appendTo('#shifting_status_fkError');
   			 	    }
+  			 	    else if (element.attr("id") == "hod_user_id_fk" ){
+			 		     document.getElementById("hod_user_id_fkError").innerHTML="";
+			 			 error.appendTo('#hod_user_id_fkError');
+			 	    }else if (element.attr("id") == "custodian" ){
+			 		     document.getElementById("custodianError").innerHTML="";
+			 			 error.appendTo('#custodianError');
+			 	    }else if (element.attr("id") == "executed_by" ){
+			 		     document.getElementById("executed_byError").innerHTML="";
+			 			 error.appendTo('#executed_byError');
+			 	    }else if (element.attr("name") == "impacted_element" ){
+			 		     document.getElementById("impacted_elementError").innerHTML="";
+			 			 error.appendTo('#impacted_elementError');
+			 	    }else if (element.attr("id") == "affected_structures" ){
+			 		     document.getElementById("affected_structuresError").innerHTML="";
+			 			 error.appendTo('#affected_structuresError');
+			 	    }
 			 },invalidHandler: function (form, validator) {
                  var errors = validator.numberOfInvalids();
                  if (errors) {

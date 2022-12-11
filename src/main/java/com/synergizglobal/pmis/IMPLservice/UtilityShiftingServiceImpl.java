@@ -147,6 +147,26 @@ public class UtilityShiftingServiceImpl implements UtilityShiftingService {
 	@Override
 	public boolean saveUSDataUploadFile(UtilityShifting obj) throws Exception {
 		return utilityShiftingDao.saveUSDataUploadFile(obj);
+	}
+
+	@Override
+	public List<UtilityShifting> getHodListForUtilityShifting(UtilityShifting obj) throws Exception {
+		return utilityShiftingDao.getHodListForUtilityShifting(obj);
+	}
+
+	@Override
+	public List<UtilityShifting> getImpactedContractsListForUtilityShifting(UtilityShifting obj) throws Exception {
+		return utilityShiftingDao.getImpactedContractsListForUtilityShifting(obj);
+	}
+
+	@Override
+	public List<UtilityShifting> getReqStageList(UtilityShifting obj) throws Exception {
+		return utilityShiftingDao.getReqStageList(obj);
+	}
+
+	@Override
+	public List<UtilityShifting> getImpactedElementList(UtilityShifting obj) throws Exception {
+		return utilityShiftingDao.getImpactedElementList(obj);
 	}	
 	
 }

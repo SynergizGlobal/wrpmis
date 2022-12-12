@@ -45,7 +45,7 @@ public class WorkModuleUserAccessController {
 			List<WorkModuleUserAccess> modulesList = service.getModulesList(obj);
 			model.addObject("modulesList", modulesList);
 			
-			List<WorkModuleUserAccess> worksList = service.getWorksList(obj);
+			List<WorkModuleUserAccess> worksList = service.getWorksList(obj); 
 			model.addObject("worksList", worksList);
 			
 			List<WorkModuleUserAccess> usersDetails = service.getUsersDetails(obj);
@@ -99,9 +99,21 @@ public class WorkModuleUserAccessController {
 			logger.error("getWorkModuleWiseUsers : " + e.getMessage());
 		}
 		return worksList;
-	}	
+	}
 	
-	
+	@RequestMapping(value = "/ajax/addWorkModuleUserAccess", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<WorkModuleUserAccess> addWorkModuleUserAccess(@ModelAttribute WorkModuleUserAccess obj,HttpSession session) {
+		List<WorkModuleUserAccess> worksList = null;  
+		try {
+			worksList = service.addUpdateWorkModuleUserAccess(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getWorkModuleWiseUsers : " + e.getMessage());
+		}
+		return worksList;
+	}
+
 	
 	@RequestMapping(value = "/add-work-module-user-access", method = {RequestMethod.POST})
 	@ResponseBody

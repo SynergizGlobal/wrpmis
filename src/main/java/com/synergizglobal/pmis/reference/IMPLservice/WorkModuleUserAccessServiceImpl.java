@@ -69,4 +69,10 @@ public class WorkModuleUserAccessServiceImpl implements WorkModuleUserAccessServ
 		return dao.getUsersDetails(obj);
 	}
 	
+	@Override
+	public List<WorkModuleUserAccess> addUpdateWorkModuleUserAccess(WorkModuleUserAccess obj) throws Exception
+	{
+		return dao.addUpdateWorkModuleUserAccess(obj);
+	}
+	
 }

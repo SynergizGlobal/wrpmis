@@ -28,4 +28,6 @@ public interface WorkModuleUserAccessDao {
 
 	public List<WorkModuleUserAccess> getUsersDetails(WorkModuleUserAccess obj)  throws Exception;
 
+	public List<WorkModuleUserAccess> addUpdateWorkModuleUserAccess(WorkModuleUserAccess obj) throws Exception;
+
 }

@@ -1,5 +1,7 @@
 package com.synergizglobal.pmis.reference.IMPLdao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -11,11 +13,17 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.util.StringUtils;
 
+import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.Dashboard;
+import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.FortnightPlan;
 import com.synergizglobal.pmis.model.LandAcquisition;
 import com.synergizglobal.pmis.model.RandRMain;
@@ -29,6 +37,9 @@ public class WorkModuleUserAccessDaoImpl implements WorkModuleUserAccessDao{
 	
 	@Autowired
 	JdbcTemplate jdbcTemplate ;
+	
+	@Autowired
+	DataSourceTransactionManager transactionManager;	
 
 	@Override
 	public List<WorkModuleUserAccess> getWorkModuleUserAccesssList() throws Exception {
@@ -260,10 +271,10 @@ public class WorkModuleUserAccessDaoImpl implements WorkModuleUserAccessDao{
 	public List<WorkModuleUserAccess> getWorksList(WorkModuleUserAccess obj) throws Exception {
 		List<WorkModuleUserAccess> objsList = new ArrayList<WorkModuleUserAccess>();
 		try {
-			String qry = "select top 5 work_id as work_id_fk,work_name,work_short_name "
+			String qry = "select work_id as work_id_fk,work_name,work_short_name "
 					+ "from work w "
 					+ "LEFT OUTER JOIN project p ON project_id_fk = project_id "
-					+ "where work_id is not null and w.work_id in('P04W01','P04W02','P04W03') ";
+					+ "where work_id is not null ";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
@@ -308,153 +319,126 @@ public class WorkModuleUserAccessDaoImpl implements WorkModuleUserAccessDao{
 		List<WorkModuleUserAccess> objsList = new ArrayList<WorkModuleUserAccess>();
 		try {
 			int arrSize = 0;
-			Object[] pValues = new Object[arrSize];
 			String qry ="";
 			
-			if(obj.getModule_name_fk().compareTo("Contracts")==0)
-			{
-				qry = "SELECT  work_id_fk, work_short_name, STRING_AGG(u.user_name , ',') user_name,STRING_AGG(u.user_id , ',') user_id FROM contractexecutives re "
+
+				qry = "SELECT  work_id_fk, work_short_name, STRING_AGG(u.user_name , ',') user_name,STRING_AGG(u.user_id , ',') user_id,'Contracts' as module_name_fk FROM contractexecutives re "
 						+ "LEFT JOIN [user] u on re.executive_user_id_fk = u.user_id "
-						+ "left join work w on re.work_id_fk = w.work_id ";
+						+ "left join work w on re.work_id_fk = w.work_id where 0=0 ";
 				
 				
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-					qry = qry + " and w.work_id = ? ";
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+					qry = qry + " and w.project_id_fk = ? ";
+					arrSize++;
+				}	
+
+				
+				qry = qry + " GROUP BY work_id_fk,work_short_name union all ";
+			
+			
+
+				qry = qry +  "SELECT  work_id_fk, work_short_name, STRING_AGG(u.user_name , ',') user_name,STRING_AGG(u.user_id , ',') user_id,'Utility Shifting' as module_name_fk FROM utility_shifting_executives re "
+						+ "LEFT JOIN [user] u on re.executive_user_id_fk = u.user_id "
+						+ "left join work w on re.work_id_fk = w.work_id  where 0=0 ";
+				
+				
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+					qry = qry + " and w.project_id_fk = ? ";
 					arrSize++;
 				}	
 	
+
 				
-				int i = 0;
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-					pValues[i++] = obj.getWork_id_fk();
-				}
-				
-				qry = qry + " GROUP BY work_id_fk,work_short_name order by work_id_fk asc";
-			}
+				qry = qry + " GROUP BY work_id_fk,work_short_name union all ";
+					
 			
-			if(obj.getModule_name_fk().compareTo("Utility Shifting")==0)
-			{
-				qry = "SELECT  work_id_fk, work_short_name, STRING_AGG(u.user_name , ',') user_name,STRING_AGG(u.user_id , ',') user_id FROM utility_shifting_executives re "
-						+ "LEFT JOIN [user] u on re.executive_user_id_fk = u.user_id "
-						+ "left join work w on re.work_id_fk = w.work_id ";
-				
-				
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-					qry = qry + " and w.work_id = ? ";
-					arrSize++;
-				}	
-	
-				
-				int i = 0;
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-					pValues[i++] = obj.getWork_id_fk();
-				}
-				
-				qry = qry + " GROUP BY work_id_fk,work_short_name order by work_id_fk asc";
-			}		
-			
-			if(obj.getModule_name_fk().compareTo("Risk")==0)
-			{
-				qry = "SELECT  work_id_fk, work_short_name, STRING_AGG(u.user_name , ',') user_name,STRING_AGG(u.user_id , ',') user_id FROM risk_work_hod re "
+
+				qry = qry + "SELECT  work_id_fk, work_short_name, STRING_AGG(u.user_name , ',') user_name,STRING_AGG(u.user_id , ',') user_id,'Risk' as module_name_fk FROM risk_work_hod re "
 						+ "LEFT JOIN [user] u on re.hod_user_id_fk = u.user_id "
-						+ "left join work w on re.work_id_fk = w.work_id ";
+						+ "left join work w on re.work_id_fk = w.work_id  where 0=0 ";
 				
 				
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-					qry = qry + " and w.work_id = ? ";
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+					qry = qry + " and w.project_id_fk = ? ";
 					arrSize++;
 				}	
 	
+
 				
-				int i = 0;
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-					pValues[i++] = obj.getWork_id_fk();
-				}
-				
-				qry = qry + " GROUP BY work_id_fk,work_short_name order by work_id_fk asc";
-			}
+				qry = qry + " GROUP BY work_id_fk,work_short_name union all ";
 			
-			if(obj.getModule_name_fk().compareTo("R & R")==0)
-			{
-				qry = "SELECT  work_id_fk, work_short_name, STRING_AGG(u.user_name , ',') user_name,STRING_AGG(u.user_id , ',') user_id FROM rr_executives re "
+			
+
+				qry = qry + "SELECT  work_id_fk, work_short_name, STRING_AGG(u.user_name , ',') user_name,STRING_AGG(u.user_id , ',') user_id,'R & R' as module_name_fk FROM rr_executives re "
 						+ "LEFT JOIN [user] u on re.executive_user_id_fk = u.user_id "
-						+ "left join work w on re.work_id_fk = w.work_id ";
+						+ "left join work w on re.work_id_fk = w.work_id  where 0=0 ";
 				
 				
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-					qry = qry + " and w.work_id = ? ";
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+					qry = qry + " and w.project_id_fk = ? ";
 					arrSize++;
 				}	
 	
+
 				
-				int i = 0;
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-					pValues[i++] = obj.getWork_id_fk();
-				}
-				
-				qry = qry + " GROUP BY work_id_fk,work_short_name order by work_id_fk asc";
-			}
+				qry = qry + " GROUP BY work_id_fk,work_short_name union all ";
 			
-			if(obj.getModule_name_fk().compareTo("Finance")==0)
-			{
-				qry = "SELECT  work_id_fk, work_short_name, STRING_AGG(u.user_name , ',') user_name,STRING_AGG(u.user_id , ',') user_id FROM finance_executives re "
+
+				qry = qry + "SELECT  work_id_fk, work_short_name, STRING_AGG(u.user_name , ',') user_name,STRING_AGG(u.user_id , ',') user_id,'Finance' as module_name_fk FROM finance_executives re "
 						+ "LEFT JOIN [user] u on re.executive_user_id_fk = u.user_id "
-						+ "left join work w on re.work_id_fk = w.work_id ";
+						+ "left join work w on re.work_id_fk = w.work_id  where 0=0 ";
 				
 				
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-					qry = qry + " and w.work_id = ? ";
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+					qry = qry + " and w.project_id_fk = ? ";
 					arrSize++;
-				}	
-	
-				
-				int i = 0;
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-					pValues[i++] = obj.getWork_id_fk();
 				}
+	
+
 				
-				qry = qry + " GROUP BY work_id_fk,work_short_name order by work_id_fk asc";
-			}
-			
-			if(obj.getModule_name_fk().compareTo("Design")==0)
-			{
-				qry = "SELECT  work_id_fk, work_short_name, STRING_AGG(u.user_name , ',') user_name,STRING_AGG(u.user_id , ',') user_id FROM designexecutives re "
+				qry = qry + " GROUP BY work_id_fk,work_short_name union all ";
+
+				qry = qry + "SELECT  work_id_fk, work_short_name, STRING_AGG(u.user_name , ',') user_name,STRING_AGG(u.user_id , ',') user_id,'Design' as module_name_fk FROM designexecutives re "
 						+ "LEFT JOIN [user] u on re.executive_user_id_fk = u.user_id "
-						+ "left join work w on re.work_id_fk = w.work_id ";
+						+ "left join work w on re.work_id_fk = w.work_id  where 0=0 ";
 				
 				
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-					qry = qry + " and w.work_id = ? ";
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+					qry = qry + " and w.project_id_fk = ? ";
 					arrSize++;
 				}	
 	
+
 				
-				int i = 0;
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-					pValues[i++] = obj.getWork_id_fk();
-				}
-				
-				qry = qry + " GROUP BY work_id_fk,work_short_name order by work_id_fk asc";
-			}
-			
-			if(obj.getModule_name_fk().compareTo("Land Acquisition")==0)
-			{
-				qry = "SELECT  ISNULL(STRING_AGG((u.user_id) , ','),'') as  user_id FROM land_executives re " + 
+				qry = qry + " GROUP BY work_id_fk,work_short_name union all ";
+
+				qry = qry + "SELECT  work_id_fk, work_short_name, STRING_AGG(u.user_name , ',') user_name,STRING_AGG(u.user_id , ',') user_id,'Land Acquisition' as module_name_fk FROM land_executives re " + 
 						"LEFT JOIN [user] u on re.executive_user_id_fk = u.user_id left join work w on re.work_id_fk = w.work_id  where 0=0 ";
 				
 				
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-					qry = qry + " and w.work_id = ? ";
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+					qry = qry + " and w.project_id_fk = ? ";
 					arrSize++;
 				}	
 	
+				qry = qry + " GROUP BY work_id_fk,work_short_name order by work_id_fk asc";
+				
+	
 				
 				int i = 0;
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-					pValues[i++] = obj.getWork_id_fk();
+				Object[] pValues = new Object[arrSize];
+
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+					pValues[i++] = obj.getProject_id_fk();
+					pValues[i++] = obj.getProject_id_fk();
+					pValues[i++] = obj.getProject_id_fk();
+					pValues[i++] = obj.getProject_id_fk();
+					pValues[i++] = obj.getProject_id_fk();
+					pValues[i++] = obj.getProject_id_fk();
+					pValues[i++] = obj.getProject_id_fk();
 				}
 				
-			}			
+						
 
 			objsList = jdbcTemplate.query( qry,pValues,  new BeanPropertyRowMapper<WorkModuleUserAccess>(WorkModuleUserAccess.class));
 			
@@ -480,7 +464,7 @@ public class WorkModuleUserAccessDaoImpl implements WorkModuleUserAccessDao{
 
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id = ? ";
+				qry = qry + " and w.work_id = ? ";
 				arrSize++;
 			}
 			
@@ -497,6 +481,127 @@ public class WorkModuleUserAccessDaoImpl implements WorkModuleUserAccessDao{
 			throw new Exception(e);
 		}
 		return objList;
+	}
+
+
+	@Override
+	public List<WorkModuleUserAccess> addUpdateWorkModuleUserAccess(WorkModuleUserAccess obj) throws Exception {
+		List<WorkModuleUserAccess> worksList = null;  
+		TransactionDefinition def = new DefaultTransactionDefinition();
+		TransactionStatus status = transactionManager.getTransaction(def);
+		Connection connection = null;
+		PreparedStatement updateStmt = null;	
+		
+		NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+		BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
+		String query="";
+		
+		if(obj.getModule_name_fk().compareTo("Contracts")==0)
+		{
+		
+			String deleteQry = "DELETE from contractexecutives where work_id_fk = :work_id_fk";		 
+			paramSource = new BeanPropertySqlParameterSource(obj);		 
+			int count = namedParamJdbcTemplate.update(deleteQry, paramSource);	
+
+			query = " insert into contractexecutives (work_id_fk, executive_user_id_fk)"
+	               + " values (?,?)";
+		}
+		
+		if(obj.getModule_name_fk().compareTo("Design")==0)
+		{
+		
+			String deleteQry = "DELETE from designexecutives where work_id_fk = :work_id_fk";		 
+			paramSource = new BeanPropertySqlParameterSource(obj);		 
+			int count = namedParamJdbcTemplate.update(deleteQry, paramSource);	
+
+			query = " insert into designexecutives (work_id_fk, executive_user_id_fk)"
+	               + " values (?,?)";
+		}
+		
+		if(obj.getModule_name_fk().compareTo("Finance")==0)
+		{
+		
+			String deleteQry = "DELETE from finance_executives where work_id_fk = :work_id_fk";		 
+			paramSource = new BeanPropertySqlParameterSource(obj);		 
+			int count = namedParamJdbcTemplate.update(deleteQry, paramSource);	
+
+			query = " insert into finance_executives (work_id_fk, executive_user_id_fk)"
+	               + " values (?,?)";
+		}
+		
+		if(obj.getModule_name_fk().compareTo("LandAcquisition")==0)
+		{
+		
+			String deleteQry = "DELETE from land_executives where work_id_fk = :work_id_fk";		 
+			paramSource = new BeanPropertySqlParameterSource(obj);		 
+			int count = namedParamJdbcTemplate.update(deleteQry, paramSource);	
+
+			query = " insert into land_executives (work_id_fk, executive_user_id_fk)"
+	               + " values (?,?)";
+		}
+		
+		if(obj.getModule_name_fk().compareTo("RandR	")==0)
+		{
+		
+			String deleteQry = "DELETE from rr_executives where work_id_fk = :work_id_fk";		 
+			paramSource = new BeanPropertySqlParameterSource(obj);		 
+			int count = namedParamJdbcTemplate.update(deleteQry, paramSource);	
+
+			query = " insert into rr_executives (work_id_fk, executive_user_id_fk)"
+	               + " values (?,?)";
+		}
+		
+		if(obj.getModule_name_fk().compareTo("Risk")==0)
+		{
+		
+			String deleteQry = "DELETE from risk_work_hod where work_id_fk = :work_id_fk";		 
+			paramSource = new BeanPropertySqlParameterSource(obj);		 
+			int count = namedParamJdbcTemplate.update(deleteQry, paramSource);	
+
+			query = " insert into risk_work_hod (work_id_fk, hod_user_id_fk)"
+	               + " values (?,?)";
+		}
+		
+		if(obj.getModule_name_fk().compareTo("UtilityShifting")==0)
+		{
+		
+			String deleteQry = "DELETE from utility_shifting_executives where work_id_fk = :work_id_fk";		 
+			paramSource = new BeanPropertySqlParameterSource(obj);		 
+			int count = namedParamJdbcTemplate.update(deleteQry, paramSource);	
+
+			query = " insert into utility_shifting_executives (work_id_fk, executive_user_id_fk)"
+	               + " values (?,?)";
+		}		
+
+	  PreparedStatement preparedStmt = null;
+	  Connection con = null;
+	  try
+	  {
+		con = dataSource.getConnection();
+		preparedStmt = con.prepareStatement(query);
+	    
+		String Str2[]=obj.getUser_id().split(",");
+
+		if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_id())) 
+		{
+			for (int i = 0; i < Str2.length; i++) 
+			{
+		      preparedStmt.setString(1, obj.getWork_id_fk());
+		      preparedStmt.setString(2, Str2[i]);
+		      preparedStmt.execute();
+			}
+		}
+			transactionManager.commit(status);
+		}
+		catch(Exception e){ 
+			e.printStackTrace();
+			transactionManager.rollback(status);
+			throw new Exception(e);
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(connection, updateStmt, null);
+		}		
+
+		return worksList;
 	}
 
 }

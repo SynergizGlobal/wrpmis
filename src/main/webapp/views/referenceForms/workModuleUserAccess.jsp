@@ -235,12 +235,12 @@
                             <div class="row">
                                 <div class="col s6 m6 l6 mt-brdr">
                                    <div class="center-align m-1">
-						                       <button type="button" onclick="addWorkModuleUserAccess();" class="btn waves-effect waves-light bg-m" style="min-width:90px">Add</button>
+						                       <button type="button" onclick="addWorkModuleUserAccess();" class="btn waves-effect waves-light bg-m" style="min-width:90px">Add / Update Access</button>
                                     </div>
                                 </div>
                                 <div class="col s6 m6 l6 mt-brdr">
                                     <div class="center-align m-1">
-                                        <a href="<%=request.getContextPath()%>/new-workModuleUserAccess" class="btn waves-effect waves-light bg-s">Cancel</a>
+                                        <a href="<%=request.getContextPath()%>/work-module-user-access" class="btn waves-effect waves-light bg-s">Cancel</a>
                                     </div>
                                 </div>
                             </div>
@@ -287,14 +287,68 @@
          getSelectedWorkUser();
      });
      
+     var workidsArray=new Array();
+     var modulesArray=new Array();
+     var workidmodulesArray=new Array();
+     
+     
      function getSelectedWorkUser()
      {
-    	     var trRowsLength=$('#WorkModuleUserAccessFormTable > tbody').length;
+    	     var trRowsLength=$('#WorkModuleUserAccessTableBody > tr').length;
+    	     var tdColumnsLength=$('#WorkModuleUserAccessTableBody > tr:eq(0) > td').length;
+    	     
+    	     var myParams2 = { project_id_fk: document.getElementById("project_id_fk").value };
+   		 
+ 	    	$.ajax({
+ 	             url: "<%=request.getContextPath()%>/ajax/getWorkModuleWiseUsers",
+ 	            data: myParams2,cache: false,
+ 	             success: function (data1) {
+ 	                 if (data1.length > 0) 
+ 	                 {
+		 	           		$.each(data1, function (i1, val1) { 
+		 	           			
+		 	           				if(val1.module_name_fk!="R & R")
+		 	           				{
+		 	       		 				if(workidsArray.indexOf(val1.work_id_fk)==-1)
+		 	       		 				{
+		 	       		 					workidsArray.push(val1.work_id_fk);
+		 	       		 				}
+		 	       		 				
+		 	       		 				if(modulesArray.indexOf(val1.module_name_fk)==-1)
+		 	       		 				{
+		 	       		 					modulesArray.push(val1.module_name_fk);
+		 	       		 				} 
+		 	       		 				
+		 	       		 				workidmodulesArray.push(val1.work_id_fk+'@@@'+val1.module_name_fk+'@@@'+val1.user_id);
+		 	           				}
+		 	           		
+		 	           		});
+		 	           			for(var i=0;i<workidsArray.length;i++)
+		 	           			{
+		 	           			
+			 	           			for(var i1=0;i1<modulesArray.length;i1++)
+			 	           			{
+			 	           			    var mopval=workidsArray[i]+'_'+modulesArray[i1];
+			 	           			   
+			 	           					for(var i2=0;i2<workidmodulesArray.length;i2++)
+			 	           			    	{
+			 	           			           var splitStr=workidmodulesArray[i2];
+			 	           			           var splitStr1=splitStr.toString();
+			 	           			       	   var splitStr2=splitStr1.split('@@@');
+			 	           			       	   	   if(workidsArray[i]==splitStr2[0] && modulesArray[i1]==splitStr2[1])
+			 	           			       		   {
+			 	           			       		   		var URT=splitStr2[2].split(',');
+			 	           			       	    		$("#"+mopval).val(URT).trigger('change');
+			 	           			       		   }
+			 	           			    	}
+			 	           			}		 	           			
+		 	           			}
+		 	       		 		
+ 	                 }
+ 	             }
+ 	         });     	     
      
-    	 	 for(var i=1;i<trRowsLength;i++)
-    		 {
-    		 	alert(document.getElementById("WorkModuleUserAccessFormTable").rows[0].cells[i+1].innerHTML);
-    		 }
+
      }
      
      function WorksListForWorkWiseUserAccess()
@@ -312,12 +366,16 @@
                 	$.each(data, function (i, val) {
                 
                 		var html="<tr>";
-     		 			html=html+'<td>'+val.work_id_fk+' - '+val.work_short_name+'</td>';
+     		 			html=html+'<td style="width:30%">'+val.work_id_fk+' - '+val.work_short_name+'</td>';
      		 				for(var i1=0;i1<7;i1++)
      		 				{
+ 		 						var SRM=document.getElementById("WorkModuleUserAccessFormTable").rows[0].cells[i1+1].innerHTML.split(" ").join("");
+ 		 						SRM = SRM.replace(/&amp;/g, "and");
+     		 				
      		 						html=html+'<td>'+
      		 						
-     		 						'<select class="searchable validate-dropdown" id="'+val.work_id_fk+'_'+document.getElementById("WorkModuleUserAccessFormTable").rows[0].cells[i+1].innerHTML+'" name="executive_user_id_fk" multiple="multiple" >'+
+     		 						
+     		 						'<select class="searchable validate-dropdown" id="'+val.work_id_fk+'_'+SRM+'" name="executive_user_id_fk" multiple="multiple" >'+
      		 						'<option >Select</option>'+
                                        <c:forEach var="obj" items="${usersDetails}" >
                                      		  +'<option value= "${obj.user_id}">${obj.designation}<c:if test="${not empty obj.user_name}"> - </c:if> ${obj.user_name }</option>'
@@ -328,6 +386,22 @@
  		         			$("#WorkModuleUserAccessFormTable tbody").append(html);  
  		         		  
                 	});
+                	
+                			$.each(data, function (i, val) {
+                		
+
+	     		 				for(var i1=0;i1<7;i1++)
+	     		 				{
+     		 						var SRM=document.getElementById("WorkModuleUserAccessFormTable").rows[0].cells[i1+1].innerHTML.split(" ").join("");
+     		 						SRM = SRM.replace(/&amp;/g, "and");
+     		 					
+		     		 					var mopval=val.work_id_fk+'_'+SRM;
+		     		 					$("#"+mopval).select2();
+	     		 					
+ 	           					}
+ 		         		  
+                	}); 
+                			getSelectedWorkUser();
                 }
             }
 		  });
@@ -357,53 +431,39 @@
 	         }); 
 
         return html;
-
-
-
-
-
-
-
-
-<%--     	 $("#WorkModuleUserAccessFormTable tbody tr").remove();
- 		  var myParams2 = { project_id_fk: document.getElementById("project_id_fk").value };
-		  $.ajax({
-             url: "<%=request.getContextPath()%>/ajax/getWorksListForWorkWiseUserAccess",
-             data: myParams2, cache: false,
-             success: function (data) {
-                 if (data.length > 0) {
-                	 $.each(data, function (i, val) {
-             	    	
-                		 var html="<tr>";
-                		 
-                		 html=html+'<td>'+val.work_id_fk+' - '+val.work_short_name+'</td>';
-                		 
-                		 var myParams3 = { work_id_fk: val.work_id_fk,module_id_fk:document.getElementById("WorkModuleUserAccessFormTable").rows[0].cells[i+1].innerHTML};
-                		 
-             	    	$.ajax({
-             	             url: "<%=request.getContextPath()%>/ajax/getWorkModuleWiseUsers",
-             	             data: myParams3, cache: false,
-             	             success: function (data1) {
-             	                 if (data1.length > 0) {
-             	                	 var html1='<select class="searchable validate-dropdown" name="executive_user_id_fk"  multiple="multiple">';
-             	                	 $.each(data1, function (i1, val1) {
-                 	                	 html1=html1+'<option value="0">Select</option>';
-             	                     });
-             	                	 html1=html1+'</select>';
-             	                	 html=html1;
-             	                	$("#WorkModuleUserAccessFormTable tbody").append(html);
-             	                 }
-             	             }
-             	         }); 
-             	    	
-             	    	html=html+'</tr>';
-             	    	
-             	    	          	    	
-             	    	
-                     });
-                 }
-             }
-         }); --%>      	 
+   	 
+     }
+     
+     function addWorkModuleUserAccess()
+     {
+ 				for(var i=0;i<workidsArray.length;i++)
+    			{
+    			
+        			for(var i1=0;i1<modulesArray.length;i1++)
+        			{
+        			    var mopval=workidsArray[i]+'_'+modulesArray[i1];
+        			   
+        					for(var i2=0;i2<workidmodulesArray.length;i2++)
+        			    	{
+        			           var splitStr=workidmodulesArray[i2];
+        			           var splitStr1=splitStr.toString();
+        			       	   var splitStr2=splitStr1.split('@@@');
+        			       	   	   if(workidsArray[i]==splitStr2[0] && modulesArray[i1]==splitStr2[1])
+        			       		   {
+        			       	   			var myParams3 = { work_id_fk: workidsArray[i],module_name_fk:modulesArray[i1],user_id:splitStr2[2]};
+        			       		   
+        		             	    	$.ajax({
+        		             	             url: "<%=request.getContextPath()%>/ajax/addWorkModuleUserAccess",
+        		             	             data: myParams3, cache: false,
+        		             	             success: function (data1) {
+        		             	             }
+        		             	         }); 
+        			       		   }
+        			    	}
+        			}		 	           			
+    			}
+ 				alert("Updated successfully");
+ 				window.location.reload();
      }
      
      

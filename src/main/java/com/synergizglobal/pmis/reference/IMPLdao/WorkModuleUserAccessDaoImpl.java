@@ -281,12 +281,20 @@ public class WorkModuleUserAccessDaoImpl implements WorkModuleUserAccessDao{
 				qry = qry + " and p.project_id = ? ";
 				arrSize++;
 			}	
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+				qry = qry + " and w.work_id = ? ";
+				arrSize++;
+			}			
 
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
 				pValues[i++] = obj.getProject_id_fk();
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}			
 			
 			qry = qry + " order by work_id asc";
 
@@ -330,7 +338,12 @@ public class WorkModuleUserAccessDaoImpl implements WorkModuleUserAccessDao{
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
 					qry = qry + " and w.project_id_fk = ? ";
 					arrSize++;
-				}	
+				}
+				
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+					qry = qry + " and w.work_id = ? ";
+					arrSize++;
+				}				
 
 				
 				qry = qry + " GROUP BY work_id_fk,work_short_name union all ";
@@ -346,7 +359,10 @@ public class WorkModuleUserAccessDaoImpl implements WorkModuleUserAccessDao{
 					qry = qry + " and w.project_id_fk = ? ";
 					arrSize++;
 				}	
-	
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+					qry = qry + " and w.work_id = ? ";
+					arrSize++;
+				}	
 
 				
 				qry = qry + " GROUP BY work_id_fk,work_short_name union all ";
@@ -362,7 +378,10 @@ public class WorkModuleUserAccessDaoImpl implements WorkModuleUserAccessDao{
 					qry = qry + " and w.project_id_fk = ? ";
 					arrSize++;
 				}	
-	
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+					qry = qry + " and w.work_id = ? ";
+					arrSize++;
+				}	
 
 				
 				qry = qry + " GROUP BY work_id_fk,work_short_name union all ";
@@ -378,7 +397,10 @@ public class WorkModuleUserAccessDaoImpl implements WorkModuleUserAccessDao{
 					qry = qry + " and w.project_id_fk = ? ";
 					arrSize++;
 				}	
-	
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+					qry = qry + " and w.work_id = ? ";
+					arrSize++;
+				}	
 
 				
 				qry = qry + " GROUP BY work_id_fk,work_short_name union all ";
@@ -393,7 +415,10 @@ public class WorkModuleUserAccessDaoImpl implements WorkModuleUserAccessDao{
 					qry = qry + " and w.project_id_fk = ? ";
 					arrSize++;
 				}
-	
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+					qry = qry + " and w.work_id = ? ";
+					arrSize++;
+				}	
 
 				
 				qry = qry + " GROUP BY work_id_fk,work_short_name union all ";
@@ -407,7 +432,10 @@ public class WorkModuleUserAccessDaoImpl implements WorkModuleUserAccessDao{
 					qry = qry + " and w.project_id_fk = ? ";
 					arrSize++;
 				}	
-	
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+					qry = qry + " and w.work_id = ? ";
+					arrSize++;
+				}	
 
 				
 				qry = qry + " GROUP BY work_id_fk,work_short_name union all ";
@@ -419,7 +447,11 @@ public class WorkModuleUserAccessDaoImpl implements WorkModuleUserAccessDao{
 				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
 					qry = qry + " and w.project_id_fk = ? ";
 					arrSize++;
-				}	
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+					qry = qry + " and w.work_id = ? ";
+					arrSize++;
+				}				
 	
 				qry = qry + " GROUP BY work_id_fk,work_short_name order by work_id_fk asc";
 				
@@ -437,8 +469,16 @@ public class WorkModuleUserAccessDaoImpl implements WorkModuleUserAccessDao{
 					pValues[i++] = obj.getProject_id_fk();
 					pValues[i++] = obj.getProject_id_fk();
 				}
-				
-						
+
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+					pValues[i++] = obj.getWork_id_fk();
+					pValues[i++] = obj.getWork_id_fk();
+					pValues[i++] = obj.getWork_id_fk();
+					pValues[i++] = obj.getWork_id_fk();
+					pValues[i++] = obj.getWork_id_fk();
+					pValues[i++] = obj.getWork_id_fk();
+					pValues[i++] = obj.getWork_id_fk();
+				}
 
 			objsList = jdbcTemplate.query( qry,pValues,  new BeanPropertyRowMapper<WorkModuleUserAccess>(WorkModuleUserAccess.class));
 			

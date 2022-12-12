@@ -1073,11 +1073,23 @@ public class DesignController {
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
+					if(!StringUtils.isEmpty(obj.getConsultant_contract_id_fk())) {
 					cell.setCellValue(obj.getConsultant_contract_id_fk()+" - "+obj.getConsult_contarct());
+					}
+					else
+					{
+						cell.setCellValue("");
+					}
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
+					if(!StringUtils.isEmpty(obj.getProof_consultant_contract_id_fk())) {
 					cell.setCellValue(obj.getProof_consultant_contract_id_fk()+" - "+obj.getProof_consult_contarct());
+					}
+					else
+					{
+						cell.setCellValue("");
+					}
 
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);

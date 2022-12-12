@@ -177,7 +177,7 @@
                             <div class="row">
                                 <div class="col s6 m4 l4 input-field">
                                     <p class="searchable_label"> Project </p>
-                                    <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk" onchange="WorksListForWorkWiseUserAccess();" style="display:block;">
+                                    <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk" onchange="getWorksList(this.value);" style="display:block;">
                                         <option value="">Select</option>
                                           <c:forEach var="obj" items="${projectsList }">
                                       	   <option value= "${obj.project_id_fk}">${obj.project_id_fk} - ${obj.project_name}</option>
@@ -185,6 +185,16 @@
                                     </select>
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
+                                <div class="col s6 m4 l4 input-field">
+                                    <p class="searchable_label"> Work </p>
+                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" onchange="WorksListForWorkWiseUserAccess();" style="display:block;">
+                                        <option value="">Select</option>
+                                          <c:forEach var="obj" items="${worksList }">
+                                      	   <option value= "${obj.work_id_fk}">${obj.work_id_fk} - ${obj.work_short_name}</option>
+                                         </c:forEach>
+                                    </select>
+                                    <span id="project_id_fkError" class="error-msg" ></span>
+                                </div>                                
                             </div>
 
                              </div>
@@ -203,8 +213,8 @@
 										</tr>
 									
 									</thead>
-									<tbody id="WorkModuleUserAccessTableBody">
-                                        <c:forEach var="obj" items="${worksList }">
+ 									<tbody id="WorkModuleUserAccessTableBody">
+                                        <%--<c:forEach var="obj" items="${worksList }">
                                     	   		<tr>
                                     	   			<td style="width:30%">${obj.work_id_fk} - ${obj.work_short_name}</td>
 	                                            	<c:forEach var="obj1" items="${modulesList }">
@@ -222,10 +232,10 @@
 	                                      	   			</td>
 	                                         		</c:forEach>                                  	   		
                                     	   		</tr>
-                                       	</c:forEach>
+                                       	</c:forEach>--%>
                                        	
                                        		
-									</tbody>
+									</tbody> 
 								</table>
 								<p id="fyError" style="color:red;"></p>
 							</div>
@@ -284,6 +294,7 @@
      $(document).ready(function () {
          $('.searchable').select2();
          $('.modal').modal( );
+         $("#project_id_fk").val('P04').trigger('change');
          getSelectedWorkUser();
      });
      
@@ -297,7 +308,7 @@
     	     var trRowsLength=$('#WorkModuleUserAccessTableBody > tr').length;
     	     var tdColumnsLength=$('#WorkModuleUserAccessTableBody > tr:eq(0) > td').length;
     	     
-    	     var myParams2 = { project_id_fk: document.getElementById("project_id_fk").value };
+    	     var myParams2 = { project_id_fk: document.getElementById("project_id_fk").value,work_id_fk: document.getElementById("work_id_fk").value };
    		 
  	    	$.ajax({
  	             url: "<%=request.getContextPath()%>/ajax/getWorkModuleWiseUsers",
@@ -351,16 +362,51 @@
 
      }
      
+     
+     function getWorksList(projectId) {
+     	$(".page-loader").show();
+         $("#work_id_fk option:not(:first)").remove();
+         $("#contract_id_fk option:not(:first)").remove();
+         if ($.trim(projectId) != "") {
+             var myParams = { project_id_fk: projectId };
+             $.ajax({
+                 url: "<%=request.getContextPath()%>/ajax/getWorkListForDesignForm",
+                 data: myParams, cache: false,
+                 success: function (data) {
+                     if (data.length > 0) {
+                         $.each(data, function (i, val) {
+                             var workName = '';
+                             if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
+                             var workId = "${designDetails.work_id_fk}";
+                             if ($.trim(workId) != '' && val.work_id == $.trim(workId)) {
+                                 $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+                             } else {
+                                 $("#work_id_fk").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+                             }
+                         });
+                         $("#work_id_fk").val('P04W01').trigger('change');
+                     }
+                     $('.searchable').select2();
+                     $(".page-loader").hide();
+                 }
+             });
+         }else{
+         	$(".page-loader").hide();
+         }
+     }    
+     
      function WorksListForWorkWiseUserAccess()
      {
+     
     	 $("#WorkModuleUserAccessFormTable tbody tr").remove();
      
-    	 var myParams2 = { project_id_fk: document.getElementById("project_id_fk").value };
+    	 var myParams2 = { project_id_fk: document.getElementById("project_id_fk").value,work_id_fk: document.getElementById("work_id_fk").value};
 		  $.ajax({
             url: "<%=request.getContextPath()%>/ajax/getWorksListForWorkWiseUserAccess",
             data: myParams2, cache: false,
             success: function (data) 
             {
+           
                 if (data.length > 0) 
                 {
                 	$.each(data, function (i, val) {

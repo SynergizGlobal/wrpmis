@@ -178,7 +178,7 @@
                                 <div class="col s6 m4 l4 input-field">
                                     <p class="searchable_label"> Project </p>
                                     <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk" onchange="getWorksList(this.value);" style="display:block;">
-                                        <option value="">Select</option>
+                                        <option value="" disabled>Select</option>
                                           <c:forEach var="obj" items="${projectsList }">
                                       	   <option value= "${obj.project_id_fk}">${obj.project_id_fk} - ${obj.project_name}</option>
                                          </c:forEach>
@@ -188,7 +188,7 @@
                                 <div class="col s6 m4 l4 input-field">
                                     <p class="searchable_label"> Work </p>
                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" onchange="WorksListForWorkWiseUserAccess();" style="display:block;">
-                                        <option value="">Select</option>
+                                        <option value="" disabled>Select</option>
                                           <c:forEach var="obj" items="${worksList }">
                                       	   <option value= "${obj.work_id_fk}">${obj.work_id_fk} - ${obj.work_short_name}</option>
                                          </c:forEach>

@@ -23,6 +23,8 @@ public interface DashboardAccessFormService {
 	
 	public boolean addDashboardUserAccess(DashboardAccessForm obj) throws Exception;
 	
+	public boolean updateWorkAccess(DashboardAccessForm obj) throws Exception;
+	
 	public List<DashboardAccessForm> getDashboardUserAccess(DashboardAccessForm obj) throws Exception;
 	
 	public List<DashboardAccessForm> getUsersDetails(DashboardAccessForm obj) throws Exception;
@@ -32,6 +34,8 @@ public interface DashboardAccessFormService {
 	public List<DashboardAccessForm> getUserTypesInDashboardAccess(DashboardAccessForm obj) throws Exception;
 
 	public List<DashboardAccessForm> getUsersInDashboardAccess(DashboardAccessForm obj) throws Exception;	
+	
+	public List<DashboardAccessForm> getdashboardNames(DashboardAccessForm obj) throws Exception;
 	
 	
 }

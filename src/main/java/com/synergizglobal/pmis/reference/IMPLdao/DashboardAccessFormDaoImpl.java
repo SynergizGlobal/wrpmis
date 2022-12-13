@@ -367,14 +367,14 @@ public class DashboardAccessFormDaoImpl implements DashboardAccessFormDao{
 	public List<DashboardAccessForm> getDashboardUserAccess(DashboardAccessForm obj) throws Exception {
 		List<DashboardAccessForm> objList = null;
 		try {
-			String qry = "	select access_type,STRING_AGG(access_value,',') as access_value from left_menu d left join left_menu_access da on da.dashboard_id=d.dashboard_id where 0=0 ";
+			String qry = "	select access_type,STRING_AGG(access_value,',') as access_value from dashboard d left join dashboard_access da on da.dashboard_id_fk=d.dashboard_id where 0=0 ";
 
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id = ? ";
+				qry = qry + " and work_id_fk = ? ";
 				arrSize++;
 			}
-			
+			qry = qry + " group by access_type ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			
@@ -397,6 +397,7 @@ public class DashboardAccessFormDaoImpl implements DashboardAccessFormDao{
 		try {
 			String query ="";
 			PreparedStatement stmt = null;
+			PreparedStatement stmt1 = null;
 			Connection con =  dataSource.getConnection();
 			
 			if(!StringUtils.isEmpty(obj.getModule_name_fk())) {
@@ -406,14 +407,22 @@ public class DashboardAccessFormDaoImpl implements DashboardAccessFormDao{
 					String splitStrColumns[]=splitStr[i1].split("___");
 					for(int j=0;j<splitStrColumns.length;j++)
 					{
-						if(splitStrColumns[0].compareTo("Contracts")==0)
+						if(splitStrColumns[0].compareTo("UserRole")==0)
 						{
 							
-							String deleteQry = "DELETE from contractexecutives  where work_id_fk = ?";		 
+							String deleteQry = "select distinct dashboard_id from dashboard d left join dashboard_access da on da.dashboard_id_fk=d.dashboard_id\r\n" + 
+									"where work_id_fk=? and access_type='user_role'";		 
 							stmt = con.prepareStatement(deleteQry);
 							stmt.setString(1,obj.getWork_id_fk());
 							stmt.executeUpdate();
-							if(stmt != null){stmt.close();}							
+							if(stmt != null){stmt.close();}	
+							
+							String deleteQry1 = "select distinct dashboard_id from dashboard d left join dashboard_access da on da.dashboard_id_fk=d.dashboard_id\r\n" + 
+									"where work_id_fk=? and access_type='user_role'";		 
+							stmt1 = con.prepareStatement(deleteQry1);
+							stmt1.setString(1,obj.getWork_id_fk());
+							stmt1.executeUpdate();
+							if(stmt1 != null){stmt1.close();}								
 
 				
 							query = " insert into contractexecutives (work_id_fk, executive_user_id_fk)"
@@ -504,6 +513,116 @@ public class DashboardAccessFormDaoImpl implements DashboardAccessFormDao{
 							for (int i = 0; i < Str2.length; i++) 
 							{
 								stmt.setString(1, obj.getWork_id_fk());
+								stmt.setString(2, Str2[i]);
+								stmt.execute();
+							}
+											
+
+					    flag = true;
+												
+					}					
+				}
+			}
+			
+
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return flag;
+	}
+
+
+	@Override
+	public List<DashboardAccessForm> getdashboardNames(DashboardAccessForm obj) throws Exception {
+		List<DashboardAccessForm> objsList = null;
+		try {
+			String qry = "select distinct dashboard_id as access_value_id,dashboard_name as access_value_name from left_menu where parent_id=0 and status='Active'";
+			
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<DashboardAccessForm>(DashboardAccessForm.class));			
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+
+	@Override
+	public boolean updateWorkAccess(DashboardAccessForm obj) throws Exception {
+		boolean flag = false;
+		try {
+			String query ="";
+			PreparedStatement stmt = null;
+			PreparedStatement stmt1 = null;
+			Connection con =  dataSource.getConnection();
+			
+			if(!StringUtils.isEmpty(obj.getAccess_value())) {
+			 String splitStr[]=obj.getAccess_value().split("###");
+				for(int i1=0;i1<splitStr.length;i1++)
+				{
+					String splitStrColumns[]=splitStr[i1].split("___");
+					for(int j=0;j<splitStrColumns.length;j++)
+					{
+						String dashboardid="0";
+						if(splitStrColumns[0].compareTo("UserRole")==0)
+						{
+							
+							String deleteQry = "delete from dashboard_access where dashboard_id_fk in(select distinct dashboard_id from dashboard d left join dashboard_access da on da.dashboard_id_fk=d.dashboard_id " + 
+									"where work_id_fk=? and access_type='user_role')";		 
+							stmt = con.prepareStatement(deleteQry);
+							stmt.setString(1,obj.getWork_id_fk());
+							stmt.executeUpdate();
+							if(stmt != null){stmt.close();}	
+							
+							String didQry ="select distinct dashboard_id from dashboard d left join dashboard_access da on da.dashboard_id_fk=d.dashboard_id where work_id_fk=? and access_type='user_role' ";
+							dashboardid = (String) jdbcTemplate.queryForObject(didQry, new Object[] { obj.getWork_id_fk() }, String.class);
+				
+							query = " insert into dashboard_access (dashboard_id_fk,access_type,access_value)"
+					               + " values (?,'user_role',?)";
+						}
+						
+						if(splitStrColumns[0].compareTo("UserType")==0)
+						{
+						
+							String deleteQry = "delete from dashboard_access where dashboard_id_fk in(select distinct dashboard_id from dashboard d left join dashboard_access da on da.dashboard_id_fk=d.dashboard_id " + 
+									"where work_id_fk=? and access_type='user_type')";	
+							stmt = con.prepareStatement(deleteQry);
+							stmt.setString(1,obj.getWork_id_fk());
+							stmt.executeUpdate();
+							if(stmt != null){stmt.close();}	
+							
+							String didQry ="select distinct dashboard_id from dashboard d left join dashboard_access da on da.dashboard_id_fk=d.dashboard_id where work_id_fk=? and access_type='user_type' ";
+							dashboardid = (String) jdbcTemplate.queryForObject(didQry, new Object[] { obj.getWork_id_fk() }, String.class);							
+				
+							query = " insert into dashboard_access (dashboard_id_fk,access_type,access_value)"
+						               + " values (?,'user_type',?)";
+						}
+						
+						if(splitStrColumns[0].compareTo("User")==0)
+						{
+						
+							String deleteQry = "delete from dashboard_access where dashboard_id_fk in(select distinct dashboard_id from dashboard d left join dashboard_access da on da.dashboard_id_fk=d.dashboard_id " + 
+									"where work_id_fk=? and access_type='user')";	
+							stmt = con.prepareStatement(deleteQry);
+							stmt.setString(1,obj.getWork_id_fk());
+							stmt.executeUpdate();
+							if(stmt != null){stmt.close();}	
+							
+							String didQry ="select distinct dashboard_id from dashboard d left join dashboard_access da on da.dashboard_id_fk=d.dashboard_id where work_id_fk=? and access_type='user' ";
+							dashboardid = (String) jdbcTemplate.queryForObject(didQry, new Object[] { obj.getWork_id_fk() }, String.class);							
+				
+							query = " insert into dashboard_access (dashboard_id_fk,access_type,access_value)"
+						               + " values (?,'user',?)";
+						}
+						
+
+						
+						stmt = con.prepareStatement(query);
+					    
+						String Str2[]=splitStrColumns[1].split(",");
+							for (int i = 0; i < Str2.length; i++) 
+							{
+								stmt.setString(1, dashboardid);
 								stmt.setString(2, Str2[i]);
 								stmt.execute();
 							}

@@ -205,6 +205,7 @@
 								<table id="DashboardAccessFormFormTable" class="mdl-data-table mobile_responsible_table">
 									<thead>
 										<tr>
+											<th>S. No.</th>
 											<th style="width:30%">Work Name</th>
 											<th>User Role</th>
 											<th>User Type</th>
@@ -251,6 +252,17 @@
 								<p id="fyError" style="color:red;"></p>
 							</div>
 						</div>
+					<div class="container container-no-margin">                           
+
+                            <div class="row">
+                                <div class="col s12 m12 l12 mt-brdr">
+                                   <div class="center-align m-1">
+						                       <button type="button" onclick="updateWorkAccess();" class="btn waves-effect waves-light bg-m" style="min-width:90px">Update</button>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                    </div>
 						<div class="row fixed-width">
 							<h5 class="center-align">Overview Dashboard</h5>
 							<div class="table-inside">
@@ -258,6 +270,7 @@
 								<table id="OverviewDashboardAccessFormFormTable" class="mdl-data-table mobile_responsible_table">
 									<thead>
 										<tr>
+											<th>S. No.</th>
 											<th style="width:30%">Parent Dashboard</th>
 											<th>User Role</th>
 											<th>User Type</th>
@@ -310,12 +323,12 @@
                             <div class="row">
                                 <div class="col s6 m6 l6 mt-brdr">
                                    <div class="center-align m-1">
-						                       <button type="button" onclick="addDashboardAccessForm();" class="btn waves-effect waves-light bg-m" style="min-width:90px">Add</button>
+						                       <button type="button" onclick="addDashboardAccessForm();" class="btn waves-effect waves-light bg-m" style="min-width:90px">Update</button>
                                     </div>
                                 </div>
                                 <div class="col s6 m6 l6 mt-brdr">
                                     <div class="center-align m-1">
-                                        <a href="<%=request.getContextPath()%>/new-DashboardAccessForm" class="btn waves-effect waves-light bg-s">Cancel</a>
+                                        <a href="<%=request.getContextPath()%>/dashboard-access-form" class="btn waves-effect waves-light bg-s">Cancel</a>
                                     </div>
                                 </div>
                             </div>
@@ -398,10 +411,14 @@
      var workidsArray=new Array();
      var modulesArray=new Array();
      var workidmodulesArray=new Array();
+     var uroleArray=new Array();
+     var utypeArray=new Array();
+     var uArray=new Array();
      
      function getSelectedWorkUser()
      {
     	     var trRowsLength=$('#DashboardAccessFormTableBody > tr').length;
+    	     var trOverviewRowsLength=$('#OverviewDashboardAccessFormTableBody > tr').length;
     	     var tdColumnsLength=$('#DashboardAccessFormTableBody > tr:eq(0) > td').length;
     	     
     	     var myParams2 = { project_id_fk: document.getElementById("project_id_fk").value,work_id_fk: document.getElementById("work_id_fk").value };
@@ -410,6 +427,7 @@
  	             url: "<%=request.getContextPath()%>/ajax/getDashboardUserAccess",
  	            data: myParams2,cache: false,
  	             success: function (data1) {
+ 	             
  	                 if (data1.length > 0) 
  	                 {
 		 	           		$.each(data1, function (i1, val1) {
@@ -417,32 +435,94 @@
 		 	           					if(val1.access_type=="user")
 		 	           					{
 		 	           						var workmoduleValue=$("#work_id_fk").val()+'_User';
-		 	           						var OverviewValue=$("#work_id_fk").val()+'_OverviewUser';
 		 	           						
- 	           			       		   		var URT=val1.access_value.split(',');
- 	           			       	    		$("#"+workmoduleValue).val(URT).trigger('change');	
- 	           			       	    		$("#"+OverviewValue).val(URT).trigger('change');	
+		 	           						for(var u=0;u<trOverviewRowsLength;u++)
+		 	           							{
+					 	           						var OverviewValue=$("#work_id_fk").val()+'_OverviewUser_'+u+'';
+					 	           						
+			 	           			       		   		var URT=val1.access_value.split(',');
+			 	           			       	    		$("#"+workmoduleValue).val(URT).trigger('change');	
+			 	           			       	    		$("#"+OverviewValue).val(URT).trigger('change');
+			 	           			       	    		
+				 	           			       	    	$("#"+OverviewValue+' option').each(function() {
+						 	           			       	     if ($(this).is(':selected')) 
+						 	           			       	    	 {
+						 	           			       	    	 
+						 	           			       	    	 }
+						 	           			       	     else
+						 	           			       	    	 {
+						 	           			       	  			uroleArray.push($(this).val());
+						 	           			       	    	 }
+						 	           			       	 });
+			 	           			       	    	
+			 	           			       	    		for(var k=0;k<uroleArray.length;k++)
+			 	           			       	    		{
+			 	           			       	    			$("#"+OverviewValue+" option[value='" + uroleArray[k] + "']").hide();
+			 	           			       	    		}
+		 	           							}
+
 		 	           					}
 		 	           					if(val1.access_type=="user_role")
 		 	           					{
 		 	           						var workmoduleValue=$("#work_id_fk").val()+'_UserRole';
-		 	           						var OverviewValue=$("#work_id_fk").val()+'_OverviewUserRole';
-		 	           					
-		 	           						var URT=val1.access_value.split(',');
- 	           			       	    		$("#"+workmoduleValue).val(URT).trigger('change');
- 	           			       	    		$("#"+OverviewValue).val(URT).trigger('change');
+		 	           						for(var u=0;u<trOverviewRowsLength;u++)
+	 	           							{
+			 	           						var OverviewValue=$("#work_id_fk").val()+'_OverviewUserRole_'+u+'';
+			 	           					
+			 	           						var URT=val1.access_value.split(',');
+	 	           			       	    		$("#"+workmoduleValue).val(URT).trigger('change');
+	 	           			       	    		$("#"+OverviewValue).val(URT).trigger('change');
+	 	           			       	    		
+	 	 	           			       	    	$("#"+OverviewValue+' option').each(function() {
+	 			 	           			       	     if ($(this).is(':selected')) 
+	 			 	           			       	    	 {
+	 			 	           			       	    	 
+	 			 	           			       	    	 }
+	 			 	           			       	     else
+	 			 	           			       	    	 {
+	 			 	           			       	  			utypeArray.push($(this).val());
+	 			 	           			       	    	 }
+	 			 	           			       	 });
+	 	 	           			       	    	
+	 	           			       	    		for(var k=0;k<utypeArray.length;k++)
+	 	           			       	    		{
+	 	           			       	    			$("#"+OverviewValue+" option[value='" + utypeArray[k] + "']").prop("disabled",true);
+	 	           			       	    		}
+	 	           							}
+
 		 	           					}
 		 	           					if(val1.access_type=="user_type")
 		 	           					{
 		 	           						var workmoduleValue=$("#work_id_fk").val()+'_UserType';
-		 	           						var OverviewValue=$("#work_id_fk").val()+'_OverviewUserType';
-		 	           					
-		 	           						var URT=val1.access_value.split(',');
- 	           			       	    		$("#"+workmoduleValue).val(URT).trigger('change');	
- 	           			       	    		$("#"+OverviewValue).val(URT).trigger('change');	
+		 	           						for(var u=0;u<trOverviewRowsLength;u++)
+	 	           							{
+			 	           						var OverviewValue=$("#work_id_fk").val()+'_OverviewUserType_'+u+'';
+			 	           					
+			 	           						var URT=val1.access_value.split(',');
+	 	           			       	    		$("#"+workmoduleValue).val(URT).trigger('change');	
+	 	           			       	    		$("#"+OverviewValue).val(URT).trigger('change');
+	
+	 	 	           			       	    	$("#"+OverviewValue+' option').each(function() {
+	 			 	           			       	     if ($(this).is(':selected')) 
+	 			 	           			       	    	 {
+	 			 	           			       	    	 
+	 			 	           			       	    	 }
+	 			 	           			       	     else
+	 			 	           			       	    	 {
+	 			 	           			       	  			uArray.push($(this).val());
+	 			 	           			       	    	 }
+	 			 	           			       	 });	           			       	    		
+	 	           			       	    		for(var k=0;k<uArray.length;k++)
+	 	           			       	    		{
+	 	           			       	    			$("#"+OverviewValue+" option[value='" + uArray[k] + "']").hide();
+	 	           			       	    		}
+	 	           							}
 		 	           					}		 	           					
 		 	           		
 		 	           		});
+		 	           		
+		 	           		
+		 	           		
 		 	       		 		
  	                 }
  	             }
@@ -456,25 +536,26 @@
      {
      
     	 $("#DashboardAccessFormFormTable tbody tr").remove();
+    	 $("#OverviewDashboardAccessFormFormTable tbody tr").remove();
 
                 
-             		var html="<tr>";
+             		var html="<tr><td>1</td>";
   		 			html=html+'<td style="width:30%">'+$("#work_id_fk option:selected").text()+'</td>';
 
  							
 
   		 							html=html+'<td>'+
-	  		 						'<select class="searchable validate-dropdown" id="'+$("#work_id_fk").val()+'_UserRole" name="user_role_access" multiple="multiple" >'+
+	  		 						'<select class="searchable validate-dropdown" id="'+$("#work_id_fk").val()+'_UserRole" name="user_role_access" multiple="multiple" onChange="getUserRoleAccess();">'+
 	  		 						'<option >Select</option>'+
 	                                    <c:forEach var="obj" items="${user_roles}" >
 	                                  		  +'<option value= "${obj.access_value_id}">${obj.access_value_id }</option>'
 	                                  	</c:forEach>											 			 		                             	
-	                                  	+'</select></td><td><select class="searchable validate-dropdown" id="'+$("#work_id_fk").val()+'_UserType" name="user_type_access" multiple="multiple" >'+
+	                                  	+'</select></td><td><select class="searchable validate-dropdown" id="'+$("#work_id_fk").val()+'_UserType" name="user_type_access" multiple="multiple" onChange="getUserTypeAccess();">'+
 	  		 						'<option >Select</option>'+
 	                                    <c:forEach var="obj" items="${user_types}" >
 	                                  		  +'<option value= "${obj.access_value_id}">${obj.access_value_id }</option>'
 	                                  	</c:forEach>											 			 		                             	
-	                                  	+'</select></td><td><select class="searchable validate-dropdown" id="'+$("#work_id_fk").val()+'_User" name="user_access" multiple="multiple" >'+
+	                                  	+'</select></td><td><select class="searchable validate-dropdown" id="'+$("#work_id_fk").val()+'_User" name="user_access" multiple="multiple" onChange="getUserAccess();">'+
 	  		 						'<option >Select</option>'+
 	                                    <c:forEach var="obj" items="${users}" >
 	                                  		  +'<option value= "${obj.access_value_id}">${obj.access_value_id }</option>'
@@ -484,37 +565,48 @@
   		 				
   		 				html=html+'</tr>';
   		 				
-  		 				
-  	             		var htmlOverview="<tr>";
-  	             		htmlOverview=htmlOverview+'<td style="width:30%">'+$("#work_id_fk option:selected").text()+'</td>';
+  	         			$("#DashboardAccessFormFormTable tbody").append(html);
+  	         			
+  	         			var modulesArray=new Array();
+                          <c:forEach var="obj" items="${dashboardNames}" >
+                          	modulesArray.push("${obj.access_value_name}");
+                    	</c:forEach> 
+                    	
 
-  	 							
+  		 				for(var y=0;y<modulesArray.length;y++)
+  		 					{
+  		 				
+		  	             		var htmlOverview="<tr>";
+		  	             		htmlOverview=htmlOverview+'<td>'+(y+1)+'</td><td style="width:30%">'+modulesArray[y]+'</td>';
+		
+		  	 							
+		
+		  	             		htmlOverview=htmlOverview+'<td>'+
+		  		  		 						'<select class="searchable validate-dropdown" id="'+$("#work_id_fk").val()+'_OverviewUserRole_'+y+'" name="user_role_access" multiple="multiple" >'+
+		  		  		 						'<option >Select</option>'+
+		  		                                    <c:forEach var="obj" items="${user_roles}" >
+		  		                                  		  +'<option value= "${obj.access_value_id}">${obj.access_value_id }</option>'
+		  		                                  	</c:forEach>											 			 		                             	
+		  		                                  	+'</select></td><td><select class="searchable validate-dropdown" id="'+$("#work_id_fk").val()+'_OverviewUserType_'+y+'" name="user_type_access" multiple="multiple" >'+
+		  		  		 						'<option >Select</option>'+
+		  		                                    <c:forEach var="obj" items="${user_types}" >
+		  		                                  		  +'<option value= "${obj.access_value_id}">${obj.access_value_id }</option>'
+		  		                                  	</c:forEach>											 			 		                             	
+		  		                                  	+'</select></td><td><select class="searchable validate-dropdown" id="'+$("#work_id_fk").val()+'_OverviewUser_'+y+'" name="user_access" multiple="multiple" >'+
+		  		  		 						'<option >Select</option>'+
+		  		                                    <c:forEach var="obj" items="${users}" >
+		  		                                  		  +'<option value= "${obj.access_value_id}">${obj.access_value_id }</option>'
+		  		                                  	</c:forEach>											 			 		                             	
+		  		                                  	+'</select></td>';  								
+		  	 								
+		  	  		 				
+		  		                                  htmlOverview=htmlOverview+'</tr>';
+		  		                     			$("#OverviewDashboardAccessFormFormTable tbody").append(htmlOverview);
 
-  	             		htmlOverview=htmlOverview+'<td>'+
-  		  		 						'<select class="searchable validate-dropdown" id="'+$("#work_id_fk").val()+'_OverviewUserRole" name="user_role_access" multiple="multiple" >'+
-  		  		 						'<option >Select</option>'+
-  		                                    <c:forEach var="obj" items="${user_roles}" >
-  		                                  		  +'<option value= "${obj.access_value_id}">${obj.access_value_id }</option>'
-  		                                  	</c:forEach>											 			 		                             	
-  		                                  	+'</select></td><td><select class="searchable validate-dropdown" id="'+$("#work_id_fk").val()+'_OverviewUserType" name="user_type_access" multiple="multiple" >'+
-  		  		 						'<option >Select</option>'+
-  		                                    <c:forEach var="obj" items="${user_types}" >
-  		                                  		  +'<option value= "${obj.access_value_id}">${obj.access_value_id }</option>'
-  		                                  	</c:forEach>											 			 		                             	
-  		                                  	+'</select></td><td><select class="searchable validate-dropdown" id="'+$("#work_id_fk").val()+'_OverviewUser" name="user_access" multiple="multiple" >'+
-  		  		 						'<option >Select</option>'+
-  		                                    <c:forEach var="obj" items="${users}" >
-  		                                  		  +'<option value= "${obj.access_value_id}">${obj.access_value_id }</option>'
-  		                                  	</c:forEach>											 			 		                             	
-  		                                  	+'</select></td>';  								
-  	 								
-  	  		 				
-  		                                  htmlOverview=htmlOverview+'</tr>';
+  		 					}
   	  		 				
   	  		 				
   		 				
-         			$("#DashboardAccessFormFormTable tbody").append(html);
-         			$("#OverviewDashboardAccessFormFormTable tbody").append(htmlOverview);
 
 					for(var i1=0;i1<3;i1++)
 					{
@@ -531,7 +623,77 @@
 		   
      }
      
-     function addWorkModuleUserAccess()
+     function updateWorkAccess()
+     {
+    	 var allModulesArray=new Array();
+			for(var i1=0;i1<3;i1++)
+			{
+				
+				var SRM=document.getElementById("DashboardAccessFormFormTable").rows[0].cells[i1+1].innerHTML.split(" ").join("");
+				SRM = SRM.replace(/&amp;/g, "and");				
+			
+				
+	 					if(allModulesArray.indexOf(SRM)==-1)
+		 				{
+	 						allModulesArray.push(SRM);
+		 				}
+			}  	 
+ 	 
+  
+ 	 			var concatText="";
+  
+
+ 			
+     			for(var i1=0;i1<allModulesArray.length;i1++)
+     			{
+     			   
+
+								var workmoduleValue=$("#work_id_fk").val()+'_'+allModulesArray[i1];
+								if($("#"+workmoduleValue).val()!=null && $("#"+workmoduleValue).val()!="" && $("#"+workmoduleValue).val()!=undefined)
+									{
+			       	   					concatText=concatText+allModulesArray[i1]+"___"+$("#"+workmoduleValue).val()+'###';
+									}
+
+     			       		   
+     			    	
+     			}	
+     			
+				
+	   			var myParams3 = { work_id_fk: $("#work_id_fk").val(),access_value:concatText};
+	   			
+	       		   
+   	    	$.ajax({
+  	             url: "<%=request.getContextPath()%>/ajax/updateWorkAccess",
+  	             data: myParams3, cache: false,
+  	             success: function (data1) 
+  	             {
+  	 				alert("Updated successfully");
+  	 				window.location.reload();    	             
+  	             }
+  	         });    	 
+     }
+     
+     
+     
+     function getUserRoleAccess(roles)
+     {
+    	 
+     }
+     
+     
+     function getUserTypeAccess(types)
+     {
+    	 
+     }
+     
+     
+     function getUserAccess(users)
+     {
+    	 
+     }     
+     
+     
+     function addDashboardAccessForm()
      {
     	 var allModulesArray=new Array();
 			for(var i1=0;i1<3;i1++)
@@ -567,10 +729,11 @@
         			}	
         			
  				
-   	   			var myParams3 = { work_id_fk: $("#work_id_fk").val(),module_name_fk:concatText};
+   	   			var myParams3 = { work_id_fk: $("#work_id_fk").val(),access_value:concatText};
+   	   			
 	       		   
-     	    	$.ajax({
-     	             url: "<%=request.getContextPath()%>/ajax/addWorkModuleUserAccess",
+      	    	$.ajax({
+     	             url: "<%=request.getContextPath()%>/ajax/addDashboardUserAccess",
      	             data: myParams3, cache: false,
      	             success: function (data1) 
      	             {
@@ -578,7 +741,7 @@
      	 				window.location.reload();    	             
      	             }
      	         }); 				
-
+ 
      }
           
      

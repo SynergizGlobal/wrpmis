@@ -57,6 +57,11 @@ public class DashboardAccessFormServiceImpl implements DashboardAccessFormServic
 	{
 		return dao.addDashboardUserAccess(obj);
 	}
+	@Override
+	public boolean updateWorkAccess(DashboardAccessForm obj) throws Exception
+	{
+		return dao.updateWorkAccess(obj);
+	}
 	
 	@Override
 	public List<DashboardAccessForm> getDashboardUserAccess(DashboardAccessForm obj) throws Exception
@@ -84,5 +89,11 @@ public class DashboardAccessFormServiceImpl implements DashboardAccessFormServic
 	public List<DashboardAccessForm> getUsersInDashboardAccess(DashboardAccessForm obj) throws Exception {
 		return dao.getUsersInDashboardAccess(obj);
 	}	
+	
+	@Override
+	public List<DashboardAccessForm> getdashboardNames(DashboardAccessForm obj) throws Exception
+	{
+		return dao.getdashboardNames(obj);
+	}
 	
 }

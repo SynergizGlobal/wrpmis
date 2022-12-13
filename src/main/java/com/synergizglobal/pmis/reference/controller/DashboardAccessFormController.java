@@ -59,7 +59,10 @@ public class DashboardAccessFormController {
 			model.addObject("user_types", user_types);
 			
 			List<DashboardAccessForm> users = service.getUsersInDashboardAccess(obj);
-			model.addObject("users", users);			
+			model.addObject("users", users);
+			
+			List<DashboardAccessForm> dashboardNames = service.getdashboardNames(obj);
+			model.addObject("dashboardNames", dashboardNames);			
 			
 			DashboardAccessForm DashboardAccessFormDetails = service.getDashboardAccessFormDetails(obj);
 			
@@ -111,7 +114,18 @@ public class DashboardAccessFormController {
 		return flag;
 	}	
 	
-
+	
+	@RequestMapping(value = "/ajax/updateWorkAccess", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public boolean updateWorkAccess(@ModelAttribute DashboardAccessForm obj,HttpSession session) throws Exception {
+		boolean flag = false;
+		try {
+			flag = service.updateWorkAccess(obj);
+		} catch (SQLException e) {
+			logger.error("updateWorkAccess : " + e.getMessage());
+		}
+		return flag;
+	}	
 }
 
 

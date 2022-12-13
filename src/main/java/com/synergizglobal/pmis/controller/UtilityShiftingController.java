@@ -896,7 +896,7 @@ public class UtilityShiftingController {
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getStatus());
+					cell.setCellValue(obj.getShifting_status_fk());
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);

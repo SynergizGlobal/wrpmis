@@ -21,9 +21,9 @@ public interface DashboardAccessFormDao {
 
 	public List<DashboardAccessForm> getWorksList(DashboardAccessForm obj)  throws Exception;
 
-	public List<DashboardAccessForm> getModulesList(DashboardAccessForm obj)  throws Exception;
+	public boolean addDashboardUserAccess(DashboardAccessForm obj)  throws Exception;
 
-	public List<DashboardAccessForm> getWorkModuleWiseUsers(DashboardAccessForm obj) throws Exception;
+	public List<DashboardAccessForm> getDashboardUserAccess(DashboardAccessForm obj) throws Exception;
 
 	public List<DashboardAccessForm> getUsersDetails(DashboardAccessForm obj)  throws Exception;
 
@@ -32,5 +32,6 @@ public interface DashboardAccessFormDao {
 	public List<DashboardAccessForm> getUserTypesInDashboardAccess(DashboardAccessForm obj) throws Exception;
 
 	public List<DashboardAccessForm> getUsersInDashboardAccess(DashboardAccessForm obj) throws Exception;
+
 
 }

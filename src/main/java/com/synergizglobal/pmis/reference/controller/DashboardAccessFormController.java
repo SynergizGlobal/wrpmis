@@ -1,5 +1,6 @@
 package com.synergizglobal.pmis.reference.controller;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.reference.Iservice.DashboardAccessFormService;
+import com.synergizglobal.pmis.reference.model.DashboardAccessForm;
 import com.synergizglobal.pmis.reference.model.DashboardAccessForm;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.Dashboard;
@@ -42,9 +44,7 @@ public class DashboardAccessFormController {
 		try {
 			List<DashboardAccessForm> projectsList = service.getProjectsList(obj);
 			model.addObject("projectsList", projectsList);
-			
-			List<DashboardAccessForm> modulesList = service.getModulesList(obj);
-			model.addObject("modulesList", modulesList);
+		
 			
 			List<DashboardAccessForm> worksList = service.getWorksList(obj);
 			model.addObject("worksList", worksList);
@@ -86,81 +86,32 @@ public class DashboardAccessFormController {
 		return worksList;
 	}	
 	
-	
-	@RequestMapping(value = "/ajax/getDashboardAccessForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/ajax/getDashboardUserAccess", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<DashboardAccessForm> getDashboardAccessForm(@ModelAttribute DashboardAccessForm obj,HttpSession session) {
+	public List<DashboardAccessForm> getDashboardUserAccess(@ModelAttribute DashboardAccessForm obj,HttpSession session) {
 		List<DashboardAccessForm> worksList = null;  
 		try {
-			worksList = service.getWorkModuleWiseUsers(obj);
+			worksList = service.getDashboardUserAccess(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("getDashboardAccessForm : " + e.getMessage());
+			logger.error("getDashboardUserAccess : " + e.getMessage());
 		}
 		return worksList;
+	}
+	
+	@RequestMapping(value = "/ajax/addDashboardUserAccess", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public boolean addDashboardUserAccess(@ModelAttribute DashboardAccessForm obj,HttpSession session) throws Exception {
+		boolean flag = false;
+		try {
+			flag = service.addDashboardUserAccess(obj);
+		} catch (SQLException e) {
+			logger.error("addDashboardUserAccess : " + e.getMessage());
+		}
+		return flag;
 	}	
 	
-	
-	
-	@RequestMapping(value = "/add-dashboard-access-form", method = {RequestMethod.POST})
-	@ResponseBody
-	public ModelAndView addDashboardAccessForm(@ModelAttribute DashboardAccessForm obj,RedirectAttributes attributes){
-		ModelAndView model = new ModelAndView();
-		try{
-			model.setViewName("redirect:/dashboard-access-form");
-			boolean flag =  service.addDashboardAccessForm(obj);
-			if(flag) {
-				attributes.addFlashAttribute("success", "Dashboard Access Form Added Succesfully.");
-			}
-			else {
-				attributes.addFlashAttribute("error","Adding Dashboard Access Form is failed. Try again.");
-			}
-		}catch (Exception e) {
-			attributes.addFlashAttribute("error","Adding Dashboard Access Form is failed. Try again.");
-			logger.error("addDashboardAccessForm : " + e.getMessage());
-		}
-		return model;
-	}
-	
-	@RequestMapping(value = "/update-dashboard-access-form", method = {RequestMethod.POST})
-	@ResponseBody
-	public ModelAndView updateDashboardAccessForm(@ModelAttribute DashboardAccessForm obj,RedirectAttributes attributes){
-		ModelAndView model = new ModelAndView();
-		try{
-			model.setViewName("redirect:/dashboard-access-form");
-			boolean flag =  service.updateDashboardAccessForm(obj);
-			if(flag) {
-				attributes.addFlashAttribute("success", "Dashboard Access Form Updated Succesfully.");
-			}
-			else {
-				attributes.addFlashAttribute("error","Updating Dashboard Access Form is failed. Try again.");
-			}
-		}catch (Exception e) {
-			attributes.addFlashAttribute("error","Updating Dashboard Access Form is failed. Try again.");
-			logger.error("updateDashboardAccessForm : " + e.getMessage());
-		}
-		return model;
-	}
-	
-	@RequestMapping(value = "/delete-dashboard-access-form", method = {RequestMethod.POST})
-	@ResponseBody
-	public ModelAndView deleteDashboardAccessForm(@ModelAttribute DashboardAccessForm obj,RedirectAttributes attributes){
-		ModelAndView model = new ModelAndView();
-		try{
-			model.setViewName("redirect:/dashboard-access-form");
-			boolean flag =  service.deleteDashboardAccessForm(obj);
-			if(flag) {
-				attributes.addFlashAttribute("success", "Dashboard Access Form Deleted Succesfully.");
-			}
-			else {
-				attributes.addFlashAttribute("error","Something went Wrong. Try again.");
-			}
-		}catch (Exception e) {
-			attributes.addFlashAttribute("error","Something went Wrong. Try again.");
-			logger.error("deleteDashboardAccessForm : " + e.getMessage());
-		}
-		return model;
-	}
+
 }
 
 

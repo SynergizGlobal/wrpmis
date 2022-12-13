@@ -116,15 +116,127 @@ public class WorkModuleUserAccessDaoImpl implements WorkModuleUserAccessDao{
 	public boolean addWorkModuleUserAccess(WorkModuleUserAccess obj) throws Exception {
 		boolean flag = false;
 		try {
-			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-			String insertQry = "INSERT INTO bank_name"
-					+ "( bank_name) VALUES (:bank_name)";
+			String query ="";
+			PreparedStatement stmt = null;
+			Connection con =  dataSource.getConnection();
 			
-			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
-			int count = namedParamJdbcTemplate.update(insertQry, paramSource);			
-			if(count > 0) {
-				flag = true;
+			if(!StringUtils.isEmpty(obj.getModule_name_fk())) {
+			 String splitStr[]=obj.getModule_name_fk().split("###");
+				for(int i1=0;i1<splitStr.length;i1++)
+				{
+					String splitStrColumns[]=splitStr[i1].split("___");
+					for(int j=0;j<splitStrColumns.length;j++)
+					{
+						if(splitStrColumns[0].compareTo("Contracts")==0)
+						{
+							
+							String deleteQry = "DELETE from contractexecutives  where work_id_fk = ?";		 
+							stmt = con.prepareStatement(deleteQry);
+							stmt.setString(1,obj.getWork_id_fk());
+							stmt.executeUpdate();
+							if(stmt != null){stmt.close();}							
+
+				
+							query = " insert into contractexecutives (work_id_fk, executive_user_id_fk)"
+					               + " values (?,?)";
+						}
+						
+						if(splitStrColumns[0].compareTo("Design")==0)
+						{
+						
+							String deleteQry = "DELETE from designexecutives  where work_id_fk = ?";		 
+							stmt = con.prepareStatement(deleteQry);
+							stmt.setString(1,obj.getWork_id_fk());
+							stmt.executeUpdate();
+							if(stmt != null){stmt.close();}	
+				
+							query = " insert into designexecutives (work_id_fk, executive_user_id_fk)"
+					               + " values (?,?)";
+						}
+						
+						if(splitStrColumns[0].compareTo("Finance")==0)
+						{
+						
+							String deleteQry = "DELETE from finance_executives  where work_id_fk = ?";		 
+							stmt = con.prepareStatement(deleteQry);
+							stmt.setString(1,obj.getWork_id_fk());
+							stmt.executeUpdate();
+							if(stmt != null){stmt.close();}	
+				
+							query = " insert into finance_executives (work_id_fk, executive_user_id_fk)"
+					               + " values (?,?)";
+						}
+						
+						if(splitStrColumns[0].compareTo("LandAcquisition")==0)
+						{
+						
+							String deleteQry = "DELETE from land_executives  where work_id_fk = ?";		 
+							stmt = con.prepareStatement(deleteQry);
+							stmt.setString(1,obj.getWork_id_fk());
+							stmt.executeUpdate();
+							if(stmt != null){stmt.close();}		
+				
+							query = " insert into land_executives (work_id_fk, executive_user_id_fk)"
+					               + " values (?,?)";
+						}
+						
+						if(splitStrColumns[0].compareTo("RandR")==0)
+						{
+						
+							String deleteQry = "DELETE from rr_executives  where work_id_fk = ?";		 
+							stmt = con.prepareStatement(deleteQry);
+							stmt.setString(1,obj.getWork_id_fk());
+							stmt.executeUpdate();
+							if(stmt != null){stmt.close();}		
+				
+							query = " insert into rr_executives (work_id_fk, executive_user_id_fk)"
+					               + " values (?,?)";
+						}
+						
+						if(splitStrColumns[0].compareTo("Risk")==0)
+						{
+						
+							String deleteQry = "DELETE from risk_work_hod  where work_id_fk = ?";		 
+							stmt = con.prepareStatement(deleteQry);
+							stmt.setString(1,obj.getWork_id_fk());
+							stmt.executeUpdate();
+							if(stmt != null){stmt.close();}	
+				
+							query = " insert into risk_work_hod (work_id_fk, hod_user_id_fk)"
+					               + " values (?,?)";
+						}
+						
+						if(splitStrColumns[0].compareTo("UtilityShifting")==0)
+						{
+						
+							String deleteQry = "DELETE from utility_shifting_executives  where work_id_fk = ?";		 
+							stmt = con.prepareStatement(deleteQry);
+							stmt.setString(1,obj.getWork_id_fk());
+							stmt.executeUpdate();
+							if(stmt != null){stmt.close();}		
+				
+							query = " insert into utility_shifting_executives (work_id_fk, executive_user_id_fk)"
+					               + " values (?,?)";
+						}
+						
+						stmt = con.prepareStatement(query);
+					    
+						String Str2[]=splitStrColumns[1].split(",");
+							for (int i = 0; i < Str2.length; i++) 
+							{
+								stmt.setString(1, obj.getWork_id_fk());
+								stmt.setString(2, Str2[i]);
+								stmt.execute();
+							}
+											
+
+					    flag = true;
+												
+					}					
+				}
 			}
+			
+
 		}catch(Exception e){ 
 			e.printStackTrace();
 			throw new Exception(e);
@@ -523,126 +635,6 @@ public class WorkModuleUserAccessDaoImpl implements WorkModuleUserAccessDao{
 		return objList;
 	}
 
-
-	@Override
-	public List<WorkModuleUserAccess> addUpdateWorkModuleUserAccess(WorkModuleUserAccess obj) throws Exception {
-		List<WorkModuleUserAccess> worksList = null;  
-		TransactionDefinition def = new DefaultTransactionDefinition();
-		TransactionStatus status = transactionManager.getTransaction(def);
-		Connection connection = null;
-		PreparedStatement updateStmt = null;	
-		
-		NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-		BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
-		String query="";
-		
-		if(obj.getModule_name_fk().compareTo("Contracts")==0)
-		{
-		
-			String deleteQry = "DELETE from contractexecutives where work_id_fk = :work_id_fk";		 
-			paramSource = new BeanPropertySqlParameterSource(obj);		 
-			int count = namedParamJdbcTemplate.update(deleteQry, paramSource);	
-
-			query = " insert into contractexecutives (work_id_fk, executive_user_id_fk)"
-	               + " values (?,?)";
-		}
-		
-		if(obj.getModule_name_fk().compareTo("Design")==0)
-		{
-		
-			String deleteQry = "DELETE from designexecutives where work_id_fk = :work_id_fk";		 
-			paramSource = new BeanPropertySqlParameterSource(obj);		 
-			int count = namedParamJdbcTemplate.update(deleteQry, paramSource);	
-
-			query = " insert into designexecutives (work_id_fk, executive_user_id_fk)"
-	               + " values (?,?)";
-		}
-		
-		if(obj.getModule_name_fk().compareTo("Finance")==0)
-		{
-		
-			String deleteQry = "DELETE from finance_executives where work_id_fk = :work_id_fk";		 
-			paramSource = new BeanPropertySqlParameterSource(obj);		 
-			int count = namedParamJdbcTemplate.update(deleteQry, paramSource);	
-
-			query = " insert into finance_executives (work_id_fk, executive_user_id_fk)"
-	               + " values (?,?)";
-		}
-		
-		if(obj.getModule_name_fk().compareTo("LandAcquisition")==0)
-		{
-		
-			String deleteQry = "DELETE from land_executives where work_id_fk = :work_id_fk";		 
-			paramSource = new BeanPropertySqlParameterSource(obj);		 
-			int count = namedParamJdbcTemplate.update(deleteQry, paramSource);	
-
-			query = " insert into land_executives (work_id_fk, executive_user_id_fk)"
-	               + " values (?,?)";
-		}
-		
-		if(obj.getModule_name_fk().compareTo("RandR	")==0)
-		{
-		
-			String deleteQry = "DELETE from rr_executives where work_id_fk = :work_id_fk";		 
-			paramSource = new BeanPropertySqlParameterSource(obj);		 
-			int count = namedParamJdbcTemplate.update(deleteQry, paramSource);	
-
-			query = " insert into rr_executives (work_id_fk, executive_user_id_fk)"
-	               + " values (?,?)";
-		}
-		
-		if(obj.getModule_name_fk().compareTo("Risk")==0)
-		{
-		
-			String deleteQry = "DELETE from risk_work_hod where work_id_fk = :work_id_fk";		 
-			paramSource = new BeanPropertySqlParameterSource(obj);		 
-			int count = namedParamJdbcTemplate.update(deleteQry, paramSource);	
-
-			query = " insert into risk_work_hod (work_id_fk, hod_user_id_fk)"
-	               + " values (?,?)";
-		}
-		
-		if(obj.getModule_name_fk().compareTo("UtilityShifting")==0)
-		{
-		
-			String deleteQry = "DELETE from utility_shifting_executives where work_id_fk = :work_id_fk";		 
-			paramSource = new BeanPropertySqlParameterSource(obj);		 
-			int count = namedParamJdbcTemplate.update(deleteQry, paramSource);	
-
-			query = " insert into utility_shifting_executives (work_id_fk, executive_user_id_fk)"
-	               + " values (?,?)";
-		}		
-
-	  PreparedStatement preparedStmt = null;
-	  Connection con = null;
-	  try
-	  {
-		con = dataSource.getConnection();
-		preparedStmt = con.prepareStatement(query);
-	    
-		String Str2[]=obj.getUser_id().split(",");
-
-		if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUser_id())) 
-		{
-			for (int i = 0; i < Str2.length; i++) 
-			{
-		      preparedStmt.setString(1, obj.getWork_id_fk());
-		      preparedStmt.setString(2, Str2[i]);
-		      preparedStmt.execute();
-			}
-		}
-			transactionManager.commit(status);
-		}
-		catch(Exception e){ 
-			e.printStackTrace();
-			transactionManager.rollback(status);
-			throw new Exception(e);
-		}finally {
-			DBConnectionHandler.closeJDBCResoucrs(connection, updateStmt, null);
-		}		
-
-		return worksList;
-	}
 
 }
 

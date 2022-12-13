@@ -53,15 +53,15 @@ public class DashboardAccessFormServiceImpl implements DashboardAccessFormServic
 	}
 	
 	@Override
-	public List<DashboardAccessForm> getModulesList(DashboardAccessForm obj) throws Exception
+	public boolean addDashboardUserAccess(DashboardAccessForm obj) throws Exception
 	{
-		return dao.getModulesList(obj);
+		return dao.addDashboardUserAccess(obj);
 	}
 	
 	@Override
-	public List<DashboardAccessForm> getWorkModuleWiseUsers(DashboardAccessForm obj) throws Exception
+	public List<DashboardAccessForm> getDashboardUserAccess(DashboardAccessForm obj) throws Exception
 	{
-		return dao.getWorkModuleWiseUsers(obj);
+		return dao.getDashboardUserAccess(obj);
 	}
 	
 	@Override

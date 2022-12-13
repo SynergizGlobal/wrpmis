@@ -316,22 +316,23 @@
  	             success: function (data1) {
  	                 if (data1.length > 0) 
  	                 {
-		 	           		$.each(data1, function (i1, val1) { 
-		 	           			
-		 	           				if(val1.module_name_fk!="R & R")
-		 	           				{
+		 	           		$.each(data1, function (i1, val1) {
+		 	           		var SRM=val1.module_name_fk.split(" ").join("");
+		 	           		
+		 	           		SRM=SRM.replace(/&/g, "and");
+
 		 	       		 				if(workidsArray.indexOf(val1.work_id_fk)==-1)
 		 	       		 				{
 		 	       		 					workidsArray.push(val1.work_id_fk);
 		 	       		 				}
 		 	       		 				
-		 	       		 				if(modulesArray.indexOf(val1.module_name_fk)==-1)
+		 	       		 				if(modulesArray.indexOf(SRM)==-1)
 		 	       		 				{
-		 	       		 					modulesArray.push(val1.module_name_fk);
+		 	       		 					modulesArray.push(SRM);
 		 	       		 				} 
 		 	       		 				
-		 	       		 				workidmodulesArray.push(val1.work_id_fk+'@@@'+val1.module_name_fk+'@@@'+val1.user_id);
-		 	           				}
+		 	       		 				workidmodulesArray.push(val1.work_id_fk+'@@@'+SRM+'@@@'+val1.user_id);
+		 	           				
 		 	           		
 		 	           		});
 		 	           			for(var i=0;i<workidsArray.length;i++)
@@ -399,117 +400,102 @@
      {
      
     	 $("#WorkModuleUserAccessFormTable tbody tr").remove();
-     
-    	 var myParams2 = { project_id_fk: document.getElementById("project_id_fk").value,work_id_fk: document.getElementById("work_id_fk").value};
-		  $.ajax({
-            url: "<%=request.getContextPath()%>/ajax/getWorksListForWorkWiseUserAccess",
-            data: myParams2, cache: false,
-            success: function (data) 
-            {
-           
-                if (data.length > 0) 
-                {
-                	$.each(data, function (i, val) {
+
                 
-                		var html="<tr>";
-     		 			html=html+'<td style="width:30%">'+val.work_id_fk+' - '+val.work_short_name+'</td>';
-     		 				for(var i1=0;i1<7;i1++)
-     		 				{
- 		 						var SRM=document.getElementById("WorkModuleUserAccessFormTable").rows[0].cells[i1+1].innerHTML.split(" ").join("");
- 		 						SRM = SRM.replace(/&amp;/g, "and");
-     		 				
-     		 						html=html+'<td>'+
-     		 						
-     		 						
-     		 						'<select class="searchable validate-dropdown" id="'+val.work_id_fk+'_'+SRM+'" name="executive_user_id_fk" multiple="multiple" >'+
-     		 						'<option >Select</option>'+
-                                       <c:forEach var="obj" items="${usersDetails}" >
-                                     		  +'<option value= "${obj.user_id}">${obj.designation}<c:if test="${not empty obj.user_name}"> - </c:if> ${obj.user_name }</option>'
-                                     	</c:forEach>											 			 		                             	
-                                     	+'</select></td>';    
-     		 				}
-     		 				html=html+'</tr>';
- 		         			$("#WorkModuleUserAccessFormTable tbody").append(html);  
- 		         		  
-                	});
-                	
-                			$.each(data, function (i, val) {
-                		
+             		var html="<tr>";
+  		 			html=html+'<td style="width:30%">'+$("#work_id_fk option:selected").text()+'</td>';
+  		 				for(var i1=0;i1<7;i1++)
+  		 				{
+ 							var SRM=document.getElementById("WorkModuleUserAccessFormTable").rows[0].cells[i1+1].innerHTML.split(" ").join("");
+ 							SRM = SRM.replace(/&amp;/g, "and");
+ 							
+ 							if(document.getElementById("WorkModuleUserAccessFormTable").rows[0].cells[i1+1].innerHTML=="Contracts")
+ 								{
+  		 						html=html+'<td>'+
+  		 						'<select class="searchable validate-dropdown" id="'+$("#work_id_fk").val()+'_'+SRM+'" name="executive_user_id_fk" multiple="multiple" >'+
+  		 						'<option >Select</option>'+
+                                    <c:forEach var="obj" items="${usersDetails}" >
+                                  		  +'<option value= "${obj.user_id}">${obj.designation}<c:if test="${not empty obj.user_name}"> - </c:if> ${obj.user_name }</option>'
+                                  	</c:forEach>											 			 		                             	
+                                  	+'</select></td>';  
+ 								}
+ 							else
+ 								{
+  		 							html=html+'<td>'+
+	  		 						'<select class="searchable validate-dropdown" id="'+$("#work_id_fk").val()+'_'+SRM+'" name="executive_user_id_fk" multiple="multiple" >'+
+	  		 						'<option >Select</option>'+
+	                                    <c:forEach var="obj" items="${moduleUsersDetails}" >
+	                                  		  +'<option value= "${obj.user_id}">${obj.designation}<c:if test="${not empty obj.user_name}"> - </c:if> ${obj.user_name }</option>'
+	                                  	</c:forEach>											 			 		                             	
+	                                  	+'</select></td>';  								
+ 								}
+  		 				}
+  		 				html=html+'</tr>';
+         			$("#WorkModuleUserAccessFormTable tbody").append(html);  
 
-	     		 				for(var i1=0;i1<7;i1++)
-	     		 				{
-     		 						var SRM=document.getElementById("WorkModuleUserAccessFormTable").rows[0].cells[i1+1].innerHTML.split(" ").join("");
-     		 						SRM = SRM.replace(/&amp;/g, "and");
-     		 					
-		     		 					var mopval=val.work_id_fk+'_'+SRM;
-		     		 					$("#"+mopval).select2();
-	     		 					
- 	           					}
- 		         		  
-                	}); 
-                			getSelectedWorkUser();
-                }
-            }
-		  });
-     }
-     
-     
-     function getProjectWiseModuleUserAccess()
-     {
-    	 var html="";
-    	 
-	    	$.ajax({
-	             url: "<%=request.getContextPath()%>/ajax/getProjectWiseModuleUserAccess",
-	             type: 'GET',
-	             cache: false,
-	             success: function (data1) {
-	                 if (data1.length > 0) 
-	                 {
-              		 		html=html+'<select class="searchable validate-dropdown" name="executive_user_id_fk"  multiple="multiple">';
-          	                	 html=html+'<option value="0">Select</option>';
-         	                	 $.each(data1, function (i1, val1) {
-             	                	 html=html+'<option value= "'+val.user_id+'">'+val.designation+'-'+val.user_name+'</option>';
-         	                     });          	                	 
-      	                	 html=html+'</select>';
-      	                	
-	                 }
-	             }
-	         }); 
+					for(var i1=0;i1<7;i1++)
+					{
+						var SRM=document.getElementById("WorkModuleUserAccessFormTable").rows[0].cells[i1+1].innerHTML.split(" ").join("");
+						SRM = SRM.replace(/&amp;/g, "and");
+					
+							var mopval=$("#work_id_fk").val()+'_'+SRM;
+							$("#"+mopval).select2();
+						
+		   			}
+		  		  
+		      		getSelectedWorkUser();
 
-        return html;
-   	 
+		   
      }
      
      function addWorkModuleUserAccess()
      {
- 				for(var i=0;i<workidsArray.length;i++)
-    			{
+    	 var allModulesArray=new Array();
+			for(var i1=0;i1<7;i1++)
+			{
+				
+				var SRM=document.getElementById("WorkModuleUserAccessFormTable").rows[0].cells[i1+1].innerHTML.split(" ").join("");
+				SRM = SRM.replace(/&amp;/g, "and");				
+			
+				
+	 					if(allModulesArray.indexOf(SRM)==-1)
+		 				{
+	 						allModulesArray.push(SRM);
+		 				}
+   			}  	 
+    	 
+     
+    	 			var concatText="";
+     
+
     			
-        			for(var i1=0;i1<modulesArray.length;i1++)
+        			for(var i1=0;i1<allModulesArray.length;i1++)
         			{
-        			    var mopval=workidsArray[i]+'_'+modulesArray[i1];
         			   
-        					for(var i2=0;i2<workidmodulesArray.length;i2++)
-        			    	{
-        			           var splitStr=workidmodulesArray[i2];
-        			           var splitStr1=splitStr.toString();
-        			       	   var splitStr2=splitStr1.split('@@@');
-        			       	   	   if(workidsArray[i]==splitStr2[0] && modulesArray[i1]==splitStr2[1])
-        			       		   {
-        			       	   			var myParams3 = { work_id_fk: workidsArray[i],module_name_fk:modulesArray[i1],user_id:splitStr2[2]};
+
+								var workmoduleValue=$("#work_id_fk").val()+'_'+allModulesArray[i1];
+								if($("#"+workmoduleValue).val()!=null && $("#"+workmoduleValue).val()!="" && $("#"+workmoduleValue).val()!=undefined)
+									{
+  			       	   					concatText=concatText+allModulesArray[i1]+"___"+$("#"+workmoduleValue).val()+'###';
+									}
+
         			       		   
-        		             	    	$.ajax({
-        		             	             url: "<%=request.getContextPath()%>/ajax/addWorkModuleUserAccess",
-        		             	             data: myParams3, cache: false,
-        		             	             success: function (data1) {
-        		             	             }
-        		             	         }); 
-        			       		   }
-        			    	}
-        			}		 	           			
-    			}
- 				alert("Updated successfully");
- 				window.location.reload();
+        			    	
+        			}	
+        			
+ 				
+   	   			var myParams3 = { work_id_fk: $("#work_id_fk").val(),module_name_fk:concatText};
+	       		   
+     	    	$.ajax({
+     	             url: "<%=request.getContextPath()%>/ajax/addWorkModuleUserAccess",
+     	             data: myParams3, cache: false,
+     	             success: function (data1) 
+     	             {
+     	 				alert("Updated successfully");
+     	 				window.location.reload();    	             
+     	             }
+     	         }); 				
+
      }
      
      
@@ -520,113 +506,7 @@
 		 $('#bttnUpdate').prop('disabled', false);
 		 updateFlag = true;
 		}
-     
-     $("#bankNameForm").submit(function (e) {
-       	 if(validator.form()){ 
-   			$(".page-loader").show();
-   			$("#addUpdateModal").modal();
-   			if(flag){
-				document.getElementById("bankNameForm").submit();	
-			 }
-			 $(".page-loader").hide();
-			 return false;
-        }
-     })
-     
-     $("#bankNameForm1").submit(function (e) {
-       	 if(validator1.form()){ 
-   			$(".page-loader").show();
-   			$("#onlyUpdateModal").modal();
-   			if(updateFlag){
- 				document.getElementById("bankNameForm1").submit();	
- 			 }
- 			 $(".page-loader").hide();
- 			 return false;
-        }
-     })
-    
-     var validator = $('#bankNameForm').validate({
-    	 rules: {
-    		 	"bank_name": {
-			 		  required: true 
-    			},"bank_name_new": {
-			 		  required: true 
-    			}
-			},messages: {
-		 		 "bank_name": {
-			 		  required: 'Required'
-			 	 },"bank_name_new": {
-			 		  required: 'Required'
-			 	 }
-	        },errorPlacement:function(error, element){
-	        	 if(element.attr("id") == "bank_name_text" ){
-				     document.getElementById("bank_nameError").innerHTML="";
-			 	     error.appendTo('#bank_nameError');
-			   }else if(element.attr("id") == "bank_name_text1" ){
-				     document.getElementById("bank_name_text1Error").innerHTML="";
-			 	     error.appendTo('#bank_name_text1Error');
-			   }
-	        }
-     });
-     
-     var validator1 = $('#bankNameForm1').validate({
-    	 rules: {
-    		 	"bank_name_new": {
-			 		  required: true 
-    			}
-			},messages: {
-		 		"bank_name_new": {
-			 		  required: 'Required'
-			 	 }
-	        },errorPlacement:function(error, element){
-	        	 if(element.attr("id") == "bank_name_text1" ){
-				     document.getElementById("bank_name_text1Error").innerHTML="";
-			 	     error.appendTo('#bank_name_text1Error');
-			   }
-	        }
-     });
-    
-     $('input').change(function(){
-	           if ($(this).val() != ""){
-	               $(this).valid();
-	           }
-	  });
-
-     function updateRow(no) {
-         var currentVal = $('#value'+no).val();
-         $('#bank_name_old_text').val($.trim(currentVal)) 
-         $('#onlyUpdateModal').modal('open');
-         $('#onlyUpdateModal #bank_name_text1').val($.trim(currentVal)).focus();
-     }
-     
-     function deleteRow(val){
-     	$("#bank_name").val(val);
-     	showCancelMessage();
-	    }
-     	
-     
-     function showCancelMessage() {
-     	swal({
-	            title: "Are you sure?",
-	            text: "You will be changing the status of the record!",
-	            type: "warning",
-	            showCancelButton: true,
-	            confirmButtonColor: "#DD6B55",
-	            confirmButtonText: "Yes, delete it!",
-	            cancelButtonText: "No, cancel it!",
-	            closeOnConfirm: false,
-	            closeOnCancel: false
-	        }, function (isConfirm) {
-	            if (isConfirm) {
-	            	$(".page-loader").show();
-	               // swal("Deleted!", "Record has been deleted", "success");
-	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-bank-name');
-	    	    	$('#getForm').submit();
-	           }else {
-	                swal("Cancelled", "Record is safe :)", "error");
-	            }
-	        });
-	    }
+ 
      
     </script>
 

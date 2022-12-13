@@ -175,15 +175,25 @@
                     <div class="container container-no-margin">
                             <div class="row">
                                 <div class="col s6 m4 l4 input-field">
+                                    <p class="searchable_label"> Project </p>
+                                    <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk" onchange="getWorksList(this.value);" style="display:block;">
+                                        <option value="">Select</option>
+                                          <c:forEach var="obj" items="${projectsList }">
+                                      	   <option value= "${obj.project_id_fk}">${obj.project_id_fk} - ${obj.project_name}</option>
+                                         </c:forEach>
+                                    </select>
+                                    <span id="project_id_fkError" class="error-msg" ></span>
+                                </div>
+                                <div class="col s6 m4 l4 input-field">
                                     <p class="searchable_label"> Work </p>
-                                    <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk" onchange="getProjectWiseModuleUserAccess();" style="display:block;">
+                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" onchange="WorksListForWorkWiseUserAccess();" style="display:block;">
                                         <option value="">Select</option>
                                           <c:forEach var="obj" items="${worksList }">
                                       	   <option value= "${obj.work_id_fk}">${obj.work_id_fk} - ${obj.work_short_name}</option>
                                          </c:forEach>
                                     </select>
                                     <span id="project_id_fkError" class="error-msg" ></span>
-                                </div>
+                                </div>                                
                             </div>
 
                              </div>
@@ -195,7 +205,6 @@
 								<table id="DashboardAccessFormFormTable" class="mdl-data-table mobile_responsible_table">
 									<thead>
 										<tr>
-											<th style="width:5%">S. No.</th>
 											<th style="width:30%">Work Name</th>
 											<th>User Role</th>
 											<th>User Type</th>
@@ -204,7 +213,7 @@
 									
 									</thead>
 									<tbody id="DashboardAccessFormTableBody">
-									<c:set var="count" value="1" />
+<%-- 									<c:set var="count" value="1" />
 									
                                         <c:forEach var="obj" items="${worksList }">
                                     	   		<tr>
@@ -236,7 +245,7 @@
                                                    </td>	                                      	   				                                      	   			
                                     	   		</tr>
                                     	   	<c:set var="count" value="${count+1}" />  
-                                       	</c:forEach>
+                                       	</c:forEach> --%>
 									</tbody>
 								</table>
 								<p id="fyError" style="color:red;"></p>
@@ -246,10 +255,9 @@
 							<h5 class="center-align">Overview Dashboard</h5>
 							<div class="table-inside">
 					 
-								<table id="DashboardAccessFormFormTable" class="mdl-data-table mobile_responsible_table">
+								<table id="OverviewDashboardAccessFormFormTable" class="mdl-data-table mobile_responsible_table">
 									<thead>
 										<tr>
-											<th style="width:5%">S. No.</th>
 											<th style="width:30%">Parent Dashboard</th>
 											<th>User Role</th>
 											<th>User Type</th>
@@ -257,8 +265,8 @@
 										</tr>
 									
 									</thead>
-									<tbody id="DashboardAccessFormTableBody">
-									<c:set var="countM" value="1" />
+									<tbody id="OverviewDashboardAccessFormTableBody">
+<%-- 									<c:set var="countM" value="1" />
                                         <c:forEach var="obj" items="${modulesList }">
                                     	   		<tr>
                                     	   			<td>${countM}</td>
@@ -289,7 +297,7 @@
                                                    </td>	                                      	   				                                      	   			
                                     	   		</tr>
                                     	   		<c:set var="countM" value="${countM+1}" />  
-                                       	</c:forEach>
+                                       	</c:forEach> --%>
 									</tbody>
 								</table>
 								<p id="fyError" style="color:red;"></p>
@@ -351,168 +359,228 @@
      $(document).ready(function () {
          $('.searchable').select2();
          $('.modal').modal( );
+         $("#project_id_fk").val('P04').trigger('change');
       
      });
      
+     function getWorksList(projectId) {
+      	$(".page-loader").show();
+          $("#work_id_fk option:not(:first)").remove();
+          $("#contract_id_fk option:not(:first)").remove();
+          if ($.trim(projectId) != "") {
+              var myParams = { project_id_fk: projectId };
+              $.ajax({
+                  url: "<%=request.getContextPath()%>/ajax/getWorkListForDesignForm",
+                  data: myParams, cache: false,
+                  success: function (data) {
+                      if (data.length > 0) {
+                          $.each(data, function (i, val) {
+                              var workName = '';
+                              if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
+                              var workId = "${designDetails.work_id_fk}";
+                              if ($.trim(workId) != '' && val.work_id == $.trim(workId)) {
+                                  $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+                              } else {
+                                  $("#work_id_fk").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + $.trim(workName) + '</option>');
+                              }
+                          });
+                          $("#work_id_fk").val('P04W01').trigger('change');
+                      }
+                      $('.searchable').select2();
+                      $(".page-loader").hide();
+                  }
+              });
+          }else{
+          	$(".page-loader").hide();
+          }
+      }
      
-     function getProjectWiseModuleUserAccess()
+     var workidsArray=new Array();
+     var modulesArray=new Array();
+     var workidmodulesArray=new Array();
+     
+     function getSelectedWorkUser()
      {
+    	     var trRowsLength=$('#DashboardAccessFormTableBody > tr').length;
+    	     var tdColumnsLength=$('#DashboardAccessFormTableBody > tr:eq(0) > td').length;
+    	     
+    	     var myParams2 = { project_id_fk: document.getElementById("project_id_fk").value,work_id_fk: document.getElementById("work_id_fk").value };
+   		 
+ 	    	$.ajax({
+ 	             url: "<%=request.getContextPath()%>/ajax/getDashboardUserAccess",
+ 	            data: myParams2,cache: false,
+ 	             success: function (data1) {
+ 	                 if (data1.length > 0) 
+ 	                 {
+		 	           		$.each(data1, function (i1, val1) {
+
+		 	           					if(val1.access_type=="user")
+		 	           					{
+		 	           						var workmoduleValue=$("#work_id_fk").val()+'_User';
+		 	           						var OverviewValue=$("#work_id_fk").val()+'_OverviewUser';
+		 	           						
+ 	           			       		   		var URT=val1.access_value.split(',');
+ 	           			       	    		$("#"+workmoduleValue).val(URT).trigger('change');	
+ 	           			       	    		$("#"+OverviewValue).val(URT).trigger('change');	
+		 	           					}
+		 	           					if(val1.access_type=="user_role")
+		 	           					{
+		 	           						var workmoduleValue=$("#work_id_fk").val()+'_UserRole';
+		 	           						var OverviewValue=$("#work_id_fk").val()+'_OverviewUserRole';
+		 	           					
+		 	           						var URT=val1.access_value.split(',');
+ 	           			       	    		$("#"+workmoduleValue).val(URT).trigger('change');
+ 	           			       	    		$("#"+OverviewValue).val(URT).trigger('change');
+		 	           					}
+		 	           					if(val1.access_type=="user_type")
+		 	           					{
+		 	           						var workmoduleValue=$("#work_id_fk").val()+'_UserType';
+		 	           						var OverviewValue=$("#work_id_fk").val()+'_OverviewUserType';
+		 	           					
+		 	           						var URT=val1.access_value.split(',');
+ 	           			       	    		$("#"+workmoduleValue).val(URT).trigger('change');	
+ 	           			       	    		$("#"+OverviewValue).val(URT).trigger('change');	
+		 	           					}		 	           					
+		 	           		
+		 	           		});
+		 	       		 		
+ 	                 }
+ 	             }
+ 	         });     	     
+     
+
+     }   
+     
+     
+     function WorksListForWorkWiseUserAccess()
+     {
+     
     	 $("#DashboardAccessFormFormTable tbody tr").remove();
- 		  var myParams2 = { project_id_fk: document.getElementById("project_id_fk").value };
-		  $.ajax({
-             url: "<%=request.getContextPath()%>/ajax/getWorksListForWorkWiseUserAccess",
-             data: myParams2, cache: false,
-             success: function (data) {
-                 if (data.length > 0) {
-                	 $.each(data, function (i, val) {
-             	    	
-                		 var html="<tr>";
-                		 
-                		 html=html+'<td>'+val.work_id_fk+' - '+val.work_short_name+'</td>';
-                		 
-                		 var myParams3 = { work_id_fk: val.work_id_fk,module_id_fk:document.getElementById("DashboardAccessFormFormTable").rows[0].cells[i+1].innerHTML};
-                		 
-             	    	$.ajax({
-             	             url: "<%=request.getContextPath()%>/ajax/getWorkModuleWiseUsers",
-             	             data: myParams3, cache: false,
-             	             success: function (data1) {
-             	                 if (data1.length > 0) {
-             	                	 var html1='<select class="searchable validate-dropdown" name="executive_user_id_fk" id="responsible_executives_id_fks0"  multiple="multiple">';
-             	                	 $.each(data1, function (i1, val1) {
-                 	                	 html1=html1+'<option value="0">Select</option>';
-             	                     });
-             	                	 html1=html1+'</select>';
-             	                	 html=html1;
-             	                	$("#DashboardAccessFormFormTable tbody").append(html);
-             	                 }
-             	             }
-             	         }); 
-             	    	
-             	    	html=html+'</tr>';
-             	    	
-             	    	          	    	
-             	    	
-                     });
-                 }
-             }
-         });      	 
+
+                
+             		var html="<tr>";
+  		 			html=html+'<td style="width:30%">'+$("#work_id_fk option:selected").text()+'</td>';
+
+ 							
+
+  		 							html=html+'<td>'+
+	  		 						'<select class="searchable validate-dropdown" id="'+$("#work_id_fk").val()+'_UserRole" name="user_role_access" multiple="multiple" >'+
+	  		 						'<option >Select</option>'+
+	                                    <c:forEach var="obj" items="${user_roles}" >
+	                                  		  +'<option value= "${obj.access_value_id}">${obj.access_value_id }</option>'
+	                                  	</c:forEach>											 			 		                             	
+	                                  	+'</select></td><td><select class="searchable validate-dropdown" id="'+$("#work_id_fk").val()+'_UserType" name="user_type_access" multiple="multiple" >'+
+	  		 						'<option >Select</option>'+
+	                                    <c:forEach var="obj" items="${user_types}" >
+	                                  		  +'<option value= "${obj.access_value_id}">${obj.access_value_id }</option>'
+	                                  	</c:forEach>											 			 		                             	
+	                                  	+'</select></td><td><select class="searchable validate-dropdown" id="'+$("#work_id_fk").val()+'_User" name="user_access" multiple="multiple" >'+
+	  		 						'<option >Select</option>'+
+	                                    <c:forEach var="obj" items="${users}" >
+	                                  		  +'<option value= "${obj.access_value_id}">${obj.access_value_id }</option>'
+	                                  	</c:forEach>											 			 		                             	
+	                                  	+'</select></td>';  								
+ 								
+  		 				
+  		 				html=html+'</tr>';
+  		 				
+  		 				
+  	             		var htmlOverview="<tr>";
+  	             		htmlOverview=htmlOverview+'<td style="width:30%">'+$("#work_id_fk option:selected").text()+'</td>';
+
+  	 							
+
+  	             		htmlOverview=htmlOverview+'<td>'+
+  		  		 						'<select class="searchable validate-dropdown" id="'+$("#work_id_fk").val()+'_OverviewUserRole" name="user_role_access" multiple="multiple" >'+
+  		  		 						'<option >Select</option>'+
+  		                                    <c:forEach var="obj" items="${user_roles}" >
+  		                                  		  +'<option value= "${obj.access_value_id}">${obj.access_value_id }</option>'
+  		                                  	</c:forEach>											 			 		                             	
+  		                                  	+'</select></td><td><select class="searchable validate-dropdown" id="'+$("#work_id_fk").val()+'_OverviewUserType" name="user_type_access" multiple="multiple" >'+
+  		  		 						'<option >Select</option>'+
+  		                                    <c:forEach var="obj" items="${user_types}" >
+  		                                  		  +'<option value= "${obj.access_value_id}">${obj.access_value_id }</option>'
+  		                                  	</c:forEach>											 			 		                             	
+  		                                  	+'</select></td><td><select class="searchable validate-dropdown" id="'+$("#work_id_fk").val()+'_OverviewUser" name="user_access" multiple="multiple" >'+
+  		  		 						'<option >Select</option>'+
+  		                                    <c:forEach var="obj" items="${users}" >
+  		                                  		  +'<option value= "${obj.access_value_id}">${obj.access_value_id }</option>'
+  		                                  	</c:forEach>											 			 		                             	
+  		                                  	+'</select></td>';  								
+  	 								
+  	  		 				
+  		                                  htmlOverview=htmlOverview+'</tr>';
+  	  		 				
+  	  		 				
+  		 				
+         			$("#DashboardAccessFormFormTable tbody").append(html);
+         			$("#OverviewDashboardAccessFormFormTable tbody").append(htmlOverview);
+
+					for(var i1=0;i1<3;i1++)
+					{
+						var SRM=document.getElementById("DashboardAccessFormFormTable").rows[0].cells[i1+1].innerHTML.split(" ").join("");
+						SRM = SRM.replace(/&amp;/g, "and");
+					
+							var mopval=$("#work_id_fk").val()+'_'+SRM;
+							$("#"+mopval).select2();
+						
+		   			}
+		  		  
+		      		getSelectedWorkUser();
+
+		   
      }
      
+     function addWorkModuleUserAccess()
+     {
+    	 var allModulesArray=new Array();
+			for(var i1=0;i1<3;i1++)
+			{
+				
+				var SRM=document.getElementById("DashboardAccessFormFormTable").rows[0].cells[i1+1].innerHTML.split(" ").join("");
+				SRM = SRM.replace(/&amp;/g, "and");				
+			
+				
+	 					if(allModulesArray.indexOf(SRM)==-1)
+		 				{
+	 						allModulesArray.push(SRM);
+		 				}
+   			}  	 
+    	 
+     
+    	 			var concatText="";
      
 
-     
-     function removeErrorMsg(){
-		 $('#bank_name_text1Error').text('');
-		 $('#bttnUpdate').prop('disabled', false);
-		 updateFlag = true;
-		}
-     
-     $("#bankNameForm").submit(function (e) {
-       	 if(validator.form()){ 
-   			$(".page-loader").show();
-   			$("#addUpdateModal").modal();
-   			if(flag){
-				document.getElementById("bankNameForm").submit();	
-			 }
-			 $(".page-loader").hide();
-			 return false;
-        }
-     })
-     
-     $("#bankNameForm1").submit(function (e) {
-       	 if(validator1.form()){ 
-   			$(".page-loader").show();
-   			$("#onlyUpdateModal").modal();
-   			if(updateFlag){
- 				document.getElementById("bankNameForm1").submit();	
- 			 }
- 			 $(".page-loader").hide();
- 			 return false;
-        }
-     })
-    
-     var validator = $('#bankNameForm').validate({
-    	 rules: {
-    		 	"bank_name": {
-			 		  required: true 
-    			},"bank_name_new": {
-			 		  required: true 
-    			}
-			},messages: {
-		 		 "bank_name": {
-			 		  required: 'Required'
-			 	 },"bank_name_new": {
-			 		  required: 'Required'
-			 	 }
-	        },errorPlacement:function(error, element){
-	        	 if(element.attr("id") == "bank_name_text" ){
-				     document.getElementById("bank_nameError").innerHTML="";
-			 	     error.appendTo('#bank_nameError');
-			   }else if(element.attr("id") == "bank_name_text1" ){
-				     document.getElementById("bank_name_text1Error").innerHTML="";
-			 	     error.appendTo('#bank_name_text1Error');
-			   }
-	        }
-     });
-     
-     var validator1 = $('#bankNameForm1').validate({
-    	 rules: {
-    		 	"bank_name_new": {
-			 		  required: true 
-    			}
-			},messages: {
-		 		"bank_name_new": {
-			 		  required: 'Required'
-			 	 }
-	        },errorPlacement:function(error, element){
-	        	 if(element.attr("id") == "bank_name_text1" ){
-				     document.getElementById("bank_name_text1Error").innerHTML="";
-			 	     error.appendTo('#bank_name_text1Error');
-			   }
-	        }
-     });
-    
-     $('input').change(function(){
-	           if ($(this).val() != ""){
-	               $(this).valid();
-	           }
-	  });
+    			
+        			for(var i1=0;i1<allModulesArray.length;i1++)
+        			{
+        			   
 
-     function updateRow(no) {
-         var currentVal = $('#value'+no).val();
-         $('#bank_name_old_text').val($.trim(currentVal)) 
-         $('#onlyUpdateModal').modal('open');
-         $('#onlyUpdateModal #bank_name_text1').val($.trim(currentVal)).focus();
+								var workmoduleValue=$("#work_id_fk").val()+'_'+allModulesArray[i1];
+								if($("#"+workmoduleValue).val()!=null && $("#"+workmoduleValue).val()!="" && $("#"+workmoduleValue).val()!=undefined)
+									{
+  			       	   					concatText=concatText+allModulesArray[i1]+"___"+$("#"+workmoduleValue).val()+'###';
+									}
+
+        			       		   
+        			    	
+        			}	
+        			
+ 				
+   	   			var myParams3 = { work_id_fk: $("#work_id_fk").val(),module_name_fk:concatText};
+	       		   
+     	    	$.ajax({
+     	             url: "<%=request.getContextPath()%>/ajax/addWorkModuleUserAccess",
+     	             data: myParams3, cache: false,
+     	             success: function (data1) 
+     	             {
+     	 				alert("Updated successfully");
+     	 				window.location.reload();    	             
+     	             }
+     	         }); 				
+
      }
-     
-     function deleteRow(val){
-     	$("#bank_name").val(val);
-     	showCancelMessage();
-	    }
-     	
-     
-     function showCancelMessage() {
-     	swal({
-	            title: "Are you sure?",
-	            text: "You will be changing the status of the record!",
-	            type: "warning",
-	            showCancelButton: true,
-	            confirmButtonColor: "#DD6B55",
-	            confirmButtonText: "Yes, delete it!",
-	            cancelButtonText: "No, cancel it!",
-	            closeOnConfirm: false,
-	            closeOnCancel: false
-	        }, function (isConfirm) {
-	            if (isConfirm) {
-	            	$(".page-loader").show();
-	               // swal("Deleted!", "Record has been deleted", "success");
-	            	$('#getForm').attr('action', '<%=request.getContextPath()%>/delete-bank-name');
-	    	    	$('#getForm').submit();
-	           }else {
-	                swal("Cancelled", "Record is safe :)", "error");
-	            }
-	        });
-	    }
+          
      
     </script>
 

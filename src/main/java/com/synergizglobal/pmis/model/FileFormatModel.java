@@ -97,9 +97,12 @@ public class FileFormatModel {
 	
 	public static List<String> getUtilityShiftingFileFormat() {
 		List<String> fileFormat = new ArrayList<String>();
-		String columns = "Work,Contract,Utility Shifting ID,Identification,Location Name,Reference Number,Chainage,Utility Description,Utility Type,"
+		/*String columns = "Work,Contract,Utility Shifting ID,Identification,Location Name,Reference Number,Chainage,Utility Description,Utility Type,"
 				+ "Owner Name,Category,Execution Agency,Impacted Contract,Requirement stage,Planned Completion,Shifting Completed,Start Date,Scope,"
-				+ "Completed,Unit,Status,Remarks";
+				+ "Completed,Unit,Status,Remarks";*/
+		String columns = "Utility ID, Project, Work, Execution Agency, HOD, Utility Type, Utility Description, Location, Custodian, Identification Date, Reference No., " + 
+				"Chainage, Executed By, Impacted Contract , Requirement stage," + 
+				"Impacted Element, Affected Structures , Target Date, Scope, Completed, Unit, Start Date, Status, Completetion Date, Remarks";
 		
 		String[] convertedColumnsArray = columns.split(",");
 		for (String column : convertedColumnsArray) {

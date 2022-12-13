@@ -205,14 +205,31 @@ public class UtilityReportDaoImpl implements UtilityReportDao{
 			obj.setReport1List(objsList);
 			if(objsList.size() > 0) {
 					
-				String qry2 = "SELECT id, utility_shifting_id, work_id_fk,work_short_name, identification, location_name, "
+				/*String qry2 = "SELECT id, utility_shifting_id, work_id_fk,work_short_name, identification, location_name, "
 						+ "reference_number, utility_description, utility_type_fk, utility_category_fk, owner_name, execution_agency_fk, "
 						+ "contract_id_fk, start_date, scope, completed, shifting_status_fk, shifting_completion_date, "
 						+ "impacted_contract_id_fk, requirement_stage_fk, FORMAT(planned_completion_date,'dd-MM-yyyy') as planned_completion_date, unit_fk " + 
 						"from utility_shifting u "
 						+ "left join work w on u.work_id_fk = w.work_id "
 						+ "left join project p on w.project_id_fk = p.project_id "
+						+ " where utility_shifting_id is not null and utility_shifting_id <> '' ";*/
+				
+				String qry2 = "SELECT distinct s.*,s.id, s.utility_shifting_id, s.work_id_fk,w.work_short_name,w.work_name,w.project_id_fk,p.project_name,c.contract_short_name,FORMAT(s.identification ,'dd-MM-yyyy') AS  identification, s.location_name, reference_number, utility_description, utility_type_fk, "
+						+ "utility_category_fk, s.owner_name, execution_agency_fk, contract_id_fk,  FORMAT(s.start_date ,'dd-MM-yyyy') AS start_date, s.scope, s.completed, s.shifting_status_fk, FORMAT(shifting_completion_date ,'dd-MM-yyyy') AS shifting_completion_date, "
+						+ "s.remarks, s.latitude, s.longitude, impacted_contract_id_fk, requirement_stage_fk, FORMAT(s.planned_completion_date ,'dd-MM-yyyy') AS planned_completion_date, unit_fk, s.created_by, s.created_date, s.modified_by,"
+						+ " s.modified_date,custodian,executed_by,impacted_element,affected_structures,c.contract_id,c.contract_name,c.contract_short_name,w.work_name,w.project_id_fk,p.project_name,"
+						+ "w.work_short_name,s.hod_user_id_fk,u.user_name,u.designation,chainage,"
+						+ "(SELECT s1.progress_date FROM utility_shifting_progress s1 where s1.progress_date = (select max(s2.progress_date) from utility_shifting_progress s2 where s2.utility_shifting_id = s.utility_shifting_id group by s2.utility_shifting_id) and s1.utility_shifting_id = s.utility_shifting_id) as latest_progress_date, "
+						+ "(SELECT s1.progress_of_work FROM utility_shifting_progress s1 where s1.progress_date = (select max(s2.progress_date) from utility_shifting_progress s2 where s2.utility_shifting_id = s.utility_shifting_id group by s2.utility_shifting_id) and s1.utility_shifting_id = s.utility_shifting_id) as latest_progress_update "
+						+ " from utility_shifting s "					
+						+ "LEFT OUTER JOIN contract c ON s.impacted_contract_id_fk  = c.contract_id "
+						+ "LEFT OUTER JOIN work w ON c.work_id_fk = w.work_id "
+						+ "LEFT OUTER JOIN project p ON w.project_id_fk = p.project_id "
+						+ "LEFT OUTER JOIN utility_shifting_executives us on w.work_id = us.work_id_fk "
+						+ "LEFT OUTER JOIN [user] u on s.hod_user_id_fk = u.user_id "
 						+ " where utility_shifting_id is not null and utility_shifting_id <> '' ";
+				
+				
 				
 				int arrSize1 = 0;
 				

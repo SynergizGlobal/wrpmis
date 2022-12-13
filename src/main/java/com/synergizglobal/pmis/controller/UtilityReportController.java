@@ -192,7 +192,7 @@ public class UtilityReportController {
           
 	        if(!(StringUtils.isEmpty(reportData))){
 	        	
-       		 	XSSFSheet rrSheet1 = workBook.createSheet(WorkbookUtil.createSafeSheetName("Utility Shifting - Summary Report"));
+       		 	/*XSSFSheet rrSheet1 = workBook.createSheet(WorkbookUtil.createSafeSheetName("Utility Shifting - Summary Report"));
 		        XSSFRow headRow = rrSheet1.createRow(0);
 		        
 		        Cell cell = headRow.createCell(0);
@@ -213,33 +213,33 @@ public class UtilityReportController {
 					cell.setCellValue("");
 				}	
 		        rrSheet1.addMergedRegion(new CellRangeAddress(1, 1, 0,4));
-		int rowNo = 3;
-
-        XSSFRow structureRow = rrSheet1.createRow(rowNo);
-
-        /**********************************************************************/
-		String headerString = "Sr No.^Execution Agency^Total no of utilities^Completed utilities (No's)^Total Remaining Utilities (No's)";
-        String[] headerStringArr = headerString.split("\\^");
-        
-        XSSFRow headingRow = rrSheet1.createRow(rowNo);
-        for (int i = 0; i < headerStringArr.length ; i++) {	
-        	
-    			 cell = headingRow.createCell(i);
-    	    	 cell.setCellStyle(bluetyle);
-				 cell.setCellValue(headerStringArr[i]);
-		}	
-
-        
-        
-        
-        int totalStructures = 0,totalPV = 0,totalRE = 0,totalHC = 0,totalBC = 0;
-        rowNo++; int rownum = 5;
-        String locName = null;
-        int x = 0,z=0,sNo = 1;  String workId = null;
+				int rowNo = 3;
+		
+		        XSSFRow structureRow = rrSheet1.createRow(rowNo);
+		
+		        
+				String headerString = "Sr No.^Execution Agency^Total no of utilities^Completed utilities (No's)^Total Remaining Utilities (No's)";
+		        String[] headerStringArr = headerString.split("\\^");
+		        
+		        XSSFRow headingRow = rrSheet1.createRow(rowNo);
+		        for (int i = 0; i < headerStringArr.length ; i++) {	
+		        	
+		    			 cell = headingRow.createCell(i);
+		    	    	 cell.setCellStyle(bluetyle);
+						 cell.setCellValue(headerStringArr[i]);
+				}	
+		
+		        
+		        
+		        
+		        int totalStructures = 0,totalPV = 0,totalRE = 0,totalHC = 0,totalBC = 0;
+		        rowNo++; int rownum = 5;
+		        String locName = null;
+		        int x = 0,z=0,sNo = 1;  String workId = null;
 	        	 for (UtilityShifting zObj : reportData.getReport1List()) {  
 				            int c = 0;
 		
-			  /***********************************************************************/
+			  
 					        XSSFRow row = rrSheet1.createRow(rowNo);
 					       
 					        row = rrSheet1.createRow(rowNo);
@@ -324,33 +324,39 @@ public class UtilityReportController {
 				  	rrSheet1.setColumnWidth(columnIndex, 35 * 125);
 				   }
 						   // rrSheet1.setColumnWidth(0, 25 * 120);
-	       		 	XSSFSheet rrSheet2 = workBook.createSheet(WorkbookUtil.createSafeSheetName("Utility Shifting - Detail Report"));
-	       		 	
-			        XSSFRow headRow2 = rrSheet2.createRow(0);
-			        
-			        Cell cell2 = headRow2.createCell(0);
-			        
-			        XSSFRow mainHeadingRow2 = rrSheet2.createRow(1);
-			        
-			        cell2 = mainHeadingRow2.createCell(0);
-			        cell2.setCellStyle(bluetyle);
-			        cell2.setCellValue(work_d+" Utility Shifting Detail Report");
-			        
-			        for (int i = 1; i < 5; i++) {		        	
-				        cell2 = mainHeadingRow2.createCell(i);
-				        cell2.setCellStyle(bluetyle);
-						cell2.setCellValue("");
-					}	
-			        rrSheet2.addMergedRegion(new CellRangeAddress(1, 1, 0,4));
-			        int rowNo2 = 3;
-				    // workBook.setSheetOrder(rrSheet1.getSheetName(), sheetNo++);	        	
+			*/
+		    /**********************************************************************/
+	        int x = 0,z=0,sNo = 1;  String workId = null;
+			String headerString2 = "Utility ID^work^Execution Agency^Impacted Contract Short Name^Type of Utility Shifting ^Description^Requirement stage^Impacted Element^Affected Structures^Custodian^HOD^Target Date^Executed By"
+					+ "^Latest Progress Date^Latest Progress Update^Actual Completion Date^Remarks";
+	        String[] headerStringArr2 = headerString2.split("\\^");	  
+	        
+   		 	XSSFSheet rrSheet2 = workBook.createSheet(WorkbookUtil.createSafeSheetName("Utility Shifting - Detail Report"));
+   		 	
+	        XSSFRow headRow2 = rrSheet2.createRow(0);
+	        
+	        Cell cell2 = headRow2.createCell(0);
+	        
+	        XSSFRow mainHeadingRow2 = rrSheet2.createRow(1);
+	        
+	        cell2 = mainHeadingRow2.createCell(0);
+	        cell2.setCellStyle(bluetyle);
+	        //cell2.setCellValue(work_d+" Utility Shifting Detail Report");
+	        
+	        cell2.setCellValue(" Utility Shifting Detail Report");
+	        
+	        for (int i = 1; i < headerStringArr2.length; i++) {		        	
+		        cell2 = mainHeadingRow2.createCell(i);
+		        cell2.setCellStyle(bluetyle);
+				cell2.setCellValue("");
+			}	
+	        rrSheet2.addMergedRegion(new CellRangeAddress(1, 1, 0,headerStringArr2.length));
+	        int rowNo2 = 3;
+		    // workBook.setSheetOrder(rrSheet1.getSheetName(), sheetNo++);	        	
 
 	        XSSFRow structureRow2 = rrSheet2.createRow(rowNo2);
 
-	        /**********************************************************************/
-			String headerString2 = "Sr No.^Utility ID^Location^Utility Description^Utility Type^Owner Name^Category^Execution Agency^"
-								 + "Requirement stage^Planned Completion^Scope^Completed^Status";
-	        String[] headerStringArr2 = headerString2.split("\\^");
+	        
 	        
 	        XSSFRow headingRow2 = rrSheet2.createRow(rowNo2);
 	        for (int i = 0; i < headerStringArr2.length ; i++) {	
@@ -369,12 +375,12 @@ public class UtilityReportController {
 			    	 
 		       workId = zObj.getWork_short_name();
 		       if(!StringUtils.isEmpty(workId) &&  x == 0) {
-			   		System.out.println(workId);
-			   		cell = row1.createCell(d++);
+			   		//System.out.println(workId);
+		    	   Cell cell = row1.createCell(d++);
 			        cell.setCellStyle(greenStyle1);
 					cell.setCellValue(workId);
 					
-					for (int i = 1; i < 13; i++) {		        	
+					for (int i = 1; i < 17; i++) {		        	
 				        cell = row1.createCell(i);
 				        cell.setCellStyle(greenStyle1);
 						cell.setCellValue("");
@@ -385,9 +391,6 @@ public class UtilityReportController {
 					row1 = rrSheet2.createRow(rowNo2);
 				}
 		        d = 0;
-		        cell2 = row1.createCell(d++);
-				cell2.setCellStyle(activityNameStyle1);
-				cell2.setCellValue(sno2++);
 	
 				cell2 = row1.createCell(d++);
 				cell2.setCellStyle(activityNameStyle1);
@@ -395,23 +398,7 @@ public class UtilityReportController {
 				
 				cell2 = row1.createCell(d++);
 				cell2.setCellStyle(activityNameStyle1);
-				cell2.setCellValue(zObj.getLocation_name());
-				
-				cell2 = row1.createCell(d++);
-				cell2.setCellStyle(activityNameStyle1);
-				cell2.setCellValue(zObj.getUtility_description());
-				
-			    cell2 = row1.createCell(d++);
-				cell2.setCellStyle(activityNameStyle1);
-				cell2.setCellValue(zObj.getUtility_type_fk());
-				
-				cell2 = row1.createCell(d++);
-				cell2.setCellStyle(activityNameStyle1);
-				cell2.setCellValue(zObj.getOwner_name());
-				
-				cell2 = row1.createCell(d++);
-				cell2.setCellStyle(activityNameStyle1);
-				cell2.setCellValue(zObj.getUtility_category_fk());
+				cell2.setCellValue(zObj.getWork_short_name());
 				
 				cell2 = row1.createCell(d++);
 				cell2.setCellStyle(activityNameStyle1);
@@ -419,7 +406,40 @@ public class UtilityReportController {
 				
 				cell2 = row1.createCell(d++);
 				cell2.setCellStyle(activityNameStyle1);
+				cell2.setCellValue(zObj.getContract_short_name());
+				
+				cell2 = row1.createCell(d++);
+				cell2.setCellStyle(activityNameStyle1);
+				cell2.setCellValue(zObj.getUtility_type_fk());
+				
+				cell2 = row1.createCell(d++);
+				cell2.setCellStyle(activityNameStyle1);
+				cell2.setCellValue(zObj.getUtility_description());
+				
+				cell2 = row1.createCell(d++);
+				cell2.setCellStyle(activityNameStyle1);
 				cell2.setCellValue(zObj.getRequirement_stage_fk());
+				
+				cell2 = row1.createCell(d++);
+				cell2.setCellStyle(activityNameStyle1);
+				cell2.setCellValue(zObj.getImpacted_element());
+				
+				cell2 = row1.createCell(d++);
+				cell2.setCellStyle(activityNameStyle1);
+				cell2.setCellValue(zObj.getAffected_structures());
+				
+				cell2 = row1.createCell(d++);
+				cell2.setCellStyle(activityNameStyle1);
+				cell2.setCellValue(zObj.getCustodian());
+				
+				/*
+				 * String hod = ""; 
+				 * if(!StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+				 * hod = obj.getHod_user_id_fk() +" - "+obj.getUser_name();}
+				 */
+				cell2 = row1.createCell(d++);
+				cell2.setCellStyle(activityNameStyle1);
+				cell2.setCellValue(zObj.getHod_user_id_fk());
 				
 				cell2 = row1.createCell(d++);
 				cell2.setCellStyle(activityNameStyle1);
@@ -427,20 +447,28 @@ public class UtilityReportController {
 				
 				cell2 = row1.createCell(d++);
 				cell2.setCellStyle(activityNameStyle1);
-				cell2.setCellValue(zObj.getScope());
+				cell2.setCellValue(zObj.getExecuted_by());
 				
 				cell2 = row1.createCell(d++);
 				cell2.setCellStyle(activityNameStyle1);
-				cell2.setCellValue(zObj.getCompleted());
+				cell2.setCellValue(zObj.getLatest_progress_date());
 				
 				cell2 = row1.createCell(d++);
 				cell2.setCellStyle(activityNameStyle1);
-				cell2.setCellValue(zObj.getShifting_status_fk());
+				cell2.setCellValue(zObj.getLatest_progress_update());
+				
+				cell2 = row1.createCell(d++);
+				cell2.setCellStyle(activityNameStyle1);
+				cell2.setCellValue(zObj.getShifting_completion_date());
+				
+				cell2 = row1.createCell(d++);
+				cell2.setCellStyle(activityNameStyle1);
+				cell2.setCellValue(zObj.getRemarks());
 
 		        rowNo2++;
 			}
-	        for(int columnIndex = 1; columnIndex < headerStringArr2.length; columnIndex++) {
-			  	rrSheet2.setColumnWidth(0, 25 * 60);
+	        for(int columnIndex = 0; columnIndex < headerStringArr2.length; columnIndex++) {
+			  	//rrSheet2.setColumnWidth(0, 25 * 60);
 			  	//rrSheet2.autoSizeColumn(columnIndex);
 			  	rrSheet2.setColumnWidth(columnIndex, 35 * 125);
 			   }    

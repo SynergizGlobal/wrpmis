@@ -824,7 +824,7 @@ public class UtilityShiftingController {
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getHod_user_id_fk());
+					cell.setCellValue(obj.getDesignation());
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);

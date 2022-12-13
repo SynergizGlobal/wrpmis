@@ -1,6 +1,7 @@
 package com.synergizglobal.pmis.IMPLservice;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,11 @@ public class UtilityReportServiceImpl implements UtilityReportService{
 	@Override
 	public UtilityShifting getUtilityShiftingData(UtilityShifting obj) throws Exception {
 		return dao.getUtilityShiftingData(obj);
+	}
+
+	@Override
+	public Map<String, List<UtilityShifting>> getUtilityShiftingReportData(UtilityShifting obj) throws Exception {
+		return dao.getUtilityShiftingReportData(obj);
 	}
 
 	

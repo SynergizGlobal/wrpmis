@@ -6,6 +6,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,7 +44,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.UtilityReportService;
 import com.synergizglobal.pmis.constants.PageConstants;
-import com.synergizglobal.pmis.model.UtilityShifting;
 import com.synergizglobal.pmis.model.User;
 import com.synergizglobal.pmis.model.UtilityShifting;
 
@@ -135,9 +135,257 @@ public class UtilityReportController {
 		}
 		return objList;
 	}
-
+	
 	@RequestMapping(value = "/generate-utility-report", method = {RequestMethod.GET,RequestMethod.POST})
 	public void generateRandRReport(@ModelAttribute UtilityShifting obj,HttpServletRequest request, HttpServletResponse response,HttpSession session,RedirectAttributes attributes){
+		//ModelAndView model = new ModelAndView("redirect:/activities-progress-report");
+		try{
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			DateFormat df = new SimpleDateFormat("dd-MMM-YYYY HH:mm"); 
+			String report_created_date = df.format(new Date());
+			
+			SimpleDateFormat formatter = new SimpleDateFormat("d-MMM-YY");
+			
+			Map<String,List<UtilityShifting>> reportData = service.getUtilityShiftingReportData(obj);
+			
+			XSSFWorkbook  workBook = new XSSFWorkbook();
+			
+			/***************************************************************************/
+	        
+			byte[] blueRGB = new byte[]{(byte)214, (byte)255, (byte)255};
+			byte[] yellowRGB = new byte[]{(byte)255, (byte)255, (byte)153};
+	        byte[] greenRGB = new byte[]{(byte)146, (byte)208, (byte)80};
+	        byte[] redRGB = new byte[]{(byte)255, (byte)0, (byte)0};
+	        byte[] whiteRGB = new byte[]{(byte)255, (byte)255, (byte)255};
+	        byte[] greyRGB = new byte[]{(byte)211, (byte)211, (byte)211};
+	        
+	        
+	        boolean isWrapText = true;boolean isBoldText = true;boolean isItalicText = false; int fontSize = 11;String fontName = "Calibri";
+	        CellStyle greenStyle = cellFormating(workBook,greenRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle greenStyle1 = cellFormating(workBook,yellowRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle bluetyle = cellFormating(workBook,blueRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+
+	        CellStyle whiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        
+	        CellStyle indexWhiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	       
+	        CellStyle indexWhiteStyle1 = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle indexWhiteStyle2 = cellFormating(workBook,whiteRGB,HorizontalAlignment.RIGHT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+
+	        
+	        isWrapText = true;isBoldText = false;isItalicText = false; fontSize = 11;fontName = "Calibri";
+	        CellStyle numberStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle activityNameStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle activityNameStyle1 = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+
+	        CellStyle activityNameStyle2 = cellFormating(workBook,whiteRGB,HorizontalAlignment.RIGHT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+
+	        CellStyle indexShadedStyle = cellFormating(workBook,greyRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,true,isItalicText,11,fontName);
+
+
+	        /********************************************************/
+          
+	        if(!(StringUtils.isEmpty(reportData))){					
+				
+			        int x = 0,z=0,sNo = 1;  String workId = null;
+					String headerString2 = "Utility ID^work^Execution Agency^Impacted Contract Short Name^Type of Utility Shifting ^Description^Requirement stage^Impacted Element^Affected Structures^Custodian^HOD^Target Date^Executed By"
+							+ "^Latest Progress Date^Latest Progress Update^Actual Completion Date^Remarks";
+			        String[] headerStringArr2 = headerString2.split("\\^");	  
+			        
+		   		 	XSSFSheet rrSheet2 = workBook.createSheet(WorkbookUtil.createSafeSheetName("Utility Shifting - Detail Report"));
+		   		 	
+			        XSSFRow headRow2 = rrSheet2.createRow(0);
+			        
+			        Cell cell2 = headRow2.createCell(0);
+			        
+			        XSSFRow mainHeadingRow2 = rrSheet2.createRow(1);
+			        
+			        cell2 = mainHeadingRow2.createCell(0);
+			        cell2.setCellStyle(bluetyle);
+			        //cell2.setCellValue(work_d+" Utility Shifting Detail Report");
+			        
+			        cell2.setCellValue("Utility Shifting Detail Report");
+			        
+			        for (int i = 1; i < headerStringArr2.length; i++) {		        	
+				        cell2 = mainHeadingRow2.createCell(i);
+				        cell2.setCellStyle(bluetyle);
+						cell2.setCellValue("");
+					}	
+			        rrSheet2.addMergedRegion(new CellRangeAddress(1, 1, 0,headerStringArr2.length-1));
+			        int rowNo2 = 3;
+				    // workBook.setSheetOrder(rrSheet1.getSheetName(), sheetNo++);
+		
+			        
+			        
+			        XSSFRow headingRow2 = rrSheet2.createRow(rowNo2);
+			        for (int i = 0; i < headerStringArr2.length ; i++) {	
+			        	
+			    			 cell2 = headingRow2.createCell(i);
+			    	    	 cell2.setCellStyle(bluetyle);
+							 cell2.setCellValue(headerStringArr2[i]);
+					}	
+			        rowNo2++; int sno2 = 1;x = 0; workId = null;
+			        for (Map.Entry<String,List<UtilityShifting>> entry : reportData.entrySet()) {
+			         
+		               int d = 0;
+		               XSSFRow row1 = rrSheet2.createRow(rowNo2);
+			      	   
+		               String work_name = entry.getKey();
+		               
+			    	   Cell cell = row1.createCell(d++);
+				       cell.setCellStyle(greenStyle1);
+				       cell.setCellValue(work_name);
+						
+				       for (int i = 1; i < headerStringArr2.length; i++) {		        	
+					        cell = row1.createCell(i);
+					        cell.setCellStyle(greenStyle1);
+							cell.setCellValue("");
+				       }	
+				       rrSheet2.addMergedRegion(new CellRangeAddress(rowNo2,rowNo2, 0,headerStringArr2.length-1));
+				       rowNo2++;
+							
+				       for (UtilityShifting zObj : entry.getValue()) { 
+				        d = 0;
+				        row1 = rrSheet2.createRow(rowNo2);
+						cell2 = row1.createCell(d++);
+						cell2.setCellStyle(activityNameStyle1);
+						cell2.setCellValue(zObj.getUtility_shifting_id());
+						
+						cell2 = row1.createCell(d++);
+						cell2.setCellStyle(activityNameStyle1);
+						cell2.setCellValue(zObj.getWork_short_name());
+						
+						cell2 = row1.createCell(d++);
+						cell2.setCellStyle(activityNameStyle1);
+						cell2.setCellValue(zObj.getExecution_agency_fk());
+						
+						cell2 = row1.createCell(d++);
+						cell2.setCellStyle(activityNameStyle1);
+						cell2.setCellValue(zObj.getContract_short_name());
+						
+						cell2 = row1.createCell(d++);
+						cell2.setCellStyle(activityNameStyle1);
+						cell2.setCellValue(zObj.getUtility_type_fk());
+						
+						cell2 = row1.createCell(d++);
+						cell2.setCellStyle(activityNameStyle1);
+						cell2.setCellValue(zObj.getUtility_description());
+						
+						cell2 = row1.createCell(d++);
+						cell2.setCellStyle(activityNameStyle1);
+						cell2.setCellValue(zObj.getRequirement_stage_fk());
+						
+						cell2 = row1.createCell(d++);
+						cell2.setCellStyle(activityNameStyle1);
+						cell2.setCellValue(zObj.getImpacted_element());
+						
+						cell2 = row1.createCell(d++);
+						cell2.setCellStyle(activityNameStyle1);
+						cell2.setCellValue(zObj.getAffected_structures());
+						
+						cell2 = row1.createCell(d++);
+						cell2.setCellStyle(activityNameStyle1);
+						cell2.setCellValue(zObj.getCustodian());
+						
+						/*
+						 * String hod = ""; 
+						 * if(!StringUtils.isEmpty(obj.getHod_user_id_fk())) {
+						 * hod = obj.getHod_user_id_fk() +" - "+obj.getUser_name();}
+						 */
+						cell2 = row1.createCell(d++);
+						cell2.setCellStyle(activityNameStyle1);
+						cell2.setCellValue(zObj.getDesignation());
+						
+						cell2 = row1.createCell(d++);
+						cell2.setCellStyle(activityNameStyle1);
+						cell2.setCellValue(zObj.getPlanned_completion_date());
+						
+						cell2 = row1.createCell(d++);
+						cell2.setCellStyle(activityNameStyle1);
+						cell2.setCellValue(zObj.getExecuted_by());
+						
+						cell2 = row1.createCell(d++);
+						cell2.setCellStyle(activityNameStyle1);
+						cell2.setCellValue(zObj.getLatest_progress_date());
+						
+						cell2 = row1.createCell(d++);
+						cell2.setCellStyle(activityNameStyle1);
+						cell2.setCellValue(zObj.getLatest_progress_update());
+						
+						cell2 = row1.createCell(d++);
+						cell2.setCellStyle(activityNameStyle1);
+						cell2.setCellValue(zObj.getShifting_completion_date());
+						
+						cell2 = row1.createCell(d++);
+						cell2.setCellStyle(activityNameStyle1);
+						cell2.setCellValue(zObj.getRemarks());
+		
+				        rowNo2++;
+					}
+			        for(int columnIndex = 0; columnIndex < headerStringArr2.length; columnIndex++) {
+					  	//rrSheet2.setColumnWidth(0, 25 * 60);
+					  	//rrSheet2.autoSizeColumn(columnIndex);
+					  	rrSheet2.setColumnWidth(columnIndex, 35 * 125);
+				    }    
+			        
+	        	}   
+			        
+			        
+	        }
+            /*******************************************************************************/
+            
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
+            Date date = new Date();
+            String fileName = "Utility_shifting_Report_"+dateFormat.format(date);
+            
+            try{
+                /*FileOutputStream fos = new FileOutputStream(fileDirectory +fileName+".xls");
+                workBook.write(fos);
+                fos.flush();*/
+            	
+               response.setContentType("application/.csv");
+ 			   response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+ 			   response.setContentType("application/vnd.ms-excel");
+ 			   // add response header
+ 			   response.addHeader("Content-Disposition", "attachment; filename=" + fileName+".xlsx");
+ 			   
+ 			    //copies all bytes from a file to an output stream
+ 			   workBook.write(response.getOutputStream()); // Write workbook to response.
+	           workBook.close();
+ 			    //flushes output stream
+ 			    response.getOutputStream().flush();
+            	
+                
+                //attributes.addFlashAttribute("success",dataExportSucess);
+            	//response.setContentType("application/vnd.ms-excel");
+            	//response.setHeader("Content-Disposition", "attachment; filename=filename.xls");
+            	//XSSFWorkbook  workbook = new XSSFWorkbook ();
+            	// ...
+            	// Now populate workbook the usual way.
+            	// ...
+            	//workbook.write(response.getOutputStream()); // Write workbook to response.
+            	//workbook.close();
+            }catch(FileNotFoundException e){
+                e.printStackTrace();
+                logger.error("generateUtilityShifting : " + e.getMessage());
+                //attributes.addFlashAttribute("error",dataExportInvalid);
+            }catch(IOException e){
+                e.printStackTrace();
+                logger.error("generateUtilityShifting : " + e.getMessage());
+                //attributes.addFlashAttribute("error",dataExportError);
+            }
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("generateUtilityShifting : " + e.getMessage());
+		}
+		//return model;
+    }
+
+	//@RequestMapping(value = "/generate-utility-report", method = {RequestMethod.GET,RequestMethod.POST})
+	public void generateRandRReport2(@ModelAttribute UtilityShifting obj,HttpServletRequest request, HttpServletResponse response,HttpSession session,RedirectAttributes attributes){
 		//ModelAndView model = new ModelAndView("redirect:/activities-progress-report");
 		try{
 			User uObj = (User) session.getAttribute("user");
@@ -152,6 +400,8 @@ public class UtilityReportController {
 			//List<UtilityShifting> structuresList = service.getStructuresList(obj);
 			
 			UtilityShifting reportData = service.getUtilityShiftingData(obj);
+			
+			//Map<String,List<UtilityShifting>> reportData = service.getUtilityShiftingReportData(obj);
 			
 			XSSFWorkbook  workBook = new XSSFWorkbook();
 			
@@ -343,7 +593,7 @@ public class UtilityReportController {
 	        cell2.setCellStyle(bluetyle);
 	        //cell2.setCellValue(work_d+" Utility Shifting Detail Report");
 	        
-	        cell2.setCellValue(" Utility Shifting Detail Report");
+	        cell2.setCellValue("Utility Shifting Detail Report");
 	        
 	        for (int i = 1; i < headerStringArr2.length; i++) {		        	
 		        cell2 = mainHeadingRow2.createCell(i);
@@ -380,7 +630,7 @@ public class UtilityReportController {
 			        cell.setCellStyle(greenStyle1);
 					cell.setCellValue(workId);
 					
-					for (int i = 1; i < 17; i++) {		        	
+					for (int i = 1; i < headerStringArr2.length; i++) {		        	
 				        cell = row1.createCell(i);
 				        cell.setCellStyle(greenStyle1);
 						cell.setCellValue("");
@@ -439,7 +689,7 @@ public class UtilityReportController {
 				 */
 				cell2 = row1.createCell(d++);
 				cell2.setCellStyle(activityNameStyle1);
-				cell2.setCellValue(zObj.getHod_user_id_fk());
+				cell2.setCellValue(zObj.getDesignation());
 				
 				cell2 = row1.createCell(d++);
 				cell2.setCellStyle(activityNameStyle1);

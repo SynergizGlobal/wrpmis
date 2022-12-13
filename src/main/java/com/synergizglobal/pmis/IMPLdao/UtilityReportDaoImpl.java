@@ -1,6 +1,8 @@
 package com.synergizglobal.pmis.IMPLdao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -267,6 +269,76 @@ public class UtilityReportDaoImpl implements UtilityReportDao{
 			throw new Exception(e);
 		}
 		return obj;
+	}
+
+	@Override
+	public Map<String, List<UtilityShifting>> getUtilityShiftingReportData(UtilityShifting obj) throws Exception {
+		Map<String, List<UtilityShifting>> data = new HashMap<String, List<UtilityShifting>>();
+		try {
+			String qry = "SELECT w.work_id,us.work_id_fk,w.work_short_name,w.work_name "
+					+ "from utility_shifting us "
+					+ "left join work w on us.work_id_fk = w.work_id " 
+					+ "left join project p on w.project_id_fk = p.project_id " 
+					+ "where us.work_id_fk is not null and us.work_id_fk <> '' "
+					+ "GROUP BY  w.work_id,us.work_id_fk,w.work_short_name,w.work_name";
+			
+		
+			List<UtilityShifting> objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<UtilityShifting>(UtilityShifting.class));
+			if(objsList.size() > 0) {	
+				for (UtilityShifting objWork : objsList) {				
+					String qry2 = "SELECT distinct s.*,s.id, s.utility_shifting_id, s.work_id_fk,ISNULL(w.work_short_name, (select work_short_name from work where work_id = s.work_id_fk)) as work_short_name,w.work_name,w.project_id_fk,p.project_name,c.contract_short_name,FORMAT(s.identification ,'dd-MM-yyyy') AS  identification, s.location_name, reference_number, utility_description, utility_type_fk, "
+							+ "utility_category_fk, s.owner_name, execution_agency_fk, contract_id_fk,  FORMAT(s.start_date ,'dd-MM-yyyy') AS start_date, s.scope, s.completed, s.shifting_status_fk, FORMAT(shifting_completion_date ,'dd-MM-yyyy') AS shifting_completion_date, "
+							+ "s.remarks, s.latitude, s.longitude, impacted_contract_id_fk, requirement_stage_fk, FORMAT(s.planned_completion_date ,'dd-MM-yyyy') AS planned_completion_date, unit_fk, s.created_by, s.created_date, s.modified_by,"
+							+ " s.modified_date,custodian,executed_by,impacted_element,affected_structures,c.contract_id,c.contract_name,c.contract_short_name,w.work_name,w.project_id_fk,p.project_name,"
+							+ "w.work_short_name,s.hod_user_id_fk,u.user_name,u.designation,chainage,"
+							+ "(SELECT s1.progress_date FROM utility_shifting_progress s1 where s1.progress_date = (select max(s2.progress_date) from utility_shifting_progress s2 where s2.utility_shifting_id = s.utility_shifting_id group by s2.utility_shifting_id) and s1.utility_shifting_id = s.utility_shifting_id) as latest_progress_date, "
+							+ "(SELECT s1.progress_of_work FROM utility_shifting_progress s1 where s1.progress_date = (select max(s2.progress_date) from utility_shifting_progress s2 where s2.utility_shifting_id = s.utility_shifting_id group by s2.utility_shifting_id) and s1.utility_shifting_id = s.utility_shifting_id) as latest_progress_update "
+							+ " from utility_shifting s "					
+							+ "LEFT OUTER JOIN contract c ON s.impacted_contract_id_fk  = c.contract_id "
+							+ "LEFT OUTER JOIN work w ON c.work_id_fk = w.work_id "
+							+ "LEFT OUTER JOIN project p ON w.project_id_fk = p.project_id "
+							+ "LEFT OUTER JOIN utility_shifting_executives us on w.work_id = us.work_id_fk "
+							+ "LEFT OUTER JOIN [user] u on s.hod_user_id_fk = u.user_id "
+							+ " where utility_shifting_id is not null and utility_shifting_id <> '' ";				
+					
+					
+					int arrSize1 = 0;
+					
+					if(!StringUtils.isEmpty(objWork) && !StringUtils.isEmpty(objWork.getExecution_agency_fk())) {
+						qry2 = qry2 + " and s.execution_agency_fk = ?";
+						arrSize1++;
+					}
+					if(!StringUtils.isEmpty(objWork) && !StringUtils.isEmpty(objWork.getWork_id_fk())) {
+						qry2 = qry2 + " and s.work_id_fk = ?";
+						arrSize1++;
+					}
+					if(!StringUtils.isEmpty(objWork) && !StringUtils.isEmpty(objWork.getProject_id_fk())) {
+						qry2 = qry2 + " and w.project_id_fk = ?";
+						arrSize1++;
+					}
+				
+					
+					Object[] pValues1 = new Object[arrSize1];
+					int j = 0;
+					
+					if(!StringUtils.isEmpty(objWork) && !StringUtils.isEmpty(objWork.getExecution_agency_fk())) {
+						pValues1[j++] = objWork.getExecution_agency_fk();
+					}	
+					if(!StringUtils.isEmpty(objWork) && !StringUtils.isEmpty(objWork.getWork_id_fk())) {
+						pValues1[j++] = objWork.getWork_id_fk();
+					}
+					if(!StringUtils.isEmpty(objWork) && !StringUtils.isEmpty(objWork.getProject_id_fk())) {
+						pValues1[j++] = objWork.getProject_id_fk();
+					}
+					
+					List<UtilityShifting>  usList = jdbcTemplate.query( qry2,pValues1, new BeanPropertyRowMapper<UtilityShifting>(UtilityShifting.class));
+					data.put(objWork.getWork_name(), usList);
+				}
+			}
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return data;
 	}
 
 }

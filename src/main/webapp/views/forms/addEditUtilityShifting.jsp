@@ -423,9 +423,9 @@
 	                                 <span id="reference_numberError" class="error-msg" ></span>
                                 </div>
 								 <div class="col s12 m3 l3 input-field">
-                                     <input id="latitude" maxlength="25" data-length="25" name="latitude" type="text" class="validate w85 pdr3em" value="${utilityShifting.latitude }">                                     
-                                     <label for="latitude">Chainage</label>
-	                                 <span id="latitudeError" class="error-msg" ></span>
+                                     <input id="chainage" maxlength="100" data-length="100" name="chainage" type="text" class="validate w85 pdr3em" value="${utilityShifting.chainage }">                                     
+                                     <label for="chainage">Chainage</label>
+	                                 <span id="chainageError" class="error-msg" ></span>
                                 </div>
                                 
                                 <%-- <div class="col s12 m3 l3 input-field">

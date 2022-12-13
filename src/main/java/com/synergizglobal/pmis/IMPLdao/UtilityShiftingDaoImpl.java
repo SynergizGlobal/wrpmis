@@ -875,7 +875,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 					+ "(utility_shifting_id, work_id_fk, identification, location_name, reference_number, utility_description, utility_type_fk, utility_category_fk, owner_name, "
 					+ "execution_agency_fk, contract_id_fk, "
 					+ "start_date, scope, completed, shifting_status_fk, shifting_completion_date, remarks, latitude,  impacted_contract_id_fk, requirement_stage_fk, "
-					+ "planned_completion_date, unit_fk,hod_user_id_fk,custodian,executed_by,impacted_element,affected_structures) "
+					+ "planned_completion_date, unit_fk,hod_user_id_fk,custodian,executed_by,impacted_element,affected_structures,chainage) "
 					+ "VALUES "
 					+ "('"+USID+"',:work_id_fk,:identification,:location_name,:reference_number,:utility_description,"
 							+ ":utility_type_fk,"
@@ -884,7 +884,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 							+ ":contract_id_fk,:start_date,:scope,:completed,:shifting_status_fk,"
 							+ ":shifting_completion_date,:remarks,:latitude,"
 							+ ":impacted_contract_id_fk,:requirement_stage_fk,:planned_completion_date,:unit_fk,"
-							+ ":hod_user_id_fk,:custodian,:executed_by,:impacted_element,:affected_structures"
+							+ ":hod_user_id_fk,:custodian,:executed_by,:impacted_element,:affected_structures,:chainage"
 							+ ")";	
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -1173,7 +1173,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 					+ " shifting_status_fk=:shifting_status_fk, shifting_completion_date=:shifting_completion_date, remarks=:remarks, latitude=:latitude,"
 					+ " impacted_contract_id_fk=:impacted_contract_id_fk, requirement_stage_fk=:requirement_stage_fk, planned_completion_date=:planned_completion_date, unit_fk=:unit_fk,"
 					+ "modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP,"
-					+ "hod_user_id_fk=:hod_user_id_fk,custodian=:custodian,executed_by=:executed_by,impacted_element=:impacted_element,affected_structures=:affected_structures "
+					+ "hod_user_id_fk=:hod_user_id_fk,custodian=:custodian,executed_by=:executed_by,impacted_element=:impacted_element,affected_structures=:affected_structures,chainage=:chainage "
 					+ " WHERE id = :id";		 
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = template.update(qry, paramSource);			
@@ -1326,7 +1326,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 			String qry = "SELECT distinct s.*,(select executive_user_id_fk from utility_shifting_executives re where s.work_id_fk = re.work_id_fk and executive_user_id_fk = ?) as executive_user_id_fk,FORMAT(identification,'dd-MM-yyyy') as identification,FORMAT(start_date,'dd-MM-yyyy') as start_date,"
 					+ "FORMAT(planned_completion_date,'dd-MM-yyyy') as planned_completion_date,FORMAT(shifting_completion_date,'dd-MM-yyyy') as shifting_completion_date,"
 					+ "p.project_name,w.work_short_name,c.contract_short_name,p.project_id as project_id_fk,"
-					+ "s.hod_user_id_fk,custodian,executed_by,impacted_element,affected_structures "
+					+ "s.hod_user_id_fk,custodian,executed_by,impacted_element,affected_structures,chainage "
 					+ "from utility_shifting s "
 					+ "LEFT OUTER JOIN contract c ON s.impacted_contract_id_fk  = c.contract_id "
 					+ "LEFT OUTER JOIN work w ON c.work_id_fk  = w.work_id "
@@ -1414,8 +1414,9 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 	public List<UtilityShifting> getRDetailsList(String utility_shifting_id) throws Exception {
 		List<UtilityShifting> objsList = null;
 		try {
-			String qry ="select rc.id, FORMAT(progress_date ,'dd-MM-yyyy') AS progress_date, progress_of_work, r.utility_shifting_id as utility_shifting_id  from utility_shifting_progress rc "
-					+ "LEFT JOIN utility_shifting r on rc.utility_shifting_id = r.id "
+			String qry ="select rc.id, FORMAT(progress_date ,'dd-MM-yyyy') AS progress_date, progress_of_work, r.utility_shifting_id as utility_shifting_id  "
+					+ "from utility_shifting_progress rc "
+					+ "LEFT JOIN utility_shifting r on rc.utility_shifting_id = r.utility_shifting_id "
 					+ "WHERE rc.utility_shifting_id is not null ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(utility_shifting_id) ) {
@@ -1439,14 +1440,17 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 	public List<UtilityShifting> getUtilityShiftingList(UtilityShifting obj) throws Exception {
 		List<UtilityShifting> objsList = null;
 		try {
-			String qry = "SELECT s.id, utility_shifting_id, s.work_id_fk,w.work_short_name,w.work_name,w.project_id_fk,p.project_name,c.contract_short_name,FORMAT(s.identification ,'dd-MM-yyyy') AS  identification, s.location_name, reference_number, utility_description, utility_type_fk, "
+			String qry = "SELECT distinct s.*,s.id, s.utility_shifting_id, s.work_id_fk,w.work_short_name,w.work_name,w.project_id_fk,p.project_name,c.contract_short_name,FORMAT(s.identification ,'dd-MM-yyyy') AS  identification, s.location_name, reference_number, utility_description, utility_type_fk, "
 					+ "utility_category_fk, s.owner_name, execution_agency_fk, contract_id_fk,  FORMAT(s.start_date ,'dd-MM-yyyy') AS start_date, s.scope, s.completed, s.shifting_status_fk, FORMAT(shifting_completion_date ,'dd-MM-yyyy') AS shifting_completion_date, "
 					+ "s.remarks, s.latitude, s.longitude, impacted_contract_id_fk, requirement_stage_fk, FORMAT(s.planned_completion_date ,'dd-MM-yyyy') AS planned_completion_date, unit_fk, s.created_by, s.created_date, s.modified_by,"
-					+ " s.modified_date from utility_shifting s "					
+					+ " s.modified_date,custodian,executed_by,impacted_element,affected_structures,c.contract_id,c.contract_name,c.contract_short_name,w.work_name,w.project_id_fk,p.project_name,"
+					+ "w.work_short_name,s.hod_user_id_fk,u.user_name,u.designation,chainage "
+					+ " from utility_shifting s "					
 					+ "LEFT OUTER JOIN contract c ON s.impacted_contract_id_fk  = c.contract_id "
 					+ "LEFT OUTER JOIN work w ON c.work_id_fk = w.work_id "
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk = p.project_id "
-					+ "left join utility_shifting_executives us on w.work_id = us.work_id_fk  "
+					+ "LEFT OUTER JOIN utility_shifting_executives us on w.work_id = us.work_id_fk "
+					+ "LEFT OUTER JOIN [user] u on s.hod_user_id_fk = u.user_id "
 					+ "where utility_shifting_id is not null " ;
 			int arrSize = 0;
 		
@@ -1475,8 +1479,6 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 				qry = qry + " and us.executive_user_id_fk = ? ";
 				arrSize++;
 			}	
-			
-			qry = qry + " group by utility_shifting_id";
 			
 			Object[] pValues = new Object[arrSize];
 			

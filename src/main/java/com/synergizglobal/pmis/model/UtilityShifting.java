@@ -23,7 +23,8 @@ public class UtilityShifting {
 	private List<UtilityShifting> utilityShiftingFilesList;
 	private List<UtilityShifting> utilityShiftingProgressDetailsList;
 	
-	private String custodian,executed_by,impacted_element,affected_structures,target_date,contract_id_code,reporting_to_id_srfk;
+	private String custodian,executed_by,impacted_element,affected_structures,target_date,contract_id_code,reporting_to_id_srfk,
+	latest_progress_date,latest_progress_update,chainage;
 
 	public String getCustodian() {
 		return custodian;
@@ -684,5 +685,29 @@ public class UtilityShifting {
 
 	public void setReporting_to_id_srfk(String reporting_to_id_srfk) {
 		this.reporting_to_id_srfk = reporting_to_id_srfk;
+	}
+
+	public String getLatest_progress_date() {
+		return latest_progress_date;
+	}
+
+	public void setLatest_progress_date(String latest_progress_date) {
+		this.latest_progress_date = latest_progress_date;
+	}
+
+	public String getLatest_progress_update() {
+		return latest_progress_update;
+	}
+
+	public void setLatest_progress_update(String latest_progress_update) {
+		this.latest_progress_update = latest_progress_update;
+	}
+
+	public String getChainage() {
+		return chainage;
+	}
+
+	public void setChainage(String chainage) {
+		this.chainage = chainage;
 	}
 }

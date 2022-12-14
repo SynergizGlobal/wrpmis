@@ -1201,6 +1201,8 @@ public class UtilityShiftingController {
 					//System.out.println(uploadFilesSheet.getLastRowNum());
 					for(int i = 1; i <= laSheet.getLastRowNum();i++){
 						int v = laSheet.getLastRowNum();
+						XSSFRow headerRow = laSheet.getRow(0);
+						String columnName = headerRow.getCell(0).getStringCellValue();
 						XSSFRow row = laSheet.getRow(i);
 						// Sets the Read data to the model class
 						// Cell cell = row.getCell(0);
@@ -1208,85 +1210,96 @@ public class UtilityShiftingController {
 						//System.out.println(i);
 						us = new UtilityShifting();
 						String val = null;
-						if(!StringUtils.isEmpty(row)) {								
-							val = formatter.formatCellValue(row.getCell(0)).trim();
-							if(!StringUtils.isEmpty(val)) { us.setWork_id_fk(val);}
+						if(!StringUtils.isEmpty(row)) {		
+							int p = 0;
+							if("Utility ID".equalsIgnoreCase(columnName.trim())) {
+								val = formatter.formatCellValue(row.getCell(p++)).trim();
+								if(!StringUtils.isEmpty(val)) { us.setUtility_shifting_id(val);}
+							}
 							
-							val = formatter.formatCellValue(row.getCell(1)).trim();
-							if(!StringUtils.isEmpty(val)) { us.setContract_id_fk(val);}
+							val = formatter.formatCellValue(row.getCell(p++)).trim();
+							if(!StringUtils.isEmpty(val)) { us.setProject_name(val);}
 							
-							val = formatter.formatCellValue(row.getCell(2)).trim();
-							if(!StringUtils.isEmpty(val)) { us.setUtility_shifting_id(val);}
+							val = formatter.formatCellValue(row.getCell(p++)).trim();
+							if(!StringUtils.isEmpty(val)) { us.setWork_short_name(val);}
 							
-							val = formatter.formatCellValue(row.getCell(3)).trim();
-							if(!StringUtils.isEmpty(val)) { us.setIdentification(val);}
+							val = formatter.formatCellValue(row.getCell(p++)).trim();
+							if(!StringUtils.isEmpty(val)) { us.setExecution_agency_fk(val);}
 							
+							val = formatter.formatCellValue(row.getCell(p++)).trim();
+							if(!StringUtils.isEmpty(val)) { us.setDesignation(val);}
 							
-							val = formatter.formatCellValue(row.getCell(4)).trim();
+							val = formatter.formatCellValue(row.getCell(p++)).trim();
+							if(!StringUtils.isEmpty(val)) { us.setUtility_type_fk(val);}
+							
+							val = formatter.formatCellValue(row.getCell(p++)).trim();
+							if(!StringUtils.isEmpty(val)) { us.setUtility_description(val);}
+							
+							val = formatter.formatCellValue(row.getCell(p++)).trim();
 							if(!StringUtils.isEmpty(val)) { us.setLocation_name(val);}
 							
-							val = formatter.formatCellValue(row.getCell(5)).trim();
-							if(!StringUtils.isEmpty(val)) { us.setReference_number(val);}	
+							val = formatter.formatCellValue(row.getCell(p++)).trim();
+							if(!StringUtils.isEmpty(val)) { us.setCustodian(val);}
 							
-							val = formatter.formatCellValue(row.getCell(6)).trim();
-							if(!StringUtils.isEmpty(val)) { us.setLatitude(val);}					
+							val = formatter.formatCellValue(row.getCell(p++)).trim();
+							if(!StringUtils.isEmpty(val)) { us.setIdentification(val);}
 							
+							val = formatter.formatCellValue(row.getCell(p++)).trim();
+							if(!StringUtils.isEmpty(val)) { us.setReference_number(val);}							
 							
-							val = formatter.formatCellValue(row.getCell(7)).trim();
-							if(!StringUtils.isEmpty(val)) { us.setUtility_description(val);}	
+							val = formatter.formatCellValue(row.getCell(p++)).trim();
+							if(!StringUtils.isEmpty(val)) { us.setChainage(val);}							
 							
-							val = formatter.formatCellValue(row.getCell(8)).trim();
-							if(!StringUtils.isEmpty(val)) { us.setUtility_type_fk(val);}	
+							val = formatter.formatCellValue(row.getCell(p++)).trim();
+							if(!StringUtils.isEmpty(val)) { us.setExecuted_by(val);}
 							
-							val = formatter.formatCellValue(row.getCell(9)).trim();
-							if(!StringUtils.isEmpty(val)) {us.setOwner_name(val);}	
-							
-							val = formatter.formatCellValue(row.getCell(10)).trim();
-							if(!StringUtils.isEmpty(val)) {us.setUtility_category_fk(val);}	
-							
-							val = formatter.formatCellValue(row.getCell(11)).trim();
-							if(!StringUtils.isEmpty(val)) { us.setExecution_agency_fk(val);}	
+							val = formatter.formatCellValue(row.getCell(p++)).trim();
+							if(!StringUtils.isEmpty(val)) { us.setContract_short_name(val);}					
 							
 							
-							val = formatter.formatCellValue(row.getCell(12)).trim();
-							if(!StringUtils.isEmpty(val)) { us.setImpacted_contract_id_fk(val);}								
+							val = formatter.formatCellValue(row.getCell(p++)).trim();
+							if(!StringUtils.isEmpty(val)) { us.setRequirement_stage_fk(val);}	
 							
-							val = formatter.formatCellValue(row.getCell(13)).trim();
-							if(!StringUtils.isEmpty(val)) { us.setRequirement_stage_fk(val);}										
+							val = formatter.formatCellValue(row.getCell(p++)).trim();
+							if(!StringUtils.isEmpty(val)) { us.setImpacted_element(val);}
 							
-							val = formatter.formatCellValue(row.getCell(14)).trim();
+							val = formatter.formatCellValue(row.getCell(p++)).trim();
+							if(!StringUtils.isEmpty(val)) {us.setAffected_structures(val);}	
+							
+							val = formatter.formatCellValue(row.getCell(p++)).trim();
 							if(!StringUtils.isEmpty(val)) { us.setPlanned_completion_date(val);}
 							
-							val = formatter.formatCellValue(row.getCell(15)).trim();
-							if(!StringUtils.isEmpty(val)) { us.setShifting_completion_date(val);}
-							
-							val = formatter.formatCellValue(row.getCell(16)).trim();
-							if(!StringUtils.isEmpty(val)) { us.setStart_date(val);}	
-							
-							val = formatter.formatCellValue(row.getCell(17)).trim();
+							val = formatter.formatCellValue(row.getCell(p++)).trim();
 							if(!StringUtils.isEmpty(val)) { 
 								int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
 								if(c != 2) {
-									val = getCellDataType(workbook,row.getCell(17));
+									val = getCellDataType(workbook,row.getCell(p-1));
 								}
-								us.setScope(val);}
+								us.setScope(val);
 							}
 							
-							val = formatter.formatCellValue(row.getCell(18)).trim();
+							val = formatter.formatCellValue(row.getCell(p++)).trim();
 							if(!StringUtils.isEmpty(val)) {
 								int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
 								if(c != 2) {
-									val = getCellDataType(workbook,row.getCell(18));
+									val = getCellDataType(workbook,row.getCell(p-1));
 								}
-								us.setCompleted(val);}
+								us.setCompleted(val);
+							}
 							
-							val = formatter.formatCellValue(row.getCell(19)).trim();
+							val = formatter.formatCellValue(row.getCell(p++)).trim();
 							if(!StringUtils.isEmpty(val)) {us.setUnit_fk(val);}
 							
-							val = formatter.formatCellValue(row.getCell(20)).trim();
+							val = formatter.formatCellValue(row.getCell(p++)).trim();
+							if(!StringUtils.isEmpty(val)) { us.setStart_date(val);}	
+							
+							val = formatter.formatCellValue(row.getCell(p++)).trim();
 							if(!StringUtils.isEmpty(val)) {us.setShifting_status_fk(val);}
+							
+							val = formatter.formatCellValue(row.getCell(p++)).trim();
+							if(!StringUtils.isEmpty(val)) { us.setShifting_completion_date(val);}
 						
-							val = formatter.formatCellValue(row.getCell(21)).trim();
+							val = formatter.formatCellValue(row.getCell(p++)).trim();
 							if(!StringUtils.isEmpty(val)) {us.setRemarks(val);}								
 						
 							us.setStart_date(DateParser.parse(us.getStart_date()));
@@ -1315,13 +1328,13 @@ public class UtilityShiftingController {
 									
 									pObj.setProgress_date(DateParser.parse(pObj.getProgress_date()));
 								
+								}
+								if(!StringUtils.isEmpty(row2) && formatter.formatCellValue(row2.getCell(0)).trim().equals(us.getUtility_shifting_id())) {
+									pObjList.add(pObj);
+								}
+										
 							}
-							if(!StringUtils.isEmpty(row2) && formatter.formatCellValue(row2.getCell(0)).trim().equals(us.getUtility_shifting_id())) {
-								pObjList.add(pObj);
-							}
-									
-						}
-						us.setProcessList(pObjList);
+							us.setProcessList(pObjList);
 						}
 				
 						boolean flag = us.checkNullOrEmpty();
@@ -1340,6 +1353,7 @@ public class UtilityShiftingController {
 					
 				}
 				workbook.close();
+			}
 			}
 						
 		} catch (Exception e) {

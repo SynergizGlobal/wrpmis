@@ -1,7 +1,8 @@
 package com.synergizglobal.pmis.IMPLdao;
 
-import java.io.File;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -32,17 +33,16 @@ import org.springframework.web.multipart.MultipartFile;
 import com.synergizglobal.pmis.Idao.FormsHistoryDao;
 import com.synergizglobal.pmis.Idao.UtilityShiftingDao;
 import com.synergizglobal.pmis.common.CommonMethods;
+import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.EMailSender;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.common.Mail;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
-import com.synergizglobal.pmis.model.UtilityShifting;
-import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.FormHistory;
-import com.synergizglobal.pmis.model.LandAcquisition;
 import com.synergizglobal.pmis.model.Messages;
+import com.synergizglobal.pmis.model.UtilityShifting;
 
 @Repository
 public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
@@ -1602,69 +1602,68 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			String insertQry  = "INSERT INTO utility_shifting"
-					+ "(utility_shifting_id, work_id_fk, identification, location_name, reference_number, utility_description, utility_type_fk, utility_category_fk, owner_name, "
-					+ "execution_agency_fk, contract_id_fk, "
-					+ "start_date, scope, completed, shifting_status_fk, shifting_completion_date, remarks, latitude,  impacted_contract_id_fk, requirement_stage_fk, "
-					+ "planned_completion_date, unit_fk,created_by,created_date) "
+					+ "(utility_shifting_id, work_id_fk,execution_agency_fk,hod_user_id_fk, utility_type_fk, utility_description, "
+					+ "location_name,custodian,identification,reference_number,chainage,executed_by,impacted_contract_id_fk,requirement_stage_fk, "
+					+ "impacted_element,affected_structures,planned_completion_date,scope, completed,unit_fk,start_date,shifting_status_fk, "
+					+ "shifting_completion_date, remarks,created_by,created_date) "
 					+ "VALUES "
-					+ "(:utility_shifting_id,:work_id_fk,:identification,:location_name,:reference_number,:utility_description,"
-							+ ":utility_type_fk,"
-							+ ":utility_category_fk,:owner_name,"
-							+ ":execution_agency_fk,"
-							+ ":contract_id_fk,:start_date,:scope,:completed,:shifting_status_fk,"
-							+ ":shifting_completion_date,:remarks,:latitude,"
-							+ ":impacted_contract_id_fk,:requirement_stage_fk,:planned_completion_date,:unit_fk,:created_by_user_id_fk,CURRENT_TIMESTAMP"
-							+ ")";	
+					+ "(:utility_shifting_id,:work_id_fk,:execution_agency_fk,:hod_user_id_fk,:utility_type_fk,:utility_description,"
+					+ ":location_name,:custodian,:identification,:reference_number,:chainage,:executed_by,:impacted_contract_id_fk,:requirement_stage_fk"
+					+ ":impacted_element,:affected_structures,:planned_completion_date,:scope,:completed,:unit_fk,:start_date,:shifting_status_fk,"
+					+ ":shifting_completion_date,:remarks,:created_by_user_id_fk,CURRENT_TIMESTAMP"
+					+ ")";	
 			
-			String updatetQry = "UPDATE utility_shifting SET  identification=:identification, location_name=:location_name,"
-					+ "reference_number=:reference_number, utility_description=:utility_description, utility_type_fk=:utility_type_fk, utility_category_fk=:utility_category_fk,"
-					+ " owner_name=:owner_name, execution_agency_fk=:execution_agency_fk, contract_id_fk=:contract_id_fk, start_date=:start_date, scope=:scope, completed=:completed,"
-					+ " shifting_status_fk=:shifting_status_fk, shifting_completion_date=:shifting_completion_date, remarks=:remarks, latitude=:latitude,"
-					+ " impacted_contract_id_fk=:impacted_contract_id_fk, requirement_stage_fk=:requirement_stage_fk, planned_completion_date=:planned_completion_date, unit_fk=:unit_fk,modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP "
+			String updatetQry = "UPDATE utility_shifting SET  work_id_fk=:work_id_fk, execution_agency_fk=:execution_agency_fk,"
+					+ "hod_user_id_fk=:hod_user_id_fk, utility_type_fk=:utility_type_fk, utility_description=:utility_description, location_name=:location_name,"
+					+ " custodian=:custodian, identification=:identification, reference_number=:reference_number, chainage=:chainage, executed_by=:executed_by, impacted_contract_id_fk=:impacted_contract_id_fk,"
+					+ " requirement_stage_fk=:requirement_stage_fk, impacted_element=:impacted_element, affected_structures=:affected_structures, planned_completion_date=:planned_completion_date,"
+					+ " scope=:scope, completed=:completed, unit_fk=:unit_fk, unit_fk=:unit_fk,start_date=:start_date,shifting_status_fk=:shifting_status_fk "
+					+ " shifting_completion_date=:shifting_completion_date, remarks=:remarks,modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP "
 					+ " WHERE utility_shifting_id = :utility_shifting_id";	
-		//	int rNo = 0;
+		
 			for (UtilityShifting obj : ussList) {
+				
+				String work_id = getWorkId(obj);
+				String contract_id = getContractId(obj);
+				String hod_user_id = getHodUserId(obj);
+				
+				obj.setWork_id_fk(work_id);
+				obj.setImpacted_contract_id_fk(contract_id);
+				obj.setHod_user_id_fk(hod_user_id);
+				
+				String work_code = getWorkCode(obj);
+				obj.setWork_code(work_code);
 				
 				String table_name = "utility_shifting";
 				String utility_shifting_id = checkLAIdMethod(obj,table_name);
 				row++;sheet = 1;
 				if(!StringUtils.isEmpty(utility_shifting_id)) {
-					obj.setUtility_shifting_id(utility_shifting_id);
-					//System.out.println(rNo++);
-					
-					if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-						if(checkWorkinUtility(obj.getWork_id_fk(),obj.getCreated_by_user_id_fk())>0)
-						{
+					obj.setUtility_shifting_id(utility_shifting_id);					
+					/*if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+						if(checkWorkinUtility(obj.getWork_id_fk(),obj.getCreated_by_user_id_fk())>0){
 							SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
 						    count = namedParamJdbcTemplate.update(updatetQry, paramSource);						
 						}
-					}					
-					else
-					{
+					}else{*/
 						SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
 					    count = namedParamJdbcTemplate.update(updatetQry, paramSource);
-					}
-					
-				}else {
-					//System.out.println(rNo++);
-					
-					if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) 
-					{
-						if(checkWorkinUtility(obj.getWork_id_fk(),obj.getCreated_by_user_id_fk())>0)
-						{
+					//}
+				}else {		
+					String usId = getAutoGeneratedUSId(obj);
+					obj.setUtility_shifting_id(usId);
+					/*if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())){
+						if(checkWorkinUtility(obj.getWork_id_fk(),obj.getCreated_by_user_id_fk())>0){
 							SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
 						    count = namedParamJdbcTemplate.update(insertQry, paramSource);					
 						}
-					}					
-					else
-					{
+					}else{*/
 						SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
 					    count = namedParamJdbcTemplate.update(insertQry, paramSource);
-					}					
+					//}					
 
 				}
 				
-				if(!StringUtils.isEmpty(obj.getProcessList())) {
+				if(!StringUtils.isEmpty(obj.getProcessList()) && obj.getProcessList().size() > 0) {
 					subRow = sheet1;
 					String comInsertQry = "INSERT INTO utility_shifting_progress"
 							+ "( utility_shifting_id, progress_date, progress_of_work) "
@@ -1707,6 +1706,100 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 		return arr;
 	}
 	
+	private String getWorkCode(UtilityShifting obj)throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String val = null;
+		Connection connection = null;
+		try {
+			connection = dataSource.getConnection();
+			String qry = "select work_code from work where work_id = ? ";
+			stmt = connection.prepareStatement(qry);
+			stmt.setString(1, obj.getWork_id_fk());
+			
+			rs = stmt.executeQuery();  
+			if(rs.next()) {
+				val = rs.getString("work_code");
+			}
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(connection, stmt, rs);
+		}
+		return val;
+	}
+
+	private String getHodUserId(UtilityShifting obj)throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String val = null;
+		Connection connection = null;
+		try {
+			connection = dataSource.getConnection();
+			String qry = "select user_id from [user] where user_type_fk = 'HOD' and designation = ? ";
+			stmt = connection.prepareStatement(qry);
+			stmt.setString(1, obj.getDesignation());
+			
+			rs = stmt.executeQuery();  
+			if(rs.next()) {
+				val = rs.getString("user_id");
+			}
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(connection, stmt, rs);
+		}
+		return val;
+	}
+
+	private String getContractId(UtilityShifting obj)throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String val = null;
+		Connection connection = null;
+		try {
+			connection = dataSource.getConnection();
+			String qry = "select contract_id from contract where contract_name = ? or contract_short_name = ? ";
+			stmt = connection.prepareStatement(qry);
+			stmt.setString(1, obj.getContract_short_name());
+			stmt.setString(2, obj.getContract_short_name());
+			
+			rs = stmt.executeQuery();  
+			if(rs.next()) {
+				val = rs.getString("contract_id");
+			}
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(connection, stmt, rs);
+		}
+		return val;
+	}
+
+	private String getWorkId(UtilityShifting obj)throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String val = null;
+		Connection connection = null;
+		try {
+			connection = dataSource.getConnection();
+			String qry = "select work_id from work where work_name = ? or work_short_name = ? ";
+			stmt = connection.prepareStatement(qry);
+			stmt.setString(1, obj.getWork_short_name());
+			stmt.setString(2, obj.getWork_short_name());
+			
+			rs = stmt.executeQuery();  
+			if(rs.next()) {
+				val = rs.getString("work_id");
+			}
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(connection, stmt, rs);
+		}
+		return val;
+	}
+
 	private String checkLAIdMethod(UtilityShifting obj, String table_name) throws Exception {
 		UtilityShifting dObj = null;
 		String usId = null;
@@ -1722,8 +1815,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 					String qry2 ="select "+column_name+" as utility_shifting_id from "+table_name+" where "+column_name+" = ? "+qry1 ;
 					dObj = (UtilityShifting)jdbcTemplate.queryForObject(qry2, new Object[] {obj.getUtility_shifting_id(),obj.getWork_id_fk()}, new BeanPropertyRowMapper<UtilityShifting>(UtilityShifting.class));
 					usId = dObj.getUtility_shifting_id();
-				}
-				catch(Exception e){ 
+				}catch(Exception e){ 
 					usId = null;
 					return usId;
 				}

@@ -884,7 +884,7 @@ public class UtilityShiftingController {
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getPlanned_completion_date());
+					cell.setCellValue(obj.getCompleted());
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
@@ -1023,12 +1023,22 @@ public class UtilityShiftingController {
 						//checking given file format
 						if(headerRow != null){
 							List<String> fileFormat = FileFormatModel.getUtilityShiftingFileFormat();	
+							int columnSize = fileFormat.size();
 							int noOfColumns = headerRow.getLastCellNum();
-							if(noOfColumns == fileFormat.size()){
-								for (int i = 0; i < fileFormat.size();i++) {
+							String columnName = headerRow.getCell(0).getStringCellValue().trim();
+							if(!columnName.equalsIgnoreCase(fileFormat.get(0).trim()) &&  columnName.equals("Project")) {
+								columnSize = columnSize - 1;
+							}
+							if(noOfColumns == columnSize){
+								boolean tempFlag = false;
+								for (int i = 0; i < columnSize;i++) {
 				                	//System.out.println(headerRow.getCell(i).getStringCellValue().trim());
 				                	//if(!fileFormat.get(i).trim().equals(headerRow.getCell(i).getStringCellValue().trim())){
-									String columnName = headerRow.getCell(i).getStringCellValue().trim();
+									columnName = headerRow.getCell(i).getStringCellValue().trim();
+									if(i == 0 && "Utility ID".equalsIgnoreCase(fileFormat.get(i).trim()) && columnName.equals("Project") && !columnName.equals(fileFormat.get(i).trim())) {
+										tempFlag = true;
+									}
+									if(tempFlag) {i++;}
 									if(!columnName.equals(fileFormat.get(i).trim()) && !columnName.contains(fileFormat.get(i).trim())){
 				                		attributes.addFlashAttribute("error",uploadformatError);
 				                		msg = uploadformatError;
@@ -1338,7 +1348,7 @@ public class UtilityShiftingController {
 						}
 				
 						boolean flag = us.checkNullOrEmpty();
-						if(!flag && !StringUtils.isEmpty(us.getUtility_shifting_id())) {
+						if(!flag && !StringUtils.isEmpty(us.getWork_short_name())) {
 							ussList.add(us);
 						}
 					}

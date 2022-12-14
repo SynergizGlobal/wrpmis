@@ -1608,7 +1608,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 					+ "shifting_completion_date, remarks,created_by,created_date) "
 					+ "VALUES "
 					+ "(:utility_shifting_id,:work_id_fk,:execution_agency_fk,:hod_user_id_fk,:utility_type_fk,:utility_description,"
-					+ ":location_name,:custodian,:identification,:reference_number,:chainage,:executed_by,:impacted_contract_id_fk,:requirement_stage_fk"
+					+ ":location_name,:custodian,:identification,:reference_number,:chainage,:executed_by,:impacted_contract_id_fk,:requirement_stage_fk,"
 					+ ":impacted_element,:affected_structures,:planned_completion_date,:scope,:completed,:unit_fk,:start_date,:shifting_status_fk,"
 					+ ":shifting_completion_date,:remarks,:created_by_user_id_fk,CURRENT_TIMESTAMP"
 					+ ")";	
@@ -1617,7 +1617,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 					+ "hod_user_id_fk=:hod_user_id_fk, utility_type_fk=:utility_type_fk, utility_description=:utility_description, location_name=:location_name,"
 					+ " custodian=:custodian, identification=:identification, reference_number=:reference_number, chainage=:chainage, executed_by=:executed_by, impacted_contract_id_fk=:impacted_contract_id_fk,"
 					+ " requirement_stage_fk=:requirement_stage_fk, impacted_element=:impacted_element, affected_structures=:affected_structures, planned_completion_date=:planned_completion_date,"
-					+ " scope=:scope, completed=:completed, unit_fk=:unit_fk, unit_fk=:unit_fk,start_date=:start_date,shifting_status_fk=:shifting_status_fk "
+					+ " scope=:scope, completed=:completed, unit_fk=:unit_fk,start_date=:start_date,shifting_status_fk=:shifting_status_fk, "
 					+ " shifting_completion_date=:shifting_completion_date, remarks=:remarks,modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP "
 					+ " WHERE utility_shifting_id = :utility_shifting_id";	
 		
@@ -1695,7 +1695,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 		}catch(Exception e){ 
 			transactionManager.rollback(status);
 			e.printStackTrace();
-			errMsg = e.getMessage();
+			errMsg = e.getMessage();			
 		}
 		String arr[] = new String[5];
 		arr[0] = errMsg;

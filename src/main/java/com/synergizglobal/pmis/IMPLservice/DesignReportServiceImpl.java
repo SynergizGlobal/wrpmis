@@ -32,7 +32,7 @@ public class DesignReportServiceImpl implements DesignReportService {
 	}
 
 	@Override
-	public Map<String,List<DesignReport>> getDesignReportData(DesignReport obj) throws Exception {
+	public List<DesignReport> getDesignReportData(DesignReport obj) throws Exception {
 		return dao.getDesignReportData(obj);
 	}
 

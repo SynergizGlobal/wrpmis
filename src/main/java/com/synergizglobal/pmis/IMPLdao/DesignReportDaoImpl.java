@@ -140,353 +140,62 @@ public class DesignReportDaoImpl implements DesignReportDao{
 	}
 
 	@Override
-	public Map<String,List<DesignReport>> getDesignReportData(DesignReport obj) throws Exception {
-		Map<String,List<DesignReport>> objsMap = new LinkedHashMap<String,List<DesignReport>>();
-		
+	public List<DesignReport> getDesignReportData(DesignReport obj) throws Exception {
+		List<DesignReport> objsList = null;
 		try {
 			
-			String filter2 = "";
-		    if(!StringUtils.isEmpty(obj.getHod())) { filter2 = filter2 + " and d2.hod = ?"; }
-		    
-		    String filter3 = "";
-		    if(!StringUtils.isEmpty(obj.getHod())) { filter3 = filter3 + " and d3.hod = ?"; }
-		    
-		    String filter4 = "";
-		    if(!StringUtils.isEmpty(obj.getHod())) { filter4 = filter4 + " and d4.hod = ?"; }
-		    
-		    String filter5 = "";
-		    if(!StringUtils.isEmpty(obj.getHod())) { filter5 = filter5 + " and d5.hod = ?"; }
-		    
-		    String filter6 = "";
-		    if(!StringUtils.isEmpty(obj.getHod())) { filter6 = filter6 + " and d6.hod = ?"; }
-		    
-		    String filter7 = "";
-		    if(!StringUtils.isEmpty(obj.getHod())) { filter7 = filter7 + " and d7.hod = ?"; }
-		    
-		    
-		    
-			/*String workWiseQry = "select concat(work_id_fk,' - ',work_short_name) as name,work_id_fk,work_name,work_short_name,"+
-					"(select count(*) from design d2 where d2.work_id_fk = d1.work_id_fk"+filter1+") as total_scope," + 
-					"(select count(*) from design d3 where d3.work_id_fk = d1.work_id_fk"+filter2+" and gfc_released is not null) as total_drawings_approved," + 
-					"(select count(*) from design d4 where d4.work_id_fk = d1.work_id_fk"+filter3+" and consultant_submission is not null) as total_submitted_by_consultans," + 
-					"(select count(*) from design d5 where d5.work_id_fk = d1.work_id_fk"+filter4+" and mrvc_reviewed is not null) as total_mrvc_reviewed," + 
-					"(select count(*) from design d6 where d6.work_id_fk = d1.work_id_fk"+filter5+" and submitted_to_division is not null) as total_submitted_to_division," + 
-					"(select count(*) from design d7 where d7.work_id_fk = d1.work_id_fk"+filter6+" and divisional_approval is not null) as total_divisional_approval," + 
-					"(select count(*) from design d8 where d8.work_id_fk = d1.work_id_fk"+filter7+" and submitted_to_hq is not null) as total_submitted_to_hq," + 
-					"(select count(*) from design d9 where d9.work_id_fk = d1.work_id_fk"+filter8+" and hq_approval is not null) as total_hq_approval " + 
-					"from design d1 "+
-					"left join work on d1.work_id_fk = work_id " +
-					"where d1.design_id is not null";*/
-			
-			 String workWiseQry = "select concat(work_id_fk,' - ',work_short_name) as name,work_id_fk,work_name,work_short_name," + 
-			    		"(select count(*) from design d2 where d2.work_id_fk = d1.work_id_fk"+filter2+") as total_scope," + 
-			    		"(select count(*) from design d3 where d3.work_id_fk = d1.work_id_fk"+filter3+" and gfc_released is not null) as total_drawings_approved," + 
-			    		"(select count(*) from design d4 where d4.work_id_fk = d1.work_id_fk"+filter4+" and consultant_submission is not null) as total_submitted_by_consultans," + 
-			    		"(select count(*) from design d5 where d5.work_id_fk = d1.work_id_fk"+filter5+" and ((consultant_submission is not null and mrvc_reviewed is null) or (consultant_submission is not null and mrvc_reviewed is not null and divisional_submission_fk = 'Yes' and submitted_to_division is null)) ) as under_review_by_mrvc," + 
-			    		"(select count(*) from design d6 where d6.work_id_fk = d1.work_id_fk"+filter6+" and ((submitted_to_division is not null and divisional_approval is null) or (divisional_approval is not null and hq_submission_fk = 'Yes' and submitted_to_hq is null)) ) as under_review_by_division," + 
-			    		"(select count(*) from design d7 where d7.work_id_fk = d1.work_id_fk"+filter7+" and (submitted_to_hq is not null and hq_approval is null)) as under_review_by_hq " +
-			    		"from design d1 "
-			    		+"left join work on d1.work_id_fk = work_id "
-			    		+ "where d1.design_id is not null";
+			String workWiseQry ="select design_id,d.work_id_fk,w.project_id_fk,d.structure_type_fk,d.structure_id_fk,w.work_short_name,d.approving_railway,d.approval_authority_fk,w.work_name,c.contract_name, " + 
+					"c.contract_short_name,d.contract_id_fk,d.department_id_fk,isnull(d.consultant_contract_id_fk,'') as consultant_contract_id_fk,isnull(d.proof_consultant_contract_id_fk,'') as proof_consultant_contract_id_fk,d.hod,d.dy_hod,d.prepared_by_id_fk,d.structure_type_fk, " + 
+					"d.drawing_type_fk,d.contractor_drawing_no,d.mrvc_drawing_no,d.division_drawing_no,d.hq_drawing_no,d.drawing_title,FORMAT(d.required_date,'dd-MM-yyyy') AS required_date,  " + 
+					"FORMAT(d.gfc_released,'dd-MM-yyyy') AS gfc_released,d.remarks,(case when (SELECT count(dss.submitted_date) FROM design_status dss  " + 
+					"where dss.submitted_date = max(ds.submitted_date)) > 1 then  (SELECT submssion_purpose FROM design_status dss where max(ds.id) = dss.id )  " + 
+					"else (SELECT submssion_purpose FROM design_status dss where dss.submitted_date = max(ds.submitted_date)) end) as submission_purpose, " + 
+					"(case when (SELECT count(dss.submitted_date) FROM design_status dss where dss.submitted_date = max(ds.submitted_date)) > 1 then   " + 
+					"(SELECT stage_fk FROM design_status dss where max(ds.id) = dss.id  ) else (SELECT stage_fk FROM design_status dss where dss.submitted_date = max(ds.submitted_date)) end) as stage_fk, " + 
+					"(case when (SELECT count(dss.submitted_date) FROM design_status dss where dss.submitted_date = max(ds.submitted_date)) > 1 then   " + 
+					"(SELECT submitted_by FROM design_status dss where max(ds.id) = dss.id ) else (SELECT submitted_by FROM design_status dss where dss.submitted_date = max(ds.submitted_date)) end) as submitted_by, " + 
+					"(case when (SELECT count(dss.submitted_date) FROM design_status dss where dss.submitted_date = max(ds.submitted_date)) > 1 then   " + 
+					"(SELECT submitted_to FROM design_status dss where max(ds.id) = dss.id) else (SELECT submitted_to FROM design_status dss  " + 
+					"where dss.submitted_date = max(ds.submitted_date)) end) as submitted_to ,FORMAT(max(ds.submitted_date) ,'dd-MM-yyyy') AS submitted_date,  " + 
+					"FORMAT(required_date ,'dd-MM-yyyy') AS required_date ,u.user_name,u.designation as hod_designation,u1.user_name,u1.designation as dy_hod_designation, " + 
+					"dt.department_name ,isnull(c1.contract_short_name,'') as consult_contarct, isnull(c2.contract_short_name,'') as proof_consult_contarct,component,design_seq_id   " + 
+					" " + 
+					"from design d  " + 
+					"LEFT OUTER JOIN contract c ON d.contract_id_fk = c.contract_id  " + 
+					"LEFT OUTER JOIN contract c1 ON d.consultant_contract_id_fk = c1.contract_id  " + 
+					"LEFT OUTER JOIN contract c2 ON d.proof_consultant_contract_id_fk = c2.contract_id  " + 
+					"LEFT OUTER JOIN work w  ON d.work_id_fk  =  w.work_id  " + 
+					"LEFT OUTER JOIN project p  ON w.project_id_fk  =  p.project_id  " + 
+					"left outer join [user] u  ON d.hod  =  u.user_id  " + 
+					"left outer join [user] u1  ON d.dy_hod  =  u1.user_id  " + 
+					"LEFT OUTER JOIN department dt  ON d.department_id_fk  =  dt.department   " + 
+					"left join design_status ds on d.design_id = ds.design_id_fk  where design_id is not null ";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj.getWork_id_fk())) {
-				workWiseQry = workWiseQry + " and d1.work_id_fk = ?";
+				workWiseQry = workWiseQry + " and w.work_id = ?";
 				arrSize++;
 			}
-			if(!StringUtils.isEmpty(obj.getHod())) {
-				workWiseQry = workWiseQry + " and d1.hod = ?";
-				arrSize = arrSize + 1 + 6;
-			}
-			workWiseQry = workWiseQry + " group by concat(work_id_fk,' - ',work_short_name),work_id_fk,work_name,work_short_name order by d1.work_id_fk";
+			
+			workWiseQry = workWiseQry + " group by design_id,d.work_id_fk,w.project_id_fk,d.structure_type_fk,d.structure_id_fk,w.work_short_name, " + 
+					"d.approving_railway,d.approval_authority_fk,w.work_name,c.contract_name,c.contract_short_name,d.contract_id_fk,d.department_id_fk,d.consultant_contract_id_fk,d.proof_consultant_contract_id_fk,d.hod,d.dy_hod,d.prepared_by_id_fk,d.structure_type_fk, " + 
+					"d.drawing_type_fk,d.contractor_drawing_no,d.mrvc_drawing_no,d.division_drawing_no,d.hq_drawing_no,d.drawing_title,FORMAT(d.required_date,'dd-MM-yyyy'),FORMAT(d.gfc_released,'dd-MM-yyyy'),d.remarks, " + 
+					"u.user_name,u.designation,u1.user_name,u1.designation,dt.department_name,c1.contract_short_name,c2.contract_short_name,component,design_seq_id ";			
 			
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
-			if(!StringUtils.isEmpty(obj.getHod())) {
-				for (int j = 0; j < 6; j++) {
-					pValues[i++] = obj.getHod();
-				}
-			}
-			if(!StringUtils.isEmpty(obj.getWork_id_fk())) {
-				pValues[i++] = obj.getWork_id_fk();
-			}
-			if(!StringUtils.isEmpty(obj.getHod())) {
-				pValues[i++] = obj.getHod();
-			}
-			
-			List<DesignReport> workWiseObjsList = jdbcTemplate.query( workWiseQry,pValues, new BeanPropertyRowMapper<DesignReport>(DesignReport.class));
-		    
-			/*if(!StringUtils.isEmpty(workWiseObjsList) && workWiseObjsList.size() > 0) {		    	
-				for (DesignReport dObj : workWiseObjsList) {
-					int under_review_by_mrvc = 0,under_review_by_division = 0,under_review_by_hq = 0;
-			    	int total_submitted_by_consultans = 0,total_mrvc_reviewed = 0,total_submitted_to_division = 0,
-			    			total_divisional_approval = 0,total_submitted_to_hq = 0,total_hq_approval = 0;
-			    	
-			    	if(!StringUtils.isEmpty(dObj.getTotal_submitted_by_consultans())) {
-			    		total_submitted_by_consultans = Integer.parseInt(dObj.getTotal_submitted_by_consultans());
-			    	}			    	
-			    	if(!StringUtils.isEmpty(dObj.getTotal_mrvc_reviewed())) {
-			    		total_mrvc_reviewed = Integer.parseInt(dObj.getTotal_mrvc_reviewed());
-			    	}
-			    	if(!StringUtils.isEmpty(dObj.getTotal_submitted_to_division())) {
-			    		total_submitted_to_division = Integer.parseInt(dObj.getTotal_submitted_to_division());
-			    	}
-			    	if(!StringUtils.isEmpty(dObj.getTotal_divisional_approval())) {
-			    		total_divisional_approval = Integer.parseInt(dObj.getTotal_divisional_approval());
-			    	}
-			    	if(!StringUtils.isEmpty(dObj.getTotal_submitted_to_hq())) {
-			    		total_submitted_to_hq = Integer.parseInt(dObj.getTotal_submitted_to_hq());
-			    	}
-			    	if(!StringUtils.isEmpty(dObj.getTotal_hq_approval())) {
-			    		total_hq_approval = Integer.parseInt(dObj.getTotal_hq_approval());
-			    	}
-			    	
-			    	under_review_by_mrvc = total_submitted_by_consultans - total_mrvc_reviewed;
-			    	under_review_by_division = total_submitted_to_division - total_divisional_approval;			    	
-			    	under_review_by_hq = total_submitted_to_hq - total_hq_approval;
-			    	
-			    	dObj.setUnder_review_by_mrvc(String.valueOf(under_review_by_mrvc));
-			    	dObj.setUnder_review_by_division(String.valueOf(under_review_by_division));
-			    	dObj.setUnder_review_by_hq(String.valueOf(under_review_by_hq));
-				}
-			}*/
-		    
-		    /********************************* HOD wise  *****************************************************************/
-		    filter2 = "";
-		    if(!StringUtils.isEmpty(obj.getWork_id_fk())) { filter2 = filter2 + " and d2.work_id_fk = ?"; }
-		    
-		    filter3 = "";
-		    if(!StringUtils.isEmpty(obj.getWork_id_fk())) { filter3 = filter3 + " and d3.work_id_fk = ?"; }
-		    
-		    filter4 = "";
-		    if(!StringUtils.isEmpty(obj.getWork_id_fk())) { filter4 = filter4 + " and d4.work_id_fk = ?"; }
-		    
-		    filter5 = "";
-		    if(!StringUtils.isEmpty(obj.getWork_id_fk())) { filter5 = filter5 + " and d5.work_id_fk = ?"; }
-		    
-		    filter6 = "";
-		    if(!StringUtils.isEmpty(obj.getWork_id_fk())) { filter6 = filter6 + " and d6.work_id_fk = ?"; }
-		    
-		    filter7 = "";
-		    if(!StringUtils.isEmpty(obj.getWork_id_fk())) { filter7 = filter7 + " and d7.work_id_fk = ?"; }
-		    		    
-		    
-			/* String hodWiseQry = "select d1.hod as name," + 
-					"(select count(*) from design d2 where d2.hod = d1.hod"+filter1+") as total_scope," + 
-					"(select count(*) from design d3 where d3.hod = d1.hod"+filter2+" and gfc_released is not null) as total_drawings_approved," + 
-					"(select count(*) from design d4 where d4.hod = d1.hod"+filter3+" and consultant_submission is not null) as total_submitted_by_consultans," + 
-					"(select count(*) from design d5 where d5.hod = d1.hod"+filter4+" and mrvc_reviewed is not null) as total_mrvc_reviewed," + 
-					"(select count(*) from design d6 where d6.hod = d1.hod"+filter5+" and submitted_to_division is not null) as total_submitted_to_division," + 
-					"(select count(*) from design d7 where d7.hod = d1.hod"+filter6+" and divisional_approval is not null) as total_divisional_approval," + 
-					"(select count(*) from design d8 where d8.hod = d1.hod"+filter7+" and submitted_to_hq is not null) as total_submitted_to_hq," + 
-					"(select count(*) from design d9 where d9.hod = d1.hod"+filter8+" and hq_approval is not null) as total_hq_approval " + 
-					"from design d1 where d1.design_id is not null";*/
-		    
-		    String hodWiseQry = "select d1.hod as name," + 
-		    		"(select count(*) from design d2 where d2.hod = d1.hod"+filter2+") as total_scope," + 
-		    		"(select count(*) from design d3 where d3.hod = d1.hod"+filter3+" and gfc_released is not null) as total_drawings_approved," + 
-		    		"(select count(*) from design d4 where d4.hod = d1.hod"+filter4+" and consultant_submission is not null) as total_submitted_by_consultans," + 
-		    		"(select count(*) from design d5 where d5.hod = d1.hod"+filter5+" and ((consultant_submission is not null and mrvc_reviewed is null) or (consultant_submission is not null and mrvc_reviewed is not null and divisional_submission_fk = 'Yes' and submitted_to_division is null)) ) as under_review_by_mrvc," + 
-		    		"(select count(*) from design d6 where d6.hod = d1.hod"+filter6+" and ((submitted_to_division is not null and divisional_approval is null) or (divisional_approval is not null and hq_submission_fk = 'Yes' and submitted_to_hq is null)) ) as under_review_by_division," + 
-		    		"(select count(*) from design d7 where d7.hod = d1.hod"+filter7+" and (submitted_to_hq is not null and hq_approval is null)) as under_review_by_hq " +
-		    		"from design d1 where d1.design_id is not null";
-			
-			arrSize = 0;
-			
-			if(!StringUtils.isEmpty(obj.getWork_id_fk())) {
-				hodWiseQry = hodWiseQry + " and d1.work_id_fk = ?";
-				arrSize = arrSize + 1 + 6;
-			}
-			if(!StringUtils.isEmpty(obj.getHod())) {
-				hodWiseQry = hodWiseQry + " and d1.hod = ?";
-				arrSize++;
-			}
-			hodWiseQry = hodWiseQry + " group by d1.hod order by d1.hod";
-			
-			pValues = new Object[arrSize];
-			
-			i = 0;
-			
-			if(!StringUtils.isEmpty(obj.getWork_id_fk())) {
-				for (int j = 0; j < 6; j++) {
-					pValues[i++] = obj.getWork_id_fk();
-				}				
-			}
-			
 			if(!StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
 			}
 			
-			if(!StringUtils.isEmpty(obj.getHod())) {
-				pValues[i++] = obj.getHod();
-			}
-			
-			/*if(!StringUtils.isEmpty(obj.getHod())) {
-				for (int j = 0; j < 9; j++) {
-					pValues[i++] = obj.getHod();
-				}				
-			}*/
-			
-			/*if(!StringUtils.isEmpty(obj.getWork_id_fk())) {
-				 hodWiseQry = "select d1.hod as name," + 
-				    		"(select count(*) from design d2 where d2.hod = d1.hod and d2.work_id_fk = ?) as total_scope," + 
-				    		"(select count(*) from design d3 where d3.hod = d1.hod and d3.work_id_fk = ? and gfc_released is not null) as total_drawings_approved," + 
-				    		"(select count(*) from design d4 where d4.hod = d1.hod and d4.work_id_fk = ? and consultant_submission is not null) as total_submitted_by_consultans," + 
-				    		"(select count(*) from design d5 where d5.hod = d1.hod and d5.work_id_fk = ? and mrvc_reviewed is not null) as total_mrvc_reviewed," + 
-				    		"(select count(*) from design d6 where d6.hod = d1.hod and d6.work_id_fk = ? and submitted_to_division is not null) as total_submitted_to_division," + 
-				    		"(select count(*) from design d7 where d7.hod = d1.hod and d7.work_id_fk = ? and divisional_approval is not null) as total_divisional_approval," + 
-				    		"(select count(*) from design d8 where d8.hod = d1.hod and d8.work_id_fk = ? and submitted_to_hq is not null) as total_submitted_to_hq," + 
-				    		"(select count(*) from design d9 where d9.hod = d1.hod and d9.work_id_fk = ? and hq_approval is not null) as total_hq_approval " + 
-				    		"from design d1 where d1.design_id is not null and d1.work_id_fk = ? group by d1.hod order by d1.hod";
-				arrSize = 9;
-			}else {
-				hodWiseQry = "select d1.hod as name,(select count(*) from design d2 where d2.hod = d1.hod) as total_scope," + 
-						"(select count(*) from design d3 where d3.hod = d1.hod and gfc_released is not null) as total_drawings_approved," + 
-						"(select count(*) from design d4 where d4.hod = d1.hod and consultant_submission is not null ) as total_submitted_by_consultans," + 
-						"(select count(*) from design d5 where d5.hod = d1.hod and mrvc_reviewed is not null) as total_mrvc_reviewed," + 
-						"(select count(*) from design d6 where d6.hod = d1.hod and submitted_to_division is not null) as total_submitted_to_division," + 
-						"(select count(*) from design d7 where d7.hod = d1.hod and divisional_approval is not null) as total_divisional_approval," + 
-						"(select count(*) from design d8 where d8.hod = d1.hod and submitted_to_hq is not null) as total_submitted_to_hq," + 
-						"(select count(*) from design d9 where d9.hod = d1.hod and hq_approval is not null) as total_hq_approval " + 
-						"from design d1 where d1.design_id is not null group by d1.hod order by d1.hod";
-			}*/
-			
-			
-			
-			/*pValues = new Object[arrSize];
-			
-			
-			if(!StringUtils.isEmpty(obj.getWork_id_fk())) {
-				for (int j = 0; j < arrSize; j++) {
-					pValues[j++] = obj.getWork_id_fk();
-				}				
-			}*/
-			
-			List<DesignReport> hodWiseObjsList = jdbcTemplate.query( hodWiseQry,pValues, new BeanPropertyRowMapper<DesignReport>(DesignReport.class));
+			objsList = jdbcTemplate.query( workWiseQry,pValues, new BeanPropertyRowMapper<DesignReport>(DesignReport.class));
 		    
-			/*if(!StringUtils.isEmpty(hodWiseObjsList) && hodWiseObjsList.size() > 0) {		    	
-				for (DesignReport dObj : hodWiseObjsList) {
-					int under_review_by_mrvc = 0,under_review_by_division = 0,under_review_by_hq = 0;
-			    	int total_submitted_by_consultans = 0,total_mrvc_reviewed = 0,total_submitted_to_division = 0,
-			    			total_divisional_approval = 0,total_submitted_to_hq = 0,total_hq_approval = 0;
-			    	
-			    	if(!StringUtils.isEmpty(dObj.getTotal_submitted_by_consultans())) {
-			    		total_submitted_by_consultans = Integer.parseInt(dObj.getTotal_submitted_by_consultans());
-			    	}			    	
-			    	if(!StringUtils.isEmpty(dObj.getTotal_mrvc_reviewed())) {
-			    		total_mrvc_reviewed = Integer.parseInt(dObj.getTotal_mrvc_reviewed());
-			    	}
-			    	if(!StringUtils.isEmpty(dObj.getTotal_submitted_to_division())) {
-			    		total_submitted_to_division = Integer.parseInt(dObj.getTotal_submitted_to_division());
-			    	}
-			    	if(!StringUtils.isEmpty(dObj.getTotal_divisional_approval())) {
-			    		total_divisional_approval = Integer.parseInt(dObj.getTotal_divisional_approval());
-			    	}
-			    	if(!StringUtils.isEmpty(dObj.getTotal_submitted_to_hq())) {
-			    		total_submitted_to_hq = Integer.parseInt(dObj.getTotal_submitted_to_hq());
-			    	}
-			    	if(!StringUtils.isEmpty(dObj.getTotal_hq_approval())) {
-			    		total_hq_approval = Integer.parseInt(dObj.getTotal_hq_approval());
-			    	}
-			    	
-			    	under_review_by_mrvc = total_submitted_by_consultans - total_mrvc_reviewed;
-			    	under_review_by_division = total_submitted_to_division - total_divisional_approval;			    	
-			    	under_review_by_hq = total_submitted_to_hq - total_hq_approval;
-			    	
-			    	dObj.setUnder_review_by_mrvc(String.valueOf(under_review_by_mrvc));
-			    	dObj.setUnder_review_by_division(String.valueOf(under_review_by_division));
-			    	dObj.setUnder_review_by_hq(String.valueOf(under_review_by_hq));
-				}
-			}*/
-		    
-		    /************************************ Departments wise  **************************************************************/
-		    
-		    /*String departmentWiseQry = "";
-			
-		    arrSize = 0;
-			if(!StringUtils.isEmpty(obj.getWork_id_fk())) {
-				departmentWiseQry = "select d1.department_id_fk as name," + 
-				    		"(select count(*) from design d2 where d2.department_id_fk = d1.department_id_fk and d2.work_id_fk = ?) as total_scope," + 
-				    		"(select count(*) from design d3 where d3.department_id_fk = d1.department_id_fk and d3.work_id_fk = ? and gfc_released is not null) as total_drawings_approved," + 
-				    		"(select count(*) from design d4 where d4.department_id_fk = d1.department_id_fk and d4.work_id_fk = ? and consultant_submission is not null) as total_submitted_by_consultans," + 
-				    		"(select count(*) from design d5 where d5.department_id_fk = d1.department_id_fk and d5.work_id_fk = ? and mrvc_reviewed is not null) as total_mrvc_reviewed," + 
-				    		"(select count(*) from design d6 where d6.department_id_fk = d1.department_id_fk and d6.work_id_fk = ? and submitted_to_division is not null) as total_submitted_to_division," + 
-				    		"(select count(*) from design d7 where d7.department_id_fk = d1.department_id_fk and d7.work_id_fk = ? and divisional_approval is not null) as total_divisional_approval," + 
-				    		"(select count(*) from design d8 where d8.department_id_fk = d1.department_id_fk and d8.work_id_fk = ? and submitted_to_hq is not null) as total_submitted_to_hq," + 
-				    		"(select count(*) from design d9 where d9.department_id_fk = d1.department_id_fk and d9.work_id_fk = ? and hq_approval is not null) as total_hq_approval " + 
-				    		"from design d1 where d1.department_id_fk is not null and d1.work_id_fk = ? group by d1.department_id_fk order by d1.department_id_fk";
-				arrSize = 9;
-			}else {
-				departmentWiseQry = "select d1.department_id_fk as name,(select count(*) from design d2 where d2.department_id_fk = d1.department_id_fk) as total_scope," + 
-						"(select count(*) from design d3 where d3.department_id_fk = d1.department_id_fk and gfc_released is not null) as total_drawings_approved," + 
-						"(select count(*) from design d4 where d4.department_id_fk = d1.department_id_fk and consultant_submission is not null ) as total_submitted_by_consultans," + 
-						"(select count(*) from design d5 where d5.department_id_fk = d1.department_id_fk and mrvc_reviewed is not null) as total_mrvc_reviewed," + 
-						"(select count(*) from design d6 where d6.department_id_fk = d1.department_id_fk and submitted_to_division is not null) as total_submitted_to_division," + 
-						"(select count(*) from design d7 where d7.department_id_fk = d1.department_id_fk and divisional_approval is not null) as total_divisional_approval," + 
-						"(select count(*) from design d8 where d8.department_id_fk = d1.department_id_fk and submitted_to_hq is not null) as total_submitted_to_hq," + 
-						"(select count(*) from design d9 where d9.department_id_fk = d1.department_id_fk and hq_approval is not null) as total_hq_approval " + 
-						"from design d1 where d1.department_id_fk is not null group by d1.department_id_fk order by d1.department_id_fk";
-			}
-			
-			
-			
-			pValues = new Object[arrSize];
-			
-			
-			if(!StringUtils.isEmpty(obj.getWork_id_fk())) {
-				for (int j = 0; j < arrSize; j++) {
-					pValues[j++] = obj.getWork_id_fk();
-				}				
-			}
-			
-			List<DesignReport> departmentWiseObjsList = jdbcTemplate.query( departmentWiseQry,pValues, new BeanPropertyRowMapper<DesignReport>(DesignReport.class));
-		    
-		    if(!StringUtils.isEmpty(departmentWiseObjsList) && departmentWiseObjsList.size() > 0) {		    	
-		    	for (DesignReport dObj : departmentWiseObjsList) {
-		    		int under_review_by_mrvc = 0,under_review_by_division = 0,under_review_by_hq = 0;
-			    	int total_submitted_by_consultans = 0,total_mrvc_reviewed = 0,total_submitted_to_division = 0,
-			    			total_divisional_approval = 0,total_submitted_to_hq = 0,total_hq_approval = 0;
-			    	
-			    	if(!StringUtils.isEmpty(dObj.getTotal_submitted_by_consultans())) {
-			    		total_submitted_by_consultans = Integer.parseInt(dObj.getTotal_submitted_by_consultans());
-			    	}			    	
-			    	if(!StringUtils.isEmpty(dObj.getTotal_mrvc_reviewed())) {
-			    		total_mrvc_reviewed = Integer.parseInt(dObj.getTotal_mrvc_reviewed());
-			    	}
-			    	if(!StringUtils.isEmpty(dObj.getTotal_submitted_to_division())) {
-			    		total_submitted_to_division = Integer.parseInt(dObj.getTotal_submitted_to_division());
-			    	}
-			    	if(!StringUtils.isEmpty(dObj.getTotal_divisional_approval())) {
-			    		total_divisional_approval = Integer.parseInt(dObj.getTotal_divisional_approval());
-			    	}
-			    	if(!StringUtils.isEmpty(dObj.getTotal_submitted_to_hq())) {
-			    		total_submitted_to_hq = Integer.parseInt(dObj.getTotal_submitted_to_hq());
-			    	}
-			    	if(!StringUtils.isEmpty(dObj.getTotal_hq_approval())) {
-			    		total_hq_approval = Integer.parseInt(dObj.getTotal_hq_approval());
-			    	}
-			    	
-			    	under_review_by_mrvc = total_submitted_by_consultans - total_mrvc_reviewed;
-			    	under_review_by_division = total_submitted_to_division - total_divisional_approval;			    	
-			    	under_review_by_hq = total_submitted_to_hq - total_hq_approval;
-			    	
-			    	dObj.setUnder_review_by_mrvc(String.valueOf(under_review_by_mrvc));
-			    	dObj.setUnder_review_by_division(String.valueOf(under_review_by_division));
-			    	dObj.setUnder_review_by_hq(String.valueOf(under_review_by_hq));
-				}
-		    }
-		    
-		    objsMap.put("Department", departmentWiseObjsList);
-		    */
-		    
-		    objsMap.put("Project", workWiseObjsList);
-		    objsMap.put("Responsibily", hodWiseObjsList);
 
 		}catch(Exception e){ 
 			throw new Exception(e);
 		}
-		return objsMap;
+		return objsList;
 	}
 
 }

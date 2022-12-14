@@ -134,7 +134,7 @@ public class DesignReportController {
 			DateFormat df = new SimpleDateFormat("dd-MMM-YYYY HH:mm"); 
 			String report_created_date = df.format(new Date()); 
 			
-			Map<String,List<DesignReport>> reportData = service.getDesignReportData(obj);			
+			List<DesignReport> reportData = service.getDesignReportData(obj);			
 			
 			XSSFWorkbook  workBook = new XSSFWorkbook();
 			
@@ -163,84 +163,86 @@ public class DesignReportController {
             /********************************************************/
 	        int sheetNo = 0;
 	        if(!reportData.isEmpty()) {
-	        	XSSFSheet sheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Drawings"));
+	        	XSSFSheet sheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Design Status"));
+	        	XSSFSheet sheet1 = workBook.createSheet(WorkbookUtil.createSafeSheetName("Drawing Register"));
 		        workBook.setSheetOrder(sheet.getSheetName(), sheetNo++);
+		        workBook.setSheetOrder(sheet1.getSheetName(), sheetNo++);
 		        
 		        XSSFRow dateRow = sheet.createRow(0);
 		        
 		        Cell cell = dateRow.createCell(2);
-		        cell.setCellStyle(indexWhiteStyle);
-				cell.setCellValue("Date : " + report_created_date);
-		        for (int i = 3; i < 9; i++) {		        	
-			        cell = dateRow.createCell(i);
-			        cell.setCellStyle(indexWhiteStyle);
-					cell.setCellValue("");
-				}	
-		        sheet.addMergedRegion(new CellRangeAddress(0, 0, 2,8));
 		        
-		        int rowNo = 2;
-		        for (Map.Entry<String,List<DesignReport>> entry : reportData.entrySet()) {  
-		            //System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue()); 
-		        	List<DesignReport> dataList = entry.getValue();
-		            String keyName = entry.getKey();
-		        	
-			        XSSFRow mainHeadingRow = sheet.createRow(rowNo);
-			        
-			        cell = mainHeadingRow.createCell(2);
-			        cell.setCellStyle(indexWhiteStyle);
-					cell.setCellValue(keyName + " Wise: Drawings pending with Approving Authority");
-			        for (int i = 3; i < 9; i++) {		        	
-				        cell = mainHeadingRow.createCell(i);
-				        cell.setCellStyle(indexWhiteStyle);
-						cell.setCellValue("");
-					}	
-			        sheet.addMergedRegion(new CellRangeAddress(rowNo, rowNo, 2,8));
-			        rowNo++;
-					/********************************************************/
-		            /**********************************************************************/
-					String headerString = keyName+"^Total Scope^Drawing Approved^Submitted by Consultants^Under review by MRVC^Under review by Division^Under review by HQ";
+		        int rowNo = 0;
+
+					String headerString = "Department^HOD^Dy. HOD^Structure Type^Structure^Component^Consultant^Planned Approval Date^Total No. of Drawings^Approval by Division^Approval by HQ^Approval by MRVC^Approved Date";
 			        
 			        String[] headerStringArr = headerString.split("\\^");
 			        
 			        XSSFRow headingRow = sheet.createRow(rowNo++);
 			        for (int i = 0; i < headerStringArr.length; i++) {		        	
-				        cell = headingRow.createCell(i+2);
-				        cell.setCellStyle(blueStyle);
+				        cell = headingRow.createCell(i);
+				        cell.setCellStyle(whiteStyle);
 						cell.setCellValue(headerStringArr[i]);
 					}				
 					
 			        /***********************************************************************/
-					for (DesignReport dObj : dataList) {
+					for (DesignReport dObj : reportData) {
 				        XSSFRow row = sheet.createRow(rowNo++);
-				        int c = 2;
+				        int c = 0;
 				        
 				        cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
-						cell.setCellValue(dObj.getName());
+						cell.setCellValue(dObj.getDepartment_name());
 						
 						cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
-						cell.setCellValue(Double.parseDouble(dObj.getTotal_scope()));
+						cell.setCellValue(dObj.getHod());
 						
 				        cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
-						cell.setCellValue(Double.parseDouble(dObj.getTotal_drawings_approved()));
+						cell.setCellValue(dObj.getDyhod());
 						
 						cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
-						cell.setCellValue(Double.parseDouble(dObj.getTotal_submitted_by_consultans()));
+						cell.setCellValue(dObj.getStructure_type_fk());
 						
 						cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
-						cell.setCellValue(Double.parseDouble(dObj.getUnder_review_by_mrvc()));
+						cell.setCellValue(dObj.getStructure());
 						
 						cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
-						cell.setCellValue(Double.parseDouble(dObj.getUnder_review_by_division()));
+						cell.setCellValue(dObj.getComponent());
 						
 						cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
-						cell.setCellValue(Double.parseDouble(dObj.getUnder_review_by_hq()));
+						cell.setCellValue(dObj.getConsultant());
+						
+						
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(dObj.getPlanned_approval_date());
+						
+				        cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(dObj.getTotal_no_of_drawings());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(dObj.getApproval_by_division());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(dObj.getApproval_by_hq());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(dObj.getApproval_by_mrvc());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(dObj.getApproved_date());						
 						
 				    }
 					
@@ -250,14 +252,106 @@ public class DesignReportController {
 					     //sheet.autoSizeColumn(columnIndex);
 		            	sheet.setColumnWidth(columnIndex+2, 25 * 200);
 					}
+				    
+				    
+				    
+				    
+				    
+				    
+				    
+				    
+			        XSSFRow dateRow1 = sheet1.createRow(0);
+			        
+			        Cell cell1 = dateRow1.createCell(2);
+			        
+			        int rowNo1 = 0;
+
+						String headerString1 = "Drawing ID^Department^HOD^Dy. HOD^Structure Type^Structure^Component^Consultant^Proof Consultant^Prepared By^Drawing Type^Approval Authority^Required Date^Drawing Name^MRVC Drawing No.^Divisional Drawing No.^HQ Drawing No.^Current Stage";
+				        
+				        String[] headerStringArr1 = headerString1.split("\\^");
+				        
+				        XSSFRow headingRow1 = sheet1.createRow(rowNo1++);
+				        for (int i = 0; i < headerStringArr1.length; i++) {		        	
+					        cell1 = headingRow1.createCell(i);
+					        cell1.setCellStyle(whiteStyle);
+							cell1.setCellValue(headerStringArr1[i]);
+						}				
+						
+				        /***********************************************************************/
+						for (DesignReport dObj : reportData) {
+					        XSSFRow row = sheet1.createRow(rowNo++);
+					        int c = 0;
+					        
+				        cell1 = row.createCell(c++);
+						cell1.setCellStyle(sectionStyle);
+						cell1.setCellValue(dObj.getDepartment_name());
+						
+						cell1 = row.createCell(c++);
+						cell1.setCellStyle(sectionStyle);
+						cell1.setCellValue(dObj.getHod());
+						
+				        cell1 = row.createCell(c++);
+						cell1.setCellStyle(sectionStyle);
+						cell1.setCellValue(dObj.getDyhod());
+						
+						cell1 = row.createCell(c++);
+						cell1.setCellStyle(sectionStyle);
+						cell1.setCellValue(dObj.getStructure_type_fk());
+						
+						cell1 = row.createCell(c++);
+						cell1.setCellStyle(sectionStyle);
+						cell1.setCellValue(dObj.getStructure());
+						
+						cell1 = row.createCell(c++);
+						cell1.setCellStyle(sectionStyle);
+						cell1.setCellValue(dObj.getComponent());
+						
+						cell1 = row.createCell(c++);
+						cell1.setCellStyle(sectionStyle);
+						cell1.setCellValue(dObj.getConsultant());
+						
+						
+						
+						cell1 = row.createCell(c++);
+						cell1.setCellStyle(sectionStyle);
+						cell1.setCellValue(dObj.getPlanned_approval_date());
+						
+				        cell1 = row.createCell(c++);
+						cell1.setCellStyle(sectionStyle);
+						cell1.setCellValue(dObj.getTotal_no_of_drawings());
+						
+						cell1 = row.createCell(c++);
+						cell1.setCellStyle(sectionStyle);
+						cell1.setCellValue(dObj.getApproval_by_division());
+						
+						cell1 = row.createCell(c++);
+						cell1.setCellStyle(sectionStyle);
+						cell1.setCellValue(dObj.getApproval_by_hq());
+						
+						cell1 = row.createCell(c++);
+						cell1.setCellStyle(sectionStyle);
+						cell1.setCellValue(dObj.getApproval_by_mrvc());
+						
+						cell1 = row.createCell(c++);
+						cell1.setCellStyle(sectionStyle);
+						cell1.setCellValue(dObj.getApproved_date());
+							
+					    }
+						
+						rowNo1 = rowNo1 + 3;
+					    
+					    for(int columnIndex = 0; columnIndex < headerStringArr1.length; columnIndex++) {
+						     //sheet.autoSizeColumn(columnIndex);
+			            	sheet1.setColumnWidth(columnIndex+2, 25 * 200);
+						}				    
+				    
+				    
+				    
 			    
 		        }
 			    
 			    
-	        }else {
-	        	XSSFSheet sheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("No Data"));
-		        workBook.setSheetOrder(sheet.getSheetName(), sheetNo++);
-	        }
+
             /*******************************************************************************/
             
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");

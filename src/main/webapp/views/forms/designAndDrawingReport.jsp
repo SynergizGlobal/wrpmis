@@ -38,7 +38,7 @@
                     </span>
                     <div class="">
                         <div class="row no-mar">
-                            <div class="col m8 s12 offset-m2">
+                            <div class="col m12 s12 offset-m2">
                             	<form action="<%=request.getContextPath() %>/generate-design-drawing-report" id="reportForm" name="reportForm" method="post">
 	                                <div class="row no-mar">
 	                                    <div class="col s6 m4 input-field">
@@ -49,13 +49,6 @@
 	                                        <span id="work_id_fkError" class="error-msg" ></span>
 	                                    </div>
 	                                    
-	                                    <div class="col s6 m4 input-field">
-	                                        <p class="searchable_label" style="text-align:left">HOD</p>
-	                                        <select class="searchable validate-dropdown" id="hod" name="hod" onchange="addInQueHOD(this.value);getDesignReport();">
-	                                            <option value="">Select </option>
-	                                        </select>
-	                                        <span id="hodError" class="error-msg" ></span>
-	                                    </div>
 	
 	                                    <div class="col s12 m4 input-field mob-center">
 	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"

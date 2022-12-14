@@ -13,6 +13,6 @@ public interface DesignReportDao {
 
 	List<DesignReport> getDepartmentsListInDesignReport(DesignReport obj) throws Exception;
 
-	Map<String,List<DesignReport>> getDesignReportData(DesignReport obj) throws Exception;
+	List<DesignReport> getDesignReportData(DesignReport obj) throws Exception;
 
 }

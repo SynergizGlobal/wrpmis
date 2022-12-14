@@ -192,7 +192,7 @@ public class DesignReportController {
 				        
 				        cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
-						cell.setCellValue(dObj.getDepartment_name());
+						cell.setCellValue(dObj.getDepartment());
 						
 						cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
@@ -288,7 +288,7 @@ public class DesignReportController {
 					        
 				        cell1 = row.createCell(c++);
 						cell1.setCellStyle(sectionStyle);
-						cell1.setCellValue(dObj.getDepartment_name());
+						cell1.setCellValue(dObj.getDepartment());
 						
 						cell1 = row.createCell(c++);
 						cell1.setCellStyle(sectionStyle);

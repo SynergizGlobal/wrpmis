@@ -145,7 +145,7 @@ public class DesignReportDaoImpl implements DesignReportDao{
 		try {
 			
 			String workWiseQry ="select distinct department,hod,[Dy HoD] as dyhod,[Structure Type] as structure_type_fk,structure_id_fk,isnull(component,'') as component,isnull(design_seq_id,'') as drawing_id,\r\n" + 
-					"isnull(consult_contarct,'') as consult_contarct,isnull(proof_consult_contarct,'') as proof_consult_contarct,isnull(consultant_contract_id_fk,'') as consultant_contract_id_fk,isnull(proof_consultant_contract_id_fk,'') as proof_consultant_contract_id_fk,prepared_by,drawing_type,approval_authority,\r\n" + 
+					"isnull(consult_contarct,'') as consult_contract,isnull(proof_consult_contarct,'') as proof_consultant,isnull(consultant_contract_id_fk,'') as consultant_contract_id_fk,isnull(proof_consultant_contract_id_fk,'') as proof_consultant_contract_id_fk,prepared_by,drawing_type,approval_authority,\r\n" + 
 					"required_date,drawing_name,mrvc_drawing_no,division_drawing_no,hq_drawing_no,current_stage from design_view where 0=0 \r\n" + 
 					"\r\n" + 
 					"\r\n" + 

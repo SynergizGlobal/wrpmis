@@ -10,7 +10,7 @@ public class DesignReport {
 	approval_by_hq,approval_by_mrvc,approved_date,
 
 	drawing_id,proof_consultant,prepared_by,drawing_type,approval_authority,required_date,drawing_name,mrvc_drawing_no,
-	divisional_drawing_no,hq_drawing_no,current_stage,structure_type_fk;
+	divisional_drawing_no,hq_drawing_no,current_stage,structure_type_fk,structure_id_fk,consult_contract,consultant_contract_id_fk,proof_consultant_contract_id_fk;
 	
 
 	public String getName() {
@@ -363,6 +363,38 @@ public class DesignReport {
 
 	public void setStructure_type_fk(String structure_type_fk) {
 		this.structure_type_fk = structure_type_fk;
+	}
+
+	public String getStructure_id_fk() {
+		return structure_id_fk;
+	}
+
+	public void setStructure_id_fk(String structure_id_fk) {
+		this.structure_id_fk = structure_id_fk;
+	}
+
+	public String getConsult_contract() {
+		return consult_contract;
+	}
+
+	public void setConsult_contract(String consult_contract) {
+		this.consult_contract = consult_contract;
+	}
+
+	public String getConsultant_contract_id_fk() {
+		return consultant_contract_id_fk;
+	}
+
+	public void setConsultant_contract_id_fk(String consultant_contract_id_fk) {
+		this.consultant_contract_id_fk = consultant_contract_id_fk;
+	}
+
+	public String getProof_consultant_contract_id_fk() {
+		return proof_consultant_contract_id_fk;
+	}
+
+	public void setProof_consultant_contract_id_fk(String proof_consultant_contract_id_fk) {
+		this.proof_consultant_contract_id_fk = proof_consultant_contract_id_fk;
 	}
 	
 }

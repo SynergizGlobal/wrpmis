@@ -144,43 +144,20 @@ public class DesignReportDaoImpl implements DesignReportDao{
 		List<DesignReport> objsList = null;
 		try {
 			
-			String workWiseQry ="select design_id,d.work_id_fk,w.project_id_fk,d.structure_type_fk,d.structure_id_fk,w.work_short_name,d.approving_railway,d.approval_authority_fk,w.work_name,c.contract_name, " + 
-					"c.contract_short_name,d.contract_id_fk,d.department_id_fk,isnull(d.consultant_contract_id_fk,'') as consultant_contract_id_fk,isnull(d.proof_consultant_contract_id_fk,'') as proof_consultant_contract_id_fk,d.hod,d.dy_hod,d.prepared_by_id_fk,d.structure_type_fk, " + 
-					"d.drawing_type_fk,d.contractor_drawing_no,d.mrvc_drawing_no,d.division_drawing_no,d.hq_drawing_no,d.drawing_title,FORMAT(d.required_date,'dd-MM-yyyy') AS required_date,  " + 
-					"FORMAT(d.gfc_released,'dd-MM-yyyy') AS gfc_released,d.remarks,(case when (SELECT count(dss.submitted_date) FROM design_status dss  " + 
-					"where dss.submitted_date = max(ds.submitted_date)) > 1 then  (SELECT submssion_purpose FROM design_status dss where max(ds.id) = dss.id )  " + 
-					"else (SELECT submssion_purpose FROM design_status dss where dss.submitted_date = max(ds.submitted_date)) end) as submission_purpose, " + 
-					"(case when (SELECT count(dss.submitted_date) FROM design_status dss where dss.submitted_date = max(ds.submitted_date)) > 1 then   " + 
-					"(SELECT stage_fk FROM design_status dss where max(ds.id) = dss.id  ) else (SELECT stage_fk FROM design_status dss where dss.submitted_date = max(ds.submitted_date)) end) as stage_fk, " + 
-					"(case when (SELECT count(dss.submitted_date) FROM design_status dss where dss.submitted_date = max(ds.submitted_date)) > 1 then   " + 
-					"(SELECT submitted_by FROM design_status dss where max(ds.id) = dss.id ) else (SELECT submitted_by FROM design_status dss where dss.submitted_date = max(ds.submitted_date)) end) as submitted_by, " + 
-					"(case when (SELECT count(dss.submitted_date) FROM design_status dss where dss.submitted_date = max(ds.submitted_date)) > 1 then   " + 
-					"(SELECT submitted_to FROM design_status dss where max(ds.id) = dss.id) else (SELECT submitted_to FROM design_status dss  " + 
-					"where dss.submitted_date = max(ds.submitted_date)) end) as submitted_to ,FORMAT(max(ds.submitted_date) ,'dd-MM-yyyy') AS submitted_date,  " + 
-					"FORMAT(required_date ,'dd-MM-yyyy') AS required_date ,u.user_name,u.designation as hod_designation,u1.user_name,u1.designation as dy_hod_designation, " + 
-					"dt.department_name ,isnull(c1.contract_short_name,'') as consult_contarct, isnull(c2.contract_short_name,'') as proof_consult_contarct,component,design_seq_id   " + 
-					" " + 
-					"from design d  " + 
-					"LEFT OUTER JOIN contract c ON d.contract_id_fk = c.contract_id  " + 
-					"LEFT OUTER JOIN contract c1 ON d.consultant_contract_id_fk = c1.contract_id  " + 
-					"LEFT OUTER JOIN contract c2 ON d.proof_consultant_contract_id_fk = c2.contract_id  " + 
-					"LEFT OUTER JOIN work w  ON d.work_id_fk  =  w.work_id  " + 
-					"LEFT OUTER JOIN project p  ON w.project_id_fk  =  p.project_id  " + 
-					"left outer join [user] u  ON d.hod  =  u.user_id  " + 
-					"left outer join [user] u1  ON d.dy_hod  =  u1.user_id  " + 
-					"LEFT OUTER JOIN department dt  ON d.department_id_fk  =  dt.department   " + 
-					"left join design_status ds on d.design_id = ds.design_id_fk  where design_id is not null ";
+			String workWiseQry ="select distinct department,hod,[Dy HoD] as dyhod,[Structure Type] as structure_type_fk,structure_id_fk,isnull(component,'') as component,isnull(design_seq_id,'') as drawing_id,\r\n" + 
+					"isnull(consult_contarct,'') as consult_contarct,isnull(proof_consult_contarct,'') as proof_consult_contarct,isnull(consultant_contract_id_fk,'') as consultant_contract_id_fk,isnull(proof_consultant_contract_id_fk,'') as proof_consultant_contract_id_fk,prepared_by,drawing_type,approval_authority,\r\n" + 
+					"required_date,drawing_name,mrvc_drawing_no,division_drawing_no,hq_drawing_no,current_stage from design_view where 0=0 \r\n" + 
+					"\r\n" + 
+					"\r\n" + 
+					" ";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj.getWork_id_fk())) {
-				workWiseQry = workWiseQry + " and w.work_id = ?";
+				workWiseQry = workWiseQry + " and work_id_fk = ?";
 				arrSize++;
 			}
 			
-			workWiseQry = workWiseQry + " group by design_id,d.work_id_fk,w.project_id_fk,d.structure_type_fk,d.structure_id_fk,w.work_short_name, " + 
-					"d.approving_railway,d.approval_authority_fk,w.work_name,c.contract_name,c.contract_short_name,d.contract_id_fk,d.department_id_fk,d.consultant_contract_id_fk,d.proof_consultant_contract_id_fk,d.hod,d.dy_hod,d.prepared_by_id_fk,d.structure_type_fk, " + 
-					"d.drawing_type_fk,d.contractor_drawing_no,d.mrvc_drawing_no,d.division_drawing_no,d.hq_drawing_no,d.drawing_title,FORMAT(d.required_date,'dd-MM-yyyy'),FORMAT(d.gfc_released,'dd-MM-yyyy'),d.remarks, " + 
-					"u.user_name,u.designation,u1.user_name,u1.designation,dt.department_name,c1.contract_short_name,c2.contract_short_name,component,design_seq_id ";			
+		
 			
 			Object[] pValues = new Object[arrSize];
 			

@@ -208,7 +208,7 @@ public class DesignReportController {
 						
 						cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
-						cell.setCellValue(dObj.getStructure());
+						cell.setCellValue(dObj.getStructure_id_fk());
 						
 						cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
@@ -216,7 +216,7 @@ public class DesignReportController {
 						
 						cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
-						cell.setCellValue(dObj.getConsultant());
+						cell.setCellValue(dObj.getConsultant_contract_id_fk()+" - "+dObj.getConsult_contract());
 						
 						
 						
@@ -262,7 +262,7 @@ public class DesignReportController {
 				    
 			        XSSFRow dateRow1 = sheet1.createRow(0);
 			        
-			        Cell cell1 = dateRow1.createCell(2);
+			        Cell cell1 = dateRow1.createCell(0);
 			        
 			        int rowNo1 = 0;
 
@@ -279,8 +279,12 @@ public class DesignReportController {
 						
 				        /***********************************************************************/
 						for (DesignReport dObj : reportData) {
-					        XSSFRow row = sheet1.createRow(rowNo++);
+					        XSSFRow row = sheet1.createRow(rowNo1++);
 					        int c = 0;
+					        
+					        cell1 = row.createCell(c++);
+							cell1.setCellStyle(sectionStyle);
+							cell1.setCellValue(dObj.getDrawing_id());					        
 					        
 				        cell1 = row.createCell(c++);
 						cell1.setCellStyle(sectionStyle);
@@ -300,7 +304,7 @@ public class DesignReportController {
 						
 						cell1 = row.createCell(c++);
 						cell1.setCellStyle(sectionStyle);
-						cell1.setCellValue(dObj.getStructure());
+						cell1.setCellValue(dObj.getStructure_id_fk());
 						
 						cell1 = row.createCell(c++);
 						cell1.setCellStyle(sectionStyle);
@@ -308,33 +312,50 @@ public class DesignReportController {
 						
 						cell1 = row.createCell(c++);
 						cell1.setCellStyle(sectionStyle);
-						cell1.setCellValue(dObj.getConsultant());
+						cell1.setCellValue(dObj.getConsultant_contract_id_fk()+" - "+dObj.getConsult_contract());
 						
 						
 						
 						cell1 = row.createCell(c++);
 						cell1.setCellStyle(sectionStyle);
-						cell1.setCellValue(dObj.getPlanned_approval_date());
+						cell1.setCellValue(dObj.getProof_consultant_contract_id_fk()+" - "+dObj.getProof_consultant());
 						
 				        cell1 = row.createCell(c++);
 						cell1.setCellStyle(sectionStyle);
-						cell1.setCellValue(dObj.getTotal_no_of_drawings());
+						cell1.setCellValue(dObj.getPrepared_by());
 						
 						cell1 = row.createCell(c++);
 						cell1.setCellStyle(sectionStyle);
-						cell1.setCellValue(dObj.getApproval_by_division());
+						cell1.setCellValue(dObj.getDrawing_type());
 						
 						cell1 = row.createCell(c++);
 						cell1.setCellStyle(sectionStyle);
-						cell1.setCellValue(dObj.getApproval_by_hq());
+						cell1.setCellValue(dObj.getApproval_authority());
 						
 						cell1 = row.createCell(c++);
 						cell1.setCellStyle(sectionStyle);
-						cell1.setCellValue(dObj.getApproval_by_mrvc());
+						cell1.setCellValue(dObj.getRequired_date());
 						
 						cell1 = row.createCell(c++);
 						cell1.setCellStyle(sectionStyle);
-						cell1.setCellValue(dObj.getApproved_date());
+						cell1.setCellValue(dObj.getDrawing_name());
+						
+						
+						cell1 = row.createCell(c++);
+						cell1.setCellStyle(sectionStyle);
+						cell1.setCellValue(dObj.getMrvc_drawing_no());
+						
+						cell1 = row.createCell(c++);
+						cell1.setCellStyle(sectionStyle);
+						cell1.setCellValue(dObj.getDivisional_drawing_no());
+						
+						cell1 = row.createCell(c++);
+						cell1.setCellStyle(sectionStyle);
+						cell1.setCellValue(dObj.getHq_drawing_no());
+						
+						cell1 = row.createCell(c++);
+						cell1.setCellStyle(sectionStyle);
+						cell1.setCellValue(dObj.getCurrent_stage());						
 							
 					    }
 						

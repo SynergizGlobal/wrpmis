@@ -438,27 +438,9 @@
 		 	           						
 		 	           						for(var u=0;u<trOverviewRowsLength;u++)
 		 	           							{
-					 	           						var OverviewValue=$("#work_id_fk").val()+'_OverviewUser_'+u+'';
 					 	           						
 			 	           			       		   		var URT=val1.access_value.split(',');
 			 	           			       	    		$("#"+workmoduleValue).val(URT).trigger('change');	
-			 	           			       	    		$("#"+OverviewValue).val(URT).trigger('change');
-			 	           			       	    		
-				 	           			       	    	$("#"+OverviewValue+' option').each(function() {
-						 	           			       	     if ($(this).is(':selected')) 
-						 	           			       	    	 {
-						 	           			       	    	 
-						 	           			       	    	 }
-						 	           			       	     else
-						 	           			       	    	 {
-						 	           			       	  			uroleArray.push($(this).val());
-						 	           			       	    	 }
-						 	           			       	 });
-			 	           			       	    	
-			 	           			       	    		for(var k=0;k<uroleArray.length;k++)
-			 	           			       	    		{
-			 	           			       	    			$("#"+OverviewValue+" option[value='" + uroleArray[k] + "']").hide();
-			 	           			       	    		}
 		 	           							}
 
 		 	           					}
@@ -467,27 +449,10 @@
 		 	           						var workmoduleValue=$("#work_id_fk").val()+'_UserRole';
 		 	           						for(var u=0;u<trOverviewRowsLength;u++)
 	 	           							{
-			 	           						var OverviewValue=$("#work_id_fk").val()+'_OverviewUserRole_'+u+'';
 			 	           					
 			 	           						var URT=val1.access_value.split(',');
 	 	           			       	    		$("#"+workmoduleValue).val(URT).trigger('change');
-	 	           			       	    		$("#"+OverviewValue).val(URT).trigger('change');
-	 	           			       	    		
-	 	 	           			       	    	$("#"+OverviewValue+' option').each(function() {
-	 			 	           			       	     if ($(this).is(':selected')) 
-	 			 	           			       	    	 {
-	 			 	           			       	    	 
-	 			 	           			       	    	 }
-	 			 	           			       	     else
-	 			 	           			       	    	 {
-	 			 	           			       	  			utypeArray.push($(this).val());
-	 			 	           			       	    	 }
-	 			 	           			       	 });
-	 	 	           			       	    	
-	 	           			       	    		for(var k=0;k<utypeArray.length;k++)
-	 	           			       	    		{
-	 	           			       	    			$("#"+OverviewValue+" option[value='" + utypeArray[k] + "']").prop("disabled",true);
-	 	           			       	    		}
+
 	 	           							}
 
 		 	           					}
@@ -496,26 +461,9 @@
 		 	           						var workmoduleValue=$("#work_id_fk").val()+'_UserType';
 		 	           						for(var u=0;u<trOverviewRowsLength;u++)
 	 	           							{
-			 	           						var OverviewValue=$("#work_id_fk").val()+'_OverviewUserType_'+u+'';
 			 	           					
 			 	           						var URT=val1.access_value.split(',');
 	 	           			       	    		$("#"+workmoduleValue).val(URT).trigger('change');	
-	 	           			       	    		$("#"+OverviewValue).val(URT).trigger('change');
-	
-	 	 	           			       	    	$("#"+OverviewValue+' option').each(function() {
-	 			 	           			       	     if ($(this).is(':selected')) 
-	 			 	           			       	    	 {
-	 			 	           			       	    	 
-	 			 	           			       	    	 }
-	 			 	           			       	     else
-	 			 	           			       	    	 {
-	 			 	           			       	  			uArray.push($(this).val());
-	 			 	           			       	    	 }
-	 			 	           			       	 });	           			       	    		
-	 	           			       	    		for(var k=0;k<uArray.length;k++)
-	 	           			       	    		{
-	 	           			       	    			$("#"+OverviewValue+" option[value='" + uArray[k] + "']").hide();
-	 	           			       	    		}
 	 	           							}
 		 	           					}		 	           					
 		 	           		
@@ -529,7 +477,130 @@
  	         });     	     
      
 
-     }   
+     } 
+     
+     
+     function getSelectedOverviewWorkUser()
+     {
+    	     var trRowsLength=$('#DashboardAccessFormTableBody > tr').length;
+    	     var trOverviewRowsLength=$('#OverviewDashboardAccessFormTableBody > tr').length;
+    	     var tdColumnsLength=$('#DashboardAccessFormTableBody > tr:eq(0) > td').length;
+    	     
+    	     var myParams2 = { project_id_fk: document.getElementById("project_id_fk").value,work_id_fk: document.getElementById("work_id_fk").value };
+   		 
+ 	    	$.ajax({
+ 	             url: "<%=request.getContextPath()%>/ajax/getOverviewDashboardUserAccess",
+ 	            data: myParams2,cache: false,
+ 	             success: function (data1) {
+ 	             
+ 	                 if (data1.length > 0) 
+ 	                 {
+		 	           		$.each(data1, function (i1, val1) {
+
+		 	           					if(val1.access_type=="user")
+		 	           					{
+		 	           						
+		 	           						for(var u=0;u<trOverviewRowsLength;u++)
+		 	           							{
+		 	           							
+					 	           							if(document.getElementById("OverviewDashboardAccessFormFormTable").rows[u+1].cells[1].innerHTML==val1.dashboard_name)
+					 	           							{
+					 	           									var OverviewValue=$("#work_id_fk").val()+'_OverviewUser_'+u+'';
+								 	           						
+						 	           			       		   		var URT=val1.access_value.split(',');
+						 	           			       	    		$("#"+OverviewValue).val(URT).trigger('change');
+						 	           			       	    		
+							 	           			       	    	$("#"+OverviewValue+' option').each(function() {
+									 	           			       	     if ($(this).is(':selected')) 
+									 	           			       	    	 {
+									 	           			       	    	 
+									 	           			       	    	 }
+									 	           			       	     else
+									 	           			       	    	 {
+									 	           			       	  			uroleArray.push($(this).val());
+									 	           			       	    	 }
+									 	           			       	 });
+						 	           			       	    	
+						 	           			       	    		for(var k=0;k<uroleArray.length;k++)
+						 	           			       	    		{
+						 	           			       	    			$("#"+OverviewValue+" option[value='" + uroleArray[k] + "']").prop("disabled",true);
+						 	           			       	    		}
+					 	           							}
+		 	           							}
+
+		 	           					}
+		 	           					if(val1.access_type=="user_role")
+		 	           					{
+		 	           						for(var u=0;u<trOverviewRowsLength;u++)
+	 	           							{
+		 	           							if(document.getElementById("OverviewDashboardAccessFormFormTable").rows[u+1].cells[1].innerHTML==val1.dashboard_name)
+		 	           							{		 	           							
+	 	           							
+				 	           						var OverviewValue=$("#work_id_fk").val()+'_OverviewUserRole_'+u+'';
+				 	           					
+				 	           						var URT=val1.access_value.split(',');
+		 	           			       	    		$("#"+OverviewValue).val(URT).trigger('change');
+		 	           			       	    		
+		 	 	           			       	    	$("#"+OverviewValue+' option').each(function() {
+		 			 	           			       	     if ($(this).is(':selected')) 
+		 			 	           			       	    	 {
+		 			 	           			       	    	 
+		 			 	           			       	    	 }
+		 			 	           			       	     else
+		 			 	           			       	    	 {
+		 			 	           			       	  			utypeArray.push($(this).val());
+		 			 	           			       	    	 }
+		 			 	           			       	 });
+		 	 	           			       	    	
+		 	           			       	    		for(var k=0;k<utypeArray.length;k++)
+		 	           			       	    		{
+		 	           			       	    			$("#"+OverviewValue+" option[value='" + utypeArray[k] + "']").prop("disabled",true);
+		 	           			       	    		}
+		 	           							}
+	 	           							}
+
+		 	           					}
+		 	           					if(val1.access_type=="user_type")
+		 	           					{
+		 	           						for(var u=0;u<trOverviewRowsLength;u++)
+	 	           							{
+		 	           							
+		 	           							if(document.getElementById("OverviewDashboardAccessFormFormTable").rows[u+1].cells[1].innerHTML==val1.dashboard_name)
+		 	           							{	 	           							
+				 	           						var OverviewValue=$("#work_id_fk").val()+'_OverviewUserType_'+u+'';
+				 	           					
+				 	           						var URT=val1.access_value.split(',');
+		 	           			       	    		$("#"+OverviewValue).val(URT).trigger('change');
+		
+		 	 	           			       	    	$("#"+OverviewValue+' option').each(function() {
+		 			 	           			       	     if ($(this).is(':selected')) 
+		 			 	           			       	    	 {
+		 			 	           			       	    	 
+		 			 	           			       	    	 }
+		 			 	           			       	     else
+		 			 	           			       	    	 {
+		 			 	           			       	  			uArray.push($(this).val());
+		 			 	           			       	    	 }
+		 			 	           			       	 });	           			       	    		
+		 	           			       	    		for(var k=0;k<uArray.length;k++)
+		 	           			       	    		{
+		 	           			       	    			$("#"+OverviewValue+" option[value='" + uArray[k] + "']").prop("disabled",true);
+		 	           			       	    		}
+		 	           							}
+	 	           							}
+		 	           					}		 	           					
+		 	           		
+		 	           		});
+		 	           		
+		 	           		
+		 	           		
+		 	       		 		
+ 	                 }
+ 	             }
+ 	         });     	     
+     
+
+     }
      
      
      function WorksListForWorkWiseUserAccess()
@@ -545,17 +616,17 @@
  							
 
   		 							html=html+'<td>'+
-	  		 						'<select class="searchable validate-dropdown" id="'+$("#work_id_fk").val()+'_UserRole" name="user_role_access" multiple="multiple" onChange="getUserRoleAccess();">'+
+	  		 						'<select class="searchable validate-dropdown" id="'+$("#work_id_fk").val()+'_UserRole" name="user_role_access" multiple="multiple">'+
 	  		 						'<option >Select</option>'+
 	                                    <c:forEach var="obj" items="${user_roles}" >
 	                                  		  +'<option value= "${obj.access_value_id}">${obj.access_value_id }</option>'
 	                                  	</c:forEach>											 			 		                             	
-	                                  	+'</select></td><td><select class="searchable validate-dropdown" id="'+$("#work_id_fk").val()+'_UserType" name="user_type_access" multiple="multiple" onChange="getUserTypeAccess();">'+
+	                                  	+'</select></td><td><select class="searchable validate-dropdown" id="'+$("#work_id_fk").val()+'_UserType" name="user_type_access" multiple="multiple">'+
 	  		 						'<option >Select</option>'+
 	                                    <c:forEach var="obj" items="${user_types}" >
 	                                  		  +'<option value= "${obj.access_value_id}">${obj.access_value_id }</option>'
 	                                  	</c:forEach>											 			 		                             	
-	                                  	+'</select></td><td><select class="searchable validate-dropdown" id="'+$("#work_id_fk").val()+'_User" name="user_access" multiple="multiple" onChange="getUserAccess();">'+
+	                                  	+'</select></td><td><select class="searchable validate-dropdown" id="'+$("#work_id_fk").val()+'_User" name="user_access" multiple="multiple">'+
 	  		 						'<option >Select</option>'+
 	                                    <c:forEach var="obj" items="${users}" >
 	                                  		  +'<option value= "${obj.access_value_id}">${obj.access_value_id }</option>'
@@ -569,7 +640,10 @@
   	         			
   	         			var modulesArray=new Array();
                           <c:forEach var="obj" items="${dashboardNames}" >
-                          	modulesArray.push("${obj.access_value_name}");
+                          	  if(modulesArray.indexOf("${obj.access_value_name}")==-1)
+                        	  {
+                          		modulesArray.push("${obj.access_value_name}");
+                        	  }
                     	</c:forEach> 
                     	
 
@@ -619,6 +693,7 @@
 		   			}
 		  		  
 		      		getSelectedWorkUser();
+		      		getSelectedOverviewWorkUser();
 
 		   
      }
@@ -629,7 +704,7 @@
 			for(var i1=0;i1<3;i1++)
 			{
 				
-				var SRM=document.getElementById("DashboardAccessFormFormTable").rows[0].cells[i1+1].innerHTML.split(" ").join("");
+				var SRM=document.getElementById("DashboardAccessFormFormTable").rows[0].cells[i1+2].innerHTML.split(" ").join("");
 				SRM = SRM.replace(/&amp;/g, "and");				
 			
 				
@@ -637,7 +712,8 @@
 		 				{
 	 						allModulesArray.push(SRM);
 		 				}
-			}  	 
+			}  
+			
  	 
   
  	 			var concatText="";
@@ -673,33 +749,14 @@
   	         });    	 
      }
      
-     
-     
-     function getUserRoleAccess(roles)
-     {
-    	 
-     }
-     
-     
-     function getUserTypeAccess(types)
-     {
-    	 
-     }
-     
-     
-     function getUserAccess(users)
-     {
-    	 
-     }     
-     
-     
      function addDashboardAccessForm()
      {
     	 var allModulesArray=new Array();
+    	 
 			for(var i1=0;i1<3;i1++)
 			{
 				
-				var SRM=document.getElementById("DashboardAccessFormFormTable").rows[0].cells[i1+1].innerHTML.split(" ").join("");
+				var SRM=document.getElementById("DashboardAccessFormFormTable").rows[0].cells[i1+2].innerHTML.split(" ").join("");
 				SRM = SRM.replace(/&amp;/g, "and");				
 			
 				
@@ -707,40 +764,44 @@
 		 				{
 	 						allModulesArray.push(SRM);
 		 				}
-   			}  	 
-    	 
-     
-    	 			var concatText="";
-     
+			}  
+			
+	 
 
-    			
-        			for(var i1=0;i1<allModulesArray.length;i1++)
-        			{
-        			   
+	 			var concatText="";
 
-								var workmoduleValue=$("#work_id_fk").val()+'_'+allModulesArray[i1];
-								if($("#"+workmoduleValue).val()!=null && $("#"+workmoduleValue).val()!="" && $("#"+workmoduleValue).val()!=undefined)
-									{
-  			       	   					concatText=concatText+allModulesArray[i1]+"___"+$("#"+workmoduleValue).val()+'###';
-									}
 
-        			       		   
-        			    	
-        			}	
-        			
- 				
-   	   			var myParams3 = { work_id_fk: $("#work_id_fk").val(),access_value:concatText};
-   	   			
+	  		for(var i2=0;i2<modulesArray.length;i2++)
+	  			{
+		
+		  			for(var i1=0;i1<allModulesArray.length;i1++)
+		  			{
+		  			   
+		
+										var workmoduleValue=modulesArray[i2]+'_'+allModulesArray[i1];
+										if($("#"+workmoduleValue).val()!=null && $("#"+workmoduleValue).val()!="" && $("#"+workmoduleValue).val()!=undefined)
+											{
+					       	   					concatText=concatText+allModulesArray[i1]+"___"+$("#"+workmoduleValue).val()+'###';
+											}
+		
+		  			       		   
+		  			    	
+		  			}	
+	  			}
+  			
+				
+	   			var myParams3 = { work_id_fk: $("#work_id_fk").val(),access_value:concatText};
+	   			
 	       		   
-      	    	$.ajax({
-     	             url: "<%=request.getContextPath()%>/ajax/addDashboardUserAccess",
-     	             data: myParams3, cache: false,
-     	             success: function (data1) 
-     	             {
-     	 				alert("Updated successfully");
-     	 				window.location.reload();    	             
-     	             }
-     	         }); 				
+	    	$.ajax({
+	             url: "<%=request.getContextPath()%>/ajax/updateWorkAccess",
+	             data: myParams3, cache: false,
+	             success: function (data1) 
+	             {
+	 				alert("Updated successfully");
+	 				window.location.reload();    	             
+	             }
+	         });				
  
      }
           

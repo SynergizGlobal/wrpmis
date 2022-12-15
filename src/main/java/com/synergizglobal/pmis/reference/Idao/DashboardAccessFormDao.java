@@ -37,5 +37,7 @@ public interface DashboardAccessFormDao {
 
 	public boolean updateWorkAccess(DashboardAccessForm obj) throws Exception;
 
+	public List<DashboardAccessForm> getOverviewDashboardUserAccess(DashboardAccessForm obj) throws Exception;
+
 
 }

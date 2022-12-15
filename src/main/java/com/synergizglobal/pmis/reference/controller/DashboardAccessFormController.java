@@ -102,6 +102,19 @@ public class DashboardAccessFormController {
 		return worksList;
 	}
 	
+	@RequestMapping(value = "/ajax/getOverviewDashboardUserAccess", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<DashboardAccessForm> getOverviewDashboardUserAccess(@ModelAttribute DashboardAccessForm obj,HttpSession session) {
+		List<DashboardAccessForm> worksList = null;  
+		try {
+			worksList = service.getOverviewDashboardUserAccess(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getOverviewDashboardUserAccess : " + e.getMessage());
+		}
+		return worksList;
+	}	
+	
 	@RequestMapping(value = "/ajax/addDashboardUserAccess", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public boolean addDashboardUserAccess(@ModelAttribute DashboardAccessForm obj,HttpSession session) throws Exception {

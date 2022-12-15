@@ -96,4 +96,10 @@ public class DashboardAccessFormServiceImpl implements DashboardAccessFormServic
 		return dao.getdashboardNames(obj);
 	}
 	
+	@Override
+	public List<DashboardAccessForm> getOverviewDashboardUserAccess(DashboardAccessForm obj) throws Exception
+	{
+		return dao.getOverviewDashboardUserAccess(obj);
+	}
+	
 }

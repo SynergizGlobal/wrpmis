@@ -5,7 +5,7 @@ import java.util.List;
 public class DashboardAccessForm {
 	
 	private String bank_name_old,bank_name_fk,bank_name,bank_name_new,Table_name,column_name,captiliszedTableName,tName,project_id_fk,project_name,work_id_fk,work_name,work_short_name,module_name_fk,
-	user_id,user_name,designation,user_role_access,user_type_access,user_access,access_type,access_value,access_value_id,access_value_name;
+	user_id,user_name,designation,user_role_access,user_type_access,user_access,access_type,access_value,access_value_id,access_value_name,dashboard_name;
 	private List<DashboardAccessForm> DashboardAccessFormList;
 	private List<DashboardAccessForm> DashboardAccessFormList1;
 	private List<DashboardAccessForm> tablesList;
@@ -251,6 +251,14 @@ public class DashboardAccessForm {
 
 	public void setAccess_value_name(String access_value_name) {
 		this.access_value_name = access_value_name;
+	}
+
+	public String getDashboard_name() {
+		return dashboard_name;
+	}
+
+	public void setDashboard_name(String dashboard_name) {
+		this.dashboard_name = dashboard_name;
 	}
 	
 

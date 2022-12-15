@@ -27,6 +27,8 @@ public interface DashboardAccessFormService {
 	
 	public List<DashboardAccessForm> getDashboardUserAccess(DashboardAccessForm obj) throws Exception;
 	
+	public List<DashboardAccessForm> getOverviewDashboardUserAccess(DashboardAccessForm obj) throws Exception;
+	
 	public List<DashboardAccessForm> getUsersDetails(DashboardAccessForm obj) throws Exception;
 	
 	public List<DashboardAccessForm> getUserRolesInDashboardAccess(DashboardAccessForm obj) throws Exception;

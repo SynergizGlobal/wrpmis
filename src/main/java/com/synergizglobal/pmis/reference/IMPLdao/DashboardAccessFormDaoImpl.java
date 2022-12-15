@@ -537,15 +537,25 @@ public class DashboardAccessFormDaoImpl implements DashboardAccessFormDao{
 	public List<DashboardAccessForm> getdashboardNames(DashboardAccessForm obj) throws Exception {
 		List<DashboardAccessForm> objsList = null;
 		try {
-			String qry = "select distinct dashboard_id as access_value_id,dashboard_name as access_value_name from left_menu where parent_id=0 and status='Active'";
+			String qry = "select distinct dashboard_id as access_value_id,dashboard_name as access_value_name from left_menu where parent_id=0 and status='Active' ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and source_field_value = ? ";
+				arrSize++;
+			}
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
 			
-			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<DashboardAccessForm>(DashboardAccessForm.class));			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<DashboardAccessForm>(DashboardAccessForm.class));				
 		}catch(Exception e){ 
 			throw new Exception(e);
 		}
 		return objsList;
 	}
-
 
 	@Override
 	public boolean updateWorkAccess(DashboardAccessForm obj) throws Exception {
@@ -563,56 +573,47 @@ public class DashboardAccessFormDaoImpl implements DashboardAccessFormDao{
 					String splitStrColumns[]=splitStr[i1].split("___");
 					for(int j=0;j<splitStrColumns.length;j++)
 					{
-						String dashboardid="0";
+						String dashboardid="";
 						if(splitStrColumns[0].compareTo("UserRole")==0)
 						{
 							
 							String deleteQry = "delete from dashboard_access where dashboard_id_fk in(select distinct dashboard_id from dashboard d left join dashboard_access da on da.dashboard_id_fk=d.dashboard_id " + 
-									"where work_id_fk=? and access_type='user_role')";		 
+									"where work_id_fk=? and access_type='user_role') and access_type='user_role'";		 
 							stmt = con.prepareStatement(deleteQry);
 							stmt.setString(1,obj.getWork_id_fk());
 							stmt.executeUpdate();
 							if(stmt != null){stmt.close();}	
-							
-							String didQry ="select distinct dashboard_id from dashboard d left join dashboard_access da on da.dashboard_id_fk=d.dashboard_id where work_id_fk=? and access_type='user_role' ";
-							dashboardid = (String) jdbcTemplate.queryForObject(didQry, new Object[] { obj.getWork_id_fk() }, String.class);
 				
 							query = " insert into dashboard_access (dashboard_id_fk,access_type,access_value)"
-					               + " values (?,'user_role',?)";
+					               + " select distinct dashboard_id,'user_role',? from dashboard where work_id_fk=? ";
 						}
 						
 						if(splitStrColumns[0].compareTo("UserType")==0)
 						{
 						
 							String deleteQry = "delete from dashboard_access where dashboard_id_fk in(select distinct dashboard_id from dashboard d left join dashboard_access da on da.dashboard_id_fk=d.dashboard_id " + 
-									"where work_id_fk=? and access_type='user_type')";	
+									"where work_id_fk=? and access_type='user_type') and access_type='user_type'";	
 							stmt = con.prepareStatement(deleteQry);
 							stmt.setString(1,obj.getWork_id_fk());
 							stmt.executeUpdate();
 							if(stmt != null){stmt.close();}	
-							
-							String didQry ="select distinct dashboard_id from dashboard d left join dashboard_access da on da.dashboard_id_fk=d.dashboard_id where work_id_fk=? and access_type='user_type' ";
-							dashboardid = (String) jdbcTemplate.queryForObject(didQry, new Object[] { obj.getWork_id_fk() }, String.class);							
 				
 							query = " insert into dashboard_access (dashboard_id_fk,access_type,access_value)"
-						               + " values (?,'user_type',?)";
+						               + " select distinct dashboard_id,'user_type',? from dashboard where work_id_fk=?";
 						}
 						
 						if(splitStrColumns[0].compareTo("User")==0)
 						{
 						
 							String deleteQry = "delete from dashboard_access where dashboard_id_fk in(select distinct dashboard_id from dashboard d left join dashboard_access da on da.dashboard_id_fk=d.dashboard_id " + 
-									"where work_id_fk=? and access_type='user')";	
+									"where work_id_fk=? and access_type='user') and access_type='user'";	
 							stmt = con.prepareStatement(deleteQry);
 							stmt.setString(1,obj.getWork_id_fk());
 							stmt.executeUpdate();
 							if(stmt != null){stmt.close();}	
-							
-							String didQry ="select distinct dashboard_id from dashboard d left join dashboard_access da on da.dashboard_id_fk=d.dashboard_id where work_id_fk=? and access_type='user' ";
-							dashboardid = (String) jdbcTemplate.queryForObject(didQry, new Object[] { obj.getWork_id_fk() }, String.class);							
 				
 							query = " insert into dashboard_access (dashboard_id_fk,access_type,access_value)"
-						               + " values (?,'user',?)";
+						               + " select distinct dashboard_id,'user',? from dashboard where work_id_fk=?";
 						}
 						
 
@@ -622,8 +623,8 @@ public class DashboardAccessFormDaoImpl implements DashboardAccessFormDao{
 						String Str2[]=splitStrColumns[1].split(",");
 							for (int i = 0; i < Str2.length; i++) 
 							{
-								stmt.setString(1, dashboardid);
-								stmt.setString(2, Str2[i]);
+								stmt.setString(1, Str2[i]);
+								stmt.setString(2, obj.getWork_id_fk());
 								stmt.execute();
 							}
 											
@@ -640,6 +641,34 @@ public class DashboardAccessFormDaoImpl implements DashboardAccessFormDao{
 			throw new Exception(e);
 		}
 		return flag;
+	}
+
+
+	@Override
+	public List<DashboardAccessForm> getOverviewDashboardUserAccess(DashboardAccessForm obj) throws Exception {
+		List<DashboardAccessForm> objList = null;
+		try {
+			String qry = "	select distinct access_type, STRING_AGG(access_value,',') as access_value,dashboard_name from left_menu d left join left_menu_access da on da.dashboard_id=d.dashboard_id where parent_id=0 and status='Active' ";
+
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and source_field_value = ? ";
+				arrSize++;
+			}
+			qry = qry + " group by access_type,dashboard_name ";
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			
+			objList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<DashboardAccessForm>(DashboardAccessForm.class));		
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objList;
 	}
 
 }

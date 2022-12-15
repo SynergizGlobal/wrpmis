@@ -719,12 +719,7 @@
 			                            </div> 
 			                    </div>
 							</div>
-		                            <div class="row">
-		                                <div class="col s12 m12 l12 input-field w95 pdr5em ">
-								            <h5 style="background-color:yellow;text-align:center;">To add further details, Please edit the contract in update form</h5>
 
-		                                </div>
-		                            </div> 
 
                             <div class="row">
                                 <div class="col s12 m12 l12 center-align">

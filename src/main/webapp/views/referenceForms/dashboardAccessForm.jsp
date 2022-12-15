@@ -492,20 +492,45 @@
  	             url: "<%=request.getContextPath()%>/ajax/getOverviewDashboardUserAccess",
  	            data: myParams2,cache: false,
  	             success: function (data1) {
+	             
  	             
  	                 if (data1.length > 0) 
  	                 {
+   	         			var modulesArray=new Array();
+                        <c:forEach var="obj" items="${dashboardNames}" >
+                        	  if(modulesArray.indexOf("${obj.access_value_name}")==-1)
+                      	  {
+                        		modulesArray.push("${obj.access_value_name}");
+                      	  }
+                  	</c:forEach> 
+ 	                 
 		 	           		$.each(data1, function (i1, val1) {
+		 	           		
 
 		 	           					if(val1.access_type=="user")
 		 	           					{
 		 	           						
-		 	           						for(var u=0;u<trOverviewRowsLength;u++)
+		 	           						
+		 	           						for(var u=0;u<modulesArray.length;u++)
 		 	           							{
 		 	           							
-					 	           							if(document.getElementById("OverviewDashboardAccessFormFormTable").rows[u+1].cells[1].innerHTML==val1.dashboard_name)
-					 	           							{
-					 	           									var OverviewValue=$("#work_id_fk").val()+'_OverviewUser_'+u+'';
+		 	           							var SRM=document.getElementById("OverviewDashboardAccessFormFormTable").rows[u+1].cells[1].innerHTML;
+		 	       								SRM = SRM.replace(/&amp;/g, "and");
+		 	       								
+		 	           							var SRM1=val1.dashboard_name;
+		 	       								SRM1 = SRM1.replace(/&amp;/g, "and");
+		 	       								SRM1 = SRM1.replace(/&/g, "and");
+	 	           							
+		 	           							if(SRM==SRM1)
+		 	           							{	
+		 	           								
+		 	           								
+			 	           							var SRM2=modulesArray[u].split(" ").join("");
+			 	       								SRM2 = SRM2.replace(/&amp;/g, "and");
+			 	       								SRM2 = SRM2.replace(/&/g, "and");
+
+					 	           							
+					 	           									var OverviewValue=SRM2+'_'+$("#work_id_fk").val()+'_OverviewUser_'+u+'';
 								 	           						
 						 	           			       		   		var URT=val1.access_value.split(',');
 						 	           			       	    		$("#"+OverviewValue).val(URT).trigger('change');
@@ -533,10 +558,22 @@
 		 	           					{
 		 	           						for(var u=0;u<trOverviewRowsLength;u++)
 	 	           							{
-		 	           							if(document.getElementById("OverviewDashboardAccessFormFormTable").rows[u+1].cells[1].innerHTML==val1.dashboard_name)
-		 	           							{		 	           							
+
+		 	           							var SRM=document.getElementById("OverviewDashboardAccessFormFormTable").rows[u+1].cells[1].innerHTML;
+		 	       								SRM = SRM.replace(/&amp;/g, "and");
+		 	       								
+		 	           							var SRM1=val1.dashboard_name;
+		 	       								SRM1 = SRM1.replace(/&amp;/g, "and");
+		 	       								SRM1 = SRM1.replace(/&/g, "and");
 	 	           							
-				 	           						var OverviewValue=$("#work_id_fk").val()+'_OverviewUserRole_'+u+'';
+		 	           							if(SRM==SRM1)
+		 	           							{	
+		 	           								
+			 	           							var SRM2=modulesArray[u].split(" ").join("");
+			 	       								SRM2 = SRM2.replace(/&amp;/g, "and");
+			 	       								SRM2 = SRM2.replace(/&/g, "and");
+
+				 	           						var OverviewValue=SRM2+'_'+$("#work_id_fk").val()+'_OverviewUserRole_'+u+'';
 				 	           					
 				 	           						var URT=val1.access_value.split(',');
 		 	           			       	    		$("#"+OverviewValue).val(URT).trigger('change');
@@ -564,10 +601,22 @@
 		 	           					{
 		 	           						for(var u=0;u<trOverviewRowsLength;u++)
 	 	           							{
-		 	           							
-		 	           							if(document.getElementById("OverviewDashboardAccessFormFormTable").rows[u+1].cells[1].innerHTML==val1.dashboard_name)
-		 	           							{	 	           							
-				 	           						var OverviewValue=$("#work_id_fk").val()+'_OverviewUserType_'+u+'';
+		 	           							var SRM=document.getElementById("OverviewDashboardAccessFormFormTable").rows[u+1].cells[1].innerHTML;
+		 	       								SRM = SRM.replace(/&amp;/g, "and");
+		 	       								
+		 	           							var SRM1=val1.dashboard_name;
+		 	       								SRM1 = SRM1.replace(/&amp;/g, "and");
+		 	       								SRM1 = SRM1.replace(/&/g, "and");
+	 	           							
+		 	           							if(SRM==SRM1)
+		 	           							{	
+		 	           								
+		 	           								
+			 	           							var SRM2=modulesArray[u].split(" ").join("");
+			 	       								SRM2 = SRM2.replace(/&amp;/g, "and");
+			 	       								SRM2 = SRM2.replace(/&/g, "and");
+			 	       								
+				 	           						var OverviewValue=SRM2+'_'+$("#work_id_fk").val()+'_OverviewUserType_'+u+'';
 				 	           					
 				 	           						var URT=val1.access_value.split(',');
 		 	           			       	    		$("#"+OverviewValue).val(URT).trigger('change');
@@ -653,20 +702,22 @@
 		  	             		var htmlOverview="<tr>";
 		  	             		htmlOverview=htmlOverview+'<td>'+(y+1)+'</td><td style="width:30%">'+modulesArray[y]+'</td>';
 		
-		  	 							
+    							var SRM2=modulesArray[y].split(" ").join("");
+								SRM2 = SRM2.replace(/&amp;/g, "and");
+								SRM2 = SRM2.replace(/&/g, "and");		  	 							
 		
 		  	             		htmlOverview=htmlOverview+'<td>'+
-		  		  		 						'<select class="searchable validate-dropdown" id="'+$("#work_id_fk").val()+'_OverviewUserRole_'+y+'" name="user_role_access" multiple="multiple" >'+
+		  		  		 						'<select class="searchable validate-dropdown" id="'+SRM2+'_'+$("#work_id_fk").val()+'_OverviewUserRole_'+y+'" name="user_role_access" multiple="multiple" >'+
 		  		  		 						'<option >Select</option>'+
 		  		                                    <c:forEach var="obj" items="${user_roles}" >
 		  		                                  		  +'<option value= "${obj.access_value_id}">${obj.access_value_id }</option>'
 		  		                                  	</c:forEach>											 			 		                             	
-		  		                                  	+'</select></td><td><select class="searchable validate-dropdown" id="'+$("#work_id_fk").val()+'_OverviewUserType_'+y+'" name="user_type_access" multiple="multiple" >'+
+		  		                                  	+'</select></td><td><select class="searchable validate-dropdown" id="'+SRM2+'_'+$("#work_id_fk").val()+'_OverviewUserType_'+y+'" name="user_type_access" multiple="multiple" >'+
 		  		  		 						'<option >Select</option>'+
 		  		                                    <c:forEach var="obj" items="${user_types}" >
 		  		                                  		  +'<option value= "${obj.access_value_id}">${obj.access_value_id }</option>'
 		  		                                  	</c:forEach>											 			 		                             	
-		  		                                  	+'</select></td><td><select class="searchable validate-dropdown" id="'+$("#work_id_fk").val()+'_OverviewUser_'+y+'" name="user_access" multiple="multiple" >'+
+		  		                                  	+'</select></td><td><select class="searchable validate-dropdown" id="'+SRM2+'_'+$("#work_id_fk").val()+'_OverviewUser_'+y+'" name="user_access" multiple="multiple" >'+
 		  		  		 						'<option >Select</option>'+
 		  		                                    <c:forEach var="obj" items="${users}" >
 		  		                                  		  +'<option value= "${obj.access_value_id}">${obj.access_value_id }</option>'
@@ -684,13 +735,36 @@
 
 					for(var i1=0;i1<3;i1++)
 					{
-						var SRM=document.getElementById("DashboardAccessFormFormTable").rows[0].cells[i1+1].innerHTML.split(" ").join("");
+						var SRM=document.getElementById("DashboardAccessFormFormTable").rows[0].cells[i1+2].innerHTML.split(" ").join("");
 						SRM = SRM.replace(/&amp;/g, "and");
 					
 							var mopval=$("#work_id_fk").val()+'_'+SRM;
+							
 							$("#"+mopval).select2();
 						
 		   			}
+					var lengthtable=$('#OverviewDashboardAccessFormFormTable > tbody > tr').length;
+					
+					
+					for(var i1=0;i1<modulesArray.length;i1++)
+					{
+						
+					
+						for(var i2=0;i2<3;i2++)
+						{
+							var SRM=document.getElementById("OverviewDashboardAccessFormFormTable").rows[0].cells[i2+2].innerHTML.split(" ").join("");
+							SRM = SRM.replace(/&amp;/g, "and");
+							
+							
+    							var SRM2=modulesArray[i1].split(" ").join("");
+    								SRM2 = SRM2.replace(/&amp;/g, "and");
+    								SRM2 = SRM2.replace(/&/g, "and");							
+					
+							var mopval=SRM2+'_'+$("#work_id_fk").val()+'_Overview'+SRM+'_'+i1;
+							$("#"+mopval).select2();
+						}
+						
+		   			}					
 		  		  
 		      		getSelectedWorkUser();
 		      		getSelectedOverviewWorkUser();
@@ -766,7 +840,13 @@
 		 				}
 			}  
 			
-	 
+            <c:forEach var="obj" items="${dashboardNames}" >
+        	  if(modulesArray.indexOf("${obj.access_value_name}")==-1)
+	      	  {
+	        		modulesArray.push("${obj.access_value_name}");
+	      	  }
+  			</c:forEach> 
+  			
 
 	 			var concatText="";
 
@@ -777,14 +857,15 @@
 		  			for(var i1=0;i1<allModulesArray.length;i1++)
 		  			{
 		  			   
-		
-										var workmoduleValue=modulesArray[i2]+'_'+allModulesArray[i1];
-										if($("#"+workmoduleValue).val()!=null && $("#"+workmoduleValue).val()!="" && $("#"+workmoduleValue).val()!=undefined)
-											{
-					       	   					concatText=concatText+allModulesArray[i1]+"___"+$("#"+workmoduleValue).val()+'###';
-											}
-		
-		  			       		   
+						var SRM=modulesArray[i2].split(" ").join("");
+						SRM = SRM.replace(/&amp;/g, "and");
+						SRM = SRM.replace(/&/g, "and");	
+
+						var workmoduleValue=SRM+'_'+allModulesArray[i1]+'_'+i1;
+						if($("#"+workmoduleValue).val()!=null && $("#"+workmoduleValue).val()!="" && $("#"+workmoduleValue).val()!=undefined)
+						{
+       	   					concatText=concatText+allModulesArray[i1]+"___"+$("#"+workmoduleValue).val()+'###';
+						}
 		  			    	
 		  			}	
 	  			}
@@ -792,16 +873,18 @@
 				
 	   			var myParams3 = { work_id_fk: $("#work_id_fk").val(),access_value:concatText};
 	   			
+	   			alert(concatText);
+	   			
 	       		   
-	    	$.ajax({
-	             url: "<%=request.getContextPath()%>/ajax/updateWorkAccess",
+ 	    	$.ajax({
+	             url: "<%=request.getContextPath()%>/ajax/addDashboardUserAccess",
 	             data: myParams3, cache: false,
 	             success: function (data1) 
 	             {
 	 				alert("Updated successfully");
 	 				window.location.reload();    	             
 	             }
-	         });				
+	         }); 			
  
      }
           

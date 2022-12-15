@@ -400,120 +400,65 @@ public class DashboardAccessFormDaoImpl implements DashboardAccessFormDao{
 			PreparedStatement stmt1 = null;
 			Connection con =  dataSource.getConnection();
 			
-			if(!StringUtils.isEmpty(obj.getModule_name_fk())) {
-			 String splitStr[]=obj.getModule_name_fk().split("###");
+			if(!StringUtils.isEmpty(obj.getAccess_value())) {
+			 String splitStr[]=obj.getAccess_value().split("###");
 				for(int i1=0;i1<splitStr.length;i1++)
 				{
 					String splitStrColumns[]=splitStr[i1].split("___");
 					for(int j=0;j<splitStrColumns.length;j++)
 					{
+						String dashboardid="";
 						if(splitStrColumns[0].compareTo("UserRole")==0)
 						{
 							
-							String deleteQry = "select distinct dashboard_id from dashboard d left join dashboard_access da on da.dashboard_id_fk=d.dashboard_id\r\n" + 
-									"where work_id_fk=? and access_type='user_role'";		 
+							String deleteQry = "delete from dashboard_access where dashboard_id_fk in(select distinct dashboard_id from dashboard d left join dashboard_access da on da.dashboard_id_fk=d.dashboard_id " + 
+									"where work_id_fk=? and access_type='user_role') and access_type='user_role'";		 
 							stmt = con.prepareStatement(deleteQry);
 							stmt.setString(1,obj.getWork_id_fk());
 							stmt.executeUpdate();
 							if(stmt != null){stmt.close();}	
-							
-							String deleteQry1 = "select distinct dashboard_id from dashboard d left join dashboard_access da on da.dashboard_id_fk=d.dashboard_id\r\n" + 
-									"where work_id_fk=? and access_type='user_role'";		 
-							stmt1 = con.prepareStatement(deleteQry1);
-							stmt1.setString(1,obj.getWork_id_fk());
-							stmt1.executeUpdate();
-							if(stmt1 != null){stmt1.close();}								
+				
+							query = " insert into dashboard_access (dashboard_id_fk,access_type,access_value)"
+					               + " select distinct dashboard_id,'user_role',? from dashboard where work_id_fk=? ";
+						}
+						
+						if(splitStrColumns[0].compareTo("UserType")==0)
+						{
+						
+							String deleteQry = "delete from dashboard_access where dashboard_id_fk in(select distinct dashboard_id from dashboard d left join dashboard_access da on da.dashboard_id_fk=d.dashboard_id " + 
+									"where work_id_fk=? and access_type='user_type') and access_type='user_type'";	
+							stmt = con.prepareStatement(deleteQry);
+							stmt.setString(1,obj.getWork_id_fk());
+							stmt.executeUpdate();
+							if(stmt != null){stmt.close();}	
+				
+							query = " insert into dashboard_access (dashboard_id_fk,access_type,access_value)"
+						               + " select distinct dashboard_id,'user_type',? from dashboard where work_id_fk=?";
+						}
+						
+						if(splitStrColumns[0].compareTo("User")==0)
+						{
+						
+							String deleteQry = "delete from dashboard_access where dashboard_id_fk in(select distinct dashboard_id from dashboard d left join dashboard_access da on da.dashboard_id_fk=d.dashboard_id " + 
+									"where work_id_fk=? and access_type='user') and access_type='user'";	
+							stmt = con.prepareStatement(deleteQry);
+							stmt.setString(1,obj.getWork_id_fk());
+							stmt.executeUpdate();
+							if(stmt != null){stmt.close();}	
+				
+							query = " insert into dashboard_access (dashboard_id_fk,access_type,access_value)"
+						               + " select distinct dashboard_id,'user',? from dashboard where work_id_fk=?";
+						}
+						
 
-				
-							query = " insert into contractexecutives (work_id_fk, executive_user_id_fk)"
-					               + " values (?,?)";
-						}
-						
-						if(splitStrColumns[0].compareTo("Design")==0)
-						{
-						
-							String deleteQry = "DELETE from designexecutives  where work_id_fk = ?";		 
-							stmt = con.prepareStatement(deleteQry);
-							stmt.setString(1,obj.getWork_id_fk());
-							stmt.executeUpdate();
-							if(stmt != null){stmt.close();}	
-				
-							query = " insert into designexecutives (work_id_fk, executive_user_id_fk)"
-					               + " values (?,?)";
-						}
-						
-						if(splitStrColumns[0].compareTo("Finance")==0)
-						{
-						
-							String deleteQry = "DELETE from finance_executives  where work_id_fk = ?";		 
-							stmt = con.prepareStatement(deleteQry);
-							stmt.setString(1,obj.getWork_id_fk());
-							stmt.executeUpdate();
-							if(stmt != null){stmt.close();}	
-				
-							query = " insert into finance_executives (work_id_fk, executive_user_id_fk)"
-					               + " values (?,?)";
-						}
-						
-						if(splitStrColumns[0].compareTo("LandAcquisition")==0)
-						{
-						
-							String deleteQry = "DELETE from land_executives  where work_id_fk = ?";		 
-							stmt = con.prepareStatement(deleteQry);
-							stmt.setString(1,obj.getWork_id_fk());
-							stmt.executeUpdate();
-							if(stmt != null){stmt.close();}		
-				
-							query = " insert into land_executives (work_id_fk, executive_user_id_fk)"
-					               + " values (?,?)";
-						}
-						
-						if(splitStrColumns[0].compareTo("RandR")==0)
-						{
-						
-							String deleteQry = "DELETE from rr_executives  where work_id_fk = ?";		 
-							stmt = con.prepareStatement(deleteQry);
-							stmt.setString(1,obj.getWork_id_fk());
-							stmt.executeUpdate();
-							if(stmt != null){stmt.close();}		
-				
-							query = " insert into rr_executives (work_id_fk, executive_user_id_fk)"
-					               + " values (?,?)";
-						}
-						
-						if(splitStrColumns[0].compareTo("Risk")==0)
-						{
-						
-							String deleteQry = "DELETE from risk_work_hod  where work_id_fk = ?";		 
-							stmt = con.prepareStatement(deleteQry);
-							stmt.setString(1,obj.getWork_id_fk());
-							stmt.executeUpdate();
-							if(stmt != null){stmt.close();}	
-				
-							query = " insert into risk_work_hod (work_id_fk, hod_user_id_fk)"
-					               + " values (?,?)";
-						}
-						
-						if(splitStrColumns[0].compareTo("UtilityShifting")==0)
-						{
-						
-							String deleteQry = "DELETE from utility_shifting_executives  where work_id_fk = ?";		 
-							stmt = con.prepareStatement(deleteQry);
-							stmt.setString(1,obj.getWork_id_fk());
-							stmt.executeUpdate();
-							if(stmt != null){stmt.close();}		
-				
-							query = " insert into utility_shifting_executives (work_id_fk, executive_user_id_fk)"
-					               + " values (?,?)";
-						}
 						
 						stmt = con.prepareStatement(query);
 					    
 						String Str2[]=splitStrColumns[1].split(",");
 							for (int i = 0; i < Str2.length; i++) 
 							{
-								stmt.setString(1, obj.getWork_id_fk());
-								stmt.setString(2, Str2[i]);
+								stmt.setString(1, Str2[i]);
+								stmt.setString(2, obj.getWork_id_fk());
 								stmt.execute();
 							}
 											

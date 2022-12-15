@@ -871,7 +871,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 					"left join project p on w.project_id_fk = p.project_id " + 
 					"left join [user] u on c.hod_user_id_fk = u.user_id "+
 					"left join [user] us on c.dy_hod_user_id_fk = us.user_id "
-					+"left join department dt on c.contracxt_department = dt.department "
+					+"left join department dt on c.contract_department = dt.department "
 					+"where contract_id is not null and bg.release_date is null ";
 			
 			int arrSize = 0;			

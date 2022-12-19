@@ -320,11 +320,13 @@ public class IssueDaoImpl implements IssueDao {
 						+ "LEFT JOIN work w ON work_id_fk = w.work_id "
 						+ "where contract_status_fk IN('In Progress','Not Started') ";
 			}
+			
 			int arrSize = 0;
 			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
 				qry = qry + " and w.project_id_fk = ? ";
 				arrSize++;
 			}
+			
 
 			if (!CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type())
 					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
@@ -382,13 +384,13 @@ public class IssueDaoImpl implements IssueDao {
 			}
 			int arrSize = 0;
 			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and c.work_id_fk = ?";
+				qry = qry + " and c.work_id_fk = ? ";
 				arrSize++;
 			}
 
 			if (!CommonConstants.USER_TYPE_MANAGEMENT.equals(obj.getUser_type())
 					&& !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				qry = qry + "AND (hod_user_id_fk = ? or dy_hod_user_id_fk = ? " 
+				qry = qry + " AND (hod_user_id_fk = ? or dy_hod_user_id_fk = ? " 
 						+ "or contract_id in(select contract_id_fk from contract_executive where executive_user_id_fk = ?) " 
 						+ "or contract_id in(select contract_id_fk from structure_contract_responsible_people where responsible_people_id_fk = ?) " 
 						+ "or contract_id in(select contract_id_fk from fob_contract_responsible_people where fob_id_fk in(select fob_id_fk from fob_contract_responsible_people where responsible_people_id_fk = ?)) "
@@ -411,7 +413,7 @@ public class IssueDaoImpl implements IssueDao {
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 			}
-			qry = qry + " group by contract_id,contract_name,contract_short_name,work_id_fk,hod_user_id_fk,dy_hod_user_id_fk,contract_type_fk order by contract_id asc";
+			qry = qry + " group by contract_id,contract_name,contract_short_name,work_id_fk,hod_user_id_fk,dy_hod_user_id_fk,contract_type_fk order by contract_id asc ";
 			
 			objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));
 

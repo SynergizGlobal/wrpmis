@@ -408,46 +408,56 @@ public class DashboardAccessFormDaoImpl implements DashboardAccessFormDao{
 					for(int j=0;j<splitStrColumns.length;j++)
 					{
 						String dashboardid="";
-						if(splitStrColumns[0].compareTo("UserRole")==0)
+						
+						String[] splitModuleAccessType=splitStrColumns[0].split("@@@");
+						
+						if(splitModuleAccessType[1].compareTo("UserRole")==0)
 						{
+
+							String deleteQry = "delete from left_menu_access where dashboard_id in(select distinct d.dashboard_id from left_menu d left join left_menu_access da on da.dashboard_id=d.dashboard_id " + 
+									"where source_field_value=? and access_type='user_role' and dashboard_name=?) and access_type='user_role'";	
 							
-							String deleteQry = "delete from dashboard_access where dashboard_id_fk in(select distinct dashboard_id from dashboard d left join dashboard_access da on da.dashboard_id_fk=d.dashboard_id " + 
-									"where work_id_fk=? and access_type='user_role') and access_type='user_role'";		 
 							stmt = con.prepareStatement(deleteQry);
 							stmt.setString(1,obj.getWork_id_fk());
+							stmt.setString(2,splitModuleAccessType[0]);
+							
 							stmt.executeUpdate();
 							if(stmt != null){stmt.close();}	
-				
-							query = " insert into dashboard_access (dashboard_id_fk,access_type,access_value)"
-					               + " select distinct dashboard_id,'user_role',? from dashboard where work_id_fk=? ";
+
+							query = " insert into left_menu_access (dashboard_id,access_type,access_value)"
+						       + " select distinct dashboard_id,'user_role',? from left_menu where source_field_value=? and dashboard_name=?";
 						}
-						
-						if(splitStrColumns[0].compareTo("UserType")==0)
+
+						if(splitModuleAccessType[1].compareTo("UserType")==0)
 						{
-						
-							String deleteQry = "delete from dashboard_access where dashboard_id_fk in(select distinct dashboard_id from dashboard d left join dashboard_access da on da.dashboard_id_fk=d.dashboard_id " + 
-									"where work_id_fk=? and access_type='user_type') and access_type='user_type'";	
+
+							String deleteQry = "delete from left_menu_access where dashboard_id in(select distinct d.dashboard_id from left_menu d left join left_menu_access da on da.dashboard_id=d.dashboard_id " + 
+									"where source_field_value=? and access_type='user_type' and dashboard_name=?) and access_type='user_type' ";	
 							stmt = con.prepareStatement(deleteQry);
 							stmt.setString(1,obj.getWork_id_fk());
+							stmt.setString(2,splitModuleAccessType[0]);
 							stmt.executeUpdate();
 							if(stmt != null){stmt.close();}	
-				
-							query = " insert into dashboard_access (dashboard_id_fk,access_type,access_value)"
-						               + " select distinct dashboard_id,'user_type',? from dashboard where work_id_fk=?";
+
+							query = " insert into left_menu_access (dashboard_id,access_type,access_value)"
+							       + " select distinct dashboard_id,'user_type',? from left_menu where source_field_value=? and dashboard_name=?";
 						}
-						
-						if(splitStrColumns[0].compareTo("User")==0)
+
+						if(splitModuleAccessType[1].compareTo("User")==0)
 						{
-						
-							String deleteQry = "delete from dashboard_access where dashboard_id_fk in(select distinct dashboard_id from dashboard d left join dashboard_access da on da.dashboard_id_fk=d.dashboard_id " + 
-									"where work_id_fk=? and access_type='user') and access_type='user'";	
+
+							String deleteQry = "delete from left_menu_access where dashboard_id in(select distinct d.dashboard_id from left_menu d left join left_menu_access da on da.dashboard_id=d.dashboard_id " + 
+									"where source_field_value=? and access_type='user' and dashboard_name=?) and access_type='user'";	
 							stmt = con.prepareStatement(deleteQry);
+							
 							stmt.setString(1,obj.getWork_id_fk());
+							stmt.setString(2,splitModuleAccessType[0]);
+							
 							stmt.executeUpdate();
 							if(stmt != null){stmt.close();}	
-				
-							query = " insert into dashboard_access (dashboard_id_fk,access_type,access_value)"
-						               + " select distinct dashboard_id,'user',? from dashboard where work_id_fk=?";
+
+							query = " insert into left_menu_access (dashboard_id,access_type,access_value)"
+							       + " select distinct dashboard_id,'user',? from left_menu where source_field_value=? and dashboard_name=?";
 						}
 						
 
@@ -459,6 +469,7 @@ public class DashboardAccessFormDaoImpl implements DashboardAccessFormDao{
 							{
 								stmt.setString(1, Str2[i]);
 								stmt.setString(2, obj.getWork_id_fk());
+								stmt.setString(3, splitModuleAccessType[0]);
 								stmt.execute();
 							}
 											
@@ -501,6 +512,31 @@ public class DashboardAccessFormDaoImpl implements DashboardAccessFormDao{
 		}
 		return objsList;
 	}
+	
+	
+	@Override
+	public List<DashboardAccessForm> getLeftmenuDashboardNames(DashboardAccessForm obj) throws Exception {
+		List<DashboardAccessForm> objsList = null;
+		try {
+			String qry = "select distinct dashboard_name from left_menu d left join left_menu_access da on da.dashboard_id=d.dashboard_id where parent_id=0 and status='Active' and (access_type='user_role' or access_type='user_type' or access_type='user') ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and source_field_value = ? ";
+				arrSize++;
+			}
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<DashboardAccessForm>(DashboardAccessForm.class));				
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}	
 
 	@Override
 	public boolean updateWorkAccess(DashboardAccessForm obj) throws Exception {

@@ -39,5 +39,7 @@ public interface DashboardAccessFormDao {
 
 	public List<DashboardAccessForm> getOverviewDashboardUserAccess(DashboardAccessForm obj) throws Exception;
 
+	public List<DashboardAccessForm> getLeftmenuDashboardNames(DashboardAccessForm obj) throws Exception;
+
 
 }

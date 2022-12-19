@@ -76,6 +76,21 @@ public class DashboardAccessFormController {
 	}
 	
 	
+	@RequestMapping(value = "/ajax/getDashboardNamesForDashboardAccessForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<DashboardAccessForm> getDashboardNamesForDashboardAccessForm(@ModelAttribute DashboardAccessForm obj,HttpSession session) {
+		List<DashboardAccessForm> worksList = null;  
+		try {
+			worksList = service.getLeftmenuDashboardNames(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getDashboardNamesForDashboardAccessForm : " + e.getMessage());
+		}
+		return worksList;
+	}
+		
+	
+	
 	@RequestMapping(value = "/ajax/getWorksListForDashboardAccessForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<DashboardAccessForm> getWorksListForDashboardAccessForm(@ModelAttribute DashboardAccessForm obj,HttpSession session) {

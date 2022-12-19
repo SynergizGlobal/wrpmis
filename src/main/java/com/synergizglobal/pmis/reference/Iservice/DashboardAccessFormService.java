@@ -39,5 +39,7 @@ public interface DashboardAccessFormService {
 	
 	public List<DashboardAccessForm> getdashboardNames(DashboardAccessForm obj) throws Exception;
 	
+	public List<DashboardAccessForm> getLeftmenuDashboardNames(DashboardAccessForm obj) throws Exception;
+
 	
 }

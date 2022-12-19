@@ -97,6 +97,12 @@ public class DashboardAccessFormServiceImpl implements DashboardAccessFormServic
 	}
 	
 	@Override
+	public List<DashboardAccessForm> getLeftmenuDashboardNames(DashboardAccessForm obj) throws Exception
+	{
+		return dao.getLeftmenuDashboardNames(obj);
+	}
+	
+	@Override
 	public List<DashboardAccessForm> getOverviewDashboardUserAccess(DashboardAccessForm obj) throws Exception
 	{
 		return dao.getOverviewDashboardUserAccess(obj);

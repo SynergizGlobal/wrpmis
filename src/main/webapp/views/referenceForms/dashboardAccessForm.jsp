@@ -861,10 +861,10 @@
 						SRM = SRM.replace(/&amp;/g, "and");
 						SRM = SRM.replace(/&/g, "and");	
 
-						var workmoduleValue=SRM+'_'+allModulesArray[i1]+'_'+i1;
+						var workmoduleValue=SRM+'_'+$("#work_id_fk").val()+'_Overview'+allModulesArray[i1]+'_'+i2;
 						if($("#"+workmoduleValue).val()!=null && $("#"+workmoduleValue).val()!="" && $("#"+workmoduleValue).val()!=undefined)
 						{
-       	   					concatText=concatText+allModulesArray[i1]+"___"+$("#"+workmoduleValue).val()+'###';
+       	   					concatText=concatText+SRM+'@@@'+allModulesArray[i1]+"___"+$("#"+workmoduleValue).val()+'###';
 						}
 		  			    	
 		  			}	
@@ -873,7 +873,6 @@
 				
 	   			var myParams3 = { work_id_fk: $("#work_id_fk").val(),access_value:concatText};
 	   			
-	   			alert(concatText);
 	   			
 	       		   
  	    	$.ajax({

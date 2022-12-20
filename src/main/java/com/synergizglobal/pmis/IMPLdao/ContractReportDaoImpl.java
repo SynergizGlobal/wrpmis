@@ -2724,9 +2724,9 @@ public class ContractReportDaoImpl implements ContractReportDao {
 							"                                             (SELECT 'R' + '' + Max(SUBSTRING(revision_number, 2, LEN(revision_number))) " + 
 							"                                              FROM      contract_revision " + 
 							"                                              WHERE   contract_id_fk = c.contract_id AND revised_doc IS NOT NULL AND revised_doc != ''))))),'dd-MM-yyyy') AS Revised_date_of_completion, " + 
-							"                      ((SELECT (ROUND(SUM(contract_per), 2)) " + 
+							"                      isnull(((SELECT (ROUND(SUM(contract_per), 2)) " + 
 							"                        FROM      dbo.activities_scurve ac " + 
-							"                        WHERE   (ac.contract_id = c.contract_id) and category='Actual' )) AS Percent_progress,  (ISNULL " + 
+							"                        WHERE   (ac.contract_id = c.contract_id) and category='Actual' )),0)*100 AS Percent_progress,  (ISNULL " + 
 							"                      ((SELECT ((revision_estimated_cost)) " + 
 							"                        FROM      contract_revisions " + 
 							"                        WHERE   contract_id_fk = c.contract_id AND revision_no = " + 
@@ -3009,9 +3009,9 @@ public class ContractReportDaoImpl implements ContractReportDao {
 					"                                             (SELECT 'R' + '' + Max(SUBSTRING(revision_number, 2, LEN(revision_number))) " + 
 					"                                              FROM      contract_revision " + 
 					"                                              WHERE   contract_id_fk = c.contract_id AND revised_doc IS NOT NULL AND revised_doc != ''))))),'dd-MM-yyyy') AS Revised_date_of_completion, " + 
-					"                      ((SELECT (ROUND(SUM(contract_per), 2)) " + 
+					"                      isnull(((SELECT (ROUND(SUM(contract_per), 2)) " + 
 					"                        FROM      dbo.activities_scurve ac " + 
-					"                        WHERE   (ac.contract_id = c.contract_id) and category='Actual' )) AS Percent_progress,  (ISNULL " + 
+					"                        WHERE   (ac.contract_id = c.contract_id) and category='Actual' )),0)*100 AS Percent_progress,  (ISNULL " + 
 					"                      ((SELECT ((revision_estimated_cost)) " + 
 					"                        FROM      contract_revisions " + 
 					"                        WHERE   contract_id_fk = c.contract_id AND revision_no = " + 

@@ -213,8 +213,8 @@
 												<th class="fw-200">ID</th>
 												<th>Description</th>
 												<th>Utility type</th>
-												<th>Category</th>
-												<th>Owner</th>
+												<th>Custodian</th>
+												<th>HOD</th>
 												<th>Execution agency</th>
 												<th>Status</th>
 												<th>Last Update</th>
@@ -411,6 +411,7 @@
         	
         	$('select:not(.searchable)').formSelect();
             $('.searchable').select2();
+            
             $('#us-upload-table').DataTable({
                 columnDefs: [
                     {
@@ -461,7 +462,9 @@
         function getUtilityShiftingUploadsList(){
         	$(".page-loader-2").show();
         	
-        	table = $('#us-upload-table').DataTable();
+        	
+    		
+    		table = $('#us-upload-table').DataTable();
     		table.destroy();
     		$.fn.dataTable.moment('DD-MMM-YYYY');
     		table = $('#us-upload-table').DataTable({
@@ -772,6 +775,7 @@
         	var table = $('#datatable-us').DataTable();
         	table.draw( true );
         	//getUtilityShiftingList();
+        	getUtilityShiftingUploadsList();
         }
         
         
@@ -913,11 +917,11 @@
     		            { "mData": function(data,type,row){
     		            	if($.trim(data.utility_type_fk) == ''){ return '-'; }else{ return data.utility_type_fk; }
     		            } },
-    		            { "mData": function(data,type,row){
-    		            	if($.trim(data.utility_category_fk) == ''){ return '-'; }else{ return data.utility_category_fk; }
-    		            } },
     		         	{ "mData": function(data,type,row){
-    		            	if($.trim(data.owner_name) == ''){ return '-'; }else{ return data.owner_name; }
+    		            	if($.trim(data.custodian) == ''){ return '-'; }else{ return data.custodian; }
+    		            } },
+    		            { "mData": function(data,type,row){
+    		            	if($.trim(data.designation) == ''){ return '-'; }else{ return data.designation; }
     		            } },
     		            { "mData": function(data,type,row){
     		            	if($.trim(data.execution_agency_fk) == ''){ return '-'; }else{ return data.execution_agency_fk; }

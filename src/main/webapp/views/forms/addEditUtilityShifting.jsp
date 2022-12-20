@@ -400,7 +400,7 @@
                                 </div>
                                 <div class="col s12 m3 l3 input-field">
                                      <input id="location_name" maxlength="50" data-length="50" name="location_name" type="text" class="validate w85 pdr3em" value="${utilityShifting.location_name }">                                     
-                                     <label for="location_name">Location Name<span class="required">*</span></label>
+                                     <label for="location_name">Location Name</label>
 	                                 <span id="location_nameError" class="error-msg" ></span>
                                 </div>
                                
@@ -419,7 +419,7 @@
                                 </div>
                                  <div class="col s12 m3 l3 input-field">
                                     <input id="reference_number" maxlength="25" data-length="25" name="reference_number" type="text" class="validate w85 pdr3em" value="${utilityShifting.reference_number }">                                     
-                                     <label for="reference_number">Reference Number<span class="required">*</span> </label>
+                                     <label for="reference_number">Reference Number</label>
 	                                 <span id="reference_numberError" class="error-msg" ></span>
                                 </div>
 								 <div class="col s12 m3 l3 input-field">
@@ -485,7 +485,7 @@
                                       <span id="requirement_stage_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m3 l3 input-field">
-                                    <p class="searchable_label mb-8"> Impacted Element <span class="required">*</span></p>
+                                    <p class="searchable_label mb-8"> Impacted Element</p>
                                     <select class="searchable validate-dropdown" id="impacted_element" name="impacted_element" >
                                         <option value="" >Select</option>
                                         <c:forEach var="obj" items="${impactedElementList }">
@@ -496,14 +496,14 @@
                                 </div>
                                 <div class="col s12 m3 l3 input-field">
                                      <input id="affected_structures" maxlength="100" data-length="100" name="affected_structures" type="text" class="validate w85 pdr3em" value="${utilityShifting.affected_structures }" >                                     
-                                     <label for="affected_structures">Affected Structures <span class="required">*</span></label>
+                                     <label for="affected_structures">Affected Structures</label>
 	                                 <span id="affected_structuresError" class="error-msg" ></span>
                                 </div>
 							</div>
 							<div class="row">
                                 <div class="col s12 m3 l3 input-field">
                                      <input id="planned_completion_date" name="planned_completion_date" type="text" class="validate datepicker" value="${utilityShifting.planned_completion_date }">                                     
-                                     <label for="planned_completion_date">Target Date <span class="required">*</span></label>
+                                     <label for="planned_completion_date">Target Date</label>
 	                                 <button type="button" id="planned_completion_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> 											                              
 	                                 <span id="planned_completion_dateError" class="error-msg" ></span> 
                                 </div>
@@ -1367,9 +1367,9 @@
 				 	  },"identification": {
 				 		required: false
 				 	  },"location_name": {
-				 		required: true
+				 		required: false
 				 	  },"reference_number": {
-				 		required: true
+				 		required: false
 				 	  },"latitude": {
 				 		required: false
 				 	  },"utility_description": {
@@ -1387,7 +1387,7 @@
 				 	  },"requirement_stage_fk": {
 				 		required: true
 				 	  },"planned_completion_date": {
-				 		required: true
+				 		required: false
 				 	  },"shifting_completion_date": {
 				 		 required: function(element) {
 				 	        return $('#shifting_status_fk').val()=='Completed'
@@ -1406,13 +1406,15 @@
 				 	  "hod_user_id_fk":{	
 				 		 required: true
 				 	  },"custodian": {
-				 		 required: true
+				 		 required: false
 			 	   	  },"executed_by": {
-			 	   		required: true
+			 	   		required: false
 				 	  },"impacted_element": {
-				 		 required: true
+				 		 required: false
 			 	   	  },"affected_structures": {
-				 		required: true
+				 		required: false
+				 	  },"chainage":{
+				 		 required: false
 				 	  }
 				 				
 			 	},
@@ -1470,6 +1472,8 @@
 				 		 required: 'Required'
 			 	   	  },"affected_structures": {
 			 	   		required: 'Required'
+				 	  },"chainage":{
+				 		 required: 'Required'
 				 	  }			 				      
 		    },
 			  errorPlacement:
@@ -1556,6 +1560,9 @@
 			 	    }else if (element.attr("id") == "affected_structures" ){
 			 		     document.getElementById("affected_structuresError").innerHTML="";
 			 			 error.appendTo('#affected_structuresError');
+			 	    }else if (element.attr("id") == "chainage" ){
+			 		     document.getElementById("chainageError").innerHTML="";
+			 			 error.appendTo('#chainageError');
 			 	    }
 			 },invalidHandler: function (form, validator) {
                  var errors = validator.numberOfInvalids();

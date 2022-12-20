@@ -131,7 +131,8 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 	public int getTotalRecords(UtilityShifting obj, String searchParameter) throws Exception {
 		int totalRecords = 0;
 		try {
-			String qry = "SELECT count(DISTINCT utility_shifting_id) as total_records from utility_shifting s "
+			String qry = "SELECT count(DISTINCT utility_shifting_id) as total_records "
+					+ "from utility_shifting s "
 					+ "LEFT OUTER JOIN contract c ON s.impacted_contract_id_fk  = c.contract_id "
 					+ "LEFT OUTER JOIN work w ON c.work_id_fk  = w.work_id "
 					+ "left join utility_shifting_executives us on w.work_id = us.work_id_fk  "
@@ -141,7 +142,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 			
 		
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and s.work_id_fk = ?";
+				qry = qry + " and c.work_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getLocation_name())) {
@@ -221,13 +222,18 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 	public List<UtilityShifting> getUtilityShiftingList(UtilityShifting obj, int startIndex, int offset, String searchParameter) throws Exception {
 		List<UtilityShifting> objsList = null;
 		try {
-			String qry = "SELECT distinct s.*,s.modified_by,FORMAT(s.modified_date,'dd-MM-yyyy') as modified_date "
+			String qry = "SELECT distinct s.*,s.modified_by,FORMAT(s.modified_date,'dd-MM-yyyy') as modified_date,"
+					+ "s.hod_user_id_fk,u.user_name,u.designation,chainage "
 					+ "from utility_shifting s "
 					+ "LEFT OUTER JOIN contract c ON s.impacted_contract_id_fk  = c.contract_id "
 					+ "LEFT OUTER JOIN work w ON c.work_id_fk  = w.work_id "
 					+ "left join utility_shifting_executives us on w.work_id = us.work_id_fk  "
 					+ "LEFT OUTER JOIN project p ON w.project_id_fk  = p.project_id "
+					+ "LEFT OUTER JOIN [user] u on s.hod_user_id_fk = u.user_id "
 					+ "where utility_shifting_id is not null " ;
+			
+			
+			
 			int arrSize = 0;
 		
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -1112,43 +1118,55 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 
 			if(!StringUtils.isEmpty(objsList) && objsList.size() > 0)
 			{
-					if(!StringUtils.isEmpty(objsList.get(0).getWork_id_fk()) && objsList.get(0).getWork_id_fk().compareTo(obj.getWork_id_fk())!=0)
+				UtilityShifting existingObj = objsList.get(0);
+				if(!StringUtils.isEmpty(existingObj)) {
+					
+					if(!StringUtils.isEmpty(existingObj.getWork_id_fk()) && 
+							!StringUtils.isEmpty(obj.getWork_id_fk()) && existingObj.getWork_id_fk().compareTo(obj.getWork_id_fk())!=0)
 					{
 						checkCnt=1;
 					}
-					if(!StringUtils.isEmpty(objsList.get(0).getLocation_name()) && objsList.get(0).getLocation_name().compareTo(obj.getLocation_name())!=0)
+					if(!StringUtils.isEmpty(existingObj.getLocation_name()) && 
+							!StringUtils.isEmpty(obj.getLocation_name()) && existingObj.getLocation_name().compareTo(obj.getLocation_name())!=0)
 					{
 						checkCnt=1;
 					}
-					if(!StringUtils.isEmpty(objsList.get(0).getReference_number()) && objsList.get(0).getReference_number().compareTo(obj.getReference_number())!=0)
+					if(!StringUtils.isEmpty(existingObj.getReference_number()) && 
+							!StringUtils.isEmpty(obj.getReference_number()) && existingObj.getReference_number().compareTo(obj.getReference_number())!=0)
 					{
 						checkCnt=1;
 					}
-					if(!StringUtils.isEmpty(objsList.get(0).getUtility_description()) && objsList.get(0).getUtility_description().compareTo(obj.getUtility_description())!=0)
+					if(!StringUtils.isEmpty(existingObj.getUtility_description()) && 
+							!StringUtils.isEmpty(obj.getUtility_description()) && existingObj.getUtility_description().compareTo(obj.getUtility_description())!=0)
 					{
 						checkCnt=1;
 					}
-					if(!StringUtils.isEmpty(objsList.get(0).getOwner_name()) && objsList.get(0).getOwner_name().compareTo(obj.getOwner_name())!=0)
+					if(!StringUtils.isEmpty(existingObj.getOwner_name()) && 
+							!StringUtils.isEmpty(obj.getOwner_name()) && existingObj.getOwner_name().compareTo(obj.getOwner_name())!=0)
 					{
 						checkCnt=1;
 					}
-					if(!StringUtils.isEmpty(objsList.get(0).getUtility_type_fk()) && objsList.get(0).getUtility_type_fk().compareTo(obj.getUtility_type_fk())!=0)
+					if(!StringUtils.isEmpty(existingObj.getUtility_type_fk()) && 
+							!StringUtils.isEmpty(obj.getUtility_type_fk()) && existingObj.getUtility_type_fk().compareTo(obj.getUtility_type_fk())!=0)
 					{
 						checkCnt=1;
 					}
-					if(!StringUtils.isEmpty(objsList.get(0).getUtility_category_fk()) && objsList.get(0).getUtility_category_fk().compareTo(obj.getUtility_category_fk())!=0)
+					if(!StringUtils.isEmpty(existingObj.getUtility_category_fk()) && 
+							!StringUtils.isEmpty(obj.getUtility_category_fk()) && existingObj.getUtility_category_fk().compareTo(obj.getUtility_category_fk())!=0)
 					{
 						checkCnt=1;
 					}
-					if(!StringUtils.isEmpty(objsList.get(0).getExecution_agency_fk()) && objsList.get(0).getExecution_agency_fk().compareTo(obj.getExecution_agency_fk())!=0)
+					if(!StringUtils.isEmpty(existingObj.getExecution_agency_fk()) && 
+							!StringUtils.isEmpty(obj.getExecution_agency_fk()) && existingObj.getExecution_agency_fk().compareTo(obj.getExecution_agency_fk())!=0)
 					{
 						checkCnt=1;
 					}
-					if(!StringUtils.isEmpty(objsList.get(0).getPlanned_completion_date()) && objsList.get(0).getPlanned_completion_date().compareTo(obj.getPlanned_completion_date())!=0)
+					if(!StringUtils.isEmpty(existingObj.getPlanned_completion_date()) && 
+							!StringUtils.isEmpty(obj.getPlanned_completion_date()) && existingObj.getPlanned_completion_date().compareTo(obj.getPlanned_completion_date())!=0)
 					{
 						checkCnt=1;
 					}
-			
+				}
 			}
 			
 		} catch (Exception e) {

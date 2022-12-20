@@ -93,11 +93,11 @@
 	                                    </div>	                                    
 	                                </div>  
 	                                <div class="row" id="nextRow" style="display:none;">
-<!-- 	                                    <div class="col s6 m6 l3 input-field" id="dateDiv">
+ 	                                    <div class="col s6 m6 l3 input-field" id="dateDiv" style="display:none;">
 	                                        <input id="date" name="date" type="text" class="validate datepicker"> <label for="date" class="fs-sm-8rem"> Validity Expiry By Date</label>
 											<button type="button" id="date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 											<span id="dateError" class="error-msg"></span>
-	                                    </div> -->
+	                                    </div> 
 	                                    <div class="col s6 m6 l3 input-field" id="contractDiv">
 	                                        <p class="searchable_label" style="text-align:left">Contract <span class="required">*</span></p>
 	                                        <select id="contract_id" name="contract_id" onchange="addInQueContract(this.value);getResetFiltersList();" class="searchable validate-dropdown">
@@ -211,6 +211,7 @@
 				$("#nextRow").hide();
 				$("#CSdiv").show();	
 				$("#hodDiv").show();
+				$("#dateDiv").hide();
 				
 			}else if(ReportNo==2){
 				$("#rptName").html("Contract Detail Report");
@@ -224,7 +225,7 @@
 				$("#rptName").html("DOC Report");
 				$("#nextRow").show();
 				$('#toremove').hide();
-				$("#dateDiv").show();
+				$("#dateDiv").hide();
 				$("#contractDiv").hide();
 				$("#hodDiv").show();
 				$("#CSdiv").hide();
@@ -232,7 +233,7 @@
 			}else if(ReportNo==4){
 				$("#rptName").html("BG Report");
 				$("#nextRow").show();
-				$("#dateDiv").show();
+				$("#dateDiv").hide();
 				$("#contractDiv").hide();
 				$("#hodDiv").show();
 				$("#CSdiv").hide();
@@ -240,7 +241,7 @@
 			}else if(ReportNo==5){
 				$("#rptName").html("Insurance Report");
 				$("#nextRow").show();
-				$("#dateDiv").show();
+				$("#dateDiv").hide();
 				$("#contractDiv").hide();
 				$("#hodDiv").show();
 				$("#CSdiv").hide();
@@ -248,7 +249,7 @@
 			}else if(ReportNo==6){
 				$("#rptName").html("DOC, BG & Insurance Report");
 				$("#nextRow").show();
-				$("#dateDiv").show();
+				$("#dateDiv").hide();
 				$("#contractDiv").hide();
 				$("#hodDiv").show();
 				$("#CSdiv").hide();
@@ -257,6 +258,7 @@
 				$("#rptName").html("List of Contracts Report");
 				$("#nextRow").hide();
 				$("#CSdiv").show();	
+				$("#dateDiv").hide();
 				$("#hodDiv").show();
 
 			}else if(ReportNo==8){
@@ -270,7 +272,7 @@
 			}else if(ReportNo==9){
 				$("#rptName").html("Contract Completion Report");
 				$("#nextRow").show();
-				$("#dateDiv").show();
+				$("#dateDiv").hide();
 				$("#contractDiv").hide();
 				$("#hodDiv").show();
 				$("#CSdiv").hide();

@@ -2890,6 +2890,11 @@ public class ContractReportDaoImpl implements ContractReportDao {
 							hodQry = hodQry + " and cd.contract_status_fk = ?";
 							arrSize++;
 						}
+
+						if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDate())) {
+							hodQry = hodQry + " and bg.valid_upto <= ?";
+							arrSize++;
+						}						
 						hodQry = hodQry + " union all ";
 						
 						
@@ -2923,7 +2928,12 @@ public class ContractReportDaoImpl implements ContractReportDao {
 						if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
 							hodQry = hodQry + " and cd.contract_status_fk = ?";
 							arrSize++;
-						}	
+						}
+						
+						if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDate())) {
+							hodQry = hodQry + " and i.valid_upto <= ?";
+							arrSize++;
+						}						
 						
 						hodQry = hodQry + " ) as a ";
 						
@@ -2947,6 +2957,10 @@ public class ContractReportDaoImpl implements ContractReportDao {
 						if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
 							pValues[i++] = obj.getContract_status_fk();
 						}
+						if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDate())) 
+						{
+							pValues[i++] = obj.getDate(); 
+						}						
 						
 						if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
 							pValues[i++] = obj.getContract_id();
@@ -2965,6 +2979,10 @@ public class ContractReportDaoImpl implements ContractReportDao {
 						}				
 						if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_status_fk())) {
 							pValues[i++] = obj.getContract_status_fk();
+						}
+						if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDate())) 
+						{
+							pValues[i++] = obj.getDate(); 
 						}						
 						
 						objsList = jdbcTemplate.query( hodQry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));

@@ -1612,4 +1612,264 @@ public class UtilityShiftingController {
 	
 		return val;
 	}
+	
+	@RequestMapping(value = "/utility-shifting-template", method = {RequestMethod.GET,RequestMethod.POST})
+	public void tilityShiftingTemplate(HttpServletRequest request, HttpServletResponse response,HttpSession session,RedirectAttributes attributes){
+		ModelAndView view = new ModelAndView(PageConstants.utilityShifting);		
+		try {
+			view.setViewName("redirect:/utilityshifting");
+            XSSFWorkbook  workBook = new XSSFWorkbook ();
+            XSSFSheet utilityShiftingSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Utility Shifting"));
+			XSSFSheet refSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Reference Data"));
+			
+			
+	        workBook.setSheetOrder(utilityShiftingSheet.getSheetName(), 0);
+			workBook.setSheetOrder(refSheet.getSheetName(), 1);
+		
+	        
+	        byte[] blueRGB = new byte[]{(byte)0, (byte)176, (byte)240};
+	        byte[] yellowRGB = new byte[]{(byte)255, (byte)192, (byte)0};
+	        byte[] greenRGB = new byte[]{(byte)146, (byte)208, (byte)80};
+	        byte[] redRGB = new byte[]{(byte)255, (byte)0, (byte)0};
+	        byte[] whiteRGB = new byte[]{(byte)255, (byte)255, (byte)255};
+	        
+	        boolean isWrapText = true;boolean isBoldText = true;boolean isItalicText = false; int fontSize = 11;String fontName = "Times New Roman";
+	        CellStyle blueStyle = cellFormating(workBook,blueRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle yellowStyle = cellFormating(workBook,yellowRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle greenStyle = cellFormating(workBook,greenRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle redStyle = cellFormating(workBook,redRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle whiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        
+	        CellStyle indexWhiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        
+	        isWrapText = true;isBoldText = false;isItalicText = false; fontSize = 9;fontName = "Times New Roman";
+	        CellStyle sectionStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        
+	        
+	        
+            XSSFRow headingRow = utilityShiftingSheet.createRow(0);
+            String headerString = "Project ^Work ^Execution Agency ^HOD ^Utility Type ^Utility Description ^Location ^Custodian ^Identification Date ^Reference No. "
+            		+ "^Chainage ^Executed By ^Impacted Contract  ^Requirement stage "
+            		+ "^Impacted Element ^Affected Structures  ^Target Date ^Scope ^Completed ^Unit ^Start Date ^Status ^Completetion Date ^Remarks";
+            
+            String[] firstHeaderStringArr = headerString.split("\\^");
+            utilityShiftingSheet.createFreezePane(0,1);
+            for (int i = 0; i < firstHeaderStringArr.length; i++) {		        	
+	        	Cell cell = headingRow.createCell(i);
+		        cell.setCellStyle(greenStyle);
+				cell.setCellValue(firstHeaderStringArr[i]);
+			}
+            
+	        /*************************************************************/ 
+	         
+	        List<UtilityShifting> projectsList = utilityShiftingService.getProjectsListForUtilityShifting(null);
+			List<UtilityShifting> worksList = utilityShiftingService.getWorkListForUtilityShifting(null);
+			List<UtilityShifting> utilityTypeList = utilityShiftingService.getUtilityTypeList(null);
+			List<UtilityShifting> utilityExecutionAgencyList = utilityShiftingService.getUtilityExecutionAgencyList(null);
+			List<UtilityShifting> statusList = utilityShiftingService.getStatusListForUtilityShifting(null);
+			List<UtilityShifting> utilityHODList = utilityShiftingService.getHodListForUtilityShifting(null);
+			List<UtilityShifting> impactedContractsList = utilityShiftingService.getImpactedContractsListForUtilityShifting(null);
+			List<UtilityShifting> reqStageList = utilityShiftingService.getReqStageList(null);
+			List<UtilityShifting> impactedElementList = utilityShiftingService.getImpactedElementList(null);
+			
+			/*List<UtilityShifting> contractsList = utilityShiftingService.getContractsListForUtilityShifting(null);
+			List<UtilityShifting> utilityCategoryList = utilityShiftingService.getUtilityCategoryList(null);
+			List<UtilityShifting> impactedContractList = utilityShiftingService.getImpactedContractList(null);
+			List<UtilityShifting> requirementStageList = utilityShiftingService.getRequirementStageList(null);
+			List<UtilityShifting> unitList = utilityShiftingService.getUnitListForUtilityShifting(null);
+			List<UtilityShifting> utilityshiftingfiletypeList = utilityShiftingService.getUtilityTypeListForUtilityShifting(null);
+			*/
+				
+	        XSSFRow headerRow = refSheet.createRow(0);
+            refSheet.createFreezePane(0,1);
+            
+            int b = 1;	
+            Cell cell = headerRow.createCell(b);
+	        cell.setCellStyle(greenStyle);
+			cell.setCellValue("Project Name");
+			int rowNoRef = 1;			
+			XSSFRow row = null;
+			for (UtilityShifting obj : projectsList) {
+                row = refSheet.createRow(rowNoRef++);	                	                
+                cell = row.createCell(b);
+				cell.setCellStyle(sectionStyle);
+				cell.setCellValue(obj.getProject_name());
+			}
+			refSheet.setColumnWidth(b, 25 * 200);
+			
+			b = b+2;
+			cell = headerRow.createCell(b);
+	        cell.setCellStyle(greenStyle);
+			cell.setCellValue("Work Name");			
+			int p = 1;
+			for (UtilityShifting obj : worksList) {
+				row = refSheet.getRow(p++);
+				if(row == null) {
+	                row = refSheet.createRow(rowNoRef++);
+				}
+                cell = row.createCell(b);
+				cell.setCellStyle(sectionStyle);
+				cell.setCellValue(obj.getWork_short_name());
+				
+			}
+			refSheet.setColumnWidth(b, 25 * 200);
+			
+			b = b+2;
+			cell = headerRow.createCell(b);
+	        cell.setCellStyle(greenStyle);
+			cell.setCellValue("Execution Agencies");	
+			p = 1;
+			for (UtilityShifting obj : utilityExecutionAgencyList) {
+				row = refSheet.getRow(p++);
+				if(row == null) {
+	                row = refSheet.createRow(rowNoRef++);
+				}
+                cell = row.createCell(b);
+				cell.setCellStyle(sectionStyle);
+				cell.setCellValue(obj.getExecution_agency_fk());
+			}
+			refSheet.setColumnWidth(b, 25 * 200);
+			
+			b = b+2;
+			cell = headerRow.createCell(b);
+	        cell.setCellStyle(greenStyle);
+			cell.setCellValue("HOD");	
+			p = 1;
+			for (UtilityShifting obj : utilityHODList) {
+				row = refSheet.getRow(p++);
+				if(row == null) {
+	                row = refSheet.createRow(rowNoRef++);
+				}
+                cell = row.createCell(b);
+				cell.setCellStyle(sectionStyle);
+				cell.setCellValue(obj.getDesignation());
+			}
+			refSheet.setColumnWidth(b, 25 * 200);
+			
+			b = b+2;
+			cell = headerRow.createCell(b);
+	        cell.setCellStyle(greenStyle);
+			cell.setCellValue("Utility Type");	
+			p = 1;
+			for (UtilityShifting obj : utilityTypeList) {
+				row = refSheet.getRow(p++);
+				if(row == null) {
+	                row = refSheet.createRow(rowNoRef++);
+				}
+                cell = row.createCell(b);
+				cell.setCellStyle(sectionStyle);
+				cell.setCellValue(obj.getUtility_type_fk());
+			}
+			refSheet.setColumnWidth(b, 25 * 200);
+			
+			b = b+2;
+			cell = headerRow.createCell(b);
+	        cell.setCellStyle(greenStyle);
+			cell.setCellValue("Impacted Contract");	
+			p = 1;
+			for (UtilityShifting obj : impactedContractsList) {
+				row = refSheet.getRow(p++);
+				if(row == null) {
+	                row = refSheet.createRow(rowNoRef++);
+				}
+                cell = row.createCell(b);
+				cell.setCellStyle(sectionStyle);
+				cell.setCellValue(obj.getContract_short_name());
+			}
+			refSheet.setColumnWidth(b, 25 * 200);
+			
+			b = b+2;
+			cell = headerRow.createCell(b);
+	        cell.setCellStyle(greenStyle);
+			cell.setCellValue("Requirement stage ");	
+			p = 1;
+			for (UtilityShifting obj : reqStageList) {
+				row = refSheet.getRow(p++);
+				if(row == null) {
+	                row = refSheet.createRow(rowNoRef++);
+				}
+                cell = row.createCell(b);
+				cell.setCellStyle(sectionStyle);
+				cell.setCellValue(obj.getRequirement_stage_fk());
+			}
+			refSheet.setColumnWidth(b, 25 * 200);
+			
+			b = b+2;
+			cell = headerRow.createCell(b);
+	        cell.setCellStyle(greenStyle);
+			cell.setCellValue("Impacted Element");	
+			p = 1;
+			for (UtilityShifting obj : impactedElementList) {
+				row = refSheet.getRow(p++);
+				if(row == null) {
+	                row = refSheet.createRow(rowNoRef++);
+				}
+                cell = row.createCell(b);
+				cell.setCellStyle(sectionStyle);
+				cell.setCellValue(obj.getImpacted_element());
+			}
+			refSheet.setColumnWidth(b, 25 * 200);
+			
+			b = b+2;
+			cell = headerRow.createCell(b);
+	        cell.setCellStyle(greenStyle);
+			cell.setCellValue("Status");	
+			p = 1;
+			for (UtilityShifting obj : statusList) {
+				row = refSheet.getRow(p++);
+				if(row == null) {
+	                row = refSheet.createRow(rowNoRef++);
+				}
+                cell = row.createCell(b);
+				cell.setCellStyle(sectionStyle);
+				cell.setCellValue(obj.getShifting_status_fk());
+			}
+			refSheet.setColumnWidth(b, 25 * 200);
+			
+			/*************************************************************/
+			
+			
+        	for(int columnIndex = 0; columnIndex < 29; columnIndex++) {
+        		utilityShiftingSheet.setColumnWidth(columnIndex, 25 * 200);
+			}
+        	
+            String fileName = "Utility_Shifting_Template";
+            
+            try{
+            	
+               response.setContentType("application/.csv");
+ 			   response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+ 			   response.setContentType("application/vnd.ms-excel");
+ 			   // add response header
+ 			   response.addHeader("Content-Disposition", "attachment; filename=" + fileName+".xlsx");
+ 			   
+ 			    //copies all bytes from a file to an output stream
+ 			   workBook.write(response.getOutputStream()); // Write workbook to response.
+	           workBook.close();
+ 			    //flushes output stream
+ 			    response.getOutputStream().flush();
+            	
+                
+                attributes.addFlashAttribute("success",dataExportSucess);
+            	//response.setContentType("application/vnd.ms-excel");
+            	//response.setHeader("Content-Disposition", "attachment; filename=filename.xls");
+            	//XSSFWorkbook  workbook = new XSSFWorkbook ();
+            	// ...
+            	// Now populate workbook the usual way.
+            	// ...
+            	//workbook.write(response.getOutputStream()); // Write workbook to response.
+            	//workbook.close();
+            }catch(FileNotFoundException e){
+                //e.printStackTrace();
+                attributes.addFlashAttribute("error",dataExportInvalid);
+            }catch(IOException e){
+                //e.printStackTrace();
+                attributes.addFlashAttribute("error",dataExportError);
+            }
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 }

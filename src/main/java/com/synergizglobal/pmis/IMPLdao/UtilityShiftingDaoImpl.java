@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -2200,6 +2201,12 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 			throw new Exception(e);
 		}
 		return objsList;
+	}
+
+	@Override
+	public Map<String, List<UtilityShifting>> getReferencesDataList() throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	

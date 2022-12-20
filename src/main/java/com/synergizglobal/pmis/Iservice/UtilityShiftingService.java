@@ -1,6 +1,7 @@
 package com.synergizglobal.pmis.Iservice;
 
 import java.util.List;
+import java.util.Map;
 
 import com.synergizglobal.pmis.model.UtilityShifting;
 
@@ -64,5 +65,7 @@ public interface UtilityShiftingService {
 	List<UtilityShifting> getReqStageList(UtilityShifting obj) throws Exception;
 
 	List<UtilityShifting> getImpactedElementList(UtilityShifting obj) throws Exception;
+
+	Map<String, List<UtilityShifting>> getReferencesDataList() throws Exception;
 	
 }

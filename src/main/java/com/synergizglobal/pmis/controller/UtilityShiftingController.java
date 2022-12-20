@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -58,17 +59,11 @@ import com.synergizglobal.pmis.Idao.FormsHistoryDao;
 import com.synergizglobal.pmis.Iservice.UtilityShiftingService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.PageConstants;
-import com.synergizglobal.pmis.constants.PageConstants2;
-import com.synergizglobal.pmis.model.UtilityShifting;
-import com.synergizglobal.pmis.model.UtilityShiftingPaginationObject;
-import com.synergizglobal.pmis.model.UtilityShifting;
-import com.synergizglobal.pmis.model.UtilityShifting;
-import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.FileFormatModel;
 import com.synergizglobal.pmis.model.FormHistory;
-import com.synergizglobal.pmis.model.Safety;
-import com.synergizglobal.pmis.model.UtilityShifting;
 import com.synergizglobal.pmis.model.User;
+import com.synergizglobal.pmis.model.UtilityShifting;
+import com.synergizglobal.pmis.model.UtilityShiftingPaginationObject;
 
 
 
@@ -714,15 +709,18 @@ public class UtilityShiftingController {
 			dObj.setUser_role_code(uObj.getUser_role_code());
 			dObj.setUser_id(uObj.getUser_id());
 			dataList =   utilityShiftingService.getUtilityShiftingList(dObj);
-		   
+			
+						
 			if(dataList != null && dataList.size() > 0){
 	            XSSFWorkbook  workBook = new XSSFWorkbook ();
 	            XSSFSheet utilityShiftingSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Utility Shifting"));
 				XSSFSheet subSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Progress Details"));
+				XSSFSheet refSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Reference Data"));
 				
 				
 		        workBook.setSheetOrder(utilityShiftingSheet.getSheetName(), 0);
 				workBook.setSheetOrder(subSheet.getSheetName(), 1);
+				workBook.setSheetOrder(refSheet.getSheetName(), 2);
 			
 		        
 		        byte[] blueRGB = new byte[]{(byte)0, (byte)176, (byte)240};
@@ -770,33 +768,33 @@ public class UtilityShiftingController {
 				}
 				
 			
-			 short rowNo5 = 1;
-			 for (UtilityShifting rDetails : dataList) { 
-				String utility_shifting_id = rDetails.getUtility_shifting_id();
-				subList = utilityShiftingService.getRDetailsList(utility_shifting_id);
-					
-				 for (UtilityShifting obj : subList) {
-		                XSSFRow row = subSheet.createRow(rowNo5);
-		                int b = 0;
-		                
-		                Cell cell1 = row.createCell(b++);
-						cell1.setCellStyle(sectionStyle);
-						cell1.setCellValue(obj.getUtility_shifting_id());
+				 short rowNo5 = 1;
+				 for (UtilityShifting rDetails : dataList) { 
+					String utility_shifting_id = rDetails.getUtility_shifting_id();
+					subList = utilityShiftingService.getRDetailsList(utility_shifting_id);
 						
-		                cell1 = row.createCell(b++);
-						cell1.setCellStyle(sectionStyle);
-						cell1.setCellValue(obj.getProgress_date());
-						
-		                cell1 = row.createCell(b++);
-						cell1.setCellStyle(sectionStyle);
-						cell1.setCellValue(obj.getProgress_of_work());
-						
-		               
-						rowNo5++;
-				    }
-		       }
-			 short rowNo = 1;
-	         for (UtilityShifting obj : dataList) {
+					 for (UtilityShifting obj : subList) {
+			                XSSFRow row = subSheet.createRow(rowNo5);
+			                int b = 0;
+			                
+			                Cell cell1 = row.createCell(b++);
+							cell1.setCellStyle(sectionStyle);
+							cell1.setCellValue(obj.getUtility_shifting_id());
+							
+			                cell1 = row.createCell(b++);
+							cell1.setCellStyle(sectionStyle);
+							cell1.setCellValue(obj.getProgress_date());
+							
+			                cell1 = row.createCell(b++);
+							cell1.setCellStyle(sectionStyle);
+							cell1.setCellValue(obj.getProgress_of_work());
+							
+			               
+							rowNo5++;
+					    }
+			       }
+				 short rowNo = 1;
+		         for (UtilityShifting obj : dataList) {
 					
 	                XSSFRow row = utilityShiftingSheet.createRow(rowNo);
 	                int c = 0;
@@ -908,6 +906,175 @@ public class UtilityShiftingController {
 					
 	                rowNo++;
 	            }
+		         
+		        /*************************************************************/ 
+		         
+		        List<UtilityShifting> projectsList = utilityShiftingService.getProjectsListForUtilityShifting(null);
+				List<UtilityShifting> worksList = utilityShiftingService.getWorkListForUtilityShifting(null);
+				List<UtilityShifting> utilityTypeList = utilityShiftingService.getUtilityTypeList(null);
+				List<UtilityShifting> utilityExecutionAgencyList = utilityShiftingService.getUtilityExecutionAgencyList(null);
+				List<UtilityShifting> statusList = utilityShiftingService.getStatusListForUtilityShifting(null);
+				List<UtilityShifting> utilityHODList = utilityShiftingService.getHodListForUtilityShifting(null);
+				List<UtilityShifting> impactedContractsList = utilityShiftingService.getImpactedContractsListForUtilityShifting(null);
+				List<UtilityShifting> reqStageList = utilityShiftingService.getReqStageList(null);
+				List<UtilityShifting> impactedElementList = utilityShiftingService.getImpactedElementList(null);
+				
+				/*List<UtilityShifting> contractsList = utilityShiftingService.getContractsListForUtilityShifting(null);
+				List<UtilityShifting> utilityCategoryList = utilityShiftingService.getUtilityCategoryList(null);
+				List<UtilityShifting> impactedContractList = utilityShiftingService.getImpactedContractList(null);
+				List<UtilityShifting> requirementStageList = utilityShiftingService.getRequirementStageList(null);
+				List<UtilityShifting> unitList = utilityShiftingService.getUnitListForUtilityShifting(null);
+				List<UtilityShifting> utilityshiftingfiletypeList = utilityShiftingService.getUtilityTypeListForUtilityShifting(null);
+				*/
+					
+		        XSSFRow headerRow = refSheet.createRow(0);
+	            refSheet.createFreezePane(0,1);
+	            
+	            int b = 1;	
+	            Cell cell = headerRow.createCell(b);
+		        cell.setCellStyle(greenStyle);
+				cell.setCellValue("Project Name");
+				int rowNoRef = 1;			
+				XSSFRow row = null;
+				for (UtilityShifting obj : projectsList) {
+	                row = refSheet.createRow(rowNoRef++);	                	                
+	                cell = row.createCell(b);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getProject_name());
+				}
+				refSheet.setColumnWidth(b, 25 * 200);
+				
+				b = b+2;
+				cell = headerRow.createCell(b);
+		        cell.setCellStyle(greenStyle);
+				cell.setCellValue("Work Name");			
+				int p = 1;
+				for (UtilityShifting obj : worksList) {
+					row = refSheet.getRow(p++);
+					if(row == null) {
+		                row = refSheet.createRow(rowNoRef++);
+					}
+	                cell = row.createCell(b);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getWork_short_name());
+					
+				}
+				refSheet.setColumnWidth(b, 25 * 200);
+				
+				b = b+2;
+				cell = headerRow.createCell(b);
+		        cell.setCellStyle(greenStyle);
+				cell.setCellValue("Execution Agencies");	
+				p = 1;
+				for (UtilityShifting obj : utilityExecutionAgencyList) {
+					row = refSheet.getRow(p++);
+					if(row == null) {
+		                row = refSheet.createRow(rowNoRef++);
+					}
+	                cell = row.createCell(b);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getExecution_agency_fk());
+				}
+				refSheet.setColumnWidth(b, 25 * 200);
+				
+				b = b+2;
+				cell = headerRow.createCell(b);
+		        cell.setCellStyle(greenStyle);
+				cell.setCellValue("HOD");	
+				p = 1;
+				for (UtilityShifting obj : utilityHODList) {
+					row = refSheet.getRow(p++);
+					if(row == null) {
+		                row = refSheet.createRow(rowNoRef++);
+					}
+	                cell = row.createCell(b);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getDesignation());
+				}
+				refSheet.setColumnWidth(b, 25 * 200);
+				
+				b = b+2;
+				cell = headerRow.createCell(b);
+		        cell.setCellStyle(greenStyle);
+				cell.setCellValue("Utility Type");	
+				p = 1;
+				for (UtilityShifting obj : utilityTypeList) {
+					row = refSheet.getRow(p++);
+					if(row == null) {
+		                row = refSheet.createRow(rowNoRef++);
+					}
+	                cell = row.createCell(b);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getUtility_type_fk());
+				}
+				refSheet.setColumnWidth(b, 25 * 200);
+				
+				b = b+2;
+				cell = headerRow.createCell(b);
+		        cell.setCellStyle(greenStyle);
+				cell.setCellValue("Impacted Contract");	
+				p = 1;
+				for (UtilityShifting obj : impactedContractsList) {
+					row = refSheet.getRow(p++);
+					if(row == null) {
+		                row = refSheet.createRow(rowNoRef++);
+					}
+	                cell = row.createCell(b);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getContract_short_name());
+				}
+				refSheet.setColumnWidth(b, 25 * 200);
+				
+				b = b+2;
+				cell = headerRow.createCell(b);
+		        cell.setCellStyle(greenStyle);
+				cell.setCellValue("Requirement stage ");	
+				p = 1;
+				for (UtilityShifting obj : reqStageList) {
+					row = refSheet.getRow(p++);
+					if(row == null) {
+		                row = refSheet.createRow(rowNoRef++);
+					}
+	                cell = row.createCell(b);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getRequirement_stage_fk());
+				}
+				refSheet.setColumnWidth(b, 25 * 200);
+				
+				b = b+2;
+				cell = headerRow.createCell(b);
+		        cell.setCellStyle(greenStyle);
+				cell.setCellValue("Impacted Element");	
+				p = 1;
+				for (UtilityShifting obj : impactedElementList) {
+					row = refSheet.getRow(p++);
+					if(row == null) {
+		                row = refSheet.createRow(rowNoRef++);
+					}
+	                cell = row.createCell(b);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getImpacted_element());
+				}
+				refSheet.setColumnWidth(b, 25 * 200);
+				
+				b = b+2;
+				cell = headerRow.createCell(b);
+		        cell.setCellStyle(greenStyle);
+				cell.setCellValue("Status");	
+				p = 1;
+				for (UtilityShifting obj : statusList) {
+					row = refSheet.getRow(p++);
+					if(row == null) {
+		                row = refSheet.createRow(rowNoRef++);
+					}
+	                cell = row.createCell(b);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getShifting_status_fk());
+				}
+				refSheet.setColumnWidth(b, 25 * 200);
+				
+				/*************************************************************/
+				
 				
 	        	for(int columnIndex = 0; columnIndex < 29; columnIndex++) {
 	        		utilityShiftingSheet.setColumnWidth(columnIndex, 25 * 200);
@@ -958,7 +1125,7 @@ public class UtilityShiftingController {
 				attributes.addFlashAttribute("error",dataExportNoData);
 			}
 		}catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 	}
 	private CellStyle cellFormating(XSSFWorkbook workBook,byte[] rgb,HorizontalAlignment hAllign, VerticalAlignment vAllign, boolean isWrapText,boolean isBoldText,boolean isItalicText,int fontSize,String fontName) {

@@ -1,6 +1,7 @@
 package com.synergizglobal.pmis.Idao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.synergizglobal.pmis.model.UtilityShifting;
 
@@ -68,5 +69,7 @@ public interface UtilityShiftingDao {
 	List<UtilityShifting> getReqStageList(UtilityShifting obj) throws Exception;
 
 	List<UtilityShifting> getImpactedElementList(UtilityShifting obj) throws Exception;
+
+	Map<String, List<UtilityShifting>> getReferencesDataList() throws Exception;
 
 }

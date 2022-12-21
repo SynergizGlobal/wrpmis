@@ -14,7 +14,7 @@ public class UtilityShifting {
 	category_fk,user_role_code,hod_user_id_fk,unit_fk,attachment,progress_date,progress_of_work,executive_user_id_fk,name,utility_shifting_file_type,created_by_user_id_fk,modified_by,modified_date,
 	total,inprogress,pending,utility_data_id, uploaded_file, status, uploaded_by_user_id_fk, uploaded_on,Work_code,utilities,balance,remaining,mail_body_header;
 	
-	private String []  progress_dates, progress_of_works,attachment_file_types,attachmentNames;
+	private String []  progress_dates, progress_of_works,attachment_file_types,attachmentNames,attachmentFileNames;
 	
 	private List<MultipartFile> utilityShiftingFiles;
 	private List<UtilityShifting> utilityList,processList,report1List,report2List;;
@@ -709,5 +709,13 @@ public class UtilityShifting {
 
 	public void setChainage(String chainage) {
 		this.chainage = chainage;
+	}
+
+	public String [] getAttachmentFileNames() {
+		return attachmentFileNames;
+	}
+
+	public void setAttachmentFileNames(String [] attachmentFileNames) {
+		this.attachmentFileNames = attachmentFileNames;
 	}
 }

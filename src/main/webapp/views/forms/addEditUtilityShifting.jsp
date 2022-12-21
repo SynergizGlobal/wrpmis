@@ -773,7 +773,7 @@
 		                                     </table>
 		                                   	 <c:choose>
 		                                        <c:when test="${not empty utilityShifting.utilityShiftingFilesList && fn:length(utilityShifting.utilityShiftingFilesList) gt 0 }">
-		                                    		<input type="hidden" id="attachmentRowNo"  name="attachmentRowNo" value="${fn:length(contractDeatils.contractDocuments) }" />
+		                                    		<input type="hidden" id="attachmentRowNo"  name="attachmentRowNo" value="${fn:length(utilityShifting.utilityShiftingFilesList) }" />
 		                                    	</c:when>
 		                                     	<c:otherwise>
 		                                     		<input type="hidden" id="attachmentRowNo"  name="attachmentRowNo" value="0" />

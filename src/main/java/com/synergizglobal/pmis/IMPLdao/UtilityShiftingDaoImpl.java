@@ -1266,36 +1266,56 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 				paramSource = new BeanPropertySqlParameterSource(obj);	
 				template.update(deleteFilesQry, paramSource);
 								
-						
+				int arraySize = 0;
+				if(!StringUtils.isEmpty(obj.getAttachment_file_types()) && obj.getAttachment_file_types().length > 0) {
+					obj.setAttachment_file_types(CommonMethods.replaceEmptyByNullInSringArray(obj.getAttachment_file_types()));
+					if(arraySize < obj.getAttachment_file_types().length) {
+						arraySize = obj.getAttachment_file_types().length;
+					}
+				}
+				if(!StringUtils.isEmpty(obj.getAttachmentNames()) && obj.getAttachmentNames().length > 0) {
+					obj.setAttachmentNames(CommonMethods.replaceEmptyByNullInSringArray(obj.getAttachmentNames()));
+					if(arraySize < obj.getAttachmentNames().length) {
+						arraySize = obj.getAttachmentNames().length;
+					}
+				}
+				if (!StringUtils.isEmpty(obj.getUtilityShiftingFiles()) && obj.getUtilityShiftingFiles().size() > 0) {
+					if (arraySize < obj.getUtilityShiftingFiles().size()) {
+						arraySize = obj.getUtilityShiftingFiles().size();
+					}
+				}		
 				
-				if((!StringUtils.isEmpty(obj.getUtilityShiftingFiles()) && obj.getUtilityShiftingFiles().size() > 0) || (obj.getAttachment_file_types().length>0 && obj.getAttachmentNames().length>0)) 
-				{
-					
-					String fileQry = "INSERT INTO utility_shifting_files (name,attachment,utility_shifting_id,utility_shifting_file_type_fk)VALUES(:name,:attachment,:utility_shifting_id,:utility_shifting_file_type)";
-					
-					List<MultipartFile> issueFiles = obj.getUtilityShiftingFiles();
+				String fileQry = "INSERT INTO utility_shifting_files (name,attachment,utility_shifting_id,utility_shifting_file_type_fk)VALUES(:name,:attachment,:utility_shifting_id,:utility_shifting_file_type)";
+				
+				List<MultipartFile> usFiles = obj.getUtilityShiftingFiles();
 
-					String[] Attachmentfiletypes = obj.getAttachment_file_types();
-					String[] AttachmentNames = obj.getAttachmentNames();
+				String[] attachmentfiletypes = obj.getAttachment_file_types();
+				String[] attachmentNames = obj.getAttachmentNames();
+				String[] attachmentFileNames = obj.getAttachmentFileNames();
+				
+				for (int i = 0; i < arraySize; i++) {
+					MultipartFile multipartFile = obj.getUtilityShiftingFiles().get(i);
+					if ((null != multipartFile && !multipartFile.isEmpty() && multipartFile.getSize() > 0)
+							|| (!StringUtils.isEmpty(obj.getAttachmentNames()) && obj.getAttachmentNames().length > 0 
+									&& !StringUtils.isEmpty(obj.getAttachmentNames()[i]) && !StringUtils.isEmpty(obj.getAttachmentNames()[i].trim()) )) {
 					
-					int m=0;
-					for (MultipartFile multipartFile : issueFiles) {
-						if (null != multipartFile && !multipartFile.isEmpty()){
 							String saveDirectory = CommonConstants2.UTILITY_SHIFTING_FILE_SAVING_PATH;
-							String fileName = multipartFile.getOriginalFilename();
-							DateFormat df = new SimpleDateFormat("ddMMYY-HHmm");
-							String fileName_new = "UtilityShifting-"+obj.getUtility_shifting_id() +"-"+ df.format(new Date()) +"."+ fileName.split("\\.")[1];
-							FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName_new);
+							String fileName_new = attachmentFileNames.length > 0?attachmentFileNames[i]:null;
+							if (null != multipartFile && !multipartFile.isEmpty()) {
+								String fileName = attachmentNames[i];
+								DateFormat df = new SimpleDateFormat("ddMMYY-HHmm");
+								fileName_new = "UtilityShifting-"+obj.getUtility_shifting_id() +"-"+ df.format(new Date()) +"."+ fileName.split("\\.")[1];
+								FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName_new);
+							}
 							
 							UtilityShifting fileObj11 = new UtilityShifting();
-							fileObj11.setName(AttachmentNames[m]);
+							fileObj11.setName(attachmentNames[i]);
 							fileObj11.setAttachment(fileName_new);
 							fileObj11.setUtility_shifting_id(obj.getId());
-							fileObj11.setUtility_shifting_file_type(Attachmentfiletypes[m]);
+							fileObj11.setUtility_shifting_file_type(attachmentfiletypes[i]);
 							paramSource = new BeanPropertySqlParameterSource(fileObj11);	
 							template.update(fileQry, paramSource);
 						}
-						m++;
 					}
 					FormHistory formHistory = new FormHistory();
 					formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
@@ -1309,7 +1329,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 					
 					boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
 					
-				}
+				
 					/********************************************************************************/
 					
 					if(checkCnt>0)
@@ -1414,7 +1434,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 			
 			if(!StringUtils.isEmpty(sobj)) {				
 				String filesQry ="select id, utility_shifting_id,name, attachment,utility_shifting_file_type_fk as utility_shifting_file_type from utility_shifting_files where utility_shifting_id = ? ";					
-				List<UtilityShifting> objsList = jdbcTemplate.query( filesQry,new Object[] {obj.getId()}, new BeanPropertyRowMapper<UtilityShifting>(UtilityShifting.class));					
+				List<UtilityShifting> objsList = jdbcTemplate.query( filesQry,new Object[] {sobj.getId()}, new BeanPropertyRowMapper<UtilityShifting>(UtilityShifting.class));					
 				if(!StringUtils.isEmpty(objsList)) {
 					sobj.setUtilityShiftingFilesList(objsList);
 				}

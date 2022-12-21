@@ -330,7 +330,7 @@
                                         onchange="getWorksList(this.value);">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${projectsList }">
-                                            <option value="${obj.project_id_fk }" <c:if test="${obj.project_id_fk eq utilityShifting.project_id_fk}">selected</c:if>>${utilityShifting.project_id_fk}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
+                                            <option value="${obj.project_id_fk }" <c:if test="${obj.project_id_fk eq utilityShifting.project_id_fk}">selected</c:if>>${obj.project_id_fk}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
                                         </c:forEach>
                                     </select>                                   
                                     <span id="project_id_fkError" class="error-msg" ></span>
@@ -772,7 +772,7 @@
 		                                        </tbody>
 		                                     </table>
 		                                   	 <c:choose>
-		                                        <c:when test="${not empty contractDeatils.contractDocuments && fn:length(contractDeatils.contractDocuments) gt 0 }">
+		                                        <c:when test="${not empty utilityShifting.utilityShiftingFilesList && fn:length(utilityShifting.utilityShiftingFilesList) gt 0 }">
 		                                    		<input type="hidden" id="attachmentRowNo"  name="attachmentRowNo" value="${fn:length(contractDeatils.contractDocuments) }" />
 		                                    	</c:when>
 		                                     	<c:otherwise>
@@ -1383,7 +1383,7 @@
 			 	   	  },"execution_agency_fk": {
 				 		required: true
 				 	  },"impacted_contract_id_fk": {
-				 		required: false
+				 		required: true
 				 	  },"requirement_stage_fk": {
 				 		required: true
 				 	  },"planned_completion_date": {

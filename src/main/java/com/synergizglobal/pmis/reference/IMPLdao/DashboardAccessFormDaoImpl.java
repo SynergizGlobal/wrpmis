@@ -2,6 +2,8 @@ package com.synergizglobal.pmis.reference.IMPLdao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -13,14 +15,17 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.Dashboard;
+import com.synergizglobal.pmis.model.Form;
 import com.synergizglobal.pmis.model.FortnightPlan;
 import com.synergizglobal.pmis.model.LandAcquisition;
 import com.synergizglobal.pmis.model.RandRMain;
+import com.synergizglobal.pmis.model.RiskReport;
 import com.synergizglobal.pmis.reference.Idao.DashboardAccessFormDao;
 import com.synergizglobal.pmis.reference.model.TrainingType;
 import com.synergizglobal.pmis.reference.model.DashboardAccessForm;
@@ -389,6 +394,20 @@ public class DashboardAccessFormDaoImpl implements DashboardAccessFormDao{
 		}
 		return objList;
 	}
+	
+	public List<DashboardAccessForm> getDashboardModules(DashboardAccessForm obj) throws Exception {
+		List<DashboardAccessForm> objList = null;
+		try {
+			String qry = "	select distinct dashboard_name from dashboard d left join dashboard_access da on da.dashboard_id_fk=d.dashboard_id " + 
+					"where parent_dashboard_id_sr_fk=dashboard_id and soft_delete_status_fk='Active' and dashboard_type_fk='Module' and dashboard_name in(select module_name from module where soft_delete_status_fk='Active')";
+			
+			objList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<DashboardAccessForm>(DashboardAccessForm.class));		
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objList;
+	}	
 
 
 	@Override
@@ -399,6 +418,10 @@ public class DashboardAccessFormDaoImpl implements DashboardAccessFormDao{
 			PreparedStatement stmt = null;
 			PreparedStatement stmt1 = null;
 			Connection con =  dataSource.getConnection();
+			con = dataSource.getConnection();
+			
+			ResultSet rs = null;	
+			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			
 			if(!StringUtils.isEmpty(obj.getAccess_value())) {
 			 String splitStr[]=obj.getAccess_value().split("###");
@@ -423,9 +446,41 @@ public class DashboardAccessFormDaoImpl implements DashboardAccessFormDao{
 							
 							stmt.executeUpdate();
 							if(stmt != null){stmt.close();}	
-
-							query = " insert into left_menu_access (dashboard_id,access_type,access_value)"
-						       + " select distinct dashboard_id,'user_role',? from left_menu where source_field_value=? and dashboard_name=?";
+							
+							
+							String checkQry ="select count(*) from left_menu where source_field_value='"+obj.getWork_id_fk()+"' and dashboard_name='"+splitModuleAccessType[0]+"'";
+							int fieldCnt = (int) jdbcTemplate.queryForObject(checkQry, int.class);
+							
+							if(fieldCnt>0)
+							{
+								query = " insert into left_menu_access (dashboard_id,access_type,access_value)"
+							       + " select distinct dashboard_id,'user_role',? from left_menu where source_field_value=? and dashboard_name=?";
+							}
+							else
+							{
+								String insertQry = "INSERT INTO left_menu"
+										+ "(dashboard_name,[order], parent_id,dashboard_url,status,source_field_name,source_field_value) VALUES (?,?,?,?,?,?,?)";
+								
+								stmt = con.prepareStatement(insertQry,Statement.RETURN_GENERATED_KEYS);
+								stmt.setString(1, splitModuleAccessType[0]);
+								stmt.setInt(2, 10);
+								stmt.setInt(3, 0);
+								stmt.setString(4, "NULL");
+								stmt.setString(5, "Active");
+								stmt.setString(6, "work_id");
+								stmt.setString(7, obj.getWork_id_fk());
+								stmt.executeUpdate();			 
+								 
+								rs = stmt.getGeneratedKeys();
+								String generatedKey = "0";
+								if (rs.next()) {generatedKey = rs.getString(1);flag = true;}	
+								
+								if(flag==true)
+								{
+									query = " insert into left_menu_access (dashboard_id,access_type,access_value)"
+										       + " select "+generatedKey+",'user_role',? from left_menu where source_field_value=? and dashboard_name=?";	
+								}
+							}
 						}
 
 						if(splitModuleAccessType[1].compareTo("UserType")==0)
@@ -439,8 +494,47 @@ public class DashboardAccessFormDaoImpl implements DashboardAccessFormDao{
 							stmt.executeUpdate();
 							if(stmt != null){stmt.close();}	
 
-							query = " insert into left_menu_access (dashboard_id,access_type,access_value)"
-							       + " select distinct dashboard_id,'user_type',? from left_menu where source_field_value=? and dashboard_name=?";
+
+							
+							
+							String checkQry ="select count(*) from left_menu where source_field_value='"+obj.getWork_id_fk()+"' and dashboard_name='"+splitModuleAccessType[0]+"'";
+							int fieldCnt = (int) jdbcTemplate.queryForObject(checkQry, int.class);
+							
+							if(fieldCnt>0)
+							{
+								query = " insert into left_menu_access (dashboard_id,access_type,access_value)"
+									       + " select distinct dashboard_id,'user_type',? from left_menu where source_field_value=? and dashboard_name=?";
+							}
+							else
+							{
+								String insertQry = "INSERT INTO left_menu"
+										+ "(dashboard_name,[order], parent_id,dashboard_url,status,source_field_name,source_field_value) VALUES (?,?,?,?,?,?,?)";
+								
+								stmt = con.prepareStatement(insertQry,Statement.RETURN_GENERATED_KEYS);
+								stmt.setString(1, splitModuleAccessType[0]);
+								stmt.setInt(2, 10);
+								stmt.setInt(3, 0);
+								stmt.setString(4, "NULL");
+								stmt.setString(5, "Active");
+								stmt.setString(6, "work_id");
+								stmt.setString(7, obj.getWork_id_fk());
+								stmt.executeUpdate();			 
+								 
+								rs = stmt.getGeneratedKeys();
+								String generatedKey = "0";
+								if (rs.next()) {generatedKey = rs.getString(1);flag = true;}	
+								
+								if(flag==true)
+								{
+									query = " insert into left_menu_access (dashboard_id,access_type,access_value)"
+										       + " select distinct dashboard_id,'user_type',? from left_menu where source_field_value=? and dashboard_name=?";	
+								}
+							}							
+							
+							
+							
+							
+							
 						}
 
 						if(splitModuleAccessType[1].compareTo("User")==0)
@@ -456,8 +550,42 @@ public class DashboardAccessFormDaoImpl implements DashboardAccessFormDao{
 							stmt.executeUpdate();
 							if(stmt != null){stmt.close();}	
 
-							query = " insert into left_menu_access (dashboard_id,access_type,access_value)"
-							       + " select distinct dashboard_id,'user',? from left_menu where source_field_value=? and dashboard_name=?";
+
+							
+							String checkQry ="select count(*) from left_menu where source_field_value='"+obj.getWork_id_fk()+"' and dashboard_name='"+splitModuleAccessType[0]+"'";
+							int fieldCnt = (int) jdbcTemplate.queryForObject(checkQry, int.class);
+							
+							if(fieldCnt>0)
+							{
+								query = " insert into left_menu_access (dashboard_id,access_type,access_value)"
+									       + " select distinct dashboard_id,'user',? from left_menu where source_field_value=? and dashboard_name=?";
+							}
+							else
+							{
+								String insertQry = "INSERT INTO left_menu"
+										+ "(dashboard_name,[order], parent_id,dashboard_url,status,source_field_name,source_field_value) VALUES (?,?,?,?,?,?,?)";
+								
+								stmt = con.prepareStatement(insertQry,Statement.RETURN_GENERATED_KEYS);
+								stmt.setString(1, splitModuleAccessType[0]);
+								stmt.setInt(2, 10);
+								stmt.setInt(3, 0);
+								stmt.setString(4, "NULL");
+								stmt.setString(5, "Active");
+								stmt.setString(6, "work_id");
+								stmt.setString(7, obj.getWork_id_fk());
+								stmt.executeUpdate();			 
+								 
+								rs = stmt.getGeneratedKeys();
+								String generatedKey = "0";
+								if (rs.next()) {generatedKey = rs.getString(1);flag = true;}	
+								
+								if(flag==true)
+								{
+									query = " insert into left_menu_access (dashboard_id,access_type,access_value)"
+										       + " select distinct dashboard_id,'user',? from left_menu where source_field_value=? and dashboard_name=?";	
+								}
+							}							
+							
 						}
 						
 
@@ -541,6 +669,7 @@ public class DashboardAccessFormDaoImpl implements DashboardAccessFormDao{
 	@Override
 	public boolean updateWorkAccess(DashboardAccessForm obj) throws Exception {
 		boolean flag = false;
+		ResultSet rs = null;
 		try {
 			String query ="";
 			PreparedStatement stmt = null;
@@ -565,8 +694,55 @@ public class DashboardAccessFormDaoImpl implements DashboardAccessFormDao{
 							stmt.executeUpdate();
 							if(stmt != null){stmt.close();}	
 				
-							query = " insert into dashboard_access (dashboard_id_fk,access_type,access_value)"
-					               + " select distinct dashboard_id,'user_role',? from dashboard where work_id_fk=? ";
+
+							
+							
+							
+							String checkQry ="select count(*) from dashboard where work_id_fk='"+obj.getWork_id_fk()+"'";
+							int fieldCnt = (int) jdbcTemplate.queryForObject(checkQry, int.class);
+							
+							if(fieldCnt>0)
+							{
+								query = " insert into dashboard_access (dashboard_id_fk,access_type,access_value)"
+							               + " select distinct dashboard_id,'user_role',? from dashboard where work_id_fk=? ";
+							}
+							else
+							{
+								
+								List<DashboardAccessForm>  DashboardModules =getDashboardModules(obj);
+								for (DashboardAccessForm module : DashboardModules) 
+								{
+								
+									String insertQry = "INSERT INTO dashboard"
+											+ "(dashboard_name,work_id_fk, module_name_fk,dashboard_url,dashboard_type_fk, priority,soft_delete_status_fk,dashboard_id,parent_dashboard_id_sr_fk) VALUES (?,?,?,?,?,?,?,(select isnull(max(dashboard_id),0)+1 from dashboard),(select isnull(max(dashboard_id),0)+1 from dashboard))";
+									
+									stmt = con.prepareStatement(insertQry,Statement.RETURN_GENERATED_KEYS);
+									stmt.setString(1, module.getDashboard_name());
+									stmt.setString(2, obj.getWork_id_fk());
+									stmt.setString(3,  module.getDashboard_name());
+									stmt.setString(4, "NULL");
+									stmt.setString(5, "Module");
+									stmt.setInt(6, 10);
+									stmt.setString(7, "Active");								
+									stmt.executeUpdate();				 
+									 
+									rs = stmt.getGeneratedKeys();
+									String generatedKey = "0";
+									if (rs.next()) {generatedKey = rs.getString(1);flag = true;}	
+									
+									if(flag==true)
+									{
+										query = " insert into dashboard_access (dashboard_id_fk,access_type,access_value)"
+									               + " select distinct "+generatedKey+",'user_role',? from dashboard where work_id_fk=? ";	
+									}
+								}
+							}							
+							
+							
+							
+							
+							
+							
 						}
 						
 						if(splitStrColumns[0].compareTo("UserType")==0)
@@ -579,8 +755,50 @@ public class DashboardAccessFormDaoImpl implements DashboardAccessFormDao{
 							stmt.executeUpdate();
 							if(stmt != null){stmt.close();}	
 				
-							query = " insert into dashboard_access (dashboard_id_fk,access_type,access_value)"
-						               + " select distinct dashboard_id,'user_type',? from dashboard where work_id_fk=?";
+
+							
+
+							String checkQry ="select count(*) from dashboard where work_id_fk='"+obj.getWork_id_fk()+"'";
+							int fieldCnt = (int) jdbcTemplate.queryForObject(checkQry, int.class);
+							
+							if(fieldCnt>0)
+							{
+								query = " insert into dashboard_access (dashboard_id_fk,access_type,access_value)"
+							               + " select distinct dashboard_id,'user_type',? from dashboard where work_id_fk=?";
+							}
+							else
+							{
+								List<DashboardAccessForm>  DashboardModules =getDashboardModules(obj);
+								for (DashboardAccessForm module : DashboardModules) 
+								{
+									String insertQry = "INSERT INTO dashboard"
+											+ "(dashboard_name,work_id_fk, module_name_fk,dashboard_url,dashboard_type_fk, priority,soft_delete_status_fk,dashboard_id,parent_dashboard_id_sr_fk) VALUES (?,?,?,?,?,?,?,(select isnull(max(dashboard_id),0)+1 from dashboard),(select isnull(max(dashboard_id),0)+1 from dashboard))";
+									
+									stmt = con.prepareStatement(insertQry,Statement.RETURN_GENERATED_KEYS);
+									stmt.setString(1, module.getDashboard_name());
+									stmt.setString(2, obj.getWork_id_fk());
+									stmt.setString(3,  module.getDashboard_name());
+									stmt.setString(4, "NULL");
+									stmt.setString(5, "Module");
+									stmt.setInt(6, 10);
+									stmt.setString(7, "Active");								
+									stmt.executeUpdate();			 
+									 
+									rs = stmt.getGeneratedKeys();
+									String generatedKey = "0";
+									if (rs.next()) {generatedKey = rs.getString(1);flag = true;}	
+									
+									if(flag==true)
+									{
+										query = " insert into dashboard_access (dashboard_id_fk,access_type,access_value)"
+									               + " select distinct "+generatedKey+",'user_type',? from dashboard where work_id_fk=?";
+									}
+								}
+							}	
+							
+							
+							
+							
 						}
 						
 						if(splitStrColumns[0].compareTo("User")==0)
@@ -593,8 +811,46 @@ public class DashboardAccessFormDaoImpl implements DashboardAccessFormDao{
 							stmt.executeUpdate();
 							if(stmt != null){stmt.close();}	
 				
-							query = " insert into dashboard_access (dashboard_id_fk,access_type,access_value)"
-						               + " select distinct dashboard_id,'user',? from dashboard where work_id_fk=?";
+
+							
+							String checkQry ="select count(*) from dashboard where work_id_fk='"+obj.getWork_id_fk()+"'";
+							int fieldCnt = (int) jdbcTemplate.queryForObject(checkQry, int.class);
+							
+							if(fieldCnt>0)
+							{
+								query = " insert into dashboard_access (dashboard_id_fk,access_type,access_value)"
+							               + " select distinct dashboard_id,'user',? from dashboard where work_id_fk=?";
+							}
+							else
+							{
+								List<DashboardAccessForm>  DashboardModules =getDashboardModules(obj);
+								for (DashboardAccessForm module : DashboardModules) 
+								{
+									String insertQry = "INSERT INTO dashboard"
+											+ "(dashboard_name,work_id_fk, module_name_fk,dashboard_url,dashboard_type_fk, priority,soft_delete_status_fk,dashboard_id,parent_dashboard_id_sr_fk) VALUES (?,?,?,?,?,?,?,(select isnull(max(dashboard_id),0)+1 from dashboard),(select isnull(max(dashboard_id),0)+1 from dashboard))";
+									
+									stmt = con.prepareStatement(insertQry,Statement.RETURN_GENERATED_KEYS);
+									stmt.setString(1, module.getDashboard_name());
+									stmt.setString(2, obj.getWork_id_fk());
+									stmt.setString(3,  module.getDashboard_name());
+									stmt.setString(4, "NULL");
+									stmt.setString(5, "Module");
+									stmt.setInt(6, 10);
+									stmt.setString(7, "Active");								
+									stmt.executeUpdate();			 
+									 
+									rs = stmt.getGeneratedKeys();
+									String generatedKey = "0";
+									if (rs.next()) {generatedKey = rs.getString(1);flag = true;}	
+									
+									if(flag==true)
+									{
+										query = " insert into dashboard_access (dashboard_id_fk,access_type,access_value)"
+									               + " select distinct "+generatedKey+",'user',? from dashboard where work_id_fk=?";
+									}
+								}
+							}							
+							
 						}
 						
 

@@ -732,7 +732,7 @@
                                         </c:choose>   
 										</tbody>
                                 	</table>
-                                	
+                                	<span id="drawing_status_error" class="error-msg" ></span>
                                 	<table class="mdl-data-table">
                                         <tbody id="statTableBody">                                          
 		                                    <tr>
@@ -928,7 +928,7 @@
 					                               					  </select>
 					                               					  <span id="design_file_typess${index.count }Error" class="error-msg" ></span>
 															    </td>
-			                                                    <td data-head="Name" class="input-field"> <input id="designDocumentNames${index.count }" maxlength="25" data-length="25" name="designDocumentNames" type="text num pdr4em w85" class="validate"
+			                                                    <td data-head="Name" class="input-field"> <input id="designDocumentNames${index.count }" maxlength="25" data-length="25" name="designDocumentNames" type="text" class="validate"
 			                                                            placeholder="Name" value="${docObj.name }">
 			                                                            <span id="designDocumentNames${index.count }Error" class="error-msg" ></span>
 			                                                    </td>
@@ -1598,7 +1598,45 @@
         	}
     	}
     
-    	function updateDesign(){		
+    	function updateDesign(){	
+    		
+    		$("#drawing_status_error").html("");
+    		var rowCount = $("#statusTableBody tr").length;
+    		if(rowCount>0)
+   			{
+   					for(var u=0;u<rowCount;u++)
+					{
+   								u=u+1;
+   								if($("#submssion_purpose"+u).val()!=null && $("#submssion_purpose"+u).val()!="" && $("#submssion_purpose"+u).val()!=0)
+   								{
+   										if($("#stage"+u).val()==null || $("#stage"+u).val()=="" || $("#stage"+u).val()==0)
+   										{
+   											$("#drawing_status_error").html("Please enter Stage in row "+u);
+   											return false;
+  										}
+   										if($("#submitted_by"+u).val()==null || $("#submitted_by"+u).val()=="" || $("#submitted_by"+u).val()==0)
+   										{
+   											$("#drawing_status_error").html("Please enter Submitted by in row "+u);
+   											return false;
+  										}
+   										if($("#submitted_to"+u).val()==null || $("#submitted_to"+u).val()=="" || $("#submitted_to"+u).val()==0)
+   										{
+   											$("#drawing_status_error").html("Please enter Submitted to in row "+u);
+   											return false;
+  										}
+   										if($("#submitted_date"+u).val()==null || $("#submitted_date"+u).val()=="" || $("#submitted_date"+u).val()==0)
+   										{
+   											$("#drawing_status_error").html("Please enter Submitted Date in row "+u);
+   											return false;
+  										}   										
+   								}
+					
+					}
+   			}
+    		
+    		
+    		
+    		
     		if(validator.form()){ // validation perform
 				$(".page-loader").show();
 				$('form input[name=revisions]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });

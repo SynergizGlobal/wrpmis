@@ -572,24 +572,15 @@ public class WorkModuleUserAccessDaoImpl implements WorkModuleUserAccessDao{
 				int i = 0;
 				Object[] pValues = new Object[arrSize];
 
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
-					pValues[i++] = obj.getProject_id_fk();
-					pValues[i++] = obj.getProject_id_fk();
-					pValues[i++] = obj.getProject_id_fk();
-					pValues[i++] = obj.getProject_id_fk();
-					pValues[i++] = obj.getProject_id_fk();
-					pValues[i++] = obj.getProject_id_fk();
-					pValues[i++] = obj.getProject_id_fk();
-				}
-
-				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-					pValues[i++] = obj.getWork_id_fk();
-					pValues[i++] = obj.getWork_id_fk();
-					pValues[i++] = obj.getWork_id_fk();
-					pValues[i++] = obj.getWork_id_fk();
-					pValues[i++] = obj.getWork_id_fk();
-					pValues[i++] = obj.getWork_id_fk();
-					pValues[i++] = obj.getWork_id_fk();
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk()) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+					pValues[i++] = obj.getProject_id_fk();pValues[i++] = obj.getWork_id_fk();
+					pValues[i++] = obj.getProject_id_fk();pValues[i++] = obj.getWork_id_fk();
+					pValues[i++] = obj.getProject_id_fk();pValues[i++] = obj.getWork_id_fk();
+					pValues[i++] = obj.getProject_id_fk();pValues[i++] = obj.getWork_id_fk();
+					pValues[i++] = obj.getProject_id_fk();pValues[i++] = obj.getWork_id_fk();
+					pValues[i++] = obj.getProject_id_fk();pValues[i++] = obj.getWork_id_fk();
+					pValues[i++] = obj.getProject_id_fk();pValues[i++] = obj.getWork_id_fk();
+					
 				}
 
 			objsList = jdbcTemplate.query( qry,pValues,  new BeanPropertyRowMapper<WorkModuleUserAccess>(WorkModuleUserAccess.class));

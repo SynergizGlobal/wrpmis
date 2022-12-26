@@ -1358,6 +1358,11 @@ public class UtilityShiftingController {
 	}
 	private  String[]  uploadUtilityShifting(UtilityShifting obj, String userId, String userName) throws Exception {
 		UtilityShifting us = null;
+	
+		SimpleDateFormat formatter1 = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat formatter3 = new SimpleDateFormat("MM/dd/yy");
+		SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");		
+		
 		List<UtilityShifting> ussList = new ArrayList<UtilityShifting>();
 		String[] result = new String[5];
 		Writer w = null;
@@ -1443,9 +1448,35 @@ public class UtilityShiftingController {
 							val = formatter.formatCellValue(row.getCell(p++)).trim();
 							if(!StringUtils.isEmpty(val)) {us.setAffected_structures(val);}	
 							
-							val = formatter.formatCellValue(row.getCell(p++)).trim();
-							if(!StringUtils.isEmpty(val)) { us.setPlanned_completion_date(val);}
 							
+							val = formatter.formatCellValue(row.getCell(p++)).trim();
+
+							if(!StringUtils.isEmpty(val)) {
+								
+								
+								if(val.contains("/")) 
+								{
+										Date date9 = null;
+										String dateString9 = null;
+										date9 = formatter3.parse(val);
+										dateString9 = formatter2.format(date9);													
+										us.setPlanned_completion_date(dateString9);
+									 
+								}
+								else
+								{
+								
+									Date date9 = null;
+									String dateString9 = null;
+									date9 = formatter1.parse(val);
+									dateString9 = formatter2.format(date9);	
+									us.setPlanned_completion_date(dateString9);
+									
+								}												
+
+							
+							}							
+						
 							val = formatter.formatCellValue(row.getCell(p++)).trim();
 							if(!StringUtils.isEmpty(val)) { 
 								int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");

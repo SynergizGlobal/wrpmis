@@ -1853,32 +1853,27 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 		return val;
 	}
 
-	private String checkLAIdMethod(UtilityShifting obj, String table_name) throws Exception {
-		UtilityShifting dObj = null;
+	private String checkLAIdMethod(UtilityShifting obj,String table_name) throws Exception {
 		String usId = null;
-		String qry1 = "";
 		String column_name = "utility_shifting_id";
 		try {
 			String qry ="select "+column_name+" as utility_shifting_id from "+table_name+" where "+column_name+" = ? " ;
-			dObj = (UtilityShifting)jdbcTemplate.queryForObject(qry, new Object[] {obj.getUtility_shifting_id()}, new BeanPropertyRowMapper<UtilityShifting>(UtilityShifting.class));
-			usId = dObj.getUtility_shifting_id();
-			if((table_name.equals("utility_shifting"))){
-				try {
-					qry1 = " and work_id_fk = ? ";
-					String qry2 ="select "+column_name+" as utility_shifting_id from "+table_name+" where "+column_name+" = ? "+qry1 ;
-					dObj = (UtilityShifting)jdbcTemplate.queryForObject(qry2, new Object[] {obj.getUtility_shifting_id(),obj.getWork_id_fk()}, new BeanPropertyRowMapper<UtilityShifting>(UtilityShifting.class));
-					usId = dObj.getUtility_shifting_id();
-				}catch(Exception e){ 
-					usId = null;
-					return usId;
+			List<UtilityShifting> dObjList = jdbcTemplate.query(qry, new Object[] {obj.getUtility_shifting_id()}, new BeanPropertyRowMapper<UtilityShifting>(UtilityShifting.class));
+			if(dObjList != null && dObjList.size() > 0) {
+				usId = dObjList.get(0).getUtility_shifting_id();
+				if(!StringUtils.isEmpty(obj.getWork_id_fk()) && table_name.equals("utility_shifting")){
+					qry = qry + " and work_id_fk = ? ";
+					dObjList = jdbcTemplate.query(qry, new Object[] {obj.getUtility_shifting_id(),obj.getWork_id_fk()}, new BeanPropertyRowMapper<UtilityShifting>(UtilityShifting.class));
+					if(dObjList != null && dObjList.size() > 0) {
+						usId = dObjList.get(0).getUtility_shifting_id();
+					}
 				}
 			}
-			return usId; 
-		}
-		catch(Exception e){ 
+		}catch(Exception e){ 
 			usId = null;
-			return usId;
+			throw new Exception(e);
 		}
+		return usId;
 	}
 
 	@Override

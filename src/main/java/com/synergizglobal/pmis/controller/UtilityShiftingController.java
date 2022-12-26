@@ -1294,6 +1294,9 @@ public class UtilityShiftingController {
 								}
 								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Data too long for value in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Upload again.</span>");
 								msg = "Incorrect decimal value identified in Sheet: "+sheet+" at row: "+actualVal;
+							}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Invalid Rows")) {
+								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;"+errMsg+"</span>");
+								msg = errMsg;
 							}
 						
 	                		obj.setUploaded_by_user_id_fk(userId);
@@ -1359,22 +1362,22 @@ public class UtilityShiftingController {
 	private  String[]  uploadUtilityShifting(UtilityShifting obj, String userId, String userName) throws Exception {
 		UtilityShifting us = null;
 	
-		SimpleDateFormat formatter1 = new SimpleDateFormat("dd-MM-yyyy");
+		/*SimpleDateFormat formatter1 = new SimpleDateFormat("dd-MM-yyyy");
 		SimpleDateFormat formatter3 = new SimpleDateFormat("MM/dd/yy");
-		SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");		
+		SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");*/		
 		
 		List<UtilityShifting> ussList = new ArrayList<UtilityShifting>();
 		String[] result = new String[5];
 		Writer w = null;
 		int count = 0;
+		String invalidRows = "";
 		try {	
 			MultipartFile excelfile = obj.getUtilityFile();
 			// Creates a workbook object from the uploaded excelfile
 			if (!StringUtils.isEmpty(excelfile) && excelfile.getSize() > 0 ){
 				XSSFWorkbook workbook = new XSSFWorkbook(excelfile.getInputStream());
 				int sheetsCount = workbook.getNumberOfSheets();
-				if(sheetsCount > 0) {
-					
+				if(sheetsCount > 0) {					
 					XSSFSheet laSheet = workbook.getSheetAt(0);
 					//System.out.println(uploadFilesSheet.getSheetName());
 					//header row
@@ -1446,35 +1449,25 @@ public class UtilityShiftingController {
 							if(!StringUtils.isEmpty(val)) { us.setImpacted_element(val);}
 							
 							val = formatter.formatCellValue(row.getCell(p++)).trim();
-							if(!StringUtils.isEmpty(val)) {us.setAffected_structures(val);}	
-							
+							if(!StringUtils.isEmpty(val)) {us.setAffected_structures(val);}
 							
 							val = formatter.formatCellValue(row.getCell(p++)).trim();
-
-							if(!StringUtils.isEmpty(val)) {
-								
-								
-								if(val.contains("/")) 
-								{
-										Date date9 = null;
-										String dateString9 = null;
-										date9 = formatter3.parse(val);
-										dateString9 = formatter2.format(date9);													
-										us.setPlanned_completion_date(dateString9);
-									 
-								}
-								else
-								{
-								
+							if(!StringUtils.isEmpty(val)) {	
+								/*if(val.contains("/")) {
+									Date date9 = null;
+									String dateString9 = null;
+									date9 = formatter3.parse(val);
+									dateString9 = formatter2.format(date9);													
+									us.setPlanned_completion_date(dateString9);									 
+								} else {								
 									Date date9 = null;
 									String dateString9 = null;
 									date9 = formatter1.parse(val);
 									dateString9 = formatter2.format(date9);	
 									us.setPlanned_completion_date(dateString9);
-									
-								}												
-
-							
+								}*/	
+								
+								us.setPlanned_completion_date(val);							
 							}							
 						
 							val = formatter.formatCellValue(row.getCell(p++)).trim();
@@ -1546,19 +1539,30 @@ public class UtilityShiftingController {
 						}
 				
 						boolean flag = us.checkNullOrEmpty();
-						if(!flag && !StringUtils.isEmpty(us.getWork_short_name())) {
+						if(!flag && !StringUtils.isEmpty(us.getWork_short_name()) 
+								 	&& !StringUtils.isEmpty(us.getUtility_type_fk())
+								 		&& !StringUtils.isEmpty(us.getUtility_description())
+								 			&& !StringUtils.isEmpty(us.getDesignation())
+								 				&& !StringUtils.isEmpty(us.getContract_short_name())
+								 					&& !StringUtils.isEmpty(us.getRequirement_stage_fk())
+								 						&& !StringUtils.isEmpty(us.getExecution_agency_fk())) {
 							ussList.add(us);
+						}else {						
+							invalidRows = invalidRows + (i+1) +",";
 						}
 					}
-					if(!ussList.isEmpty() && ussList != null){
-						String[] arr  = utilityShiftingService.uploadUtilityShiftingData(ussList,us);
-						result[0] = arr[0];
-						result[1] = arr[1];
-						result[2] = arr[2];
-						result[3] = arr[3];
-						result[4] = arr[4];
-					}
-					
+				}
+				if(!ussList.isEmpty() && ussList != null && StringUtils.isEmpty(invalidRows)){
+					String[] arr  = utilityShiftingService.uploadUtilityShiftingData(ussList,us);
+					result[0] = arr[0];
+					result[1] = arr[1];
+					result[2] = arr[2];
+					result[3] = arr[3];
+					result[4] = arr[4];
+				}
+				if(!StringUtils.isEmpty(invalidRows)){					
+					String invalidRowsList = invalidRows.substring(0, invalidRows.length() - 1);
+					result[0] = "Invalid Rows :"+ invalidRowsList + " <br>Required fields: Work, Execution Agency, HOD, Utility Type, Utility Description, Impacted Contract,Requirement stage ";
 				}
 				workbook.close();
 			}

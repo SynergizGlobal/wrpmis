@@ -179,7 +179,7 @@
 	                            </div>
 							</c:if>
                             
-							<c:if test="${action eq 'edit'}">
+							
                             <div class="row">
                                 <div class="col s12 m8 l12 input-field offset-m2">
                                     <textarea id="address" name="address" class="pmis-textarea" data-length="1000">${contractorDetails.address }</textarea>
@@ -190,12 +190,12 @@
                             <div class="row">
                                  <div class="col s6 m4 l4 input-field offset-m2">
                                      <input id="primary_contact_name" name="primary_contact_name" type="text" class="validate" value="${contractorDetails.primary_contact_name }">
-                                     <label for="primary_contact_name">Primary Contact<span class="required">*</span></label>
+                                     <label for="primary_contact_name">Primary Contact<span class="required" id="primarycontactname">*</span></label>
                                      <span id="primary_contact_nameError" class="error-msg" ></span>
                                  </div>
                                  <div class="col s6 m4 l4 input-field">
                                      <input id="phone_number" name="phone_number" maxlength="15" data-length="15" type="number" class="validate w85 pdr4em" value="${contractorDetails.phone_number }">
-                                     <label for="phone_number">Phone Number<span class="required">*</span></label>
+                                     <label for="phone_number">Phone Number<span class="required" id="phonenumber">*</span></label>
                                      <span id="phone_numberError" class="error-msg" ></span>
                                  </div>  
                                  <div class="col s6 m4 l4 input-field offset-m2">
@@ -205,7 +205,7 @@
                                  </div> 
                                  <div class="col s6 m4 l4 input-field">
 		                               		<input id="gst_number" name="gst_number" maxlength="50" data-length="50" type="text" class="validate w85 pdr4em" value="${contractorDetails.gst_number }">
-		                               		<label for="gst_number">GST Number<span class="required">*</span></label>
+		                               		<label for="gst_number">GST Number<span class="required" id="gstnumber">*</span></label>
 		                               		<span id="gst_numberError" class="error-msg" ></span>
 		                         		</div>
                                         <div class="col s6 m4 l4 input-field offset-m2">
@@ -233,7 +233,7 @@
                                    <span id="bank_addressError" class="error-msg" ></span>
                                </div>
                             </div>
-                            </c:if>                         
+                                                 
                             <div class="row">
                                 <div class="col m2 hide-on-small-only"></div>
                                 <div class="col s12 m8 l12 input-field">
@@ -302,6 +302,41 @@
                return false;
            }
        });
+       
+       
+      if("${action}"=="add")
+   	   {
+      		   
+/*        		$("#address").prop("disabled",true);
+       		$("#primary_contact_name").prop("disabled",true);
+       		$("#phone_number").prop("disabled",true);
+       		$("#email").prop("disabled",true);
+       		$("#gst_number").prop("disabled",true);
+       		$("#bank_name").prop("disabled",true);
+       		$("#ifsc_code").prop("disabled",true);
+       		$("#ac_no").prop("disabled",true);
+       		$("#bank_address").prop("disabled",true); */
+       		
+    	  $("#primarycontactname").html("");
+       		$("#phonenumber").html("");
+       		$("#gstnumber").html("");
+       		
+     		
+       		
+    	  
+    	        		
+       		
+   	   
+   	   }
+      else
+    	  {
+    	  
+    	  }
+       
+       
+       
+       
+       
    });
 	 $("[data-length]").each(function(i,val){
     	$('#'+val.id).characterCounter();;
@@ -354,7 +389,85 @@
         });
         
        function updateContractor(){
+    	   
+    	      var validator =	$('#contractorForm').validate({
+    				 errorClass: "my-error-class",
+    				   validClass: "my-valid-class",
+    				 ignore: ":hidden:not(.validate-dropdown)",
+    		  		    rules: {
+    		  		 		 "contractor_name": {
+    		  			 		required: true
+    		  			 	 },"pan_number": {
+    			  			 	required: true
+    			  			 },"contractor_specilization_fk":{
+    			  				required: true
+    			  			 },"remarks":{
+    			  				required: false
+    			  			 },"primary_contact_name":{
+    			  				required: true
+    			  			 },"phone_number":{
+    			  				required: true
+    			  			 },"gst_number":{
+    			  				required: true
+    			  			 }
+    		  		 	},
+    		  		    messages: {
+    		  		 		  "contractor_name": {
+    		  			 		required: 'Required'
+    		  			 	  },"pan_number": {
+    		  			 		required: 'Required'
+    		  			 	  },"contractor_specilization_fk":{
+    		  			 		required: 'Required'
+    			  			  },"remarks":{
+    			  				required: 'Required'
+    			  			  },"primary_contact_name":{
+    			  				required: 'Required'
+    			  			  },"phone_number":{
+    			  				required: 'Required'
+    			  			  },"gst_number":{
+    			  				required: 'Required'
+    			  			  }
+    			   		},
+    			   		errorPlacement:function(error, element){
+    			   		 	  if(element.attr("id") == "contractor_name" ){
+    						     document.getElementById("contractor_nameError").innerHTML="";
+    					 	     error.appendTo('#contractor_nameError');
+    						 }else if(element.attr("id") == "pan_number" ){
+    						     document.getElementById("pan_numberError").innerHTML="";
+    					 	     error.appendTo('#pan_numberError');
+    						 }else if(element.attr("id") == "contractor_specilization_fk" ){
+    						     document.getElementById("specilizationError").innerHTML="";
+    					 	     error.appendTo('#specilizationError');
+    						 }else if(element.attr("id") == "remarks" ){
+    						     document.getElementById("remarksError").innerHTML="";
+    					 	     error.appendTo('#remarksError');
+    						 }else if(element.attr("id") == "primary_contact_name" ){
+    						     document.getElementById("primary_contact_nameError").innerHTML="";
+    					 	     error.appendTo('#primary_contact_nameError');
+    						 }else if(element.attr("id") == "phone_number" ){
+    						     document.getElementById("phone_numberError").innerHTML="";
+    					 	     error.appendTo('#phone_numberError');
+    						 }else if(element.attr("id") == "gst_number" ){
+    						     document.getElementById("gst_numberError").innerHTML="";
+    					 	     error.appendTo('#gst_numberError');
+    						 }else{
+    		 					 error.insertAfter(element);
+    				        } 
+    			   		},invalidHandler: function (form, validator) {
+    	                    var errors = validator.numberOfInvalids();
+    	                    if (errors) {
+    	                        var position = validator.errorList[0].element;
+    	                        jQuery('html, body').animate({
+    	                            scrollTop:jQuery(validator.errorList[0].element).offset().top - 100
+    	                        }, 1000);
+    	                    }
+    	                },submitHandler:function(form){
+    				    	form.submit();
+    				    }
+    				});   	   
+    	   
     	   if(validator.form()){ // validation perform
+    		   
     		   if($('#pan_numberError').html()==""){
     	  		   $(".page-loader").show();	  
         		   document.getElementById("contractorForm").submit();			
@@ -366,7 +479,92 @@
    	 	 }
        }
        function addContractor(){
+    	   
+    	   
+           var validator =	$('#contractorForm').validate({
+  			 errorClass: "my-error-class",
+  			   validClass: "my-valid-class",
+  			 ignore: ":hidden:not(.validate-dropdown)",
+  	  		    rules: {
+  	  		 		 "contractor_name": {
+  	  			 		required: true
+  	  			 	 },"pan_number": {
+  		  			 	required: true
+  		  			 },"contractor_specilization_fk":{
+  		  				required: true
+  		  			 },"remarks":{
+  		  				required: false
+  		  			 },"primary_contact_name":{
+  		  				required: false
+  		  			 },"phone_number":{
+  		  				required: false
+  		  			 },"gst_number":{
+  		  				required: false
+  		  			 }
+  	  		 	},
+  	  		    messages: {
+  	  		 		  "contractor_name": {
+  	  			 		required: 'Required'
+  	  			 	  },"pan_number": {
+  	  			 		required: 'Required'
+  	  			 	  },"contractor_specilization_fk":{
+  	  			 		required: 'Required'
+  		  			  },"remarks":{
+  		  				required: 'Required'
+  		  			  },"primary_contact_name":{
+  		  				required: 'Required'
+  		  			  },"phone_number":{
+  		  				required: 'Required'
+  		  			  },"gst_number":{
+  		  				required: 'Required'
+  		  			  }
+  		   		},
+  		   		errorPlacement:function(error, element){
+  		   		 	  if(element.attr("id") == "contractor_name" ){
+  					     document.getElementById("contractor_nameError").innerHTML="";
+  				 	     error.appendTo('#contractor_nameError');
+  					 }else if(element.attr("id") == "pan_number" ){
+  					     document.getElementById("pan_numberError").innerHTML="";
+  				 	     error.appendTo('#pan_numberError');
+  					 }else if(element.attr("id") == "contractor_specilization_fk" ){
+  					     document.getElementById("specilizationError").innerHTML="";
+  				 	     error.appendTo('#specilizationError');
+  					 }else if(element.attr("id") == "remarks" ){
+  					     document.getElementById("remarksError").innerHTML="";
+  				 	     error.appendTo('#remarksError');
+  					 }else if(element.attr("id") == "primary_contact_name" ){
+  					     document.getElementById("primary_contact_nameError").innerHTML="";
+  				 	     error.appendTo('#primary_contact_nameError');
+  					 }else if(element.attr("id") == "phone_number" ){
+  					     document.getElementById("phone_numberError").innerHTML="";
+  				 	     error.appendTo('#phone_numberError');
+  					 }else if(element.attr("id") == "gst_number" ){
+  					     document.getElementById("gst_numberError").innerHTML="";
+  				 	     error.appendTo('#gst_numberError');
+  					 }else{
+  	 					 error.insertAfter(element);
+  			        } 
+  		   		},invalidHandler: function (form, validator) {
+                    var errors = validator.numberOfInvalids();
+                    if (errors) {
+                        var position = validator.errorList[0].element;
+                        jQuery('html, body').animate({
+                            scrollTop:jQuery(validator.errorList[0].element).offset().top - 100
+                        }, 1000);
+                    }
+                },submitHandler:function(form){
+  			    	form.submit();
+  			    }
+  			});   	   
+
     	   if(validator.form()){ // validation perform
+    		   
+        	   
+    	       	  $("#primary_contact_nameError").html("");
+    	   		$("#phone_numberError").html("");
+    	   		$("#gst_numberError").html(""); 
+    	   		
+    		   
 	    	   if($('#pan_numberError').html()==""){
 		  		   $(".page-loader").show();	  
 	    		   document.getElementById("contractorForm").submit();			
@@ -378,81 +576,12 @@
    	 	 }
        }
        
-       var validator =	$('#contractorForm').validate({
-			 errorClass: "my-error-class",
-			   validClass: "my-valid-class",
-			 ignore: ":hidden:not(.validate-dropdown)",
-	  		    rules: {
-	  		 		 "contractor_name": {
-	  			 		required: true
-	  			 	 },"pan_number": {
-		  			 	required: true
-		  			 },"contractor_specilization_fk":{
-		  				required: true
-		  			 },"remarks":{
-		  				required: false
-		  			 },"primary_contact_name":{
-		  				required: true
-		  			 },"phone_number":{
-		  				required: true
-		  			 },"gst_number":{
-		  				required: true
-		  			 }
-	  		 	},
-	  		    messages: {
-	  		 		  "contractor_name": {
-	  			 		required: 'Required'
-	  			 	  },"pan_number": {
-	  			 		required: 'Required'
-	  			 	  },"contractor_specilization_fk":{
-	  			 		required: 'Required'
-		  			  },"remarks":{
-		  				required: 'Required'
-		  			  },"primary_contact_name":{
-		  				required: 'Required'
-		  			  },"phone_number":{
-		  				required: 'Required'
-		  			  },"gst_number":{
-		  				required: 'Required'
-		  			  }
-		   		},
-		   		errorPlacement:function(error, element){
-		   		 	  if(element.attr("id") == "contractor_name" ){
-					     document.getElementById("contractor_nameError").innerHTML="";
-				 	     error.appendTo('#contractor_nameError');
-					 }else if(element.attr("id") == "pan_number" ){
-					     document.getElementById("pan_numberError").innerHTML="";
-				 	     error.appendTo('#pan_numberError');
-					 }else if(element.attr("id") == "contractor_specilization_fk" ){
-					     document.getElementById("specilizationError").innerHTML="";
-				 	     error.appendTo('#specilizationError');
-					 }else if(element.attr("id") == "remarks" ){
-					     document.getElementById("remarksError").innerHTML="";
-				 	     error.appendTo('#remarksError');
-					 }else if(element.attr("id") == "primary_contact_name" ){
-					     document.getElementById("primary_contact_nameError").innerHTML="";
-				 	     error.appendTo('#primary_contact_nameError');
-					 }else if(element.attr("id") == "phone_number" ){
-					     document.getElementById("phone_numberError").innerHTML="";
-				 	     error.appendTo('#phone_numberError');
-					 }else if(element.attr("id") == "gst_number" ){
-					     document.getElementById("gst_numberError").innerHTML="";
-				 	     error.appendTo('#gst_numberError');
-					 }else{
-	 					 error.insertAfter(element);
-			        } 
-		   		},invalidHandler: function (form, validator) {
-                    var errors = validator.numberOfInvalids();
-                    if (errors) {
-                        var position = validator.errorList[0].element;
-                        jQuery('html, body').animate({
-                            scrollTop:jQuery(validator.errorList[0].element).offset().top - 100
-                        }, 1000);
-                    }
-                },submitHandler:function(form){
-			    	form.submit();
-			    }
-			});   
+ 
+       
+       
+       
+       
+       
        
 	       $('select').change(function(){
 	           if ($(this).val() != ""){

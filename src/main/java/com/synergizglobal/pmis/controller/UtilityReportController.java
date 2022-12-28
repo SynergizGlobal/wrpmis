@@ -43,6 +43,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.UtilityReportService;
+import com.synergizglobal.pmis.Iservice.UtilityShiftingService;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.User;
 import com.synergizglobal.pmis.model.UtilityShifting;
@@ -58,6 +59,9 @@ public class UtilityReportController {
 
 	@Autowired
 	UtilityReportService service;
+	
+	@Autowired
+	UtilityShiftingService utilityShiftingService;	
 
 	@Value("${common.error.message}")
 	public String commonError;
@@ -75,9 +79,17 @@ public class UtilityReportController {
 	public String dataExportNoData;
 	
 	@RequestMapping(value = "/utility-report", method = { RequestMethod.GET, RequestMethod.POST })
-	public ModelAndView utilityReport(@ModelAttribute UtilityShifting obj, RedirectAttributes attributes) {
+	public ModelAndView utilityReport(@ModelAttribute UtilityShifting obj, RedirectAttributes attributes,HttpSession session) {
 		ModelAndView model = new ModelAndView(PageConstants.utilityReport);
 		try {
+			
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());	
+			
+			
 			List<UtilityShifting> projectsList = service.getProjectsFilterListInutilityReport(obj);
 			model.addObject("projectsList", projectsList);
 
@@ -87,6 +99,11 @@ public class UtilityReportController {
 			List<UtilityShifting> category = service.getExecutionAgencyListInutilityReport(obj);
 			model.addObject("category", category);
 
+			List<UtilityShifting> utilityHODList = utilityShiftingService.getHodListForUtilityShifting(obj);
+			model.addObject("utilityHODList", utilityHODList);	
+			
+			List<UtilityShifting> impactedContractsList = utilityShiftingService.getImpactedContractsListForUtilityShifting(obj);
+			model.addObject("impactedContractsList", impactedContractsList);
 			
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -80,6 +80,30 @@
                                     </select>
                                     <span id="contractError" class="error-msg" ></span>
                                 </div>
+                           </div>
+                           <div class="row no-mar">
+ 								<div class="col s6 m4 l2 input-field offset-l3 pt-md-3">
+                                    <p class="searchable_label mb-8"> Impacted Contract </p>
+                                    <select class="searchable validate-dropdown" id="impacted_contract_id_fk" name="impacted_contract_id_fk" 
+                                    onchange="getRequirementStageList(this.value);" >
+                                        <option value="">Select</option>
+                                        <c:forEach var="obj" items="${impactedContractsList }">
+                                      	   <option  value= "${ obj.contract_id_fk}">${obj.contract_id_fk}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
+                                         </c:forEach>
+                                    </select>
+                                    <span id="impacted_contract_id_fkError" class="error-msg" ></span>
+                                </div>
+                                
+                                 <div class="col s6 m4 l2 input-field">
+                                    <p class="searchable_label"> HOD </p>
+                                    <select class="searchable validate-dropdown" id="hod_user_id_fk" name="hod_user_id_fk" >
+                                        <option value="" >Select</option>
+                                        <c:forEach var="obj" items="${utilityHODList }">
+                                      	   <option value= "${ obj.hod_user_id_fk}" <c:if test="${obj.hod_user_id_fk eq utilityShifting.hod_user_id_fk }">selected</c:if>>${obj.hod_user_id_fk} - ${obj.user_name}</option>
+                                         </c:forEach>
+                                    </select>
+                                      <span id="hod_user_id_fkError" class="error-msg" ></span>
+                                </div>                                                              
                      
                             </div>
                             <div class="row">	                                	
@@ -203,42 +227,9 @@
         }
 
         function testingExistingData() {
-        	<%-- if(validator.form())
-        	{
-        		// validation perform
-	        	$(".page-loader").show();
-	           
-	            var work_id_fk = $("#work_id_fk").val();
-	            var execution_agency_fk = $("#execution_agency_fk").val();
-	            var user = $("#user").val();
-	            var from_date = $("#from_date").val();
-	            var to_date = $("#to_date").val();
-	            	if($("#to_date").val()=="")
-	            	{
-	            		to_date=$("#from_date").val();
-	            	}
-	                var myParams = {  user : user,execution_agency_fk : execution_agency_fk, work_id_fk: work_id_fk,from_date : from_date,to_date : to_date };
-	                $.ajax({
-	                    url: "<%=request.getContextPath()%>/ajax/getUtilityShiftingReportFormData",
-	                    data: myParams, cache: false,
-	                    success: function (data) {
-	                        if(data.length > 0) {
-	                	        	$(".page-loader").show();
-	                	        	
-	            	            	if($("#to_date").val()=="")
-	            	            	{
-	            	            		$("#to_date").val($("#from_date").val());
-	            	            	}	                	        	 --%>
-	                	        	document.getElementById("UtilityShiftingReportForm").submit();
-	                	        	//$("#to_date").val("");
-	                       /*  }else{
-	                        	showNoDataMessage()
-	                        }
-	                        $('.searchable').select2();
-	                        $(".page-loader").hide();
-	                    }
-	                });
-	        } */
+
+        	document.getElementById("UtilityShiftingReportForm").submit();
+	       
         }
         function showNoDataMessage() {
           	swal({

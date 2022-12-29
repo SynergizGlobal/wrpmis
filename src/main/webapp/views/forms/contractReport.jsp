@@ -93,11 +93,18 @@
 	                                    </div>	                                    
 	                                </div>  
 	                                <div class="row" id="nextRow" style="display:none;">
- 	                                    <div class="col s6 m6 l3 input-field" id="dateDiv" style="display:none;">
-	                                        <input id="date" name="date" type="text" class="validate datepicker"> <label for="date" class="fs-sm-8rem"> Validity Expiry By Date</label>
+	                                <div id="dateDiv" style="display:none;">
+ 	                                    <div class="col s6 m6 l3 input-field" >
+	                                        <input id="date" name="date" type="text" class="validate datepicker"> <label for="date" class="fs-sm-8rem"> Validity Expiry From Date</label>
 											<button type="button" id="date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 											<span id="dateError" class="error-msg"></span>
-	                                    </div> 
+	                                    </div>
+ 	                                    <div class="col s6 m6 l3 input-field" >
+	                                        <input id="todate" name="todate" type="text" class="validate datepicker"> <label for="todate" class="fs-sm-8rem"> Validity Expiry To Date</label>
+											<button type="button" id="todate_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
+											<span id="todateError" class="error-msg"></span>
+	                                    </div> 	                                     
+	                                </div>
 	                                    <div class="col s6 m6 l3 input-field" id="contractDiv">
 	                                        <p class="searchable_label" style="text-align:left">Contract <span class="required">*</span></p>
 	                                        <select id="contract_id" name="contract_id" onchange="addInQueContract(this.value);getResetFiltersList();" class="searchable validate-dropdown">

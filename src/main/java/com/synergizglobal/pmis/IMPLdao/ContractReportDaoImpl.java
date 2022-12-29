@@ -2892,9 +2892,15 @@ public class ContractReportDaoImpl implements ContractReportDao {
 						}
 
 						if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDate())) {
+							hodQry = hodQry + " and format(bg.valid_upto,'yyyy-MM-dd') >= format(cast(? as date),'yyyy-MM-dd')";
+							arrSize++;
+						}
+						
+						if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTodate())) {
 							hodQry = hodQry + " and format(bg.valid_upto,'yyyy-MM-dd') <= format(cast(? as date),'yyyy-MM-dd')";
 							arrSize++;
-						}						
+						}
+						
 						hodQry = hodQry + " union all ";
 						
 						
@@ -2931,6 +2937,11 @@ public class ContractReportDaoImpl implements ContractReportDao {
 						}
 						
 						if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDate())) {
+							hodQry = hodQry + " and format(i.valid_upto,'yyyy-MM-dd') >= format(cast(? as date),'yyyy-MM-dd')";
+							arrSize++;
+						}
+						
+						if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTodate())) {
 							hodQry = hodQry + " and format(i.valid_upto,'yyyy-MM-dd') <= format(cast(? as date),'yyyy-MM-dd')";
 							arrSize++;
 						}						
@@ -2969,6 +2980,20 @@ public class ContractReportDaoImpl implements ContractReportDao {
 	 	                    	}
 								pValues[i++] = ddm;
 							
+						}
+						
+						if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTodate())) 
+						{
+
+	  	                    var SpltResPersonsArray=obj.getTodate().split("-");
+	  	                    String ddm="";
+	  	                    
+	 	                    	for(var f=0;f<SpltResPersonsArray.length;f++)
+	 	                    	{
+	 	                    		ddm=SpltResPersonsArray[1]+"-"+SpltResPersonsArray[0]+"-"+SpltResPersonsArray[2];
+	 	                    	}
+								pValues[i++] = ddm;
+							
 						}						
 						
 						if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
@@ -2999,6 +3024,19 @@ public class ContractReportDaoImpl implements ContractReportDao {
 	 	                    		ddm=SpltResPersonsArray[1]+"-"+SpltResPersonsArray[0]+"-"+SpltResPersonsArray[2];
 	 	                    	}
 								pValues[i++] = ddm;
+						}
+						if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTodate())) 
+						{
+
+	  	                    var SpltResPersonsArray=obj.getTodate().split("-");
+	  	                    String ddm="";
+	  	                    
+	 	                    	for(var f=0;f<SpltResPersonsArray.length;f++)
+	 	                    	{
+	 	                    		ddm=SpltResPersonsArray[1]+"-"+SpltResPersonsArray[0]+"-"+SpltResPersonsArray[2];
+	 	                    	}
+								pValues[i++] = ddm;
+							
 						}						
 						
 						objsList = jdbcTemplate.query( hodQry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));

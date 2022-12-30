@@ -386,6 +386,41 @@ public class HomeDaoImpl implements HomeDao {
 		return objsList;
 	}
 	
+	
+	private List<Admin> getAdminFormsSubList(String base, String parentId, Admin admin, Connection connection) throws Exception {
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		List<Admin> objsList = new ArrayList<Admin>();
+		Admin obj = null;
+		try {
+			String qry = "SELECT form_id as admin_form_id, form_name, web_form_url as url, isnull(priority,0) as priority,parent_form_id_sr_fk, soft_delete_status_fk "
+					+ "FROM form f "
+					+ "WHERE parent_form_id_sr_fk <> f.form_id and parent_form_id_sr_fk = ? and f.soft_delete_status_fk = ? ";
+			statement = connection.prepareStatement(qry);
+			statement.setString(1, parentId);
+			statement.setString(2, CommonConstants.ACTIVE);
+			resultSet = statement.executeQuery();  
+			while(resultSet.next()) {
+				
+				obj = new Admin();
+				obj.setAdmin_form_id(resultSet.getString("admin_form_id"));
+				obj.setForm_name(resultSet.getString("form_name"));
+				obj.setUrl(resultSet.getString("url"));
+
+				obj.setPriority(resultSet.getString("priority"));
+				obj.setSoft_delete_status_fk(resultSet.getString("soft_delete_status_fk"));
+				objsList.add(obj);
+				
+			}
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(null, statement, resultSet);
+		}
+		return objsList;
+	}	
+	
 	private List<Forms> getFormsSubListLevel2(String base, String parentId, User uObj, Connection connection) throws Exception {
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
@@ -933,17 +968,38 @@ public class HomeDaoImpl implements HomeDao {
 
 	@Override
 	public List<Admin> getAdminList(Admin admin) throws Exception {
-		List<Admin> objsList = null;
+		List<Admin> objsList = new ArrayList<Admin>();
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		Admin obj = null;	
 		try {
-			String qry ="select form_id as admin_form_id, form_name, web_form_url as url, priority, soft_delete_status_fk "
+			connection = dataSource.getConnection();
+			String qry ="select form_id as admin_form_id, form_name, web_form_url as url, isnull(priority,0) as priority,parent_form_id_sr_fk, soft_delete_status_fk "
 					+ "FROM form "
 					+ "WHERE parent_form_id_sr_fk = form_id and soft_delete_status_fk = ? AND url_type = ? order by priority ASC ";
-			int arrSize = 2;
-			Object[] pValues = new Object[arrSize];
-			int i = 0;
-			pValues[i++] = CommonConstants.ACTIVE;
-			pValues[i++] = "Admin";
-			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Admin>(Admin.class));	
+			statement = connection.prepareStatement(qry);
+			statement.setString(1, CommonConstants.ACTIVE);
+			statement.setString(2, "Admin");
+			resultSet = statement.executeQuery();  
+			while(resultSet.next()) {
+				obj = new Admin();
+				obj.setAdmin_form_id(resultSet.getString("admin_form_id"));
+				obj.setForm_name(resultSet.getString("form_name"));
+				obj.setUrl(resultSet.getString("url"));
+				//obj.setMobileFormUrl(CommonConstants.CONTEXT_PATH+"/"+resultSet.getString("mobile_form_url"));
+				obj.setPriority(resultSet.getString("priority"));
+				obj.setSoft_delete_status_fk(resultSet.getString("soft_delete_status_fk"));
+				
+				String parentId = resultSet.getString("parent_form_id_sr_fk");
+				
+				List<Admin> subList = getAdminFormsSubList("web",parentId,admin, connection);
+				if(!StringUtils.isEmpty(subList)) {
+					obj.setFormsSubMenu(subList);
+				}
+				objsList.add(obj);
+				
+			}
 		}catch(Exception e){ 
 			throw new Exception(e);
 		}

@@ -1,8 +1,11 @@
 package com.synergizglobal.pmis.model;
 
+import java.util.List;
+
 public class Admin {
 	
 	private String admin_form_id, form_name, url, priority, soft_delete_status_fk;
+	private List<Admin> formsSubMenu;
 
 	public String getAdmin_form_id() {
 		return admin_form_id;
@@ -42,6 +45,14 @@ public class Admin {
 
 	public void setSoft_delete_status_fk(String soft_delete_status_fk) {
 		this.soft_delete_status_fk = soft_delete_status_fk;
+	}
+
+	public List<Admin> getFormsSubMenu() {
+		return formsSubMenu;
+	}
+
+	public void setFormsSubMenu(List<Admin> formsSubMenu) {
+		this.formsSubMenu = formsSubMenu;
 	}
 
 }

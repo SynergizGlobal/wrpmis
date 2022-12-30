@@ -784,12 +784,25 @@
 					</a>
 						<ul class="second-level-menu">
 							<c:forEach var="form" items="${adminForms }" varStatus="index">
-								<%-- <c:if test="${empty form.formsSubMenu}"> --%>
+								<c:if test="${empty form.formsSubMenu}"> 
 								<li><a href="<%=request.getContextPath()%>/${form.url }">
-										<span class="nav-label">${form.form_name
-                                                                            }</span>
+										<span class="nav-label">${form.form_name}</span>
 								</a></li>
-								<%-- </c:if> --%>
+								</c:if> 
+								<c:if test="${not empty form.formsSubMenu}">
+									<li class="sub-menu"><a href="#!"> <span
+											class="nav-label">${form.form_name }</span>
+									</a>
+										<ul class="third-level-menu">
+											<c:forEach var="subList" items="${form.formsSubMenu }">
+													<li><a href="<%=request.getContextPath()%>/${subList.url }">
+															<span class="nav-label">${subList.form_name }</span>
+													</a></li>
+											</c:forEach>
+											<!-- 2nd level Dropdown ends -->
+										</ul></li>
+								</c:if>								
+								
 							</c:forEach>
 						</ul></li>
 				</c:if>

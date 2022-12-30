@@ -304,6 +304,8 @@ public class DashboardAccessFormDaoImpl implements DashboardAccessFormDao{
 					"	inner join contract c on c.work_id_fk=w.work_id " + 
 					"	left join [user] u on c.hod_user_id_fk = u.user_id  " + 
 					"	left join [user] ur on u.user_id = ur.reporting_to_id_srfk  " + 
+					"   left join [user] us on c.dy_hod_user_id_fk = us.user_id "+
+					"   left join [user] ur1 on ur1.user_id = us.reporting_to_id_srfk  " + 					
 					"	where  ur.user_name is not null) as a where 0=0 ";
 
 			int arrSize = 0;

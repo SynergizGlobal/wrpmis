@@ -1747,8 +1747,8 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 		   transactionManager.commit(status);
 		}catch(Exception e){ 
 			transactionManager.rollback(status);
-			e.printStackTrace();
-			errMsg = e.getMessage();			
+			//e.printStackTrace();
+			errMsg = "Something went wrong. Please try with correct data ";			
 		}
 		String arr[] = new String[5];
 		arr[0] = errMsg;

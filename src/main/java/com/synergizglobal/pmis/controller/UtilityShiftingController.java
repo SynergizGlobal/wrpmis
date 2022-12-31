@@ -19,11 +19,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.formula.ConditionalFormattingEvaluator;
+import org.apache.poi.ss.formula.WorkbookEvaluatorProvider;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
@@ -636,6 +639,18 @@ public class UtilityShiftingController {
 			
 			List<UtilityShifting> statusList = utilityShiftingService.getStatusListForUtilityShifting(obj);
 			model.addObject("statusList", statusList);	
+			
+			List<UtilityShifting> utilityHODList = utilityShiftingService.getHodListForUtilityShifting(obj);
+			model.addObject("utilityHODList", utilityHODList);	
+			
+			List<UtilityShifting> impactedContractsList = utilityShiftingService.getImpactedContractsListForUtilityShifting(obj);
+			model.addObject("impactedContractsList", impactedContractsList);
+			
+			List<UtilityShifting> reqStageList = utilityShiftingService.getReqStageList(obj);
+			model.addObject("reqStageList", reqStageList);
+			
+			List<UtilityShifting> impactedElementList = utilityShiftingService.getImpactedElementList(obj);
+			model.addObject("impactedElementList", impactedElementList);
 			
 			UtilityShifting utilityShifting = utilityShiftingService.getUtilityShifting(obj);
 			model.addObject("utilityShifting", utilityShifting);
@@ -1297,6 +1312,9 @@ public class UtilityShiftingController {
 							}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Invalid Rows")) {
 								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;"+errMsg+"</span>");
 								msg = errMsg;
+							}else {
+								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;"+errMsg+"</span>");
+								msg = errMsg;
 							}
 						
 	                		obj.setUploaded_by_user_id_fk(userId);
@@ -1379,6 +1397,13 @@ public class UtilityShiftingController {
 				int sheetsCount = workbook.getNumberOfSheets();
 				if(sheetsCount > 0) {					
 					XSSFSheet laSheet = workbook.getSheetAt(0);
+					
+					FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator(); 
+					WorkbookEvaluatorProvider workbookEvaluatorProvider =
+							   (WorkbookEvaluatorProvider)workbook.getCreationHelper().createFormulaEvaluator();
+					ConditionalFormattingEvaluator cfEvaluator = 
+							   new ConditionalFormattingEvaluator(workbook, workbookEvaluatorProvider);
+					
 					//System.out.println(uploadFilesSheet.getSheetName());
 					//header row
 					//XSSFRow headerRow = uploadFilesSheet.getRow(0);							
@@ -1426,7 +1451,9 @@ public class UtilityShiftingController {
 							val = formatter.formatCellValue(row.getCell(p++)).trim();
 							if(!StringUtils.isEmpty(val)) { us.setCustodian(val);}
 							
-							val = formatter.formatCellValue(row.getCell(p++)).trim();
+							//val = formatter.formatCellValue(row.getCell(p++)).trim();
+							//val = formatter.formatCellValue(row.getCell(p++),evaluator,cfEvaluator).trim();
+							val = getCellTypeDateValue(row.getCell(p++));
 							if(!StringUtils.isEmpty(val)) { us.setIdentification(val);}
 							
 							val = formatter.formatCellValue(row.getCell(p++)).trim();
@@ -1451,24 +1478,10 @@ public class UtilityShiftingController {
 							val = formatter.formatCellValue(row.getCell(p++)).trim();
 							if(!StringUtils.isEmpty(val)) {us.setAffected_structures(val);}
 							
-							val = formatter.formatCellValue(row.getCell(p++)).trim();
-							if(!StringUtils.isEmpty(val)) {	
-								/*if(val.contains("/")) {
-									Date date9 = null;
-									String dateString9 = null;
-									date9 = formatter3.parse(val);
-									dateString9 = formatter2.format(date9);													
-									us.setPlanned_completion_date(dateString9);									 
-								} else {								
-									Date date9 = null;
-									String dateString9 = null;
-									date9 = formatter1.parse(val);
-									dateString9 = formatter2.format(date9);	
-									us.setPlanned_completion_date(dateString9);
-								}*/	
-								
-								us.setPlanned_completion_date(val);							
-							}							
+							//val = formatter.formatCellValue(row.getCell(p++)).trim();
+							//val = formatter.formatCellValue(row.getCell(p++),evaluator,cfEvaluator).trim();
+							val = getCellTypeDateValue(row.getCell(p++));
+							if(!StringUtils.isEmpty(val)) {us.setPlanned_completion_date(val);}							
 						
 							val = formatter.formatCellValue(row.getCell(p++)).trim();
 							if(!StringUtils.isEmpty(val)) { 
@@ -1491,13 +1504,17 @@ public class UtilityShiftingController {
 							val = formatter.formatCellValue(row.getCell(p++)).trim();
 							if(!StringUtils.isEmpty(val)) {us.setUnit_fk(val);}
 							
-							val = formatter.formatCellValue(row.getCell(p++)).trim();
+							//val = formatter.formatCellValue(row.getCell(p++)).trim();
+							//val = formatter.formatCellValue(row.getCell(p++),evaluator,cfEvaluator).trim();
+							val = getCellTypeDateValue(row.getCell(p++));
 							if(!StringUtils.isEmpty(val)) { us.setStart_date(val);}	
 							
 							val = formatter.formatCellValue(row.getCell(p++)).trim();
 							if(!StringUtils.isEmpty(val)) {us.setShifting_status_fk(val);}
 							
-							val = formatter.formatCellValue(row.getCell(p++)).trim();
+							//val = formatter.formatCellValue(row.getCell(p++)).trim();
+							//val = formatter.formatCellValue(row.getCell(p++),evaluator,cfEvaluator).trim();
+							val = getCellTypeDateValue(row.getCell(p++));
 							if(!StringUtils.isEmpty(val)) { us.setShifting_completion_date(val);}
 						
 							val = formatter.formatCellValue(row.getCell(p++)).trim();
@@ -1585,6 +1602,51 @@ public class UtilityShiftingController {
 		
 		return result;
 	}
+	
+	private String getCellTypeDateValue(XSSFCell cell) {
+		String val = null;
+		try {
+			if (!StringUtils.isEmpty(cell) && !StringUtils.isEmpty(cell.getRawValue())) {
+				CellType type = cell.getCellType();
+			    switch (type) {
+			        case BOOLEAN:
+			            val = String.valueOf(cell.getBooleanCellValue());
+			            break;
+			        case NUMERIC:
+			        	if (DateUtil.isCellDateFormatted(cell)) {
+			        		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+			        		Date date = cell.getDateCellValue();
+			        		val = df.format(date);
+	                    } else {
+	                    	val = String.valueOf(cell.getNumericCellValue());
+				        	if(val.contains("E")){
+				        		val = BigDecimal.valueOf(Double.parseDouble(val)).toPlainString();
+				        	}
+	                    }
+			            break;
+			        case STRING:
+			        	val = cell.getStringCellValue();
+			            break;
+			        case BLANK:
+			        	val = cell.getStringCellValue();
+			            break;
+			        case ERROR:
+			            val = cell.getStringCellValue();
+			            break;
+			        case _NONE:
+			            val = cell.getStringCellValue();
+			            break;
+					default:
+						break;
+			    }
+			}
+		}catch(Exception e) {
+			val = null;
+		}
+	
+		return val;
+	}
+	
 	private String getCellDataType(XSSFWorkbook workbook, XSSFCell cell) {
 		String val = null;
 		FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator(); 
@@ -1592,17 +1654,24 @@ public class UtilityShiftingController {
 		// existing Sheet, Row, and Cell setup
 		//workbook.setForceFormulaRecalculation(true);
 		try {
-			CellType type = cell.getCellType();
-			if (!StringUtils.isEmpty(cell)) {
+			if (!StringUtils.isEmpty(cell) && !StringUtils.isEmpty(cell.getRawValue())) {
+				CellType type = cell.getCellType();
 			    switch (type) {
 			        case BOOLEAN:
 			            val = String.valueOf(cell.getBooleanCellValue());
 			            break;
 			        case NUMERIC:
-			        	val = String.valueOf(cell.getNumericCellValue());
-			        	if(val.contains("E")){
-			        		val = BigDecimal.valueOf(Double.parseDouble(val)).toPlainString();
-			        	}
+			        	if (DateUtil.isCellDateFormatted(cell)) {
+			        		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+			        		Date date = cell.getDateCellValue();
+			        		val = df.format(date);
+	                    } else {
+	                    	val = String.valueOf(cell.getNumericCellValue());
+				        	if(val.contains("E")){
+				        		val = BigDecimal.valueOf(Double.parseDouble(val)).toPlainString();
+				        	}
+	                    }
+			        	
 			       
 			            break;
 			        case STRING:

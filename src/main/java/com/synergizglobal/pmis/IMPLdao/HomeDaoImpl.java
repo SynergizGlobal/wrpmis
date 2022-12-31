@@ -1002,6 +1002,8 @@ public class HomeDaoImpl implements HomeDao {
 			}
 		}catch(Exception e){ 
 			throw new Exception(e);
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(connection, statement, resultSet);
 		}
 		return objsList;
 	}

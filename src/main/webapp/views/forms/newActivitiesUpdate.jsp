@@ -2030,7 +2030,7 @@
 		 	            	 			//+'<td data-head="Scope" class="input-field"><span>' + $.trim(val.scope) + '</span>';
  	            	 			 }  */
  	            	 			
- 	            	 			html +='<td data-head="Scope" class="input-field" style="width:200px;"><span><input type="text" min="0" name="scope" id="scope'+num+'"  value="' + Number($.trim(val.scope)) + '" size="6"></span>';
+ 	            	 			html +='<td data-head="Scope" class="input-field" style="width:200px;"><span><input type="text" min="0" name="scope" id="scope'+num+'"  value="' + Number($.trim(val.scope)) + '" size="6"></span><span id="scopesError'+num+'" name="scopesError" class=" scopesError" style="color:red"></span>';
  	            	 			
  	            	 			
  	            	 			html +='<input type="hidden" name="totalScopes"  id="totalScopes'+num+'"  value="' + $.trim(val.scope) + '" /></td>'
@@ -2133,6 +2133,7 @@
 	                    	 		}else{
 	                    	 			 $('#actualScopes'+num).prop('readonly', true);
 	                    	 			 $('#actualScopesError'+num).html("");
+	                    	 			 $('#scopesError'+num).html("");
 	                    	 			 $('#btn').prop('disabled',true);
 	                    	 			 $('#btn1').prop('disabled',true);
 	                    	 		}
@@ -2145,6 +2146,25 @@
  	                    	 			 $('#btn').prop('disabled',true);
  	                    	 		}
  	                    	 	}; */
+ 	                    	 	
+ 	                    	 	$('#scope'+num).on('keyup', function(){
+ 	                    	 		var actual = parseFloat($("#totalScopes"+num).val() - $("#completedScopes"+num).val())
+ 	                    	 		
+
+ 	                    	 		if(parseFloat($('#scope'+num).val())<parseFloat(0.01))
+ 	                    	 		{
+ 	                    	 			$('#scopesError'+num).html("Scope should not be less than 0.01");
+ 	                    	 		}
+/*  	                    	 		else if(parseFloat($('#scope'+num).val())==parseFloat(0))
+ 	                    	 		{
+ 	                    	 			$('#scopesError'+num).html("Scope should not be 0");
+ 	                    	 		} */
+ 	                    	 		else
+	                    	 			{
+	                    	 				$('#scopesError'+num).html("");
+	                    	 			}	                    	 		
+ 	                    	 		
+ 	                    	 	})	                    	 	
  	                    	 	$('#actualScopes'+num).on('keyup', function(){
  	                    	 		var actual = parseFloat($("#totalScopes"+num).val() - $("#completedScopes"+num).val())
  	                    	 		
@@ -2239,7 +2259,14 @@
     				if($("input:file")[0].files.length>0)
     				{
     					checkValidate=1;
-    				}	    			 
+    				}	
+  
+         	 		if(parseFloat($('#scope'+i).val())<parseFloat(0.01))
+         	 		{
+         	 			alert("Scope should not be less than 0.01 in row "+(i+1));
+         	 			return false;	    
+         	 		}
+    				
 	    		 }
     		}
     		if(checkValidate==0 && "${sessionScope.USER_ROLE_NAME}"=='IT Admin'){

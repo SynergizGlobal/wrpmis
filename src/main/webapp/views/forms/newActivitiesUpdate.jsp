@@ -2148,7 +2148,7 @@
  	                    	 	}; */
  	                    	 	
  	                    	 	$('#scope'+num).on('keyup', function(){
- 	                    	 		var actual = parseFloat($("#totalScopes"+num).val() - $("#completedScopes"+num).val())
+ 	                    	 		var actual = roundNumber((parseFloat($("#totalScopes"+num).val()) - parseFloat($("#completedScopes"+num).val())),2);
  	                    	 		
 
  	                    	 		if(parseFloat($('#scope'+num).val())<parseFloat(0.01))
@@ -2166,11 +2166,12 @@
  	                    	 		
  	                    	 	})	                    	 	
  	                    	 	$('#actualScopes'+num).on('keyup', function(){
- 	                    	 		var actual = parseFloat($("#totalScopes"+num).val() - $("#completedScopes"+num).val())
+ 	                    	 		var actual = roundNumber((parseFloat($("#totalScopes"+num).val()) - parseFloat($("#completedScopes"+num).val())),2);
  	                    	 		
  	                    	 		if(actual == $('#actualScopes'+num).val()){
  	                    	 			$('#actualScopesError'+num).html("");
  	                    	 		}
+ 	                    	 		
  	                    	 		if(actual < $('#actualScopes'+num).val() || $('#actualScopes'+num).val() < 0){
  	                    	 			$("#actualScopes"+num).val('');
  	                    	 			$('#actualScopesError'+num).html("< or =  '"+actual+"'");
@@ -2203,6 +2204,14 @@
  	    }
       
     }
+     
+
+
+
+     function roundNumber(rnum, rlength) {
+         var newnumber = Math.round(rnum * Math.pow(10, rlength)) / Math.pow(10, rlength);
+         return newnumber;
+     }
     
     	
      // update actual function for single value with ids

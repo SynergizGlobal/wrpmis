@@ -1740,8 +1740,8 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 						   
 						}
 					}
+					sheet1 = sheet1 + obj.getProcessList().size();
 				}
-				sheet1 = sheet1 + obj.getProcessList().size();
 			}
 		   count = ussList.size();
 		   transactionManager.commit(status);

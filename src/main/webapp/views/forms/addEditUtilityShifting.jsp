@@ -422,23 +422,29 @@
                                      <label for="reference_number">Reference Number</label>
 	                                 <span id="reference_numberError" class="error-msg" ></span>
                                 </div>
-								 <div class="col s12 m3 l3 input-field">
-                                     <input id="chainage" maxlength="100" data-length="100" name="chainage" type="text" class="validate w85 pdr3em" value="${utilityShifting.chainage }">                                     
-                                     <label for="chainage">Chainage</label>
-	                                 <span id="chainageError" class="error-msg" ></span>
-                                </div>
-                                
-                                <%-- <div class="col s12 m3 l3 input-field">
-                                    <input id="owner_name" maxlength="25" data-length="25" name="owner_name" type="text" class="validate w85 pdr3em" value="${utilityShifting.owner_name }">                                     
-                                     <label for="owner_name">Owner <span class="required">*</span></label>
-	                                 <span id="owner_nameError" class="error-msg" ></span>
-                                </div> --%>
                                 <div class="col s12 m3 l3 input-field">
                                     <input id="executed_by" maxlength="100" data-length="100" name="executed_by" type="text" class="validate w85 pdr3em" value="${utilityShifting.executed_by }">                                     
                                      <label for="executed_by">Executed by </label>
 	                                 <span id="executed_byError" class="error-msg" ></span>
                                 </div>
 							</div>
+							<div class="row">
+								 <div class="col s12 m3 l3 input-field">
+                                     <input id="chainage" maxlength="100" data-length="100" name="chainage" type="text" class="validate w85 pdr3em" value="${utilityShifting.chainage }" onKeyup="getRRCoordinates();">                                     
+                                     <label for="chainage">Chainage</label>
+	                                 <span id="chainageError" class="error-msg" ></span>
+                                </div>
+                                <div class="col s12 m3 l3 input-field">
+								     <input id="latitude" name="latitude" type="text" class="validate w75 pdr4em" value="${utilityShifting.latitude }">
+		                             <label for="latitude" id="idLatitude">Latitude</label>
+		                             <span id="latitudeError" class="error-msg" ></span>
+                                </div>
+                                <div class="col s12 m3 l3 input-field">
+								     <input id="longitude" name="longitude" type="text" class="validate w75 pdr4em" value="${utilityShifting.longitude }">
+		                             <label for="longitude" id="idLongitude">Longitude</label>
+		                             <span id="longitudeError" class="error-msg" ></span>
+                                </div>
+							</div>							
 							<div class="row">
 								<%-- <div class="col s6 m4 l4 input-field ">
                                     <p class="searchable_label"> Utility Type <span class="required">*</span></p>
@@ -857,6 +863,89 @@
 	 $("[data-length]").each(function(i,val){
     	$('#'+val.id).characterCounter();;
     });
+	 
+	 
+	 
+	   function getRRCoordinates()
+	   {
+	       $('#latitude').val();
+	       $('#longitude').val();	
+	       
+		 if($("#work_id_fk").val()!="" || "${utilityShifting.work_id_fk}"!="")
+			 {
+		       var r1=$('#chainage').val();
+		       var work_id_fk=$("#work_id_fk").val();
+		       	   if($("#work_id_fk").val()=="")
+		    	   {
+		       		work_id_fk="${utilityShifting.work_id_fk}";
+		    	   }
+		       if(r1!="")
+		       	{
+		    	   var c1=r1; 
+		    	   
+			        	var myParams = { chainage: r1,work_id_fk:work_id_fk };
+			            $.ajax({
+			                url: "<%=request.getContextPath()%>/ajax/getRRCoordinates",
+			                data: myParams, cache: false,
+			                success: function (data) {
+			                    if (data.length > 0) 
+			                    {
+									if(data[0]["chainage"]!="")
+										{
+					                    	var splitChainage=data[0]["chainage"];
+					                    	splitChainage=splitChainage.toString();
+					                    	splitChainage=splitChainage.split(",");
+					
+					                    	var splitLatitude=data[0]["latitude"];
+					                    	splitLatitude=splitLatitude.toString();
+					                    	splitLatitude=splitLatitude.split(",");
+					                    	
+					                    	var splitLongitude=data[0]["longitude"];
+					                    	splitLongitude=splitLongitude.toString();
+					                    	splitLongitude=splitLongitude.split(",");                    	
+					                    	
+					                    	
+					                        var a1= splitChainage[0];    var x1=splitLatitude[0]; var y1=splitLongitude[0];
+					                        var b1=splitChainage[1];	 var x2=splitLatitude[1]; var y2=splitLongitude[1];
+					
+					                        var x3=0;   var y3=0;
+					
+					                        x3=parseFloat(x2)+parseFloat((((c1-b1)/(b1-a1))*(x2-x1)));
+					                        y3=parseFloat(y2)+parseFloat((((c1-b1)/(b1-a1))*(y2-y1)));
+					                        
+					                        $('#idLatitude').html("");
+					                        $('#idLongitude').html("");		                        
+				                        
+					                        $('#latitude').val(x3);
+					                        $('#longitude').val(y3);									
+										}
+									    else 
+									    {
+										
+					                    	var splitLatitude=data[0]["latitude"];
+					                    	var splitLongitude=data[0]["longitude"];
+					                    	
+					                        $('#idLatitude').html("");
+					                        $('#idLongitude').html("");		                    	
+				                       
+					                        $('#latitude').val(splitLatitude);
+					                        $('#longitude').val(splitLongitude);
+										}
+								 								
+									
+			                        
+			                    }
+			                }
+			            });
+		       	}
+			 }
+	   } 	 
+	 
+	 
+	 
+	 
+	 
+	 
    
    $(document).ready(function () {
         $('select:not(.searchable)').formSelect();

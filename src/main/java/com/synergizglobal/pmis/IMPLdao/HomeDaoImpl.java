@@ -58,7 +58,7 @@ public class HomeDaoImpl implements HomeDao {
 		TableauDashboard tableau = null;
 		try {
 			connection = dataSource.getConnection();
-			String qry = "SELECT tum.dashboard_id,tum.dashboard_name,dashboard_url,tum.priority,icon_path,mobile_view,work_id_fk "
+			String qry = "SELECT distinct tum.dashboard_id,tum.dashboard_name,dashboard_url,tum.priority,icon_path,mobile_view,work_id_fk "
 					+ "FROM dashboard tum "
 					//+ "left join module m on tum.module_name_fk = m.module_name "
 					+ "left join user_module m on tum.module_name_fk = m.module_fk "
@@ -129,7 +129,7 @@ public class HomeDaoImpl implements HomeDao {
 		List<TableauDashboard> dashboardsList = new ArrayList<TableauDashboard>();
 		
 		try {
-			String qry = "SELECT tum.dashboard_id,tum.dashboard_name,tum.dashboard_url,tum.priority,icon_path,mobile_view,work_id_fk  "
+			String qry = "SELECT distinct tum.dashboard_id,tum.dashboard_name,tum.dashboard_url,tum.priority,icon_path,mobile_view,work_id_fk  "
 					+ "FROM dashboard tum "
 					+ "WHERE parent_dashboard_id_sr_fk <> tum.dashboard_id and parent_dashboard_id_sr_fk = ? "
 					+ "and tum.soft_delete_status_fk = ? ";
@@ -191,7 +191,7 @@ public class HomeDaoImpl implements HomeDao {
 		List<TableauDashboard> dashboardsList = new ArrayList<TableauDashboard>();
 		
 		try {
-			String qry = "SELECT tum.dashboard_id,tum.dashboard_name,tum.priority,icon_path,work_id_fk  "
+			String qry = "SELECT distinct tum.dashboard_id,tum.dashboard_name,tum.priority,icon_path,work_id_fk  "
 					+ "FROM dashboard tum "
 					+ "WHERE parent_dashboard_id_sr_fk <> tum.dashboard_id and parent_dashboard_id_sr_fk = ? "
 					+ "and tum.soft_delete_status_fk = ? ";
@@ -251,7 +251,7 @@ public class HomeDaoImpl implements HomeDao {
 			connection = dataSource.getConnection();
 			//String qry = "SELECT id,form_name,web_form_url,mobile_form_url,priority,status_id FROM forms WHERE status_id = ? ";
 			
-			String qry = "SELECT form_id,module_name_fk,form_name,parent_form_id_sr_fk,web_form_url,mobile_form_url,priority,f.soft_delete_status_fk,f.display_in_mobile "
+			String qry = "SELECT distinct form_id,module_name_fk,form_name,parent_form_id_sr_fk,web_form_url,mobile_form_url,priority,f.soft_delete_status_fk,f.display_in_mobile "
 					+ "FROM form f "
 					//+ "left join module m on f.module_name_fk = m.module_name "
 					+ "left join user_module m on f.module_name_fk = m.module_fk "
@@ -332,7 +332,7 @@ public class HomeDaoImpl implements HomeDao {
 		List<Forms> objsList = new ArrayList<Forms>();
 		Forms obj = null;
 		try {
-			String qry = "SELECT form_id,module_name_fk,form_name,parent_form_id_sr_fk,web_form_url,mobile_form_url,priority,soft_delete_status_fk,f.display_in_mobile "
+			String qry = "SELECT distinct form_id,module_name_fk,form_name,parent_form_id_sr_fk,web_form_url,mobile_form_url,priority,soft_delete_status_fk,f.display_in_mobile "
 					+ "FROM form f "
 					+ "WHERE parent_form_id_sr_fk <> f.form_id and parent_form_id_sr_fk = ? and f.soft_delete_status_fk = ? ";
 			
@@ -393,7 +393,7 @@ public class HomeDaoImpl implements HomeDao {
 		List<Admin> objsList = new ArrayList<Admin>();
 		Admin obj = null;
 		try {
-			String qry = "SELECT form_id as admin_form_id, form_name, web_form_url as url, isnull(priority,0) as priority,parent_form_id_sr_fk, soft_delete_status_fk "
+			String qry = "SELECT distinct form_id as admin_form_id, form_name, web_form_url as url, isnull(priority,0) as priority,parent_form_id_sr_fk, soft_delete_status_fk "
 					+ "FROM form f "
 					+ "WHERE parent_form_id_sr_fk <> f.form_id and parent_form_id_sr_fk = ? and f.soft_delete_status_fk = ? ";
 			statement = connection.prepareStatement(qry);
@@ -427,7 +427,7 @@ public class HomeDaoImpl implements HomeDao {
 		List<Forms> objsList = new ArrayList<Forms>();
 		Forms obj = null;
 		try {
-			String qry = "SELECT form_id,module_name_fk,form_name,parent_form_id_sr_fk,web_form_url,mobile_form_url,priority,soft_delete_status_fk,f.display_in_mobile "
+			String qry = "SELECT distinct form_id,module_name_fk,form_name,parent_form_id_sr_fk,web_form_url,mobile_form_url,priority,soft_delete_status_fk,f.display_in_mobile "
 					+ "FROM form f "
 					+ "WHERE parent_form_id_sr_fk <> f.form_id and parent_form_id_sr_fk = ? and f.soft_delete_status_fk = ? ";
 			
@@ -480,7 +480,7 @@ public class HomeDaoImpl implements HomeDao {
 		List<Forms> objsList = new ArrayList<Forms>();
 		Forms obj = null;
 		try {
-			String qry = "SELECT form_id,module_name_fk,form_name,parent_form_id_sr_fk,web_form_url,mobile_form_url,priority,soft_delete_status_fk,f.display_in_mobile "
+			String qry = "SELECT distinct form_id,module_name_fk,form_name,parent_form_id_sr_fk,web_form_url,mobile_form_url,priority,soft_delete_status_fk,f.display_in_mobile "
 					+ "FROM form f "
 					+ "WHERE parent_form_id_sr_fk <> f.form_id and parent_form_id_sr_fk = ? and f.soft_delete_status_fk = ? ";
 			
@@ -543,7 +543,7 @@ public class HomeDaoImpl implements HomeDao {
 			connection = dataSource.getConnection();
 			//String qry = "SELECT id,form_name,web_form_url,mobile_form_url,priority,status_id FROM forms WHERE status_id = ? ";
 			
-			String qry = "SELECT form_id,module_name_fk,form_name,parent_form_id_sr_fk,web_form_url,mobile_form_url,priority,f.soft_delete_status_fk,f.display_in_mobile "
+			String qry = "SELECT distinct form_id,module_name_fk,form_name,parent_form_id_sr_fk,web_form_url,mobile_form_url,priority,f.soft_delete_status_fk,f.display_in_mobile "
 					+ "FROM form f "
 					//+ "left join module m on f.module_name_fk = m.module_name "
 					+ "left join user_module m on f.module_name_fk = m.module_fk "
@@ -625,7 +625,7 @@ public class HomeDaoImpl implements HomeDao {
 		List<Forms> objsList = new ArrayList<Forms>();
 		Forms obj = null;
 		try {
-			String qry = "SELECT form_id,module_name_fk,form_name,parent_form_id_sr_fk,web_form_url,mobile_form_url,priority,soft_delete_status_fk,f.display_in_mobile "
+			String qry = "SELECT distinct form_id,module_name_fk,form_name,parent_form_id_sr_fk,web_form_url,mobile_form_url,priority,soft_delete_status_fk,f.display_in_mobile "
 					+ "FROM form f "
 					+ "WHERE parent_form_id_sr_fk <> f.form_id and parent_form_id_sr_fk = ? and f.soft_delete_status_fk = ? ";
 			
@@ -680,7 +680,7 @@ public class HomeDaoImpl implements HomeDao {
 	public List<Project> getProjectsList() throws Exception {
 		List<Project> objsList = null;
 		try {
-			String qry = "select project_id,project_name,plan_head_number,remarks from project";
+			String qry = "select distinct project_id,project_name,plan_head_number,remarks from project";
 			//objsList = jdbcTemplate.query( qry, BeanPropertyRowMapper.newInstance(Project.class));
 			//OR
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Project>(Project.class));
@@ -695,7 +695,7 @@ public class HomeDaoImpl implements HomeDao {
 	public List<Work> getWorksList(Work obj) throws Exception {
 		List<Work> objsList = new ArrayList<Work>();
 		try {
-			String qry = "select work_id,work_name,project_id_fk,sanctioned_year_fk,sanctioned_estimated_cost,completeion_period_months,"
+			String qry = "select distinct work_id,work_name,project_id_fk,sanctioned_year_fk,sanctioned_estimated_cost,completeion_period_months,"
 					+ "sanctioned_completion_cost,anticipated_cost,year_of_completion,completion_cost,w.remarks,project_name "
 					+ "from work w "
 					+ "LEFT OUTER JOIN project p ON project_id_fk = project_id ";

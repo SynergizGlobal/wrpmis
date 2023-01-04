@@ -44,6 +44,7 @@ import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.Messages;
 import com.synergizglobal.pmis.model.UtilityShifting;
+import com.synergizglobal.pmis.model.UtilityShifting;
 
 @Repository
 public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
@@ -1658,12 +1659,12 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 					+ "(utility_shifting_id, work_id_fk,execution_agency_fk,hod_user_id_fk, utility_type_fk, utility_description, "
 					+ "location_name,custodian,identification,reference_number,chainage,executed_by,impacted_contract_id_fk,requirement_stage_fk, "
 					+ "impacted_element,affected_structures,planned_completion_date,scope, completed,unit_fk,start_date,shifting_status_fk, "
-					+ "shifting_completion_date, remarks,created_by,created_date) "
+					+ "shifting_completion_date, remarks,created_by,created_date,latitude,longitude) "
 					+ "VALUES "
 					+ "(:utility_shifting_id,:work_id_fk,:execution_agency_fk,:hod_user_id_fk,:utility_type_fk,:utility_description,"
 					+ ":location_name,:custodian,:identification,:reference_number,:chainage,:executed_by,:impacted_contract_id_fk,:requirement_stage_fk,"
 					+ ":impacted_element,:affected_structures,:planned_completion_date,:scope,:completed,:unit_fk,:start_date,:shifting_status_fk,"
-					+ ":shifting_completion_date,:remarks,:created_by_user_id_fk,CURRENT_TIMESTAMP"
+					+ ":shifting_completion_date,:remarks,:created_by_user_id_fk,CURRENT_TIMESTAMP,:latitude,:longitude"
 					+ ")";	
 			
 			String updatetQry = "UPDATE utility_shifting SET  work_id_fk=:work_id_fk, execution_agency_fk=:execution_agency_fk,"
@@ -1671,7 +1672,7 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 					+ " custodian=:custodian, identification=:identification, reference_number=:reference_number, chainage=:chainage, executed_by=:executed_by, impacted_contract_id_fk=:impacted_contract_id_fk,"
 					+ " requirement_stage_fk=:requirement_stage_fk, impacted_element=:impacted_element, affected_structures=:affected_structures, planned_completion_date=:planned_completion_date,"
 					+ " scope=:scope, completed=:completed, unit_fk=:unit_fk,start_date=:start_date,shifting_status_fk=:shifting_status_fk, "
-					+ " shifting_completion_date=:shifting_completion_date, remarks=:remarks,modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP "
+					+ " shifting_completion_date=:shifting_completion_date, remarks=:remarks,modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP,latitude=:latitude,longitude=:longitude "
 					+ " WHERE utility_shifting_id = :utility_shifting_id";	
 		
 			for (UtilityShifting obj : ussList) {
@@ -1686,6 +1687,54 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 				
 				String work_code = getWorkCode(obj);
 				obj.setWork_code(work_code);
+				
+				if(!StringUtils.isEmpty(obj.getChainage())) {
+					double c1=Double.parseDouble(obj.getChainage());
+					obj.setWork_id_fk(obj.getWork_id_fk());
+					
+					List<UtilityShifting> getChainageCoordinates=getRRCoordinates(obj);
+					
+					if(!StringUtils.isEmpty(getChainageCoordinates.get(0).getChainage()))
+					{
+					
+						String splitChainage=getChainageCoordinates.get(0).getChainage();
+						String splitChainage1=splitChainage.toString();
+						String[] splitChainage2=splitChainage1.split(",");
+							
+						String splitLatitude=getChainageCoordinates.get(0).getLatitude();
+						String splitLatitude1=splitLatitude.toString();
+						String[] splitLatitude2=splitLatitude1.split(",");
+		            	
+						String splitLongitude=getChainageCoordinates.get(0).getLongitude();
+						String splitLongitude1=splitLongitude.toString();
+						String[] splitLongitude2=splitLongitude1.split(",");                    	
+		            	
+		            	
+						String a1= splitChainage2[0];    String x1=splitLatitude2[0]; String y1=splitLongitude2[0];
+						String b1=splitChainage2[1];	 String x2=splitLatitude2[1]; String y2=splitLongitude2[1];
+		
+						double x3=0;   double y3=0;
+		
+		                x3=Double.parseDouble(x2)+(((c1-Double.parseDouble(b1))/(Double.parseDouble(b1)-Double.parseDouble(a1)))*(Double.parseDouble(x2)-Double.parseDouble(x1)));
+		                y3=Double.parseDouble(y2)+(((c1-Double.parseDouble(b1))/(Double.parseDouble(b1)-Double.parseDouble(a1)))*(Double.parseDouble(y2)-Double.parseDouble(y1)));				
+						
+						obj.setLatitude(String.valueOf(x3));
+						obj.setLongitude(String.valueOf(y3));
+					}
+					else
+					{
+						
+						String splitLatitude=getChainageCoordinates.get(0).getLatitude();
+						String splitLongitude=getChainageCoordinates.get(0).getLongitude();
+						
+						obj.setLatitude(String.valueOf(splitLatitude));
+						obj.setLongitude(String.valueOf(splitLongitude));					
+					}
+				}				
+				
+				
+				
+				
 				
 				String table_name = "utility_shifting";
 				String utility_shifting_id = checkLAIdMethod(obj,table_name);
@@ -1758,6 +1807,47 @@ public class UtilityShiftingDaoImpl implements UtilityShiftingDao {
 	    arr[4] = String.valueOf(subRow);
 		return arr;
 	}
+	
+	public int getCoordinatesCount(UtilityShifting obj) throws Exception
+	{
+		int count=0;
+		try {
+			String qry = "select count(*) from chainages_master where work_id='"+obj.getWork_id_fk()+"' and chainages='"+obj.getChainage()+"'";
+			count = (int) jdbcTemplate.queryForObject(qry, int.class);
+		} catch (Exception e) {
+			throw new Exception(e);
+		}		
+		return count;
+	}	
+	
+	public List<UtilityShifting> getRRCoordinates(UtilityShifting obj) throws Exception {
+		List<UtilityShifting> objList = null;
+			
+		if(getCoordinatesCount(obj)>0)
+		{
+			try {
+				String qry ="select latitude,longitude from chainages_master where work_id='"+obj.getWork_id_fk()+"' and chainages='"+obj.getChainage()+"'";
+				objList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<UtilityShifting>(UtilityShifting.class));
+				
+			}catch(Exception e){ 
+				e.printStackTrace();
+				throw new Exception(e);
+			}
+		}
+		else
+		{
+			try {
+				String qry ="select string_agg(chainages,',') as chainage,string_agg(latitude,',') as latitude,string_agg(longitude,',') as longitude from chainages_master where work_id='"+obj.getWork_id_fk()+"' and id between (select min(id)-1 from chainages_master where work_id='"+obj.getWork_id_fk()+"' and chainages>=cast('"+obj.getChainage()+"' as decimal(18,2))) and (select min(id) from chainages_master where work_id='"+obj.getWork_id_fk()+"' and chainages>=cast('"+obj.getChainage()+"' as decimal(18,2)))";
+				objList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<UtilityShifting>(UtilityShifting.class));
+				
+			}catch(Exception e){ 
+				e.printStackTrace();
+				throw new Exception(e);
+			}
+			return objList;				
+		}
+		return objList;
+	}	
 	
 	private String getWorkCode(UtilityShifting obj)throws Exception {
 		PreparedStatement stmt = null;

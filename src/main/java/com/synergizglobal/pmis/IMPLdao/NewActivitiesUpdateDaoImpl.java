@@ -1394,6 +1394,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 						updateStmt.setString(k++,(obj.getActivity_ids()[i]));
 						updateStmt.executeUpdate();
 						flag=true;
+						DBConnectionHandler.closeJDBCResoucrs(null, updateStmt, null);
 					}
 				}
 					else
@@ -1448,6 +1449,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 							updateStmt.setString(k++,(obj.getActivity_ids()[i]));
 							updateStmt.executeUpdate();
 							flag=true;
+							DBConnectionHandler.closeJDBCResoucrs(null, updateStmt, null);
 						}
 					}
 				}

@@ -1408,7 +1408,7 @@ public class RandRMainDaoImpl implements RandRMainDao{
 			String qry ="select work_code  from work where work_id='"+obj.getWork_id_fk()+"'" ;
 			WorkCodedObj = (RandRMain)jdbcTemplate.queryForObject(qry, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));	
 			
-				String qry2="select CONCAT('"+WorkCodedObj.getWork_code()+"','-RR-',case when len(rr_id)=3 then concat('0',rr_id) when len(rr_id)=2 then concat('00',rr_id) when len(rr_id)=1 then concat('000',rr_id) end) as rr_id from(" + 
+				String qry2="select CONCAT('"+WorkCodedObj.getWork_code()+"','-RR-',case when len(rr_id)>3 then concat('',rr_id) when len(rr_id)=3 then concat('0',rr_id) when len(rr_id)=2 then concat('00',rr_id) when len(rr_id)=1 then concat('000',rr_id) end) as rr_id from(" + 
 						"select (case when (select count(*) from rr where left(rr_id,2) ='"+WorkCodedObj.getWork_code()+"')>0 then Max(SUBSTRING( rr_id , LEN(rr_id) -  CHARINDEX('-',REVERSE(rr_id)) + 2  , LEN(rr_id)  ))+1 else 1 end )as rr_id from rr where left(rr_id,2) ='"+WorkCodedObj.getWork_code()+"') as a";
 						dObj = (RandRMain)jdbcTemplate.queryForObject(qry2, new Object[] {}, new BeanPropertyRowMapper<RandRMain>(RandRMain.class));
 			

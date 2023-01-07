@@ -952,7 +952,7 @@
 									<!-- <span id="actualScopesError" class="error-msg" style="text-align:center"></span> -->
 								</div>
 							
-                                <div class="row fixed-width " id="table_show" style= "display:none;">					 <!-- style= "display:none;" -->
+                                <div class="row fixed-width col m12 s12" id="table_show" style= "display:none;">					 <!-- style= "display:none;" -->
                                         <div class="table-inside">
                                             <table class="mdl-data-table mobile_responsible_table" id="table">
                                                 <thead>
@@ -967,6 +967,7 @@
                                                         </th> -->
                                                        <!--  <th>Component <br>ID</th>
                                                         <th>Component</th> -->
+                                                        <th>Task Code</th>
                                                         <th style="width: 350px">Activity</th>
                                                         <th >&nbsp;Baseline Start</th>
                                                         <th>&nbsp;Baseline Finish</th>
@@ -975,6 +976,7 @@
                                                         <!-- <th>A S</th>
                                                         <th>A F</th> -->
                                                         <th>Scope</th>
+                                                        <th>Validation Pending</th>
                                                         <th>Completed</th>
                                                         <th style="width: 100px">Actual</th>
                                                     </tr>
@@ -1021,16 +1023,20 @@
                                     </div>
                                     <input type="hidden" id="activity_id" name="activity_id" />
                                     <div class="row">
-                                        <div class="col s6 m6 mt-brdr center-align">
-                                            <div class=" m-1">
+                                        <div class="col s12 m12 mt-brdr center-align">
+                                            <div class=" m-6">
                                                 <button type="button" onclick="updateProgress();" id="btn" class="btn waves-effect waves-light bg-m" >Update</button>
-                                            </div>
-                                        </div>
-                                        <div class="col s6 m6 mt-brdr center-align">
-                                            <div class=" m-1">
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                 <button type="reset" onClick="window.location.reload(); clearFilters();" class="btn waves-effect waves-light bg-s">Reset</button>
                                             </div>
                                         </div>
+<!--                                         <div class="col s6 m6 mt-brdr center-align">
+                                            <div class=" m-6">
+                                                <button type="button" onclick="ExportNewActivitiesUpdate();" id="btn" class="btn waves-effect waves-light bg-m" >Export</button>
+                                                &nbsp;&nbsp;
+                                                <button type="reset" onClick="UploadNewActivitiesUpdate();" class="btn waves-effect waves-light bg-s">Upload</button>
+                                            </div>
+                                        </div>   -->                                      
                                     </div>
 
                                 </div>
@@ -1501,6 +1507,36 @@
         	glb="";
         	glbID="";
         }
+        
+    function ExportNewActivitiesUpdate()
+    {
+			var contract_id_fk = $("#contract_id_fk").val();
+			if($.trim(contract_id_fk) != '')
+			{   
+		         var contract_id_fk = $("#contract_id_fk").val();
+		         var structure_type_fk = $("#structure_type_fk").val();
+		         var structureId = $("#strip_chart_structure_id_fk").val();
+		         
+		         var myParams = { contract_id_fk: contract_id_fk, strip_chart_structure_id_fk: structureId, structure_type_fk: structure_type_fk };
+		         
+			        $.ajax({
+			            url: "<%=request.getContextPath()%>/ajax/exportActivitiesbyContract",
+			            data: myParams, cache: false,async: false,
+			            success: function (data) {
+			                if (data.length > 0) {
+			                    $.each(data, function (i, val) {
+			                    });
+			                }
+			            }
+			        });		         
+
+			}
+			else
+			{
+				$("#contract_id_fkError").html("Select Contract");
+				return false;
+			}
+    }
 	
 	function getNewActivitiesUpdateWorksList(projectId) { 
 		$(".page-loader-1").show();
@@ -1664,6 +1700,8 @@
      } 
     
      function getStructureTypesListFilter(fob) {
+    	 
+    	 	$("#contract_id_fkError").html("");
 	    	$("#structure_type_fk option:not(:first)").remove();
 	    	
 	   		var work_id_fk = $("#work_id_fk").val();
@@ -2006,7 +2044,7 @@
  	                	$("#filerList").html('');
  	                    $.each(data, function (i, val) {
  	                    	 var num = $('#table tbody tr').length;
- 	                    	 html = '<tr id="row'+num+'">'
+ 	                    	 html = '<tr id="row'+num+'"><td>'+$.trim(val.p6_task_code)+'</td>'
  	            	 			/* +'<td>' + $.trim(val.strip_chart_component_id_name) + '<input type="hidden" name="activity_ids"  id="activity_id'+num+'"  value="' + $.trim(val.activity_id) + '" /></td>'
  	            	 			+'<td>' + $.trim(val.strip_chart_component) + '</td>' */
  	            	 			+'<td data-head="Activity" class="input-field"><div>' + $.trim(val.strip_chart_activity_name) +' ('+$.trim(val.unit_fk)+' )<input type="hidden" name="activity_ids"  id="activity_id'+num+'"  value="' + $.trim(val.activity_id) + '" /></div></td>';
@@ -2033,7 +2071,7 @@
  	            	 			html +='<td data-head="Scope" class="input-field" style="width:200px;"><span><input type="text" min="0" name="scope" id="scope'+num+'"  value="' + Number($.trim(val.scope)) + '" size="6"></span><span id="scopesError'+num+'" name="scopesError" class=" scopesError" style="color:red"></span>';
  	            	 			
  	            	 			
- 	            	 			html +='<input type="hidden" name="totalScopes"  id="totalScopes'+num+'"  value="' + $.trim(val.scope) + '" /></td>'
+ 	            	 			html +='<input type="hidden" name="totalScopes"  id="totalScopes'+num+'"  value="' + $.trim(val.scope) + '" /></td><td style="text-align:center;"><span style="color:red;" id="validationPending'+num+'" >'+$.trim(val.validation_pending)+'</span></td>'
  	            	 			+'<td data-head="Completed" class="input-field"><span>' + Number($.trim(val.completed)) + '</span>'
  	            	 			+'<input type="hidden" name="completedScopes"  id="completedScopes'+num+'"  value="' + $.trim(val.completed) + '" /></td>'
  	            	 			+' <td data-head="Actual" class="input-field"><input type="number" min="0" name="actualScopes" id="actualScopes'+num+'" '+disDisabled+' value="null"><br><span id="actualScopesError'+num+'" name="actualScopesError" class=" actualScopesError" style="color:red"></span></td></tr>';
@@ -2148,7 +2186,7 @@
  	                    	 	}; */
  	                    	 	
  	                    	 	$('#scope'+num).on('keyup', function(){
- 	                    	 		var actual = roundNumber((parseFloat($("#totalScopes"+num).val()) - parseFloat($("#completedScopes"+num).val())),2);
+ 	                    	 		var actual = roundNumber((parseFloat($("#totalScopes"+num).val()) - parseFloat($("#validationPending"+num).html())+parseFloat($("#completedScopes"+num).val())),2);
  	                    	 		
 
  	                    	 		if(parseFloat($('#scope'+num).val())<parseFloat(0.01))
@@ -2166,7 +2204,8 @@
  	                    	 		
  	                    	 	})	                    	 	
  	                    	 	$('#actualScopes'+num).on('keyup', function(){
- 	                    	 		var actual = roundNumber((parseFloat($("#totalScopes"+num).val()) - parseFloat($("#completedScopes"+num).val())),2);
+ 	                    	 		var actual = roundNumber((parseFloat($("#totalScopes"+num).val()) - parseFloat($("#validationPending"+num).html())+parseFloat($("#completedScopes"+num).val())),2);
+ 	                    	 		
  	                    	 		
  	                    	 		if(actual == $('#actualScopes'+num).val()){
  	                    	 			$('#actualScopesError'+num).html("");

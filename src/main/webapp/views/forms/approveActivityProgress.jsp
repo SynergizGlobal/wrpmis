@@ -412,7 +412,7 @@ table tr td:nth-child(15) {
                                     <table id="datatable-table-pending">
                                         <thead>
                                         	<tr>
-                                        		<th colspan="8"></th>
+                                        		<th colspan="9"></th>
                                         		<th colspan="3" style="text-align:center;">Progress till last update</th>
                                         		<th colspan="2"></th>
                                         		<th colspan="3">Results shown after accepting in the validation form</th>
@@ -429,6 +429,7 @@ table tr td:nth-child(15) {
                                                     </p>
                                                 </th>
                                                 <!-- <th>Work</th> -->
+                                                <th>Task Code</th>
                                                 <th>Contract</th>
                                                 <th>Structure</th>
                                                 <th>Component</th>
@@ -900,44 +901,47 @@ table tr td:nth-child(15) {
                      $("#rejected_div").hide();
                      $("#pending_div").show();
         			table.column( 0 ).visible(true);
-        			table.column( 1 ).visible(false);
-        			table.column( 2 ).visible(true);
+        			table.column( 1 ).visible(true);
+        			table.column( 2 ).visible(false);
         			table.column( 9 ).visible(true);
         			table.column( 10 ).visible(true);
         			table.column( 11 ).visible(true);
-        			table.column( 16 ).visible(false);
-        			table.column( 17 ).visible(true);        			
-        			table.column( 18 ).visible(false);
+        			table.column( 16 ).visible(true);
+        			table.column( 17 ).visible(false);        			
+        			table.column( 18 ).visible(true);
         			table.column( 19 ).visible(false);
-        			table.column( 20 ).visible(true);
+        			table.column( 20 ).visible(false);
+        			table.column( 21 ).visible(true);
         		}else if(approval_status_fk == 'Approved'){
         			$("#button_div").hide();
         			 $("#approved_div").show();
                      $("#rejected_div").hide();
                      $("#pending_div").hide();
-        			table.column( 0 ).visible(false);
-        			table.column( 1 ).visible(false);
+                    table.column( 0 ).visible(false);
+        			table.column( 1 ).visible(true);
         			table.column( 2 ).visible(false);
-        			table.column( 9 ).visible(true);
+        			table.column( 9 ).visible(false);
         			table.column( 10 ).visible(true);
-        			table.column( 11 ).visible(false);
-        			table.column( 18 ).visible(true);
-        			table.column( 19 ).visible(false);
+        			table.column( 11 ).visible(true);
+        			table.column( 18 ).visible(false);
+        			table.column( 19 ).visible(true);
         			table.column( 20 ).visible(false);
+        			table.column( 21 ).visible(false);
         		}else if(approval_status_fk == 'Rejected'){
         			$("#button_div").hide();
         			 $("#approved_div").hide();
                      $("#rejected_div").show();
                      $("#pending_div").hide();
-        			table.column( 0 ).visible(false);
-        			table.column( 1 ).visible(false);
+                    table.column( 0 ).visible(false);
+        			table.column( 1 ).visible(true);
         			table.column( 2 ).visible(false);
-        			table.column( 9 ).visible(true);
+        			table.column( 9 ).visible(false);
         			table.column( 10 ).visible(true);
-        			table.column( 11 ).visible(false);
+        			table.column( 11 ).visible(true);
         			table.column( 18 ).visible(false);
-        			table.column( 19 ).visible(true);
-        			table.column( 20 ).visible(false);
+        			table.column( 19 ).visible(false);
+        			table.column( 20 ).visible(true);
+        			table.column( 21 ).visible(false);
         		}
         	 
         	 	var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk,
@@ -979,6 +983,7 @@ table tr td:nth-child(15) {
         	                    
 	        	         		rowArray.push(checkbox);
         	                   	//rowArray.push(val.work_short_name);
+        	                   	rowArray.push($.trim(val.p6_task_code));
         	                   	rowArray.push($.trim(val.contract_short_name));
         	                   	rowArray.push($.trim(val.structure));
         	                   	rowArray.push($.trim(val.component));

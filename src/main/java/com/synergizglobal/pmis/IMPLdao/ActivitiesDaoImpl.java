@@ -71,7 +71,7 @@ public class ActivitiesDaoImpl implements ActivitiesDao {
 					+ "where wr.project_id_fk is not null " + "AND wr.work_id IN (" + "select c.work_id_fk "
 					+ "from contract c " + "left outer join work w on c.work_id_fk = w.work_id "
 					+ "WHERE c.contract_id IN (select scv.contract_id_fk FROM activities scv WHERE scv.contract_id_fk IS NOT NULL GROUP BY scv.contract_id_fk ) "
-					+ "GROUP BY c.work_id_fk) GROUP BY wr.project_id_fk ORDER BY wr.project_id_fk ASC";
+					+ "GROUP BY c.work_id_fk) GROUP BY wr.project_id_fk,project_id,project_name ORDER BY wr.project_id_fk ASC";
 
 			objsList = jdbcTemplate.query(qry, new BeanPropertyRowMapper<StripChart>(StripChart.class));
 		} catch (Exception e) {

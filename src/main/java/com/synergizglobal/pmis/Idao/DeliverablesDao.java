@@ -41,4 +41,8 @@ public interface DeliverablesDao {
 
 	public List<Deliverables> getDeliverablesList(Deliverables obj, int startIndex, int offset, String searchParameter) throws Exception;
 
+	public List<Deliverables> getContractMilestonesListForDeliverablesForm(Deliverables obj) throws Exception;
+
+	public List<Deliverables> getDeliverablesConractMilestonesList(Deliverables dObj) throws Exception;
+
 }

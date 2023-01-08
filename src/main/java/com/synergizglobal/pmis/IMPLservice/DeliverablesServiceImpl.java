@@ -102,4 +102,14 @@ public class DeliverablesServiceImpl implements DeliverablesService{
 		return dao.getDeliverablesList(obj,startIndex,offset,searchParameter);
 	}
 
+	@Override
+	public List<Deliverables> getContractMilestonesListForDeliverablesForm(Deliverables obj) throws Exception {
+		return dao.getContractMilestonesListForDeliverablesForm(obj);
+	}
+
+	@Override
+	public List<Deliverables> getDeliverablesConractMilestonesList(Deliverables dObj) throws Exception {
+		return dao.getDeliverablesConractMilestonesList(dObj);
+	}
+
 }

@@ -107,48 +107,6 @@
     <jsp:include page="../layout/header.jsp"></jsp:include>
 
 	<div class="row">
-		<%-- <div class="col s12 m12 hide-on-med-and-down ">
-			<div class="card">
-				<div class="card-content">
-					<span class="card-title headbg">
-						<div class="center-align bg-m p-2 m-b-5">
-							<h6>Deliverables</h6>
-						</div>
-					</span>
-					<div class="">
-						<c:if test="${not empty success }">
-							<div class="center-align m-1 close-message">${success}</div>
-						</c:if>
-						<c:if test="${not empty error }">
-							<div class="center-align m-1 close-message">${error}</div>
-						</c:if>
-						<div class="row plr-1">
-							<div class="col s12 m4">
-								<!-- <div class="m-1 l-align">
-                                    <a href="#" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-arrow-circle-up"></i> Upload Data</strong></a>
-                                    <p style="padding-top:1rem">Click <a href="#"> here </a>for the template</p>
-                                </div> -->
-							</div>
-							<div class="col s12 m4">
-								<div class="m-1 c-align">
-									<a href="<%=request.getContextPath()%>/add-deliverables-form"
-										class="btn waves-effect waves-light bg-s t-c"> <strong><i
-											class="fa fa-plus-circle"></i> Add Deliverables</strong></a>
-								</div>
-							</div>
-							<div class="col s12 m4 r-align hide-on-med-and-down">
-								<div class="m-1 ">
-									<a href="javascript:void(0);" onclick="exportDeliverables();"
-										class="btn waves-effect waves-light bg-s t-c"> <strong><i
-											class="fa fa-cloud-download"></i> Export Data</strong></a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div> --%>
 		<div class="row">
 			<div class="col s12 m12">
 				<div class="card">
@@ -159,6 +117,13 @@
 								<h6 class="mob-mar">Deliverable</h6>
 								<div class="col s12 m12 right-align exportButton">
 								    <div class="m-n1">
+								    	<a href="<%=request.getContextPath()%>/deliverables-template" class="template-btn" title="Click to Download Deliverables Template">
+											<i class="material-icons-outlined">download_for_offline</i>
+										</a>
+										<a href="javascript:void(0);"
+											onclick="openUploadModal();"
+											class="btn waves-effect waves-light bg-s t-c"> <strong><i
+												class="fa fa-arrow-circle-up"></i> Upload</strong></a> 
 								        <a href="<%=request.getContextPath()%>/add-deliverables-form"
 																		class="btn waves-effect waves-light bg-s t-c"> <strong><i
 																			class="fa fa-plus-circle"></i> Add</strong></a>
@@ -201,7 +166,6 @@
 								<select id="contract_id_fk" name="contract_id_fk"
 									class="searchable" onchange="addInQueContract(this.value);getDeliverablesList();">
 									<option value="">Select</option>
-
 								</select>
 							</div>
 							<div class="col s6 m4 l2 input-field">
@@ -225,9 +189,10 @@
 								<table id="datatable-deliverables" class="mdl-data-table">
 									<thead>
 										<tr>
-											<th>Project</th>
+											<!-- <th>Project</th> -->
 											<th class="fw-300">Work</th>
 											<th class="fw-300">Contract</th>
+											<th>Milestone</th>
 											<th>Deliverables Type</th>
 											<th>Description</th>
 											<th>Status</th>
@@ -245,6 +210,58 @@
 			</div>
 		</div>
 	</div>
+	
+	
+	<!-- update popup starts -->
+	<div id="upload_template" class="modal">
+		<div class="modal-content">
+			<div class="center-align p-2 bg-m modal-title headbg">
+				<h6>Upload Deliverables</h6>
+			</div>
+			<!-- form start-->
+			<div class="container">
+				<form action="<%=request.getContextPath()%>/upload-deliverables-template"
+					method="post" enctype="multipart/form-data">
+					<div class="row no-mar">
+						<div class="col s12 m12 input-field center-align">
+							<div class="row">
+								<div class="col m2 hide-on-small-only"></div>
+								<div class="col m8 s12">
+									<div class="file-field input-field">
+										<div class="btn bg-m">
+											<span>Attachment</span> <input type="file" id="uploadableFile"
+												name="uploadableFile" required="required">
+										</div>
+										<div class="file-path-wrapper">
+											<input class="file-path validate" type="text">
+										</div>
+									</div>
+								</div>
+								<div class="col m2 hide-on-small-only"></div>
+							</div>
+						</div>
+					</div>
+					<div class="row no-mar">
+						<div class="col s12 m6">
+							<div class="center-align m-1">
+								<button type="submit" class="btn waves-effect waves-light bg-m"
+									style="width: 100%;">Update</button>
+							</div>
+						</div>
+						<div class="col s12 m6">
+							<div class="center-align m-1">
+								<button type="button" class="btn waves-effect waves-light bg-s"
+									style="width: 100%;" onclick="closeUploadModal();">Cancel</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	
+	
 	<!-- Page Loader starts-->
 	<div class="page-loader" style="display: none;">
 	  <div class="preloader-wrapper big active">
@@ -286,7 +303,7 @@
     <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
      <form name="getForm" id="getForm" method="post">
-    	<input type="hidden" name="id" id="id" />
+    	<input type="hidden" name="deliverable_id" id="deliverable_id" />
     </form>
     
      <form action="<%=request.getContextPath() %>/export-deliverables" name="exportDeliverablesForm" id="exportDeliverablesForm" target="_blank" method="post">	
@@ -297,16 +314,25 @@
 	</form>
 	
 
-     <script>
+     <script type="text/javascript">
      
      var filtersMap = new Object();
+     
+     function openUploadModal() {
+		$("#uploadableFile").val('');
+		$("#upload_template").modal('open');
+	 }
+     function closeUploadModal() {
+		$("#uploadableFile").val('');
+		$("#upload_template").modal('close');
+	 }
      
      $(document).ready(function () {
     	 $('select:not(.searchable)').formSelect();
 	     $('.searchable').select2();
-	     
+	     $('.modal').modal();
 
-     	var filters = window.localStorage.getItem("deliverablesFilters");
+     	 var filters = window.localStorage.getItem("deliverablesFilters");
 	          
          if($.trim(filters) != '' && $.trim(filters) != null){
      	  var temp = filters.split('^'); 
@@ -511,11 +537,11 @@
       							"bDestroy" : true,
       							"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/get-deliverables-list?"+myParams,
       		        "aoColumns": [
-      		        	 { "mData": function(data,type,row){
+      		        	 /* { "mData": function(data,type,row){
       		            	var project_name = '';
                              if ($.trim(data.project_name) != '') { project_name = ' - ' + $.trim(data.project_name) }    	
                            	if($.trim(data.project_id_fk) == ''){ return '-'; }else{ return data.project_id_fk +project_name; }
-              			} },   				            
+              			} },  */  				            
       		            { "mData": function(data,type,row){
       		            	var work_short_name = '';
                              if ($.trim(data.work_short_name) != '') { work_short_name = ' - ' + $.trim(data.work_short_name) }    	
@@ -527,6 +553,9 @@
                              if($.trim(data.contract_id_fk) == ''){ return '-'; }else{ return data.contract_id_fk +contract_short_name; }
       		            } },
       		            { "mData": function(data,type,row){
+                            if($.trim(data.milestone_name) == ''){ return '-'; }else{ return $.trim(data.milestone_name); }
+            			} }, 
+      		            { "mData": function(data,type,row){
       		            	if($.trim(data.deliverable_type_fk) == ''){ return '-'; }else{ return data.deliverable_type_fk; }
       		            } },
       		            { "mData": function(data,type,row){
@@ -537,7 +566,7 @@
      		            } },
 
       		         	{ "mData": function(data,type,row){
-      		         		var id = "'"+data.id+"'";
+      		         		var id = "'"+data.deliverable_id+"'";
       	                    var actions = '<a href="javascript:void(0);"  onclick="getDeliverables('+id+');" class="btn waves-effect waves-light bg-m t-c mob-btn" ><i class="fa fa-pencil"></i></a>';
       		            	return actions;
       		            } }
@@ -606,7 +635,7 @@
 			success : function(data){ 
   			if(data != null && data != '' && data.length > 0){    					
            		$.each(data,function(key,val){
-           			var id = "'"+val.id+"'";
+           			var id = "'"+val.deliverable_id+"'";
                       var actions = '<a href="javascript:void(0);"  onclick="getDeliverables('+id+');" class="btn waves-effect waves-light bg-m t-c"><i class="fa fa-pencil"></i></a>'
   /*                     			  +'<a onclick="deleteDeliverables('+id+');" class="btn waves-effect waves-light bg-s t-c "><i class="fa fa-trash"></i></a>'
    */                   var rowArray = [];    	                 
@@ -777,7 +806,7 @@
      
      
      function getDeliverables(id){
-     	$("#id").val(id);
+     	$("#deliverable_id").val(id);
      	$('#getForm').attr('action', '<%=request.getContextPath()%>/get-deliverables');
      	$('#getForm').submit();
      }

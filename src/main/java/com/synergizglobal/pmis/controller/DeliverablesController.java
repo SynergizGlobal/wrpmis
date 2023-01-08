@@ -14,7 +14,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.util.WorkbookUtil;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -23,6 +32,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -45,6 +55,7 @@ import com.synergizglobal.pmis.model.DataGathering;
 import com.synergizglobal.pmis.model.DeliverablesPaginationObject;
 import com.synergizglobal.pmis.model.Deliverables;
 import com.synergizglobal.pmis.model.Document;
+import com.synergizglobal.pmis.model.UtilityShifting;
 import com.synergizglobal.pmis.model.Deliverables;
 
 
@@ -87,6 +98,8 @@ public class DeliverablesController {
 		}
 		return model;
 	}
+	
+	
 	
 	@RequestMapping(value = "/ajax/get-deliverables-list", method = { RequestMethod.POST, RequestMethod.GET })
 	public void getActivitiesList(@ModelAttribute Deliverables obj, HttpServletRequest request,
@@ -252,8 +265,8 @@ public class DeliverablesController {
 			List<Deliverables> deliverablesTypeList = deliverablesService.getDeliverableTypeList();
 			model.addObject("deliverablesTypeList", deliverablesTypeList);
 			
-			List<Deliverables> priorityList = deliverablesService.getPriorityList();
-			model.addObject("priorityList", priorityList);
+			List<Deliverables> milestonesList = deliverablesService.getContractMilestonesListForDeliverablesForm(obj);
+			model.addObject("milestonesList", milestonesList);
 			
 			List<Deliverables> worksList = deliverablesService.getWorkListForDeliverablesForm(obj);
 			model.addObject("worksList", worksList);
@@ -309,6 +322,19 @@ public class DeliverablesController {
 		return objsList;
 	}
 	
+	@RequestMapping(value = "/ajax/getContractMilestonesListForDeliverablesForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Deliverables> getContractMilestonesListForDeliverablesForm(@ModelAttribute Deliverables obj) {
+		List<Deliverables> objsList = null;
+		try {
+			objsList = deliverablesService.getContractMilestonesListForDeliverablesForm(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getContractMilestonesListForDeliverablesForm : " + e.getMessage());
+		}
+		return objsList;
+	}
+	
 	
 	@RequestMapping(value = "/get-deliverables", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView getDeliverablesForm(@ModelAttribute Deliverables obj ){
@@ -320,8 +346,8 @@ public class DeliverablesController {
 			model.addObject("statusList", statusList);
 			List<Deliverables> deliverablesTypeList = deliverablesService.getDeliverableTypeList();
 			model.addObject("deliverablesTypeList", deliverablesTypeList);
-			List<Deliverables> priorityList = deliverablesService.getPriorityList();
-			model.addObject("priorityList", priorityList);
+			List<Deliverables> milestonesList = deliverablesService.getContractMilestonesListForDeliverablesForm(obj);
+			model.addObject("milestonesList", milestonesList);
 			List<Deliverables> projectsList = deliverablesService.getProjectsListForDeliverablesForm(obj);
 			model.addObject("projectsList", projectsList);
 			Deliverables deliverablesDetails = deliverablesService.getDeliverables(obj);
@@ -344,8 +370,8 @@ public class DeliverablesController {
 			model.addObject("statusList", statusList);
 			List<Deliverables> deliverablesTypeList = deliverablesService.getDeliverableTypeList();
 			model.addObject("deliverablesTypeList", deliverablesTypeList);
-			List<Deliverables> priorityList = deliverablesService.getPriorityList();
-			model.addObject("priorityList", priorityList);
+			List<Deliverables> milestonesList = deliverablesService.getContractMilestonesListForDeliverablesForm(obj);
+			model.addObject("milestonesList", milestonesList);
 			List<Deliverables> projectsList = deliverablesService.getProjectsListForDeliverablesForm(obj);
 			model.addObject("projectsList", projectsList);
 			Deliverables deliverablesDetails = deliverablesService.getDeliverables(obj);
@@ -372,9 +398,6 @@ public class DeliverablesController {
 			obj.setUser_id(user_Id);
 			obj.setUser_name(userName);
 			obj.setDesignation(userDesignation);
-			obj.setTarget_date(DateParser.parse(obj.getTarget_date()));
-			obj.setStart_date(DateParser.parse(obj.getStart_date()));
-			obj.setFinish_date(DateParser.parse(obj.getFinish_date()));
 			
 			boolean flag =  deliverablesService.addDeliverables(obj);
 			if(flag) {
@@ -398,21 +421,9 @@ public class DeliverablesController {
 			String user_Id = (String) session.getAttribute("USER_ID");
 			String userName = (String) session.getAttribute("USER_NAME");
 			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
-			
-			//obj.setCreated_by_user_id_fk(user_Id);
 			obj.setUser_id(user_Id);
 			obj.setUser_name(userName);
 			obj.setDesignation(userDesignation);
-			obj.setTarget_date(DateParser.parse(obj.getTarget_date()));
-			obj.setStart_date(DateParser.parse(obj.getStart_date()));
-			obj.setFinish_date(DateParser.parse(obj.getFinish_date()));
-			MultipartFile file = obj.getDeliverablesFile();
-			if (null != file && !file.isEmpty()){
-				String saveDirectory = CommonConstants.DELIVERABLES_FILE_SAVING_PATH ;
-				String fileName = file.getOriginalFilename();
-				FileUploads.singleFileSaving(file, saveDirectory, fileName);
-				obj.setAttachment(fileName);
-			}	
 			boolean flag =  deliverablesService.updateDeliverables(obj);
 			if(flag) {
 				attributes.addFlashAttribute("success", "Deliverables Updated Succesfully.");
@@ -448,49 +459,204 @@ public class DeliverablesController {
 			dataList =  deliverablesService.getDeliverablesList(dObj);
 			if(dataList != null && dataList.size() > 0){
 				XSSFWorkbook  workBook = new XSSFWorkbook ();
-		        XSSFSheet sheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Deliverables"));
-		        workBook.setSheetOrder(sheet.getSheetName(), 0);
-		        XSSFRow headingRow = sheet.createRow(0);
-		        headingRow.createCell((short)0).setCellValue("ID");
-		        headingRow.createCell((short)1).setCellValue("Project Priority");
-		        headingRow.createCell((short)2).setCellValue("Project");
-	            headingRow.createCell((short)3).setCellValue("Work");
-	            headingRow.createCell((short)4).setCellValue("Contarct");
-	            headingRow.createCell((short)5).setCellValue("Deliverable Type");
-	            headingRow.createCell((short)6).setCellValue("Description");
-	            headingRow.createCell((short)7).setCellValue("Target Date");
-		        headingRow.createCell((short)8).setCellValue("Star Date");
-		        headingRow.createCell((short)9).setCellValue("Finish Date");
-	            headingRow.createCell((short)10).setCellValue("Status");
-	            headingRow.createCell((short)11).setCellValue("Remarks");
-	            short rowNo = 1;
-	            for (Deliverables obj : dataList) {
-	                XSSFRow row = sheet.createRow(rowNo);
-	                row.createCell((short)0).setCellValue(obj.getId());
-	                row.createCell((short)1).setCellValue(obj.getProject_priority_fk());
-	                row.createCell((short)2).setCellValue(obj.getProject_id_fk() +" - "+ obj.getProject_name());
-	                row.createCell((short)3).setCellValue(obj.getWork_id_fk() +" - "+obj.getWork_name());
-	                row.createCell((short)4).setCellValue(obj.getContract_id_fk()+" - "+ obj.getContract_name());
-	                row.createCell((short)5).setCellValue(obj.getDeliverable_type_fk());
-	                row.createCell((short)6).setCellValue(obj.getDeliverable_description());
-	                row.createCell((short)7).setCellValue(obj.getTarget_date());
-	                row.createCell((short)8).setCellValue(obj.getStart_date());
-	                row.createCell((short)9).setCellValue(obj.getFinish_date());
-	                row.createCell((short)10).setCellValue(obj.getStatus_fk());
-	                row.createCell((short)11).setCellValue(obj.getRemarks());
-	               
-	          
-	                rowNo++;
-	            }
-	            for(int columnIndex = 0; columnIndex < dataList.size(); columnIndex++) {
-	            	//sheet.autoSizeColumn(columnIndex);
-	        		sheet.setColumnWidth(columnIndex, 25 * 200);
+	            XSSFSheet dataSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Deliverables"));
+				XSSFSheet refSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Reference Data"));
+				
+		        workBook.setSheetOrder(dataSheet.getSheetName(), 0);
+				workBook.setSheetOrder(refSheet.getSheetName(), 1);
+			
+		        
+		        byte[] blueRGB = new byte[]{(byte)0, (byte)176, (byte)240};
+		        byte[] yellowRGB = new byte[]{(byte)255, (byte)192, (byte)0};
+		        byte[] greenRGB = new byte[]{(byte)146, (byte)208, (byte)80};
+		        byte[] redRGB = new byte[]{(byte)255, (byte)0, (byte)0};
+		        byte[] whiteRGB = new byte[]{(byte)255, (byte)255, (byte)255};
+		        
+		        boolean isWrapText = true;boolean isBoldText = true;boolean isItalicText = false; int fontSize = 11;String fontName = "Times New Roman";
+		        CellStyle blueStyle = cellFormating(workBook,blueRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle yellowStyle = cellFormating(workBook,yellowRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle greenStyle = cellFormating(workBook,greenRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle redStyle = cellFormating(workBook,redRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle whiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        
+		        CellStyle indexWhiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        
+		        isWrapText = true;isBoldText = false;isItalicText = false; fontSize = 9;fontName = "Times New Roman";
+		        CellStyle sectionStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        
+		        
+		        
+	            XSSFRow headingRow = dataSheet.createRow(0);
+	            String headerString = "Project^Work^Contract^Milestones^Deliverable type^Deliverable Description^Status^Milestone Payment %^Document Name^Original Due Date^Revised Due Date^Submission Date^Approval Date^Remarks";
+	            
+	            String[] firstHeaderStringArr = headerString.split("\\^");
+	            dataSheet.createFreezePane(0,1);
+	            for (int i = 0; i < firstHeaderStringArr.length; i++) {		        	
+		        	Cell cell = headingRow.createCell(i);
+			        cell.setCellStyle(greenStyle);
+					cell.setCellValue(firstHeaderStringArr[i]);
 				}
+	            
+				int rowNo = 1;
+		        for (Deliverables obj : dataList) {
+		        	if(!StringUtils.isEmpty(obj.getDeliverableDocuments()) && obj.getDeliverableDocuments().size() > 0) {
+			        	for (Deliverables docObj : obj.getDeliverableDocuments()) {
+			                XSSFRow row = dataSheet.createRow(rowNo);
+			                int c = 0;		               
+			                Cell cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getProject_name());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getWork_short_name());
+							
+			                cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getContract_short_name());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getMilestone_id());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getDeliverable_type_fk());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getDeliverable_description());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getStatus_fk());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getMilestone_payment());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(docObj.getDeliverable_document_name());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(docObj.getOriginal_due_date());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(docObj.getRevised_due_date());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(docObj.getSubmission_date());	
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(docObj.getApproval_date());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(docObj.getRemarks());
+			                rowNo++;
+			        	}
+		        	}else {
+		        		XSSFRow row = dataSheet.createRow(rowNo);
+		                int c = 0;		               
+		                Cell cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(obj.getProject_name());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(obj.getWork_short_name());
+						
+		                cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(obj.getContract_short_name());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(obj.getMilestone_name());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(obj.getDeliverable_type_fk());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(obj.getDeliverable_description());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(obj.getStatus_fk());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(obj.getMilestone_payment());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(obj.getDeliverable_document_name());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(obj.getOriginal_due_date());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(obj.getRevised_due_date());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(obj.getSubmission_date());	
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(obj.getApproval_date());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(obj.getRemarks());
+		                rowNo++;
+		        	}
+	            }
+		         
+		        /*************************************************************/ 
+		         
+		        List<Deliverables> statusList = deliverablesService.getStatusList();
+				
+					
+		        XSSFRow headerRow = refSheet.createRow(0);
+	            refSheet.createFreezePane(0,1);
+	            
+	            int b = 1;	
+	            Cell cell = headerRow.createCell(b);
+		        cell.setCellStyle(greenStyle);
+				cell.setCellValue("Status");
+				int rowNoRef = 1;			
+				XSSFRow row = null;
+				for (Deliverables obj : statusList) {
+	                row = refSheet.createRow(rowNoRef++);	                	                
+	                cell = row.createCell(b);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getStatus_fk());
+				}
+				refSheet.setColumnWidth(b, 25 * 200);
+				
+				
+				/*************************************************************/
+				
+				
+	        	for(int columnIndex = 0; columnIndex < 29; columnIndex++) {
+	        		dataSheet.setColumnWidth(columnIndex, 25 * 200);
+				}
+	        	
 	            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
-                Date date = new Date();
-                String fileName = "Deliverables_"+dateFormat.format(date);
-                
-                try{
+	            Date date = new Date();
+	            String fileName = "Deliverables_"+dateFormat.format(date);
+	            
+	            try{
 	                /*FileOutputStream fos = new FileOutputStream(fileDirectory +fileName+".xls");
 	                workBook.write(fos);
 	                fos.flush();*/
@@ -531,6 +697,536 @@ public class DeliverablesController {
 			// TODO: handle exception
 		}
 	}
+	
+	private CellStyle cellFormating(XSSFWorkbook workBook,byte[] rgb,HorizontalAlignment hAllign, VerticalAlignment vAllign, boolean isWrapText,boolean isBoldText,boolean isItalicText,int fontSize,String fontName) {
+		CellStyle style = workBook.createCellStyle();
+		//Setting Background color  
+		//style.setFillBackgroundColor(IndexedColors.AQUA.getIndex());
+		style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+		
+		if (style instanceof XSSFCellStyle) {
+		   XSSFCellStyle xssfcellcolorstyle = (XSSFCellStyle)style;
+		   xssfcellcolorstyle.setFillForegroundColor(new XSSFColor(rgb, null));
+		}
+		//style.setFillPattern(FillPatternType.ALT_BARS);
+		style.setBorderBottom(BorderStyle.MEDIUM);
+		style.setBorderTop(BorderStyle.MEDIUM);
+		style.setBorderLeft(BorderStyle.MEDIUM);
+		style.setBorderRight(BorderStyle.MEDIUM);
+		style.setAlignment(hAllign);
+		style.setVerticalAlignment(vAllign);
+		style.setWrapText(isWrapText);
+		
+		Font font = workBook.createFont();
+        //font.setColor(HSSFColor.HSSFColorPredefined.WHITE.getIndex());
+        font.setFontHeightInPoints((short)fontSize);  
+        font.setFontName(fontName);  //"Times New Roman"
+        
+        font.setItalic(isItalicText); 
+        font.setBold(isBoldText);
+        // Applying font to the style  
+        style.setFont(font); 
+        
+        return style;
+	}
+	
+	@RequestMapping(value="/deliverables-template",method={RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView  deliverablesTemplate(HttpSession session){
+		ModelAndView model = new ModelAndView(PageConstants.downloadDeliverablesTemplate);
+		try {
+			List<Deliverables> worksList = deliverablesService.getWorkListForDeliverablesForm(null);
+			model.addObject("worksList", worksList);
+			
+			List<Deliverables> contractsList = deliverablesService.getContractsListForDeliverablesForm(null);
+			model.addObject("contractsList", contractsList);
+			
+			List<Deliverables> projectsList = deliverablesService.getProjectsListForDeliverablesForm(null);
+			model.addObject("projectsList", projectsList);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("deliverables : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value="/download-deliverables-template",method={RequestMethod.GET,RequestMethod.POST})
+	public void downloadDeliverablesTemplateTemplate(HttpServletRequest request, HttpServletResponse response,HttpSession session,
+			@ModelAttribute Deliverables dObj,RedirectAttributes attributes){
+		try {
+			XSSFWorkbook  workBook = new XSSFWorkbook ();
+            XSSFSheet dataSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Deliverables"));
+			XSSFSheet refSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Reference Data"));
+			
+	        workBook.setSheetOrder(dataSheet.getSheetName(), 0);
+			workBook.setSheetOrder(refSheet.getSheetName(), 1);
+		
+	        
+	        byte[] blueRGB = new byte[]{(byte)0, (byte)176, (byte)240};
+	        byte[] yellowRGB = new byte[]{(byte)255, (byte)192, (byte)0};
+	        byte[] greenRGB = new byte[]{(byte)146, (byte)208, (byte)80};
+	        byte[] redRGB = new byte[]{(byte)255, (byte)0, (byte)0};
+	        byte[] whiteRGB = new byte[]{(byte)255, (byte)255, (byte)255};
+	        
+	        boolean isWrapText = true;boolean isBoldText = true;boolean isItalicText = false; int fontSize = 11;String fontName = "Times New Roman";
+	        CellStyle blueStyle = cellFormating(workBook,blueRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle yellowStyle = cellFormating(workBook,yellowRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle greenStyle = cellFormating(workBook,greenRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle redStyle = cellFormating(workBook,redRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle whiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        
+	        CellStyle indexWhiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        
+	        isWrapText = true;isBoldText = false;isItalicText = false; fontSize = 9;fontName = "Times New Roman";
+	        CellStyle sectionStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        
+	        
+	        
+            XSSFRow headingRow = dataSheet.createRow(0);
+            String headerString = "Project^Work^Contract^Milestones^Deliverable type^Deliverable Description^Status^Milestone Payment %^Document Name^Original Due Date^Revised Due Date^Submission Date^Approval Date^Remarks";
+            
+            String[] firstHeaderStringArr = headerString.split("\\^");
+            dataSheet.createFreezePane(0,1);
+            for (int i = 0; i < firstHeaderStringArr.length; i++) {		        	
+	        	Cell cell = headingRow.createCell(i);
+		        cell.setCellStyle(greenStyle);
+				cell.setCellValue(firstHeaderStringArr[i]);
+			}
+            List<Deliverables> dataList =  deliverablesService.getDeliverablesConractMilestonesList(dObj);
+			int rowNo = 1;
+	        for (Deliverables obj : dataList) {
+                XSSFRow row = dataSheet.createRow(rowNo);
+                int c = 0;		               
+                Cell cell = row.createCell(c++);
+				cell.setCellStyle(sectionStyle);
+				cell.setCellValue(obj.getProject_name());
+				
+				cell = row.createCell(c++);
+				cell.setCellStyle(sectionStyle);
+				cell.setCellValue(obj.getWork_short_name());
+				
+                cell = row.createCell(c++);
+				cell.setCellStyle(sectionStyle);
+				cell.setCellValue(obj.getContract_short_name());
+				
+				cell = row.createCell(c++);
+				cell.setCellStyle(sectionStyle);
+				cell.setCellValue(obj.getMilestone_name());
+				
+				cell = row.createCell(c++);
+				cell.setCellStyle(sectionStyle);
+				cell.setCellValue(obj.getDeliverable_type_fk());
+				
+				cell = row.createCell(c++);
+				cell.setCellStyle(sectionStyle);
+				cell.setCellValue(obj.getDeliverable_description());
+				
+				cell = row.createCell(c++);
+				cell.setCellStyle(sectionStyle);
+				cell.setCellValue(obj.getStatus_fk());
+				
+				cell = row.createCell(c++);
+				cell.setCellStyle(sectionStyle);
+				cell.setCellValue(obj.getMilestone_payment());
+				
+				cell = row.createCell(c++);
+				cell.setCellStyle(sectionStyle);
+				cell.setCellValue(obj.getDeliverable_document_name());
+				
+				cell = row.createCell(c++);
+				cell.setCellStyle(sectionStyle);
+				cell.setCellValue(obj.getOriginal_due_date());
+				
+				cell = row.createCell(c++);
+				cell.setCellStyle(sectionStyle);
+				cell.setCellValue(obj.getRevised_due_date());
+				
+				cell = row.createCell(c++);
+				cell.setCellStyle(sectionStyle);
+				cell.setCellValue(obj.getSubmission_date());	
+				
+				cell = row.createCell(c++);
+				cell.setCellStyle(sectionStyle);
+				cell.setCellValue(obj.getApproval_date());
+				
+				cell = row.createCell(c++);
+				cell.setCellStyle(sectionStyle);
+				cell.setCellValue(obj.getRemarks());
+                rowNo++;
+            }
+	         
+	        /*************************************************************/ 
+	         
+	        List<Deliverables> statusList = deliverablesService.getStatusList();
+			
+				
+	        XSSFRow headerRow = refSheet.createRow(0);
+            refSheet.createFreezePane(0,1);
+            
+            int b = 1;	
+            Cell cell = headerRow.createCell(b);
+	        cell.setCellStyle(greenStyle);
+			cell.setCellValue("Status");
+			int rowNoRef = 1;			
+			XSSFRow row = null;
+			for (Deliverables obj : statusList) {
+                row = refSheet.createRow(rowNoRef++);	                	                
+                cell = row.createCell(b);
+				cell.setCellStyle(sectionStyle);
+				cell.setCellValue(obj.getStatus_fk());
+			}
+			refSheet.setColumnWidth(b, 25 * 200);
+			
+			
+			/*************************************************************/
+			
+			
+        	for(int columnIndex = 0; columnIndex < 29; columnIndex++) {
+        		dataSheet.setColumnWidth(columnIndex, 25 * 200);
+			}
+        	
+        	String fileName = "Deliverables_Template";
+            try{
+               response.setContentType("application/.csv");
+ 			   response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+ 			   response.setContentType("application/vnd.ms-excel");
+ 			   // add response header
+ 			   response.addHeader("Content-Disposition", "attachment; filename=" + fileName+".xlsx");
+ 			   
+ 			    //copies all bytes from a file to an output stream
+ 			   workBook.write(response.getOutputStream()); // Write workbook to response.
+	           workBook.close();
+ 			    //flushes output stream
+ 			    response.getOutputStream().flush();
+                
+                attributes.addFlashAttribute("success",dataExportSucess);
+            	//response.setContentType("application/vnd.ms-excel");
+            	//response.setHeader("Content-Disposition", "attachment; filename=filename.xls");
+            	//XSSFWorkbook  workbook = new XSSFWorkbook ();
+            	// ...
+            	// Now populate workbook the usual way.
+            	// ...
+            	//workbook.write(response.getOutputStream()); // Write workbook to response.
+            	//workbook.close();
+            }catch(FileNotFoundException e){
+                //e.printStackTrace();
+                attributes.addFlashAttribute("error",dataExportInvalid);
+            }catch(IOException e){
+                //e.printStackTrace();
+                attributes.addFlashAttribute("error",dataExportError);
+            }
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("deliverables : " + e.getMessage());
+		}
+	}
+	
+	@RequestMapping(value="/deliverables-report",method={RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView  deliverablesReport(HttpSession session){
+		ModelAndView model = new ModelAndView(PageConstants.deliverablesReport);
+		try {
+			
+			List<Deliverables> worksList = deliverablesService.getWorkListForDeliverablesForm(null);
+			model.addObject("worksList", worksList);
+			
+			List<Deliverables> contractsList = deliverablesService.getContractsListForDeliverablesForm(null);
+			model.addObject("contractsList", contractsList);
+			
+			List<Deliverables> projectsList = deliverablesService.getProjectsListForDeliverablesForm(null);
+			model.addObject("projectsList", projectsList);
+			
+			List<Deliverables> statusList = deliverablesService.getStatusList();
+			model.addObject("statusList", statusList);
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("deliverablesReport : " + e.getMessage());
+		}
+		return model;
+	}
 
+	
+	@RequestMapping(value = "/generate-deliverables-report", method = {RequestMethod.GET,RequestMethod.POST})
+	public void generateDeliverablesReport(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute Deliverables dObj,RedirectAttributes attributes){
+		List<Deliverables> dataList = new ArrayList<Deliverables>();
+		try {
+			dataList =  deliverablesService.getDeliverablesList(dObj);
+			if(dataList != null && dataList.size() > 0){
+				XSSFWorkbook  workBook = new XSSFWorkbook ();
+	            XSSFSheet summarySheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Summary Report"));
+				XSSFSheet detailedSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Detailed Report"));
+				
+		        workBook.setSheetOrder(summarySheet.getSheetName(), 0);
+				workBook.setSheetOrder(detailedSheet.getSheetName(), 1);
+		        
+		        byte[] blueRGB = new byte[]{(byte)0, (byte)176, (byte)240};
+		        byte[] yellowRGB = new byte[]{(byte)255, (byte)192, (byte)0};
+		        byte[] greenRGB = new byte[]{(byte)146, (byte)208, (byte)80};
+		        byte[] redRGB = new byte[]{(byte)255, (byte)0, (byte)0};
+		        byte[] whiteRGB = new byte[]{(byte)255, (byte)255, (byte)255};
+		        
+		        boolean isWrapText = true;boolean isBoldText = true;boolean isItalicText = false; int fontSize = 11;String fontName = "Times New Roman";
+		        CellStyle blueStyle = cellFormating(workBook,blueRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle yellowStyle = cellFormating(workBook,yellowRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle greenStyle = cellFormating(workBook,greenRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle redStyle = cellFormating(workBook,redRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle whiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        
+		        CellStyle indexWhiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        
+		        isWrapText = true;isBoldText = false;isItalicText = false; fontSize = 9;fontName = "Times New Roman";
+		        CellStyle sectionStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        
+		        
+		        
+	            XSSFRow headingRow = summarySheet.createRow(0);
+	            String headerString = "Project^Work^Contract^Consultant Name^Milestones^Milestone Payment %^Status^Due Date^Approval Date";
+	            
+	            String[] firstHeaderStringArr = headerString.split("\\^");
+	            summarySheet.createFreezePane(0,1);
+	            for (int i = 0; i < firstHeaderStringArr.length; i++) {		        	
+		        	Cell cell = headingRow.createCell(i);
+			        cell.setCellStyle(greenStyle);
+					cell.setCellValue(firstHeaderStringArr[i]);
+				}
+	            
+				int rowNo = 1;
+		        for (Deliverables obj : dataList) {
+	                XSSFRow row = summarySheet.createRow(rowNo);
+	                int c = 0;		               
+	                Cell cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getProject_name());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getWork_short_name());
+					
+	                cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getContract_short_name());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getContract_short_name());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getMilestone_name());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getMilestone_payment());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getStatus_fk());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getDue_date());
+					
+					cell = row.createCell(c++);
+					cell.setCellStyle(sectionStyle);
+					cell.setCellValue(obj.getApproval_date());
+					
+	                rowNo++;
+		        }
+		        /*************************************************************/ 
+					
+		        headingRow = detailedSheet.createRow(0);
+	            headerString = "Project^Work^Contract^Milestones^Deliverable type^Deliverable Description^Status^Milestone Payment %^Document Name^Original Due Date^Revised Due Date^Submission Date^Approval Date^Remarks";
+	            
+	            firstHeaderStringArr = headerString.split("\\^");
+	            detailedSheet.createFreezePane(0,1);
+	            for (int i = 0; i < firstHeaderStringArr.length; i++) {		        	
+		        	Cell cell = headingRow.createCell(i);
+			        cell.setCellStyle(greenStyle);
+					cell.setCellValue(firstHeaderStringArr[i]);
+				}
+	            
+				rowNo = 1;
+		        for (Deliverables obj : dataList) {
+		        	if(!StringUtils.isEmpty(obj.getDeliverableDocuments()) && obj.getDeliverableDocuments().size() > 0) {
+			        	for (Deliverables docObj : obj.getDeliverableDocuments()) {
+			                XSSFRow row = detailedSheet.createRow(rowNo);
+			                int c = 0;		               
+			                Cell cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getProject_name());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getWork_short_name());
+							
+			                cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getContract_short_name());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getMilestone_id());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getDeliverable_type_fk());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getDeliverable_description());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getStatus_fk());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(obj.getMilestone_payment());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(docObj.getDeliverable_document_name());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(docObj.getOriginal_due_date());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(docObj.getRevised_due_date());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(docObj.getSubmission_date());	
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(docObj.getApproval_date());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(docObj.getRemarks());
+			                rowNo++;
+			        	}
+		        	}else {
+		        		XSSFRow row = detailedSheet.createRow(rowNo);
+		                int c = 0;		               
+		                Cell cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(obj.getProject_name());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(obj.getWork_short_name());
+						
+		                cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(obj.getContract_short_name());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(obj.getMilestone_name());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(obj.getDeliverable_type_fk());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(obj.getDeliverable_description());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(obj.getStatus_fk());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(obj.getMilestone_payment());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(obj.getDeliverable_document_name());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(obj.getOriginal_due_date());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(obj.getRevised_due_date());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(obj.getSubmission_date());	
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(obj.getApproval_date());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(obj.getRemarks());
+		                rowNo++;
+		        	}
+	            }
+				
+				
+				/*************************************************************/
+				
+				
+	        	for(int columnIndex = 0; columnIndex < 29; columnIndex++) {
+	        		summarySheet.setColumnWidth(columnIndex, 25 * 200);
+				}
+	        	
+	        	for(int columnIndex = 0; columnIndex < 29; columnIndex++) {
+	        		detailedSheet.setColumnWidth(columnIndex, 25 * 200);
+				}
+	        	
+	            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
+	            Date date = new Date();
+	            String fileName = "Deliverables_Report_"+dateFormat.format(date);
+	            
+	            try{
+	                /*FileOutputStream fos = new FileOutputStream(fileDirectory +fileName+".xls");
+	                workBook.write(fos);
+	                fos.flush();*/
+	            	
+	               response.setContentType("application/.csv");
+	 			   response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+	 			   response.setContentType("application/vnd.ms-excel");
+	 			   // add response header
+	 			   response.addHeader("Content-Disposition", "attachment; filename=" + fileName+".xlsx");
+	 			   
+	 			    //copies all bytes from a file to an output stream
+	 			   workBook.write(response.getOutputStream()); // Write workbook to response.
+		           workBook.close();
+	 			    //flushes output stream
+	 			    response.getOutputStream().flush();
+	            	
+	                
+	                attributes.addFlashAttribute("success",dataExportSucess);
+	            	//response.setContentType("application/vnd.ms-excel");
+	            	//response.setHeader("Content-Disposition", "attachment; filename=filename.xls");
+	            	//XSSFWorkbook  workbook = new XSSFWorkbook ();
+	            	// ...
+	            	// Now populate workbook the usual way.
+	            	// ...
+	            	//workbook.write(response.getOutputStream()); // Write workbook to response.
+	            	//workbook.close();
+	            }catch(FileNotFoundException e){
+	                //e.printStackTrace();
+	                attributes.addFlashAttribute("error",dataExportInvalid);
+	            }catch(IOException e){
+	                //e.printStackTrace();
+	                attributes.addFlashAttribute("error",dataExportError);
+	            }
+			}else{
+				attributes.addFlashAttribute("error",dataExportNoData);
+			}
+		}catch (Exception e) {
+			logger.error(e);
+		}
+	}
+	
+	/**************************************************************************************/
 	
 }

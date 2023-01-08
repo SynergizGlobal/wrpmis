@@ -1,3 +1,4 @@
+<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
 <%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -37,6 +38,26 @@
 		.file-field input[type=file]{
 			box-shadow:none;
 		}
+		
+		td>.character-counter {
+		    top: 75%;
+		}
+		td>.datepicker~button {
+		    right: 5px;
+		    top: 23px;
+		}
+		
+		td>.btn, td>.btn-large, td>.btn-small, td>.btn-flat {
+		    height: 28px!important;
+		    line-height: 30px!important;
+		    padding: 0px 9px!important;
+		}
+		
+		.mdl-data-table td, .mdl-data-table th {
+		    padding: 0 10px 10px;
+		    text-align: right;
+		}
+		
     </style>
 </head>
 
@@ -66,75 +87,62 @@
 				     <c:if test="${action eq 'add'}">				                
 				                	<form action="<%=request.getContextPath() %>/add-deliverables" id="deliverablesForm" name="deliverablesForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
 				     </c:if>
-                     <div class="container container-no-margin">
-                        <input type="hidden" name="id" id="id"  value="${deliverablesDetails.id }"/>
-                        <c:if test="${action eq 'add'}">
-	                         <div class="row">
-	                                <div class="col s6 m4 l4 input-field">
-	                                    <p class="searchable_label"> Project <span class="required">*</span></p>
-	                                    <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  
-	                               	  		 onchange="getWorksList(this.value);">
-	                                    		 <option value="" >Select</option>
-	                                      		 <c:forEach var="obj" items="${projectsList }">
-	                                         			 <option value="${obj.project_id_fk }" <c:if test="${deliverablesDetails.project_id_fk eq obj.project_id_fk}">selected</c:if>>${obj.project_id_fk}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
-	                                      		 </c:forEach>
-			                             </select>
-	                               		 <span id="project_idError" class="error-msg" ></span>
-	                                </div>
-	                                <div class="col s6 m4 l4 input-field">
-	                                    <p class="searchable_label"> Work <span class="required">*</span></p>
-	                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
-	                                   		  onchange="getContractsList(this.value);">
-	                                   		  <option value="">Select</option>
-	                                   		  <c:forEach var="obj" items="${worksList }">
-                                      	   		<option value= "${ obj.work_id_fk}">${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
-                                               </c:forEach>
-		                                  </select>
-	                                   		   
-	                                  <span id="work_id_fkError" class="error-msg" ></span>
-	                                </div>
-	                                <c:if test="${action eq 'add'}">	
-	                                 <div class="col s12 m4 l4 input-field">
-	                                    <p class="searchable_label">Contract <span class="required">*</span></p>
-	                                   <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="resetWorksAndProjectsDropdowns();">
-	                                       	<option value="">Select</option>
-	                                       	 <c:forEach var="obj" items="${contractsList }">
-                                      	  			 <option workId="${obj.work_id_fk }" value= "${ obj.contract_id_fk}">${obj.contract_id_fk}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
-                                        	 </c:forEach>
-	                                  	</select>
-	                                   	<span id="contract_id_fkError" class="error-msg" ></span>
-	                                 </div> 
-                              	 </c:if>
-	                              </div>
-                              </c:if>
-                              <c:if test="${action eq 'edit'}">	
-	                              <div class="row">                              
-	                                <div class="col s6 m4 input-field">
-	                                    <input type="text"  id="project_id_fk" value="${deliverablesDetails.project_id_fk}- ${deliverablesDetails.project_name}" readonly />
-	                                    <input type="hidden" name="project_id_fk"  value="${deliverablesDetails.project_id_fk}"  />
-										<label for="project_id_fk">Project <span class="required">*</span></label>
-								    </div> 
-	                                <div class="col s6 m4 input-field"> 
-	                                   <input type="text"  id="work_id_fk" value="${deliverablesDetails.work_id_fk}- ${deliverablesDetails.work_name}" readonly />
-	                                     <input type="hidden" name="work_id_fk"  value="${deliverablesDetails.work_id_fk}"  />
-									    <label for="work_id_fk">Work <span class="required">*</span></label>
-	                                </div>
-	                                <div class="col s12 m4 input-field"> 
-	                              	    <input type="text"  id="contract_id_fk" value="${deliverablesDetails.contract_id_fk} - ${deliverablesDetails.contract_name}" readonly />
-	                              	     <input type="hidden" name="contract_id_fk"  value="${deliverablesDetails.contract_id_fk}"  />
-	                                 	<label for="contract_id_fk">Contract <span class="required">*</span></label>     
-                              	    </div>
-	                             </div>
-                              </c:if>
-                              <%-- <div class="row">
-                                <c:if test="${action eq 'edit'}">	
-                                 	
-                                 </c:if>
-                             	 
-                                 
-                            </div> --%>
+                     <div class="container container-no-margin" style="width: 90%!important;">
+                         <input type="hidden" name="deliverable_id" id="deliverable_id"  value="${deliverablesDetails.deliverable_id }"/>
+                         <div class="row">
+                                <div class="col s6 m4 l4 input-field">
+                                    <p class="searchable_label"> Project <span class="required">*</span></p>
+                                    <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  
+                               	  		 onchange="getWorksList(this.value);">
+                                    		 <option value="" >Select</option>
+                                      		 <c:forEach var="obj" items="${projectsList }">
+                                         			 <option value="${obj.project_id_fk }" <c:if test="${deliverablesDetails.project_id_fk eq obj.project_id_fk}">selected</c:if>>${obj.project_id_fk}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
+                                      		 </c:forEach>
+		                             </select>
+                               		 <span id="project_idError" class="error-msg" ></span>
+                                </div>
+                                <div class="col s6 m4 l4 input-field">
+                                    <p class="searchable_label"> Work <span class="required">*</span></p>
+                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
+                                   		  onchange="getContractsList(this.value);">
+                                   		  <option value="">Select</option>
+                                   		  <c:forEach var="obj" items="${worksList }">
+                                     	   		<option value= "${ obj.work_id_fk}">${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
+                                              </c:forEach>
+	                                  </select>
+                                   		   
+                                  <span id="work_id_fkError" class="error-msg" ></span>
+                                </div>
+                                <div class="col s12 m4 l4 input-field">
+                                    <p class="searchable_label">Contract <span class="required">*</span></p>
+                                   <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="resetWorksAndProjectsDropdowns();getContractMilestonesList(this.value);">
+                                       	<option value="">Select</option>
+                                       	 <c:forEach var="obj" items="${contractsList }">
+                                     	  			 <option workId="${obj.work_id_fk }" value= "${ obj.contract_id_fk}">${obj.contract_id_fk}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
+                                       	 </c:forEach>
+                                  	</select>
+                                   	<span id="contract_id_fkError" class="error-msg" ></span>
+                                 </div>
+                            </div>
+                              
                             <div class="row">
-                            <div class="col s6 m4 l4 input-field">
+                            	<div class="col s6 m4 l4 input-field">
+                                    <p class="searchable_label">Milestone <span class="required">*</span></p>
+                                    <select class="searchable validate-dropdown" name="milestone_id" id="milestone_id">
+                                        <option value="" >Select</option>
+                                        <c:forEach var="obj" items="${milestonesList }">
+		                                     <option value="${obj.milestone_id }" <c:if test="${deliverablesDetails.milestone_id eq obj.milestone_id}">selected</c:if>>
+		                                     ${obj.milestone_id}
+		                                     <c:if test="${obj.milestone_id ne null and obj.milestone_name ne null}">
+		                                      => 
+		                                     </c:if>
+		                                     ${obj.milestone_name}
+		                                     </option>
+		                                </c:forEach>
+                                    </select>
+                                    <span id="milestone_idError" class="error-msg" ></span>
+                                </div>
+                            	<div class="col s6 m4 l4 input-field">
                                     <p class="searchable_label">Deliverable Type <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" name="deliverable_type_fk" id="deliverable_type_fk">
                                         <option value="" >Select</option>
@@ -144,16 +152,7 @@
                                     </select>
                                     <span id="deliverable_type_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 l4 input-field">
-                                    <p class="searchable_label">Priority </p>
-                                    <select class="searchable validate-dropdown" name="project_priority_fk" id="project_priority_fk">
-                                        <option value="" >Select</option>
-                                        <c:forEach var="obj" items="${priorityList }">
-		                                     <option value="${obj.project_priority_fk }" <c:if test="${deliverablesDetails.project_priority_fk eq obj.project_priority_fk}">selected</c:if>>${obj.project_priority_fk}</option>
-		                                </c:forEach>
-                                    </select>
-                                    <span id="project_priority_fkError" class="error-msg" ></span>
-                                </div>
+                                
                                 <div class="col s12 m4 l4 input-field">
                                     <p class="searchable_label">Status </p>
                                     <select class="searchable validate-dropdown" name="status_fk" id="status_fk">
@@ -168,106 +167,200 @@
                             <div class="row">
                                 <div class="col s12 m12 l12 input-field">
                                     <textarea id="deliverable_description" name="deliverable_description" class="pmis-textarea"
-                                        data-length="1000">${deliverablesDetails.deliverable_description }</textarea>
+                                        data-length="200">${deliverablesDetails.deliverable_description }</textarea>
                                     <label for="deliverable_description">Deliverable Description</label>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col s6 m4 l4 input-field">
-                                    <input id="target_date" name="target_date" type="text" class="validate datepicker" value="${deliverablesDetails.target_date }">
-                                    <label for="target_date">Target Date</label>
-                                    <button type="button" id="target_date_icon" class="datepicker-button"><i
-                                            class="fa fa-calendar"></i></button>
-                                </div>
-                                <div class="col s6 m4 l4 input-field ">
-                                    <input id="start_date" name="start_date" type="text" class="validate datepicker" value="${deliverablesDetails.start_date }">
-                                    <label for="start_date">Start Date</label>
-                                    <button type="button" id="start_date_icon" class="datepicker-button"><i
-                                            class="fa fa-calendar"></i></button>
-                                </div>
-                                <div class="col s12 m4 l4 input-field">
-                                    <input id="finish_date" name="finish_date" type="text" class="validate datepicker" value="${deliverablesDetails.finish_date }">
-                                    <label for="finish_date">Finish Date</label>
-                                    <button type="button" id="finish_date_icon" class="datepicker-button"><i
-                                            class="fa fa-calendar"></i></button>
+                                    <input id="milestone_payment" name="milestone_payment" type="number" class="validate" value="${deliverablesDetails.milestone_payment }">
+                                    <label for="milestone_payment">Milestone Payment (%) <span class="required">*</span></label>
+                                    <span id="milestone_paymentError" class="error-msg" ></span>
                                 </div>
                             </div>
-                            <div class="row">
-                                
-                            </div>
-						<div class="row">
-							<div class="col m2 hide-on-small-only"></div>
-							<div class="col m12 s12">
-							
-							 <c:if test="${action eq 'add'}">
-			                            <div id="selectedFilesInput">
-			                                    	<div class="file-field input-field" id="deliverableFilesDiv1" >
-				                                        <div class="btn bg-m t-c">
-				                                            <span>Attach Files</span>
-				                                            <input type="file" id="deliverableFiles1" name="deliverableFiles"   onchange="selectFile('1')">
-				                                        </div>
-				                                        <div class="file-path-wrapper">
-				                                            <input class="file-path validate" type="text">
-				                                        </div>                                       
-				                                    </div>
-												</div>
-			                                    <div id="selectedFiles">
-												</div>
-									  </c:if>	
-									  <c:if test="${action eq 'edit'}">
-													<c:set var="existingDeliverableFilesLength" value="${fn:length(deliverablesDetails.deliverableFilesList )}"></c:set>
-													<c:if test="${fn:length(deliverablesDetails.deliverableFilesList ) gt 0}">
-														<c:set var="existingDeliverableFilesLength" value="${fn:length(deliverablesDetails.deliverableFilesList )+1}"></c:set>
-													</c:if>
-													<div id="selectedFilesInput">
-				                                    	<div class="file-field input-field" id="deliverableFilesDiv${existingDeliverableFilesLength }" >
-					                                        <div class="btn bg-m t-c">
-					                                            <span>Attach Files</span>
-					                                            <input type="file" id="deliverableFiles${existingDeliverableFilesLength }" name="deliverableFiles"  onchange="selectFile('${existingDeliverableFilesLength }')">
-					                                        </div>
-					                                        <div class="file-path-wrapper">
-					                                            <input class="file-path validate" type="text">
-					                                        </div>                                       
-					                                    </div>
-													</div>
-				                                    
-				                                    <div id="selectedFiles">
-				                                    	<c:forEach var="obj" items="${deliverablesDetails.deliverableFilesList }" varStatus="index">
-															 <div id="deliverableFileNames${index.count }">
-																<a href="<%=CommonConstants.DELIVERABLES_FILES %>${obj.attachment }" class="filevalue" download>${obj.attachment }</a>
-																<span onclick="removeFile(${index.count })" class="attachment-remove-btn">X</span>
-																<input type="hidden" name="deliverableFileNames" value="${obj.attachment }">
-														     </div>
-														     <div style="clear:both" ></div>
-														</c:forEach>
-													</div>
-				                             </c:if>	
-							</div>
-							<div class="col m2 hide-on-small-only"></div>
-						</div>
-						<div class="row">
-                                <div class="col s12 m12 input-field">
-                                    <textarea id="remarks" name="remarks" class="pmis-textarea" data-length="1000">${deliverablesDetails.remarks }</textarea>
-                                    <label for="remarks">Remarks</label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col s6 m6 mt-brdr">
-                                    <div class="center-align m-1">
-	                                         <c:if test="${action eq 'edit'}">
-	                                           <button type="button" onclick="updateDeliverablesFrom();" class="btn waves-effect waves-light bg-m">Update</button>
-	                                         </c:if>
-											 <c:if test="${action eq 'add'}"> 
-						                       <button type="button" onclick="addDeliverablesFrom();" class="btn waves-effect waves-light bg-m" style="min-width:90px;">Add</button>
-											 </c:if>
-                                    </div>
-                                </div>
-                                <div class="col s6 m6 mt-brdr">
-                                    <div class="center-align m-1">
-                                          <a href="<%=request.getContextPath()%>/deliverables" class="btn waves-effect waves-light bg-s white-text">Cancel</a>
-                                    </div>
-                                </div>
-                            </div>
+							<div class="row">
+	                                <div class="row fixed-width" >
+	                                    <div class="table-inside" style="margin-bottom: 20px">
+	                                        <table class="mdl-data-table mobile_responsible_table" >
+	                                            <thead>
+	                                                <tr>
+	                                                	<th>Id</th>
+	                                                	<th>Document</th>
+	                                                    <th>Original Due Date</th>
+	                                                    <th>Revised Due Date</th>
+	                                                    <th>Submission Date</th>
+	                                                    <th>Approval Date</th>
+	                                                    <th>Payment(%)</th>
+	                                                    <th class="fw-300">Remarks</th>
+	                                                    <th>Attach File</th>
+	                                                    <th></th>
+	                                                    <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin'}"> 
+	                                                    	<th></th>
+	                                                    </c:if>
+	                                                </tr>
+	                                            </thead>
+	                                            <tbody id="attachmentsTableBody" >
+	                                             <c:choose>
+			                                        <c:when test="${not empty deliverablesDetails.deliverableDocuments  && fn:length(deliverablesDetails.deliverableDocuments ) gt 0 }">			                                          
+				                                        <c:forEach var="docObj" items="${deliverablesDetails.deliverableDocuments }" varStatus="index">  
+			                                                <tr id="attachmentRow${index.count }">
+			                                                    <td data-head="Document Id " class="input-field"> 
+			                                                    	<input id="deliverable_document_ids${index.count }" name="deliverable_document_ids" type="hidden" value="${docObj.deliverable_document_id }"/>
+			                                                            ${docObj.deliverable_document_id }
+			                                                    </td>
+			                                                	<td data-head="Document name" class="input-field"> 
+			                                                		<input id="deliverable_document_names${index.count }" maxlength="50" name="deliverable_document_names" type="text" class="validate"
+			                                                            placeholder="Document Name" value="${docObj.deliverable_document_name }">
+			                                                    </td>
+			                                                    <td data-head="Original due date" class="input-field">
+										                              <input id="original_due_dates${index.count }" name="original_due_dates" type="text" class="validate datepicker" placeholder="Original due date" value="${docObj.original_due_date }">
+									                                  <button type="button" id="original_due_dates${index.count}_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> 											                              
+									                                  <span id="original_due_dates${index.count}Error" class="error-msg" ></span>
+										                        </td>
+			                                                    <td data-head="Revised due date" class="input-field">
+										                              <input id="revised_due_dates${index.count }" name="revised_due_dates" type="text" class="validate datepicker" placeholder="Revised due date" value="${docObj.revised_due_date }">
+									                                  <button type="button" id="revised_due_dates${index.count}_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> 											                              
+									                                  <span id="revised_due_dates${index.count}Error" class="error-msg" ></span>
+										                        </td>
+			                                                    <td data-head="Submission date" class="input-field">
+										                              <input id="submission_dates${index.count }" name="submission_dates" type="text" class="validate datepicker" placeholder="Submission due date" value="${docObj.submission_date }">
+									                                  <button type="button" id="submission_dates${index.count}_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> 											                              
+									                                  <span id="submission_dates${index.count}Error" class="error-msg" ></span>
+										                        </td>
+										                        <td data-head="Approval date" class="input-field">
+										                              <input id="approval_dates${index.count }" name="approval_dates" type="text" class="validate datepicker" placeholder="Approval due date" value="${docObj.approval_date }">
+									                                  <button type="button" id="approval_dates${index.count}_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> 											                              
+									                                  <span id="approval_dates${index.count}Error" class="error-msg" ></span>
+										                        </td>										                        
+			                                                    <td data-head="Payment " class="input-field"> <input id="payments${index.count }" maxlength="10" data-length="50" name="payments" type="number" class="validate"
+			                                                            placeholder="Payment" value="${docObj.payment }">
+			                                                    </td>
+			                                                    <td data-head="Remarks" class="input-field" > 			                                                    
+			                                                     <textarea id="remarkss${index.count }" name="remarkss" class="pmis-textarea"
+                                        								data-length="200">${docObj.remarks }</textarea>
+			                                                    </td>
+			                                                    <td data-head="Attachment" class="input-field">
+			                                                        <span class="normal-btn">
+			                                                            <input type="file" id="deliverableDocumentFiles${index.count }" name="deliverableDocumentFiles"
+			                                                                style="display:none" onchange="getFileName('${index.count }')"/>
+			                                                            <label for="deliverableDocumentFiles${index.count }" class="btn bg-m"><i
+			                                                                    class="fa fa-paperclip"></i></label>
+			                                                            <input type="hidden" id="deliverable_document_file_names${index.count }" name="deliverable_document_file_names" value="${docObj.deliverable_document_file_name }">
+			                                                             <span id="file_names${index.count }" class="filevalue">
+				                                                             <c:if test="${not empty docObj.deliverable_document_file_name }"> 
+				                                                             	<a href="<%=CommonConstants.DELIVERABLES_FILES%>${docObj.deliverable_document_file_name } " class="filevalue" download><i class="fa fa-arrow-down"></i></a>
+				                                                             </c:if>
+			                                                             </span>
+			                                                          </span>
+			                                                    </td>
+			                                                    <td>
+		                                                     		
+			                                                    </td>
+			                                                    <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin'}"> 
+				                                                    <td class="mobile_btn_close">
+				                                                        <a href="javascript:void(0);" onclick="removeAttachmentRow('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
+				                                                                class="fa fa-close"></i></a>
+				                                                    </td>
+			                                                    </c:if>
+			                                                </tr> 
+	                                                	</c:forEach>
+	                                           		</c:when>
+	                                             	<c:otherwise>
+	                                             		<tr id="attachmentRow0">
+	                                             				<td data-head="Document Id " class="input-field"> 
+			                                                    	<input id="deliverable_document_ids0" name="deliverable_document_ids" type="hidden" value=""/>
+			                                                    </td>
+			                                                	<td data-head="Document name" class="input-field"> 
+			                                                		<input id="deliverable_document_names0" maxlength="50" name="deliverable_document_names" type="text" class="validate"
+			                                                            placeholder="Document Name">
+			                                                    </td>
+			                                                    <td data-head="Original due date" class="input-field">
+										                              <input id="original_due_dates0" name="original_due_dates" type="text" class="validate datepicker" placeholder="Original due date">
+									                                  <button type="button" id="original_due_dates0_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> 											                              
+									                                  <span id="original_due_dates0Error" class="error-msg" ></span>
+										                        </td>
+			                                                    <td data-head="Revised due date" class="input-field">
+										                              <input id="revised_due_dates0" name="revised_due_dates" type="text" class="validate datepicker" placeholder="Revised due date">
+									                                  <button type="button" id="revised_due_dates0_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> 											                              
+									                                  <span id="revised_due_dates0Error" class="error-msg" ></span>
+										                        </td>
+			                                                    <td data-head="Submission date" class="input-field">
+										                              <input id="submission_dates0" name="submission_dates" type="text" class="validate datepicker" placeholder="Submission due date" >
+									                                  <button type="button" id="submission_dates0_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> 											                              
+									                                  <span id="submission_dates0Error" class="error-msg" ></span>
+										                        </td>
+										                        <td data-head="Approval date" class="input-field">
+										                              <input id="approval_dates0" name="approval_dates" type="text" class="validate datepicker" placeholder="Approval due date">
+									                                  <button type="button" id="approval_dates0_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> 											                              
+									                                  <span id="approval_dates0Error" class="error-msg" ></span>
+										                        </td>										                        
+			                                                    <td data-head="Payment " class="input-field"> <input id="payments0" maxlength="50" data-length="50" name="payments" type="text" class="validate"
+			                                                            placeholder="Payment">
+			                                                    </td>
+			                                                    <td data-head="Remarks" class="input-field"> <textarea id="remarkss0" name="remarkss" class="pmis-textarea"
+                                        								data-length="200"></textarea>
+			                                                    </td>
+			                                                    <td data-head="Attachment" class="input-field">
+			                                                        <span class="normal-btn">
+			                                                            <input type="file" id="deliverableDocumentFiles0" name="deliverableDocumentFiles"
+			                                                                style="display:none" onchange="getFileName('0')"/>
+			                                                            <label for="deliverableDocumentFiles0" class="btn bg-m"><i
+			                                                                    class="fa fa-paperclip"></i></label>
+			                                                            <input type="hidden" id="deliverable_document_file_names0" name="deliverable_document_file_names" >
+			                                                             <span id="file_names0" class="filevalue"></span>
+			                                                          </span>
+			                                                    </td>
+			                                                    <td>		                                                     		
+			                                                    </td>
+			                                                    <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin'}"> 
+				                                                    <td class="mobile_btn_close">
+				                                                        <a href="javascript:void(0);" onclick="removeAttachmentRow('0');" class="btn waves-effect waves-light red t-c "> <i
+				                                                                class="fa fa-close"></i></a>
+				                                                    </td>
+			                                                    </c:if>
+		                                                </tr>
+	                                             	</c:otherwise>
+                                            	</c:choose> 
+	                                            </tbody>
+	                                        </table>
+	                                        
+	                                        <table class="mdl-data-table">
+		                                        <tbody>                                          
+		                                            <tr>
+														<td colspan="11" > <a type="button"  class="btn waves-effect waves-light bg-m t-c"  onclick="addAttachmentRow()"> 
+														<i class="fa fa-plus"></i></a></td>
+		                                              </tr>
+		                                        </tbody>
+		                                     </table>
+		                                   	 <c:choose>
+		                                        <c:when test="${not empty deliverablesDetails.deliverableDocuments && fn:length(deliverablesDetails.deliverableDocuments) gt 0 }">
+		                                    		<input type="hidden" id="attachmentRowNo"  name="attachmentRowNo" value="${fn:length(deliverablesDetails.deliverableDocuments) }" />
+		                                    	</c:when>
+		                                     	<c:otherwise>
+		                                     		<input type="hidden" id="attachmentRowNo"  name="attachmentRowNo" value="0" />
+		                                     	</c:otherwise>
+		                                     </c:choose> 
+	                                    </div>
+	                                </div>
+	                            </div>
+	                            
+	                            <div class="row">
+	                                <div class="col s6 m6 mt-brdr">
+	                                    <div class="center-align m-1">
+		                                         <c:if test="${action eq 'edit'}">
+		                                           <button type="button" onclick="updateDeliverablesFrom();" class="btn waves-effect waves-light bg-m">Update</button>
+		                                         </c:if>
+												 <c:if test="${action eq 'add'}"> 
+							                       <button type="button" onclick="addDeliverablesFrom();" class="btn waves-effect waves-light bg-m" style="min-width:90px;">Add</button>
+												 </c:if>
+	                                    </div>
+	                                </div>
+	                                <div class="col s6 m6 mt-brdr">
+	                                    <div class="center-align m-1">
+	                                          <a href="<%=request.getContextPath()%>/deliverables" class="btn waves-effect waves-light bg-s white-text">Cancel</a>
+	                                    </div>
+	                                </div>
+	                            </div>
                         </div>
                     </form>
                     <!-- form ends  -->
@@ -303,80 +396,89 @@
     <script src="/pmis/resources/js/select2.min.js"></script>
     <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
-      <script>
-   /*    $(document).on('focus', '.datepicker',function(){
-	        $(this).datepicker({
-	        	format:'dd-mm-yyyy',
-	   	    	onSelect: function () {
-	   	    	   $('.confirmation-btns .datepicker-done').click();
-	   	    	}
-	        })
-	    }); */
-	    function selectFile(no){
-		    files = $("#deliverableFiles"+no)[0].files;
-		    var html = "";
-		    for (var i = 0; i < files.length ; i++) {
-		    	html =  html + '<div id=deliverableFileNames'+no+'>'
-				 + '<a href="#" class="filevalue">'+$(this).get(0).files[i].name+'</a>'
-				 + '<span onclick="removeFile('+no+')" class="attachment-remove-btn">X</span>'
-				 + '</div>'
-				 + '<div style="clear:both;"></div>';
-		    }
-		    $("#selectedFiles").append(html);
-		    
-		    $('#deliverableFilesDiv'+no).hide();
-		    
-			var fileIndex = Number(no)+1;
-			moreFiles(fileIndex);
-		}
-		
-		function moreFiles(no){
-			var html = "";
-			html =  html + '<div class="file-field input-field" id="deliverableFilesDiv'+no+'" >'
-			+ '<div class="btn bg-m t-c">'
-			+ '<span>Attach Files</span>'
-			+ '<input type="file" id="deliverableFiles'+no+'" name="deliverableFiles"  onchange="selectFile('+no+')">'
-			+ '</div>'
-			+ '<div class="file-path-wrapper">'
-			+ '<input class="file-path validate" type="text">'
-			+ '</div>'                          
-			+ '</div>'
-			$("#selectedFilesInput").append(html);
-		}
-		
-		function removeFile(no){			
-	     	$('#deliverableFilesDiv'+no).remove();
-	     	$('#deliverableFileNames'+no).remove();
-	    } 
+    <script type="text/javascript">
+	      function addAttachmentRow(){		
+	 		 var rowNo = $("#attachmentRowNo").val();
+	 		 var rNo = Number(rowNo)+1;
+	 		 var total = 0;
+	 		 var html = '<tr id="attachmentRow'+rNo+'">'
+	 					 +'<td data-head="Document Id " class="input-field">' 
+	 					+'<input id="deliverable_document_ids'+rNo+'" name="deliverable_document_ids" type="hidden" value=""/>'
+	 					+'</td>'
+	 					+'<td data-head="Document name" class="input-field"> '
+	 					+'<input id="deliverable_document_names'+rNo+'" maxlength="50" name="deliverable_document_names" type="text" class="validate"'
+	 					+'placeholder="Document Name">'
+	 					+'</td>'
+	 					+'<td data-head="Original due date" class="input-field">'
+	 					+'<input id="original_due_dates'+rNo+'" name="original_due_dates" type="text" class="validate datepicker" placeholder="Original due date">'
+	 					+'<button type="button" id="original_due_dates'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> '											                              
+	 					+'<span id="original_due_dates'+rNo+'Error" class="error-msg" ></span>'
+	 					+'</td>'
+	 					+'<td data-head="Revised due date" class="input-field">'
+	 					+'<input id="revised_due_dates'+rNo+'" name="revised_due_dates" type="text" class="validate datepicker" placeholder="Revised due date">'
+	 					+'<button type="button" id="revised_due_dates'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>'									                              
+	 					+'<span id="revised_due_dates'+rNo+'Error" class="error-msg" ></span>'
+	 					+'</td>'
+	 					+'<td data-head="Submission date" class="input-field">'
+	 					+'<input id="submission_dates'+rNo+'" name="submission_dates" type="text" class="validate datepicker" placeholder="Submission due date" >'
+	 					+'<button type="button" id="submission_dates'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>'										                              
+	 					+'<span id="submission_dates'+rNo+'Error" class="error-msg" ></span>'
+	 					+'</td>'
+	 					+'<td data-head="Approval date" class="input-field">'
+	 					+'<input id="approval_dates'+rNo+'" name="approval_dates" type="text" class="validate datepicker" placeholder="Approval due date">'
+	 					+'<button type="button" id="approval_dates'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>' 											                              
+	 					+'<span id="approval_dates'+rNo+'Error" class="error-msg" ></span>'
+	 					+'</td>	' 
+	 					+'<td data-head="Payment " class="input-field"> <input id="payments'+rNo+'" maxlength="50" data-length="50" name="payments" type="text" class="validate"'
+	 					+'placeholder="Payment">'
+	 					+'</td>'
+	 					+'<td data-head="Remarks" class="input-field"> <textarea id="remarkss'+rNo+'" name="remarkss" class="pmis-textarea"'
+						+'data-length="200"></textarea>'
+	 					+'</td>'
+	 					+'<td data-head="Attachment" class="input-field">'
+	 					+'<span class="normal-btn">'
+	 					+'<input type="file" id="deliverableDocumentFiles'+rNo+'" name="deliverableDocumentFiles"'
+	 					+'style="display:none" onchange="getFileName('+rNo+')"/>'
+	 					+'<label for="deliverableDocumentFiles'+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label>'
+	 					+'<input type="hidden" id="deliverable_document_file_names'+rNo+'" name="deliverable_document_file_names" >'
+	 					+'<span id="deliverable_document_file_names'+rNo+'" class="filevalue"></span>'
+	 					+'</span>'
+	 					+'</td>'
+	 					+'<td>'                                                     		
+	 					+'</td>';
+	 					 
+	 					 var user_role_name = '${sessionScope.USER_ROLE_NAME}';
+	 					 if(user_role_name == 'IT Admin'){
+	 						 html = html +'<td class="mobile_btn_close">'
+	 						 +'<a href="javascript:void(0);" onclick="removeAttachmentRow('+rNo+');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a>'
+	 						 +'</td>';
+	 					 }
+	 					 html = html +'</tr>';
+	 		
+	 			 $('#attachmentsTableBody').append(html);
+	 			 $("#attachmentRowNo").val(rNo);
+	 			 $('.searchable').select2();
+	 			 $('#remarkss'+rNo).characterCounter();
+	 	} 
+	 	
+	 	function removeAttachmentRow(rowNo){
+	 		$("#attachmentRow"+rowNo).remove();
+	 	}
+	
+	 	function getFileName(rowNo){
+	 		var filename = $('#deliverableDocumentFiles'+rowNo)[0].files[0].name;
+	 		$('#file_names'+rowNo).html(filename);
+	 	    $('#deliverable_document_file_names'+rowNo).val(filename);
+	 	}
 
-	   /*   let date_pickers = document.querySelectorAll('.datepicker');
-        $.each(date_pickers, function(){
-        	var dt = this.value.split(/[^0-9]/);
-        	this.value = ""; 
-        	var options = {format: 'dd-mm-yyyy',autoClose:true};
-        	if(dt.length > 1){
-        		options.setDefaultDate = true,
-        		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
-        	}
-        	M.Datepicker.init(this, options);
-        }); */
         $(document).ready(function () {
             $('select:not(.searchable)').formSelect();
-            $('.searchable').select2();
-           // $("#target_date,#start_date,#finish_date").datepicker();
-            $('#remarks').characterCounter();
-         /*    $('#target_date_icon').click(function () {
-                event.stopPropagation();
-                $('#target_date').click();
+            $('.searchable').select2();    
+            
+            $("[data-length]").each(function(i,val){
+            	$('#'+val.id).characterCounter();
             });
-            $('#start_date_icon').click(function () {
-                event.stopPropagation();
-                $('#start_date').click();
-            });
-            $('#finish_date_icon').click(function () {
-                event.stopPropagation();
-                $('#finish_date').click();
-            }); */
+            
             var project_id_fk = "${deliverablesDetails.project_id_fk}";
             if($.trim(project_id_fk) != ''){
             	getWorksList(project_id_fk);
@@ -385,6 +487,10 @@
             if($.trim(work_id_fk) != ''){
             	getContractsList(work_id_fk);
             }
+            var contract_id_fk = "${deliverablesDetails.contract_id_fk}";
+            if($.trim(contract_id_fk) != ''){
+            	getContractMilestonesList(contract_id_fk);
+            }
         });
         
       //geting works list from database 
@@ -392,6 +498,7 @@
         	$(".page-loader").show();
             $("#work_id_fk option:not(:first)").remove();
             $("#contract_id_fk option:not(:first)").remove();
+            $("#milestone_id option:not(:first)").remove();
 
             if ($.trim(projectId) != "") {
                 var myParams = { project_id_fk: projectId };
@@ -403,7 +510,14 @@
                             $.each(data, function (i, val) {
                                 var workShortName = '';
                                 if ($.trim(val.work_short_name) != '') { workShortName = '  - ' + $.trim(val.work_short_name) }
-                                $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk) + $.trim(workShortName) + '</option>');
+                                
+                                var work_id_fk_exists = "${deliverablesDetails.work_id_fk}";
+                                var selected = '';
+                                if(work_id_fk_exists == val.work_id_fk){
+                                	selected = 'selected';
+                                }
+                                
+                                $("#work_id_fk").append('<option value="' + val.work_id_fk + '" '+selected+'>' + $.trim(val.work_id_fk) + $.trim(workShortName) + '</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -418,6 +532,7 @@
         function getContractsList(work_id_fk) {
         	$(".page-loader").show();
             $("#contract_id_fk option:not(:first)").remove();
+            $("#milestone_id option:not(:first)").remove();
             
             if ($.trim(work_id_fk) != "") {
                 var myParams = { work_id_fk: work_id_fk };
@@ -429,7 +544,54 @@
                             $.each(data, function (i, val) {
                             	var contract_short_name = '';
                                 if ($.trim(val.contract_short_name) != '') { contract_short_name = '  - ' + $.trim(val.contract_short_name) }
-                                $("#contract_id_fk").append('<option  workId="'+val.work_id_fk +'" value="' + val.contract_id_fk + '">' + $.trim(val.contract_id_fk) + $.trim(contract_short_name) + '</option>');
+                                
+                                var contract_id_fk_exists = "${deliverablesDetails.contract_id_fk}";
+                                var selected = '';
+                                if(contract_id_fk_exists == val.contract_id_fk){
+                                	selected = 'selected';
+                                }
+                                
+                                $("#contract_id_fk").append('<option  workId="'+val.work_id_fk +'" value="' + val.contract_id_fk + '" '+selected+'>' + $.trim(val.contract_id_fk) + $.trim(contract_short_name) + '</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    }
+                });
+            }else{
+            	$(".page-loader").hide();
+            }
+        }
+        
+      //geting contracts list    
+        function getContractMilestonesList(contract_id_fk) {
+        	$(".page-loader").show();
+            $("#milestone_id option:not(:first)").remove();
+            
+            if ($.trim(contract_id_fk) != "") {
+                var myParams = { contract_id_fk: contract_id_fk };
+                $.ajax({
+                	url: "<%=request.getContextPath()%>/ajax/getContractMilestonesListForDeliverablesForm",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                            	var milestone = '';
+                                if ($.trim(val.milestone_id) != '' && $.trim(val.milestone_name) != '') { 
+                                	milestone = $.trim(val.milestone_id) +' => ' + $.trim(val.milestone_name); 
+                                }else if ($.trim(val.milestone_id) == '' && $.trim(val.milestone_name) != '') { 
+                                	milestone = $.trim(val.milestone_name); 
+                                }else if ($.trim(val.milestone_id) != '' && $.trim(val.milestone_name) == '') { 
+                                	milestone = $.trim(val.milestone_id) 
+                                }
+                                
+                                var milestone_id_exists = "${deliverablesDetails.milestone_id}";
+                                var selected = '';
+                                if(milestone_id_exists == val.milestone_id){
+                                	selected = 'selected';
+                                }
+                                
+                            	$("#milestone_id").append('<option value="' + val.milestone_id + '" '+selected+'>' + milestone + '</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -510,10 +672,12 @@
 	  		 		    required: true
 	  			 	  },"deliverable_type_fk": {
 	  		 		    required: true
-	  			 	  },"project_priority_fk": {
-	  		 		    required: false
+	  			 	  },"milestone_id": {
+	  		 		    required: true
 	  			 	  },"status_fk": {
 	  		 		    required: false
+	  			 	  },"milestone_payment": {
+	  		 		    required: true
 	  			 	  }
 	  		 	},
 	  		    messages: {
@@ -525,9 +689,11 @@
 	  		 			required: ' This field is required'
 	  		 	  	  },"deliverable_type_fk": {
 	  		 			required: ' This field is required'
-	  		 	  	  },"project_priority_fk": {
+	  		 	  	  },"milestone_id": {
 	  		 			required: ' This field is required'
 	  		 	  	  },"status_fk": {
+	  		 			required: ' This field is required'
+	  		 	  	  },"milestone_payment": {
 	  		 			required: ' This field is required'
 	  		 	  	  }
 		   		},
@@ -544,12 +710,15 @@
 					}else if(element.attr("id") == "deliverable_type_fk" ){
 						document.getElementById("deliverable_type_fkError").innerHTML="";
 					 	error.appendTo('#deliverable_type_fkError');
-					}else if(element.attr("id") == "project_priority_fk" ){
-						document.getElementById("project_priority_fkError").innerHTML="";
-					 	error.appendTo('#project_priority_fkError');
+					}else if(element.attr("id") == "milestone_id" ){
+						document.getElementById("milestone_idError").innerHTML="";
+					 	error.appendTo('#milestone_idError');
 					}else if(element.attr("id") == "status_fk" ){
 						document.getElementById("status_fkError").innerHTML="";
 					 	error.appendTo('#status_fkError');
+					}else if(element.attr("id") == "milestone_payment" ){
+						document.getElementById("milestone_paymentError").innerHTML="";
+					 	error.appendTo('#milestone_paymentError');
 					}else{
 	 					error.insertAfter(element);
 			        } 
@@ -571,28 +740,23 @@
 	        	        return value.match(/^(0?[1-9]|[12][0-9]|3[0-1])[-](0?[1-9]|1[0-2])[-](19|20)?\d{2}$/);
 	        	        //var dtRegex = new RegExp("^(JAN|FEB|MAR|APR|MAY|JUN|JULY|AUG|SEP|OCT|NOV|DEC) ([0]?[1-9]|[1-2]\\d|3[0-1]), [1-2]\\d{3}$", 'i');
 	        	    	//return dtRegex.test(value);
-	        	    },
-	        	    //"Date format (Aug 02,2020)"
-	        	    "Date format (DD-MM-YYYY)"
-	        	);
-	            
-	            
-	            $('select').change(function(){
-	        	    if ($(this).val() != ""){
-	        	        $(this).valid();
-	        	    }
-	        	});
-	            
-	            $('input').change(function(){
-	        	    if ($(this).val() != ""){
-	        	        $(this).valid();
-	        	    }
-	        	});
-	            function removeMedia(link,id){
-	          	  $('#'+id).val('');
-	          	  $(link).prev().text('');
-	          	  $(link).css('display','none');
-	            } 
+       	    },
+       	    //"Date format (Aug 02,2020)"
+       	    "Date format (DD-MM-YYYY)"
+       	);
+           
+           
+        $('select').change(function(){
+       	    if ($(this).val() != ""){
+       	        $(this).valid();
+       	    }
+       	});
+           
+        $('input').change(function(){
+       	    if ($(this).val() != ""){
+       	        $(this).valid();
+       	    }
+       	});
     </script>
 </body>
 </html>

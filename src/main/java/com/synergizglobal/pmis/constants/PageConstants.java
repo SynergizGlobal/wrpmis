@@ -86,6 +86,9 @@ public class PageConstants {
 	
 	public static final String deliverablesGrid = "forms/deliverablesGrid";
 	public static final String addEditDeliverablesForm = "forms/addEditDeliverablesForm";
+	public static final String downloadDeliverablesTemplate = "forms/downloadDeliverablesTemplate";
+	public static final String deliverablesReport = "forms/deliverablesReport";
+	
 	
 	public static final String PMISprogressForm = "forms/PMISprogressForm";
 	

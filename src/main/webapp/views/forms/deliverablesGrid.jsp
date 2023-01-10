@@ -220,7 +220,7 @@
 			</div>
 			<!-- form start-->
 			<div class="container">
-				<form action="<%=request.getContextPath()%>/upload-deliverables-template"
+				<form action="<%=request.getContextPath()%>/upload-deliverables"
 					method="post" enctype="multipart/form-data">
 					<div class="row no-mar">
 						<div class="col s12 m12 input-field center-align">
@@ -229,8 +229,8 @@
 								<div class="col m8 s12">
 									<div class="file-field input-field">
 										<div class="btn bg-m">
-											<span>Attachment</span> <input type="file" id="uploadableFile"
-												name="uploadableFile" required="required">
+											<span>Attachment</span> <input type="file" id="uploadFile"
+												name="uploadFile" required="required">
 										</div>
 										<div class="file-path-wrapper">
 											<input class="file-path validate" type="text">
@@ -245,7 +245,7 @@
 						<div class="col s12 m6">
 							<div class="center-align m-1">
 								<button type="submit" class="btn waves-effect waves-light bg-m"
-									style="width: 100%;">Update</button>
+									style="width: 100%;">Upload</button>
 							</div>
 						</div>
 						<div class="col s12 m6">
@@ -319,11 +319,11 @@
      var filtersMap = new Object();
      
      function openUploadModal() {
-		$("#uploadableFile").val('');
+		$("#uploadFile").val('');
 		$("#upload_template").modal('open');
 	 }
      function closeUploadModal() {
-		$("#uploadableFile").val('');
+		$("#uploadFile").val('');
 		$("#upload_template").modal('close');
 	 }
      
@@ -351,7 +351,7 @@
 	        	  }
 	          }
          }
-         $('.close-message').delay(3000).fadeOut('slow');
+         $('.close-message').delay(8000).fadeOut('slow');
 		getDeliverablesList();
 		if(window.matchMedia("(max-width: 769px)").matches){
 	        $('#mobView').css({'display':'block'});

@@ -504,7 +504,7 @@ public class DeliverablesController {
 		        
 		        
 	            XSSFRow headingRow = dataSheet.createRow(0);
-	            String headerString = "Deliverable Id^Project^Work^Contract^Milestones^Deliverable type^Deliverable Description^Status^Milestone Payment %^Document Name^Original Due Date^Revised Due Date^Submission Date^Approval Date^Remarks";
+	            String headerString = "Deliverable Id^Project^Work^Contract^Milestones^Deliverable type^Deliverable Description^Status^Milestone Payment %^Document Name^Original Due Date^Revised Due Date^Submission Date^Approval Date^Payment %^Remarks";
 	            
 	            String[] firstHeaderStringArr = headerString.split("\\^");
 	            dataSheet.createFreezePane(0,1);
@@ -538,7 +538,7 @@ public class DeliverablesController {
 							
 							cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
-							cell.setCellValue(obj.getMilestone_id());
+							cell.setCellValue(obj.getMilestone_id() +"_"+ obj.getMilestone_name());
 							
 							cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
@@ -578,6 +578,10 @@ public class DeliverablesController {
 							
 							cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(docObj.getPayment());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
 							cell.setCellValue(docObj.getRemarks());
 			                rowNo++;
 			        	}
@@ -603,7 +607,7 @@ public class DeliverablesController {
 						
 						cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
-						cell.setCellValue(obj.getMilestone_name());
+						cell.setCellValue(obj.getMilestone_id() +"_"+ obj.getMilestone_name());
 						
 						cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
@@ -640,6 +644,10 @@ public class DeliverablesController {
 						cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
 						cell.setCellValue(obj.getApproval_date());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(obj.getPayment());
 						
 						cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);

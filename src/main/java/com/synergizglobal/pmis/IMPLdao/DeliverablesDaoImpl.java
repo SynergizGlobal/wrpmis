@@ -1019,8 +1019,8 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 		int count = 0,row =1,sheet = 1,subRow = 1;
 		int sheet1 =1;
 		String errMsg = null;
-		TransactionDefinition def = new DefaultTransactionDefinition();
-		TransactionStatus status = transactionManager.getTransaction(def);
+		//TransactionDefinition def = new DefaultTransactionDefinition();
+		//TransactionStatus status = transactionManager.getTransaction(def);
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			
@@ -1073,8 +1073,15 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 					SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
 				    count = namedParamJdbcTemplate.update(updateQry, paramSource);
 				}else {		
-					SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
-					count = namedParamJdbcTemplate.update(insertQry, paramSource);
+					/*SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
+					count = namedParamJdbcTemplate.update(insertQry, paramSource);*/
+					BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
+					KeyHolder keyHolder = new GeneratedKeyHolder();
+				    count = namedParamJdbcTemplate.update(insertQry, paramSource, keyHolder);
+				    if(count > 0) {
+						 deliverable_id = String.valueOf(keyHolder.getKey().intValue());
+						 obj.setDeliverable_id(deliverable_id);
+					}
 				}
 				
 				String deliverable_document_id = obj.getDeliverable_document_id();
@@ -1092,10 +1099,10 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 				
 			}
 		   count = deliverablesList.size();
-		   transactionManager.commit(status);
+		   //transactionManager.commit(status);
 		}catch(Exception e){ 
-			transactionManager.rollback(status);
-			//e.printStackTrace();
+			//transactionManager.rollback(status);
+			e.printStackTrace();
 			errMsg = "Something went wrong. Please try with correct data ";			
 		}
 		String arr[] = new String[5];

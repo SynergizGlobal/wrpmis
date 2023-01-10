@@ -286,16 +286,16 @@ public class WorkModuleUserAccessDaoImpl implements WorkModuleUserAccessDao{
 	private List<WorkModuleUserAccess> getTablesList(WorkModuleUserAccess obj) throws Exception {
 		List<WorkModuleUserAccess> tablesList = null;
 		try {
-			String qry = "select  object_name(fkx.fkeyid) as tName,\r\n" + 
-					"        \r\n" + 
-					"        col_name(fkx.fkeyid, fkx.fkey) as COLUMN_NAME,\r\n" + 
-					"		'' as CONSTRAINT_NAME,\r\n" + 
-					"        object_name(fkx.rkeyid) as REFERENCED_TABLE_NAME,\r\n" + 
-					"        col_name(fkx.rkeyid, fkx.rkey) as REFERENCED_COLUMN_NAME\r\n" + 
-					"from sysforeignkeys fkx \r\n" + 
-					"inner join sys.tables t on object_name(fkx.rkeyid)=t.name \r\n" + 
-					"inner join sys.schemas s on s.schema_id=t.schema_id \r\n" + 
-					"where object_name(fkx.rkeyid)='bank_name' and s.name='dbo'\r\n" + 
+			String qry = "select  object_name(fkx.fkeyid) as tName, " + 
+					"         " + 
+					"        col_name(fkx.fkeyid, fkx.fkey) as COLUMN_NAME, " + 
+					"		'' as CONSTRAINT_NAME, " + 
+					"        object_name(fkx.rkeyid) as REFERENCED_TABLE_NAME, " + 
+					"        col_name(fkx.rkeyid, fkx.rkey) as REFERENCED_COLUMN_NAME " + 
+					"from sysforeignkeys fkx  " + 
+					"inner join sys.tables t on object_name(fkx.rkeyid)=t.name  " + 
+					"inner join sys.schemas s on s.schema_id=t.schema_id  " + 
+					"where object_name(fkx.rkeyid)='bank_name' and s.name='dbo' " + 
 					"order by object_name(fkx.fkeyid), fkx.keyno";
 			
 			tablesList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<WorkModuleUserAccess>(WorkModuleUserAccess.class));	
@@ -319,16 +319,16 @@ public class WorkModuleUserAccessDaoImpl implements WorkModuleUserAccessDao{
 	private List<WorkModuleUserAccess> getDataDetails(WorkModuleUserAccess obj) throws Exception {
 		List<WorkModuleUserAccess> list = null;
 		try {
-			String qry = "select  object_name(fkx.fkeyid) as TABLE_NAME,\r\n" + 
-					"        \r\n" + 
-					"        col_name(fkx.fkeyid, fkx.fkey) as COLUMN_NAME,\r\n" + 
-					"		'' as CONSTRAINT_NAME,\r\n" + 
-					"        object_name(fkx.rkeyid) as REFERENCED_TABLE_NAME,\r\n" + 
-					"        col_name(fkx.rkeyid, fkx.rkey) as REFERENCED_COLUMN_NAME\r\n" + 
-					"from sysforeignkeys fkx \r\n" + 
-					"inner join sys.tables t on object_name(fkx.rkeyid)=t.name \r\n" + 
-					"inner join sys.schemas s on s.schema_id=t.schema_id \r\n" + 
-					"where object_name(fkx.rkeyid)='bank_name' and s.name='dbo'\r\n" + 
+			String qry = "select  object_name(fkx.fkeyid) as TABLE_NAME, " + 
+					"         " + 
+					"        col_name(fkx.fkeyid, fkx.fkey) as COLUMN_NAME, " + 
+					"		'' as CONSTRAINT_NAME, " + 
+					"        object_name(fkx.rkeyid) as REFERENCED_TABLE_NAME, " + 
+					"        col_name(fkx.rkeyid, fkx.rkey) as REFERENCED_COLUMN_NAME " + 
+					"from sysforeignkeys fkx  " + 
+					"inner join sys.tables t on object_name(fkx.rkeyid)=t.name  " + 
+					"inner join sys.schemas s on s.schema_id=t.schema_id  " + 
+					"where object_name(fkx.rkeyid)='bank_name' and s.name='dbo' " + 
 					"order by object_name(fkx.fkeyid), fkx.keyno";
 			
 			 list = jdbcTemplate.query( qry, new BeanPropertyRowMapper<WorkModuleUserAccess>(WorkModuleUserAccess.class));		
@@ -624,6 +624,104 @@ public class WorkModuleUserAccessDaoImpl implements WorkModuleUserAccessDao{
 			throw new Exception(e);
 		}
 		return objList;
+	}
+
+
+	@Override
+	public boolean addUserAccessforExecutionContracts(WorkModuleUserAccess obj) throws Exception {
+		boolean flag = false;
+		try {
+			String query ="";
+			PreparedStatement stmt = null;
+			Connection con =  dataSource.getConnection();
+			
+			if(!StringUtils.isEmpty(obj.getModule_name_fk())) {
+			 String splitStr[]=obj.getModule_name_fk().split("###");
+				String deleteQry = "DELETE from user_access_executivesbyform";		 
+				stmt = con.prepareStatement(deleteQry);
+				stmt.executeUpdate();
+				if(stmt != null){stmt.close();}
+				
+				for(int i1=1;i1<splitStr.length;i1++)
+				{
+							String splitStrColumns[]=splitStr[i1].split("__");					
+							query = " insert into user_access_executivesbyform (contract_id_fk,p6_updates,activity_update_form,validate_form,module_name_fk,structure_type_fk)"
+					               + " values (?,?,?,?,?,?)";
+						
+							stmt = con.prepareStatement(query);
+							
+							stmt.setString(1, splitStrColumns[0]);
+							
+							if(splitStrColumns[1].compareTo("No")!=0)
+							{
+								stmt.setString(2, splitStrColumns[1]);
+							}
+							else
+							{
+								stmt.setString(2, "");
+							}
+
+							if(splitStrColumns[2].compareTo("No")!=0)
+							{
+								stmt.setString(3, splitStrColumns[2]);
+							}
+							else
+							{
+								stmt.setString(3, "");
+							}
+							
+							if(splitStrColumns[3].compareTo("No")!=0)
+							{
+								stmt.setString(4, splitStrColumns[3]);
+							}
+							else
+							{
+								stmt.setString(4, "");
+							}
+							stmt.setString(5, "Execution");
+							if(splitStrColumns[4].compareTo("No")!=0)
+							{
+								stmt.setString(6, splitStrColumns[4]);
+							}
+							else
+							{
+								stmt.setString(6, "");
+							}	
+							stmt.executeUpdate();
+							
+					
+					flag = true;
+												
+					}					
+				}
+			
+			
+
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return flag;
+	}
+
+
+	@Override
+	public List<WorkModuleUserAccess> getSelectedExecutionContracts(WorkModuleUserAccess obj) throws Exception {
+		List<WorkModuleUserAccess> objsList = new ArrayList<WorkModuleUserAccess>();
+		try {
+			int arrSize = 0;
+			String qry ="";
+			
+				qry = "select contract_id_fk,p6_updates as form1_users,	activity_update_form as form2_users,validate_form as form3_users,module_name_fk,structure_type_fk from user_access_executivesbyform";
+
+
+			objsList = jdbcTemplate.query( qry,  new BeanPropertyRowMapper<WorkModuleUserAccess>(WorkModuleUserAccess.class));
+			
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objsList;
 	}
 
 

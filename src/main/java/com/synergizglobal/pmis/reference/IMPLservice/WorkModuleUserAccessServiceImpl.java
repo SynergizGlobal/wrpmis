@@ -68,5 +68,15 @@ public class WorkModuleUserAccessServiceImpl implements WorkModuleUserAccessServ
 	{
 		return dao.getUsersDetails(obj);
 	}
+
+	@Override
+	public boolean addUserAccessforExecutionContracts(WorkModuleUserAccess obj) throws Exception {
+		return dao.addUserAccessforExecutionContracts(obj);
+	}
+	
+	public List<WorkModuleUserAccess> getSelectedExecutionContracts(WorkModuleUserAccess obj) throws Exception
+	{
+		return dao.getSelectedExecutionContracts(obj);
+	}
 	
 }

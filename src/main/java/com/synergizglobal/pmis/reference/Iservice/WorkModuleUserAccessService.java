@@ -10,6 +10,8 @@ public interface WorkModuleUserAccessService {
 	public List<WorkModuleUserAccess> getWorkModuleUserAccesssList() throws Exception;
 
 	public boolean addWorkModuleUserAccess(WorkModuleUserAccess obj) throws Exception;
+	
+	public boolean addUserAccessforExecutionContracts(WorkModuleUserAccess obj) throws Exception;
 
 	public boolean updateWorkModuleUserAccess(WorkModuleUserAccess obj) throws Exception;
 
@@ -25,6 +27,7 @@ public interface WorkModuleUserAccessService {
 	
 	public List<WorkModuleUserAccess> getWorkModuleWiseUsers(WorkModuleUserAccess obj) throws Exception;
 	
+	public List<WorkModuleUserAccess> getSelectedExecutionContracts(WorkModuleUserAccess obj) throws Exception;
 	
 	public List<WorkModuleUserAccess> getUsersDetails(WorkModuleUserAccess obj) throws Exception;
 	

@@ -111,7 +111,33 @@ public class WorkModuleUserAccessController {
 		}
 		return worksList;
 	}
+
+	@RequestMapping(value = "/ajax/getSelectedExecutionContracts", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<WorkModuleUserAccess> getSelectedExecutionContracts(@ModelAttribute WorkModuleUserAccess obj,HttpSession session) {
+		List<WorkModuleUserAccess> worksList = null;  
+		try {
+			worksList = service.getSelectedExecutionContracts(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getSelectedExecutionContracts : " + e.getMessage());
+		}
+		return worksList;
+	}	
 	
+	
+	@RequestMapping(value = "/ajax/addUserAccessforExecutionContracts", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public boolean addUserAccessforExecutionContracts(@ModelAttribute WorkModuleUserAccess obj,HttpSession session) throws Exception {
+		boolean flag = false;
+		try {
+			flag = service.addUserAccessforExecutionContracts(obj);
+		} catch (SQLException e) {
+			logger.error("addUserAccessforExecutionContracts : " + e.getMessage());
+		}
+		return flag;
+	}
+
 	@RequestMapping(value = "/ajax/addWorkModuleUserAccess", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public boolean addWorkModuleUserAccess(@ModelAttribute WorkModuleUserAccess obj,HttpSession session) throws Exception {
@@ -122,9 +148,7 @@ public class WorkModuleUserAccessController {
 			logger.error("addWorkModuleUserAccess : " + e.getMessage());
 		}
 		return flag;
-	}
-
-	
+	}	
 
 }
 

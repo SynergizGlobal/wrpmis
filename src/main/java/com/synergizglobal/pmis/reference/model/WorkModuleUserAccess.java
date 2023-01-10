@@ -7,7 +7,7 @@ import com.synergizglobal.pmis.model.Structure;
 public class WorkModuleUserAccess {
 	
 	private String bank_name_old,bank_name_fk,bank_name,bank_name_new,Table_name,column_name,captiliszedTableName,tName,project_id_fk,project_name,work_id_fk,work_name,work_short_name,module_name_fk,
-	user_id,user_name,designation;
+	user_id,user_name,designation,contract_id_fk,structure_type_fk,form_name,form1_users,form2_users,form3_users;
 	private List<WorkModuleUserAccess> workModuleUserAccessList;
 	private List<WorkModuleUserAccess> workModuleUserAccessList1;
 	private List<WorkModuleUserAccess> tablesList;
@@ -207,6 +207,54 @@ public class WorkModuleUserAccess {
 
 	public void setResponsiblePeopleLists(List<WorkModuleUserAccess> responsiblePeopleLists) {
 		this.responsiblePeopleLists = responsiblePeopleLists;
+	}
+
+	public String getContract_id_fk() {
+		return contract_id_fk;
+	}
+
+	public void setContract_id_fk(String contract_id_fk) {
+		this.contract_id_fk = contract_id_fk;
+	}
+
+	public String getStructure_type_fk() {
+		return structure_type_fk;
+	}
+
+	public void setStructure_type_fk(String structure_type_fk) {
+		this.structure_type_fk = structure_type_fk;
+	}
+
+	public String getForm_name() {
+		return form_name;
+	}
+
+	public void setForm_name(String form_name) {
+		this.form_name = form_name;
+	}
+
+	public String getForm1_users() {
+		return form1_users;
+	}
+
+	public void setForm1_users(String form1_users) {
+		this.form1_users = form1_users;
+	}
+
+	public String getForm2_users() {
+		return form2_users;
+	}
+
+	public void setForm2_users(String form2_users) {
+		this.form2_users = form2_users;
+	}
+
+	public String getForm3_users() {
+		return form3_users;
+	}
+
+	public void setForm3_users(String form3_users) {
+		this.form3_users = form3_users;
 	}
 	
 

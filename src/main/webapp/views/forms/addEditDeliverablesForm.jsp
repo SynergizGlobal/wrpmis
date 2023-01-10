@@ -131,7 +131,7 @@
                                     <select class="searchable validate-dropdown" name="milestone_id" id="milestone_id">
                                         <option value="" >Select</option>
                                         <c:forEach var="obj" items="${milestonesList }">
-		                                     <option value="${obj.milestone_id }" <c:if test="${deliverablesDetails.milestone_id eq obj.milestone_id}">selected</c:if>>
+		                                     <option value="${obj.milestone_id }" <c:if test="${(not empty deliverablesDetails.milestone_id) and (deliverablesDetails.milestone_id eq obj.milestone_id)}">selected</c:if>>
 		                                     ${obj.milestone_id}
 		                                     <c:if test="${obj.milestone_id ne null and obj.milestone_name ne null}">
 		                                      => 
@@ -143,14 +143,17 @@
                                     <span id="milestone_idError" class="error-msg" ></span>
                                 </div>
                             	<div class="col s6 m4 l4 input-field">
-                                    <p class="searchable_label">Deliverable Type <span class="required">*</span></p>
+                                    <%-- <p class="searchable_label">Deliverable Type <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" name="deliverable_type_fk" id="deliverable_type_fk">
                                         <option value="" >Select</option>
                                         <c:forEach var="obj" items="${deliverablesTypeList }">
 		                                     <option value="${obj.deliverable_type_fk }" <c:if test="${deliverablesDetails.deliverable_type_fk eq obj.deliverable_type_fk}">selected</c:if>>${obj.deliverable_type_fk}</option>
 		                                </c:forEach>
-                                    </select>
-                                    <span id="deliverable_type_fkError" class="error-msg" ></span>
+                                    </select> --%>
+                                    <input id="deliverable_type" name="deliverable_type" type="text" class="validate" value="${deliverablesDetails.deliverable_type }">
+                                    <label for="deliverable_type">Deliverable type <span class="required">*</span></label>
+                                    <span id="deliverable_typeError" class="error-msg" ></span>
+                                    
                                 </div>
                                 
                                 <div class="col s12 m4 l4 input-field">
@@ -587,7 +590,7 @@
                                 
                                 var milestone_id_exists = "${deliverablesDetails.milestone_id}";
                                 var selected = '';
-                                if(milestone_id_exists == val.milestone_id){
+                                if($.trim(milestone_id_exists) != '' && milestone_id_exists == val.milestone_id){
                                 	selected = 'selected';
                                 }
                                 
@@ -670,7 +673,7 @@
 	  			 		required: true
 	  			 	  },"contract_id_fk": {
 	  		 		    required: true
-	  			 	  },"deliverable_type_fk": {
+	  			 	  },"deliverable_type": {
 	  		 		    required: true
 	  			 	  },"milestone_id": {
 	  		 		    required: true
@@ -687,7 +690,7 @@
 	  			 		required: ' This field is required'
 	  			 	  },"contract_id_fk": {
 	  		 			required: ' This field is required'
-	  		 	  	  },"deliverable_type_fk": {
+	  		 	  	  },"deliverable_type": {
 	  		 			required: ' This field is required'
 	  		 	  	  },"milestone_id": {
 	  		 			required: ' This field is required'
@@ -707,9 +710,9 @@
 					}else if(element.attr("id") == "contract_id_fk" ){
 						document.getElementById("contract_id_fkError").innerHTML="";
 					 	error.appendTo('#contract_id_fkError');
-					}else if(element.attr("id") == "deliverable_type_fk" ){
-						document.getElementById("deliverable_type_fkError").innerHTML="";
-					 	error.appendTo('#deliverable_type_fkError');
+					}else if(element.attr("id") == "deliverable_type" ){
+						document.getElementById("deliverable_typeError").innerHTML="";
+					 	error.appendTo('#deliverable_typeError');
 					}else if(element.attr("id") == "milestone_id" ){
 						document.getElementById("milestone_idError").innerHTML="";
 					 	error.appendTo('#milestone_idError');

@@ -556,7 +556,7 @@
                             if($.trim(data.milestone_name) == ''){ return '-'; }else{ return $.trim(data.milestone_name); }
             			} }, 
       		            { "mData": function(data,type,row){
-      		            	if($.trim(data.deliverable_type_fk) == ''){ return '-'; }else{ return data.deliverable_type_fk; }
+      		            	if($.trim(data.deliverable_type) == ''){ return '-'; }else{ return data.deliverable_type; }
       		            } },
       		            { "mData": function(data,type,row){
      		            	if($.trim(data.deliverable_description) == ''){ return '-'; }else{ return data.deliverable_description; }
@@ -649,7 +649,7 @@
  					    rowArray.push($.trim(val.project_id_fk) + projectName);
  					 	rowArray.push($.trim(val.work_id_fk) + work_short_name);
  					 	rowArray.push($.trim(val.contract_id_fk) + contract_short_name);
- 					 	rowArray.push($.trim(val.deliverable_type_fk));
+ 					 	rowArray.push($.trim(val.deliverable_type));
  					 	rowArray.push($.trim(val.deliverable_description));
  					 	rowArray.push($.trim(val.status_fk));
  					 	rowArray.push($.trim(actions));   	                   	

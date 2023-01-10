@@ -45,4 +45,6 @@ public interface DeliverablesService {
 
 	public List<Deliverables> getDeliverablesConractMilestonesList(Deliverables dObj) throws Exception;
 
+	public String[] uploadDeliverablesData(List<Deliverables> deliverablesList, Deliverables deliverableObj) throws Exception;
+
 }

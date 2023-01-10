@@ -7,9 +7,10 @@ import org.springframework.web.multipart.MultipartFile;
 public class Deliverables {
 	
 	private String id,deliverable_id, project_name, work_id_fk,work_name,work_short_name,project_id_fk,contract_name,contract_short_name, contract_id_fk, 
-	deliverable_type_fk, deliverable_description, status_fk, user_id, user_name, designation,contract_milestones_id_fk,milestone_id,milestone_name,
+	deliverable_type, deliverable_description, status_fk, user_id, user_name, designation,contract_milestones_id_fk,milestone_id,milestone_name,
 	milestone_payment,deliverable_document_id,deliverable_document_name,original_due_date,revised_due_date,submission_date,approval_date,payment,
-	deliverable_document_file_name,remarks,created_date,created_by,updated_date,updated_by,deliverable_id_fk,contract_id,work_id,project_id,due_date;
+	deliverable_document_file_name,remarks,created_date,created_by,updated_date,updated_by,deliverable_id_fk,contract_id,work_id,project_id,due_date,
+	contractor_id_fk,contractor_id,contractor_name,uploaded_by_user_id_fk,status,created_by_user_id_fk;
 
 	private String []  deliverable_document_ids,deliverable_document_names,original_due_dates,revised_due_dates,submission_dates,approval_dates,payments,
 	deliverable_document_file_names,remarkss;
@@ -18,7 +19,33 @@ public class Deliverables {
 
 	private List<Deliverables> deliverableDocuments;
 	
+	private MultipartFile uploadFile;
 	
+	
+
+	public String getContractor_id_fk() {
+		return contractor_id_fk;
+	}
+
+	public void setContractor_id_fk(String contractor_id_fk) {
+		this.contractor_id_fk = contractor_id_fk;
+	}
+
+	public String getContractor_id() {
+		return contractor_id;
+	}
+
+	public void setContractor_id(String contractor_id) {
+		this.contractor_id = contractor_id;
+	}
+
+	public String getContractor_name() {
+		return contractor_name;
+	}
+
+	public void setContractor_name(String contractor_name) {
+		this.contractor_name = contractor_name;
+	}
 
 	public MultipartFile[] getDeliverableDocumentFiles() {
 		return deliverableDocumentFiles;
@@ -212,12 +239,12 @@ public class Deliverables {
 		this.contract_id_fk = contract_id_fk;
 	}
 
-	public String getDeliverable_type_fk() {
-		return deliverable_type_fk;
+	public String getDeliverable_type() {
+		return deliverable_type;
 	}
 
-	public void setDeliverable_type_fk(String deliverable_type_fk) {
-		this.deliverable_type_fk = deliverable_type_fk;
+	public void setDeliverable_type(String deliverable_type) {
+		this.deliverable_type = deliverable_type;
 	}
 
 	public String getDeliverable_description() {
@@ -410,6 +437,38 @@ public class Deliverables {
 
 	public void setDue_date(String due_date) {
 		this.due_date = due_date;
+	}
+
+	public MultipartFile getUploadFile() {
+		return uploadFile;
+	}
+
+	public void setUploadFile(MultipartFile uploadFile) {
+		this.uploadFile = uploadFile;
+	}
+
+	public String getUploaded_by_user_id_fk() {
+		return uploaded_by_user_id_fk;
+	}
+
+	public void setUploaded_by_user_id_fk(String uploaded_by_user_id_fk) {
+		this.uploaded_by_user_id_fk = uploaded_by_user_id_fk;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getCreated_by_user_id_fk() {
+		return created_by_user_id_fk;
+	}
+
+	public void setCreated_by_user_id_fk(String created_by_user_id_fk) {
+		this.created_by_user_id_fk = created_by_user_id_fk;
 	}
 	
 	

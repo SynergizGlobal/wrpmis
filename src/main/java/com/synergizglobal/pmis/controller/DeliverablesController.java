@@ -3,25 +3,36 @@ package com.synergizglobal.pmis.controller;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.Writer;
+import java.math.BigDecimal;
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.formula.ConditionalFormattingEvaluator;
+import org.apache.poi.ss.formula.WorkbookEvaluatorProvider;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.util.WorkbookUtil;
+import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -46,17 +57,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.synergizglobal.pmis.Idao.FormsHistoryDao;
 import com.synergizglobal.pmis.Iservice.DeliverablesService;
 import com.synergizglobal.pmis.common.DateParser;
-import com.synergizglobal.pmis.common.FileUploads;
-import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.PageConstants;
-import com.synergizglobal.pmis.model.DataGathering;
+import com.synergizglobal.pmis.model.Deliverables;
 import com.synergizglobal.pmis.model.DeliverablesPaginationObject;
-import com.synergizglobal.pmis.model.Deliverables;
-import com.synergizglobal.pmis.model.Document;
-import com.synergizglobal.pmis.model.UtilityShifting;
-import com.synergizglobal.pmis.model.Deliverables;
+import com.synergizglobal.pmis.model.FileFormatModel;
+import com.synergizglobal.pmis.model.FormHistory;
 
 
 @Controller
@@ -68,6 +76,9 @@ public class DeliverablesController {
     }
 	
 	Logger logger = Logger.getLogger(DeliverablesController.class);
+	
+	@Autowired
+	FormsHistoryDao formsHistoryDao;
 	
 	@Autowired
 	DeliverablesService deliverablesService;
@@ -85,7 +96,13 @@ public class DeliverablesController {
 	public String dataExportError;
 	
 	@Value("${record.dataexport.nodata}")
-	public String dataExportNoData;
+	public String dataExportNoData;	
+	
+	@Value("${template.upload.common.error}")
+	public String uploadCommonError;
+	
+	@Value("${template.upload.formatError}")
+	public String uploadformatError;
 	
 	@RequestMapping(value="/deliverables",method={RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView  deliverables(HttpSession session){
@@ -487,7 +504,7 @@ public class DeliverablesController {
 		        
 		        
 	            XSSFRow headingRow = dataSheet.createRow(0);
-	            String headerString = "Project^Work^Contract^Milestones^Deliverable type^Deliverable Description^Status^Milestone Payment %^Document Name^Original Due Date^Revised Due Date^Submission Date^Approval Date^Remarks";
+	            String headerString = "Deliverable Id^Project^Work^Contract^Milestones^Deliverable type^Deliverable Description^Status^Milestone Payment %^Document Name^Original Due Date^Revised Due Date^Submission Date^Approval Date^Remarks";
 	            
 	            String[] firstHeaderStringArr = headerString.split("\\^");
 	            dataSheet.createFreezePane(0,1);
@@ -502,8 +519,12 @@ public class DeliverablesController {
 		        	if(!StringUtils.isEmpty(obj.getDeliverableDocuments()) && obj.getDeliverableDocuments().size() > 0) {
 			        	for (Deliverables docObj : obj.getDeliverableDocuments()) {
 			                XSSFRow row = dataSheet.createRow(rowNo);
-			                int c = 0;		               
+			                int c = 0;	
 			                Cell cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(docObj.getDeliverable_document_id());
+							
+			                cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
 							cell.setCellValue(obj.getProject_name());
 							
@@ -521,7 +542,7 @@ public class DeliverablesController {
 							
 							cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
-							cell.setCellValue(obj.getDeliverable_type_fk());
+							cell.setCellValue(obj.getDeliverable_type());
 							
 							cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
@@ -562,8 +583,13 @@ public class DeliverablesController {
 			        	}
 		        	}else {
 		        		XSSFRow row = dataSheet.createRow(rowNo);
-		                int c = 0;		               
+		                int c = 0;	
+		                
 		                Cell cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(obj.getDeliverable_document_id());
+						
+		                cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
 						cell.setCellValue(obj.getProject_name());
 						
@@ -581,7 +607,7 @@ public class DeliverablesController {
 						
 						cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
-						cell.setCellValue(obj.getDeliverable_type_fk());
+						cell.setCellValue(obj.getDeliverable_type());
 						
 						cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
@@ -782,7 +808,7 @@ public class DeliverablesController {
 	        
 	        
             XSSFRow headingRow = dataSheet.createRow(0);
-            String headerString = "Project^Work^Contract^Milestones^Deliverable type^Deliverable Description^Status^Milestone Payment %^Document Name^Original Due Date^Revised Due Date^Submission Date^Approval Date^Remarks";
+            String headerString = "Project^Work^Contract^Milestones^Deliverable type^Deliverable Description^Status^Milestone Payment %^Document Name^Original Due Date^Revised Due Date^Submission Date^Approval Date^Payment %^Remarks";
             
             String[] firstHeaderStringArr = headerString.split("\\^");
             dataSheet.createFreezePane(0,1);
@@ -795,7 +821,8 @@ public class DeliverablesController {
 			int rowNo = 1;
 	        for (Deliverables obj : dataList) {
                 XSSFRow row = dataSheet.createRow(rowNo);
-                int c = 0;		               
+                int c = 0;		       
+                
                 Cell cell = row.createCell(c++);
 				cell.setCellStyle(sectionStyle);
 				cell.setCellValue(obj.getProject_name());
@@ -810,11 +837,11 @@ public class DeliverablesController {
 				
 				cell = row.createCell(c++);
 				cell.setCellStyle(sectionStyle);
-				cell.setCellValue(obj.getMilestone_name());
+				cell.setCellValue(obj.getMilestone_id() +"_"+ obj.getMilestone_name());
 				
 				cell = row.createCell(c++);
 				cell.setCellStyle(sectionStyle);
-				cell.setCellValue(obj.getDeliverable_type_fk());
+				cell.setCellValue(obj.getDeliverable_type());
 				
 				cell = row.createCell(c++);
 				cell.setCellStyle(sectionStyle);
@@ -847,6 +874,10 @@ public class DeliverablesController {
 				cell = row.createCell(c++);
 				cell.setCellStyle(sectionStyle);
 				cell.setCellValue(obj.getApproval_date());
+				
+				cell = row.createCell(c++);
+				cell.setCellStyle(sectionStyle);
+				cell.setCellValue(obj.getPayment());
 				
 				cell = row.createCell(c++);
 				cell.setCellStyle(sectionStyle);
@@ -886,15 +917,15 @@ public class DeliverablesController {
         	
         	String fileName = "Deliverables_Template";
             try{
-               response.setContentType("application/.csv");
- 			   response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
- 			   response.setContentType("application/vnd.ms-excel");
- 			   // add response header
- 			   response.addHeader("Content-Disposition", "attachment; filename=" + fileName+".xlsx");
+                response.setContentType("application/.csv");
+ 			    response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+ 			    response.setContentType("application/vnd.ms-excel");
+ 			    // add response header
+ 			    response.addHeader("Content-Disposition", "attachment; filename=" + fileName+".xlsx");
  			   
  			    //copies all bytes from a file to an output stream
- 			   workBook.write(response.getOutputStream()); // Write workbook to response.
-	           workBook.close();
+ 			    workBook.write(response.getOutputStream()); // Write workbook to response.
+	            workBook.close();
  			    //flushes output stream
  			    response.getOutputStream().flush();
                 
@@ -1007,7 +1038,7 @@ public class DeliverablesController {
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
-					cell.setCellValue(obj.getContract_short_name());
+					cell.setCellValue(obj.getContractor_name());
 					
 					cell = row.createCell(c++);
 					cell.setCellStyle(sectionStyle);
@@ -1034,7 +1065,7 @@ public class DeliverablesController {
 		        /*************************************************************/ 
 					
 		        headingRow = detailedSheet.createRow(0);
-	            headerString = "Project^Work^Contract^Milestones^Deliverable type^Deliverable Description^Status^Milestone Payment %^Document Name^Original Due Date^Revised Due Date^Submission Date^Approval Date^Remarks";
+	            headerString = "Deliverable Id^Project^Work^Contract^Milestones^Deliverable type^Deliverable Description^Status^Milestone Payment %^Document Name^Original Due Date^Revised Due Date^Submission Date^Approval Date^Payment %^Remarks";
 	            
 	            firstHeaderStringArr = headerString.split("\\^");
 	            detailedSheet.createFreezePane(0,1);
@@ -1049,8 +1080,12 @@ public class DeliverablesController {
 		        	if(!StringUtils.isEmpty(obj.getDeliverableDocuments()) && obj.getDeliverableDocuments().size() > 0) {
 			        	for (Deliverables docObj : obj.getDeliverableDocuments()) {
 			                XSSFRow row = detailedSheet.createRow(rowNo);
-			                int c = 0;		               
+			                int c = 0;	
 			                Cell cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(docObj.getDeliverable_document_id());
+							
+			                cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
 							cell.setCellValue(obj.getProject_name());
 							
@@ -1064,11 +1099,11 @@ public class DeliverablesController {
 							
 							cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
-							cell.setCellValue(obj.getMilestone_id());
+							cell.setCellValue(obj.getMilestone_id() +"_"+ obj.getMilestone_name());
 							
 							cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
-							cell.setCellValue(obj.getDeliverable_type_fk());
+							cell.setCellValue(obj.getDeliverable_type());
 							
 							cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
@@ -1104,6 +1139,10 @@ public class DeliverablesController {
 							
 							cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
+							cell.setCellValue(docObj.getPayment());
+							
+							cell = row.createCell(c++);
+							cell.setCellStyle(sectionStyle);
 							cell.setCellValue(docObj.getRemarks());
 			                rowNo++;
 			        	}
@@ -1124,11 +1163,11 @@ public class DeliverablesController {
 						
 						cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
-						cell.setCellValue(obj.getMilestone_name());
+						cell.setCellValue(obj.getMilestone_id() +"_"+ obj.getMilestone_name());
 						
 						cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
-						cell.setCellValue(obj.getDeliverable_type_fk());
+						cell.setCellValue(obj.getDeliverable_type());
 						
 						cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
@@ -1164,6 +1203,10 @@ public class DeliverablesController {
 						
 						cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(obj.getPayment());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
 						cell.setCellValue(obj.getRemarks());
 		                rowNo++;
 		        	}
@@ -1190,15 +1233,15 @@ public class DeliverablesController {
 	                workBook.write(fos);
 	                fos.flush();*/
 	            	
-	               response.setContentType("application/.csv");
-	 			   response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-	 			   response.setContentType("application/vnd.ms-excel");
-	 			   // add response header
-	 			   response.addHeader("Content-Disposition", "attachment; filename=" + fileName+".xlsx");
+	                response.setContentType("application/.csv");
+	 			    response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+	 			    response.setContentType("application/vnd.ms-excel");
+	 			    // add response header
+	 			    response.addHeader("Content-Disposition", "attachment; filename=" + fileName+".xlsx");
 	 			   
 	 			    //copies all bytes from a file to an output stream
-	 			   workBook.write(response.getOutputStream()); // Write workbook to response.
-		           workBook.close();
+	 			    workBook.write(response.getOutputStream()); // Write workbook to response.
+		            workBook.close();
 	 			    //flushes output stream
 	 			    response.getOutputStream().flush();
 	            	
@@ -1228,5 +1271,473 @@ public class DeliverablesController {
 	}
 	
 	/**************************************************************************************/
+	
+	@RequestMapping(value = "/upload-deliverables", method = {RequestMethod.POST})
+	public ModelAndView uploadDeliverables(@ModelAttribute Deliverables obj,RedirectAttributes attributes,HttpSession session){
+		ModelAndView model = new ModelAndView();
+		String msg = "";String userId = null;
+		try {
+			userId = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			obj.setUser_id(userId);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
+			model.setViewName("redirect:/deliverables");
+			
+			if(!StringUtils.isEmpty(obj.getUploadFile())){
+				MultipartFile multipartFile = obj.getUploadFile();
+				// Creates a workbook object from the uploaded excelfile
+				if (multipartFile.getSize() > 0){					
+					XSSFWorkbook workbook = new XSSFWorkbook(multipartFile.getInputStream());
+					// Creates a worksheet object representing the first sheet
+					int sheetsCount = workbook.getNumberOfSheets();
+					if(sheetsCount > 0) {
+						XSSFSheet laSheet = workbook.getSheetAt(0);
+						//System.out.println(uploadFilesSheet.getSheetName());
+						//header row
+						XSSFRow headerRow = laSheet.getRow(0);
+						//checking given file format
+						if(headerRow != null){
+							List<String> fileFormat = FileFormatModel.getDeliverablesFileFormat();	
+							int columnSize = fileFormat.size();
+							int noOfColumns = headerRow.getLastCellNum();
+							String columnName = headerRow.getCell(0).getStringCellValue().trim();
+							if(!columnName.equalsIgnoreCase(fileFormat.get(0).trim()) &&  columnName.equals("Project")) {
+								columnSize = columnSize - 1;
+							}
+							if(noOfColumns == columnSize){
+								boolean tempFlag = false;
+								for (int i = 0; i < columnSize;i++) {
+				                	//System.out.println(headerRow.getCell(i).getStringCellValue().trim());
+				                	//if(!fileFormat.get(i).trim().equals(headerRow.getCell(i).getStringCellValue().trim())){
+									columnName = headerRow.getCell(i).getStringCellValue().trim();
+									if(i == 0 && "Deliverable Id".equalsIgnoreCase(fileFormat.get(i).trim()) && columnName.equals("Project") && !columnName.equals(fileFormat.get(i).trim())) {
+										tempFlag = true;
+									}
+									if(tempFlag) {i++;}
+									if(!columnName.equals(fileFormat.get(i).trim()) && !columnName.contains(fileFormat.get(i).trim())){
+				                		attributes.addFlashAttribute("error",uploadformatError);
+				                		msg = uploadformatError;
+				                		obj.setUploaded_by_user_id_fk(userId);
+				                		obj.setStatus("Fail");
+				                		obj.setRemarks(msg);
+										//boolean flag = deliverablesService.saveUploadedFile(obj);
+				                		return model;
+				                	}
+								}
+							}else{
+								attributes.addFlashAttribute("error",uploadformatError);
+								msg = uploadformatError;
+		                		obj.setUploaded_by_user_id_fk(userId);
+		                		obj.setStatus("Fail");
+		                		obj.setRemarks(msg);
+								//boolean flag = deliverablesService.saveUploadedFile(obj);
+		                		return model;
+							}
+						}else{
+							attributes.addFlashAttribute("error",uploadformatError);
+							msg = uploadformatError;
+	                		obj.setUploaded_by_user_id_fk(userId);
+	                		obj.setStatus("Fail");
+	                		obj.setRemarks(msg);
+							//boolean flag = deliverablesService.saveUploadedFile(obj);
+	                		return model;
+						}
+						String[]  result = uploadDeliverables(obj,userId,userName);
+						String errMsg = result[0];String actualVal = "";
+						int count = 0,row = 0,sheet = 0,subRow = 0;
+						List<String> fileFormat = FileFormatModel.getDeliverablesFileFormat();	
+						if(!StringUtils.isEmpty(result[1])){count = Integer.parseInt(result[1]);}
+						if(!StringUtils.isEmpty(result[2])){row = Integer.parseInt(result[2]);}
+						if(!StringUtils.isEmpty(result[3])){sheet = Integer.parseInt(result[3]);}
+						if(!StringUtils.isEmpty(result[4])){subRow = Integer.parseInt(result[4]);}
+						if(!StringUtils.isEmpty(errMsg)){
+							if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Duplicate entry")) {
+								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;<b>Work and Deliverables Id Mismatch at row: ("+row+")</b> please check and Upload again.</span>");
+								msg = "Work and Deliverables Id Mismatch at row: "+row;
+							}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Data truncated")) {
+								actualVal = Integer.toString(subRow);
+								if(sheet == 1) {subRow = row; 
+									String error = "Data truncated";
+									actualVal = FileFormatModel.getActualValue(error,errMsg,subRow,fileFormat);
+								} 
+								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Incorrect Value identified in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Upload again.</span>");
+								msg = "Incorrect value identified in Sheet: "+sheet+" at row: "+actualVal;
+							}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Cannot add or update a child row")) {
+								actualVal = Integer.toString(subRow);
+								if(sheet == 1) {subRow = row;
+									String error = "Cannot add or update a child row";
+									actualVal = FileFormatModel.getActualValue(error,errMsg,subRow,fileFormat);
+								}
+								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Incorrect Value identified in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Upload again.</span>");
+								msg = "Incorrect value identified in Sheet: "+sheet+" at row: "+actualVal;
+							}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Incorrect date value")) {
+								actualVal = Integer.toString(subRow);
+								if(sheet == 1) {subRow = row;
+									String error = "Incorrect date value";
+									actualVal = FileFormatModel.getActualValue(error,errMsg,subRow,fileFormat);
+								}
+								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Incorrect date value identified in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Upload again.</span>");
+								msg = "Incorrect date value identified in Sheet: "+sheet+" at row: "+actualVal;
+							}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Incorrect integer value")) {
+								actualVal = Integer.toString(subRow);
+								if(sheet == 1) {subRow = row; 
+									String error = "Incorrect integer value";
+									actualVal = FileFormatModel.getActualValue(error,errMsg,subRow,fileFormat);
+								}
+								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Incorrect integer value identified in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Upload again.</span>");
+								msg = "Incorrect integer value identified in Sheet: "+sheet+" at row: "+actualVal;
+							}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Incorrect decimal value")) {
+								actualVal = Integer.toString(subRow);
+								if(sheet == 1) {subRow = row;
+									String error = "Incorrect decimal value";
+									actualVal = FileFormatModel.getActualValue(error,errMsg,subRow,fileFormat);
+								}
+								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Incorrect decimal value identified in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Upload again.</span>");
+								msg = "Incorrect decimal value identified in Sheet: "+sheet+" at row: "+actualVal;
+							}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Data too long for column")) {
+								actualVal = Integer.toString(subRow);
+								if(sheet == 1) {subRow = row;
+									String error = "Data too long for column";
+									actualVal = FileFormatModel.getActualValue(error,errMsg,subRow,fileFormat);
+								}
+								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;Data too long for value in <b>Sheet: ["+sheet+"]</b> at <b>row: ["+actualVal+"]</b> please check and Upload again.</span>");
+								msg = "Incorrect decimal value identified in Sheet: "+sheet+" at row: "+actualVal;
+							}else if(!StringUtils.isEmpty(errMsg) && errMsg.contains("Invalid Rows")) {
+								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;"+errMsg+"</span>");
+								msg = errMsg;
+							}else {
+								attributes.addFlashAttribute("error","<span style='color:red;'><i class='fa fa-warning'></i>&nbsp;"+errMsg+"</span>");
+								msg = errMsg;
+							}
+						
+	                		obj.setUploaded_by_user_id_fk(userId);
+	                		obj.setStatus("Fail");
+	                		obj.setRemarks(msg);
+							//boolean flag = deliverablesService.saveUploadedFile(obj);
+	                		return model;
+						}
+						
+						if(count > 0) {
+							attributes.addFlashAttribute("success","<i class='fa fa-check'></i>&nbsp;"+ count + "<span style='color:green;'> records Uploaded successfully.</span>");	
+							msg = count + " records Uploaded successfully.";
+							
+							FormHistory formHistory = new FormHistory();
+							formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
+							formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
+							formHistory.setModule_name_fk("Deliverables");
+							formHistory.setForm_name("Upload Deliverables");
+							formHistory.setForm_action_type("Upload");
+							formHistory.setForm_details( msg);
+							formHistory.setWork(obj.getWork_id_fk());
+							//formHistory.setContract(obj.getContract_id_fk());
+							
+							boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+							/********************************************************************************/
+						}else {
+							attributes.addFlashAttribute("success"," No records found.");	
+							msg = " No records found.";
+						}
+                		obj.setUploaded_by_user_id_fk(userId);
+                		obj.setStatus("Success");
+                		obj.setRemarks(msg);
+						//boolean flag = deliverablesService.saveUploadedFile(obj);
+					}
+					workbook.close();
+				}
+			} else {
+				attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
+				msg = "No file exists";
+				obj.setUploaded_by_user_id_fk(userId);
+        		obj.setStatus("Fail");
+        		obj.setRemarks(msg);
+				//boolean flag = deliverablesService.saveUploadedFile(obj);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
+			logger.fatal("saveDeliverableDataUploadFile() : "+e.getMessage());
+			msg = "Something went wrong. Please try after some time";
+			obj.setUploaded_by_user_id_fk(userId);
+    		obj.setStatus("Fail");
+    		obj.setRemarks(msg);
+			try {
+				//boolean flag = deliverablesService.saveUploadedFile(obj);
+			} catch (Exception e1) {
+				attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
+				logger.fatal("saveDeliverableDataUploadFile() : "+e.getMessage());
+			}
+		}
+		return model;
+	}
+	
+	private  String[]  uploadDeliverables(Deliverables obj, String userId, String userName) throws Exception {
+		Deliverables deliverableObj = null;
+		
+		List<Deliverables> deliverablesList = new ArrayList<Deliverables>();
+		String[] result = new String[5];
+		Writer w = null;
+		int count = 0;
+		String invalidRows = "";
+		try {	
+			MultipartFile excelfile = obj.getUploadFile();
+			// Creates a workbook object from the uploaded excelfile
+			if (!StringUtils.isEmpty(excelfile) && excelfile.getSize() > 0 ){
+				XSSFWorkbook workbook = new XSSFWorkbook(excelfile.getInputStream());
+				int sheetsCount = workbook.getNumberOfSheets();
+				if(sheetsCount > 0) {					
+					XSSFSheet laSheet = workbook.getSheetAt(0);
+					
+					//System.out.println(uploadFilesSheet.getSheetName());
+					//header row
+					//XSSFRow headerRow = uploadFilesSheet.getRow(0);							
+					DataFormatter formatter = new DataFormatter(); //creating formatter using the default locale
+					//System.out.println(uploadFilesSheet.getLastRowNum());
+					for(int i = 1; i <= laSheet.getLastRowNum();i++){
+						int v = laSheet.getLastRowNum();
+						XSSFRow headerRow = laSheet.getRow(0);
+						String columnName = headerRow.getCell(0).getStringCellValue();
+						XSSFRow row = laSheet.getRow(i);
+						// Sets the Read data to the model class
+						// Cell cell = row.getCell(0);
+						// String j_username = formatter.formatCellValue(row.getCell(0));
+						//System.out.println(i);
+						deliverableObj = new Deliverables();
+						String val = null;
+						if(!StringUtils.isEmpty(row)) {		
+							int p = 0;
+							if("Deliverable Id".equalsIgnoreCase(columnName.trim())) {
+								val = formatter.formatCellValue(row.getCell(p++)).trim();
+								if(!StringUtils.isEmpty(val)) { deliverableObj.setDeliverable_document_id(val);}
+							}
+							
+							val = formatter.formatCellValue(row.getCell(p++)).trim();
+							if(!StringUtils.isEmpty(val)) { deliverableObj.setProject_name(val);}
+							
+							val = formatter.formatCellValue(row.getCell(p++)).trim();
+							if(!StringUtils.isEmpty(val)) { deliverableObj.setWork_short_name(val);}
+							
+							val = formatter.formatCellValue(row.getCell(p++)).trim();
+							if(!StringUtils.isEmpty(val)) { deliverableObj.setContract_short_name(val);}
+							
+							val = formatter.formatCellValue(row.getCell(p++)).trim();
+							if(!StringUtils.isEmpty(val)) { deliverableObj.setMilestone_name(val);}
+							
+							val = formatter.formatCellValue(row.getCell(p++)).trim();
+							if(!StringUtils.isEmpty(val)) { deliverableObj.setDeliverable_type(val);}
+							
+							val = formatter.formatCellValue(row.getCell(p++)).trim();
+							if(!StringUtils.isEmpty(val)) { deliverableObj.setDeliverable_description(val);}
+							
+							val = formatter.formatCellValue(row.getCell(p++)).trim();
+							if(!StringUtils.isEmpty(val)) { deliverableObj.setStatus_fk(val);}
+							
+							val = formatter.formatCellValue(row.getCell(p++)).trim();
+							if(!StringUtils.isEmpty(val)) { 
+								int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+								if(c != 2) {
+									val = getCellDataType(workbook,row.getCell(p-1));
+								}
+								deliverableObj.setMilestone_payment(val);
+							}
+							
+							val = formatter.formatCellValue(row.getCell(p++)).trim();
+							if(!StringUtils.isEmpty(val)) { deliverableObj.setDeliverable_document_name(val);}
+							
+							val = getCellTypeDateValue(row.getCell(p++));
+							if(!StringUtils.isEmpty(val)) { deliverableObj.setOriginal_due_date(val);}
+							
+							val = getCellTypeDateValue(row.getCell(p++));
+							if(!StringUtils.isEmpty(val)) { deliverableObj.setRevised_due_date(val);}							
+							
+							val = getCellTypeDateValue(row.getCell(p++));
+							if(!StringUtils.isEmpty(val)) { deliverableObj.setSubmission_date(val);}							
+							
+							val = getCellTypeDateValue(row.getCell(p++));
+							if(!StringUtils.isEmpty(val)) { deliverableObj.setApproval_date(val);}
+							
+							val = formatter.formatCellValue(row.getCell(p++)).trim();
+							if(!StringUtils.isEmpty(val)) { 
+								int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
+								if(c != 2) {
+									val = getCellDataType(workbook,row.getCell(p-1));
+								}
+								deliverableObj.setPayment(val);
+							}
+							
+							val = formatter.formatCellValue(row.getCell(p++)).trim();
+							if(!StringUtils.isEmpty(val)) { deliverableObj.setRemarks(val);}							
+						
+							deliverableObj.setOriginal_due_date(DateParser.parse(deliverableObj.getOriginal_due_date()));
+							deliverableObj.setRevised_due_date(DateParser.parse(deliverableObj.getRevised_due_date()));
+							deliverableObj.setSubmission_date(DateParser.parse(deliverableObj.getSubmission_date()));
+							deliverableObj.setApproval_date(DateParser.parse(deliverableObj.getApproval_date()));
+							
+							deliverableObj.setCreated_by_user_id_fk(userId);
+							deliverableObj.setUser_name(userName);
+				
+						if(!StringUtils.isEmpty(deliverableObj.getWork_short_name()) 
+								 	&& !StringUtils.isEmpty(deliverableObj.getContract_short_name())
+								 		&& !StringUtils.isEmpty(deliverableObj.getMilestone_name())
+								 			&& !StringUtils.isEmpty(deliverableObj.getDeliverable_type())
+								 				&& !StringUtils.isEmpty(deliverableObj.getMilestone_payment())
+								 					&& !StringUtils.isEmpty(deliverableObj.getDeliverable_document_name())
+								 						) {
+							deliverablesList.add(deliverableObj);
+						}else {						
+							invalidRows = invalidRows + (i+1) +",";
+						}
+					}
+				}
+				if(!deliverablesList.isEmpty() && deliverablesList != null && StringUtils.isEmpty(invalidRows)){
+					String[] arr  = deliverablesService.uploadDeliverablesData(deliverablesList,deliverableObj);
+					result[0] = arr[0];
+					result[1] = arr[1];
+					result[2] = arr[2];
+					result[3] = arr[3];
+					result[4] = arr[4];
+				}
+				if(!StringUtils.isEmpty(invalidRows)){					
+					String invalidRowsList = invalidRows.substring(0, invalidRows.length() - 1);
+					result[0] = "Invalid Rows :"+ invalidRowsList + " <br>Required fields: Work, Execution Agency, HOD, Utility Type, Utility Description, Impacted Contract,Requirement stage ";
+				}
+				workbook.close();
+			}
+			}
+						
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("uploadDeliverables() : "+e.getMessage());
+			throw new Exception(e);	
+		}finally{
+		    try{
+		        if ( w != null)
+		        	w.close( );
+		    }catch ( IOException e){
+		    	e.printStackTrace();
+		    	logger.error("uploadRDeliverables() : "+e.getMessage());
+		    	throw new Exception(e);
+		    }
+		}
+		
+		return result;
+	}
+	
+	private String getCellTypeDateValue(XSSFCell cell) {
+		String val = null;
+		try {
+			if (!StringUtils.isEmpty(cell) && !StringUtils.isEmpty(cell.getRawValue())) {
+				CellType type = cell.getCellType();
+			    switch (type) {
+			        case BOOLEAN:
+			            val = String.valueOf(cell.getBooleanCellValue());
+			            break;
+			        case NUMERIC:
+			        	if (DateUtil.isCellDateFormatted(cell)) {
+			        		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+			        		Date date = cell.getDateCellValue();
+			        		val = df.format(date);
+	                    } else {
+	                    	val = String.valueOf(cell.getNumericCellValue());
+				        	if(val.contains("E")){
+				        		val = BigDecimal.valueOf(Double.parseDouble(val)).toPlainString();
+				        	}
+	                    }
+			            break;
+			        case STRING:
+			        	val = cell.getStringCellValue();
+			            break;
+			        case BLANK:
+			        	val = cell.getStringCellValue();
+			            break;
+			        case ERROR:
+			            val = cell.getStringCellValue();
+			            break;
+			        case _NONE:
+			            val = cell.getStringCellValue();
+			            break;
+					default:
+						break;
+			    }
+			}
+		}catch(Exception e) {
+			val = null;
+		}
+	
+		return val;
+	}
+	
+	private String getCellDataType(XSSFWorkbook workbook, XSSFCell cell) {
+		String val = null;
+		FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator(); 
+
+		// existing Sheet, Row, and Cell setup
+		//workbook.setForceFormulaRecalculation(true);
+		try {
+			if (!StringUtils.isEmpty(cell) && !StringUtils.isEmpty(cell.getRawValue())) {
+				CellType type = cell.getCellType();
+			    switch (type) {
+			        case BOOLEAN:
+			            val = String.valueOf(cell.getBooleanCellValue());
+			            break;
+			        case NUMERIC:
+			        	if (DateUtil.isCellDateFormatted(cell)) {
+			        		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+			        		Date date = cell.getDateCellValue();
+			        		val = df.format(date);
+	                    } else {
+	                    	val = String.valueOf(cell.getNumericCellValue());
+				        	if(val.contains("E")){
+				        		val = BigDecimal.valueOf(Double.parseDouble(val)).toPlainString();
+				        	}
+	                    }
+			        	
+			       
+			            break;
+			        case STRING:
+			        	try {  
+			        		val = cell.getStringCellValue();
+			        		NumberFormat format = NumberFormat.getInstance(Locale.getDefault());
+			        		Number number = format.parse(val);
+			        		int d = number.intValue();
+			        		val = String.valueOf(d);
+			        		if(val.contains("E")){
+			        			val = BigDecimal.valueOf(Double.parseDouble(val)).toPlainString();
+			        		}
+			        	  } catch(NumberFormatException e){  
+			        		  val = cell.getStringCellValue();
+			        	  }  
+			            
+			            break;
+			        case BLANK:
+			        	val = cell.getStringCellValue();
+			            break;
+			        case ERROR:
+			            val = cell.getStringCellValue();
+			            break;
+			        case _NONE:
+			            val = cell.getStringCellValue();
+			            break;
+					default:
+						break;
+			    }
+			}else if (!StringUtils.isEmpty(cell)) {
+				DataFormatter formatter = new DataFormatter(); //creating formatter using the default locale
+				val = formatter.formatCellValue(cell).trim();
+			}
+		}catch(Exception e) {
+			try {
+				 val = cell.getStringCellValue();
+			}catch(Exception e1) {
+				val = String.valueOf(cell.getNumericCellValue());
+			}
+			
+		}
+	
+		return val;
+	}
 	
 }

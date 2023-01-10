@@ -1,5 +1,8 @@
 package com.synergizglobal.pmis.IMPLdao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +13,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -22,13 +26,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.synergizglobal.pmis.Idao.DeliverablesDao;
 import com.synergizglobal.pmis.Idao.FormsHistoryDao;
-import com.synergizglobal.pmis.common.CommonMethods;
+import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.Deliverables;
 import com.synergizglobal.pmis.model.FormHistory;
-import com.synergizglobal.pmis.model.UtilityShifting;
+import com.synergizglobal.pmis.model.Deliverables;
 
 @Repository
 public class DeliverablesDaoImpl implements DeliverablesDao{
@@ -50,13 +54,14 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 	public List<Deliverables> getDeliverablesList(Deliverables obj) throws Exception {
 		List<Deliverables> objsList = null;
 		try {
-			String qry ="select deliverable_id,w.work_short_name,c.contract_short_name, d.project_id_fk,p.project_name,d.contract_id_fk,c.contract_name ,d.work_id_fk,w.work_name,deliverable_type_fk,"
+			String qry ="select deliverable_id,w.work_short_name,c.contract_short_name, d.project_id_fk,p.project_name,d.contract_id_fk,c.contract_name ,d.work_id_fk,w.work_name,deliverable_type,"
 					+"deliverable_description,d.status_fk,d.milestone_id,d.milestone_payment,cm.milestone_id,cm.milestone_name, "
-					+"d.created_date,d.created_by,d.updated_date,d.updated_by "
+					+"d.created_date,d.created_by,d.updated_date,d.updated_by,c.contractor_id_fk,cr.contractor_id,cr.contractor_name "
 					+"from deliverables d " 
 					+"LEFT join work w on d.work_id_fk = w.work_id "
 					+"LEFT JOIN project p on w.project_id_fk = p.project_id "
 					+"LEFT JOIN contract c on d.contract_id_fk = c.contract_id "
+					+"LEFT JOIN contractor cr on c.contractor_id_fk = cr.contractor_id "
 					+"LEFT JOIN contract_milestones cm on d.contract_id_fk = cm.contract_id_fk and d.milestone_id = cm.milestone_id "
 					+"where deliverable_id is not null ";
 			int arrSize = 0;
@@ -338,7 +343,7 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 	public List<Deliverables> getDeliverableTypeList() throws Exception {
 		List<Deliverables> objsList = null;
 		try {
-			String qry ="select deliverable_type as deliverable_type_fk from deliverable_type ";
+			String qry ="select deliverable_type as deliverable_type from deliverable_type ";
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Deliverables>(Deliverables.class));	
 		}catch(Exception e){ 
 		throw new Exception(e);
@@ -374,7 +379,7 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 	public Deliverables getDeliverables(Deliverables obj) throws Exception {
 		Deliverables deliverables = new Deliverables();;
 		try {
-			String qry ="select deliverable_id,w.work_short_name,c.contract_short_name, d.project_id_fk,p.project_name,d.contract_id_fk,c.contract_name ,d.work_id_fk,w.work_name,deliverable_type_fk,"
+			String qry ="select deliverable_id,w.work_short_name,c.contract_short_name, d.project_id_fk,p.project_name,d.contract_id_fk,c.contract_name ,d.work_id_fk,w.work_name,deliverable_type,"
 					+"deliverable_description,d.status_fk,d.milestone_id,d.milestone_payment,cm.milestone_id,cm.milestone_name, "
 					+"d.created_date,d.created_by,d.updated_date,d.updated_by "
 					+"from deliverables d " 
@@ -414,9 +419,9 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 			
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			String insertQry = "INSERT INTO deliverables"
-					+ "(project_id_fk, work_id_fk, contract_id_fk,milestone_id, deliverable_type_fk, deliverable_description, status_fk,milestone_payment,created_date,created_by)"
+					+ "(project_id_fk, work_id_fk, contract_id_fk,milestone_id, deliverable_type, deliverable_description, status_fk,milestone_payment,created_date,created_by)"
 					+ "VALUES"
-					+ "(:project_id_fk, :work_id_fk, :contract_id_fk,:milestone_id, :deliverable_type_fk, :deliverable_description,:status_fk,:milestone_payment,CURRENT_TIMESTAMP,:user_name)";
+					+ "(:project_id_fk, :work_id_fk, :contract_id_fk,:milestone_id, :deliverable_type, :deliverable_description,:status_fk,:milestone_payment,CURRENT_TIMESTAMP,:user_name)";
 			
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -435,7 +440,7 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 							+ "created_date,created_by,deliverable_id_fk)"
 							+ "VALUES "
 							+ "(:deliverable_document_id,:deliverable_document_name,:original_due_date,:revised_due_date,:submission_date,:approval_date,:payment,:remarks,:deliverable_document_file_name,"
-							+ ":created_date,:created_by,:deliverable_id_fk)";
+							+ "CURRENT_TIMESTAMP,:user_name,:deliverable_id_fk)";
 					String[] deliverable_document_ids = obj.getDeliverable_document_ids();
 					String[] deliverable_document_names = obj.getDeliverable_document_names();
 					String[] original_due_dates = obj.getOriginal_due_dates();
@@ -480,21 +485,23 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 							deliverableDocument.setRemarks(remarkss[i]);
 						}
 						
-						if(!StringUtils.isEmpty(multipartFiles) && multipartFiles.length > 0) {
-							MultipartFile multipartFile = multipartFiles[i];
-							if (null != multipartFile && !multipartFile.isEmpty()){
-								String saveDirectory = CommonConstants.DELIVERABLES_FILE_SAVING_PATH ;
-								String fileName = multipartFile.getOriginalFilename();
-								FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
-								deliverableDocument.setDeliverable_document_file_name(fileName);
-							}else {
-								if(!StringUtils.isEmpty(deliverable_document_file_names) && deliverable_document_file_names.length > 0) {
-									deliverableDocument.setDeliverable_document_file_name(deliverable_document_file_names[i]);
+						if(!StringUtils.isEmpty(deliverableDocument.getDeliverable_document_name())) {
+							if(!StringUtils.isEmpty(multipartFiles) && multipartFiles.length > 0) {
+								MultipartFile multipartFile = multipartFiles[i];
+								if (null != multipartFile && !multipartFile.isEmpty()){
+									String saveDirectory = CommonConstants.DELIVERABLES_FILE_SAVING_PATH ;
+									String fileName = multipartFile.getOriginalFilename();
+									FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
+									deliverableDocument.setDeliverable_document_file_name(fileName);
+								}else {
+									if(!StringUtils.isEmpty(deliverable_document_file_names) && deliverable_document_file_names.length > 0) {
+										deliverableDocument.setDeliverable_document_file_name(deliverable_document_file_names[i]);
+									}
 								}
 							}
+							paramSource = new BeanPropertySqlParameterSource(deliverableDocument);	
+							namedParamJdbcTemplate.update(insert_qry, paramSource);
 						}
-						paramSource = new BeanPropertySqlParameterSource(deliverableDocument);	
-						namedParamJdbcTemplate.update(insert_qry, paramSource);
 					}
 				}	
 				FormHistory formHistory = new FormHistory();
@@ -563,7 +570,7 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
 			String updateQry = "UPDATE deliverables SET "
 					+ "project_id_fk = :project_id_fk, work_id_fk = :work_id_fk, contract_id_fk = :contract_id_fk,milestone_id = :milestone_id, "
-					+ "deliverable_type_fk = :deliverable_type_fk, deliverable_description = :deliverable_description,status_fk = :status_fk,milestone_payment = :milestone_payment,"
+					+ "deliverable_type = :deliverable_type, deliverable_description = :deliverable_description,status_fk = :status_fk,milestone_payment = :milestone_payment,"
 					+ "updated_date = CURRENT_TIMESTAMP,updated_by = :user_name "
 					+ "WHERE deliverable_id = :deliverable_id";
 			
@@ -585,7 +592,7 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 							+ "created_date,created_by,deliverable_id_fk)"
 							+ "VALUES "
 							+ "(:deliverable_document_id,:deliverable_document_name,:original_due_date,:revised_due_date,:submission_date,:approval_date,:payment,:remarks,:deliverable_document_file_name,"
-							+ ":created_date,:created_by,:deliverable_id_fk)";
+							+ "CURRENT_TIMESTAMP,:user_name,:deliverable_id_fk)";
 					String[] deliverable_document_ids = obj.getDeliverable_document_ids();
 					String[] deliverable_document_names = obj.getDeliverable_document_names();
 					String[] original_due_dates = obj.getOriginal_due_dates();
@@ -638,21 +645,24 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 							deliverableDocument.setRemarks(remarkss[i]);
 						}
 						
-						if(!StringUtils.isEmpty(multipartFiles) && multipartFiles.length > 0) {
-							MultipartFile multipartFile = multipartFiles[i];
-							if (null != multipartFile && !multipartFile.isEmpty()){
-								String saveDirectory = CommonConstants.DELIVERABLES_FILE_SAVING_PATH ;
-								String fileName = multipartFile.getOriginalFilename();
-								FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
-								deliverableDocument.setDeliverable_document_file_name(fileName);
-							}else {
-								if(!StringUtils.isEmpty(deliverable_document_file_names) && deliverable_document_file_names.length > 0) {
-									deliverableDocument.setDeliverable_document_file_name(deliverable_document_file_names[i]);
+						if(!StringUtils.isEmpty(deliverableDocument.getDeliverable_document_name())) {
+							if(!StringUtils.isEmpty(multipartFiles) && multipartFiles.length > 0) {
+								MultipartFile multipartFile = multipartFiles[i];
+								if (null != multipartFile && !multipartFile.isEmpty()){
+									String saveDirectory = CommonConstants.DELIVERABLES_FILE_SAVING_PATH ;
+									String fileName = multipartFile.getOriginalFilename();
+									FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
+									deliverableDocument.setDeliverable_document_file_name(fileName);
+								}else {
+									if(!StringUtils.isEmpty(deliverable_document_file_names) && deliverable_document_file_names.length > 0) {
+										deliverableDocument.setDeliverable_document_file_name(deliverable_document_file_names[i]);
+									}
 								}
 							}
+							
+							paramSource = new BeanPropertySqlParameterSource(deliverableDocument);	
+							namedParamJdbcTemplate.update(insert_qry, paramSource);
 						}
-						paramSource = new BeanPropertySqlParameterSource(deliverableDocument);	
-						namedParamJdbcTemplate.update(insert_qry, paramSource);
 					}
 				}
 				
@@ -809,7 +819,7 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 			}	
 			if(!StringUtils.isEmpty(searchParameter)) {
 				qry = qry + " and ( d.project_id_fk like ? or p.project_name like ? or d.work_id_fk like ? or w.work_short_name like ? or d.contract_id_fk like ? "
-						+ " or c.contract_short_name like ? or deliverable_type_fk like ? or deliverable_description like ? or status_fk like ?)";
+						+ " or c.contract_short_name like ? or deliverable_type like ? or deliverable_description like ? or status_fk like ?)";
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -860,7 +870,7 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 			throws Exception {
 		List<Deliverables> objsList = null;
 		try {
-			String qry ="select deliverable_id,w.work_short_name,c.contract_short_name, d.project_id_fk,p.project_name,d.contract_id_fk,c.contract_name ,d.work_id_fk,w.work_name,deliverable_type_fk,"
+			String qry ="select deliverable_id,w.work_short_name,c.contract_short_name, d.project_id_fk,p.project_name,d.contract_id_fk,c.contract_name ,d.work_id_fk,w.work_name,deliverable_type,"
 					+"deliverable_description,d.status_fk,d.milestone_id,d.milestone_payment,cm.milestone_id,cm.milestone_name, "
 					+"d.created_date,d.created_by,d.updated_date,d.updated_by "
 					+"from deliverables d " 
@@ -888,7 +898,7 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 			}	
 			if(!StringUtils.isEmpty(searchParameter)) {
 				qry = qry + " and ( d.project_id_fk like ? or p.project_name like ? or d.work_id_fk like ? or w.work_short_name like ? or d.contract_id_fk like ? "
-						+ " or c.contract_short_name like ? or deliverable_type_fk like ? or deliverable_description like ? or status_fk like ?)";
+						+ " or c.contract_short_name like ? or deliverable_type like ? or deliverable_description like ? or status_fk like ?)";
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -1000,6 +1010,195 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 			throw new Exception(e);
 		}
 		return objsList;
+	}
+
+	@Override
+	public String[] uploadDeliverablesData(List<Deliverables> deliverablesList, Deliverables deliverableObj)
+			throws Exception {
+		boolean flag = false;
+		int count = 0,row =1,sheet = 1,subRow = 1;
+		int sheet1 =1;
+		String errMsg = null;
+		TransactionDefinition def = new DefaultTransactionDefinition();
+		TransactionStatus status = transactionManager.getTransaction(def);
+		try {
+			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+			
+			String insertQry = "INSERT INTO deliverables"
+					+ "(project_id_fk, work_id_fk, contract_id_fk,milestone_id, deliverable_type, deliverable_description, status_fk,milestone_payment,created_date,created_by)"
+					+ "VALUES"
+					+ "(:project_id_fk, :work_id_fk, :contract_id_fk,:milestone_id, :deliverable_type, :deliverable_description,:status_fk,:milestone_payment,CURRENT_TIMESTAMP,:user_name)";
+			
+			String updateQry = "UPDATE deliverables SET "
+					+ "project_id_fk = :project_id_fk, work_id_fk = :work_id_fk, contract_id_fk = :contract_id_fk,milestone_id = :milestone_id, "
+					+ "deliverable_type = :deliverable_type, deliverable_description = :deliverable_description,status_fk = :status_fk,milestone_payment = :milestone_payment,"
+					+ "updated_date = CURRENT_TIMESTAMP,updated_by = :user_name "
+					+ "WHERE deliverable_id = :deliverable_id";
+			
+			String insert_documents_qry = "INSERT into  deliverable_documents "
+					+ "(deliverable_document_id,deliverable_document_name,original_due_date,revised_due_date,submission_date,approval_date,payment,remarks,"
+					+ "created_date,created_by,deliverable_id_fk)"
+					+ "VALUES "
+					+ "(:deliverable_document_id,:deliverable_document_name,:original_due_date,:revised_due_date,:submission_date,:approval_date,:payment,:remarks,"
+					+ "CURRENT_TIMESTAMP,:user_name,:deliverable_id)";
+			
+			String update_documents_qry = "UPDATE deliverable_documents SET "
+					+ "deliverable_document_name = :deliverable_document_name,"
+					+ "original_due_date = :original_due_date,revised_due_date = :revised_due_date,submission_date = :submission_date,"
+					+ "approval_date = :approval_date,payment = :payment,remarks = :remarks,"
+					+ "updated_date = CURRENT_TIMESTAMP,updated_by = :user_name, deliverable_id_fk = :deliverable_id "
+					+ "WHERE deliverable_document_id = :deliverable_document_id";
+		
+			for (Deliverables obj : deliverablesList) {
+				
+				String work_id = getWorkId(obj);
+				String contract_id = getContractId(obj);
+				String project_id = getProjectId(obj);
+				String deliverable_id = getDeliverableId(obj);
+				
+				obj.setWork_id_fk(work_id);
+				obj.setContract_id_fk(contract_id);
+				obj.setProject_id_fk(project_id);
+				obj.setDeliverable_id(deliverable_id);
+				
+				String milestone_name = obj.getMilestone_name();
+				if(!StringUtils.isEmpty(milestone_name) && milestone_name.contains("_")) {
+					String[] milestine_id_and_name = milestone_name.split("_");
+					obj.setMilestone_id(milestine_id_and_name[0]);
+					obj.setMilestone_name(milestine_id_and_name[1]);
+				}
+				
+				row++;sheet = 1;
+				if(!StringUtils.isEmpty(deliverable_id)) {
+					SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
+				    count = namedParamJdbcTemplate.update(updateQry, paramSource);
+				}else {		
+					SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
+					count = namedParamJdbcTemplate.update(insertQry, paramSource);
+				}
+				
+				String deliverable_document_id = obj.getDeliverable_document_id();
+				if(!StringUtils.isEmpty(deliverable_document_id)) {
+					SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
+				    count = namedParamJdbcTemplate.update(update_documents_qry, paramSource);
+				}else {		
+					if(!StringUtils.isEmpty(obj.getDeliverable_document_name())) {
+						deliverable_document_id = getAutoGeneratedDeliverableDocumentId(obj);
+						obj.setDeliverable_document_id(deliverable_document_id);
+						SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
+						count = namedParamJdbcTemplate.update(insert_documents_qry, paramSource);
+					}
+				}
+				
+			}
+		   count = deliverablesList.size();
+		   transactionManager.commit(status);
+		}catch(Exception e){ 
+			transactionManager.rollback(status);
+			//e.printStackTrace();
+			errMsg = "Something went wrong. Please try with correct data ";			
+		}
+		String arr[] = new String[5];
+		arr[0] = errMsg;
+	    arr[1] = String.valueOf(count);
+	    arr[2] = String.valueOf(row);
+	    arr[3] = String.valueOf(sheet);
+	    arr[4] = String.valueOf(subRow);
+		return arr;
+	}
+
+	private String getDeliverableId(Deliverables obj) throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String val = null;
+		Connection connection = null;
+		try {
+			connection = dataSource.getConnection();
+			String qry = "select deliverable_id_fk from deliverable_documents where deliverable_document_id = ? ";
+			stmt = connection.prepareStatement(qry);
+			stmt.setString(1, obj.getDeliverable_document_id());
+			
+			rs = stmt.executeQuery();  
+			if(rs.next()) {
+				val = rs.getString("deliverable_id_fk");
+			}
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(connection, stmt, rs);
+		}
+		return val;
+	}
+
+	private String getContractId(Deliverables obj)throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String val = null;
+		Connection connection = null;
+		try {
+			connection = dataSource.getConnection();
+			String qry = "select contract_id from contract where contract_name = ? or contract_short_name = ? ";
+			stmt = connection.prepareStatement(qry);
+			stmt.setString(1, obj.getContract_short_name());
+			stmt.setString(2, obj.getContract_short_name());
+			
+			rs = stmt.executeQuery();  
+			if(rs.next()) {
+				val = rs.getString("contract_id");
+			}
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(connection, stmt, rs);
+		}
+		return val;
+	}
+
+	private String getWorkId(Deliverables obj)throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String val = null;
+		Connection connection = null;
+		try {
+			connection = dataSource.getConnection();
+			String qry = "select work_id from work where work_name = ? or work_short_name = ? ";
+			stmt = connection.prepareStatement(qry);
+			stmt.setString(1, obj.getWork_short_name());
+			stmt.setString(2, obj.getWork_short_name());
+			
+			rs = stmt.executeQuery();  
+			if(rs.next()) {
+				val = rs.getString("work_id");
+			}
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(connection, stmt, rs);
+		}
+		return val;
+	}
+	
+	private String getProjectId(Deliverables obj)throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String val = null;
+		Connection connection = null;
+		try {
+			connection = dataSource.getConnection();
+			String qry = "select project_id from project where project_name = ? ";
+			stmt = connection.prepareStatement(qry);
+			stmt.setString(1, obj.getProject_name());
+			
+			rs = stmt.executeQuery();  
+			if(rs.next()) {
+				val = rs.getString("project_id");
+			}
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(connection, stmt, rs);
+		}
+		return val;
 	}
 	
 }

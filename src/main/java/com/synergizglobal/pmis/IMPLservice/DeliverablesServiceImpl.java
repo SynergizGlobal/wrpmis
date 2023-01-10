@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.synergizglobal.pmis.Idao.DeliverablesDao;
 import com.synergizglobal.pmis.Iservice.DeliverablesService;
 import com.synergizglobal.pmis.model.Deliverables;
-import com.synergizglobal.pmis.model.Safety;
 
 @Service
 public class DeliverablesServiceImpl implements DeliverablesService{
@@ -110,6 +109,12 @@ public class DeliverablesServiceImpl implements DeliverablesService{
 	@Override
 	public List<Deliverables> getDeliverablesConractMilestonesList(Deliverables dObj) throws Exception {
 		return dao.getDeliverablesConractMilestonesList(dObj);
+	}
+
+	@Override
+	public String[] uploadDeliverablesData(List<Deliverables> deliverablesList, Deliverables deliverableObj)
+			throws Exception {
+		return dao.uploadDeliverablesData(deliverablesList, deliverableObj);
 	}
 
 }

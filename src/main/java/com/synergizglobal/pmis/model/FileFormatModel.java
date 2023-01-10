@@ -262,6 +262,19 @@ public class FileFormatModel {
 		}		
 		return fileFormat;
 	}
+	
+	public static List<String> getDeliverablesFileFormat() {
+		List<String> fileFormat = new ArrayList<String>();
+		String columns = "Deliverable Id, Project, Work, Contract, Milestones, Deliverable type, "
+				+ "Deliverable Description, Status, Milestone Payment %, Document Name, Original Due Date,"
+				+ " Revised Due Date, Submission Date, Approval Date, Payment %, Remarks";
+		
+		String[] convertedColumnsArray = columns.split(",");
+		for (String column : convertedColumnsArray) {
+			fileFormat.add(column.trim());
+		}
+		return fileFormat;
+	}
 
 	public static List<String> getStructureFileFormat() {
 		List<String> fileFormat = new ArrayList<String>();

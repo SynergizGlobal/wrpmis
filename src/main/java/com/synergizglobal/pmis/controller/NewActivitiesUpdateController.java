@@ -219,7 +219,7 @@ public class NewActivitiesUpdateController {
 	
 	
 	
-	@RequestMapping(value = "/ajax/exportActivitiesbyContract", method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/exportActivitiesbyContract", method = {RequestMethod.GET,RequestMethod.POST})
 	public void exportActivitiesbyContract(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute StripChart obj,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView();
 		try{
@@ -271,18 +271,17 @@ public class NewActivitiesUpdateController {
 		        CellStyle rightStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.RIGHT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 		        
 		        
-	            XSSFRow headingRow = executionOverviewReportSheet.createRow(0);
 	            
 
 	            java.sql.ResultSetMetaData rsmd = rs.getMetaData();
 	            int columnsNumber = rsmd.getColumnCount();
-	            XSSFRow row1 = executionOverviewReportSheet.createRow(rs.getRow());
+	            XSSFRow row1 = executionOverviewReportSheet.createRow(0);
 	            for(int col=0 ;col < columnsNumber;col++) {
 	                Cell newpath = row1.createCell(col);
 	                newpath.setCellValue(rsmd.getColumnLabel(col+1));
 	            }
 	            while(rs.next()) {
-	                XSSFRow row = executionOverviewReportSheet.createRow(0);
+	                XSSFRow row = executionOverviewReportSheet.createRow(rs.getRow());
 	                for(int col=0 ;col < columnsNumber;col++) {
 	                    Cell newpath = row.createCell(col);
 	                    newpath.setCellValue(rs.getString(col+1));  

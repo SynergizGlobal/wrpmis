@@ -1165,6 +1165,13 @@
 	    </div>
 	  </div>
 	</div> 
+	
+	<form action="<%=request.getContextPath() %>/exportActivitiesbyContract" name="exportNewActivities" id="exportNewActivities" target="_blank" method="post">	
+          <input type="hidden" name="contract_id_fk" id="exportContract_id_fk" /> 
+          <input type="hidden" name="structure_type_fk" id="exportStructure_type_fk" />
+          <input type="hidden" name="strip_chart_structure_id_fk" id="exportStrip_chart_structure_id_fk" />
+          <input type="hidden" name="searchStr" id="exportsearchStr" />
+	</form>	
     
       <!-- footer included -->
     <jsp:include page="../layout/footer.jsp"></jsp:include>    
@@ -1566,7 +1573,20 @@
         	glbID="";
         }
         
-    function ExportNewActivitiesUpdate()
+        
+        function ExportNewActivitiesUpdate(){
+	         var contract_id_fk = $("#contract_id_fk").val();
+	         var structure_type_fk = $("#structure_type_fk").val();
+	         var strip_chart_structure_id_fk = $("#strip_chart_structure_id_fk").val();
+        	var searchStrValue = $('[type=search]').val();
+          	 
+          	$("#exportContract_id_fk").val(contract_id_fk);
+          	$("#exportStructure_type_fk").val(structure_type_fk);
+          	$("#exportstrip_chart_structure_id_fk").val(strip_chart_structure_id_fk);
+          	$("#exportNewActivities").submit();
+       	}	       
+        
+<%--     function ExportNewActivitiesUpdate()
     {
 			var contract_id_fk = $("#contract_id_fk").val();
 			if($.trim(contract_id_fk) != '')
@@ -1594,7 +1614,7 @@
 				$("#contract_id_fkError").html("Select Contract");
 				return false;
 			}
-    }
+    } --%>
 	
 	function getNewActivitiesUpdateWorksList(projectId) { 
 		$(".page-loader-1").show();

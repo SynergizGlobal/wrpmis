@@ -1,5 +1,6 @@
 package com.synergizglobal.pmis.Idao;
 
+import java.sql.ResultSet;
 import java.util.List;
 
 import com.synergizglobal.pmis.model.StripChart;
@@ -57,4 +58,8 @@ public interface NewActivitiesUpdateDao {
 	public List<StripChart> getDeleteActivitiesComponentIds(StripChart obj) throws Exception;
 
 	public boolean deleteAcivitiesBulk(StripChart obj) throws Exception;
+
+	public boolean uploadNewActivities(List<StripChart> stripChartList) throws Exception;
+
+	public ResultSet getExportActivitiesbyContract(StripChart obj) throws Exception;
 }

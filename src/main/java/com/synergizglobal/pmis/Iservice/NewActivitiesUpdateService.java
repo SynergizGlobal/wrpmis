@@ -1,7 +1,9 @@
 package com.synergizglobal.pmis.Iservice;
 
+import java.sql.ResultSet;
 import java.util.List;
 
+import com.synergizglobal.pmis.model.Expenditure;
 import com.synergizglobal.pmis.model.StripChart;
 
 public interface NewActivitiesUpdateService {
@@ -55,4 +57,10 @@ public interface NewActivitiesUpdateService {
 	public List<StripChart> getWorksList(StripChart obj) throws Exception;
 
 	public List<StripChart> getContractsList(StripChart obj) throws Exception;	
+	
+	public boolean uploadNewActivities(List<StripChart> stripChartList) throws Exception;
+	
+	public ResultSet getExportActivitiesbyContract(StripChart obj) throws Exception;	
+
+	
 }

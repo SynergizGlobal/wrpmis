@@ -1,5 +1,6 @@
 package com.synergizglobal.pmis.IMPLservice;
 
+import java.sql.ResultSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -144,5 +145,18 @@ public class NewActivitiesUpdateServiceImpl implements NewActivitiesUpdateServic
 	public List<StripChart> getDeleteActivitiesfiltersList(StripChart obj) throws Exception {
 		return dao.getDeleteActivitiesfiltersList(obj);
 	}	
+	
+	@Override
+	public boolean uploadNewActivities(List<StripChart> stripChartList) throws Exception
+	{
+		return dao.uploadNewActivities(stripChartList);
+	}
+	
+	@Override
+	public ResultSet getExportActivitiesbyContract(StripChart obj) throws Exception
+	{
+		return dao.getExportActivitiesbyContract(obj);
+	}
+
 
 }

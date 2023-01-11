@@ -2,8 +2,14 @@ package com.synergizglobal.pmis.controller;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.Writer;
+import java.sql.ResultSet;
+
+import com.synergizglobal.pmis.model.FileFormatModel;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import org.apache.poi.ss.usermodel.DataFormatter;
+import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,6 +26,7 @@ import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.WorkbookUtil;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFColor;
@@ -27,10 +34,12 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
+import com.synergizglobal.pmis.common.DateParser;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -42,11 +51,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.mysql.cj.jdbc.result.ResultSetMetaData;
+import com.synergizglobal.pmis.Idao.FormsHistoryDao;
 import com.synergizglobal.pmis.Iservice.NewActivitiesUpdateService;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.model.StripChart;
 import com.synergizglobal.pmis.model.User;
-import com.synergizglobal.pmis.model.StripChart;
+import com.synergizglobal.pmis.model.FormHistory;
+
+
 
 @Controller
 public class NewActivitiesUpdateController {
@@ -58,6 +71,24 @@ public class NewActivitiesUpdateController {
     }
 	
 	Logger logger = Logger.getLogger(HomeController.class);
+	
+	@Autowired
+	FormsHistoryDao formsHistoryDao;
+	
+	@Value("${common.error.message}")
+	public String commonError;
+	
+	@Value("${template.upload.formatError}")
+	public String uploadformatError;
+	
+	@Value("${record.dataexport.success}")
+	public String dataExportSucess;	
+	
+	@Value("${record.dataexport.invalid.directory}")
+	public String dataExportInvalid;
+	
+	@Value("${record.dataexport.error}")
+	public String dataExportError;	
 	
 	@Autowired
 	NewActivitiesUpdateService newActivitiesUpdateService;
@@ -187,230 +218,112 @@ public class NewActivitiesUpdateController {
 	}
 	
 	
-	/*
-	 * @RequestMapping(value = "/ajax/exportActivitiesbyContract", method =
-	 * {RequestMethod.GET,RequestMethod.POST},produces=MediaType.
-	 * APPLICATION_JSON_VALUE)
-	 * 
-	 * @ResponseBody public void exportActivitiesbyContract(HttpServletRequest
-	 * request, HttpServletResponse response,HttpSession session,@ModelAttribute
-	 * StripChart dObj,RedirectAttributes attributes){ List<StripChart> dataList =
-	 * new ArrayList<StripChart>();
-	 * 
-	 * List<StripChart> subList = new ArrayList<StripChart>();
-	 * 
-	 * try { User uObj = (User) session.getAttribute("user");
-	 * dObj.setUser_type_fk(uObj.getUser_type_fk());
-	 * dObj.setUser_role_code(uObj.getUser_role_code());
-	 * dObj.setUser_id(uObj.getUser_id()); dataList =
-	 * newActivitiesUpdateService.getExportActivitiesbyContract(dObj);
-	 * 
-	 * 
-	 * if(dataList != null && dataList.size() > 0){ XSSFWorkbook workBook = new
-	 * XSSFWorkbook (); XSSFSheet StripChartSheet =
-	 * workBook.createSheet(WorkbookUtil.createSafeSheetName("Utility Shifting"));
-	 * XSSFSheet subSheet =
-	 * workBook.createSheet(WorkbookUtil.createSafeSheetName("Progress Details"));
-	 * XSSFSheet refSheet =
-	 * workBook.createSheet(WorkbookUtil.createSafeSheetName("Reference Data"));
-	 * 
-	 * 
-	 * workBook.setSheetOrder(StripChartSheet.getSheetName(), 0);
-	 * workBook.setSheetOrder(subSheet.getSheetName(), 1);
-	 * workBook.setSheetOrder(refSheet.getSheetName(), 2);
-	 * 
-	 * 
-	 * byte[] blueRGB = new byte[]{(byte)0, (byte)176, (byte)240}; byte[] yellowRGB
-	 * = new byte[]{(byte)255, (byte)192, (byte)0}; byte[] greenRGB = new
-	 * byte[]{(byte)146, (byte)208, (byte)80}; byte[] redRGB = new byte[]{(byte)255,
-	 * (byte)0, (byte)0}; byte[] whiteRGB = new byte[]{(byte)255, (byte)255,
-	 * (byte)255};
-	 * 
-	 * boolean isWrapText = true;boolean isBoldText = true;boolean isItalicText =
-	 * false; int fontSize = 11;String fontName = "Times New Roman"; CellStyle
-	 * blueStyle =
-	 * cellFormating(workBook,blueRGB,HorizontalAlignment.CENTER,VerticalAlignment.
-	 * CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName); CellStyle
-	 * yellowStyle =
-	 * cellFormating(workBook,yellowRGB,HorizontalAlignment.CENTER,VerticalAlignment
-	 * .CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName); CellStyle
-	 * greenStyle =
-	 * cellFormating(workBook,greenRGB,HorizontalAlignment.CENTER,VerticalAlignment.
-	 * CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName); CellStyle
-	 * redStyle =
-	 * cellFormating(workBook,redRGB,HorizontalAlignment.CENTER,VerticalAlignment.
-	 * CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName); CellStyle
-	 * whiteStyle =
-	 * cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.
-	 * CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
-	 * 
-	 * CellStyle indexWhiteStyle =
-	 * cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.
-	 * CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
-	 * 
-	 * isWrapText = true;isBoldText = false;isItalicText = false; fontSize =
-	 * 9;fontName = "Times New Roman"; CellStyle sectionStyle =
-	 * cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.
-	 * CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
-	 * 
-	 * 
-	 * 
-	 * XSSFRow headingRow = StripChartSheet.createRow(0); String headerString =
-	 * "Utility ID ^Project ^Work ^Execution Agency ^HOD ^Utility Type ^Utility Description ^Location ^Custodian ^Identification Date ^Reference No. "
-	 * + "^Chainage ^Executed By ^Impacted Contract  ^Requirement stage " +
-	 * "^Impacted Element ^Affected Structures  ^Target Date ^Scope ^Completed ^Unit ^Start Date ^Status ^Completetion Date ^Remarks"
-	 * ;
-	 * 
-	 * String[] firstHeaderStringArr = headerString.split("\\^");
-	 * StripChartSheet.createFreezePane(0,1); for (int i = 0; i <
-	 * firstHeaderStringArr.length; i++) { Cell cell = headingRow.createCell(i);
-	 * cell.setCellStyle(greenStyle); cell.setCellValue(firstHeaderStringArr[i]); }
-	 * 
-	 * short rowNo = 1; for (StripChart obj : dataList) {
-	 * 
-	 * XSSFRow row = StripChartSheet.createRow(rowNo); int c = 0;
-	 * 
-	 * Cell cell = row.createCell(c++); cell.setCellStyle(sectionStyle);
-	 * cell.setCellValue(obj.getUtility_shifting_id());
-	 * 
-	 * cell = row.createCell(c++); cell.setCellStyle(sectionStyle);
-	 * cell.setCellValue(obj.getProject_name());
-	 * 
-	 * cell = row.createCell(c++); cell.setCellStyle(sectionStyle);
-	 * cell.setCellValue(obj.getWork_short_name());
-	 * 
-	 * cell = row.createCell(c++); cell.setCellStyle(sectionStyle);
-	 * cell.setCellValue(obj.getExecution_agency_fk());
-	 * 
-	 * 
-	 * String hod = ""; if(!StringUtils.isEmpty(obj.getHod_user_id_fk())) {hod =
-	 * obj.getHod_user_id_fk() +" - "+obj.getUser_name();}
-	 * 
-	 * 
-	 * cell = row.createCell(c++); cell.setCellStyle(sectionStyle);
-	 * cell.setCellValue(obj.getDesignation());
-	 * 
-	 * cell = row.createCell(c++); cell.setCellStyle(sectionStyle);
-	 * cell.setCellValue(obj.getUtility_type_fk());
-	 * 
-	 * cell = row.createCell(c++); cell.setCellStyle(sectionStyle);
-	 * cell.setCellValue(obj.getUtility_description());
-	 * 
-	 * cell = row.createCell(c++); cell.setCellStyle(sectionStyle);
-	 * cell.setCellValue(obj.getLocation_name());
-	 * 
-	 * cell = row.createCell(c++); cell.setCellStyle(sectionStyle);
-	 * cell.setCellValue(obj.getCustodian());
-	 * 
-	 * cell = row.createCell(c++); cell.setCellStyle(sectionStyle);
-	 * cell.setCellValue(obj.getIdentification());
-	 * 
-	 * cell = row.createCell(c++); cell.setCellStyle(sectionStyle);
-	 * cell.setCellValue(obj.getReference_number());
-	 * 
-	 * cell = row.createCell(c++); cell.setCellStyle(sectionStyle);
-	 * cell.setCellValue(obj.getChainage());
-	 * 
-	 * cell = row.createCell(c++); cell.setCellStyle(sectionStyle);
-	 * cell.setCellValue(obj.getExecuted_by());
-	 * 
-	 * cell = row.createCell(c++); cell.setCellStyle(sectionStyle);
-	 * cell.setCellValue(obj.getContract_short_name());
-	 * 
-	 * cell = row.createCell(c++); cell.setCellStyle(sectionStyle);
-	 * cell.setCellValue(obj.getRequirement_stage_fk());
-	 * 
-	 * cell = row.createCell(c++); cell.setCellStyle(sectionStyle);
-	 * cell.setCellValue(obj.getImpacted_element());
-	 * 
-	 * cell = row.createCell(c++); cell.setCellStyle(sectionStyle);
-	 * cell.setCellValue(obj.getAffected_structures());
-	 * 
-	 * cell = row.createCell(c++); cell.setCellStyle(sectionStyle);
-	 * cell.setCellValue(obj.getPlanned_completion_date());
-	 * 
-	 * cell = row.createCell(c++); cell.setCellStyle(sectionStyle);
-	 * cell.setCellValue(obj.getScope());
-	 * 
-	 * cell = row.createCell(c++); cell.setCellStyle(sectionStyle);
-	 * cell.setCellValue(obj.getCompleted());
-	 * 
-	 * cell = row.createCell(c++); cell.setCellStyle(sectionStyle);
-	 * cell.setCellValue(obj.getUnit_fk());
-	 * 
-	 * cell = row.createCell(c++); cell.setCellStyle(sectionStyle);
-	 * cell.setCellValue(obj.getStart_date());
-	 * 
-	 * cell = row.createCell(c++); cell.setCellStyle(sectionStyle);
-	 * cell.setCellValue(obj.getShifting_status_fk());
-	 * 
-	 * cell = row.createCell(c++); cell.setCellStyle(sectionStyle);
-	 * cell.setCellValue(obj.getShifting_completion_date());
-	 * 
-	 * cell = row.createCell(c++); cell.setCellStyle(sectionStyle);
-	 * cell.setCellValue(obj.getRemarks());
-	 * 
-	 * rowNo++; }
-	 * 
-	 * 
-	 * 
-	 *//*************************************************************//*
-																		 * 
-																		 * 
-																		 * for(int columnIndex = 0; columnIndex < 29;
-																		 * columnIndex++) {
-																		 * StripChartSheet.setColumnWidth(columnIndex,
-																		 * 25 * 200); }
-																		 * 
-																		 * DateFormat dateFormat = new
-																		 * SimpleDateFormat("yyyy-MM-dd-HHmmss"); Date
-																		 * date = new Date(); String fileName =
-																		 * "Utility_Shifting_"+dateFormat.format(date);
-																		 * 
-																		 * try{ FileOutputStream fos = new
-																		 * FileOutputStream(fileDirectory
-																		 * +fileName+".xls"); workBook.write(fos);
-																		 * fos.flush();
-																		 * 
-																		 * response.setContentType("application/.csv");
-																		 * response.setContentType(
-																		 * "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-																		 * ); response.setContentType(
-																		 * "application/vnd.ms-excel"); // add response
-																		 * header
-																		 * response.addHeader("Content-Disposition",
-																		 * "attachment; filename=" + fileName+".xlsx");
-																		 * 
-																		 * //copies all bytes from a file to an output
-																		 * stream
-																		 * workBook.write(response.getOutputStream());
-																		 * // Write workbook to response.
-																		 * workBook.close(); //flushes output stream
-																		 * response.getOutputStream().flush();
-																		 * 
-																		 * 
-																		 * attributes.addFlashAttribute("success",
-																		 * dataExportSucess); //response.setContentType(
-																		 * "application/vnd.ms-excel");
-																		 * //response.setHeader("Content-Disposition",
-																		 * "attachment; filename=filename.xls");
-																		 * //XSSFWorkbook workbook = new XSSFWorkbook
-																		 * (); // ... // Now populate workbook the usual
-																		 * way. // ...
-																		 * //workbook.write(response.getOutputStream());
-																		 * // Write workbook to response.
-																		 * //workbook.close();
-																		 * }catch(FileNotFoundException e){
-																		 * //e.printStackTrace();
-																		 * attributes.addFlashAttribute("error",
-																		 * dataExportInvalid); }catch(IOException e){
-																		 * //e.printStackTrace();
-																		 * attributes.addFlashAttribute("error",
-																		 * dataExportError); } }else{
-																		 * attributes.addFlashAttribute("error",
-																		 * dataExportNoData); } }catch (Exception e) {
-																		 * e.printStackTrace(); } }
-																		 */	
+	
+	@RequestMapping(value = "/ajax/exportActivitiesbyContract", method = {RequestMethod.GET,RequestMethod.POST})
+	public void exportActivitiesbyContract(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute StripChart obj,RedirectAttributes attributes){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName("redirect:/new-activities-update");
+			
+			String userId = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userRoleCode = (String) session.getAttribute("USER_ROLE_CODE");
+			obj.setUser_id(userId);
+			obj.setUser_role_code(userRoleCode);
+			
+			
+				ResultSet rs=newActivitiesUpdateService.getExportActivitiesbyContract(obj); 
+			
+
+			
+			
+	            XSSFWorkbook  workBook = new XSSFWorkbook ();
+	            XSSFSheet executionOverviewReportSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Activities"));
+	            
+		        workBook.setSheetOrder(executionOverviewReportSheet.getSheetName(), 0);
+		        
+		        byte[] blueRGB = new byte[]{(byte)0, (byte)176, (byte)240};
+		        byte[] yellowRGB = new byte[]{(byte)255, (byte)255, (byte)0};
+		        byte[] greenRGB = new byte[]{(byte)146, (byte)208, (byte)80};
+		        byte[] redRGB = new byte[]{(byte)255, (byte)0, (byte)0};
+		        byte[] whiteRGB = new byte[]{(byte)255, (byte)255, (byte)255};
+		        byte[] grayRGB = new byte[]{(byte)217, (byte)217, (byte)217};
+		        
+		        
+		        boolean isWrapText = true;boolean isBoldText = false;boolean isItalicText = false; int fontSize = 11;String fontName = "Times New Roman";
+		        CellStyle blueStyle = cellFormating(workBook,blueRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle yellowStyle = cellFormating(workBook,yellowRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle greenStyle = cellFormating(workBook,greenRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,true,isItalicText,12,fontName);
+		        CellStyle redStyle = cellFormating(workBook,redRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle grayStyle = cellFormating(workBook,grayRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle indexWhiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        
+		        isBoldText = true;fontSize = 12;
+		        CellStyle whiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        
+		        isWrapText = true;isBoldText = false;isItalicText = false; fontSize = 9;fontName = "Times New Roman";
+		        CellStyle sectionStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle sectionPercentStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle sectioncostStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.RIGHT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle sectionunitsStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        
+		        CellStyle centerStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        CellStyle rightStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.RIGHT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+		        
+		        
+	            XSSFRow headingRow = executionOverviewReportSheet.createRow(0);
+	            
+
+	            java.sql.ResultSetMetaData rsmd = rs.getMetaData();
+	            int columnsNumber = rsmd.getColumnCount();
+	            XSSFRow row1 = executionOverviewReportSheet.createRow(rs.getRow());
+	            for(int col=0 ;col < columnsNumber;col++) {
+	                Cell newpath = row1.createCell(col);
+	                newpath.setCellValue(rsmd.getColumnLabel(col+1));
+	            }
+	            while(rs.next()) {
+	                XSSFRow row = executionOverviewReportSheet.createRow(0);
+	                for(int col=0 ;col < columnsNumber;col++) {
+	                    Cell newpath = row.createCell(col);
+	                    newpath.setCellValue(rs.getString(col+1));  
+	                }
+	            }
+	            /*******************************************************************************************/
+	            
+	            
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
+                Date date = new Date();
+                String fileName = "Execution_Overview_Report"+dateFormat.format(date);
+                
+	            try{
+            	
+	               response.setContentType("application/.csv");
+	 			   response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+	 			   response.setContentType("application/vnd.ms-excel");
+	 			   // add response header
+	 			   response.addHeader("Content-Disposition", "attachment; filename=" + fileName+".xlsx");
+	 			   
+	 			   workBook.write(response.getOutputStream()); // Write workbook to response.
+		           workBook.close();
+	 			    response.getOutputStream().flush();
+	            	
+	                
+	                attributes.addFlashAttribute("success",dataExportSucess);
+
+	            }catch(FileNotFoundException e){
+	                attributes.addFlashAttribute("error",dataExportInvalid);
+	            }catch(IOException e){
+	                attributes.addFlashAttribute("error",dataExportError);
+	            }
+
+		}catch(Exception e){	
+			e.printStackTrace();
+			logger.error("exportExecutionOverviewReport : "+e.getMessage());
+			attributes.addFlashAttribute("error", commonError);			
+		}
+	}	
+
+																		 	
 	private CellStyle cellFormating(XSSFWorkbook workBook,byte[] rgb,HorizontalAlignment hAllign, VerticalAlignment vAllign, boolean isWrapText,boolean isBoldText,boolean isItalicText,int fontSize,String fontName) {
 		CellStyle style = workBook.createCellStyle();
 		//Setting Background color  
@@ -756,6 +669,209 @@ public class NewActivitiesUpdateController {
 			logger.error("DeleteActivities : " + e.getMessage());
 		}
 		return model;
+	}
+	
+	
+	@RequestMapping(value = "/upload-new-activities", method = {RequestMethod.POST})
+	public ModelAndView uploadRisk(@ModelAttribute StripChart obj,RedirectAttributes attributes,HttpSession session){
+		ModelAndView model = new ModelAndView();
+		try {
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			obj.setCreated_by_user_id_fk(user_Id);
+			obj.setUser_id(user_Id);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
+			model.setViewName("redirect:/new-activities-update");
+			
+			if(!StringUtils.isEmpty(obj.getStripChartFile())){
+				MultipartFile multipartFile = obj.getStripChartFile();
+				// Creates a workbook object from the uploaded excelfile
+				if (multipartFile.getSize() > 0){					
+					XSSFWorkbook workbook = new XSSFWorkbook(multipartFile.getInputStream());
+					// Creates a worksheet object representing the first sheet
+					int sheetsCount = workbook.getNumberOfSheets();
+					if(sheetsCount > 0) {
+						XSSFSheet risksDrawingsSheet = workbook.getSheetAt(0);
+						//System.out.println(uploadFilesSheet.getSheetName());
+						//header row
+						XSSFRow headerRow = risksDrawingsSheet.getRow(1);
+						//checking given file format
+						/*if(headerRow != null){
+							List<String> fileFormat = FileFormatModel.getStripChartFileFormat();	
+							int noOfColumns = headerRow.getLastCellNum();
+							if(9 == fileFormat.size()){
+								for (int i = 0; i < fileFormat.size();i++) {
+				                	//System.out.println(headerRow.getCell(i).getStringCellValue().trim());
+				                	//if(!fileFormat.get(i).trim().equals(headerRow.getCell(i).getStringCellValue().trim())){
+									String columnName = headerRow.getCell(i).getStringCellValue().trim();
+									if(!columnName.equals(fileFormat.get(i).trim()) && !columnName.contains(fileFormat.get(i).trim())){
+				                		attributes.addFlashAttribute("error",uploadformatError);
+				                		return model;
+				                	}
+								}
+							}else{
+								attributes.addFlashAttribute("error",uploadformatError);
+		                		return model;
+							}
+						}else{
+							attributes.addFlashAttribute("error",uploadformatError);
+	                		return model;
+						}*/
+						
+						boolean flagValue = uploadNewActivities(obj,user_Id,userName);
+						if(flagValue ==true) {
+							attributes.addFlashAttribute("success", " Activities Inserted/Updated successfully.");
+							FormHistory formHistory = new FormHistory();
+							formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
+							formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
+							formHistory.setModule_name_fk("Execution");
+							formHistory.setForm_name("Upload Activities");
+							formHistory.setForm_action_type("Upload");
+							formHistory.setForm_details("Activities Inserted/Updated successfully.");
+							formHistory.setWork(obj.getWork_id_fk());
+							formHistory.setContract(obj.getContract_id_fk());
+							
+							boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+							/********************************************************************************/
+							
+						}
+						
+					}
+					workbook.close();
+				}
+			} else {
+				attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
+			logger.fatal("updateDataDate() : "+e.getMessage());
+		}
+		return model;
+	}
+
+	private boolean uploadNewActivities(StripChart obj, String userId,String userName) throws Exception {
+		StripChart stripChart = null;
+		List<StripChart> stripChartList = new ArrayList<StripChart>();
+		SimpleDateFormat formatter1 = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat formatter3 = new SimpleDateFormat("MM/dd/yy");
+		SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");		
+		Writer w = null;
+		boolean count = false ;
+		try {	
+			MultipartFile excelfile = obj.getStripChartFile();
+			// Creates a workbook object from the uploaded excelfile
+			if (!StringUtils.isEmpty(excelfile) && excelfile.getSize() > 0 ){
+				
+				XSSFWorkbook workbook = new XSSFWorkbook(excelfile.getInputStream());
+				int sheetsCount = workbook.getNumberOfSheets();
+				if(sheetsCount > 0) {
+					XSSFSheet risksDrawingsSheet = workbook.getSheetAt(0);
+					//System.out.println(uploadFilesSheet.getSheetName());
+					//header row
+					//XSSFRow headerRow = uploadFilesSheet.getRow(0);							
+					DataFormatter formatter = new DataFormatter(); //creating formatter using the default locale
+					//System.out.println(uploadFilesSheet.getLastRowNum());
+					for(int i = 1; i <= risksDrawingsSheet.getLastRowNum();i++){
+						XSSFRow row = risksDrawingsSheet.getRow(i);
+						// Sets the Read data to the model class
+						// Cell cell = row.getCell(0);
+						// String j_username = formatter.formatCellValue(row.getCell(0));
+						//System.out.println(i);
+						stripChart = new StripChart();
+						String val = null;
+						if(!StringUtils.isEmpty(row)) {								
+						  
+							val = formatter.formatCellValue(row.getCell(0)).trim();
+							if(!StringUtils.isEmpty(val)) { obj.setP6_task_code(val);}
+							
+							String ConcatProgressDates="";
+							String ConcatCompletedScopes="";
+							XSSFRow headerRow = risksDrawingsSheet.getRow(1);
+							int noOfColumns = headerRow.getLastCellNum();
+
+							for(int k=9;k<noOfColumns;k++)
+							{
+								
+								val = formatter.formatCellValue(risksDrawingsSheet.getRow(0).getCell(k)).trim();
+								
+								if(!StringUtils.isEmpty(val)) { 
+									if(val.contains("/")) 
+									{
+										Date date24 = null;
+										String dateString24 = null;
+										date24 = formatter3.parse(val);
+										dateString24 = formatter2.format(date24);	
+										ConcatProgressDates=ConcatProgressDates+""+dateString24+"###";
+
+										 
+									}
+									else
+									{
+									
+										Date date24 = null;
+										String dateString24 = null;
+										date24 = formatter1.parse(val);
+										dateString24 = formatter2.format(date24);
+										ConcatProgressDates=ConcatProgressDates+""+dateString24+"###";
+
+										
+									}
+									
+								}									
+
+								
+							}
+							obj.setProgress_date(ConcatProgressDates);
+							for(int k=9;k<noOfColumns;k++)
+							{
+								val = formatter.formatCellValue(risksDrawingsSheet.getRow(i).getCell(k)).trim();
+								if(!StringUtils.isEmpty(val)) 
+								{ 
+									ConcatCompletedScopes=ConcatCompletedScopes+""+formatter.formatCellValue(risksDrawingsSheet.getRow(i).getCell(k)).trim()+"###";
+								}
+								else
+								{
+									ConcatCompletedScopes=ConcatCompletedScopes+"NoValue"+"###";
+								}
+							}
+							obj.setCompleted(ConcatCompletedScopes);
+						
+						}						
+						boolean flag = obj.checkNullOrEmpty();
+						
+						if(!flag) {
+							stripChartList.add(obj);
+						}
+					}
+					
+					if(!stripChartList.isEmpty()){
+						count  = newActivitiesUpdateService.uploadNewActivities(stripChartList);
+					}
+				}
+				workbook.close();
+			}
+				
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("uploadNewActivities() : "+e.getMessage());
+			throw new Exception(e);	
+		}finally{
+		    try{
+		        if ( w != null)
+		        	w.close( );
+		    }catch ( IOException e){
+		    	e.printStackTrace();
+		    	logger.error("uploadNewActivities() : "+e.getMessage());
+		    	throw new Exception(e);
+		    }
+		}
+		
+		return count;
 	}
 	
 	

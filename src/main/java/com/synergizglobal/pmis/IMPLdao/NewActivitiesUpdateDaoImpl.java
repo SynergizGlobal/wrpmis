@@ -23,6 +23,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,6 +38,7 @@ import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
+import com.synergizglobal.pmis.model.Expenditure;
 import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.Messages;
 import com.synergizglobal.pmis.model.StripChart;
@@ -2190,6 +2193,168 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 			DBConnectionHandler.closeJDBCResoucrs(connection, cstmt, resultSet);
 		}
 		return flag;				
+	}
+
+	@Override
+	public boolean uploadNewActivities(List<StripChart> stripChartList) throws Exception {
+		Connection con = null;
+		PreparedStatement insertStmt = null;
+		ResultSet rs = null;
+		int count = 0;
+		boolean flag =false;
+		try{
+			con = dataSource.getConnection();
+			
+	
+			
+			String insertQry = "INSERT INTO p6_validation"
+					+ "(created_by_user_id_fk, remarks, completed_scope, p6_activity_id_fk,progress_date,approval_status_fk,updated_scope)"
+					+ "VALUES"
+					+ "(?,?,?,?,?,?,?)";
+			insertStmt = con.prepareStatement(insertQry,Statement.RETURN_GENERATED_KEYS);
+			PreparedStatement stmt = null;
+			PreparedStatement stmt1 = null;
+			int loopTimes=0;
+			List<String> generatedIds = new ArrayList<String>();
+			for (StripChart obj : stripChartList) 
+			{
+				String[] StrVar=obj.getProgress_date().split("###");
+				String[] StrVar1=obj.getCompleted().split("###");
+				
+				for(int k=0;k<StrVar.length;k++)
+				{
+					if(!StringUtils.isEmpty(StrVar1[k]) && StrVar1[k].compareTo("NoValue")!=0)
+					{
+						obj.setContract_id_fk(getContractId(obj.getP6_task_code()));
+						
+						String deleteQry = "delete from p6_validation_dyhod where progress_id_fk in(select progress_id from p6_validation where p6_activity_id_fk = ? and progress_date=? and approval_status_fk='pending')";
+						stmt = con.prepareStatement(deleteQry);
+						stmt.setString(1,getActivityId(obj.getP6_task_code()));
+						stmt.setString(2,StrVar[k]);
+						stmt.executeUpdate();
+						
+						
+						String deleteQry1 = "delete from p6_validation where p6_activity_id_fk = ? and progress_date=? and approval_status_fk='pending'";
+						stmt1 = con.prepareStatement(deleteQry1);
+						stmt1.setString(1,getActivityId(obj.getP6_task_code()));
+						stmt1.setString(2,StrVar[k]);
+						stmt1.executeUpdate();						
+						
+					    insertStmt.setString(1, obj.getCreated_by_user_id_fk());
+					    insertStmt.setString(2, obj.getRemarks());
+				    	insertStmt.setFloat(3,Float.parseFloat(StrVar1[k]));
+					    insertStmt.setString(4,getActivityId(obj.getP6_task_code()));
+					    insertStmt.setString(5, StrVar[k]);
+					    insertStmt.setString(6, "Pending");
+					    insertStmt.setString(7, "");
+					    insertStmt.executeUpdate();
+						ResultSet rs1 = insertStmt.getGeneratedKeys();
+				        if (rs1 != null) {
+				            while (rs1.next()) {
+				                int generatedId = rs1.getInt(1);
+				                generatedIds.add(String.valueOf(generatedId));
+				            }
+				        }						  
+					  loopTimes++;					    
+					}
+				}
+				if(stmt != null){stmt.close();}	
+				if(stmt1 != null){stmt1.close();}	
+				if(insertStmt != null){insertStmt.close();}	
+				
+				NamedParameterJdbcTemplate template1 = new NamedParameterJdbcTemplate(dataSource);			
+				if(loopTimes > 0) {
+					flag = true;
+
+			        DBConnectionHandler.closeJDBCResoucrs(null, insertStmt, null);
+			        
+			        String qry = "INSERT INTO p6_validation_dyhod(dyhod_user_id_fk, progress_id_fk)values(?,?)";
+			        insertStmt = con.prepareStatement(qry);
+			        List<String> dyHodsList = getDyHodsOfActivity(obj.getContract_id_fk());
+			        for (String dyhod : dyHodsList) {
+						for (String generated_id : generatedIds) {
+							insertStmt.setString(1, dyhod);
+						    insertStmt.setString(2, generated_id);
+						    insertStmt.addBatch();
+						}
+						String messageQry = "INSERT INTO messages (message,user_id_fk,redirect_url,created_date,message_type)"
+								+ "VALUES" + "(:message,:user_id_fk,:redirect_url,CURRENT_TIMESTAMP,:message_type)";	
+
+							Messages msgObj = new Messages();
+							msgObj.setUser_id_fk(dyhod);
+							msgObj.setMessage("New Activities has been updated");
+							msgObj.setRedirect_url("/progress-approval-page/");
+							msgObj.setMessage_type("Execution");	
+							BeanPropertySqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(msgObj);
+							template1.update(messageQry, paramSource1);						
+												
+					}
+			        insertStmt.executeBatch();
+			        
+			        DBConnectionHandler.closeJDBCResoucrs(null, insertStmt, null);
+				}				
+
+				if(count > 0) {
+					flag=true;
+				}
+			}
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, insertStmt, rs);
+		}
+		return flag;
+	}
+	
+	private String getActivityId(String task_code) throws Exception{
+		String p6_activity_id="";
+		try {
+			String qry = "select distinct p6_activity_id from p6_activities where task_code=?";
+			p6_activity_id = (String) jdbcTemplate.queryForObject(qry, new Object[] { task_code }, String.class);
+		} catch (Exception e) {
+			throw new Exception(e);
+		}		
+		return p6_activity_id;
+	}	
+	
+	private String getContractId(String task_code) throws Exception{
+		String contract_id_fk="";
+		try {
+			String qry = "select distinct contract_id_fk from p6_activities where task_code=?";
+			contract_id_fk = (String) jdbcTemplate.queryForObject(qry, new Object[] { task_code }, String.class);
+		} catch (Exception e) {
+			throw new Exception(e);
+		}		
+		return contract_id_fk;
+	}
+
+	@Override
+	public ResultSet getExportActivitiesbyContract(StripChart obj) throws Exception {
+		Connection connection = null;
+		java.sql.CallableStatement statement = null;
+        connection = dataSource.getConnection();
+		ResultSet rs = null;
+		try{
+				connection = dataSource.getConnection();	
+				logger.error("callingStoredProcedures exportActivities :"+ new Date());	
+				String qry1 = "exec dbo.[exportActivities] ?,?,?,?";			
+				statement = connection.prepareCall(qry1);
+				statement.setString(1, obj.getContract_id_fk());
+				statement.setString(2, obj.getStructure_type_fk());
+				statement.setString(3, obj.getStrip_chart_structure_id_fk());
+				statement.setString(4, "01-01-2023");
+				rs=statement.executeQuery();
+				DBConnectionHandler.closeJDBCResoucrs(null, statement, rs);
+				logger.error("callingStoredProcedures Ends exportActivities :"+ new Date());	
+
+		}catch(Exception e){ 
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(connection, statement, rs);
+		} 
+        return rs;				
+
 	}	
 
 }

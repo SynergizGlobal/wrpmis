@@ -452,7 +452,7 @@
      
 		function rmvModal()
 		{
-			$("#Modalremove").modal('close');
+			$("#Modalremove").hide();
 		} 
 		
 		function getAllSelected(t)

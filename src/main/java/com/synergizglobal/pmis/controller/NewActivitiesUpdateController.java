@@ -292,7 +292,7 @@ public class NewActivitiesUpdateController {
 	            
                 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
                 Date date = new Date();
-                String fileName = "Execution_Overview_Report"+dateFormat.format(date);
+                String fileName = "Export_New_Activities"+dateFormat.format(date);
                 
 	            try{
             	

@@ -1170,6 +1170,7 @@
           <input type="hidden" name="contract_id_fk" id="exportContract_id_fk" /> 
           <input type="hidden" name="structure_type_fk" id="exportStructure_type_fk" />
           <input type="hidden" name="strip_chart_structure_id_fk" id="exportStrip_chart_structure_id_fk" />
+          <input type="hidden" name="progress_date" id="exportProgress_date" />
           <input type="hidden" name="searchStr" id="exportsearchStr" />
 	</form>	
     
@@ -1578,11 +1579,18 @@
 	         var contract_id_fk = $("#contract_id_fk").val();
 	         var structure_type_fk = $("#structure_type_fk").val();
 	         var strip_chart_structure_id_fk = $("#strip_chart_structure_id_fk").val();
-        	var searchStrValue = $('[type=search]').val();
+		        var prdate = new Date(document.getElementById("progress_date").value);
+		        var prdateformat = ('0' + (prdate.getMonth()+1)).slice(-2)+'-'+('0' + prdate.getDate()).slice(-2)+'-'+prdate.getFullYear();
+		        document.getElementById("data_date").value=prdateformat;
+		        document.getElementById("progress_date").value=prdateformat;
+
+		   		var searchStrValue = $('[type=search]').val();
           	 
           	$("#exportContract_id_fk").val(contract_id_fk);
           	$("#exportStructure_type_fk").val(structure_type_fk);
-          	$("#exportstrip_chart_structure_id_fk").val(strip_chart_structure_id_fk);
+          	$("#exportStrip_chart_structure_id_fk").val(strip_chart_structure_id_fk);
+          	$("#exportProgress_date").val(prdateformat);
+          	$("#exportData_date").val(prdateformat);
           	$("#exportNewActivities").submit();
        	}	       
         

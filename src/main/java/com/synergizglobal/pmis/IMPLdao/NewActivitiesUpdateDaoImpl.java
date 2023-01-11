@@ -2344,7 +2344,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 				statement.setString(1, obj.getContract_id_fk());
 				statement.setString(2, obj.getStructure_type_fk());
 				statement.setString(3, obj.getStrip_chart_structure_id_fk());
-				statement.setString(4, "01-01-2023");
+				statement.setString(4, obj.getProgress_date());
 				rs=statement.executeQuery();
 				//DBConnectionHandler.closeJDBCResoucrs(null, statement, rs);
 				logger.error("callingStoredProcedures Ends exportActivities :"+ new Date());	

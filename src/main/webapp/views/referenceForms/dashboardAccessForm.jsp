@@ -670,15 +670,15 @@
 	                                    <c:forEach var="obj" items="${user_roles}" >
 	                                  		  '<option value= "${obj.access_value_id}">${obj.access_value_id }</option>'+
 	                                  	</c:forEach>											 			 		                             	
-	                                  	+'</select></td><td><select class="searchable validate-dropdown" id="'+$("#work_id_fk").val()+'_UserType" name="user_type_access" multiple="multiple">'+
+	                                  	'</select></td><td><select class="searchable validate-dropdown" id="'+$("#work_id_fk").val()+'_UserType" name="user_type_access" multiple="multiple">'+
 	  		 						'<option >Select</option>'+
 	                                    <c:forEach var="obj" items="${user_types}" >
-	                                  		  '<option value= "${obj.access_value_id}">${obj.access_value_id }</option>'+
+	                                  		  +'<option value= "${obj.access_value_id}">${obj.access_value_id }</option>'
 	                                  	</c:forEach>											 			 		                             	
 	                                  	+'</select></td><td><select class="searchable validate-dropdown" id="'+$("#work_id_fk").val()+'_User" name="user_access" multiple="multiple">'+
 	  		 						'<option >Select</option>'+
 	                                    <c:forEach var="obj" items="${users}" >
-	                                  		  '<option value= "${obj.access_value_id}">${obj.access_value_id }</option>'+
+	                                  		  +'<option value= "${obj.access_value_id}">${obj.access_value_id }</option>'
 	                                  	</c:forEach>											 			 		                             	
 	                                  	+'</select></td>';  								
  								
@@ -712,15 +712,15 @@
 		  		                                    <c:forEach var="obj" items="${user_roles}" >
 		  		                                  		  '<option value= "${obj.access_value_id}">${obj.access_value_id }</option>'+
 		  		                                  	</c:forEach>											 			 		                             	
-		  		                                  	+'</select></td><td><select class="searchable validate-dropdown" id="'+SRM2+'_'+$("#work_id_fk").val()+'_OverviewUserType_'+y+'" name="user_type_access" multiple="multiple" >'+
+		  		                                  	'</select></td><td><select class="searchable validate-dropdown" id="'+SRM2+'_'+$("#work_id_fk").val()+'_OverviewUserType_'+y+'" name="user_type_access" multiple="multiple" >'+
 		  		  		 						'<option >Select</option>'+
 		  		                                    <c:forEach var="obj" items="${user_types}" >
-		  		                                  		  '<option value= "${obj.access_value_id}">${obj.access_value_id }</option>'+
+		  		                                  		  +'<option value= "${obj.access_value_id}">${obj.access_value_id }</option>'
 		  		                                  	</c:forEach>											 			 		                             	
 		  		                                  	+'</select></td><td><select class="searchable validate-dropdown" id="'+SRM2+'_'+$("#work_id_fk").val()+'_OverviewUser_'+y+'" name="user_access" multiple="multiple" >'+
 		  		  		 						'<option >Select</option>'+
 		  		                                    <c:forEach var="obj" items="${users}" >
-		  		                                  		  '<option value= "${obj.access_value_id}">${obj.access_value_id }</option>'+
+		  		                                  		  +'<option value= "${obj.access_value_id}">${obj.access_value_id }</option>'
 		  		                                  	</c:forEach>											 			 		                             	
 		  		                                  	+'</select></td>';  								
 		  	 								

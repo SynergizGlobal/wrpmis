@@ -1270,15 +1270,42 @@ public class HomeDaoImpl implements HomeDao {
 					}
 					
 					/********************************************************************************/
-					String qry = "select count(*) as count from form_access "
-							+ "where form_id_fk = (SELECT form_id FROM form f "
-							//+ "left join module m on f.module_name_fk = m.module_name "
-							+ "left join user_module m on f.module_name_fk = m.module_fk "
-							+ "WHERE m.executive_id_fk = ? AND m.soft_delete_status = ? AND f.web_form_url is not null and f.web_form_url <> '' "
-							+ "and f.soft_delete_status_fk = ? and (f.web_form_url "
-							+ tempQry
-							+ " ?) order by form_id offset 0 rows  fetch next 1 rows only)"
-							+ " and (access_value = ? or access_value = ? or access_value = ?)";
+					String qry="";
+					if(!StringUtils.isEmpty(requestURI))
+					{
+						String Str[]=requestURI.split("/");
+						int UrlExistsFormCount=getUrlExistsFormCount(Str[1]);
+						
+						if(UrlExistsFormCount>0)
+						{
+							qry = "select count(*) as count from form_access "
+									+ "where form_id_fk = (SELECT form_id FROM form f "
+									//+ "left join module m on f.module_name_fk = m.module_name "
+									+ "left join user_module m on f.module_name_fk = m.module_fk "
+									+ "WHERE m.executive_id_fk = ? AND m.soft_delete_status = ? AND f.web_form_url is not null and f.web_form_url <> '' "
+									+ "and f.soft_delete_status_fk = ? and (f.web_form_url "
+									+ tempQry
+									+ " ?) order by form_id offset 0 rows  fetch next 1 rows only)"
+									+ " and (access_value = ? or access_value = ? or access_value = ?)";							
+						}
+						else
+						{
+							
+							qry = "select count(*) as count from dashboard_access "
+									+ "where dashboard_id_fk = (SELECT dashboard_id FROM dashboard f "
+									//+ "left join module m on f.module_name_fk = m.module_name "
+									+ "left join user_module m on f.module_name_fk = m.module_fk "
+									+ "WHERE m.executive_id_fk = ? AND m.soft_delete_status = ? AND f.dashboard_url is not null and f.dashboard_url <> '' "
+									+ "and f.soft_delete_status_fk = ? and (f.dashboard_url "
+									+ tempQry
+									+ " ?) order by dashboard_id offset 0 rows  fetch next 1 rows only)"
+									+ " and (access_value = ? or access_value = ? or access_value = ?)";
+									tempURL=Str[1];
+					
+						}
+					}
+					
+
 					
 					if(tempURL.startsWith("overview-dashboard")) {
 						qry = "select count(*) as count from dashboard_access "
@@ -1320,6 +1347,18 @@ public class HomeDaoImpl implements HomeDao {
 		}
 		return flag;
 	}
+
+	private int getUrlExistsFormCount(String URL) throws Exception
+	{
+		int DataId=0;
+		try {
+			String qry = "select count(*) from form where web_form_url='"+URL+"' and soft_delete_status_fk='Active'";
+			DataId = (int) jdbcTemplate.queryForObject(qry, int.class);
+		} catch (Exception e) {
+			throw new Exception(e);
+		}		
+		return DataId;
+	}	
 	
 	
 	@Override

@@ -48,6 +48,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.synergizglobal.pmis.Idao.ExpenditureDao;
 import com.synergizglobal.pmis.Idao.FormsHistoryDao;
 import com.synergizglobal.pmis.Iservice.ContractorService;
 import com.synergizglobal.pmis.Iservice.ExpenditureService;
@@ -81,6 +82,9 @@ public class ExpenditureController {
 	
 	@Autowired
 	HomeService homeService;
+	
+	@Autowired
+	ExpenditureDao  expenditureDao;
 
 	@Value("${common.error.message}")
 	public String commonError;
@@ -503,7 +507,7 @@ public class ExpenditureController {
 		        XSSFRow headingRow = sheet.createRow(0);
 		        String headerString = "Expenditure ID^Work^Contract^Ledger Account^Date^Contractor Name^Vocher Type^Vocher No^Narration^Net Paid - (in Rs)^Gross Work Done - (in Rs)"
 	            		+ "^SD Payable - (in Rs)^Contractor Income Tax - (in Rs)^CGST TDS - (in Rs)^SGST TDS - (in Rs)^IGST TDS - (in Rs)^VAT WCT - (in Rs)^Mob Advance - (in Rs)^Interest on Mob Advance - (in Rs)^"
-	            		+ "Amount Withheld - (in Rs)^Remarks";
+	            		+ "Amount Withheld - (in Rs)^Remarks^Cess_on_Building- (in Rs)^Est Charges on Cess- (in Rs)^CGST (Output) - (in Rs)^SGST (Output)- (in Rs)";
 	            
 	            String[] firstHeaderStringArr = headerString.split("\\^");
 	            
@@ -618,6 +622,21 @@ public class ExpenditureController {
 						cell.setCellStyle(sectionStyle);
 						cell.setCellValue(eObj.getRemarks());
 						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(eObj.getCess_on_building());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(eObj.getEst_charges_on_cess());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(eObj.getCgst_output());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(eObj.getSgst_output());
 						rowNo++;
 	            }
 	            for(int columnIndex = 0; columnIndex < 100; columnIndex++) {
@@ -870,6 +889,19 @@ public class ExpenditureController {
 							
 							val = formatter.formatCellValue(row.getCell(18)).trim();
 							if(!StringUtils.isEmpty(val)) { expenditure.setRemarks(val);}
+							
+				
+							val = formatter.formatCellValue(row.getCell(19)).trim();
+							if(!StringUtils.isEmpty(val)) { expenditure.setCess_on_building("1");}
+							
+							val = formatter.formatCellValue(row.getCell(20)).trim();
+							if(!StringUtils.isEmpty(val)) { expenditure.setEst_charges_on_cess("1");}
+							
+							val = formatter.formatCellValue(row.getCell(21)).trim();
+							if(!StringUtils.isEmpty(val)) { expenditure.setCgst_output("1");}
+							
+							val = formatter.formatCellValue(row.getCell(22)).trim();
+							if(!StringUtils.isEmpty(val)) { expenditure.setSgst_output("1");}
 							
 							expenditure.setDate(DateParser.parse(expenditure.getDate()));
 						

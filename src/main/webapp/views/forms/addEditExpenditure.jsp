@@ -495,6 +495,77 @@
                                 	</select>
                                 	<span id="interest_on_mob_adv_unitsError" class="error-msg" ></span>
                                 </div> --%>
+                                
+                                
+                				<%--cess on the building section--%>
+                               <div class="col s12 m4 l4 amount-dropdown input-field offset-m2">
+                                    <i class="material-icons amount-symbol center-align">₹</i>
+                                    <input id="cess_on_building" min="0.01" step="0.01" type="number" class="validate" name="cess_on_building" value="${expenditureDetails.cess_on_building }">
+                                    <label for="interest_on_mob_adv" class="fs11px">Cess on Building
+                                        </label>
+                                    <span id="interest_on_mob_advError" class="error-msg" ></span>
+                                	<span id="interest_on_mob_adv_unitsError" class="error-msg right" ></span>
+                                    <select class="validate-dropdown" id="interest_on_mob_adv_units" name="interest_on_mob_adv_units">
+                                		<!-- <option value="">Select</option> -->
+                                		<c:forEach var="obj" items="${unitsList }">
+                                 			   <option value="${obj.value }"  <c:if test="${expenditureDetails.cess_on_building_units eq obj.value}">selected</c:if>>${obj.unit }</option>
+                                  		    </c:forEach>
+                                	</select>
+                                </div>
+                                
+                                 
+                				<%--Establishment charges on Cess section--%>
+                               <div class="col s12 m4 l4 amount-dropdown input-field offset-m2">
+                                    <i class="material-icons amount-symbol center-align">₹</i>
+                                    <input id="est_charges_on_cess" min="0.01" step="0.01" type="number" class="validate" name="est_charges_on_cess" value="${expenditureDetails.est_charges_on_cess }">
+                                    <label for="interest_on_mob_adv" class="fs11px">Establishment charges on Cess
+                                        </label>
+                                    <span id="interest_on_mob_advError" class="error-msg" ></span>
+                                	<span id="interest_on_mob_adv_unitsError" class="error-msg right" ></span>
+                                    <select class="validate-dropdown" id="interest_on_mob_adv_units" name="interest_on_mob_adv_units">
+                                		<!-- <option value="">Select</option> -->
+                                		<c:forEach var="obj" items="${unitsList }">
+                                 			   <option value="${obj.value }"  <c:if test="${expenditureDetails.est_charges_on_cess_units eq obj.value}">selected</c:if>>${obj.unit }</option>
+                                  		    </c:forEach>
+                                	</select>
+                                </div>
+                                
+                                <%--CGST (Output) section--%>
+                               <div class="col s12 m4 l4 amount-dropdown input-field offset-m2">
+                                    <i class="material-icons amount-symbol center-align">₹</i>
+                                    <input id="cgst_output" min="0.01" step="0.01" type="number" class="validate" name="cgst_output" value="${expenditureDetails.cgst_output }">
+                                    <label for="interest_on_mob_adv" class="fs11px">CGST (Output)
+                                        </label>
+                                    <span id="interest_on_mob_advError" class="error-msg" ></span>
+                                	<span id="interest_on_mob_adv_unitsError" class="error-msg right" ></span>
+                                    <select class="validate-dropdown" id="interest_on_mob_adv_units" name="interest_on_mob_adv_units">
+                                		<!-- <option value="">Select</option> -->
+                                		<c:forEach var="obj" items="${unitsList }">
+                                 			   <option value="${obj.value }"  <c:if test="${expenditureDetails.cgst_output_units eq obj.value}">selected</c:if>>${obj.unit }</option>
+                                  		    </c:forEach>
+                                	</select>
+                                </div>
+                                
+                                
+                                <%--SGST (Output) section--%>
+                               <div class="col s12 m4 l4 amount-dropdown input-field offset-m2">
+                                    <i class="material-icons amount-symbol center-align">₹</i>
+                                    <input id="sgst_output" min="0.01" step="0.01" type="number" class="validate" name="sgst_output" value="${expenditureDetails.sgst_output }">
+                                    <label for="interest_on_mob_adv" class="fs11px">SGST (Output)
+                                        </label>
+                                    <span id="interest_on_mob_advError" class="error-msg" ></span>
+                                	<span id="interest_on_mob_adv_unitsError" class="error-msg right" ></span>
+                                    <select class="validate-dropdown" id="interest_on_mob_adv_units" name="interest_on_mob_adv_units">
+                                		<!-- <option value="">Select</option> -->
+                                		<c:forEach var="obj" items="${unitsList }">
+                                 			   <option value="${obj.value }"  <c:if test="${expenditureDetails.sgst_output_units eq obj.value}">selected</c:if>>${obj.unit }</option>
+                                  		    </c:forEach>
+                                	</select>
+                                </div>
+                                
+                                
+                                
+                                
                            
                                 <div class="col s12 m4 l4 amount-dropdown input-field ">
                                     <i class="material-icons amount-symbol center-align">₹</i>

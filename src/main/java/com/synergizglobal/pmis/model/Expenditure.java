@@ -12,7 +12,15 @@ public class Expenditure {
 	narration, net_paid, gross_work_done, sd_payable, contractor_income_tax, cgst_tds, sgst_tds, vat_wct, mob_advance 
 	,interest_on_mob_adv, amount_withheld, remarks,financial_year,financial_year_fk,project_id_fk,project_name,work_short_name,contract_short_name,project_id,
 	net_paid_units,gross_work_done_units,sd_payable_units,contractor_income_tax_units,cgst_tds_units,sgst_tds_units,igst_tds_units,vat_wct_units,mob_advance_units,interest_on_mob_adv_units,amount_withheld_units,
-	sd_units,gross_units,contractor_income_units,cgst_units,sgst_units,igst_units,vat_units,mob_units,interest_units,withheld_units,created_by_user_id_fk,user_id,designation,user_name;
+	sd_units,gross_units,contractor_income_units,cgst_units,sgst_units,igst_units,vat_units,mob_units,interest_units,withheld_units,created_by_user_id_fk,user_id,designation,user_name
+	,cess_on_building,
+	est_charges_on_cess,
+	cgst_output,
+	sgst_output,
+	cess_on_building_units,
+	est_charges_on_cess_units,
+	cgst_output_units,
+	sgst_output_units;
 
 	private MultipartFile expenditureFile;
 	
@@ -516,4 +524,72 @@ public class Expenditure {
 	    
 	    return flag;            
 	}
+
+	public String getCess_on_building() {
+		return cess_on_building;
+	}
+
+	public void setCess_on_building(String cess_on_building) {
+		this.cess_on_building = cess_on_building;
+	}
+
+	public String getEst_charges_on_cess() {
+		return est_charges_on_cess;
+	}
+
+	public void setEst_charges_on_cess(String est_charges_on_cess) {
+		this.est_charges_on_cess = est_charges_on_cess;
+	}
+
+	public String getCgst_output() {
+		return cgst_output;
+	}
+
+	public void setCgst_output(String cgst_output) {
+		this.cgst_output = cgst_output;
+	}
+
+	public String getSgst_output() {
+		return sgst_output;
+	}
+
+	public void setSgst_output(String sgst_output) {
+		this.sgst_output = sgst_output;
+	}
+
+	public String getCess_on_building_units() {
+		return cess_on_building_units;
+	}
+
+	public void setCess_on_building_units(String cess_on_building_units) {
+		this.cess_on_building_units = cess_on_building_units;
+	}
+
+	public String getEst_charges_on_cess_units() {
+		return est_charges_on_cess_units;
+	}
+
+	public void setEst_charges_on_cess_units(String est_charges_on_cess_units) {
+		this.est_charges_on_cess_units = est_charges_on_cess_units;
+	}
+
+	public String getCgst_output_units() {
+		return cgst_output_units;
+	}
+
+	public void setCgst_output_units(String cgst_output_units) {
+		this.cgst_output_units = cgst_output_units;
+	}
+
+	public String getSgst_output_units() {
+		return sgst_output_units;
+	}
+
+	public void setSgst_output_units(String sgst_output_units) {
+		this.sgst_output_units = sgst_output_units;
+	}
+
+	
+
+	
 }

@@ -61,6 +61,8 @@ import com.synergizglobal.pmis.Iservice.HomeService;
 import com.synergizglobal.pmis.Idao.FormsHistoryDao;
 import com.synergizglobal.pmis.Iservice.FortnightPlanService;
 import com.synergizglobal.pmis.common.DateParser;
+import com.synergizglobal.pmis.common.FileUploads;
+import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.constants.PageConstants2;
 import com.synergizglobal.pmis.model.ActivitiesProgressReport;
@@ -177,6 +179,8 @@ public class FortnightPlanController {
 			
 			if(!StringUtils.isEmpty(fortnightPlan.getFortnightPlanFile())){
 				MultipartFile multipartFile = fortnightPlan.getFortnightPlanFile();
+				String fileName = multipartFile.getOriginalFilename();
+				fortnightPlan.setFilename(fileName);
 				// Creates a workbook object from the uploaded excelfile
 				if (multipartFile.getSize() > 0){					
 					XSSFWorkbook workbook = new XSSFWorkbook(multipartFile.getInputStream());
@@ -210,9 +214,12 @@ public class FortnightPlanController {
 	                		return model;
 						}
 						
+						String saveDirectory = CommonConstants2.FORTNIGHT_PLAN_UPLOAD_REMARKS_PATH ;
+						FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);						
+						
 						int count = uploadFortnightPlan(fortnightPlan,user_Id,userName);
 						if(count > 0) {
-							attributes.addFlashAttribute("success", + count + " FortnightPlan uploaded successfully.");
+							attributes.addFlashAttribute("success", + count + " FortnightPlan Remarks uploaded successfully.");
 							FormHistory formHistory = new FormHistory();
 							formHistory.setCreated_by_user_id_fk(fortnightPlan.getCreated_by_user_id_fk());
 							formHistory.setUser(fortnightPlan.getDesignation()+" - "+fortnightPlan.getUser_name());
@@ -270,6 +277,8 @@ public class FortnightPlanController {
 						// String j_username = formatter.formatCellValue(row.getCell(0));
 						//System.out.println(i);
 						fortnightPlan = new FortnightPlan();
+						fortnightPlan.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
+						fortnightPlan.setFilename(obj.getFilename());
 						String val = null;
 						if(!StringUtils.isEmpty(row)) {								
 						  
@@ -376,6 +385,9 @@ public class FortnightPlanController {
 		try {
 		
 			model.setViewName(PageConstants2.fortnightUploadList);
+			
+			List<FortnightPlan> FortnightUploadList = FortnightPlanService.getFortnightUploadList();
+			model.addObject("FortnightUploadList", FortnightUploadList);			
 			
 			
 		} catch (Exception e) {

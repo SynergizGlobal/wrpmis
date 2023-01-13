@@ -72,5 +72,7 @@ public interface FortnightPlanDao {
 	List<FortnightPlan> contractList(FortnightPlan obj) throws Exception;
 
 	int uploadFortnightPlans(List<FortnightPlan> fortnightPlansList) throws Exception;
+
+	List<FortnightPlan> getFortnightUploadList() throws Exception;
 }
  

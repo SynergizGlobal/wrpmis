@@ -46,6 +46,7 @@ import com.synergizglobal.pmis.model.Expenditure;
 import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.Issue;
 import com.synergizglobal.pmis.model.Messages;
+import com.synergizglobal.pmis.model.P6Data;
 import com.synergizglobal.pmis.model.FortnightPlan;
 import com.synergizglobal.pmis.model.FortnightPlan;
 import com.synergizglobal.pmis.model.FortnightPlan;
@@ -1523,12 +1524,12 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 		try{
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
 			String insertQry = "insert into  fortnight_monthly_plan_upload  "
-					+ "(date,contract_short_name,structure_type_fk,structure,component,unit,scope,target_till_lfn,actual_till_lfn,target_this_fn,actual_this_fn,cum_target,cum_actual,critical,remarks)"
+					+ "(date,contract_short_name,structure_type_fk,structure,component,unit,scope,target_till_lfn,actual_till_lfn,target_this_fn,actual_this_fn,cum_target,cum_actual,critical,remarks,created_by,created_date,filename)"
 					+ "VALUES(:fortnight_date, :contract_short_name, :structure_type_fk, :structure, :component, :unit, :scope, :target_till_lfn, :actual_till_lfn, :target_this_fn,"
-					+ ":actual_this_fn, :cum_target, :cum_actual, :critical, :remarks) ";
+					+ ":actual_this_fn, :cum_target, :cum_actual, :critical, :remarks,:created_by_user_id_fk,CURRENT_TIMESTAMP,:filename) ";
 			
 			String updateQry = "update fortnight_monthly_plan_upload  set "
-					+ "unit=:unit,scope=:scope,target_till_lfn=:target_till_lfn,actual_till_lfn=:actual_till_lfn,target_this_fn=:target_this_fn,actual_this_fn=:actual_this_fn,cum_target=:cum_target,cum_actual=:cum_actual,critical=:critical,remarks=:remarks where date=:fortnight_date and contract_short_name=:contract_short_name and structure_type_fk=:structure_type_fk and structure=:structure and component=:component";
+					+ "unit=:unit,scope=:scope,target_till_lfn=:target_till_lfn,actual_till_lfn=:actual_till_lfn,target_this_fn=:target_this_fn,actual_this_fn=:actual_this_fn,cum_target=:cum_target,cum_actual=:cum_actual,critical=:critical,remarks=:remarks,modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP,filename=:filename where date=:fortnight_date and contract_short_name=:contract_short_name and structure_type_fk=:structure_type_fk and structure=:structure and component=:component";
 			
 			
 			for (FortnightPlan obj : fortnightPlansList) 
@@ -1555,6 +1556,21 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 			DBConnectionHandler.closeJDBCResoucrs(con, insertStmt, rs);
 		}
 		return insertCount;
+	}
+
+	@Override
+	public List<FortnightPlan> getFortnightUploadList() throws Exception {
+		List<FortnightPlan> objsList = null;
+		try {
+			String qry ="select distinct filename,case when modified_by is null then created_by else modified_by end as uploaded_by," + 
+					"max(case when modified_date is null then created_date else  created_date end ) as uploaded_date from fortnight_monthly_plan_upload " + 
+					"group by filename,modified_by,created_by";
+			
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<FortnightPlan>(FortnightPlan.class));	
+		}catch(Exception e){ 
+		throw new Exception(e.getMessage());
+		}
+		return objsList;
 	}	
 
 }

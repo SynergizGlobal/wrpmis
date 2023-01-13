@@ -15,6 +15,8 @@ public interface FortnightPlanService {
 	List<FortnightPlan> getFortnightPlanContractList() throws Exception;
 	FortnightPlan generateFortnightReport(FortnightPlan obj) throws Exception;
 	
+	List<FortnightPlan> getFortnightUploadList() throws Exception;
+	
 	
 	List<FortnightPlan> getFortnightQuarterlyPlanItemList() throws Exception;
 	List<FortnightPlan> getFortnightQuarterlyPlanPeriodList() throws Exception;

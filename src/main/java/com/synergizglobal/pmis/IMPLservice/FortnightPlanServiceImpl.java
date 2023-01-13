@@ -82,6 +82,10 @@ public class FortnightPlanServiceImpl implements FortnightPlanService {
 	public FortnightPlan generateFortnightReport(FortnightPlan obj) throws Exception {
 		return fortnightPlanDao.generateFortnightReport(obj);
 	}
+	@Override
+	public List<FortnightPlan> getFortnightUploadList() throws Exception{
+		return fortnightPlanDao.getFortnightUploadList();
+	}
 	
 	@Override
 	public List<FortnightPlan> getFortnightPlanWorkList() throws Exception {

@@ -13,7 +13,7 @@ public class FortnightPlan {
 	designation,user_name,created_by_user_id_fk,module_name,work_name,work_short_name,department_fk,
 	contract_short_name,structure,user_type_fk,structure_type_fk,remarks,critical,activity_name,scope,status, uploaded_by_user_id_fk,item,tdc_calendar,criticality,color,
 	scope_of_work_quarterly,fortnight_quarterly_plan_id,fortnight_date,unit,cum_progress,cumulative_progress,revision_no,tdc_date,contractor_name,
-	target_till_lfn,actual_till_lfn,target_this_fn,actual_this_fn,cum_target,cum_actual;;
+	target_till_lfn,actual_till_lfn,target_this_fn,actual_this_fn,cum_target,cum_actual,filename,uploaded_by,uploaded_date;
 	
 	
 	private String [] activity,scope_of_work,critical_item,completion_status,planned_progress_on_last_fortnight, actual_progress_on_last_fortnight, plan_for_the_current_fortnight,
@@ -629,6 +629,30 @@ public class FortnightPlan {
 
 	public void setTarget_till_lfn(String target_till_lfn) {
 		this.target_till_lfn = target_till_lfn;
+	}
+
+	public String getFilename() {
+		return filename;
+	}
+
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+
+	public String getUploaded_by() {
+		return uploaded_by;
+	}
+
+	public void setUploaded_by(String uploaded_by) {
+		this.uploaded_by = uploaded_by;
+	}
+
+	public String getUploaded_date() {
+		return uploaded_date;
+	}
+
+	public void setUploaded_date(String uploaded_date) {
+		this.uploaded_date = uploaded_date;
 	}
 
 

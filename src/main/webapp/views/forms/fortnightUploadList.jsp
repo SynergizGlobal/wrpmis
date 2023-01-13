@@ -42,7 +42,41 @@
                     <div class="">
                     <div class="center-align m-1 close-message">${error}</div>
 			            <form action="<%=request.getContextPath() %>/generate-fortnight-report" id="FortnightReportForm" name="FortnightReportForm" method="post" target="_blank">	                              
-                       		
+                <div class="card ">
+                    <div class="card-content ">
+                        <span class="card-title">
+                            <h6 class="mar-top center-align">Fortnight Plan Remarks Data</h6>
+                        </span>
+                     <c:if test="${not empty success }">
+					        <div class="center-align m-1 close-message">	
+							   ${success}
+							</div>
+						</c:if>
+						<c:if test="${not empty error }">
+							<div class="center-align m-1 close-message">
+							   ${error}
+							</div>
+						</c:if>                        
+	                        <div class="row">
+	                            <div class="col m12 s12">
+	                                <table id="datatable-p6-new-data" class="mdl-data-table">
+	                                    <thead>
+	                                        <tr>
+	                                            <th>Uploaded File</th>
+	                                            <th>Uploaded By</th>
+	                                            <th>Uploaded Date</th>
+	                                        </tr>
+	                                    </thead>
+	                                    <tbody>
+                                            <c:forEach var="obj" items="${FortnightUploadList}">
+                                            	<tr><td>${obj.filename }</td><td>${obj.uploaded_by }</td><td>${obj.uploaded_date }</td></tr>
+                                             </c:forEach>	                                    
+	                                    </tbody>
+	                                </table>
+	                            </div>
+	                        </div>
+                    </div>
+                </div>                       		
                         </form>
                         </div>
                     </div>
@@ -102,7 +136,6 @@
             $('.searchable').select2();
             $('.modal').modal();
             $('.collapsible').collapsible();
-			alert("Fortnight Data uploaded successfully");
 		});    
 
     </script>

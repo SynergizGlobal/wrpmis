@@ -169,4 +169,14 @@ public class FortnightPlanServiceImpl implements FortnightPlanService {
 		return fortnightPlanDao.getfortnightActivities(obj);
 	}
 	
+	public List<FortnightPlan> contractList(FortnightPlan obj) throws Exception
+	{
+		return fortnightPlanDao.contractList(obj);
+	}
+	
+	public int uploadFortnightPlans(List<FortnightPlan>FortnightPlansList) throws Exception
+	{
+		return fortnightPlanDao.uploadFortnightPlans(FortnightPlansList);
+	}
+	
 }

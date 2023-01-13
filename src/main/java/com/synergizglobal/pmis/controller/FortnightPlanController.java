@@ -65,13 +65,16 @@ import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.constants.PageConstants2;
 import com.synergizglobal.pmis.model.ActivitiesProgressReport;
 import com.synergizglobal.pmis.model.Budget;
+import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Design;
+import com.synergizglobal.pmis.model.Expenditure;
 import com.synergizglobal.pmis.model.FOB;
 import com.synergizglobal.pmis.model.FileFormatModel;
 import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.FortnightPlan;
 import com.synergizglobal.pmis.model.FortnightPlanPaginationObject;
 import com.synergizglobal.pmis.model.Project;
+import com.synergizglobal.pmis.model.StripChart;
 import com.synergizglobal.pmis.model.User;
 
 @Controller
@@ -154,6 +157,230 @@ public class FortnightPlanController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("FortnightReport : " + e.getMessage());
+		}
+		return model;
+	}	
+	
+	@RequestMapping(value = "/upload-fortnight-remarks", method = {RequestMethod.POST})
+	public ModelAndView uploadRisk(@ModelAttribute FortnightPlan fortnightPlan,RedirectAttributes attributes,HttpSession session){
+		ModelAndView model = new ModelAndView();
+		try {
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			fortnightPlan.setCreated_by_user_id_fk(user_Id);
+			fortnightPlan.setUser_id(user_Id);
+			fortnightPlan.setUser_name(userName);
+			fortnightPlan.setDesignation(userDesignation);
+			model.setViewName("redirect:/fortnight-upload-list");
+			
+			if(!StringUtils.isEmpty(fortnightPlan.getFortnightPlanFile())){
+				MultipartFile multipartFile = fortnightPlan.getFortnightPlanFile();
+				// Creates a workbook object from the uploaded excelfile
+				if (multipartFile.getSize() > 0){					
+					XSSFWorkbook workbook = new XSSFWorkbook(multipartFile.getInputStream());
+					// Creates a worksheet object representing the first sheet
+					int sheetsCount = workbook.getNumberOfSheets();
+					if(sheetsCount > 0) {
+						XSSFSheet risksDrawingsSheet = workbook.getSheetAt(0);
+						//System.out.println(uploadFilesSheet.getSheetName());
+						//header row
+						XSSFRow headerRow = risksDrawingsSheet.getRow(0);
+						//checking given file format
+						if(headerRow != null){
+							List<String> fileFormat = FileFormatModel.getFortnightPlanFileFormat();	
+							int noOfColumns = headerRow.getLastCellNum();
+							if(noOfColumns == fileFormat.size()){
+								for (int i = 0; i < fileFormat.size();i++) {
+				                	//System.out.println(headerRow.getCell(i).getStringCellValue().trim());
+				                	//if(!fileFormat.get(i).trim().equals(headerRow.getCell(i).getStringCellValue().trim())){
+									String columnName = headerRow.getCell(i).getStringCellValue().trim();
+									if(!columnName.equals(fileFormat.get(i).trim()) && !columnName.contains(fileFormat.get(i).trim())){
+				                		attributes.addFlashAttribute("error",uploadformatError);
+				                		return model;
+				                	}
+								}
+							}else{
+								attributes.addFlashAttribute("error",uploadformatError);
+		                		return model;
+							}
+						}else{
+							attributes.addFlashAttribute("error",uploadformatError);
+	                		return model;
+						}
+						
+						int count = uploadFortnightPlan(fortnightPlan,user_Id,userName);
+						if(count > 0) {
+							attributes.addFlashAttribute("success", + count + " FortnightPlan uploaded successfully.");
+							FormHistory formHistory = new FormHistory();
+							formHistory.setCreated_by_user_id_fk(fortnightPlan.getCreated_by_user_id_fk());
+							formHistory.setUser(fortnightPlan.getDesignation()+" - "+fortnightPlan.getUser_name());
+							formHistory.setModule_name_fk("FortnightPlan");
+							formHistory.setForm_name("Upload FortnightPlan");
+							formHistory.setForm_action_type("Upload");
+							formHistory.setForm_details( count + " FortnightPlan uploaded successfully.");
+							formHistory.setWork(fortnightPlan.getWork_id_fk());
+							formHistory.setContract(fortnightPlan.getContract_id_fk());
+							
+							boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+							/********************************************************************************/
+							
+						}
+						
+					}
+					workbook.close();
+				}
+			} else {
+				attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
+			logger.fatal("updateDataDate() : "+e.getMessage());
+		}
+		return model;
+	}
+
+	private int uploadFortnightPlan(FortnightPlan obj, String userId,String userName) throws Exception {
+		FortnightPlan fortnightPlan = null;
+		List<FortnightPlan> fortnightPlanList = new ArrayList<FortnightPlan>();
+		
+		Writer w = null;
+		int count = 0 ;
+		try {	
+			MultipartFile excelfile = obj.getFortnightPlanFile();
+			// Creates a workbook object from the uploaded excelfile
+			if (!StringUtils.isEmpty(excelfile) && excelfile.getSize() > 0 ){
+				
+				XSSFWorkbook workbook = new XSSFWorkbook(excelfile.getInputStream());
+				int sheetsCount = workbook.getNumberOfSheets();
+				if(sheetsCount > 0) {
+					XSSFSheet risksDrawingsSheet = workbook.getSheetAt(0);
+					//System.out.println(uploadFilesSheet.getSheetName());
+					//header row
+					//XSSFRow headerRow = uploadFilesSheet.getRow(0);							
+					DataFormatter formatter = new DataFormatter(); //creating formatter using the default locale
+					//System.out.println(uploadFilesSheet.getLastRowNum());
+					for(int i = 1; i <= risksDrawingsSheet.getLastRowNum();i++){
+						XSSFRow row = risksDrawingsSheet.getRow(i);
+						// Sets the Read data to the model class
+						// Cell cell = row.getCell(0);
+						// String j_username = formatter.formatCellValue(row.getCell(0));
+						//System.out.println(i);
+						fortnightPlan = new FortnightPlan();
+						String val = null;
+						if(!StringUtils.isEmpty(row)) {								
+						  
+							val = formatter.formatCellValue(row.getCell(0)).trim();
+							if(!StringUtils.isEmpty(val)) { fortnightPlan.setFortnight_date(val);}
+							
+							val = formatter.formatCellValue(row.getCell(1)).trim();
+							if(!StringUtils.isEmpty(val)) { fortnightPlan.setContract_short_name(val);}
+							
+							val = formatter.formatCellValue(row.getCell(2)).trim();
+							if(!StringUtils.isEmpty(val)) { fortnightPlan.setStructure_type_fk(val);}	
+							
+							val = formatter.formatCellValue(row.getCell(3)).trim();
+							if(!StringUtils.isEmpty(val)) { fortnightPlan.setStructure(val);}					
+							
+							val = formatter.formatCellValue(row.getCell(4)).trim();
+							if(!StringUtils.isEmpty(val)) { fortnightPlan.setComponent(val);}								
+							
+							val = formatter.formatCellValue(row.getCell(5)).trim();
+							if(!StringUtils.isEmpty(val)) { fortnightPlan.setUnit(val);}										
+							
+							val = formatter.formatCellValue(row.getCell(6)).trim();
+							if(!StringUtils.isEmpty(val)) { fortnightPlan.setScope(val);}
+							
+							val = formatter.formatCellValue(row.getCell(7)).trim();
+							if(!StringUtils.isEmpty(val)) { fortnightPlan.setTarget_till_lfn(val);}
+							
+							val = formatter.formatCellValue(row.getCell(8)).trim();
+							if(!StringUtils.isEmpty(val)) { fortnightPlan.setActual_till_lfn(val);}
+							
+							
+							val = formatter.formatCellValue(row.getCell(9)).trim();
+							if(!StringUtils.isEmpty(val)) { fortnightPlan.setTarget_this_fn(val);}
+							
+							val = formatter.formatCellValue(row.getCell(10)).trim();
+							if(!StringUtils.isEmpty(val)) { fortnightPlan.setActual_this_fn(val);}
+							
+							val = formatter.formatCellValue(row.getCell(11)).trim();
+							if(!StringUtils.isEmpty(val)) { fortnightPlan.setCum_target(val);}	
+							
+							val = formatter.formatCellValue(row.getCell(12)).trim();
+							if(!StringUtils.isEmpty(val)) { fortnightPlan.setCum_actual(val);}
+							
+							val = formatter.formatCellValue(row.getCell(13)).trim();
+							if(!StringUtils.isEmpty(val)) { fortnightPlan.setCritical(val);}
+							
+							val = formatter.formatCellValue(row.getCell(14)).trim();
+							if(!StringUtils.isEmpty(val)) { fortnightPlan.setRemarks(val);}
+							
+
+						
+						}						
+						boolean flag = fortnightPlan.checkNullOrEmpty();
+						
+						if(!flag) {
+							fortnightPlanList.add(fortnightPlan);
+						}
+					}
+					
+					if(!fortnightPlanList.isEmpty()){
+						count  = FortnightPlanService.uploadFortnightPlans(fortnightPlanList);
+					}
+				}
+				workbook.close();
+			}
+				
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("uploadFortnightPlans() : "+e.getMessage());
+			throw new Exception(e);	
+		}finally{
+		    try{
+		        if ( w != null)
+		        	w.close( );
+		    }catch ( IOException e){
+		    	e.printStackTrace();
+		    	logger.error("uploadFortnightPlan() : "+e.getMessage());
+		    	throw new Exception(e);
+		    }
+		}
+		
+		return count;
+	}
+	
+	@RequestMapping(value="/fortnight-upload-remarks",method=RequestMethod.GET)
+	public ModelAndView fortnightUploadRemarks(@ModelAttribute FortnightPlan obj,HttpSession session) {
+		ModelAndView model = new ModelAndView();
+		try {
+		
+			model.setViewName(PageConstants2.fortnightUploadRemarks);
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("FortnightReport : " + e.getMessage());
+		}
+		return model;
+	}	
+	
+	
+	@RequestMapping(value="/fortnight-upload-list",method=RequestMethod.GET)
+	public ModelAndView fortnightUploadList(@ModelAttribute FortnightPlan obj,HttpSession session) {
+		ModelAndView model = new ModelAndView();
+		try {
+		
+			model.setViewName(PageConstants2.fortnightUploadList);
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("FortnightUploadList : " + e.getMessage());
 		}
 		return model;
 	}	

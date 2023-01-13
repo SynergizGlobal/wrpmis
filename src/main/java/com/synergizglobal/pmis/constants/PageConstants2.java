@@ -20,8 +20,10 @@ public class PageConstants2 {
 	
 	public static final String quarterlyPlanGrid = "forms/quarterlyPlanGrid";
 	public static final String fortnightReport = "forms/fortnightReport";
-	public static final String quarterlyPlanForm = "forms/quarterlyPlanForm";
+	public static final String fortnightUploadRemarks = "forms/fortnightUploadRemarks";
+	public static final String fortnightUploadList= "forms/fortnightUploadList";
 	
+	public static final String quarterlyPlanForm = "forms/quarterlyPlanForm";
 	public static final String addFortnightlyPlan = "forms/addFortnightPlan";
 	public static final String updateFortnightPlan = "forms/updateFortnightPlan";
 	public static final String updateQuarterlyPlan = "forms/updateQuarterlyPlan";

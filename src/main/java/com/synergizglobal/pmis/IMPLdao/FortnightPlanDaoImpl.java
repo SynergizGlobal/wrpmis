@@ -40,7 +40,9 @@ import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.ActivitiesProgressReport;
 import com.synergizglobal.pmis.model.Budget;
+import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Design;
+import com.synergizglobal.pmis.model.Expenditure;
 import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.Issue;
 import com.synergizglobal.pmis.model.Messages;
@@ -1466,6 +1468,93 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 			throw new Exception(e);
 		}
 		return objsList;
+	}
+
+	@Override
+	public List<FortnightPlan> contractList(FortnightPlan obj) throws Exception {
+		List<FortnightPlan> objsList = null;
+		
+		try {
+			String qry ="select distinct w.work_name,w.work_short_name, d1.department_name as department_name,w.project_id_fk,p.project_name," + 
+					"u.designation,us.designation as dy_hod_designation,u.user_name,c.work_id_fk,contract_type_fk," + 
+					"c.contract_id as contract_id_fk,c.contract_name,c.contract_short_name,contractor_id_fk,cr.contractor_name," + 
+					"c.hod_user_id_fk,c.dy_hod_user_id_fk," + 
+					"FORMAT(modified_date,'dd-MM-yyyy') as modified_date " + 
+					"from contract c " + 
+					"left join work w on c.work_id_fk = w.work_id  " + 
+					"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
+					"left join project p on w.project_id_fk = p.project_id " +
+					"left join department d1 on c.contract_department = d1.department " +
+					"left join [user] u on c.hod_user_id_fk = u.user_id "+
+					"left join department hoddt on u.department_fk = hoddt.department "+
+					"left join [user] us on c.dy_hod_user_id_fk = us.user_id "+
+					"left join contract_executive ce on c.contract_id = ce.contract_id_fk "+
+					"LEFT JOIN contractexecutives ce1 on ce1.work_id_fk = c.work_id_fk " 
+					+"left join department dt on ce.department_id_fk = dt.department "
+					+"where contract_id is not null ";
+
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<FortnightPlan>(FortnightPlan.class));
+			
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+	
+	private int getRowCheck(String date,String contract_short_name,String structure_type_fk,String structure,String component) throws Exception
+	{
+		int rowCount=0;
+		try {
+			String qry = "select count(*) from fortnight_monthly_plan_upload where date=? and contract_short_name=? and structure_type_fk=? and structure=? and component=?";
+			rowCount = (int) jdbcTemplate.queryForObject(qry, new Object[] { date,contract_short_name,structure_type_fk,structure,component }, int.class);
+		} catch (Exception e) {
+			throw new Exception(e);
+		}		
+		return rowCount;
+	}	
+
+	@Override
+	public int uploadFortnightPlans(List<FortnightPlan> fortnightPlansList) throws Exception {
+		Connection con = null;
+		PreparedStatement insertStmt = null;
+		ResultSet rs = null;
+		int count = 0;
+		int insertCount =0;
+		try{
+			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
+			String insertQry = "insert into  fortnight_monthly_plan_upload  "
+					+ "(date,contract_short_name,structure_type_fk,structure,component,unit,scope,target_till_lfn,actual_till_lfn,target_this_fn,actual_this_fn,cum_target,cum_actual,critical,remarks)"
+					+ "VALUES(:fortnight_date, :contract_short_name, :structure_type_fk, :structure, :component, :unit, :scope, :target_till_lfn, :actual_till_lfn, :target_this_fn,"
+					+ ":actual_this_fn, :cum_target, :cum_actual, :critical, :remarks) ";
+			
+			String updateQry = "update fortnight_monthly_plan_upload  set "
+					+ "unit=:unit,scope=:scope,target_till_lfn=:target_till_lfn,actual_till_lfn=:actual_till_lfn,target_this_fn=:target_this_fn,actual_this_fn=:actual_this_fn,cum_target=:cum_target,cum_actual=:cum_actual,critical=:critical,remarks=:remarks where date=:fortnight_date and contract_short_name=:contract_short_name and structure_type_fk=:structure_type_fk and structure=:structure and component=:component";
+			
+			
+			for (FortnightPlan obj : fortnightPlansList) 
+			{
+				BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
+				KeyHolder keyHolder = new GeneratedKeyHolder();
+				if(getRowCheck(obj.getFortnight_date(),obj.getContract_short_name(),obj.getStructure_type_fk(),obj.getStructure(),obj.getComponent())==0)
+				{
+					count = namedParamJdbcTemplate.update(insertQry, paramSource,keyHolder);
+				}
+				else
+				{
+					count = namedParamJdbcTemplate.update(updateQry, paramSource,keyHolder);
+				}
+				if(count > 0) {
+					insertCount++;
+				}
+			}
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, insertStmt, rs);
+		}
+		return insertCount;
 	}	
 
 }

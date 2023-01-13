@@ -1,7 +1,9 @@
 package com.synergizglobal.pmis.model;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 public class FortnightPlan {
@@ -10,11 +12,17 @@ public class FortnightPlan {
 	cum_actual_last_structure, planned_current_structure, cum_planned_last_st, cum_actual_last_st, planned_current_st,user_id,user_role_code,work_id_fk,total_items,
 	designation,user_name,created_by_user_id_fk,module_name,work_name,work_short_name,department_fk,
 	contract_short_name,structure,user_type_fk,structure_type_fk,remarks,critical,activity_name,scope,status, uploaded_by_user_id_fk,item,tdc_calendar,criticality,color,
-	scope_of_work_quarterly,fortnight_quarterly_plan_id,fortnight_date,unit,cum_progress,cumulative_progress,revision_no,tdc_date,contractor_name;
+	scope_of_work_quarterly,fortnight_quarterly_plan_id,fortnight_date,unit,cum_progress,cumulative_progress,revision_no,tdc_date,contractor_name,
+	target_till_lfn,actual_till_lfn,target_this_fn,actual_this_fn,cum_target,cum_actual;;
 	
 	
 	private String [] activity,scope_of_work,critical_item,completion_status,planned_progress_on_last_fortnight, actual_progress_on_last_fortnight, plan_for_the_current_fortnight,
 	chkcompletion_status,fortnight,units,pending_progress,reason_for_shortfall,Fortnight_quarterly_plan_activity_id,revisionno,tdc_revisiondate,project_id,project_name;
+	
+
+	
+	private MultipartFile fortnightPlanFile;
+
 
 
 	public String getFortnightly_plan_id() {
@@ -25,6 +33,20 @@ public class FortnightPlan {
 		this.fortnightly_plan_id = fortnightly_plan_id;
 	}
 
+	public boolean checkNullOrEmpty() throws IllegalAccessException {
+		boolean flag = true;
+		try {
+			for (Field f : getClass().getDeclaredFields())
+		        if (!StringUtils.isEmpty(f.get(this)))
+		        	flag = false;
+		} catch (Exception e) {
+			
+		}
+	    
+	    return flag;            
+	}
+	
+	
 	public String getContract_id_fk() {
 		return contract_id_fk;
 	}
@@ -551,6 +573,62 @@ public class FortnightPlan {
 
 	public void setContractor_name(String contractor_name) {
 		this.contractor_name = contractor_name;
+	}
+
+	public MultipartFile getFortnightPlanFile() {
+		return fortnightPlanFile;
+	}
+
+	public void setFortnightPlanFile(MultipartFile fortnightPlanFile) {
+		this.fortnightPlanFile = fortnightPlanFile;
+	}
+
+	public String getCum_actual() {
+		return cum_actual;
+	}
+
+	public void setCum_actual(String cum_actual) {
+		this.cum_actual = cum_actual;
+	}
+
+	public String getCum_target() {
+		return cum_target;
+	}
+
+	public void setCum_target(String cum_target) {
+		this.cum_target = cum_target;
+	}
+
+	public String getActual_this_fn() {
+		return actual_this_fn;
+	}
+
+	public void setActual_this_fn(String actual_this_fn) {
+		this.actual_this_fn = actual_this_fn;
+	}
+
+	public String getTarget_this_fn() {
+		return target_this_fn;
+	}
+
+	public void setTarget_this_fn(String target_this_fn) {
+		this.target_this_fn = target_this_fn;
+	}
+
+	public String getActual_till_lfn() {
+		return actual_till_lfn;
+	}
+
+	public void setActual_till_lfn(String actual_till_lfn) {
+		this.actual_till_lfn = actual_till_lfn;
+	}
+
+	public String getTarget_till_lfn() {
+		return target_till_lfn;
+	}
+
+	public void setTarget_till_lfn(String target_till_lfn) {
+		this.target_till_lfn = target_till_lfn;
 	}
 
 

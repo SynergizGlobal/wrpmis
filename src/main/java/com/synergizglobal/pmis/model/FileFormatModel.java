@@ -263,6 +263,16 @@ public class FileFormatModel {
 		return fileFormat;
 	}
 	
+	public static List<String> getFortnightPlanFileFormat() {
+		List<String> fileFormat = new ArrayList<String>();
+		String columns = "Date,Contract Name,Structure Type,Structure,Component,Units,Scope,Target till LFN,Actual till LFN,Target this FN,Actual this FN,Cum Target,Cum Actual,Critical (Y/N),Remark";
+		String[] convertedColumnsArray = columns.split(",");
+		for (String column : convertedColumnsArray) {
+			fileFormat.add(column.trim());
+		}		
+		return fileFormat;
+	}	
+	
 	public static List<String> getDeliverablesFileFormat() {
 		List<String> fileFormat = new ArrayList<String>();
 		String columns = "Deliverable Id, Project, Work, Contract, Milestones, Deliverable type, "

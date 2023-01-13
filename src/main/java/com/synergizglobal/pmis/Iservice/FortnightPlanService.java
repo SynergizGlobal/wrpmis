@@ -57,5 +57,10 @@ public interface FortnightPlanService {
 	public List<FortnightPlan> getPeriodListQuarterlyFilter(FortnightPlan obj) throws Exception;
 	public List<FortnightPlan> getFortnightListQuarterlyFilter(FortnightPlan obj) throws Exception;
 	public List<FortnightPlan> getItemListQuarterlyFilter(FortnightPlan obj) throws Exception;	
+	
+	public List<FortnightPlan> contractList(FortnightPlan obj) throws Exception;
+	
+	public int uploadFortnightPlans(List<FortnightPlan>FortnightPlansList) throws Exception;
+	
 
 } 

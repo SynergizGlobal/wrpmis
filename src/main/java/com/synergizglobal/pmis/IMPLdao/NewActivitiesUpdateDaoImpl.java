@@ -2199,6 +2199,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 	public boolean uploadNewActivities(List<StripChart> stripChartList) throws Exception {
 		Connection con = null;
 		PreparedStatement insertStmt = null;
+		PreparedStatement insertStmt1=null;
 		ResultSet rs = null;
 		int count = 0;
 		boolean flag =false;
@@ -2215,7 +2216,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 			PreparedStatement stmt = null;
 			PreparedStatement stmt1 = null;
 			int loopTimes=0;
-			List<String> generatedIds = new ArrayList<String>();
+			
 			for (StripChart obj : stripChartList) 
 			{
 				String[] StrVar=obj.getProgress_date().split("###");
@@ -2223,6 +2224,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 				
 				for(int k=0;k<StrVar.length;k++)
 				{
+					List<String> generatedIds = new ArrayList<String>();
 					if(!StringUtils.isEmpty(StrVar1[k]) && StrVar1[k].compareTo("NoValue")!=0)
 					{
 						obj.setContract_id_fk(getContractId(obj.getP6_task_code()));
@@ -2242,12 +2244,12 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 						
 					    insertStmt.setString(1, obj.getCreated_by_user_id_fk());
 					    insertStmt.setString(2, obj.getRemarks());
-				    	insertStmt.setFloat(3,Float.parseFloat(StrVar1[k]));
+				    	insertStmt.setString(3,StrVar1[k]);
 					    insertStmt.setString(4,getActivityId(obj.getP6_task_code()));
 					    insertStmt.setString(5, StrVar[k]);
 					    insertStmt.setString(6, "Pending");
 					    insertStmt.setString(7, "");
-					    insertStmt.executeUpdate();
+					    count=insertStmt.executeUpdate();
 						ResultSet rs1 = insertStmt.getGeneratedKeys();
 				        if (rs1 != null) {
 				            while (rs1.next()) {
@@ -2257,25 +2259,24 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 				        }						  
 					  loopTimes++;					    
 					}
-				}
+				
 				if(stmt != null){stmt.close();}	
 				if(stmt1 != null){stmt1.close();}	
-				if(insertStmt != null){insertStmt.close();}	
 				
 				NamedParameterJdbcTemplate template1 = new NamedParameterJdbcTemplate(dataSource);			
 				if(loopTimes > 0) {
 					flag = true;
 
-			        DBConnectionHandler.closeJDBCResoucrs(null, insertStmt, null);
+			        //DBConnectionHandler.closeJDBCResoucrs(null, insertStmt, null);
 			        
 			        String qry = "INSERT INTO p6_validation_dyhod(dyhod_user_id_fk, progress_id_fk)values(?,?)";
-			        insertStmt = con.prepareStatement(qry);
+			        insertStmt1 = con.prepareStatement(qry);
 			        List<String> dyHodsList = getDyHodsOfActivity(obj.getContract_id_fk());
 			        for (String dyhod : dyHodsList) {
 						for (String generated_id : generatedIds) {
-							insertStmt.setString(1, dyhod);
-						    insertStmt.setString(2, generated_id);
-						    insertStmt.addBatch();
+							insertStmt1.setString(1, dyhod);
+						    insertStmt1.setString(2, generated_id);
+						    insertStmt1.executeUpdate();
 						}
 						String messageQry = "INSERT INTO messages (message,user_id_fk,redirect_url,created_date,message_type)"
 								+ "VALUES" + "(:message,:user_id_fk,:redirect_url,CURRENT_TIMESTAMP,:message_type)";	
@@ -2289,15 +2290,17 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 							template1.update(messageQry, paramSource1);						
 												
 					}
-			        insertStmt.executeBatch();
 			        
-			        DBConnectionHandler.closeJDBCResoucrs(null, insertStmt, null);
+			        
 				}				
 
 				if(count > 0) {
 					flag=true;
 				}
+				}
 			}
+			DBConnectionHandler.closeJDBCResoucrs(null, insertStmt1, null);
+			DBConnectionHandler.closeJDBCResoucrs(null, insertStmt, null);
 		}catch(Exception e){ 
 			e.printStackTrace();
 			throw new Exception(e);

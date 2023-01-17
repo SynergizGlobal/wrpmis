@@ -793,7 +793,7 @@ public class NewActivitiesUpdateController {
 							XSSFRow headerRow = risksDrawingsSheet.getRow(1);
 							int noOfColumns = headerRow.getLastCellNum();
 
-							for(int k=9;k<noOfColumns;k++)
+							for(int k=10;k<noOfColumns;k++)
 							{
 								
 								val = formatter.formatCellValue(risksDrawingsSheet.getRow(0).getCell(k)).trim();
@@ -826,7 +826,7 @@ public class NewActivitiesUpdateController {
 								
 							}
 							obj.setProgress_date(ConcatProgressDates);
-							for(int k=9;k<noOfColumns;k++)
+							for(int k=10;k<noOfColumns;k++)
 							{
 								val = formatter.formatCellValue(risksDrawingsSheet.getRow(i).getCell(k)).trim();
 								if(!StringUtils.isEmpty(val)) 

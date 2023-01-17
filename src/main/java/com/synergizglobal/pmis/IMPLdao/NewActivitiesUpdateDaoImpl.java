@@ -2227,37 +2227,40 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					List<String> generatedIds = new ArrayList<String>();
 					if(!StringUtils.isEmpty(StrVar1[k]) && StrVar1[k].compareTo("NoValue")!=0)
 					{
-						obj.setContract_id_fk(getContractId(obj.getP6_task_code()));
-						
-						String deleteQry = "delete from p6_validation_dyhod where progress_id_fk in(select progress_id from p6_validation where p6_activity_id_fk = ? and progress_date=? and approval_status_fk='pending')";
-						stmt = con.prepareStatement(deleteQry);
-						stmt.setString(1,getActivityId(obj.getP6_task_code()));
-						stmt.setString(2,StrVar[k]);
-						stmt.executeUpdate();
-						
-						
-						String deleteQry1 = "delete from p6_validation where p6_activity_id_fk = ? and progress_date=? and approval_status_fk='pending'";
-						stmt1 = con.prepareStatement(deleteQry1);
-						stmt1.setString(1,getActivityId(obj.getP6_task_code()));
-						stmt1.setString(2,StrVar[k]);
-						stmt1.executeUpdate();						
-						
-					    insertStmt.setString(1, obj.getCreated_by_user_id_fk());
-					    insertStmt.setString(2, obj.getRemarks());
-				    	insertStmt.setString(3,StrVar1[k]);
-					    insertStmt.setString(4,getActivityId(obj.getP6_task_code()));
-					    insertStmt.setString(5, StrVar[k]);
-					    insertStmt.setString(6, "Pending");
-					    insertStmt.setString(7, "");
-					    count=insertStmt.executeUpdate();
-						ResultSet rs1 = insertStmt.getGeneratedKeys();
-				        if (rs1 != null) {
-				            while (rs1.next()) {
-				                int generatedId = rs1.getInt(1);
-				                generatedIds.add(String.valueOf(generatedId));
-				            }
-				        }						  
-					  loopTimes++;					    
+						if((getPreviousCompletedScope(getActivityId(obj.getP6_task_code()),StrVar[k]).compareTo(StrVar1[k])!=0 && Float.parseFloat(StrVar1[k])>0) || (getPreviousCompletedScopeCount(getActivityId(obj.getP6_task_code()),StrVar[k])==0 && Float.parseFloat(StrVar1[k])>0))
+						{
+								obj.setContract_id_fk(getContractId(obj.getP6_task_code()));
+								
+								String deleteQry = "delete from p6_validation_dyhod where progress_id_fk in(select progress_id from p6_validation where p6_activity_id_fk = ? and progress_date=? and approval_status_fk='pending')";
+								stmt = con.prepareStatement(deleteQry);
+								stmt.setString(1,getActivityId(obj.getP6_task_code()));
+								stmt.setString(2,StrVar[k]);
+								stmt.executeUpdate();
+								
+								
+								String deleteQry1 = "delete from p6_validation where p6_activity_id_fk = ? and progress_date=? and approval_status_fk='pending'";
+								stmt1 = con.prepareStatement(deleteQry1);
+								stmt1.setString(1,getActivityId(obj.getP6_task_code()));
+								stmt1.setString(2,StrVar[k]);
+								stmt1.executeUpdate();						
+								
+							    insertStmt.setString(1, obj.getCreated_by_user_id_fk());
+							    insertStmt.setString(2, obj.getRemarks());
+						    	insertStmt.setString(3,StrVar1[k]);
+							    insertStmt.setString(4,getActivityId(obj.getP6_task_code()));
+							    insertStmt.setString(5, StrVar[k]);
+							    insertStmt.setString(6, "Pending");
+							    insertStmt.setString(7, "");
+							    count=insertStmt.executeUpdate();
+								ResultSet rs1 = insertStmt.getGeneratedKeys();
+						        if (rs1 != null) {
+						            while (rs1.next()) {
+						                int generatedId = rs1.getInt(1);
+						                generatedIds.add(String.valueOf(generatedId));
+						            }
+						        }						  
+							  loopTimes++;
+						}
 					}
 				
 				if(stmt != null){stmt.close();}	
@@ -2320,6 +2323,35 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 			throw new Exception(e);
 		}		
 		return p6_activity_id;
+	}
+	
+	private String getPreviousCompletedScope(String p6_activity_id_fk,String progress_date) throws Exception{
+		int cnt=0;
+		String completed_scope="";
+		try {
+			String qry = "select count(*) from p6_validation where p6_activity_id_fk = ? and progress_date=? and approval_status_fk='pending'";
+			cnt = (int) jdbcTemplate.queryForObject(qry, new Object[] { p6_activity_id_fk,progress_date }, int.class);
+			if(cnt>0)
+			{
+				String qry1 = "select completed_scope from p6_validation where p6_activity_id_fk = ? and progress_date=? and approval_status_fk='pending'";
+				completed_scope = (String) jdbcTemplate.queryForObject(qry1, new Object[] { p6_activity_id_fk,progress_date }, String.class);				
+			}
+		} catch (Exception e) {
+			throw new Exception(e);
+		}		
+		return completed_scope;
+	}	
+	
+	
+	private int getPreviousCompletedScopeCount(String p6_activity_id_fk,String progress_date) throws Exception{
+		int cnt=0;
+		try {
+			String qry = "select count(*) from p6_validation where p6_activity_id_fk = ? and progress_date=? and approval_status_fk='pending'";
+			cnt = (int) jdbcTemplate.queryForObject(qry, new Object[] { p6_activity_id_fk,progress_date }, int.class);
+		} catch (Exception e) {
+			throw new Exception(e);
+		}		
+		return cnt;
 	}	
 	
 	private String getContractId(String task_code) throws Exception{

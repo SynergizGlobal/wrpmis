@@ -786,7 +786,7 @@ public class NewActivitiesUpdateController {
 						if(!StringUtils.isEmpty(row)) {								
 						  
 							val = formatter.formatCellValue(row.getCell(0)).trim();
-							if(!StringUtils.isEmpty(val)) { obj.setP6_task_code(val);}
+							if(!StringUtils.isEmpty(val)) { stripChart.setP6_task_code(val);}
 							
 							String ConcatProgressDates="";
 							String ConcatCompletedScopes="";
@@ -825,7 +825,7 @@ public class NewActivitiesUpdateController {
 
 								
 							}
-							obj.setProgress_date(ConcatProgressDates);
+							stripChart.setProgress_date(ConcatProgressDates);
 							for(int k=10;k<noOfColumns;k++)
 							{
 								val = formatter.formatCellValue(risksDrawingsSheet.getRow(i).getCell(k)).trim();
@@ -838,13 +838,13 @@ public class NewActivitiesUpdateController {
 									ConcatCompletedScopes=ConcatCompletedScopes+"NoValue"+"###";
 								}
 							}
-							obj.setCompleted(ConcatCompletedScopes);
+							stripChart.setCompleted(ConcatCompletedScopes);
 						
 						}						
-						boolean flag = obj.checkNullOrEmpty();
+						boolean flag = stripChart.checkNullOrEmpty();
 						
 						if(!flag) {
-							stripChartList.add(obj);
+							stripChartList.add(stripChart);
 						}
 					}
 					

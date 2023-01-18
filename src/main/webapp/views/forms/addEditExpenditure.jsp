@@ -478,7 +478,7 @@
                                         Advance</label>
                                     <span id="interest_on_mob_advError" class="error-msg" ></span>
                                 	<span id="interest_on_mob_adv_unitsError" class="error-msg right" ></span>
-                                    <select class="validate-dropdown" id="interest_on_mob_adv_units" name="interest_on_mob_adv_units">
+                                    <select class="validate-dropdown" id="interest_on_mob_adv_units" name="interest_on_mob_adv_units" onChange="alert(this.value);">
                                 		<!-- <option value="">Select</option> -->
                                 		<c:forEach var="obj" items="${unitsList }">
                                  			   <option value="${obj.value }"  <c:if test="${expenditureDetails.interest_on_mob_adv_units eq obj.value}">selected</c:if>>${obj.unit }</option>
@@ -505,7 +505,7 @@
                                         </label>
                                     <span id="interest_on_mob_advError" class="error-msg" ></span>
                                 	<span id="interest_on_mob_adv_unitsError" class="error-msg right" ></span>
-                                    <select class="validate-dropdown" id="interest_on_mob_adv_units" name="interest_on_mob_adv_units">
+                                    <select class="validate-dropdown" id="cess_on_building_units" name="cess_on_building_units" onChange="alert(this.value);">
                                 		<!-- <option value="">Select</option> -->
                                 		<c:forEach var="obj" items="${unitsList }">
                                  			   <option value="${obj.value }"  <c:if test="${expenditureDetails.cess_on_building_units eq obj.value}">selected</c:if>>${obj.unit }</option>
@@ -522,7 +522,7 @@
                                         </label>
                                     <span id="interest_on_mob_advError" class="error-msg" ></span>
                                 	<span id="interest_on_mob_adv_unitsError" class="error-msg right" ></span>
-                                    <select class="validate-dropdown" id="interest_on_mob_adv_units" name="interest_on_mob_adv_units">
+                                    <select class="validate-dropdown" id="est_charges_on_cess_units" name="est_charges_on_cess_units">
                                 		<!-- <option value="">Select</option> -->
                                 		<c:forEach var="obj" items="${unitsList }">
                                  			   <option value="${obj.value }"  <c:if test="${expenditureDetails.est_charges_on_cess_units eq obj.value}">selected</c:if>>${obj.unit }</option>
@@ -538,7 +538,7 @@
                                         </label>
                                     <span id="interest_on_mob_advError" class="error-msg" ></span>
                                 	<span id="interest_on_mob_adv_unitsError" class="error-msg right" ></span>
-                                    <select class="validate-dropdown" id="interest_on_mob_adv_units" name="interest_on_mob_adv_units">
+                                    <select class="validate-dropdown" id="cgst_output_units" name="cgst_output_units" onChange="alert(this.value);">
                                 		<!-- <option value="">Select</option> -->
                                 		<c:forEach var="obj" items="${unitsList }">
                                  			   <option value="${obj.value }"  <c:if test="${expenditureDetails.cgst_output_units eq obj.value}">selected</c:if>>${obj.unit }</option>
@@ -555,7 +555,7 @@
                                         </label>
                                     <span id="interest_on_mob_advError" class="error-msg" ></span>
                                 	<span id="interest_on_mob_adv_unitsError" class="error-msg right" ></span>
-                                    <select class="validate-dropdown" id="interest_on_mob_adv_units" name="interest_on_mob_adv_units">
+                                    <select class="validate-dropdown" id="sgst_output_units" name="sgst_output_units" onChange="alert(this.value);">
                                 		<!-- <option value="">Select</option> -->
                                 		<c:forEach var="obj" items="${unitsList }">
                                  			   <option value="${obj.value }"  <c:if test="${expenditureDetails.sgst_output_units eq obj.value}">selected</c:if>>${obj.unit }</option>

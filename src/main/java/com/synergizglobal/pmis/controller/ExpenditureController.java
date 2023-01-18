@@ -881,28 +881,30 @@ public class ExpenditureController {
 							val = formatter.formatCellValue(row.getCell(15)).trim();
 							if(!StringUtils.isEmpty(val)) { expenditure.setInterest_on_mob_adv(val);expenditure.setInterest_on_mob_adv_units("1");}
 							
+							
 							val = formatter.formatCellValue(row.getCell(16)).trim();
-							if(!StringUtils.isEmpty(val)) { expenditure.setVat_wct(val);expenditure.setVat_wct_units("1");}
+							if(!StringUtils.isEmpty(val)) { expenditure.setCess_on_building(val);expenditure.setCess_on_building_units("1");}
 							
 							val = formatter.formatCellValue(row.getCell(17)).trim();
-							if(!StringUtils.isEmpty(val)) { expenditure.setAmount_withheld(val);expenditure.setAmount_withheld_units("1");}
+							if(!StringUtils.isEmpty(val)) { expenditure.setEst_charges_on_cess(val);expenditure.setEst_charges_on_cess_units("1");}
 							
 							val = formatter.formatCellValue(row.getCell(18)).trim();
-							if(!StringUtils.isEmpty(val)) { expenditure.setRemarks(val);}
+							if(!StringUtils.isEmpty(val)) { expenditure.setCgst_output(val);expenditure.setCgst_output_units("1");}
 							
-				
 							val = formatter.formatCellValue(row.getCell(19)).trim();
-							if(!StringUtils.isEmpty(val)) { expenditure.setCess_on_building("1");}
+							if(!StringUtils.isEmpty(val)) { expenditure.setSgst_output(val);expenditure.setSgst_output_units("1");}							
+							
+							
 							
 							val = formatter.formatCellValue(row.getCell(20)).trim();
-							if(!StringUtils.isEmpty(val)) { expenditure.setEst_charges_on_cess("1");}
+							if(!StringUtils.isEmpty(val)) { expenditure.setVat_wct(val);expenditure.setVat_wct_units("1");}
 							
 							val = formatter.formatCellValue(row.getCell(21)).trim();
-							if(!StringUtils.isEmpty(val)) { expenditure.setCgst_output("1");}
+							if(!StringUtils.isEmpty(val)) { expenditure.setAmount_withheld(val);expenditure.setAmount_withheld_units("1");}
 							
 							val = formatter.formatCellValue(row.getCell(22)).trim();
-							if(!StringUtils.isEmpty(val)) { expenditure.setSgst_output("1");}
-							
+							if(!StringUtils.isEmpty(val)) { expenditure.setRemarks(val);}
+
 							expenditure.setDate(DateParser.parse(expenditure.getDate()));
 						
 						}						

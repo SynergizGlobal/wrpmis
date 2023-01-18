@@ -225,8 +225,8 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 			connection = dataSource.getConnection();
 			String qry = "SELECT expenditure_id,w.project_id_fk,p.project_name,c.work_id_fk,w.work_name,e.contract_id_fk,"
 					+ "c.contract_name,ledger_account,e.contractor_name,FORMAT(date,'dd-MM-yyyy') AS date,voucher_type , " + 
-					"voucher_no,narration,net_paid,gross_work_done,sd_payable,contractor_income_tax,"+
-					"cgst_tds,sgst_tds,igst_tds,vat_wct,mob_advance,[interest on_mob_adv],cast(cess_on_Building as varchar) as cess_on_Building,cast(Est_charges_on_Cess as varchar) as Est_charges_on_Cess,cast(CGST_Output as varchar) as CGST_Output,cast(SGST_Output as varchar) as SGST_Output," + 
+					"voucher_no,narration,net_paid,cast(gross_work_done as decimal(10,2)) as gross_work_done,sd_payable,contractor_income_tax,"+
+					"cgst_tds,sgst_tds,igst_tds,vat_wct,mob_advance,[interest on_mob_adv],cast(cess_on_building as varchar) as cess_on_building,cast(est_charges_on_cess as varchar) as est_charges_on_cess,cast(cgst_output as varchar) as cgst_output,cast(sgst_output as varchar) as sgst_output," + 
 					"amount_withheld,e.remarks,e.net_paid_units,e.gross_work_done_units,e.sd_payable_units,e.contractor_income_tax_units,"
 					+ "e.cgst_tds_units,e.sgst_tds_units,e.igst_tds_units,e.vat_wct_units,e.mob_advance_units,"
 					+ "e.interest_on_mob_adv_units,e.amount_withheld_units,m.unit, " + 
@@ -287,10 +287,10 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 				expenditure.setInterest_on_mob_adv_units(resultSet.getString("interest_on_mob_adv_units"));
 				expenditure.setAmount_withheld_units(resultSet.getString("amount_withheld_units"));
 				
-				expenditure.setCess_on_building(resultSet.getString("cess_on_building_units"));
-				expenditure.setEst_charges_on_cess(resultSet.getString("est_charges_on_cess_units"));
-				expenditure.setCgst_output(resultSet.getString("cgst_output_units"));
-				expenditure.setSgst_output(resultSet.getString("sgst_output_units"));
+				expenditure.setCess_on_building_units(resultSet.getString("cess_on_building_units"));
+				expenditure.setEst_charges_on_cess_units(resultSet.getString("est_charges_on_cess_units"));
+				expenditure.setCgst_output_units(resultSet.getString("cgst_output_units"));
+				expenditure.setSgst_output_units(resultSet.getString("sgst_output_units"));
 			}
 				
 		}catch(Exception e) {
@@ -443,7 +443,6 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 			stmt.setString(p++,obj.getMob_advance_units());
 			stmt.setString(p++,obj.getInterest_on_mob_adv_units());
 			stmt.setString(p++,obj.getAmount_withheld_units());
-			stmt.setString(p++,obj.getExpenditure_id());
 			
 			stmt.setString(p++, obj.getCess_on_building());
 			stmt.setString(p++, obj.getEst_charges_on_cess());
@@ -454,6 +453,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 			stmt.setString(p++, obj.getEst_charges_on_cess_units());
 			stmt.setString(p++, obj.getSgst_output_units());
 			stmt.setString(p++, obj.getCgst_output_units());
+			stmt.setString(p++, obj.getExpenditure_id());
 			
 			
 			int count = stmt.executeUpdate();
@@ -859,13 +859,13 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
 			String insertQry = "insert into  expenditure  "
 					+ "(contract_id_fk, ledger_account, date, contractor_name, voucher_type, voucher_no, narration,"
-					+ "net_paid, gross_work_done, sd_payable,contractor_income_tax, cgst_tds, sgst_tds, igst_tds, vat_wct, mob_advance, [interest on_mob_adv], amount_withheld, remarks,cess_on_Building, Est_charges_on_Cess, CGST_Output, SGST_Output,"
-					+ "net_paid_units,gross_work_done_units, sd_payable_units,contractor_income_tax_units, cgst_tds_units, sgst_tds_units, igst_tds_units, vat_wct_units, mob_advance_units, interest_on_mob_adv_units, amount_withheld_units,cess_on_building_units, est_charges_on_cess_units, cgst_output_units, sgst_output_units) "
+					+ "net_paid, gross_work_done, sd_payable,contractor_income_tax, cgst_tds, sgst_tds, igst_tds, vat_wct, mob_advance, [interest on_mob_adv], amount_withheld, remarks,"
+					+ "net_paid_units,gross_work_done_units, sd_payable_units,contractor_income_tax_units, cgst_tds_units, sgst_tds_units, igst_tds_units, vat_wct_units, mob_advance_units, interest_on_mob_adv_units, amount_withheld_units,cess_on_Building, Est_charges_on_Cess, CGST_Output, SGST_Output,cess_on_building_units, est_charges_on_cess_units, cgst_output_units, sgst_output_units) "
 					+ "VALUES(:contract_id_fk, :ledger_account, :date, :contractor_name, :voucher_type, :voucher_no, :narration, :net_paid, :gross_work_done, :sd_payable,"
-					+ ":contractor_income_tax, :cgst_tds, :sgst_tds, :igst_tds, :vat_wct,:mob_advance, :interest_on_mob_adv, :amount_withheld, :remarks,:cess_on_Building, :Est_charges_on_Cess, :CGST_Output, :SGST_Output ,"
+					+ ":contractor_income_tax, :cgst_tds, :sgst_tds, :igst_tds, :vat_wct,:mob_advance, :interest_on_mob_adv, :amount_withheld, :remarks,"
 					+ ":net_paid_units,:gross_work_done_units, :sd_payable_units,:contractor_income_tax_units, :cgst_tds_units, :sgst_tds_units, :igst_tds_units, :vat_wct_units, :mob_advance_units, :interest_on_mob_adv_units, "
-					+ ":amount_withheld_units , :cess_on_Building, :Est_charges_on_Cess, :CGST_Output, :SGST_Output,"
-					+ "cess_on_building_units, est_charges_on_cess_units, cgst_output_units, sgst_output_units) ";
+					+ ":amount_withheld_units , :cess_on_building, :est_charges_on_cess, :cgst_output, :sgst_output,"
+					+ ":cess_on_building_units, :est_charges_on_cess_units, :cgst_output_units, :sgst_output_units) ";
 			for (Expenditure obj : expendituresList) {
 				BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
 				KeyHolder keyHolder = new GeneratedKeyHolder();

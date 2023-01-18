@@ -253,9 +253,7 @@ public class FileFormatModel {
 	
 	public static List<String> getExpenditureFileFormat() {
 		List<String> fileFormat = new ArrayList<String>();
-		String columns = "Contract ID,Contractor Name,Ledger Account,Date,Voucher Type,Voucher No.,Narration,Net Paid,Gross Work Done,SD Payable,"
-				+ "Contractor Income Tax,CGST TDS,SGST TDS,IGST TDS,Mobilization Advance,Interest on Mobilization Advance,Cess on Building,Establishment Charges on Cess,CGST (Output),SGST (Output),VAT WCT"
-				+ ",Amount Withheld,Remarks";
+		String columns = "Work Name,Contract Id,Name of Account,Name of Contractor,Payment Date,Financial Year,Unique No.,Narration,Net Paid,Gross Paid,SD Payable,Income Tax,CGST TDS,SGST TDS,IGST TDS,Mobilization Advance,Interest on Mobilization Advance,Cess on Building,Establishment Charges on Cess,CGST (Output),SGST (Output),VAT WCT,Amount Withheld,Remarks";
 		String[] convertedColumnsArray = columns.split(",");
 		for (String column : convertedColumnsArray) {
 			fileFormat.add(column.trim());

@@ -44,9 +44,10 @@
 			            <form action="<%=request.getContextPath() %>/generate-fortnight-report" id="FortnightReportForm" name="FortnightReportForm" method="post" target="_blank">	                              
                 <div class="card ">
                     <div class="card-content ">
-                        <span class="card-title">
-                            <h6 class="mar-top center-align">Fortnight Plan Remarks Data</h6>
-                        </span>
+						<div class="m-n1" style="text-align:right;">
+					        <a href="/pmis/fortnight-upload-remarks" class="btn waves-effect waves-light bg-s t-c"> <strong>Upload</strong></a>
+					    </div>                  
+                        <h6 class="mar-top center-align">Fortnight Plan Remarks Data</h6>
                      <c:if test="${not empty success }">
 					        <div class="center-align m-1 close-message">	
 							   ${success}

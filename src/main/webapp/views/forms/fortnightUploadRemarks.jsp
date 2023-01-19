@@ -83,7 +83,7 @@
                         </div>
                         <div class="col s12 m6 mt-brdr">
                             <div class="center-align m-1">
-                                <button type="button" class="btn waves-effect waves-light bg-s" onclick="closeUploadNewActivitiesModal();">Cancel</button>
+                                <button type="button" class="btn waves-effect waves-light bg-s" onclick="window.location.href='/pmis/fortnight-upload-list'">Cancel</button>
                             </div>
                         </div>
                     </div>

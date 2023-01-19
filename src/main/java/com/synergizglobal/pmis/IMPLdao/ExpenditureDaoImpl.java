@@ -410,7 +410,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 					+ "cgst_tds= ?, sgst_tds= ?,igst_tds= ?, vat_wct = ?, mob_advance= ?, "
 					+ "[interest on_mob_adv]= ? , amount_withheld= ?, remarks = ? ,net_paid_units = ?,gross_work_done_units = ?,sd_payable_units = ?,contractor_income_tax_units = ?,"
 					+ "cgst_tds_units = ?,sgst_tds_units = ?,igst_tds_units = ?,vat_wct_units = ?,mob_advance_units = ?,interest_on_mob_adv_units = ?,amount_withheld_units = ? ,"
-					+ " cess_on_Building = ? ,Est_charges_on_Cess = ? ,CGST_Output = ? ,SGST_Output = ?,"
+					+ " cess_on_building = ? ,est_charges_on_cess = ? ,cgst_output = ? ,sgst_output = ?,"
 					+ "cess_on_building_units = ? ,est_charges_on_cess_units = ? ,cgst_output_units = ? ,sgst_output_units = ? where expenditure_id= ?";
 			int p = 1;
 			stmt = con.prepareStatement(updateQry); 
@@ -847,6 +847,28 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 		}
 		return objsList;
 	}
+	
+	private int getExpenditureContractVoucherTypeVoucherNumber(String ledgeraccount,String vouchertype,String vouchernumber) throws Exception{
+		int cnt=0;
+		try {
+			String qry = "select count(*) from expenditure where ledger_account = ? and voucher_type=? and voucher_no=?";
+			cnt = (int) jdbcTemplate.queryForObject(qry, new Object[] { ledgeraccount,vouchertype,vouchernumber }, int.class);
+		} catch (Exception e) {
+			throw new Exception(e);
+		}		
+		return cnt;
+	}
+	
+	private String getExpenditureId(String ledgeraccount,String vouchertype,String vouchernumber) throws Exception{
+		String expenditureid=null;
+		try {
+			String qry = "select top 1 expenditure_id from expenditure where ledger_account = ? and voucher_type=? and voucher_no=?";
+			expenditureid = (String) jdbcTemplate.queryForObject(qry, new Object[] { ledgeraccount,vouchertype,vouchernumber }, String.class);
+		} catch (Exception e) {
+			throw new Exception(e);
+		}		
+		return expenditureid;
+	}	
 
 	@Override
 	public int uploadExpenditures(List<Expenditure> expendituresList) throws Exception {
@@ -866,10 +888,34 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 					+ ":net_paid_units,:gross_work_done_units, :sd_payable_units,:contractor_income_tax_units, :cgst_tds_units, :sgst_tds_units, :igst_tds_units, :vat_wct_units, :mob_advance_units, :interest_on_mob_adv_units, "
 					+ ":amount_withheld_units , :cess_on_building, :est_charges_on_cess, :cgst_output, :sgst_output,"
 					+ ":cess_on_building_units, :est_charges_on_cess_units, :cgst_output_units, :sgst_output_units) ";
-			for (Expenditure obj : expendituresList) {
+			
+			String updateQry = "UPDATE expenditure set "
+					+ "contract_id_fk= :contract_id_fk, date= :date, "
+					+ "narration= :narration, "
+					+ "net_paid= :net_paid, gross_work_done= :gross_work_done, sd_payable = :sd_payable, contractor_income_tax= :contractor_income_tax, "
+					+ "cgst_tds= :cgst_tds, sgst_tds= :sgst_tds,igst_tds= :igst_tds, vat_wct = :vat_wct, mob_advance= :mob_advance, "
+					+ "[interest on_mob_adv]= :interest_on_mob_adv , amount_withheld= :amount_withheld, remarks = :remarks ,net_paid_units = :net_paid_units,gross_work_done_units = :gross_work_done_units,sd_payable_units = :sd_payable_units,contractor_income_tax_units = :contractor_income_tax_units,"
+					+ "cgst_tds_units = :cgst_tds_units,sgst_tds_units = :sgst_tds_units,igst_tds_units = :igst_tds_units,vat_wct_units = :vat_wct_units,mob_advance_units = :mob_advance_units,interest_on_mob_adv_units = :interest_on_mob_adv_units,amount_withheld_units = :amount_withheld_units ,"
+					+ " cess_on_building = :cess_on_building ,est_charges_on_cess = :est_charges_on_cess ,cgst_output = :cgst_output ,sgst_output = :sgst_output,"
+					+ "cess_on_building_units = :cess_on_building_units ,est_charges_on_cess_units = :est_charges_on_cess_units ,cgst_output_units = :cgst_output_units ,sgst_output_units = :sgst_output_units where expenditure_id= :expenditure_id";			
+			
+			
+			for (Expenditure obj : expendituresList) 
+			{
 				BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
 				KeyHolder keyHolder = new GeneratedKeyHolder();
-				count = namedParamJdbcTemplate.update(insertQry, paramSource,keyHolder);
+				
+				if(getExpenditureContractVoucherTypeVoucherNumber(obj.getLedger_account(),obj.getVoucher_type(),obj.getVoucher_no())>0)
+				{
+					obj.setExpenditure_id(getExpenditureId(obj.getLedger_account(),obj.getVoucher_type(),obj.getVoucher_no()));
+					count = namedParamJdbcTemplate.update(updateQry, paramSource,keyHolder);
+				}
+				else
+				{
+					count = namedParamJdbcTemplate.update(insertQry, paramSource,keyHolder);
+				}
+				
+				
 				if(count > 0) {
 					insertCount++;
 				}

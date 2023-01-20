@@ -274,7 +274,7 @@ public class FileFormatModel {
 	public static List<String> getDeliverablesFileFormat() {
 		List<String> fileFormat = new ArrayList<String>();
 		String columns = "Deliverable Id, Project, Work, Contract, Milestones, Deliverable type, "
-				+ "Deliverable Description, Status, Milestone Payment %, Document Name, Original Due Date,"
+				+ "Deliverable Description, Status, Milestone Payment, Document Name, Original Due Date,"
 				+ " Revised Due Date, Submission Date, Approval Date, Payment %, Remarks";
 		
 		String[] convertedColumnsArray = columns.split(",");

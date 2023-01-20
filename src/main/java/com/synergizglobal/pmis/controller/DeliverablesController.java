@@ -504,7 +504,7 @@ public class DeliverablesController {
 		        
 		        
 	            XSSFRow headingRow = dataSheet.createRow(0);
-	            String headerString = "Deliverable Id^Project^Work^Contract^Milestones^Deliverable type^Deliverable Description^Status^Milestone Payment %^Document Name^Original Due Date^Revised Due Date^Submission Date^Approval Date^Payment %^Remarks";
+	            String headerString = "Deliverable Id^Project^Work^Contract^Milestones^Deliverable type^Deliverable Description^Status^Milestone Payment^Document Name^Original Due Date^Revised Due Date^Submission Date^Approval Date^Payment %^Remarks";
 	            
 	            String[] firstHeaderStringArr = headerString.split("\\^");
 	            dataSheet.createFreezePane(0,1);
@@ -538,7 +538,13 @@ public class DeliverablesController {
 							
 							cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
-							cell.setCellValue(obj.getMilestone_id() +"_"+ obj.getMilestone_name());
+							String milestone = "";
+							if(!StringUtils.isEmpty(obj.getMilestone_id()) && !StringUtils.isEmpty(obj.getMilestone_name())) {
+								milestone = obj.getMilestone_id() +"_"+ obj.getMilestone_name();
+							} else {
+								milestone = obj.getMilestone_name();
+							}
+							cell.setCellValue(milestone);
 							
 							cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
@@ -607,7 +613,13 @@ public class DeliverablesController {
 						
 						cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
-						cell.setCellValue(obj.getMilestone_id() +"_"+ obj.getMilestone_name());
+						String milestone = "";
+						if(!StringUtils.isEmpty(obj.getMilestone_id()) && !StringUtils.isEmpty(obj.getMilestone_name())) {
+							milestone = obj.getMilestone_id() +"_"+ obj.getMilestone_name();
+						} else {
+							milestone = obj.getMilestone_name();
+						}
+						cell.setCellValue(milestone);
 						
 						cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
@@ -816,7 +828,7 @@ public class DeliverablesController {
 	        
 	        
             XSSFRow headingRow = dataSheet.createRow(0);
-            String headerString = "Project^Work^Contract^Milestones^Deliverable type^Deliverable Description^Status^Milestone Payment %^Document Name^Original Due Date^Revised Due Date^Submission Date^Approval Date^Payment %^Remarks";
+            String headerString = "Project^Work^Contract^Milestones^Deliverable type^Deliverable Description^Status^Milestone Payment^Document Name^Original Due Date^Revised Due Date^Submission Date^Approval Date^Payment %^Remarks";
             
             String[] firstHeaderStringArr = headerString.split("\\^");
             dataSheet.createFreezePane(0,1);
@@ -845,7 +857,13 @@ public class DeliverablesController {
 				
 				cell = row.createCell(c++);
 				cell.setCellStyle(sectionStyle);
-				cell.setCellValue(obj.getMilestone_id() +"_"+ obj.getMilestone_name());
+				String milestone = "";
+				if(!StringUtils.isEmpty(obj.getMilestone_id()) && !StringUtils.isEmpty(obj.getMilestone_name())) {
+					milestone = obj.getMilestone_id() +"_"+ obj.getMilestone_name();
+				} else {
+					milestone = obj.getMilestone_name();
+				}
+				cell.setCellValue(milestone);
 				
 				cell = row.createCell(c++);
 				cell.setCellStyle(sectionStyle);
@@ -1018,7 +1036,7 @@ public class DeliverablesController {
 		        
 		        
 	            XSSFRow headingRow = summarySheet.createRow(0);
-	            String headerString = "Project^Work^Contract^Consultant Name^Milestones^Milestone Payment %^Status^Due Date^Approval Date";
+	            String headerString = "Project^Work^Contract^Consultant Name^Milestones^Milestone Payment^Status^Due Date^Approval Date";
 	            
 	            String[] firstHeaderStringArr = headerString.split("\\^");
 	            summarySheet.createFreezePane(0,1);
@@ -1073,7 +1091,7 @@ public class DeliverablesController {
 		        /*************************************************************/ 
 					
 		        headingRow = detailedSheet.createRow(0);
-	            headerString = "Deliverable Id^Project^Work^Contract^Milestones^Deliverable type^Deliverable Description^Status^Milestone Payment %^Document Name^Original Due Date^Revised Due Date^Submission Date^Approval Date^Payment %^Remarks";
+	            headerString = "Deliverable Id^Project^Work^Contract^Milestones^Deliverable type^Deliverable Description^Status^Milestone Payment^Document Name^Original Due Date^Revised Due Date^Submission Date^Approval Date^Payment %^Remarks";
 	            
 	            firstHeaderStringArr = headerString.split("\\^");
 	            detailedSheet.createFreezePane(0,1);
@@ -1107,7 +1125,13 @@ public class DeliverablesController {
 							
 							cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
-							cell.setCellValue(obj.getMilestone_id() +"_"+ obj.getMilestone_name());
+							String milestone = "";
+							if(!StringUtils.isEmpty(obj.getMilestone_id()) && !StringUtils.isEmpty(obj.getMilestone_name())) {
+								milestone = obj.getMilestone_id() +"_"+ obj.getMilestone_name();
+							} else {
+								milestone = obj.getMilestone_name();
+							}
+							cell.setCellValue(milestone);
 							
 							cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
@@ -1156,8 +1180,12 @@ public class DeliverablesController {
 			        	}
 		        	}else {
 		        		XSSFRow row = detailedSheet.createRow(rowNo);
-		                int c = 0;		               
+		                int c = 0;		
 		                Cell cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(obj.getDeliverable_document_id());
+						
+		                cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
 						cell.setCellValue(obj.getProject_name());
 						
@@ -1171,7 +1199,14 @@ public class DeliverablesController {
 						
 						cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);
-						cell.setCellValue(obj.getMilestone_id() +"_"+ obj.getMilestone_name());
+						String milestone = "";
+						if(!StringUtils.isEmpty(obj.getMilestone_id()) && !StringUtils.isEmpty(obj.getMilestone_name())) {
+							milestone = obj.getMilestone_id() +"_"+ obj.getMilestone_name();
+						} else {
+							milestone = obj.getMilestone_name();
+						}
+						cell.setCellValue(milestone);
+						
 						
 						cell = row.createCell(c++);
 						cell.setCellStyle(sectionStyle);

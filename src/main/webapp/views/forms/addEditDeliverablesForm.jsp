@@ -177,7 +177,7 @@
                             <div class="row">
                                 <div class="col s6 m4 l4 input-field">
                                     <input id="milestone_payment" name="milestone_payment" type="number" class="validate" value="${deliverablesDetails.milestone_payment }">
-                                    <label for="milestone_payment">Milestone Payment (%) <span class="required">*</span></label>
+                                    <label for="milestone_payment">Milestone Payment <span class="required">*</span></label>
                                     <span id="milestone_paymentError" class="error-msg" ></span>
                                 </div>
                             </div>

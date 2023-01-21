@@ -1603,12 +1603,15 @@ public class DeliverablesController {
 							if(!StringUtils.isEmpty(val)) { deliverableObj.setApproval_date(val);}
 							
 							val = formatter.formatCellValue(row.getCell(p++)).trim();
-							if(!StringUtils.isEmpty(val)) { 
+							if(!StringUtils.isEmpty(val) && !val.contains("%")) { 
 								int c = org.apache.commons.lang3.StringUtils.countMatches(val, "$");
 								if(c != 2) {
 									val = getCellDataType(workbook,row.getCell(p-1));
 								}
 								deliverableObj.setPayment(val);
+							}else if(val.contains("%")) {
+								String tempVal = val.replaceAll("%", "");
+								deliverableObj.setPayment(tempVal);
 							}
 							
 							val = formatter.formatCellValue(row.getCell(p++)).trim();
@@ -1645,7 +1648,7 @@ public class DeliverablesController {
 				}
 				if(!StringUtils.isEmpty(invalidRows)){					
 					String invalidRowsList = invalidRows.substring(0, invalidRows.length() - 1);
-					result[0] = "Invalid Rows :"+ invalidRowsList + " <br>Required fields: Work, Execution Agency, HOD, Utility Type, Utility Description, Impacted Contract,Requirement stage ";
+					result[0] = "Invalid Rows :"+ invalidRowsList + " <br>Required fields: Work, Contract, Milestone, Deliverables Type, Milestone Payment, Document name ";
 				}
 				workbook.close();
 			}
@@ -1737,8 +1740,6 @@ public class DeliverablesController {
 				        		val = BigDecimal.valueOf(Double.parseDouble(val)).toPlainString();
 				        	}
 	                    }
-			        	
-			       
 			            break;
 			        case STRING:
 			        	try {  

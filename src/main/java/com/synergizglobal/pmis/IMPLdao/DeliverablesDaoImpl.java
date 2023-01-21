@@ -55,14 +55,15 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 		List<Deliverables> objsList = null;
 		try {
 			String qry ="select deliverable_id,w.work_short_name,c.contract_short_name, d.project_id_fk,p.project_name,d.contract_id_fk,c.contract_name ,d.work_id_fk,w.work_name,deliverable_type,"
-					+"deliverable_description,d.status_fk,d.milestone_id,d.milestone_payment,cm.milestone_id,cm.milestone_name, "
+					+"deliverable_description,d.status_fk,d.milestone_id,d.milestone_payment,"
+					+ "(SELECT cm.milestone_name from contract_milestones cm WHERE cm.milestone_id = d.milestone_id AND cm.contract_id_fk = d.contract_id_fk group by cm.milestone_name) as milestone_name, "
 					+"d.created_date,d.created_by,d.updated_date,d.updated_by,c.contractor_id_fk,cr.contractor_id,cr.contractor_name "
 					+"from deliverables d " 
 					+"LEFT join work w on d.work_id_fk = w.work_id "
 					+"LEFT JOIN project p on w.project_id_fk = p.project_id "
 					+"LEFT JOIN contract c on d.contract_id_fk = c.contract_id "
 					+"LEFT JOIN contractor cr on c.contractor_id_fk = cr.contractor_id "
-					+"LEFT JOIN contract_milestones cm on d.contract_id_fk = cm.contract_id_fk and d.milestone_id = cm.milestone_id "
+					//+"LEFT JOIN contract_milestones cm on d.contract_id_fk = cm.contract_id_fk and d.milestone_id = cm.milestone_id "
 					+"where deliverable_id is not null ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
@@ -112,12 +113,12 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 					List<Deliverables> objList = jdbcTemplate.query( qry2,new Object[] {deliverables.getDeliverable_id()}, new BeanPropertyRowMapper<Deliverables>(Deliverables.class));
 					deliverables.setDeliverableDocuments(objList);
 					
-					String maxDueDateQry ="SELECT FORMAT(MAX(UpdateDate),'dd-MM-yyyy') AS LastUpdateDate " 
+					String maxDueDateQry ="SELECT FORMAT(MAX(updateDate),'dd-MM-yyyy') AS lastUpdateDate " 
 							+ "FROM "
-							+ "(SELECT deliverable_id_fk, original_due_date AS UpdateDate "  
+							+ "(SELECT deliverable_id_fk, original_due_date AS updateDate "  
 							+ "FROM deliverable_documents " 
 							+ "	UNION " 
-							+ "SELECT deliverable_id_fk, revised_due_date AS UpdateDate " 
+							+ "SELECT deliverable_id_fk, revised_due_date AS updateDate " 
 							+ "FROM deliverable_documents "
 							+ ") ud " 
 							+ "where deliverable_id_fk = ? GROUP BY deliverable_id_fk";
@@ -129,8 +130,11 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 					String maxApprovalDateQry ="SELECT FORMAT(MAX(approval_date),'dd-MM-yyyy') " 
 							+ "FROM "
 							+ "deliverable_documents " 
-							+ "where deliverable_id_fk = ? GROUP BY deliverable_id_fk";
-					List<String> maxApprovalDateList = jdbcTemplate.queryForList( maxApprovalDateQry,new Object[]{deliverables.getDeliverable_id()}, String.class);
+							+ "where "
+							+ "(select COUNT(*) from deliverable_documents "
+							+ "WHERE (approval_date IS NULL OR approval_date = '') AND deliverable_id_fk = ? ) = 0 "
+							+ "AND deliverable_id_fk = ? GROUP BY deliverable_id_fk";
+					List<String> maxApprovalDateList = jdbcTemplate.queryForList( maxApprovalDateQry,new Object[]{deliverables.getDeliverable_id(), deliverables.getDeliverable_id()}, String.class);
 					if(!StringUtils.isEmpty(maxApprovalDateList) && maxApprovalDateList.size() > 0) {
 						deliverables.setApproval_date(maxApprovalDateList.get(0));
 					}
@@ -380,13 +384,14 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 		Deliverables deliverables = new Deliverables();;
 		try {
 			String qry ="select deliverable_id,w.work_short_name,c.contract_short_name, d.project_id_fk,p.project_name,d.contract_id_fk,c.contract_name ,d.work_id_fk,w.work_name,deliverable_type,"
-					+"deliverable_description,d.status_fk,d.milestone_id,d.milestone_payment,cm.milestone_id,cm.milestone_name, "
+					+"deliverable_description,d.status_fk,d.milestone_id,d.milestone_payment,"
+					+ "(SELECT cm.milestone_name from contract_milestones cm WHERE cm.milestone_id = d.milestone_id AND cm.contract_id_fk = d.contract_id_fk group by cm.milestone_name) as milestone_name, "
 					+"d.created_date,d.created_by,d.updated_date,d.updated_by "
 					+"from deliverables d " 
 					+"LEFT join work w on d.work_id_fk = w.work_id "
 					+"LEFT JOIN project p on w.project_id_fk = p.project_id "
 					+"LEFT JOIN contract c on d.contract_id_fk = c.contract_id "
-					+"LEFT JOIN contract_milestones cm on d.contract_id_fk = cm.contract_id_fk and d.milestone_id = cm.milestone_id "
+					//+"LEFT JOIN contract_milestones cm on d.contract_id_fk = cm.contract_id_fk and d.milestone_id = cm.milestone_id "
 					+"where deliverable_id = ? ";
 			
 			List<Deliverables> deliverablesList  = jdbcTemplate.query(qry, new Object[]{obj.getDeliverable_id()}, new BeanPropertyRowMapper<Deliverables>(Deliverables.class));	
@@ -816,17 +821,17 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 			String qry ="select count(*) as total_records "
 					+ "from deliverables d " 
 					+"LEFT JOIN contract c on d.contract_id_fk = c.contract_id "
-					+"LEFT join work w on d.work_id_fk = w.work_id "
+					+"LEFT join work w on c.work_id_fk = w.work_id "
 					+"LEFT JOIN project p on w.project_id_fk = p.project_id "
-					+"LEFT JOIN contract_milestones cm on d.contract_id_fk = cm.contract_id_fk and d.milestone_id = cm.milestone_id "
+					//+"LEFT JOIN contract_milestones cm on c.contract_id = cm.contract_id_fk and d.milestone_id = cm.milestone_id "
 					+"where deliverable_id is not null ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
-				qry = qry + " and d.project_id_fk = ?";
+				qry = qry + " and w.project_id_fk = ?";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and d.work_id_fk = ?";
+				qry = qry + " and c.work_id_fk = ?";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -838,7 +843,7 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(searchParameter)) {
-				qry = qry + " and ( d.project_id_fk like ? or p.project_name like ? or d.work_id_fk like ? or w.work_short_name like ? or d.contract_id_fk like ? "
+				qry = qry + " and ( w.project_id_fk like ? or p.project_name like ? or c.work_id_fk like ? or w.work_short_name like ? or d.contract_id_fk like ? "
 						+ " or c.contract_short_name like ? or deliverable_type like ? or deliverable_description like ? or status_fk like ?)";
 				arrSize++;
 				arrSize++;
@@ -891,21 +896,22 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 		List<Deliverables> objsList = null;
 		try {
 			String qry ="select deliverable_id,w.work_short_name,c.contract_short_name, d.project_id_fk,p.project_name,d.contract_id_fk,c.contract_name ,d.work_id_fk,w.work_name,deliverable_type,"
-					+"deliverable_description,d.status_fk,d.milestone_id,d.milestone_payment,cm.milestone_id,cm.milestone_name, "
+					+"deliverable_description,d.status_fk,d.milestone_id,d.milestone_payment,"
+					+ "(SELECT cm.milestone_name from contract_milestones cm WHERE cm.milestone_id = d.milestone_id AND cm.contract_id_fk = d.contract_id_fk group by cm.milestone_name) as milestone_name, "
 					+"d.created_date,d.created_by,d.updated_date,d.updated_by "
-					+"from deliverables d " 
-					+"LEFT join work w on d.work_id_fk = w.work_id "
-					+"LEFT JOIN project p on w.project_id_fk = p.project_id "
+					+"from deliverables d "
 					+"LEFT JOIN contract c on d.contract_id_fk = c.contract_id "
-					+"LEFT JOIN contract_milestones cm on d.contract_id_fk = cm.contract_id_fk and d.milestone_id = cm.milestone_id "
+					+"LEFT join work w on c.work_id_fk = w.work_id "
+					+"LEFT JOIN project p on w.project_id_fk = p.project_id "
+					//+"LEFT JOIN contract_milestones cm on c.contract_id = cm.contract_id_fk and d.milestone_id = cm.milestone_id "
 					+"where deliverable_id is not null ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
-				qry = qry + " and d.project_id_fk = ?";
+				qry = qry + " and w.project_id_fk = ?";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and d.work_id_fk = ?";
+				qry = qry + " and c.work_id_fk = ?";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -917,7 +923,7 @@ public class DeliverablesDaoImpl implements DeliverablesDao{
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(searchParameter)) {
-				qry = qry + " and ( d.project_id_fk like ? or p.project_name like ? or d.work_id_fk like ? or w.work_short_name like ? or d.contract_id_fk like ? "
+				qry = qry + " and ( w.project_id_fk like ? or p.project_name like ? or c.work_id_fk like ? or w.work_short_name like ? or d.contract_id_fk like ? "
 						+ " or c.contract_short_name like ? or deliverable_type like ? or deliverable_description like ? or status_fk like ?)";
 				arrSize++;
 				arrSize++;

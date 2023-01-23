@@ -130,8 +130,7 @@ public class RiskReportDaoImpl implements RiskReportDao{
 			
 			if(!StringUtils.isEmpty(riskObject)) {
 				
-				qry = "select risk_revision_id,rwh.work_id_fk as work_id,rv.sub_work,area,area_item_no,sub_area,sub_area_item_no,date,"
-						+ "priority_fk as priority,probability,impact,risk_rating,classification,owner,responsible_person,mitigation_plan "
+				qry = "select DISTINCT rwh.work_id_fk as work_id,rv.sub_work,area,area_item_no,date "
 						+ "from risk_revision_view rrv " 
 						+ "left outer join risk_view rv on rrv.risk_id_pk_fk = rv.risk_id_pk "
 						+ "left outer join risk_work_hod rwh on rv.sub_work = rwh.sub_work "

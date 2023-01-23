@@ -385,9 +385,9 @@ public class RiskController {
 						}						
 					}
 					
-					/*if(!StringUtils.isEmpty(risk_owner_error)) {
+					if(!StringUtils.isEmpty(risk_owner_error)) {
 						risk_owner_error = "<br><span style='color:red;'>PMIS user and work owner on the assessment form do not match.</span> ";
-					}*/
+					}
 					if(!StringUtils.isEmpty(risk_cols_error)) {
 						risk_cols_error = "<br><span style='color:red;'>Your assessment is incomplete! Column no(s) " + risk_cols_error + " of the assessment form requires attention.</span> ";
 					}
@@ -767,14 +767,13 @@ public class RiskController {
 									&& !StringUtils.isEmpty(risk.getPriority_fk())  && !StringUtils.isEmpty(risk.getResponsible_person()) 
 									&& (risk.getProbability().equals("1") || risk.getProbability().equals("3") || risk.getProbability().equals("5")) && (risk.getImpact().equals("1") || risk.getImpact().equals("3") || risk.getImpact().equals("5"))) {
 								
-								risksList.add(risk);
 								
-								/*if(risk.getOwner().equals(logged_in_user_designation)) {
-									
+								if(risk.getOwner().equals(logged_in_user_designation)) {
+									risksList.add(risk);
 								}else {
-									risk_owner_error = "";
+									risk_owner_error = "1";
 									break;
-								}*/
+								}
 								
 							}else {
 								risk_rows_error = risk_rows_error + (!StringUtils.isEmpty(risk_rows_error)?",":"") + rowNo;
@@ -783,9 +782,9 @@ public class RiskController {
 						}						
 					}
 					
-					/*if(!StringUtils.isEmpty(risk_owner_error)) {
+					if(!StringUtils.isEmpty(risk_owner_error)) {
 						risk_owner_error = "<br><span style='color:red;'>PMIS user and work owner on the assessment form do not match.</span> ";
-					}*/
+					}
 					if(!StringUtils.isEmpty(risk_cols_error)) {
 						risk_cols_error = "<br><span style='color:red;'>Your assessment is incomplete! Column no(s) " + risk_cols_error + " of the assessment form requires attention.</span> ";
 					}

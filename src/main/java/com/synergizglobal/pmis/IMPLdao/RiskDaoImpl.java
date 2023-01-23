@@ -188,7 +188,7 @@ public class RiskDaoImpl implements RiskDao{
 				String qry = "SELECT u.user_id as owner_user_id,u1.user_id as responsible_user_id,owner,responsible_person,u.reporting_to_id_srfk as reporting_to_user_id "
 						+ "from risk_revision rr "
 						+ "LEFT JOIN [user] u on rr.owner = u.designation "
-						+ "LEFT JOIN [user] u1 on rr.responsible_person = u1.designation where owner = ? and responsible_person = ? group by owner";
+						+ "LEFT JOIN [user] u1 on rr.responsible_person = u1.designation where owner = ? and responsible_person = ? group by owner,u.user_id,u1.user_id,responsible_person,u.reporting_to_id_srfk ";
 				
 				Object[] pValues = new Object[] {obj.getOwner(),obj.getResponsible_person()};
 				sObj = (Risk)jdbcTemplate.queryForObject(qry, pValues, new BeanPropertyRowMapper<Risk>(Risk.class));

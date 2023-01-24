@@ -783,7 +783,9 @@ public class NewActivitiesUpdateController {
 						//System.out.println(i);
 						stripChart = new StripChart();
 						String val = null;
-						if(!StringUtils.isEmpty(row)) {								
+						if(!StringUtils.isEmpty(row)) {	
+							
+							stripChart.setCreated_by_user_id_fk(userId);
 						  
 							val = formatter.formatCellValue(row.getCell(0)).trim();
 							if(!StringUtils.isEmpty(val)) { stripChart.setP6_task_code(val);}

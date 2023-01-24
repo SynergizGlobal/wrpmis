@@ -2209,9 +2209,9 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 	
 			
 			String insertQry = "INSERT INTO p6_validation"
-					+ "(created_by_user_id_fk, remarks, completed_scope, p6_activity_id_fk,progress_date,approval_status_fk,updated_scope)"
+					+ "(created_by_user_id_fk, remarks, completed_scope, p6_activity_id_fk,progress_date,approval_status_fk)"
 					+ "VALUES"
-					+ "(?,?,?,?,?,?,?)";
+					+ "(?,?,?,?,?,?)";
 			insertStmt = con.prepareStatement(insertQry,Statement.RETURN_GENERATED_KEYS);
 			PreparedStatement stmt = null;
 			PreparedStatement stmt1 = null;
@@ -2250,7 +2250,6 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 							    insertStmt.setString(4,getActivityId(obj.getP6_task_code()));
 							    insertStmt.setString(5, StrVar[k]);
 							    insertStmt.setString(6, "Pending");
-							    insertStmt.setString(7, "");
 							    count=insertStmt.executeUpdate();
 								ResultSet rs1 = insertStmt.getGeneratedKeys();
 						        if (rs1 != null) {

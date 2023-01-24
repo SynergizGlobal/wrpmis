@@ -6,9 +6,14 @@ import java.io.PrintWriter;
 import java.io.Writer;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoField;
+import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -48,6 +53,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.protobuf.TextFormat.ParseException;
 import com.synergizglobal.pmis.Idao.ExpenditureDao;
 import com.synergizglobal.pmis.Idao.FormsHistoryDao;
 import com.synergizglobal.pmis.Iservice.ContractorService;
@@ -800,7 +806,9 @@ public class ExpenditureController {
 	private int uploadExpenditures(Expenditure obj, String userId,String userName) throws Exception {
 		Expenditure expenditure = null;
 		List<Expenditure> expendituresList = new ArrayList<Expenditure>();
-		
+		SimpleDateFormat formatter1 = new SimpleDateFormat("dd-MMM-yyyy");
+		SimpleDateFormat formatter3 = new SimpleDateFormat("MMM/dd/yyyy");
+		SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");		
 		Writer w = null;
 		int count = 0 ;
 		try {	
@@ -842,10 +850,32 @@ public class ExpenditureController {
 
 							
 							val = formatter.formatCellValue(row.getCell(4)).trim();
-							if(!StringUtils.isEmpty(val)) { expenditure.setDate(val);}					
+							if(!StringUtils.isEmpty(val)) { 
+								
+								
+								String Str = val;
+								String[] parts = Str.split("-");
+								int TotalDate=2000+Integer.parseInt(parts[2]);
+								String Concat = TotalDate+"-"+getNumberFromMonthName(parts[1], Locale.ENGLISH)+"-"+parts[0];
+								expenditure.setDate(Concat);
+								expenditure.setDate(DateParser.parse(expenditure.getDate()));
+								
+
+							}					
 							
 							val = formatter.formatCellValue(row.getCell(5)).trim();
-							if(!StringUtils.isEmpty(val)) { expenditure.setVoucher_type(val);}								
+							if(!StringUtils.isEmpty(val)) { 
+								
+								String Str=val;
+								int getIndex=Str.indexOf("(");
+								int getIndex1=Str.indexOf(")");
+								
+								String VoucherType=Str.substring(getIndex+1,getIndex1);
+								
+								expenditure.setVoucher_type(VoucherType);
+					
+							
+							}								
 							
 							val = formatter.formatCellValue(row.getCell(6)).trim();
 							if(!StringUtils.isEmpty(val)) { expenditure.setVoucher_no(val);}										
@@ -905,7 +935,6 @@ public class ExpenditureController {
 							val = formatter.formatCellValue(row.getCell(23)).trim();
 							if(!StringUtils.isEmpty(val)) { expenditure.setRemarks(val);}
 
-							expenditure.setDate(DateParser.parse(expenditure.getDate()));
 						
 						}						
 						boolean flag = expenditure.checkNullOrEmpty();
@@ -939,4 +968,12 @@ public class ExpenditureController {
 		
 		return count;
 	}
+
+	   public static int getNumberFromMonthName(String monthName, Locale locale) throws ParseException {
+		   
+	        DateTimeFormatter dtFormatter = DateTimeFormatter.ofPattern("MMM")
+	                                        .withLocale(locale);
+	        TemporalAccessor temporalAccessor = dtFormatter.parse(monthName);
+	        return temporalAccessor.get(ChronoField.MONTH_OF_YEAR);
+	    }
 }

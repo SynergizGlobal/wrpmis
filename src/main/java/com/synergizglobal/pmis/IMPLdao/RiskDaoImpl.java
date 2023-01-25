@@ -29,6 +29,7 @@ import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.FileUploads;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
+import com.synergizglobal.pmis.model.Design;
 import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.Messages;
 import com.synergizglobal.pmis.model.Risk;
@@ -131,9 +132,13 @@ public class RiskDaoImpl implements RiskDao{
 				obj.setSub_area_fk(risk_sub_area);
 				
 				if(!StringUtils.isEmpty(risk_id_pk)) {
-					 NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
-					 String revisionId = getRevisionIdIfExists(obj.getRisk_id_pk(),obj.getDate(),con);
-					 obj.setRisk_revision_id(revisionId);
+				    NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+				    String revisionId =null;
+					if(getRevisionIdIfExistsCount(obj.getRisk_id_pk(),obj.getDate())>0)
+					{
+						 revisionId = getRevisionIdIfExists(obj.getRisk_id_pk(),obj.getDate());
+						 obj.setRisk_revision_id(revisionId);
+					}
 					 if(!StringUtils.isEmpty(revisionId)) {
 							String updateRevisionsQry = "UPDATE risk_revision set date =:date, priority_fk =:priority_fk, probability =:probability, impact =:impact, owner =:owner"
 									+ ", responsible_person =:responsible_person, mitigation_plan =:mitigation_plan "
@@ -330,37 +335,27 @@ public boolean checkRiskAssessment(String subwork,String Date) throws Exception 
 		return risk_id_pk;
 	}
 	
-	private String getRevisionIdIfExists(String risk_id_pk, String date, Connection con) throws Exception {
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		String risk_revision_id = null;
-		try{
-			String riskIdQry = "SELECT risk_revision_id from risk_revision where  risk_id_pk_fk = ? ";
-			if(!StringUtils.isEmpty(date)) {
-				riskIdQry = riskIdQry + " and date = ? ";
-			}else {
-				riskIdQry = riskIdQry + " and date IS NULL ";
-			}
-					
-			stmt = con.prepareStatement(riskIdQry);
-			int k =1;
-			stmt.setString(k++, risk_id_pk);			
-			if(!StringUtils.isEmpty(date)) {
-				stmt.setString(k++, date);
-			}
-			rs = stmt.executeQuery();  
-			if(rs.next()) {
-				risk_revision_id = rs.getString("risk_revision_id");
-			}
-		}catch(Exception e){ 		
-			e.printStackTrace();
+	private int getRevisionIdIfExistsCount(String risk_id_pk,String date) throws Exception{
+		int cnt=0;
+		try {
+			String qry = "select count(*) from risk_revision where risk_id_pk_fk = ? and date=?";
+			cnt = (int) jdbcTemplate.queryForObject(qry, new Object[] { risk_id_pk,date }, int.class);
+		} catch (Exception e) {
 			throw new Exception(e);
-		}
-		finally {
-			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
-		}
-		return risk_revision_id;
+		}		
+		return cnt;
 	}
+	
+	private String getRevisionIdIfExists(String risk_id_pk,String date) throws Exception{
+		String risk_revision_id=null;
+		try {
+			String qry = "select top 1 risk_revision_id from risk_revision where risk_id_pk_fk = ? and date=?";
+			risk_revision_id = (String) jdbcTemplate.queryForObject(qry, new Object[] { risk_id_pk,date }, String.class);
+		} catch (Exception e) {
+			throw new Exception(e);
+		}		
+		return risk_revision_id;
+	}	
 	
 	private String getMaxRiskIdFromExisting(Connection con) throws Exception {
 		PreparedStatement stmt = null;

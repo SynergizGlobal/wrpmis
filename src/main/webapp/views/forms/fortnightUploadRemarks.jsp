@@ -9,25 +9,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fortnight Report - PMIS</title>
-    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-    <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <!-- <link rel="stylesheet" href="/pmis/resources/css/la.css"> -->
-    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
-    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" >
-      <style>            		
-		.error-msg label{color:red!important;} 
-		
-		@media only screen and (min-width:787px){
-			.pt-md-5{
-				padding-top:5px !important;
-			}
-		}
-    </style>
+    <link rel="stylesheet" href="/pmis/resources/css/referenceformitem.min.css">
 </head>
 
 <body>
@@ -49,48 +34,83 @@
                 </div>
             </div>
         </div>
-  	<div id="upload_template" class="modal">
-        <div class="modal-content">
-            <div class="center-align p-2 bg-m headbg modal-title">
-                <h6>Upload Fortnight Plan Remarks</h6>
-            </div>
-            <!-- form start-->
-            <div class="container">
-               <form action="<%=request.getContextPath() %>/upload-fortnight-remarks" method="post" enctype="multipart/form-data">
-                    <div class="row no-mar">
-                        <div class="col s12 m12 input-field center-align">
-                            <div class="row">
-                                <div class="col m12 s12">
-                                    <div class="col s12 m12 file-field input-field">
-                                        <div class="btn bg-m">
-                                            <span>Attachment</span>
-                                            <input type="file" id="fortnightPlanFile" name="fortnightPlanFile" required="required">
-                                        </div>
-                                        <div class="file-path-wrapper">
-                                            <input class="file-path validate" type="text">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
+        
+      <div id="upload_template" class="modal">
+		  <form action="<%=request.getContextPath() %>/upload-fortnight-remarks" method="post" enctype="multipart/form-data" id="frmUpload">
+            <div class="modal-content">
+                <h6 class="modal-header">Upload Fortnight Plan Remarks <span
+                        class="right modal-action modal-close" onclick="resetFields('add')"> <span class="material-icons">close</span></span></h6>
+                <div class="row">
+                    <div class="col s12">
+                        <div class="row no-mar">
+                             <div class="table-inside">
+                              <div class="center-align">
+					        	<span id="mainErrorAdd" style="align: center;" class="my-error "></span>
+					        </div>
+					            <table id="addExecutivesTable" class="mdl-data-table mobile_responsible_table" >
+					                <thead>
+					                    <tr>
+					                        <th>Contract Short Name</th>
+											<th>Attachment </th>
+					                    </tr>
+					                </thead>
+					                
+								    <tbody id="addExecutivesBody">									               
+					                    <tr id="AexecutiveRow0">
+					                        <td data-head="Work" class="input-field">
+			                                    <select id="contract_short_name" class="searchable" name="contract_short_name" required="required" onChange='$("#contractError").html("");'>
+			                                        <option value="">Select</option>
+			                                         <c:forEach var="obj" items="${contractList }">
+			                                            <option value= "${obj.contract_short_name}">${obj.contract_short_name }</option>
+			                                        </c:forEach>                                       
+			                                    </select>
+			                                    <span id="contractError" style="color:red;"></span>
+					                        </td>
+					                        <td data-head="Responsible Executives" class="input-field h-auto">
+		                                        <div class="btn bg-m">
+		                                            <input type="file" id="fortnightPlanFile" name="fortnightPlanFile" required="required">
+		                                        </div>
+
+					                        </td>
+							                        
+					                    </tr>
+					             
+					                </tbody>								                
+
+								</table>
+                                                  
+					        </div>
+					       
+					        
+                        </div>
+                        
+                        <div class="row">
+                        	<div class="col s12 m8 offset-m2">
+                        		<div class="row">
+			                        <div class="col s12 m6 mt-brdr">
+			                            <div class="center-align m-1">
+			                                <button type="button" class="btn waves-effect waves-light bg-m" onClick="checkValidation();">Update</button>
+			                            </div>
+			                        </div>
+			                        <div class="col s12 m6 mt-brdr">
+			                            <div class="center-align m-1">
+			                                <button type="button" class="btn waves-effect waves-light bg-s" onclick="window.location.href='/pmis/fortnight-upload-list'">Cancel</button>
+			                            </div>
+			                        </div>
+                        		</div>
+                        	</div>
+                           
                         </div>
                     </div>
-                    <div class="row no-mar">
-                        <div class="col s12 m6 mt-brdr">
-                            <div class="center-align m-1">
-                                <button type="submit" class="btn waves-effect waves-light bg-m">Update</button>
-                            </div>
-                        </div>
-                        <div class="col s12 m6 mt-brdr">
-                            <div class="center-align m-1">
-                                <button type="button" class="btn waves-effect waves-light bg-s" onclick="window.location.href='/pmis/fortnight-upload-list'">Cancel</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
+                </div>
+
             </div>
-        </div>
-    </div>       
+
+        </form>
+    </div>
+        
+        
+        
     <div class="page-loader" style="display: none;">
 	  <div class="preloader-wrapper big active">
 	    <div class="spinner-layer spinner-blue-only">
@@ -140,12 +160,22 @@
          }
                 
         $(document).ready(function(){
-            $('select:not(.searchable)').formSelect();
             $('.searchable').select2();
-            $('.modal').modal();
+            $('.modal').modal({ dismissible: false });
             $('.collapsible').collapsible();
 			$("#upload_template").modal('open');
 		});    
+        
+        function checkValidation()
+        {
+        		if($("#contract_short_name").val()=="")
+        		{
+        			$("#contractError").html("Contract short name is required");
+        			return false;
+        		}
+        		document.getElementById('frmUpload').submit();
+
+        }
 
     </script>
 

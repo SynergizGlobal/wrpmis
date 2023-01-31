@@ -74,5 +74,7 @@ public interface FortnightPlanDao {
 	int uploadFortnightPlans(List<FortnightPlan> fortnightPlansList) throws Exception;
 
 	List<FortnightPlan> getFortnightUploadList() throws Exception;
+
+	int deleteFortnightsByContractShortName(String contractShortName) throws Exception;
 }
  

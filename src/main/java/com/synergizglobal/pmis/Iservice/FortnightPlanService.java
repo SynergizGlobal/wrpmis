@@ -64,5 +64,7 @@ public interface FortnightPlanService {
 	
 	public int uploadFortnightPlans(List<FortnightPlan>FortnightPlansList) throws Exception;
 	
+	public int deleteFortnightsByContractShortName(String ContractShortName) throws Exception;
+	
 
 } 

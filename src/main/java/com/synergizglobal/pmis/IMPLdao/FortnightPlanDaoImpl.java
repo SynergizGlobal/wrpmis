@@ -1528,22 +1528,13 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 					+ "VALUES(:fortnight_date, :contract_short_name, :structure_type_fk, :structure, :component, :unit, :scope, :target_till_lfn, :actual_till_lfn, :target_this_fn,"
 					+ ":actual_this_fn, :cum_target, :cum_actual, :critical, :remarks,:created_by_user_id_fk,CURRENT_TIMESTAMP,:filename) ";
 			
-			String updateQry = "update fortnight_monthly_plan_upload  set "
-					+ "unit=:unit,scope=:scope,target_till_lfn=:target_till_lfn,actual_till_lfn=:actual_till_lfn,target_this_fn=:target_this_fn,actual_this_fn=:actual_this_fn,cum_target=:cum_target,cum_actual=:cum_actual,critical=:critical,remarks=:remarks,modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP,filename=:filename where date=:fortnight_date and contract_short_name=:contract_short_name and structure_type_fk=:structure_type_fk and structure=:structure and component=:component";
 			
 			
 			for (FortnightPlan obj : fortnightPlansList) 
 			{
 				BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
 				KeyHolder keyHolder = new GeneratedKeyHolder();
-				if(getRowCheck(obj.getFortnight_date(),obj.getContract_short_name(),obj.getStructure_type_fk(),obj.getStructure(),obj.getComponent())==0)
-				{
-					count = namedParamJdbcTemplate.update(insertQry, paramSource,keyHolder);
-				}
-				else
-				{
-					count = namedParamJdbcTemplate.update(updateQry, paramSource,keyHolder);
-				}
+			    count = namedParamJdbcTemplate.update(insertQry, paramSource,keyHolder);
 				if(count > 0) {
 					insertCount++;
 				}
@@ -1571,6 +1562,20 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 		throw new Exception(e.getMessage());
 		}
 		return objsList;
+	}
+
+	@Override
+	public int deleteFortnightsByContractShortName(String contractShortName) throws Exception {
+		Connection con = null;
+		PreparedStatement stmt = null;
+		con = dataSource.getConnection();
+		
+		String deleteQry = "delete from fortnight_monthly_plan_upload   where contract_short_name = ? ";
+		stmt = con.prepareStatement(deleteQry);
+		stmt.setString(1,contractShortName);
+		int cnt=stmt.executeUpdate();
+		if(stmt != null){stmt.close();}
+		return cnt;
 	}	
 
 }

@@ -74,6 +74,7 @@
 					                        </td>
 							                        
 					                    </tr>
+					             		
 					             
 					                </tbody>								                
 
@@ -101,6 +102,7 @@
                         	</div>
                            
                         </div>
+                        <span id="errorResult" style="color:red;"></span>
                     </div>
                 </div>
 
@@ -137,6 +139,9 @@
     <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
     <script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.7/xlsx.core.min.js"></script>  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xls/0.7.4-a/xls.core.min.js"></script>  
+    
     <script>
     var filtersMap = new Object();
     function getErrorMessage(jqXHR, exception) {
@@ -164,7 +169,47 @@
             $('.modal').modal({ dismissible: false });
             $('.collapsible').collapsible();
 			$("#upload_template").modal('open');
-		});    
+		});  
+        
+        
+
+        function GetTableFromExcel(data) {
+            //Read the Excel File data in binary
+            var workbook = XLSX.read(data, {
+                type: 'binary'
+            });
+     
+            //get the name of First Sheet.
+            var Sheet = workbook.SheetNames[0];
+     
+            //Read all rows from First Sheet into an JSON array.
+            var excelRows = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[Sheet]);
+     
+            //Create a HTML Table element.
+           
+     
+     		var errorText="";
+            //Add the data rows from Excel file.
+            for (var i = 0; i < excelRows.length; i++) 
+            {
+            	    if($("#contract_short_name").val()!=excelRows[i]["Contract Name"])
+            		{
+            	    	errorText=errorText+"Contract Short Name not matched in row "+(i+1)+"<br><br>";
+            		}
+            }
+	    	$("#errorResult").html(errorText);
+	    	
+    		
+	         if($("#errorResult").html().trim()=="")
+	       	 {
+	        		document.getElementById('frmUpload').submit();
+	       	 }	
+	         
+
+
+        };
+        
+     
         
         function checkValidation()
         {
@@ -173,7 +218,40 @@
         			$("#contractError").html("Contract short name is required");
         			return false;
         		}
-        		document.getElementById('frmUpload').submit();
+        		
+        		 var fileUpload = document.getElementById("fortnightPlanFile");
+        	     
+                 //Validate whether File is valid Excel file.
+                 var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xls|.xlsx)$/;
+                 //if (regex.test(fileUpload.value.toLowerCase())) {
+                     if (typeof (FileReader) != "undefined") {
+                         var reader = new FileReader();
+          
+                         //For Browsers other than IE.
+                         if (reader.readAsBinaryString) {
+                             reader.onload = function (e) {
+                                 GetTableFromExcel(e.target.result);
+                             };
+                             reader.readAsBinaryString(fileUpload.files[0]);
+                         } else {
+                             //For IE Browser.
+                             reader.onload = function (e) {
+                                 var data = "";
+                                 var bytes = new Uint8Array(e.target.result);
+                                 for (var i = 0; i < bytes.byteLength; i++) {
+                                     data += String.fromCharCode(bytes[i]);
+                                 }
+                                 GetTableFromExcel(data);
+                             };
+                             reader.readAsArrayBuffer(fileUpload.files[0]);
+                         }
+                     } else {
+                         alert("This browser does not support HTML5.");
+                     }
+                 //} else {
+                     //alert("Please upload a valid Excel file.");
+                 //}       		
+
 
         }
 

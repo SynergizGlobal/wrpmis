@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
+import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
@@ -28,6 +29,7 @@ import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.WorkbookUtil;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFColor;
@@ -61,12 +63,15 @@ import com.synergizglobal.pmis.Iservice.ExpenditureService;
 import com.synergizglobal.pmis.Iservice.HomeService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.constants.PageConstants;
+import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Contractor;
 import com.synergizglobal.pmis.model.Expenditure;
 import com.synergizglobal.pmis.model.ExpenditurePaginationObject;
 import com.synergizglobal.pmis.model.FileFormatModel;
 import com.synergizglobal.pmis.model.FormHistory;
+import com.synergizglobal.pmis.model.LandAcquisition;
 import com.synergizglobal.pmis.model.Project;
+import com.synergizglobal.pmis.model.User;
 
 @Controller
 public class ExpenditureController {
@@ -122,6 +127,705 @@ public class ExpenditureController {
 		}
 		return model;
 	}
+	
+	
+	@RequestMapping(value = "/expenditure-report", method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView LandReport(@ModelAttribute Expenditure obj, RedirectAttributes attributes, HttpSession session) {
+		ModelAndView model = new ModelAndView(PageConstants.expenditureReport);
+		try {
+			
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_id(uObj.getUser_id());
+			
+			
+			List<Expenditure> projectsList = expenditureService.getProjectsListForExpenditureForm(obj);
+			model.addObject("projectsList", projectsList);
+
+			List<Expenditure> worksList = expenditureService.getWorksFilterList(obj);
+			model.addObject("worksList", worksList);
+
+			List<Expenditure> voucherTypesFilterList = expenditureService.getVoucherTypesFilterList(obj);
+			model.addObject("voucherTypesFilterList", voucherTypesFilterList);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("ExpenditureReport : " + e.getMessage());
+		}
+		return model;
+	}	
+	
+	
+	@RequestMapping(value = "/generate-expenditure-report", method = {RequestMethod.GET,RequestMethod.POST})
+	public void generateExpenditureReport(@ModelAttribute Expenditure obj,HttpServletRequest request, HttpServletResponse response,HttpSession session,RedirectAttributes attributes){
+		try{
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_id(uObj.getUser_id());
+			DateFormat df = new SimpleDateFormat("dd-MMM-YYYY HH:mm"); 
+			String report_created_date = df.format(new Date());
+			
+			SimpleDateFormat formatter = new SimpleDateFormat("d-MMM-YY");
+		
+			Expenditure reportData =null;
+			
+			ResultSet rs=expenditureService.generateExpenditureReportByProject(obj); 
+            List<Expenditure> rsChild=expenditureService.generateExpenditureReportByWork(obj);
+            List<Expenditure> rsChildContract=expenditureService.generateExpenditureReportByContract(obj);
+			
+			
+            XSSFWorkbook  workBook = new XSSFWorkbook ();
+            XSSFSheet executionOverviewReportSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("ExpenditureReport"));
+            
+	        workBook.setSheetOrder(executionOverviewReportSheet.getSheetName(), 0);
+	        
+	        byte[] blueRGB = new byte[]{(byte)0, (byte)176, (byte)240};
+	        byte[] yellowRGB = new byte[]{(byte)255, (byte)255, (byte)0};
+	        byte[] greenRGB = new byte[]{(byte)146, (byte)208, (byte)80};
+	        byte[] redRGB = new byte[]{(byte)255, (byte)0, (byte)0};
+	        byte[] whiteRGB = new byte[]{(byte)255, (byte)255, (byte)255};
+	        byte[] grayRGB = new byte[]{(byte)217, (byte)217, (byte)217};
+	        
+	        
+	        boolean isWrapText = true;boolean isBoldText = false;boolean isItalicText = false; int fontSize = 11;String fontName = "Times New Roman";
+	        CellStyle blueStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,true,isItalicText,fontSize,fontName);
+	        CellStyle yellowStyle = cellFormating(workBook,yellowRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle greenStyle = cellFormating(workBook,greenRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,true,isItalicText,12,fontName);
+	        CellStyle redStyle = cellFormating(workBook,redRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle grayStyle = cellFormating(workBook,grayRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle indexWhiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        
+	        isBoldText = true;fontSize = 12;
+	        CellStyle whiteStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        
+	        isWrapText = true;isBoldText = false;isItalicText = false; fontSize = 9;fontName = "Times New Roman";
+	        CellStyle sectionStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle sectionPercentStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle sectioncostStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.RIGHT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle sectionunitsStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        
+	        CellStyle centerStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        CellStyle rightStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.RIGHT,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
+	        
+	        
+            
+
+            java.sql.ResultSetMetaData rsmd = rs.getMetaData();
+            int columnsNumber = rsmd.getColumnCount();
+            XSSFRow row1 = executionOverviewReportSheet.createRow(0);
+	        String headerString = "S. No.^Contract Short name^Contractor Name^Latest Contract Amount^Gross Work Done^Net Amount Paid^SD Payable^CGST Tds^SGST Tds^IGST Tds^CGST Output^SGST Output^TDS^Mob. Adv^Mob. Adv. Recovered^Mob. Adv. Pending^Withheld Amount";
+            
+            String[] firstHeaderStringArr = headerString.split("\\^");
+            
+            for (int i = 0; i < firstHeaderStringArr.length; i++) {		        	
+	        	Cell cell = row1.createCell(i);
+		        cell.setCellStyle(greenStyle);
+				cell.setCellValue(firstHeaderStringArr[i]);
+			}
+
+            
+            int RowNum=1;
+            while(rs.next()) {
+            	
+                if(rsChild.size()>0 && rsChildContract.size()>0)
+                {
+                XSSFRow row = executionOverviewReportSheet.createRow(RowNum);
+                
+                
+                for(int col=0 ;col < columnsNumber;col++) {
+                    Cell newpath = row.createCell(col);
+                    newpath.setCellStyle(blueStyle);
+                    if(col>1)
+                    {
+                    	if(!StringUtils.isEmpty(rs.getString(col+1)) && rs.getString(col+1)!="")
+                    	{
+	                    	if(Float.parseFloat(rs.getString(col+1))>0)
+	                    	{
+	                    		newpath.setCellValue(rs.getString(col+1)); 
+	                    	}
+	                    	else
+	                    	{
+	                    		newpath.setCellValue(""); 
+	                    	}
+                    	}
+                    }
+                    else
+                    {
+                    	newpath.setCellValue(rs.getString(col+1)); 
+                    }
+                }
+                int loop=0;
+                for (Expenditure cObj : rsChild) 
+                {
+                	String ProjectName=rs.getString(2);
+                	String WorkProjectName=cObj.getProject_name();
+
+                	if(ProjectName.compareTo(WorkProjectName)==0)
+                	{
+                		RowNum++;
+                		loop++;
+
+                		XSSFRow row11 = executionOverviewReportSheet.createRow(RowNum);
+                		
+    	                    Cell cell = row11.createCell(0);
+    						cell.setCellStyle(sectionStyle);
+    						cell.setCellValue(rs.getString(1)+"."+loop);	                		
+    	                    
+    	                    cell = row11.createCell(1);
+    						cell.setCellStyle(sectionStyle);
+    						cell.setCellValue(cObj.getWork_short_name());
+    						
+    	                    cell = row11.createCell(2);
+    						cell.setCellStyle(sectionStyle);
+    						cell.setCellValue(cObj.getContractor_name());    						
+    						
+    						cell = row11.createCell(3);
+    						cell.setCellStyle(sectionStyle);
+
+	                    	if(!StringUtils.isEmpty(cObj.getAwarded_cost()) && cObj.getAwarded_cost()!="")
+	                    	{
+		                    	if(Float.parseFloat(cObj.getAwarded_cost())>0)
+		                    	{
+		    						cell.setCellValue(cObj.getAwarded_cost());
+		                    	}
+		                    	else
+		                    	{
+		    						cell.setCellValue("");
+		                    	}
+	                    	}
+    						
+    						
+    				        cell = row11.createCell(4);
+    						cell.setCellStyle(sectionStyle);
+    						
+	                    	if(!StringUtils.isEmpty(cObj.getGross_work_done()) && cObj.getGross_work_done()!="")
+	                    	{
+		                    	if(Float.parseFloat(cObj.getGross_work_done())>0)
+		                    	{
+		                    		cell.setCellValue(cObj.getGross_work_done());
+		                    	}
+		                    	else
+		                    	{
+		    						cell.setCellValue("");
+		                    	}
+	                    	}	    						
+    						
+    						
+    						cell = row11.createCell(5);
+    						cell.setCellStyle(sectionStyle);
+    						
+	                    	if(!StringUtils.isEmpty(cObj.getNet_paid()) && cObj.getNet_paid()!="")
+	                    	{
+		                    	if(Float.parseFloat(cObj.getNet_paid())>0)
+		                    	{
+		                    		cell.setCellValue(cObj.getNet_paid());
+		                    	}
+		                    	else
+		                    	{
+		    						cell.setCellValue("");
+		                    	}
+	                    	}	    						
+    						
+    						
+    						cell = row11.createCell(6);
+    						cell.setCellStyle(sectionStyle);
+    						
+	                    	if(!StringUtils.isEmpty(cObj.getSd_payable()) && cObj.getSd_payable()!="")
+	                    	{
+		                    	if(Float.parseFloat(cObj.getSd_payable())>0)
+		                    	{
+		                    		cell.setCellValue(cObj.getSd_payable());
+		                    	}
+		                    	else
+		                    	{
+		    						cell.setCellValue("");
+		                    	}
+	                    	}	    						
+    						
+    						
+    						cell = row11.createCell(7);
+    						cell.setCellStyle(sectionStyle);
+    						
+	                    	if(!StringUtils.isEmpty(cObj.getCgst_tds()) && cObj.getCgst_tds()!="")
+	                    	{
+		                    	if(Float.parseFloat(cObj.getCgst_tds())>0)
+		                    	{
+		                    		cell.setCellValue(cObj.getCgst_tds());
+		                    	}
+		                    	else
+		                    	{
+		    						cell.setCellValue("");
+		                    	}
+	                    	}	    						
+    						
+    						
+    						cell = row11.createCell(8);
+    						cell.setCellStyle(sectionStyle);
+    						
+	                    	if(!StringUtils.isEmpty(cObj.getSgst_tds()) && cObj.getSgst_tds()!="")
+	                    	{
+		                    	if(Float.parseFloat(cObj.getSgst_tds())>0)
+		                    	{
+		                    		cell.setCellValue(cObj.getSgst_tds());
+		                    	}
+		                    	else
+		                    	{
+		    						cell.setCellValue("");
+		                    	}
+	                    	}	    						
+    						
+    						
+    						cell = row11.createCell(9);
+    						cell.setCellStyle(sectionStyle);
+    						
+	                    	if(!StringUtils.isEmpty(cObj.getIgst_tds()) && cObj.getIgst_tds()!="")
+	                    	{
+		                    	if(Float.parseFloat(cObj.getIgst_tds())>0)
+		                    	{
+		                    		cell.setCellValue(cObj.getIgst_tds());
+		                    	}
+		                    	else
+		                    	{
+		    						cell.setCellValue("");
+		                    	}
+	                    	}
+	                    	
+	                    	/****************************************************/
+	                    	
+	                    	
+	
+    						cell = row11.createCell(10);
+    						cell.setCellStyle(sectionStyle);
+    						
+	                    	if(!StringUtils.isEmpty(cObj.getCgst_output()) && cObj.getCgst_output()!="")
+	                    	{
+		                    	if(Float.parseFloat(cObj.getCgst_output())>0)
+		                    	{
+		                    		cell.setCellValue(cObj.getCgst_output());
+		                    	}
+		                    	else
+		                    	{
+		    						cell.setCellValue("");
+		                    	}
+	                    	}
+	                    	
+	                    	
+    						cell = row11.createCell(11);
+    						cell.setCellStyle(sectionStyle);
+    						
+	                    	if(!StringUtils.isEmpty(cObj.getSgst_output()) && cObj.getSgst_output()!="")
+	                    	{
+		                    	if(Float.parseFloat(cObj.getSgst_output())>0)
+		                    	{
+		                    		cell.setCellValue(cObj.getSgst_output());	
+		                    	}
+		                    	else
+		                    	{
+		    						cell.setCellValue("");
+		                    	}
+	                    	}
+	                    	
+	                    	
+    						cell = row11.createCell(12);
+    						cell.setCellStyle(sectionStyle);
+    						
+	                    	if(!StringUtils.isEmpty(cObj.getTds()) && cObj.getTds()!="")
+	                    	{
+		                    	if(Float.parseFloat(cObj.getTds())>0)
+		                    	{
+		                    		cell.setCellValue(cObj.getTds());
+		                    	}
+		                    	else
+		                    	{
+		    						cell.setCellValue("");
+		                    	}
+	                    	}
+	                    	
+	                    	
+    						cell = row11.createCell(13);
+    						cell.setCellStyle(sectionStyle);
+    						
+	                    	if(!StringUtils.isEmpty(cObj.getMob_advance()) && cObj.getMob_advance()!="")
+	                    	{
+		                    	if(Float.parseFloat(cObj.getMob_advance())>0)
+		                    	{
+		                    		cell.setCellValue(cObj.getMob_advance());
+		                    	}
+		                    	else
+		                    	{
+		    						cell.setCellValue("");
+		                    	}
+	                    	}
+	                    	
+	                    	
+    						cell = row11.createCell(14);
+    						cell.setCellStyle(sectionStyle);
+    						
+	                    	if(!StringUtils.isEmpty(cObj.getMob_adv_recovered()) && cObj.getMob_adv_recovered()!="")
+	                    	{
+		                    	if(Float.parseFloat(cObj.getMob_adv_recovered())>0)
+		                    	{
+		                    		cell.setCellValue(cObj.getMob_adv_recovered());
+		                    	}
+		                    	else
+		                    	{
+		    						cell.setCellValue("");
+		                    	}
+	                    	}
+	                    	
+	                    	
+    						cell = row11.createCell(15);
+    						cell.setCellStyle(sectionStyle);
+    						
+	                    	if(!StringUtils.isEmpty(cObj.getMob_adv_pending()) && cObj.getMob_adv_pending()!="")
+	                    	{
+		                    	if(Float.parseFloat(cObj.getMob_adv_pending())>0)
+		                    	{
+		                    		cell.setCellValue(cObj.getMob_adv_pending());
+		                    	}
+		                    	else
+		                    	{
+		    						cell.setCellValue("");
+		                    	}
+	                    	}
+	                    	
+	                    	
+    						cell = row11.createCell(16);
+    						cell.setCellStyle(sectionStyle);
+    						
+	                    	if(!StringUtils.isEmpty(cObj.getAmount_withheld()) && cObj.getAmount_withheld()!="")
+	                    	{
+		                    	if(Float.parseFloat(cObj.getAmount_withheld())>0)
+		                    	{
+		                    		cell.setCellValue(cObj.getAmount_withheld());
+		                    	}
+		                    	else
+		                    	{
+		    						cell.setCellValue("");
+		                    	}
+	                    	}	                    	
+
+                	}
+                	
+                    int loop1=0;
+                    for (Expenditure cObj1 : rsChildContract) 
+                    {
+                    	
+                    	String ProjectName1=rs.getString(2);
+                    	String WorkProjectName1=cObj1.getProject_name();
+                    	
+                    	String WorkProjectNameParent=cObj.getWork_short_name();
+                    	String WorkProjectNameChild=cObj1.getWork_short_name();              	
+
+
+                    	if(ProjectName1.compareTo(WorkProjectName1)==0 && WorkProjectNameParent.compareTo(WorkProjectNameChild)==0)
+                    	{
+                    		RowNum++;
+                    		loop1++;
+
+                    		XSSFRow row112 = executionOverviewReportSheet.createRow(RowNum);
+                    		
+        	                    Cell cell = row112.createCell(0);
+        						cell.setCellStyle(sectionStyle);
+        						cell.setCellValue(loop1);	                		
+        	                    
+        	                    cell = row112.createCell(1);
+        						cell.setCellStyle(sectionStyle);
+        						cell.setCellValue(cObj1.getContract_name());
+        						
+        	                    cell = row112.createCell(2);
+        						cell.setCellStyle(sectionStyle);
+        						cell.setCellValue(cObj1.getContractor_name());    						
+        						
+        						cell = row112.createCell(3);
+        						cell.setCellStyle(sectionStyle);
+
+    	                    	if(!StringUtils.isEmpty(cObj1.getAwarded_cost()) && cObj1.getAwarded_cost()!="")
+    	                    	{
+    		                    	if(Float.parseFloat(cObj1.getAwarded_cost())>0)
+    		                    	{
+    		    						cell.setCellValue(cObj1.getAwarded_cost());
+    		                    	}
+    		                    	else
+    		                    	{
+    		    						cell.setCellValue("");
+    		                    	}
+    	                    	}
+        						
+        						
+        				        cell = row112.createCell(4);
+        						cell.setCellStyle(sectionStyle);
+        						
+    	                    	if(!StringUtils.isEmpty(cObj1.getGross_work_done()) && cObj1.getGross_work_done()!="")
+    	                    	{
+    		                    	if(Float.parseFloat(cObj1.getGross_work_done())>0)
+    		                    	{
+    		                    		cell.setCellValue(cObj1.getGross_work_done());
+    		                    	}
+    		                    	else
+    		                    	{
+    		    						cell.setCellValue("");
+    		                    	}
+    	                    	}	    						
+        						
+        						
+        						cell = row112.createCell(5);
+        						cell.setCellStyle(sectionStyle);
+        						
+    	                    	if(!StringUtils.isEmpty(cObj1.getNet_paid()) && cObj1.getNet_paid()!="")
+    	                    	{
+    		                    	if(Float.parseFloat(cObj1.getNet_paid())>0)
+    		                    	{
+    		                    		cell.setCellValue(cObj1.getNet_paid());
+    		                    	}
+    		                    	else
+    		                    	{
+    		    						cell.setCellValue("");
+    		                    	}
+    	                    	}	    						
+        						
+        						
+        						cell = row112.createCell(6);
+        						cell.setCellStyle(sectionStyle);
+        						
+    	                    	if(!StringUtils.isEmpty(cObj1.getSd_payable()) && cObj1.getSd_payable()!="")
+    	                    	{
+    		                    	if(Float.parseFloat(cObj1.getSd_payable())>0)
+    		                    	{
+    		                    		cell.setCellValue(cObj1.getSd_payable());
+    		                    	}
+    		                    	else
+    		                    	{
+    		    						cell.setCellValue("");
+    		                    	}
+    	                    	}	    						
+        						
+        						
+        						cell = row112.createCell(7);
+        						cell.setCellStyle(sectionStyle);
+        						
+    	                    	if(!StringUtils.isEmpty(cObj1.getCgst_tds()) && cObj1.getCgst_tds()!="")
+    	                    	{
+    		                    	if(Float.parseFloat(cObj1.getCgst_tds())>0)
+    		                    	{
+    		                    		cell.setCellValue(cObj1.getCgst_tds());
+    		                    	}
+    		                    	else
+    		                    	{
+    		    						cell.setCellValue("");
+    		                    	}
+    	                    	}	    						
+        						
+        						
+        						cell = row112.createCell(8);
+        						cell.setCellStyle(sectionStyle);
+        						
+    	                    	if(!StringUtils.isEmpty(cObj1.getSgst_tds()) && cObj1.getSgst_tds()!="")
+    	                    	{
+    		                    	if(Float.parseFloat(cObj1.getSgst_tds())>0)
+    		                    	{
+    		                    		cell.setCellValue(cObj1.getSgst_tds());
+    		                    	}
+    		                    	else
+    		                    	{
+    		    						cell.setCellValue("");
+    		                    	}
+    	                    	}	    						
+        						
+        						
+        						cell = row112.createCell(9);
+        						cell.setCellStyle(sectionStyle);
+        						
+    	                    	if(!StringUtils.isEmpty(cObj1.getIgst_tds()) && cObj1.getIgst_tds()!="")
+    	                    	{
+    		                    	if(Float.parseFloat(cObj1.getIgst_tds())>0)
+    		                    	{
+    		                    		cell.setCellValue(cObj1.getIgst_tds());
+    		                    	}
+    		                    	else
+    		                    	{
+    		    						cell.setCellValue("");
+    		                    	}
+    	                    	}
+    	                    	
+    	                    	/****************************************************/
+    	                    	
+    	                    	
+    	
+        						cell = row112.createCell(10);
+        						cell.setCellStyle(sectionStyle);
+        						
+    	                    	if(!StringUtils.isEmpty(cObj1.getCgst_output()) && cObj1.getCgst_output()!="")
+    	                    	{
+    		                    	if(Float.parseFloat(cObj1.getCgst_output())>0)
+    		                    	{
+    		                    		cell.setCellValue(cObj1.getCgst_output());
+    		                    	}
+    		                    	else
+    		                    	{
+    		    						cell.setCellValue("");
+    		                    	}
+    	                    	}
+    	                    	
+    	                    	
+        						cell = row112.createCell(11);
+        						cell.setCellStyle(sectionStyle);
+        						
+    	                    	if(!StringUtils.isEmpty(cObj1.getSgst_output()) && cObj1.getSgst_output()!="")
+    	                    	{
+    		                    	if(Float.parseFloat(cObj1.getSgst_output())>0)
+    		                    	{
+    		                    		cell.setCellValue(cObj1.getSgst_output());	
+    		                    	}
+    		                    	else
+    		                    	{
+    		    						cell.setCellValue("");
+    		                    	}
+    	                    	}
+    	                    	
+    	                    	
+        						cell = row112.createCell(12);
+        						cell.setCellStyle(sectionStyle);
+        						
+    	                    	if(!StringUtils.isEmpty(cObj1.getTds()) && cObj1.getTds()!="")
+    	                    	{
+    		                    	if(Float.parseFloat(cObj1.getTds())>0)
+    		                    	{
+    		                    		cell.setCellValue(cObj1.getTds());
+    		                    	}
+    		                    	else
+    		                    	{
+    		    						cell.setCellValue("");
+    		                    	}
+    	                    	}
+    	                    	
+    	                    	
+        						cell = row112.createCell(13);
+        						cell.setCellStyle(sectionStyle);
+        						
+    	                    	if(!StringUtils.isEmpty(cObj1.getMob_advance()) && cObj1.getMob_advance()!="")
+    	                    	{
+    		                    	if(Float.parseFloat(cObj1.getMob_advance())>0)
+    		                    	{
+    		                    		cell.setCellValue(cObj1.getMob_advance());
+    		                    	}
+    		                    	else
+    		                    	{
+    		    						cell.setCellValue("");
+    		                    	}
+    	                    	}
+    	                    	
+    	                    	
+        						cell = row112.createCell(14);
+        						cell.setCellStyle(sectionStyle);
+        						
+    	                    	if(!StringUtils.isEmpty(cObj1.getMob_adv_recovered()) && cObj1.getMob_adv_recovered()!="")
+    	                    	{
+    		                    	if(Float.parseFloat(cObj1.getMob_adv_recovered())>0)
+    		                    	{
+    		                    		cell.setCellValue(cObj1.getMob_adv_recovered());
+    		                    	}
+    		                    	else
+    		                    	{
+    		    						cell.setCellValue("");
+    		                    	}
+    	                    	}
+    	                    	
+    	                    	
+        						cell = row112.createCell(15);
+        						cell.setCellStyle(sectionStyle);
+        						
+    	                    	if(!StringUtils.isEmpty(cObj1.getMob_adv_pending()) && cObj1.getMob_adv_pending()!="")
+    	                    	{
+    		                    	if(Float.parseFloat(cObj1.getMob_adv_pending())>0)
+    		                    	{
+    		                    		cell.setCellValue(cObj1.getMob_adv_pending());
+    		                    	}
+    		                    	else
+    		                    	{
+    		    						cell.setCellValue("");
+    		                    	}
+    	                    	}
+    	                    	
+    	                    	
+        						cell = row112.createCell(16);
+        						cell.setCellStyle(sectionStyle);
+        						
+    	                    	if(!StringUtils.isEmpty(cObj1.getAmount_withheld()) && cObj1.getAmount_withheld()!="")
+    	                    	{
+    		                    	if(Float.parseFloat(cObj1.getAmount_withheld())>0)
+    		                    	{
+    		                    		cell.setCellValue(cObj1.getAmount_withheld());
+    		                    	}
+    		                    	else
+    		                    	{
+    		    						cell.setCellValue("");
+    		                    	}
+    	                    	}	
+                    }       
+                    }
+                	
+                	
+                }
+                RowNum++;   
+            
+            }
+            
+            }
+            
+            for(int columnIndex = 0; columnIndex < columnsNumber; columnIndex++) {
+            	executionOverviewReportSheet.setColumnWidth(columnIndex, 25 * 300);
+			}	
+            executionOverviewReportSheet.setColumnWidth(0, 5 * 300);
+            executionOverviewReportSheet.setColumnWidth(1, 35 * 300);
+            /*******************************************************************************/
+            
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
+            Date date = new Date();
+            String fileName = "Expenditure_Report_"+dateFormat.format(date);
+            
+            try{
+                /*FileOutputStream fos = new FileOutputStream(fileDirectory +fileName+".xls");
+                workBook.write(fos);
+                fos.flush();*/
+            	
+               response.setContentType("application/.csv");
+ 			   response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+ 			   response.setContentType("application/vnd.ms-excel");
+ 			   // add response header
+ 			   response.addHeader("Content-Disposition", "attachment; filename=" + fileName+".xlsx");
+ 			   
+ 			    //copies all bytes from a file to an output stream
+ 			   workBook.write(response.getOutputStream()); // Write workbook to response.
+	           workBook.close();
+ 			    //flushes output stream
+ 			    response.getOutputStream().flush();
+            	
+                
+                //attributes.addFlashAttribute("success",dataExportSucess);
+            	//response.setContentType("application/vnd.ms-excel");
+            	//response.setHeader("Content-Disposition", "attachment; filename=filename.xls");
+            	//XSSFWorkbook  workbook = new XSSFWorkbook ();
+            	// ...
+            	// Now populate workbook the usual way.
+            	// ...
+            	//workbook.write(response.getOutputStream()); // Write workbook to response.
+            	//workbook.close();
+            }catch(FileNotFoundException e){
+                e.printStackTrace();
+                logger.error("generateLandAcquisition : " + e.getMessage());
+                //attributes.addFlashAttribute("error",dataExportInvalid);
+            }catch(IOException e){
+                e.printStackTrace();
+                logger.error("generateLandAcquisition : " + e.getMessage());
+                //attributes.addFlashAttribute("error",dataExportError);
+            }
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("generateLandAcquisition : " + e.getMessage());
+		}
+		//return model;
+    }	
+	
+	
 	
 	@RequestMapping(value = "/ajax/get-expenditure", method = { RequestMethod.POST, RequestMethod.GET })
 	public void getActivitiesList(@ModelAttribute Expenditure obj, HttpServletRequest request,

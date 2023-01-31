@@ -1,5 +1,6 @@
 package com.synergizglobal.pmis.IMPLservice;
 
+import java.sql.ResultSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,6 +105,21 @@ public class ExpenditureServiceImpl implements ExpenditureService{
 	@Override
 	public List<Expenditure> getUnitsList() throws Exception {
 		return dao.getUnitsList();
+	}
+	
+	@Override
+	public ResultSet generateExpenditureReportByProject(Expenditure obj)  throws Exception{
+		return dao.generateExpenditureReportByProject(obj);
+	}
+	
+	@Override
+	public List<Expenditure> generateExpenditureReportByWork(Expenditure obj)  throws Exception
+	{
+		return dao.generateExpenditureReportByWork(obj);
+	}
+	public List<Expenditure> generateExpenditureReportByContract(Expenditure obj)  throws Exception
+	{
+		return dao.generateExpenditureReportByContract(obj);
 	}
 	
 	

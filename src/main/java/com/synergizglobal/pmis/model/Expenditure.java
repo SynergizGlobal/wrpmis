@@ -20,7 +20,8 @@ public class Expenditure {
 	cess_on_building_units,
 	est_charges_on_cess_units,
 	cgst_output_units,
-	sgst_output_units;
+	sgst_output_units,
+	awarded_cost,tds,mob_adv_recovered,mob_adv_pending;
 
 	private MultipartFile expenditureFile;
 	
@@ -587,6 +588,38 @@ public class Expenditure {
 
 	public void setSgst_output_units(String sgst_output_units) {
 		this.sgst_output_units = sgst_output_units;
+	}
+
+	public String getAwarded_cost() {
+		return awarded_cost;
+	}
+
+	public void setAwarded_cost(String awarded_cost) {
+		this.awarded_cost = awarded_cost;
+	}
+
+	public String getTds() {
+		return tds;
+	}
+
+	public void setTds(String tds) {
+		this.tds = tds;
+	}
+
+	public String getMob_adv_recovered() {
+		return mob_adv_recovered;
+	}
+
+	public void setMob_adv_recovered(String mob_adv_recovered) {
+		this.mob_adv_recovered = mob_adv_recovered;
+	}
+
+	public String getMob_adv_pending() {
+		return mob_adv_pending;
+	}
+
+	public void setMob_adv_pending(String mob_adv_pending) {
+		this.mob_adv_pending = mob_adv_pending;
 	}
 
 	

@@ -1,5 +1,6 @@
 package com.synergizglobal.pmis.Iservice;
 
+import java.sql.ResultSet;
 import java.util.List;
 
 import com.synergizglobal.pmis.model.Contract;
@@ -20,5 +21,9 @@ public interface ProjectWorkOverviewReportService {
 	public List<LandAcquisition> getLandAcquisitionStatus(LandAcquisition obj) throws Exception;
 	
 	public List<Contract> getFinanceReportContracts(Contract obj) throws Exception;
+	
+	public ResultSet getFinanceSummaryReport()  throws Exception;
+	
+	public List<Contract> getFinanceSummaryReportByProjectWorks()  throws Exception;
 	
 }

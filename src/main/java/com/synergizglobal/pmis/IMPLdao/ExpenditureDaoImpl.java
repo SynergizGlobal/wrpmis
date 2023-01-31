@@ -22,6 +22,7 @@ import org.springframework.util.StringUtils;
 import com.synergizglobal.pmis.Idao.ExpenditureDao;
 import com.synergizglobal.pmis.Idao.FormsHistoryDao;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
+import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Expenditure;
 import com.synergizglobal.pmis.model.FormHistory;
 
@@ -1021,6 +1022,280 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 		}
 		return objsList;
 	}
+
+
+	@Override
+	public ResultSet generateExpenditureReportByProject(Expenditure obj) throws Exception {
+		Connection connection = null;
+		java.sql.CallableStatement statement = null;
+		java.sql.CallableStatement statementChild = null;
+		
+        connection = dataSource.getConnection();
+		ResultSet rs = null;
+		ResultSet finalresult=null;
+		try{
+				connection = dataSource.getConnection();	
+				String qry ="select  ROW_NUMBER() OVER (ORDER BY project_name) as 'S. No',project_name,contractor_name,sum(cast(awarded_cost as float))/count(distinct contract_id) as awarded_cost,sum(cast(gross_work_done as float))/10000000 as gross_work_done, " + 
+						
+						"sum(cast(net_paid as float)) as net_paid,sum(cast(sd_payable as float)) as sd_payable,sum(cast(cgst_tds as float)) as cgst_tds,sum(cast(sgst_tds as float)) as sgst_tds, " + 
+						
+						"sum(cast(igst_tds as float)) as igst_tds,sum(cast(cgst_output as float)) as cgst_output,sum(cast(sgst_output as float)) as sgst_output, " + 
+						
+						"sum(cast(tds as float)) as tds,sum(cast(mob_advance as float)) as mob_advance,sum(cast([Mob. Adv. Recovered] as float)) as [mob_adv_recovered], " + 
+						
+						"sum(cast([Mob. Adv. Pending] as float)) as mob_adv_pending,sum(cast(amount_withheld as float)) as amount_withheld " + 
+						
+						
+						"from( " + 
+						"   " + 
+						"select project_name,'' as contractor_name,contract_id,(case when  (contract_status_fk='Not Awarded' and (select count(*) from contract_revisions where contract_id_fk=c.contract_id)>0 )   " + 
+						"        " + 
+						"      then   " + 
+						"         " + 
+						"(select isnull(revision_estimated_cost,0) from contract_revisions where contract_id_fk=c.contract_id   " + 
+						"and revision_no=(select Max(revision_no) from contract_revisions where contract_id_fk=c.contract_id))   " + 
+						"   " + 
+						"   " + 
+						"            " + 
+						"          " + 
+						"       else    " + 
+						"       cast(c.awarded_cost*c.awarded_cost_units as CHAR)   " + 
+						"          " + 
+						"       end)  as awarded_cost,isnull(gross_work_done,0)*gross_work_done_units as gross_work_done,isnull(net_paid,0)*net_paid_units as net_paid, " + 
+						
+						"	   isnull(sd_payable,0)*sd_payable_units as sd_payable, " + 
+						"	   isnull(cgst_tds,0)*cgst_tds_units as cgst_tds, " + 
+						"	   isnull(sgst_tds,0)*sgst_tds_units as sgst_tds, " + 
+						"	   isnull(igst_tds,0)*igst_tds_units as igst_tds, " + 
+						"	   isnull(cgst_output,0)*cgst_output_units as cgst_output, " + 
+						"	   isnull(sgst_output,0)*sgst_output_units as sgst_output, " + 
+						"	   isnull(contractor_income_tax,0)*contractor_income_tax as tds, " + 
+						
+						"	   (select sum(isnull(bg_value,0)*bg_value_units) from bank_guarantee where bg_type_fk='Mobilisation Advance' and contract_id_fk=e.contract_id_fk and work_id_fk=w.work_id) as mob_advance, " + 
+						"	   isnull(mob_advance,0)*mob_advance_units as 'Mob. Adv. Recovered','' as 'Mob. Adv. Pending',isnull(amount_withheld,0)*amount_withheld_units as amount_withheld " + 
+						
+						"        " + 
+						"     FROM contract c  " + 
+						"	 left join expenditure e on e.contract_id_fk=c.contract_id " + 
+						"     LEFT join work w ON c.work_id_fk = w.work_id  " + 
+						"	 LEFT join project p ON p.project_id = w.project_id_fk  " + 
+						 
+						"     WHERE contract_id IS NOT NULL ) as a  where 0=0 ";
+
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_name())) {
+					qry=qry+" and project_name=?";
+				}
+				
+				qry=qry+" group by project_name,contractor_name";
+				statement = connection.prepareCall(qry);
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_name())) {
+					statement.setString(1, obj.getProject_name());
+				}					
+				
+				rs=statement.executeQuery();
+
+
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);			
+		}
+        return rs;
+	}
+
+
+	@Override
+	public List<Expenditure> generateExpenditureReportByWork(Expenditure obj) throws Exception {
+		Connection connection = null;
+		List<Expenditure> objsList = null;
+		try{
+				connection = dataSource.getConnection();	
+				String qry =
+						"select  project_name,work_short_name,contractor_name,sum(cast(awarded_cost as float))/count(distinct contract_id) as awarded_cost,sum(cast(gross_work_done as float))/10000000 as gross_work_done, " + 
+						
+						"sum(cast(net_paid as float)) as net_paid,sum(cast(sd_payable as float)) as sd_payable,sum(cast(cgst_tds as float)) as cgst_tds,sum(cast(sgst_tds as float)) as sgst_tds, " + 
+						
+						"sum(cast(igst_tds as float)) as igst_tds,sum(cast(cgst_output as float)) as cgst_output,sum(cast(sgst_output as float)) as sgst_output, " + 
+						
+						"sum(cast(tds as float)) as tds,sum(cast(mob_advance as float)) as mob_advance,sum(cast([Mob. Adv. Recovered] as float)) as [mob_adv_recovered], " + 
+						
+						"sum(cast([Mob. Adv. Pending] as float)) as mob_adv_pending,sum(cast(amount_withheld as float)) as amount_withheld " + 
+						
+						
+						"from( " + 
+						"   " + 
+						"select work_short_name,'' as contractor_name,project_name,contract_id,voucher_type,(case when  (contract_status_fk='Not Awarded' and (select count(*) from contract_revisions where contract_id_fk=c.contract_id)>0 )   " + 
+						"        " + 
+						"      then   " + 
+						"         " + 
+						"(select isnull(revision_estimated_cost,0) from contract_revisions where contract_id_fk=c.contract_id   " + 
+						"and revision_no=(select Max(revision_no) from contract_revisions where contract_id_fk=c.contract_id))   " + 
+						"   " + 
+						"   " + 
+						"            " + 
+						"          " + 
+						"       else    " + 
+						"       cast(c.awarded_cost*c.awarded_cost_units as CHAR)   " + 
+						"          " + 
+						"       end)  as awarded_cost,isnull(gross_work_done,0)*gross_work_done_units as gross_work_done,isnull(net_paid,0)*net_paid_units as net_paid, " + 
+						
+						"	   isnull(sd_payable,0)*sd_payable_units as sd_payable, " + 
+						"	   isnull(cgst_tds,0)*cgst_tds_units as cgst_tds, " + 
+						"	   isnull(sgst_tds,0)*sgst_tds_units as sgst_tds, " + 
+						"	   isnull(igst_tds,0)*igst_tds_units as igst_tds, " + 
+						"	   isnull(cgst_output,0)*cgst_output_units as cgst_output, " + 
+						"	   isnull(sgst_output,0)*sgst_output_units as sgst_output, " + 
+						"	   isnull(contractor_income_tax,0)*contractor_income_tax as tds, " + 
+						
+						"	   (select sum(isnull(bg_value,0)*bg_value_units) from bank_guarantee where bg_type_fk='Mobilisation Advance' and contract_id_fk=e.contract_id_fk and work_id_fk=w.work_id) as mob_advance, " + 
+						"	   isnull(mob_advance,0)*mob_advance_units as 'Mob. Adv. Recovered','' as 'Mob. Adv. Pending',isnull(amount_withheld,0)*amount_withheld_units as amount_withheld " + 
+						
+						"        " + 
+						"     FROM contract c  " + 
+						"	 left join expenditure e on e.contract_id_fk=c.contract_id " + 
+						"     LEFT join work w ON c.work_id_fk = w.work_id  " + 
+						"	 LEFT join project p ON p.project_id = w.project_id_fk  " + 
+						"  " + 
+						"     WHERE contract_id IS NOT NULL ) as a  where 0=0 ";
+
+				int arrSize = 0;
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+					qry=qry+" and project_name=?";
+					arrSize++;
+				}
+				
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+					qry=qry+" and work_short_name=?";
+					arrSize++;
+				}	
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getVoucher_type())) {
+					qry=qry+" and voucher_type=?";
+					arrSize++;
+				}					
+				
+				qry=qry+" group by project_name,work_short_name,contractor_name,voucher_type";
+				Object[] pValues = new Object[arrSize];
+				int i = 0;				
+				
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+					pValues[i++] =obj.getProject_id_fk();
+				}
+				
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+					pValues[i++] =obj.getWork_id_fk();
+				}
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getVoucher_type())) {
+					pValues[i++] =obj.getVoucher_type();
+				}					
+				
+				objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Expenditure>(Expenditure.class));
+
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);			
+		}
+        return objsList;	
+	
+	}
+
+
+	@Override
+	public List<Expenditure> generateExpenditureReportByContract(Expenditure obj) throws Exception {
+		Connection connection = null;
+		List<Expenditure> objsList = null;
+		try{
+				connection = dataSource.getConnection();	
+				String qry =
+						"select  project_name,work_short_name,contract_name,contractor_name,sum(cast(awarded_cost as float))/count(distinct contract_id) as awarded_cost,sum(cast(gross_work_done as float))/10000000 as gross_work_done, " + 
+						
+						"sum(cast(net_paid as float)) as net_paid,sum(cast(sd_payable as float)) as sd_payable,sum(cast(cgst_tds as float)) as cgst_tds,sum(cast(sgst_tds as float)) as sgst_tds, " + 
+						
+						"sum(cast(igst_tds as float)) as igst_tds,sum(cast(cgst_output as float)) as cgst_output,sum(cast(sgst_output as float)) as sgst_output, " + 
+						
+						"sum(cast(tds as float)) as tds,sum(cast(mob_advance as float)) as mob_advance,sum(cast([Mob. Adv. Recovered] as float)) as [mob_adv_recovered], " + 
+						
+						"sum(cast([Mob. Adv. Pending] as float)) as mob_adv_pending,sum(cast(amount_withheld as float)) as amount_withheld " + 
+						
+						
+						"from( " + 
+						"   " + 
+						"select work_short_name,cr.contractor_name as contractor_name,project_name,contract_id,voucher_type,contract_short_name as contract_name,(case when  (contract_status_fk='Not Awarded' and (select count(*) from contract_revisions where contract_id_fk=c.contract_id)>0 )   " + 
+						"        " + 
+						"      then   " + 
+						"         " + 
+						"(select isnull(revision_estimated_cost,0) from contract_revisions where contract_id_fk=c.contract_id   " + 
+						"and revision_no=(select Max(revision_no) from contract_revisions where contract_id_fk=c.contract_id))   " + 
+						"   " + 
+						"   " + 
+						"            " + 
+						"          " + 
+						"       else    " + 
+						"       cast(c.awarded_cost*c.awarded_cost_units as CHAR)   " + 
+						"          " + 
+						"       end)  as awarded_cost,isnull(gross_work_done,0)*gross_work_done_units as gross_work_done,isnull(net_paid,0)*net_paid_units as net_paid, " + 
+						
+						"	   isnull(sd_payable,0)*sd_payable_units as sd_payable, " + 
+						"	   isnull(cgst_tds,0)*cgst_tds_units as cgst_tds, " + 
+						"	   isnull(sgst_tds,0)*sgst_tds_units as sgst_tds, " + 
+						"	   isnull(igst_tds,0)*igst_tds_units as igst_tds, " + 
+						"	   isnull(cgst_output,0)*cgst_output_units as cgst_output, " + 
+						"	   isnull(sgst_output,0)*sgst_output_units as sgst_output, " + 
+						"	   isnull(contractor_income_tax,0)*contractor_income_tax as tds, " + 
+						
+						"	   (select sum(isnull(bg_value,0)*bg_value_units) from bank_guarantee where bg_type_fk='Mobilisation Advance' and contract_id_fk=e.contract_id_fk and work_id_fk=w.work_id) as mob_advance, " + 
+						"	   isnull(mob_advance,0)*mob_advance_units as 'Mob. Adv. Recovered','' as 'Mob. Adv. Pending',isnull(amount_withheld,0)*amount_withheld_units as amount_withheld " + 
+						
+						"        " + 
+						"     FROM contract c  " + 
+						"	 left join expenditure e on e.contract_id_fk=c.contract_id " + 
+						"	 left join contractor cr on cr.contractor_id=c.contractor_id_fk " + 
+						"     LEFT join work w ON c.work_id_fk = w.work_id  " + 
+						"	 LEFT join project p ON p.project_id = w.project_id_fk  " + 
+						"  " + 
+						"     WHERE contract_id IS NOT NULL ) as a  where 0=0 ";
+						
+
+				
+				int arrSize = 0;
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+					qry=qry+" and project_name=?";
+					arrSize++;
+				}
+				
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+					qry=qry+" and work_short_name=?";
+					arrSize++;
+				}
+				
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getVoucher_type())) {
+					qry=qry+" and voucher_type=?";
+					arrSize++;
+				}				
+				
+				qry=qry+" group by project_name,work_short_name,contractor_name,voucher_type,contract_name";
+				Object[] pValues = new Object[arrSize];
+				int i = 0;				
+				
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+					pValues[i++] =obj.getProject_id_fk();
+				}
+				
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+					pValues[i++] =obj.getWork_id_fk();
+				}	
+				
+				if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getVoucher_type())) {
+					pValues[i++] =obj.getVoucher_type();
+				}					
+				
+				objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Expenditure>(Expenditure.class));
+
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);			
+		}
+        return objsList;	
+	}
+	
 
 }
 	

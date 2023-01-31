@@ -1,5 +1,6 @@
 package com.synergizglobal.pmis.Idao;
 
+import java.sql.ResultSet;
 import java.util.List;
 
 import com.synergizglobal.pmis.model.Expenditure;
@@ -41,5 +42,9 @@ public interface ExpenditureDao {
 	public List<Expenditure> getExpendituresListForExport(Expenditure obj) throws Exception;
 
 	public List<Expenditure> getUnitsList() throws Exception;
+
+	public ResultSet generateExpenditureReportByProject(Expenditure obj)  throws Exception;
+	public List<Expenditure> generateExpenditureReportByWork(Expenditure obj)  throws Exception;
+	public List<Expenditure> generateExpenditureReportByContract(Expenditure obj)  throws Exception;
 
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.synergizglobal.pmis.Idao.ProjectWorkOverviewReportDao;
 import com.synergizglobal.pmis.Iservice.ProjectWorkOverviewReportService;
+import java.sql.ResultSet;
 import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.LandAcquisition;
 import com.synergizglobal.pmis.model.Work;
@@ -47,5 +48,14 @@ public class ProjectWorkOverviewReportServiceImpl implements ProjectWorkOverview
 	public List<Contract> getFinanceReportContracts(Contract obj) throws Exception
 	{
 		return dao.getFinanceReportContracts(obj);
+	}
+	public ResultSet getFinanceSummaryReport()  throws Exception
+	{
+		return dao.getFinanceSummaryReport();
+	}
+	
+	public List<Contract> getFinanceSummaryReportByProjectWorks()  throws Exception
+	{
+		return dao.getFinanceSummaryReportByProjectWorks();
 	}
 }

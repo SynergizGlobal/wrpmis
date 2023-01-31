@@ -1,5 +1,6 @@
 package com.synergizglobal.pmis.Idao;
 
+import java.sql.ResultSet;
 import java.util.List;
 
 import com.synergizglobal.pmis.model.Contract;
@@ -25,6 +26,8 @@ public interface ProjectWorkOverviewReportDao {
 
 	public List<Contract> getFinanceReportContracts(Contract obj) throws Exception;
 	
+	public ResultSet getFinanceSummaryReport() throws Exception;
 
+	public List<Contract> getFinanceSummaryReportByProjectWorks() throws Exception;
 
 }

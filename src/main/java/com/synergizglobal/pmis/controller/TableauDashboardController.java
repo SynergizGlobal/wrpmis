@@ -128,7 +128,7 @@ public class TableauDashboardController {
 					url = vo.getTableauUrl().split(":8000/");
 					//baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", trustedTokenId);
 					UrlGenerator ugObj = new UrlGenerator();
-					String baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", "10.203.10.158");
+					String baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", "pmis.mrvc.gov.in");
 					baseUrl = baseUrl.replace("{1}", trustedTokenId);
 				//}
 				
@@ -210,7 +210,7 @@ public class TableauDashboardController {
 					url = vo.getTableauUrl().split(":8000/");
 					//baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", trustedTokenId);
 					UrlGenerator ugObj = new UrlGenerator();
-					String baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", "10.203.10.158");
+					String baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", "pmis.mrvc.gov.in");
 					baseUrl = baseUrl.replace("{1}", trustedTokenId);
 				//}
 				
@@ -274,7 +274,7 @@ public class TableauDashboardController {
 					url = vo.getTableauUrl().split(":8000/");
 					//baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", trustedTokenId);
 					UrlGenerator ugObj = new UrlGenerator();
-					String baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", "10.203.10.158");
+					String baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", "pmis.mrvc.gov.in");
 					baseUrl = baseUrl.replace("{1}", trustedTokenId);
 				//}
 				
@@ -339,7 +339,7 @@ public class TableauDashboardController {
 					url = vo.getTableauUrl().split(":8000/");
 					//baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", trustedTokenId);
 					UrlGenerator ugObj = new UrlGenerator();
-					String baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", "10.203.10.158");
+					String baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", "pmis.mrvc.gov.in");
 					baseUrl = baseUrl.replace("{1}", trustedTokenId);
 				//}
 				
@@ -404,7 +404,7 @@ public class TableauDashboardController {
 					url = vo.getTableauUrl().split(":8000/");
 					//baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", trustedTokenId);
 					UrlGenerator ugObj = new UrlGenerator();
-					String baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", "10.203.10.158");
+					String baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", "pmis.mrvc.gov.in");
 					baseUrl = baseUrl.replace("{1}", trustedTokenId);
 				//}
 				

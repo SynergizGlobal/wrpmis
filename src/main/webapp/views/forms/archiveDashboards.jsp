@@ -466,7 +466,7 @@
 		            async: false,
 		            dataType: 'json',
 		            success: function (data){
-		            	var dashboard_url = data.dashboard_url+"&&embedded=true";
+		            	var dashboard_url = data.dashboard_url+"&embed=true";
 		            	dashboard_url=dashboard_url.replace("trusted/-1/", "");
 		         	    $("#dashboardOpen").attr("src",dashboard_url);
 		            },error: function(xhr){
@@ -763,7 +763,7 @@
 	            	}else if($.trim(dashboard_url) == 'wbs-tree'){
 	            		dashboard_url = "<%=request.getContextPath()%>/"+dashboard_url+"/${work_id}";
 	            	}
-	            	var dashboard_url = dashboard_url+"&&embedded=true";
+	            	var dashboard_url = dashboard_url+"&embed=true";
 	            	dashboard_url=dashboard_url.replace("trusted/-1/", "");
 	         	    $("#dashboardOpen").attr("src",dashboard_url);
 	         	   	show_left_menu = data.show_left_menu;

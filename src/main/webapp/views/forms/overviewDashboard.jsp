@@ -705,6 +705,7 @@
 	            	}else if($.trim(dashboard_url) == 'wbs-tree'){
 	            		dashboard_url = "<%=request.getContextPath()%>/"+dashboard_url+"/${work_id}";
 	            	}
+	            	dashboard_url=dashboard_url.replace("trusted/-1/", "");
 	         	    $("#dashboardOpen").attr("src",dashboard_url);
 	         	   	show_left_menu = data.show_left_menu;
 	         	    $(".page-loader").hide();

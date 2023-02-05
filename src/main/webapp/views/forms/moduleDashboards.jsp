@@ -678,8 +678,9 @@
 	            	}else if($.trim(dashboard_url) == 'wbs-tree'){
 	            		dashboard_url = "<%=request.getContextPath()%>/"+dashboard_url+"/${work_id}";
 	            	}
-	            	var dashboard_url = dashboard_url+"&embed=true";
 	            	dashboard_url=dashboard_url.replace("trusted/-1/", "");
+	            	dashboard_url=dashboard_url.replace("&:origin=viz_share_link", "&:embed=y&:origin=viz_share_link");
+
 	         	    $("#dashboardOpen").attr("src",dashboard_url);
 	         	   	show_left_menu = data.show_left_menu;
 	         	    $(".page-loader").hide();

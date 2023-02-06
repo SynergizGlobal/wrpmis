@@ -466,8 +466,7 @@
 		            async: false,
 		            dataType: 'json',
 		            success: function (data){
-		            	var dashboard_url = data.dashboard_url+"&embed=true";
-		            	dashboard_url=dashboard_url.replace("trusted/-1/", "");
+		            	var dashboard_url = data.dashboard_url;
 		         	    $("#dashboardOpen").attr("src",dashboard_url);
 		            },error: function(xhr){
 		                alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
@@ -763,8 +762,6 @@
 	            	}else if($.trim(dashboard_url) == 'wbs-tree'){
 	            		dashboard_url = "<%=request.getContextPath()%>/"+dashboard_url+"/${work_id}";
 	            	}
-	            	dashboard_url=dashboard_url.replace("trusted/-1/", "");
-	            	dashboard_url=dashboard_url.replace("&:origin=viz_share_link", "&:embed=y&:origin=viz_share_link");
 	         	    $("#dashboardOpen").attr("src",dashboard_url);
 	         	   	show_left_menu = data.show_left_menu;
 	         	    $(".page-loader").hide();

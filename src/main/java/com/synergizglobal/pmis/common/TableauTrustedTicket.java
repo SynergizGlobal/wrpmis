@@ -21,7 +21,7 @@ public class TableauTrustedTicket {
 		String getResponseString = "";
 		
 		
-		String postURL = "http://"+"203.153.40.44"+":8000/trusted"; 
+		String postURL = "http://"+"10.203.10.158"+":8000/trusted"; 
 		String username = "SynTrack"; 
 		//String server = "infoviz.syntrackpro.com"; 
 		//String clientIp = "www.syntrackpro.com";
@@ -33,8 +33,8 @@ public class TableauTrustedTicket {
 		}else {
 			postURL = "http://"+ugObj.getIpAddress()+":8000/trusted"; 
 			username = "SynTrack"; */
-			String server = "203.153.40.44"+":8000";
-			String clientIp = "203.153.40.44";
+			String server = "10.203.10.158"+":8000";
+			String clientIp = "10.203.10.158";
 		//}		 
         
         String target_site = "";//Optional

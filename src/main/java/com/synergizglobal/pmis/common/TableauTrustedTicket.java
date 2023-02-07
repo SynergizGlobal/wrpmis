@@ -26,16 +26,16 @@ public class TableauTrustedTicket {
 		String clientIp = "www.syntrackpro.com";*/
         
 		
-		String postURL = "http://"+ugObj.getIpAddress()+":8000/trusted"; 
+		/*String postURL = "http://"+ugObj.getIpAddress()+":8000/trusted"; 
 		String username = "SynTrack"; 
 		String server = ugObj.getIpAddress()+":8000";
-		String clientIp = ugObj.getIpAddress();
+		String clientIp = ugObj.getIpAddress();*/
 		 
 		
-		/*String postURL = "http://203.153.40.44:8000/trusted";
+		String postURL = "http://203.153.40.44:8000/trusted";
 		String username = "SynTrack";		
 		String server = "203.153.40.44:8000"; 
-		String clientIp = "203.153.40.44";*/
+		String clientIp = "203.153.40.44";
 		 
         
         String target_site = "";//Optional
@@ -46,7 +46,7 @@ public class TableauTrustedTicket {
 			params.add(new BasicNameValuePair("username", username));
 			params.add(new BasicNameValuePair("server", server));
 			params.add(new BasicNameValuePair("client_ip", clientIp));
-			params.add(new BasicNameValuePair("target_site", target_site));
+			params.add(new BasicNameValuePair("target_site", clientIp));
 
 			UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, "UTF-8");
 			post.setEntity(ent);

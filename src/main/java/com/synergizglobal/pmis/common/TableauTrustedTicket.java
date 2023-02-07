@@ -46,7 +46,7 @@ public class TableauTrustedTicket {
 			params.add(new BasicNameValuePair("username", username));
 			params.add(new BasicNameValuePair("server", server));
 			params.add(new BasicNameValuePair("client_ip", clientIp));
-			params.add(new BasicNameValuePair("target_site", clientIp));
+			params.add(new BasicNameValuePair("target_site", target_site));
 
 			UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, "UTF-8");
 			post.setEntity(ent);

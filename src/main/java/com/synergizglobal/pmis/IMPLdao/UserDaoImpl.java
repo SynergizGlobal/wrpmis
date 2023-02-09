@@ -377,13 +377,20 @@ public class UserDaoImpl implements UserDao{
 		String user_id = null;;
 		try{
 			connection = dataSource.getConnection();
-			String maxIdQry = "SELECT CONCAT(SUBSTRING(user_id, 1, LEN(user_id)-7),'_"+role_code+"_',substring(cast(MAX(SUBSTRING(user_id, 9, LEN(user_id)))+1 as varchar),0,3) ) AS maxId \r\n" + 
-					"					FROM [user] WHERE user_id LIKE 'PMIS_%' group by user_id";
-			
-			stmt = connection.prepareStatement(maxIdQry);
-			rs = stmt.executeQuery();  
-			if(rs.next()) {
-				user_id = rs.getString("maxId");
+			if(getUserCount(role_code)>0)
+			{
+				String maxIdQry = "SELECT TOP 1 CONCAT(SUBSTRING(user_id, 1, 4),'_"+role_code+"_',substring(cast(MAX(SUBSTRING(user_id, 9, LEN(user_id)))+1 as varchar),0,3) ) AS maxId \r\n" + 
+						"					FROM [user] WHERE user_id LIKE 'PMIS_"+role_code+"_%' group by user_id";
+				
+				stmt = connection.prepareStatement(maxIdQry);
+				rs = stmt.executeQuery();  
+				if(rs.next()) {
+					user_id = rs.getString("maxId");
+				}
+			}
+			else
+			{
+				user_id = "PMIS_"+role_code+"_001";
 			}
 		}catch(Exception e){ 			
 			throw new Exception(e);
@@ -393,6 +400,19 @@ public class UserDaoImpl implements UserDao{
 		}
 		return user_id;
 	}
+	
+	
+	private int getUserCount(String role_code) throws Exception{
+		int cnt=0;
+		try {
+			String qry = "SELECT count(*) FROM [user] WHERE user_id LIKE 'PMIS_"+role_code+"_%' group by user_id";
+			cnt = (int) jdbcTemplate.queryForObject(qry, int.class);
+		} catch (Exception e) {
+			throw new Exception(e);
+		}		
+		return cnt;
+	}	
+	
 
 	@Override
 	public User getUser(User obj) throws Exception {

@@ -405,7 +405,7 @@ public class UserDaoImpl implements UserDao{
 	private int getUserCount(String role_code) throws Exception{
 		int cnt=0;
 		try {
-			String qry = "SELECT count(*) FROM [user] WHERE user_id LIKE 'PMIS_"+role_code+"_%' group by user_id";
+			String qry = "SELECT count(*) FROM [user] WHERE user_id LIKE 'PMIS_"+role_code+"_%'";
 			cnt = (int) jdbcTemplate.queryForObject(qry, int.class);
 		} catch (Exception e) {
 			throw new Exception(e);

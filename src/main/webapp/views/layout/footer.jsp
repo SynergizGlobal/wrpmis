@@ -134,7 +134,7 @@
 </head>
 <body>
 <!-- footer goes here -->
-  <div class="footer-copyright blue lighten-5 bottom">
+  <div class="footer-copyright blue lighten-5 bottom" style="height:60px;">
     <div class="container">
     	<c:if test="${sessionScope.IS_TEST_ENV_ENABLED eq 'true' }">
 	    	<span style="width: 15%;">

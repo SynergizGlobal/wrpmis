@@ -16,7 +16,7 @@
 	/* body .brand-logo img{
 	     		width: 53rem! important;
 	     	} */
-	.nav-wrapper{z-index: 1000;padding-left: 0;}
+	.nav-wrapper{z-index: 1000;padding-left: 0;height: 68px !important;}
 	nav .menu-active, nav .menu-active.blue {
 		/* background-color: #f56661 !important; */
 		background: rgb(101, 150, 255, .75) !important;
@@ -106,7 +106,7 @@
 		}
      /*  textarea auto height code ends here */
      	.brand-logo{width: 15%;}
-     	.brand-logo img{width: 3rem! important;}
+     	.brand-logo img{width: 4.5rem! important;}
      
      .markread{float: right;
 			    background-color: rgba(255, 255, 255, 0.6);
@@ -126,7 +126,7 @@
      @media only screen and (max-width:1400px) and (min-width:1024px) {
      	nav ul a{
      		padding : 0 5px;
-     		font-size:.86rem;
+     		font-size:.96rem;
      	}
      	.notification{
      		width:54px;     		
@@ -136,12 +136,12 @@
      		top:0;
      	}
      	.brand-logo img{
-     		width: 3.5rem! important;
+     		width: 4.5rem! important;
      	}
      }
      @media(max-width: 912px){
      	.brand-logo{width: 20%;}
-     	.brand-logo img{width: 3rem! important;}
+     	.brand-logo img{width: 4.5rem! important;}
      	.accordions{display:flex !important;}
      	.notifications_group{height: 52em;}
      	#tech_assist_ul{display:block;}
@@ -168,13 +168,15 @@
 	@media(max-width: 1920px){
 			#CurrentDate{
 			 	left:3.5rem !important;
-			 	font-size:.95rem !important;
+			 	font-size:20px !important;
 			}
 		}
 			 #CurrentDate{
-			 	left:4rem !important;
-			 	font-size:.95rem !important;
+			 	font-size:20px !important;
 			}
+			
+
+			
 	.accordions{
 	    right: 8em;
 	    position: absolute;
@@ -215,8 +217,8 @@
 	    height: 23px;
 	}
 	.material-icons-outlined{
-		font-size: 27px;
-		width: 30px;
+		font-size: 30px;
+		width: 35px;
 	}
 	.accordion__icon {
 	  margin-right: .63rem;
@@ -298,7 +300,7 @@
 	<div class="nav-wrapper blue lighten-1">
 		<div class="">
 			<a href="<%=request.getContextPath() %>/home" class="brand-logo fs"><img
-				src="/pmis/resources/images/mrvclogo(1).png" alt="Logo"> <span class="brand-text">MRVC PMIS</span> <span id="CurrentDate"></span>
+				src="/pmis/resources/images/mrvcnewhome.png" alt="Logo"> <span class="brand-text">MRVC PMIS</span> <span id="CurrentDate"></span>
 			</a> 
 			<a href="<%=request.getContextPath() %>/home"
 				data-target="mobile-demo" class="sidenav-trigger"> 

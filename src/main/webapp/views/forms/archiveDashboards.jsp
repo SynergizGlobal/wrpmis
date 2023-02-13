@@ -202,6 +202,16 @@
 		    /* opacity:0.4!important; */
 		 }
 		 
+.ui-accordion .ui-accordion-header
+{
+font-size:24px ;
+}
+
+.ui-helper-reset		
+{
+font-size:24px ;
+}		 
+		 
 	</style>
 	
 </head>

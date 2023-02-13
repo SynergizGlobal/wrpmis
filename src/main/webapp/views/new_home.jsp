@@ -46,14 +46,14 @@
 				  background: #fff;
 				  margin: 30px auto;
 				  /* position: relative; */
-				  height: 60px;
-				  width: 210px;
+				  height: 80px;
+				  width: 250px;
 				  border-radius: 20px;
 				}
 				.diamond span {
 				  display: inline-block;
-				  width: 160px;
-				  font-size: 18px;
+				  width: 200px;
+				  font-size: 24px;
 				  font-weight: bold;
 				}
 				.diamond:before,
@@ -216,6 +216,7 @@
             /* background: #1565C0; */
             vertical-align: middle;
             width: 100%;
+            font-size:40px;
         }
 		/* .heading h3:before,
 			.heading h3:after {
@@ -245,12 +246,12 @@
 		 
 		@media(max-width: 1560px){
 			.heading h3 {
-                font-size: 32px;
+                font-size: 40px;
             }
 		} 
         @media(max-width: 1366px) {
             .heading h3 {
-                font-size: 24px;
+                font-size: 40px;
             }
             .map-btn-holder .fa {
             font-size: 3.3rem;
@@ -399,7 +400,7 @@
 
         @media(max-width: 1366px) {
             .heading h3 {
-                font-size: 24px;
+                font-size: 40px;
             }
             .map-btn-holder .btn{height: 4rem;padding: 8px;}
         }
@@ -477,7 +478,7 @@
             text-align: center;
         }
          @media(max-width: 1024px){
-        	.heading h3{font-size: 18px;}
+        	.heading h3{font-size: 40px;}
         }
         @media(max-width: 768px){
         	.heading h3{width: 90%;}
@@ -513,7 +514,7 @@
 			    left: 100%;
 			    border-left-color: #1565C0;
 			} */
-        	.diamond{height: 70px;margin: 5px auto;width: 155px;}
+        	.diamond{height: 80px;margin: 7px auto;width: 165px;}
         	.diamond:before, .diamond:after{
         		border: 25px solid transparent;
         	}
@@ -681,24 +682,34 @@
 }
 .btn-menu{
 	position:relative;
-	margin-top: -4em;
+	margin-top: -6em;
 	
 }
 @media(max-width: 1920px){
 .btn-menu{
 	position:relative;
-	margin-top: -1em;
+	margin-top: -3em;
 	z-index: 11;
 }
 }
 @media(max-width: 1560px){
 .btn-menu{
 	position:relative;
-	margin-top: -4em;
+	margin-top: -6em;
 }
 }
  body {
 	 background: linear-gradient(to top, rgba(255, 255, 255, 1), rgba(101, 150, 255, .75));
+	 
+}
+.bg{
+	    background-image: url(/pmis/resources/images/new-background-railway-3.png);
+	    background-repeat: no-repeat;
+	    position: absolute;
+	    width: 100%;
+	    height: 41%;
+	    top: 53.5%;
+	    background-size: contain;
 }
 /* .gr-bg{
 	background: linear-gradient(to top, rgba(255, 255, 255, 1), rgba(101, 150, 255, .75));
@@ -707,7 +718,7 @@
     width: 100%;
 } */
 
- .crane__list, .skyscrappers__list, .tree__container {
+/*  .crane__list, .skyscrappers__list, .tree__container {
 	 position: absolute;
 	 width: 100%;
 	 bottom: 0;
@@ -1126,7 +1137,7 @@
 	 70%, 100% {
 		 transform: rotateY(45deg) translateX(-50%);
 	}
-}
+} */
 .tran{
 	overflow: hidden !important;
 	position: absolute;
@@ -1134,11 +1145,11 @@
     bottom: 2.5em;
 }
 .trans{
-	width: 150px;
+	width: 300px;
 }
 .slide-right {
-	-webkit-animation: slide-right 9s ease-in-out infinite alternate-reverse both;
-	        animation: slide-right 9s ease-in-out infinite alternate-reverse both;
+	-webkit-animation: slide-right 15s ease-in-out infinite alternate-reverse both;
+	        animation: slide-right 15s ease-in-out infinite alternate-reverse both;
 	        overflow: hidden;
 }
 @-webkit-keyframes slide-right {
@@ -1180,8 +1191,8 @@
 
     <!-- li ends  -->
 
-   <!-- <div class="bg" id="train"></div> -->
-   	<main>
+   
+   	<!-- <main>
   
   <section class="city-stuff">
     <ul class="skyscrappers__list">
@@ -1255,7 +1266,7 @@
       <li class="crane__item crane-arm"></li>
     </ul>
   </section>
-</main>
+</main> -->
    		<div class="container">
 	        <div class="row">
 	            <div class="col s12 m12 l12">
@@ -1263,18 +1274,18 @@
 	            	<div class="col s1 m1 l1"></div>
 	            		<div class="col s2 m1 l1">
 	            		<div class="heading">
-	            			<img src="/pmis/resources/images/mrvclogo.png" alt="Logo">
+	            			<br><br><br><img src="/pmis/resources/images/mrvclogo.png" alt="Logo">
 	            		</div>
 	            	</div>
 	                <div class="col l8 m8 s7">
 	                	<div class="heading color-change-2x">
 	                    <center>
 	                    
-	                    <h3 class="tracking-in-expand-fwd">Mumbai Railway Vikas Corporation Limited</h3></center>
+	                    <br><br><br><h3 class="tracking-in-expand-fwd">Mumbai Railway Vikas Corporation</h3></center>
 	                </div>
 	                </div>
 	                <div class="col l1 m1 s1">
-	                <div class="map-btn-holder">
+	                <div class="map-btn-holder"><br><br><br>
 	                        <a class="waves-effect waves-light btn modal-trigger" href="#mapmodal" title="click to see map">
 	                            <!-- <span class="material-icons">map</span> -->
 	                            <i class="fa fa-globe"></i>
@@ -1285,13 +1296,13 @@
 	                                <h4 class="modal-header">Map with MUTP 3A Corridors <span
 	                                        class="right modal-action modal-close"><span
 	                                            class="material-icons">close</span></span></h4>
-	                                <img src="/pmis/resources/images/final_map.png" alt="Map Image" width="100%">
+	                               <img src="/pmis/resources/images/final_map.png" alt="Map Image" width="100%">
 	                            </div>
 	                        </div>
 	                    </div>
 	                    </div>
 	            	</div>
-	                <div class="btn-menu">
+	                <div class="btn-menu" style="vertical-align:middle;">
 	                    <%-- <ul>
 	                    	<c:forEach var="project" items="${projects }">
 		                        <a href="javascript:getProjectOverview('${project.project_id }');"><li class="col s6 m4 l4">
@@ -1331,6 +1342,7 @@
 	            </div>
 	        </div>
 	    </div>
+	    <div class="bg" id="train"></div>
    <div class="tran">
    	 <div class="row">
    	 	<img src="/pmis/resources/images/train.png" alt="Logo" class="trans slide-right">

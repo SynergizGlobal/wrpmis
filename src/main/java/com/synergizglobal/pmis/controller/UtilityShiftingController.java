@@ -1539,11 +1539,6 @@ public class UtilityShiftingController {
 									if(!StringUtils.isEmpty(val)) { pObj.setUtility_shifting_id(val);}
 									
 									val = formatter.formatCellValue(row2.getCell(1)).trim();
-									if(!StringUtils.isEmpty(val)) { pObj.setProgress_date(val);}
-									
-									
-									
-									val = formatter.formatCellValue(row2.getCell(2)).trim();
 									
 									if(!StringUtils.isEmpty(val)) { 
 										if(val.contains("/")) 
@@ -1552,7 +1547,7 @@ public class UtilityShiftingController {
 											String dateString24 = null;
 											date24 = formatter3.parse(val);
 											dateString24 = formatter2.format(date24);										
-											pObj.setProgress_of_work(dateString24);
+											pObj.setProgress_date(dateString24);
 											 
 										}
 										else
@@ -1562,11 +1557,14 @@ public class UtilityShiftingController {
 											String dateString24 = null;
 											date24 = formatter1.parse(val);
 											dateString24 = formatter2.format(date24);
-											pObj.setProgress_of_work(dateString24);
+											pObj.setProgress_date(dateString24);
 											
 										}
 										
-									}									
+									}
+									
+									val = formatter.formatCellValue(row2.getCell(2)).trim();
+									pObj.setProgress_of_work(val);									
 									
 									pObj.setProgress_date(DateParser.parse(pObj.getProgress_date()));
 								

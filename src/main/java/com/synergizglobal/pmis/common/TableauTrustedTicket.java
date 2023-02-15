@@ -38,7 +38,7 @@ public class TableauTrustedTicket {
 		String clientIp = ugObj.getIpAddress();
 		 
         
-        String target_site = ugObj.getIpAddress();//Optional
+		String target_site = "203.153.40.44";//Optional
 		try {
 			HttpPost post = new HttpPost(postURL);
 

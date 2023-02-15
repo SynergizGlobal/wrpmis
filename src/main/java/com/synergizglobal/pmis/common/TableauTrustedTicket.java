@@ -30,13 +30,33 @@ public class TableauTrustedTicket {
 		String username = "SynTrack"; 
 		String server = ugObj.getIpAddress()+":8000";
 		String clientIp = ugObj.getIpAddress();*/
-		 
 		
-		String postURL = "http://203.153.40.44:8000/trusted";
-		String username = "SynTrack";		
-		String server = "203.153.40.44:8000"; 
-		String clientIp = "203.153.40.44";
-		 
+		String postURL = "d";
+		String username = "";		
+		String server = ""; 
+		String clientIp = "";			
+		
+		if(ugObj.getIpAddress().compareTo("203.153.40.44")==0)
+		{
+			 postURL = "http://203.153.40.44:8000/trusted";
+			 username = "SynTrack";		
+			 server = "203.153.40.44:8000"; 
+			 clientIp = "203.153.40.44";		
+		}
+		else if(ugObj.getIpAddress().compareTo("10.203.10.158")==0)
+		{
+			 postURL = "http://10.203.10.158:8000/trusted";
+			 username = "SynTrack";		
+			 server = "10.203.10.158:8000"; 
+			 clientIp = "10.203.10.158";					
+		}
+		else if(ugObj.getIpAddress().compareTo("pmis.mrvc.gov.in")==0)
+		{
+			 postURL = "http://pmis.mrvc.gov.in:8000/trusted";
+			 username = "SynTrack";		
+			 server = "pmis.mrvc.gov.in:8000"; 
+			 clientIp = "pmis.mrvc.gov.in";					
+		}
         
         String target_site = "";//Optional
 		try {

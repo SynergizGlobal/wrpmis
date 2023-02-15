@@ -1380,9 +1380,9 @@ public class UtilityShiftingController {
 	private  String[]  uploadUtilityShifting(UtilityShifting obj, String userId, String userName) throws Exception {
 		UtilityShifting us = null;
 	
-		/*SimpleDateFormat formatter1 = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat formatter1 = new SimpleDateFormat("dd-MM-yyyy");
 		SimpleDateFormat formatter3 = new SimpleDateFormat("MM/dd/yy");
-		SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");*/		
+		SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");	
 		
 		List<UtilityShifting> ussList = new ArrayList<UtilityShifting>();
 		String[] result = new String[5];
@@ -1541,8 +1541,32 @@ public class UtilityShiftingController {
 									val = formatter.formatCellValue(row2.getCell(1)).trim();
 									if(!StringUtils.isEmpty(val)) { pObj.setProgress_date(val);}
 									
+									
+									
 									val = formatter.formatCellValue(row2.getCell(2)).trim();
-									if(!StringUtils.isEmpty(val)) { pObj.setProgress_of_work(val);}	
+									
+									if(!StringUtils.isEmpty(val)) { 
+										if(val.contains("/")) 
+										{
+											Date date24 = null;
+											String dateString24 = null;
+											date24 = formatter3.parse(val);
+											dateString24 = formatter2.format(date24);										
+											pObj.setProgress_of_work(dateString24);
+											 
+										}
+										else
+										{
+										
+											Date date24 = null;
+											String dateString24 = null;
+											date24 = formatter1.parse(val);
+											dateString24 = formatter2.format(date24);
+											pObj.setProgress_of_work(dateString24);
+											
+										}
+										
+									}									
 									
 									pObj.setProgress_date(DateParser.parse(pObj.getProgress_date()));
 								

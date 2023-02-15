@@ -58,6 +58,20 @@ public class OverviewDashboardController {
 		return model;
 	}
 	
+	@RequestMapping(value="/ta-dashboard",method= {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView taDashboard(HttpSession session) {
+		ModelAndView model = new ModelAndView();
+		try {
+		    model.setViewName(PageConstants.taDashboard);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("taDashboard : " + e.getMessage());
+		}
+		return model;
+	}	
+	
+	
+	
 	@RequestMapping(value="/work-overview-dashboard/{work_id}",method= {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView overviewDashboardByWork(@PathVariable("work_id") String work_id,HttpSession session,HttpServletRequest request) {
 		ModelAndView model = new ModelAndView();

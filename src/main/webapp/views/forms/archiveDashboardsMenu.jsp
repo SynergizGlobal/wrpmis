@@ -202,12 +202,12 @@
 		 
 .ui-accordion .ui-accordion-header
 {
-font-size:24px ;
+font-size:22px ;
 }
 
 .ui-helper-reset		
 {
-font-size:24px ;
+font-size:22px ;
 }		 
 		 
 	</style>

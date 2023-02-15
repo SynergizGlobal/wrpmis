@@ -37,4 +37,9 @@ public class ModuleDashboardsServiceImpl implements ModuleDashboardsService{
 	public boolean getDashboardLeftMenuAccess(OverviewDashboard dObj) throws Exception{
 		return dao.getDashboardLeftMenuAccess(dObj);
 	}
+
+	@Override
+	public List<OverviewDashboard> getTALeftNavNodes(OverviewDashboard obj) throws Exception {
+		return dao.getTALeftNavNodes(obj);
+	}
 }

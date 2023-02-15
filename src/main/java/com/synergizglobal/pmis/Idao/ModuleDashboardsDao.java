@@ -15,4 +15,6 @@ public interface ModuleDashboardsDao {
 	public List<OverviewDashboard> getFilteredOptions(OverviewDashboard dObj) throws Exception;
 	
 	public boolean getDashboardLeftMenuAccess(OverviewDashboard dObj) throws Exception;
+
+	public List<OverviewDashboard> getTALeftNavNodes(OverviewDashboard obj) throws Exception;
 }

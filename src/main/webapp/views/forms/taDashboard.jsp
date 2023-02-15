@@ -4,7 +4,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Overview Dashboard - Reports - PMIS</title>
+	<title>TA Dashboard - Reports - PMIS</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
 	<link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
@@ -44,12 +44,14 @@
 		.ui-accordion .ui-accordion-content{
 			padding: 0em 0em 0 2.2em;
 			height: auto !important;
+			background: transparent;
 		}
 		.ui-accordion-content p{
 			margin: 5px 0; 
 		}
 		.ui-accordion-content p a{
 			margin: 5px 0; 
+			background-color: #fff;
 		}
 		.ds-none{display:none !important;}
 		.non-active{background: #fff;color: #000 !important;}
@@ -67,6 +69,7 @@
 		
 		.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited {
 		   color:#000!important;
+		   bac
 		}
 
 		.main-menu-collapse{
@@ -158,6 +161,7 @@
 		 .timeline_body{
 		 	border:3px solid #4498d3dd;
 		 	border-radius:14px;
+		 	background-color: #fff;
 		 }
 		 .filterHolder{
 		 	max-width:100%;
@@ -170,6 +174,7 @@
 		 .filterHolder label{
 		 	margin-top:-.4rem;
 		 	display:block;
+		 	color: #000;
 		 }
 		 .clearHolder{
 		 	padding: .3rem .6rem;
@@ -201,6 +206,12 @@
 		    pointer-events:none;
 		    /* opacity:0.4!important; */
 		 }
+		 body{
+		 	background:linear-gradient(to top, rgba(255, 255, 255, 1), rgba(101, 150, 255, .75));
+		 }
+		 .filterHolder{
+		 	background-color: #fff !important;
+		 }
 		 
 .ui-accordion .ui-accordion-header
 {
@@ -210,47 +221,23 @@ font-size:22px ;
 .ui-helper-reset		
 {
 font-size:22px ;
-}		 
+}			 
 		 
 	</style>
 	
 </head>
-<body style="background-color:#fff;">
+<body>
 	<!-- header included -->
 	<jsp:include page="../layout/header.jsp"></jsp:include>
 	
 	<!-- model 1 which closes entire navigation -->
 	
-	<div class="" style="margin-top:2rem;">
+	<div class="gr-bl" style="margin-top:2rem;">
 	    <div class="row">
 	        <div class="col s12 m2" id="menu-item-holder">
 	             <div class=" main-menu-collapse">
 	             	<div id="accordion">
-	                 <!-- <h3 class="non-active bg-a"><a href="#">Section 1</a></h3>
-	                 	  <div class="ds-none">
-	                 		<p></p>
-	                 	  </div>
-						  <h3 class="bg-a"><a href="#">Section 2</a></h3>
-						  <div>
-						    <p>
-						    <a href="#" class="bd-bl bg-a">link1</a>
-						    <a href="#" class="bd-bl bg-a">link2</a>
-						    </p>
-						  </div>
-						  <h3 class="bg-a"><a href="#">Section 3</a></h3>
-						  <div>
-						    <p>
-						    <a href="#" class="bd-bl bg-a">link1</a>
-						    <a href="#" class="bd-bl bg-a">link2</a>
-						    </p>
-						  </div>
-						  <h3 class="bg-a"><a href="#">Section 4</a></h3>
-						  <div>
-						    <p>
-						    <a href="#" class="bd-bl bg-a">link1</a>
-						    <a href="#" class="bd-bl bg-a">link2</a>
-						    </p>
-						  </div> -->
+	                 
 					  </div>
                </div>
 	        </div>
@@ -259,9 +246,6 @@ font-size:22px ;
 	    	</div>    	
 	    	
 	    	<div class="col m2 s12" id="filter-item-holder" style="display:none;">
-		    	<!-- <div class="clearHolder">
-		    		<button class="btn waves-effect waves-light t-c" onclick="clearFilter();">Clear Filters</button>
-		    	</div> -->
 	    	</div>
 		</div>
 
@@ -299,23 +283,13 @@ font-size:22px ;
 
 	    var requestedDashboardId = '';
 	 	var subworkid="";
-		var assessmentdate=""; 		 	
+		var assessmentdate="";
+		var safetyid=""; 
+		
 	    $(document).ready(function(){
- 		 	subworkid = getUrlVars()["sub_work"];
-		   			
-    		if(subworkid!="" && subworkid!=undefined && subworkid!=" ")
-    		{
-				var rlc=subworkid.replace(/%20/g, " ");
-				subworkid = getWorkId(rlc);
-   				assessmentdate = getUrlVars()["assessment_date"];
-    		}
 	    	
-		    var overview_work_id = '${work_id}';
-		    requestedDashboardId = '${dashboardId}';
-		    var dashboard_type = '${dashboard_type}';
-		    $.ajax({url : "<%=request.getContextPath()%>/ajax/getLeftNav",
+		    $.ajax({url : "<%=request.getContextPath()%>/ajax/getTALeftNav",
 				type:"POST",
-				data:{dashboard_id : requestedDashboardId, work_id : overview_work_id, dashboard_type : dashboard_type},
 				cache: false,async:false,
 				success : function(data){   
 					$('#accordion').append(getData(data));
@@ -357,33 +331,7 @@ font-size:22px ;
 				}
 			}
 		    $('.searchable').select2();
-			
-    		if(subworkid!="" && subworkid!=undefined && subworkid!=" ")
-    		{
-	    			openDashboard(36,'true');
-    		}	
 	});
-	    
-	    
-	function getWorkId(rlc)
-	{
-		var rworkid="";
-	   	 $.ajax({
-	      		url: "<%=request.getContextPath()%>/ajax/getWorkId",
-	            type: 'POST',
-	            data:{sub_work : rlc},
-	            async: false,
-	            dataType: 'json',
-	            success: function (data)
-	            {
-	            	 	 $.each( data, function( index, value ){
-	            	 		rworkid=value.work_id_fk
-	            	 	});
-	            }
-	            
-	   	 });
-   		return rworkid;
-	}
 	    
 	    function formatDate(dateString) {
 	    	var date = new Date(dateString);
@@ -418,20 +366,10 @@ font-size:22px ;
 				tempDashboardId = parentDashboardId;
 				flag = flag + 1;
 			}
-			
-			/* if(getDashboardLeftMenuAccess(parentDashboardId,2)==true)
-			{
-				if(getDashboardLeftMenuAccess(parentDashboardId,3)==true)
-					{
-						html = html+'<h3 class="bg-a" id="'+parentDashboardId+'" parent_id="" onclick="openDashboard('+value.dashboard_id+');"><a href="javascript:void(0);">'+value.dashboard_name+'</a></h3>';
-					}
-				else
-					{
-						html = html+'<h3 class="bg-a" id="'+parentDashboardId+'" parent_id="" onclick="openDashboard('+value.dashboard_id+');"><a href="javascript:void(0);" style="cursor: default;">'+value.dashboard_name+'</a><span style="float:right;"><img src="/pmis/resources/images/notaccess.png" width="20" height="20"></span></h3>';
-					}
-			} */
+
 			var level2List = value.formsSubMenu;
 			var accessibility = "'"+value.accessibility+"'";
+
 			if(value.accessibility == 'true' || level2List.length > 0){
 				html = html + '<h3 class="bg-a" id="'+parentDashboardId+'" parent_id="" onclick="openDashboard('+value.dashboard_id+','+accessibility+');"><a href="javascript:void(0);">'+value.dashboard_name+'</a>';
 				if(value.accessibility == 'false'){
@@ -442,12 +380,6 @@ font-size:22px ;
 			
 			if(value.formsSubMenu != "" && value.formsSubMenu != null && value.formsSubMenu != 'undefined'){
 				
-				/* $.each( value.formsSubMenu, function( index1, value1 ){
-					if(getDashboardLeftMenuAccess(value1.dashboard_id,2)==true)
-					{
-						html = html + '<div> <p>';
-					}
-				}); */
 				var accessFlag = false;
 				$.each( value.formsSubMenu, function( index1, value1 ){
 					if(value1.accessibility == 'true'){
@@ -467,13 +399,6 @@ font-size:22px ;
 						tempDashboardId = dashboardId;
 						flag = flag + 1;
 					}
-					/* if(getDashboardLeftMenuAccess(dashboardId,2)==true)
-					{
-						if(getDashboardLeftMenuAccess(dashboardId,3)==true)
-						{
-							html = html + '<a href="javascript:openDashboard('+value1.dashboard_id+');"" class="bd-bl bg-a" id="'+dashboardId+'" parent_id="'+parentDashboardId+'">'+value1.dashboard_name+'</a>';
-						}
-					} */
 					
 					var level3List = value1.formsSubMenu;
 					var accessibility = "'"+value1.accessibility+"'";
@@ -491,10 +416,7 @@ font-size:22px ;
 								tempDashboardId = dashboardId;
 								flag = flag + 1;
 							}
-							/* if(getDashboardLeftMenuAccess(value2.dashboard_id,3)==true)
-							{
-								html = html + '<a href="javascript:openDashboard('+value2.dashboard_id+');"" class="bd-bl bg-a" id="'+dashboardId+'" parent_id="'+parentDashboardId+'">'+value2.dashboard_name+'</a>';
-							} */
+
 							var accessibility = "'"+value2.accessibility+"'";
 							if(value2.accessibility == 'true'){
 								html = html + '<a href="javascript:openDashboard('+value1.dashboard_id+','+accessibility+');"" class="bd-bl bg-a" id="'+dashboardId+'" parent_id="'+parentDashboardId+'">'+value1.dashboard_name+'</a>';
@@ -504,12 +426,6 @@ font-size:22px ;
 						html = html + '</p></div> ';
 					}
 				});
-				/* $.each( value.formsSubMenu, function( index1, value1 ){
-					if(getDashboardLeftMenuAccess(value1.dashboard_id,2)==true)
-					{
-						html = html + '</p></div>';
-					}
-				}); */
 				
 				if(accessFlag){
 					html = html + '</p></div>';
@@ -596,6 +512,7 @@ font-size:22px ;
 						         			if((value.is_first_option_selected != 'YES')){
 						         				filters = filters + '<option value="" selected>All</option>';
 					         			    }
+						         			var optionArray=new Array();
 					         			  	$.each( value.filter, function( index2, value2 ){
 						         			  	var filter_option_id = value2.filter_option_value;
 						         				if($.trim(value2.filter_option_id) != ''){
@@ -605,7 +522,13 @@ font-size:22px ;
 						         				if((value.is_first_option_selected == 'YES') && (index2 == 0)){
 						         					selectedFlag = 'selected';
 						         				}
-						         				filters = filters + '<option value="'+filter_option_id+'" '+selectedFlag+'>'+value2.filter_option_value+'</option>';
+						         				
+					         					if(optionArray.indexOf(filter_option_id)==-1)
+					         					{
+						         					optionArray.push(filter_option_id);
+							         				filters = filters + '<option value="'+filter_option_id+'" '+selectedFlag+'>'+value2.filter_option_value+'</option>';
+					         					}
+					         					
 												
 					                     	});
 						         			
@@ -763,22 +686,28 @@ font-size:22px ;
 			         		   $.each( data, function( index, value ){
 			         			  var filterOptions = value.filter;
 			         			  var length = filterOptions.length;
-			         			  if((value.is_first_option_selected != 'YES') && length > 1){
+			         			  /* if((value.is_first_option_selected != 'YES') && length > 1){ */
+			         			  if((value.is_first_option_selected != 'YES')){
 			         				$("#"+id).append('<option value="" selected>All</option>');
 			         			  }
+			         			  var optionArray=new Array();
 			         			  $.each( value.filter, function( index2, value2 ){
 				         			  	var filter_option_id = value2.filter_option_value;
 				         				if($.trim(value2.filter_option_id) != ''){
 				         					filter_option_id = value2.filter_option_id;
 				         				}
 				         				var selectedFlag = "";
-				         				/* if($.trim(length) != '' && length == 1){
-				         					selectedFlag = 'selected';
-				         				} */
-				         				if(((value.is_first_option_selected == 'YES') && (index2 == 0)) || length == 1){
+				         				if(((value.is_first_option_selected == 'YES') && (index2 == 0))){
 				         					selectedFlag = 'selected';
 				         				}
-				         				$("#"+id).append('<option value="'+filter_option_id+'" '+selectedFlag+'>'+value2.filter_option_value+'</option>');
+				         				
+			         					if(optionArray.indexOf(filter_option_id)==-1)
+			         					{
+				         					optionArray.push(filter_option_id);
+					         				$("#"+id).append('<option value="'+filter_option_id+'" '+selectedFlag+'>'+value2.filter_option_value+'</option>');
+
+			         					}
+			         					
 			                      });
 			         		  });
 			         		   $('.searchable').select2();

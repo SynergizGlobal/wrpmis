@@ -176,6 +176,7 @@ public class PageConstants {
 	public static final String addEditStructureForm="forms/addEditStructureForm";
 
 	public static final String overviewDashboard = "forms/overviewDashboard";
+	public static final String taDashboard = "forms/taDashboard";
 	public static final String archiveOverviewDashboard = "forms/archiveOverviewDashboard";
 
 	public static final String moduleDashboards = "forms/moduleDashboards";

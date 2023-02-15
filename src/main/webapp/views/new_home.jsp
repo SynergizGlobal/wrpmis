@@ -208,7 +208,7 @@
             font-weight: bold;
             text-decoration: underline;
         }
-		.heading img{width: 110%;margin-top: 30px;}
+		.heading img{width: 135%;margin-top: 30px;}
         .heading h3 {
             color: #fff;
             font-weight: bold;
@@ -1176,6 +1176,16 @@
 	height: 1px;
 	background:#000;
 }
+
+.middleText {
+  position: fixed;
+  top: 35%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+
 /* 3rd demo end */
        
     </style>
@@ -1267,17 +1277,16 @@
     </ul>
   </section>
 </main> -->
-   		<div class="container">
-	        <div class="row">
+   		<div class="container middleText">
+	        <div class="row" style="width:1000px;">
 	            <div class="col s12 m12 l12">
 	            	<div class="row">
-	            	<div class="col s1 m1 l1"></div>
 	            		<div class="col s2 m1 l1">
-	            		<div class="heading">
-	            			<br><br><br><img src="/pmis/resources/images/mrvclogo.png" alt="Logo">
+		            		<div class="heading">
+		            			<br><br><br><img src="/pmis/resources/images/mrvclogo.png" alt="Logo">
+		            		</div>
 	            		</div>
-	            	</div>
-	                <div class="col l8 m8 s7">
+	                <div class="col l10 m10 s9">
 	                	<div class="heading color-change-2x">
 	                    <center>
 	                    
@@ -1302,28 +1311,7 @@
 	                    </div>
 	                    </div>
 	            	</div>
-	                <div class="btn-menu" style="vertical-align:middle;">
-	                    <%-- <ul>
-	                    	<c:forEach var="project" items="${projects }">
-		                        <a href="javascript:getProjectOverview('${project.project_id }');"><li class="col s6 m4 l4">
-		                            
-		                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="130px" viewBox="0 0 1440 130" preserveAspectRatio="none" style="transform-origin: 50% 50%;position: absolute;height: 25px;left: 0; top: -23px;">
-		                               <path id="wave-bottom-white" fill="white" d="M0,56.050526 C121.352261,18.683509 262.172393,0 422.460394,0 C662.892396,0 818.88453,115.474324 1058.94661,115.474324 C1218.988,115.474324 1342.92081,94.808741 1440,56 L1440,130 L0,130 L0,56.050526 Z"/></svg>
-		                                    ${project.project_name }
-		                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="130px" viewBox="0 0 1440 130" preserveAspectRatio="none" style="transform-origin: 50% 50%; transform: scale(-1, -1);position: absolute;height: 23px; left: 0;top: 62px;">
-		                                            <path id="wave-bottom-white" fill="white" d="M0,56.050526 C121.352261,18.683509 262.172393,0 422.460394,0 C662.892396,0 818.88453,115.474324 1058.94661,115.474324 C1218.988,115.474324 1342.92081,94.808741 1440,56 L1440,130 L0,130 L0,56.050526 Z"/></svg>
-		                        </li></a>
-	                        </c:forEach>
-	                    </ul> --%>
-	                    
-	                    <%-- <ul class="">
-	                    	<c:forEach var="project" items="${projects }">
-		                        <a href="javascript:getProjectOverview('${project.project_id }');">
-		                        	<li class="col s6 m4 l4 text-align-left">
-		                            	<button class="explore slide">${project.project_name }<span class="icon-right"></span></button>
-		                        </li></a>
-	                        </c:forEach>
-	                    </ul> --%>
+	                <div class="btn-menu">
 	                    <div class="row">
 	                    	<ul class="">
 	                    	<c:forEach var="project" items="${projects }">

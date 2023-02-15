@@ -167,7 +167,7 @@
 	}
 	@media(max-width: 1920px){
 			#CurrentDate{
-			 	left:3.5rem !important;
+			 	left:6.5rem !important;
 			 	font-size:20px !important;
 			}
 		}

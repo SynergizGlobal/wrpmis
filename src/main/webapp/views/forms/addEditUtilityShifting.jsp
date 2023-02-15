@@ -981,10 +981,10 @@
     			$('#scope').rules('add',  { required: true });
     			$('#unit_fk').rules('add',  { required: true });
 
-    			$('label[for="shifting_completion_date"] .required').text('*');   
-    			$('label[for="start_date"] .required').text('*');   
-    			$('label[for="completed"] .required').text('*');   
-    			$('label[for="scope"] .required').text('*');
+    			//$('label[for="shifting_completion_date"] .required').text('*');   
+    			//$('label[for="start_date"] .required').text('*');   
+    			//$('label[for="completed"] .required').text('*');   
+    			//$('label[for="scope"] .required').text('*');
     			$('#unit').text('*');   
 
     		}else if($('#shifting_status_fk').val()=='In Progress'){
@@ -994,10 +994,10 @@
     			$('#scope').rules('add',  { required: true });
     			$('#unit_fk').rules('add',  { required: true });
 
-    			$('label[for="shifting_completion_date"] .required').text('');   
-    			$('label[for="start_date"] .required').text('*');   
-    			$('label[for="completed"] .required').text('*');   
-    			$('label[for="scope"] .required').text('*');   
+    			//$('label[for="shifting_completion_date"] .required').text('');   
+    			//$('label[for="start_date"] .required').text('*');   
+    			//$('label[for="completed"] .required').text('*');   
+    			//$('label[for="scope"] .required').text('*');   
     			$('#unit').text('*');   
 
 
@@ -1008,10 +1008,10 @@
     			$('#scope').rules('add',  { required: true });
     			$('#unit_fk').rules('add',  { required: true });
 
-    			$('label[for="shifting_completion_date"] .required').text('');   
-    			$('label[for="start_date"] .required').text('*');   
-    			$('label[for="completed"] .required').text('*');   
-    			$('label[for="scope"] .required').text('*');   
+    			//$('label[for="shifting_completion_date"] .required').text('');   
+    			//$('label[for="start_date"] .required').text('*');   
+    			//$('label[for="completed"] .required').text('*');   
+    			//$('label[for="scope"] .required').text('*');   
     			$('#unit').text('*');   
 
 
@@ -1023,10 +1023,10 @@
     			$('#scope').rules('add',  { required: false });
     			$('#unit_fk').rules('add',  { required: false });
 
-    			$('label[for="shifting_completion_date"] .required').text('');   
-    			$('label[for="start_date"] .required').text('');   
-    			$('label[for="completed"] .required').text('');   
-    			$('label[for="scope"] .required').text('');   
+    			//$('label[for="shifting_completion_date"] .required').text('');   
+    			//$('label[for="start_date"] .required').text('');   
+    			//$('label[for="completed"] .required').text('');   
+    			//$('label[for="scope"] .required').text('');   
     			$('#unit').text('');   
 
 

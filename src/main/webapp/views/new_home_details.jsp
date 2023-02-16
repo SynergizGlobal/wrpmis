@@ -29,7 +29,7 @@
     /* 3rd demo start */
     .w25{width: 25% !important;}
     .w75{width: 75% !important;}
-    .line p{font-size: 16px;}
+    .line p{font-size: 22px;font-weight:bold;}
     .modal{max-height: 73.5%;
     		width: max-content;
 		    max-width: 90%;
@@ -68,7 +68,8 @@
 				  display: inline-block;
 				  width: 210px;
 				  line-height: initial;
-				  font-size: 16px;
+				  font-size: 22px;
+				  font-weight:bold;
 				  
 				}
 				.diamond:before,
@@ -232,7 +233,7 @@
             font-weight: bold;
             width: 90%;
             vertical-align: middle;
-            font-size: 18px;
+            font-size: 35px;
         }
 		/* .heading h3:before,
 			.heading h3:after {
@@ -549,6 +550,12 @@
 				
 			}
         }
+        
+  .middleText {
+  position: fixed;
+  top: 33%;
+  align:center;
+}        
     </style>
 </head>
 
@@ -558,14 +565,13 @@
     <jsp:include page="./layout/header.jsp"></jsp:include>
     <!-- header ends  -->
     <div class="">
-        <div class="row">
+        <div class="row" >
             <div class="col s12 m10 offset-m1 align-center">
                 <div class="col s3 m3">
                 <div id="projectsBtns">
                     <c:if test="${not empty projectOverview.benefits }">
                         <!-- <a class="btn btn-center">Benefits</a>   -->
-                        <a class="btn tooltipped " data-position="bottom"
-                            data-tooltip="${projectOverview.benefits }">Benefits</a>
+                        <a class="btn tooltipped " data-position="bottom" data-tooltip="${projectOverview.benefits }" style="width:180px;height:80px;padding-top:20px;font-size:22px;font-weight:bold;">Benefits</a>
                     </c:if>
 
                     <c:if
@@ -695,7 +701,7 @@
                 </div>
                 </div>
                 <div class="col s6 m6">
-                    <div class="heading">
+                    <div class="heading"><br>
                         <center>
                             <h3 data-title='${projectOverview.project_name }'>
                                 ${projectOverview.project_name }</h3>
@@ -704,7 +710,7 @@
                 </div>
                 <div class="col s3 m2 right">
                     <div class="card-title title-btn" id="projectBackBtn"> &nbsp;
- 						<a class="btn " data-position="bottom" href="<%=request.getContextPath()%>/" class="btn tooltipped right btn" style="float:right;">Back</a>  
+ 						<a class="btn " data-position="bottom" href="<%=request.getContextPath()%>/" class="btn tooltipped right btn" style="float:right;width:180px;height:80px;padding-top:20px;font-size:22px;font-weight:bold;">Back</a>  
                                                
                     </div>
                     <div class="card-title title-btn hidden" id="workBackBtn"> &nbsp;
@@ -720,7 +726,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row middleText">
         <div class="col s12 m12 l12">
             <div class="row">
                 <div class="col s12 m5 l5">
@@ -755,7 +761,7 @@
                                             </c:if>
                                         </p>
                                     </div>
-                                    <div class="line">
+<%--                                     <div class="line">
                                         <p class="alignleft w150">
                                             <c:if
                                                 test="${projectOverview.project_status eq 'Closed' }">
@@ -771,7 +777,7 @@
                                                     ₹ ${projectOverview.completion_cost } Cr </c:if>
                                             </c:if>
                                         </p>
-                                    </div>
+                                    </div> --%>
                                     <div class="line">
                                         <p class="alignleft w150">
                                             <c:if

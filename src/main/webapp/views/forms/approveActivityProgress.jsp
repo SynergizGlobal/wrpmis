@@ -101,9 +101,17 @@
         .table-inside .mdl-data-table td {
 		    text-align: left !important;
 		}
+		.fw-100{
+        	width:100px !important;
+        	max-width:125px;
+        }
 		.fw-120{
-        	width:120px !important;
+        	width:100px !important;
         	max-width:120px;
+        }
+        .fw-125{
+        	width:125px !important;
+        	max-width:125px;
         }
         .fw-150{
         	width:150px !important;
@@ -167,7 +175,7 @@ tr.even {
 }	
 
 
-table tr td:nth-child(8) {
+table tr td:nth-child(11) {
     background: #d9f1ff;
     text-align:center;
 }
@@ -183,7 +191,7 @@ table tr td:nth-child(10) {
 }
 
 
-table tr td:nth-child(13) {
+table tr td:nth-child(16) {
     background: #d9f1ff;
     text-align:center;
 }
@@ -431,27 +439,27 @@ table tr td:nth-child(15) {
                                                 <!-- <th>Work</th> -->
                                                 <th>Task Code</th>
                                                 <th>Contract</th>
-                                                <th>Structure</th>
+                                                <th class="fw-100">Structure</th>
                                                 <th>Component</th>
                                                 <th>Element</th>
-                                                <th>Activity Name</th>
-                                                <th>Unit</th>
+                                                <th class="fw-100">Activity Name</th>
+                                                <th class="fw-100">Unit</th>
                                                 <th>Scope</th>
                                                 
                                                 <th style="text-align:center;background-color:#fdcdac;color:#000000;">Activity Level</th>
                                                 <th style="text-align:center;background-color:#fdcdac;color:#000000;">Component Level</th>
                                                 <th style="text-align:center;background-color:#fdcdac;color:#000000;">Structure Level</th>
                                                                                                 
-                                                <th>Reporting</th>
+                                                <th class="fw-125">Reporting</th>
                                                 <th>Actual Progress Updated</th>
                                                 <th style="text-align:center;background-color:#68bb59;color:#000000;">Activity Level</th>
                                                 <th style="text-align:center;background-color:#68bb59;color:#000000;">Component Level</th>
                                                 <th style="text-align:center;background-color:#68bb59;color:#000000;">Structure Level</th>
                                                 <th>Updated by</th>
-                                                <th>Updated on</th>
+                                                <th class="fw-100">Updated on</th>
                                                 <th>Approved on</th>
                                                 <th>Rejected <br>on</th>
-                                                <th class="nosort">Action</th>
+                                                <th class="nosort fw-150">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>

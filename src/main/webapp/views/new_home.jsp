@@ -707,9 +707,10 @@
 	    background-repeat: no-repeat;
 	    position: absolute;
 	    width: 100%;
-	    height: 41%;
-	    top: 53.5%;
-	    background-size: contain;
+	    height: 45%;
+	    top: 45%;
+	    background-size: cover;
+	    z-index: 0;
 }
 /* .gr-bg{
 	background: linear-gradient(to top, rgba(255, 255, 255, 1), rgba(101, 150, 255, .75));
@@ -1142,34 +1143,34 @@
 	overflow: hidden !important;
 	position: absolute;
     width: 100%;
-    bottom: 2.5em;
+    bottom: 6%;
 }
 .trans{
-	width: 300px;
+	width: 500px;
 }
 .slide-right {
-	-webkit-animation: slide-right 15s ease-in-out infinite alternate-reverse both;
-	        animation: slide-right 15s ease-in-out infinite alternate-reverse both;
+	-webkit-animation: slide-right 8s ease-in-out infinite alternate-reverse both;
+	        animation: slide-right 8s ease-in-out infinite alternate-reverse both;
 	        overflow: hidden;
 }
 @-webkit-keyframes slide-right {
   0% {
-    -webkit-transform: translateX(-1300px);
-            transform: translateX(-1300px);
+    -webkit-transform: translateX(-150%);
+            transform: translateX(-150%);
   }
   100% {
-    -webkit-transform: translateX(1500px);
-            transform: translateX(1500px);
+    -webkit-transform: translateX(400%);
+            transform: translateX(400%);
   }
 }
 @keyframes slide-right {
   0% {
-    -webkit-transform: translateX(-1300px);
-            transform: translateX(-1300px);
+    -webkit-transform: translateX(-150%);
+            transform: translateX(-150%);
   }
   100% {
-    -webkit-transform: translateX(1500px);
-            transform: translateX(1500px);
+    -webkit-transform: translateX(400%);
+            transform: translateX(400%);
   }
 }
 .line{
@@ -1183,6 +1184,11 @@
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
+  z-index: 1;
+}
+.down-background{
+	position: relative;
+    display: contents;
 }
 
 
@@ -1330,13 +1336,15 @@
 	            </div>
 	        </div>
 	    </div>
-	    <div class="bg" id="train"></div>
-   <div class="tran">
-   	 <div class="row">
-   	 	<img src="/pmis/resources/images/train.png" alt="Logo" class="trans slide-right">
-   	 	<div class="line"></div>
-   	 </div>
-   </div>
+	    <div class="down-background">
+	    	<div class="bg" id="train"></div>
+			   <div class="tran">
+			   	 <div class="row">
+			   	 	<img src="/pmis/resources/images/train.png" alt="Logo" class="trans slide-right">
+			   	 	<div class="line"></div>
+			   	 </div>
+			   </div>
+	    </div>
     
     <form action="<%=request.getContextPath()%>/project-overview" id="projectOverviewForm" method="post">
     	<input type="hidden" id="project_id_overview" name="project_id">

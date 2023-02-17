@@ -2139,10 +2139,13 @@ public class ContractDaoImpl implements ContractDao {
 											|| (!StringUtils.isEmpty(contract.getApprovalByBankDocumentFileNames()) && contract.getApprovalByBankDocumentFileNames().length > 0 && !StringUtils.isEmpty(contract.getApprovalByBankDocumentFileNames()[i]) && !StringUtils.isEmpty(contract.getApprovalByBankDocumentFileNames()[i].trim()) )) {
 										String saveDirectory = CommonConstants.APPROVAL_BY_BANK_FILE_SAVING_PATH ;
 										String fileName = contract.getApprovalByBankDocumentFileNames()[i];
-										DateFormat df = new SimpleDateFormat("ddMMYY-HHmm-ssSSSSSSS"); 
-										fileName_new = "Contract-"+contract.getContract_id() +"-"+ df.format(new Date()) +"."+ fileName.split("\\.")[1];
-										if (null != multipartFile && !multipartFile.isEmpty()) {
-											FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName_new);
+										DateFormat df = new SimpleDateFormat("ddMMYY-HHmm-ssSSSSSSS");
+										if(fileName.indexOf("\\")!=-1)
+										{
+											fileName_new = "Contract-"+contract.getContract_id() +"-"+ df.format(new Date()) +"."+ fileName.split("\\.")[1];
+											if (null != multipartFile && !multipartFile.isEmpty()) {
+												FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName_new);
+											}
 										}
 									}
 								}

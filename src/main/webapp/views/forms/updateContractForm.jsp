@@ -2069,7 +2069,14 @@
 			                                                                style="display:none" onchange="getapprovalByBankFileName('${index.count }')"/>
 			                                                            <label for="approvalByBankFiles${index.count }" class="btn bg-m"><i
 			                                                                    class="fa fa-paperclip"></i></label>
-			                                                            <input type="hidden" id="approvalByBankDocumentFileNames${index.count }" name="approvalByBankDocumentFileNames" value="${revObj.attachment }">
+			                                                                    
+			                                                                    <c:set var="AttachValue" value="No" />
+			                                                                    
+			                                                                    <c:if test="${not empty revObj.attachment }">
+																			    	<c:set var="AttachValue" value="Yes" />  
+																			  	</c:if>
+  
+			                                                            <input type="hidden" id="approvalByBankDocumentFileNames${index.count }" name="approvalByBankDocumentFileNames" value="${AttachValue}">
 			                                                             <span id="approvalByBankDocumentFileName${index.count }" class="filevalue"></span>
 			                                                          </span>
 			                                                          
@@ -2094,8 +2101,13 @@
 			                                                                style="display:none" onchange="getapprovalByBankFileName('${index.count }')"/>
 			                                                            <label for="approvalByBankFiles${index.count }" disabled class="btn bg-m"><i
 			                                                                    class="fa fa-paperclip"></i></label>
-			                                                            <input type="hidden" id="approvalByBankDocumentFileNames${index.count }" name="approvalByBankDocumentFileNames" value="${revObj.attachment }">
-			                                                             <span id="approvalByBankDocumentFileName${index.count }" class="filevalue"></span>
+			                                                                    <c:set var="AttachValue" value="No" />
+			                                                                    
+			                                                                    <c:if test="${not empty revObj.attachment }">
+																			    	<c:set var="AttachValue" value="Yes" />  
+																			  	</c:if>
+  
+			                                                            <input type="hidden" id="approvalByBankDocumentFileNames${index.count }" name="approvalByBankDocumentFileNames" value="${AttachValue}">			                                                             <span id="approvalByBankDocumentFileName${index.count }" class="filevalue"></span>
 			                                                          </span>
 			                                                        
      	  </c:otherwise>
@@ -2323,7 +2335,7 @@
 			                                                                style="display:none" onchange="getapprovalByBankFileName(0)"/>
 			                                                            <label for="approvalByBankFiles0" class="btn bg-m"><i
 			                                                                    class="fa fa-paperclip"></i></label>
-			                                                            <input type="hidden" id="approvalByBankDocumentFileNames0" name="approvalByBankDocumentFileNames" >
+			                                                            <input type="hidden" id="approvalByBankDocumentFileNames0" name="approvalByBankDocumentFileNames" value="No">
 			                                                             <span id="approvalByBankDocumentFileName0" class="filevalue"></span>
 			                                                          </span>
                                                 		
@@ -2340,7 +2352,7 @@
 			                                                                style="display:none" onchange="getapprovalByBankFileName(0)"/>
 			                                                            <label for="approvalByBankFiles0" disabled class="btn bg-m"><i
 			                                                                    class="fa fa-paperclip"></i></label>
-			                                                            <input type="hidden" id="approvalByBankDocumentFileNames0" name="approvalByBankDocumentFileNames">
+			                                                            <input type="hidden" id="approvalByBankDocumentFileNames0" name="approvalByBankDocumentFileNames" value="No">
 			                                                             <span id="approvalByBankDocumentFileName0" class="filevalue"></span>
 			                                                          </span>
 			                                                        
@@ -4399,7 +4411,7 @@
 			 		       +'<input type="hidden" name="approvalbybankstatus" id="approvalbybankstatus'+rNo+'" value="No"><input type="checkbox"  value="No" name="approval_by_bank" id="approval_by_bank'+rNo+'"  onChange="getApprovalByBankRevisions('+rNo+');" /> <span></span> </label><span class="normal-btn">'
                            +'<input type="file" id="approvalByBankFiles'+rNo+'" name="approvalByBankDocumentFiles" style="display:none" onchange="getapprovalByBankFileName('+rNo+')"/>'
                            +'<label for="approvalByBankFiles'+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label>'
-                           +'<input type="hidden" id="approvalByBankDocumentFileNames'+rNo+'" name="approvalByBankDocumentFileNames">'
+                           +'<input type="hidden" id="approvalByBankDocumentFileNames'+rNo+'" name="approvalByBankDocumentFileNames" value="No">'
                            +'<span id="approvalByBankDocumentFileName'+rNo+'" class="filevalue"></span>'
                            +'</span></label></p> </td> '
 						   +'</tr>';
@@ -4410,7 +4422,7 @@
 			 		       +'<input type="hidden" name="approvalbybankstatus" id="approvalbybankstatus'+rNo+'" value="No"><input type="checkbox"  disabled value="No" name="approval_by_bank" id="approval_by_bank'+rNo+'"  onChange="getApprovalByBankRevisions('+rNo+');" /> <span></span> </label><span class="normal-btn">'
                         +'<input type="file" disabled id="approvalByBankFiles'+rNo+'" name="approvalByBankDocumentFiles" style="display:none" onchange="getapprovalByBankFileName('+rNo+')"/>'
                         +'<label for="approvalByBankFiles'+rNo+'" disabled class="btn bg-m"><i class="fa fa-paperclip"></i></label>'
-                        +'<input type="hidden" id="approvalByBankDocumentFileNames'+rNo+'" name="approvalByBankDocumentFileNames">'
+                        +'<input type="hidden" id="approvalByBankDocumentFileNames'+rNo+'" name="approvalByBankDocumentFileNames" value="No">'
                         +'<span id="approvalByBankDocumentFileName'+rNo+'" class="filevalue"></span>'
                         +'</span></label></p> </td> '
 						   +'</tr>';	   			

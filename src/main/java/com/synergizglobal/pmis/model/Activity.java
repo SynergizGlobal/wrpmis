@@ -645,5 +645,4 @@ public class Activity {
 		this.structure_per_post = structure_per_post;
 	}
 	
-	
 }

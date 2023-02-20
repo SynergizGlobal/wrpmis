@@ -1191,6 +1191,11 @@
     display: contents;
 }
 
+.col .row
+{
+margin-left: 0rem; 
+margin-right: 0rem;
+}
 
 /* 3rd demo end */
        

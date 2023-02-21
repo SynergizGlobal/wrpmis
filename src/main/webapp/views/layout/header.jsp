@@ -577,7 +577,7 @@
 								</c:set>
 								<c:if test="${empty category.tableauSubList}">
 									<li><a
-										href="<%=request.getContextPath()%>/InfoViz/${activity }">
+										href="<%=request.getContextPath()%>/${category.tableauUrl }">
 											<span style="padding-right: 5px;"
 											class="fa fa-${category.imagePath}"></span> <span
 											class="nav-label">${category.tableauDashboardName

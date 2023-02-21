@@ -39,7 +39,7 @@ public class TableauTrustedTicket {
 		 postURL = "http://pmis.mrvc.gov.in:8000/trusted";
 		 username = "SynTrack";		
 		 server = "pmis.mrvc.gov.in:8000"; 
-		 clientIp = "pmis.mrvc.gov.in";	
+		 clientIp = "203.153.40.44";	
         
         String target_site = "";//Optional
 		try {

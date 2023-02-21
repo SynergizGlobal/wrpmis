@@ -1078,23 +1078,23 @@
         } */
     	       	
         if($('#shifting_status_fk').val()=='Completed'){
-			$('label[for="scope"] .required').text('*');
+/* 			$('label[for="scope"] .required').text('*');
 			$('label[for="completed"] .required').text('*');
-			$('label[for="start_date"] .required').text('*');
+			$('label[for="start_date"] .required').text('*'); */
 			$('#unit').text('*');   
 
     	} 
         if($('#shifting_status_fk').val()=='In Progress'){
-			$('label[for="scope"] .required').text('*');
+/* 			$('label[for="scope"] .required').text('*');
 			$('label[for="completed"] .required').text('*');
-			$('label[for="start_date"] .required').text('*');
+			$('label[for="start_date"] .required').text('*'); */
 			$('#unit').text('*');   
 
     	} 
          if($('#shifting_status_fk').val()=='Under Progress'){
-			$('label[for="scope"] .required').text('*');
+/* 			$('label[for="scope"] .required').text('*');
 			$('label[for="completed"] .required').text('*');
-			$('label[for="start_date"] .required').text('*');
+			$('label[for="start_date"] .required').text('*'); */
 			$('#unit').text('*');   
 
     	} 
@@ -1479,7 +1479,7 @@
 				 		required: false
 				 	  },"shifting_completion_date": {
 				 		 required: function(element) {
-				 	        return $('#shifting_status_fk').val()=='Completed'
+				 	        return false
 				 	      }
 				 	  },"start_date":{	
 				 		 required:false

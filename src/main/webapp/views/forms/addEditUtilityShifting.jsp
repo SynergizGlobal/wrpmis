@@ -975,10 +975,10 @@
     			 $("#shifting_status_fk").val('Not Started'); 
 	    	}
     		if($('#shifting_status_fk').val()=='Completed'){
-    			$('#shifting_completion_date').rules('add',  { required: true });
-    			$('#start_date').rules('add',  { required: true });
-    			$('#completed').rules('add',  { required: true });
-    			$('#scope').rules('add',  { required: true });
+    			$('#shifting_completion_date').rules('add',  { required: false });
+    			$('#start_date').rules('add',  { required: false });
+    			$('#completed').rules('add',  { required: false });
+    			$('#scope').rules('add',  { required: false });
     			$('#unit_fk').rules('add',  { required: true });
 
     			//$('label[for="shifting_completion_date"] .required').text('*');   
@@ -989,9 +989,9 @@
 
     		}else if($('#shifting_status_fk').val()=='In Progress'){
     			$('#shifting_completion_date').rules('add',  { required: false });
-    			$('#start_date').rules('add',  { required: true });
-    			$('#completed').rules('add',  { required: true });
-    			$('#scope').rules('add',  { required: true });
+    			$('#start_date').rules('add',  { required: false });
+    			$('#completed').rules('add',  { required: false });
+    			$('#scope').rules('add',  { required: false });
     			$('#unit_fk').rules('add',  { required: true });
 
     			//$('label[for="shifting_completion_date"] .required').text('');   
@@ -1003,9 +1003,9 @@
 
     		}else if($('#shifting_status_fk').val()=='Under Progress'){
     			$('#shifting_completion_date').rules('add',  { required: false });
-    			$('#start_date').rules('add',  { required: true });
-    			$('#completed').rules('add',  { required: true });
-    			$('#scope').rules('add',  { required: true });
+    			$('#start_date').rules('add',  { required: false });
+    			$('#completed').rules('add',  { required: false });
+    			$('#scope').rules('add',  { required: false });
     			$('#unit_fk').rules('add',  { required: true });
 
     			//$('label[for="shifting_completion_date"] .required').text('');   

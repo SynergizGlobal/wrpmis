@@ -40,7 +40,7 @@ public class ModuleDashboardsDaoImpl implements ModuleDashboardsDao{
 			connection = dataSource.getConnection();
 			String qry = "SELECT dashboard_id,dashboard_name,dashboard_icon,dashboard_url,parent_id,source_table_name,source_field_name,source_field_value,show_left_menu "
 					+ "FROM left_menu "
-					+ "WHERE status = ? and parent_id = ? AND show_left_menu = ? AND dashboard_type_fk = ?";
+					+ "WHERE status = ? and parent_id = ? AND show_left_menu = ? AND dashboard_type_fk = ? and isnull(work_type,'')<>'TA' ";
 			if(!StringUtils.isEmpty(dObj.getDashboard_type()) && dObj.getDashboard_type().equals("Modules")) {
 				qry = qry + " AND dashboard_id = ?";
 			}
@@ -105,10 +105,7 @@ public class ModuleDashboardsDaoImpl implements ModuleDashboardsDao{
 			connection = dataSource.getConnection();
 			String qry = "SELECT dashboard_id,dashboard_name,dashboard_icon,dashboard_url,parent_id,source_table_name,source_field_name,source_field_value,show_left_menu "
 					+ "FROM left_menu "
-					+ "WHERE status = ? and parent_id = ? AND show_left_menu = ? AND dashboard_type_fk = ?";
-			if(!StringUtils.isEmpty(dObj.getDashboard_type()) && dObj.getDashboard_type().equals("Modules")) {
-				qry = qry + " AND dashboard_id = ?";
-			}
+					+ "WHERE status = ? and parent_id = ? AND show_left_menu = ? AND dashboard_type_fk = ? and work_type='TA'";
 			qry = qry + " ORDER BY [order]";
 			statement = connection.prepareStatement(qry);
 			statement.setString(1, CommonConstants.ACTIVE);
@@ -118,7 +115,6 @@ public class ModuleDashboardsDaoImpl implements ModuleDashboardsDao{
 			{
 				String dType=getDashboardType(dObj.getDashboard_id(),connection);
 				statement.setString(4, dType);
-				statement.setString(5, dObj.getDashboard_id());
 			}
 			else
 			{
@@ -130,7 +126,7 @@ public class ModuleDashboardsDaoImpl implements ModuleDashboardsDao{
 			while(resultSet.next()) {
 				OverviewDashboard obj = new OverviewDashboard();
 				String childParentId = resultSet.getString("dashboard_id");
-				List<OverviewDashboard> subList = getDashboardsSubList(work_id,childParentId,connection);
+				List<OverviewDashboard> subList = getTADashboardsSubList(childParentId,connection);
 				obj.setFormsSubMenu(subList);
 				
 				obj.setDashboard_id(resultSet.getString("dashboard_id"));
@@ -159,6 +155,43 @@ public class ModuleDashboardsDaoImpl implements ModuleDashboardsDao{
 		return objsList;
 	}	
 	
+	private List<OverviewDashboard> getTADashboardsSubList(String parentId, Connection connection) throws Exception {
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		List<OverviewDashboard> objsList = new ArrayList<OverviewDashboard>();
+		OverviewDashboard obj = null;
+		try {
+			String qry = "select dashboard_id,dashboard_name,dashboard_icon,dashboard_url,source_table_name,source_field_name,source_field_value,show_left_menu,parent_id "
+					+ "FROM left_menu "
+					+ "WHERE status = ? AND parent_id <> dashboard_id AND parent_id = ? AND show_left_menu = ? and work_type='TA' ORDER BY [order]";
+			statement = connection.prepareStatement(qry);
+			statement.setString(1, CommonConstants.ACTIVE);
+			statement.setString(2, parentId);
+			statement.setString(3, "Yes");
+			resultSet = statement.executeQuery();  
+			while(resultSet.next()) {
+				obj = new OverviewDashboard();
+		
+				
+				obj.setDashboard_id(resultSet.getString("dashboard_id"));
+				obj.setDashboard_name(resultSet.getString("dashboard_name"));
+				obj.setDashboard_icon(resultSet.getString("dashboard_icon"));
+				obj.setDashboard_url(resultSet.getString("dashboard_url"));
+				obj.setSource_table_name(resultSet.getString("source_table_name"));
+				obj.setSource_field_name(resultSet.getString("source_field_name"));
+				obj.setSource_field_value(resultSet.getString("source_field_value"));
+			
+				objsList.add(obj);				
+			}
+		
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(null, statement, resultSet);
+		}
+		return objsList;
+	}
 	
 	private String getDashboardType(String dashboard_id,Connection con) throws Exception {
 		PreparedStatement stmt = null;
@@ -214,7 +247,7 @@ public class ModuleDashboardsDaoImpl implements ModuleDashboardsDao{
 		try {
 			String qry = "select dashboard_id,dashboard_name,dashboard_icon,dashboard_url,source_table_name,source_field_name,source_field_value,show_left_menu "
 					+ "FROM left_menu "
-					+ "WHERE status = ? AND parent_id <> dashboard_id AND parent_id = ? AND show_left_menu = ? ORDER BY [order]";
+					+ "WHERE status = ? AND parent_id <> dashboard_id AND parent_id = ? AND show_left_menu = ? and isnull(work_type,'')<>'TA' ORDER BY [order]";
 			statement = connection.prepareStatement(qry);
 			statement.setString(1, CommonConstants.ACTIVE);
 			statement.setString(2, parentId);

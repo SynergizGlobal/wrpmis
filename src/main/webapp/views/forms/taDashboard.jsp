@@ -282,12 +282,8 @@ font-size:22px ;
 
 
 	    var requestedDashboardId = '';
-	 	var subworkid="";
-		var assessmentdate="";
-		var safetyid=""; 
 		
 	    $(document).ready(function(){
-	    	
 		    $.ajax({url : "<%=request.getContextPath()%>/ajax/getTALeftNav",
 				type:"POST",
 				cache: false,async:false,
@@ -370,26 +366,17 @@ font-size:22px ;
 			var level2List = value.formsSubMenu;
 			var accessibility = "'"+value.accessibility+"'";
 
-			if(value.accessibility == 'true' || level2List.length > 0){
 				html = html + '<h3 class="bg-a" id="'+parentDashboardId+'" parent_id="" onclick="openDashboard('+value.dashboard_id+','+accessibility+');"><a href="javascript:void(0);">'+value.dashboard_name+'</a>';
 				if(value.accessibility == 'false'){
 					html = html + '<span style="float:right;"><img src="/pmis/resources/images/notaccess.png" width="20" height="20"></span>';
 				}
 				html = html + '</h3>';
-			}
 			
 			if(value.formsSubMenu != "" && value.formsSubMenu != null && value.formsSubMenu != 'undefined'){
 				
-				var accessFlag = false;
-				$.each( value.formsSubMenu, function( index1, value1 ){
-					if(value1.accessibility == 'true'){
-						accessFlag = true;
-					}
-				});
+
 				
-				if(accessFlag){
 					html = html + '<div> <p>';
-				}
 				
 				$.each( value.formsSubMenu, function( index1, value1 ){
 					var dashboardId = value1.dashboard_id;
@@ -399,37 +386,12 @@ font-size:22px ;
 						tempDashboardId = dashboardId;
 						flag = flag + 1;
 					}
-					
-					var level3List = value1.formsSubMenu;
-					var accessibility = "'"+value1.accessibility+"'";
-					if(value1.accessibility == 'true' || level3List.length > 0){
-						html = html + '<a href="javascript:openDashboard('+value1.dashboard_id+','+accessibility+');"" class="bd-bl bg-a" id="'+dashboardId+'" parent_id="'+parentDashboardId+'">'+value1.dashboard_name+'</a>';
-					}
-					
-					if(value1.formsSubMenu != "" && value1.formsSubMenu != null && value1.formsSubMenu != 'undefined' && value1.formsSubMenu.length > 0){
-						html = html + '<div style="margin: 0 0 0 2em;"> <p>';
-						$.each( value1.formsSubMenu, function( index2, value2 ){
-							var dashboardId = value2.dashboard_id;
-							var liDisabled = '';
-							var notAvailable = '';
-							if(flag == 0 && $.trim(notAvailable) == '' && $.trim(dashboardId) != ''){
-								tempDashboardId = dashboardId;
-								flag = flag + 1;
-							}
+					html = html + '<a href="javascript:openDashboard('+value1.dashboard_id+','+accessibility+');"" class="bd-bl bg-a" id="'+dashboardId+'" parent_id="'+parentDashboardId+'">'+value1.dashboard_name+'</a>';
 
-							var accessibility = "'"+value2.accessibility+"'";
-							if(value2.accessibility == 'true'){
-								html = html + '<a href="javascript:openDashboard('+value1.dashboard_id+','+accessibility+');"" class="bd-bl bg-a" id="'+dashboardId+'" parent_id="'+parentDashboardId+'">'+value1.dashboard_name+'</a>';
-							}
-							
-						});
-						html = html + '</p></div> ';
-					}
+
 				});
 				
-				if(accessFlag){
 					html = html + '</p></div>';
-				}
 				
 			}else{
 				html = html+'<div class="ds-none"> <p></p> </div>';
@@ -440,6 +402,7 @@ font-size:22px ;
     
     function getDashboardLeftMenuAccess(dashboard_id,level)
     {
+    	alert(dashboard_id,level);
     	var bool = false;
        	 $.ajax({
              url: "<%=request.getContextPath()%>/ajax/getDashboardLeftMenuAccess",
@@ -470,7 +433,6 @@ font-size:22px ;
           var params = "";
           var show_left_menu = '';
           var filterIds = "";
-      	  if(accessibility == 'true'){
 	      	  $.ajax({
 	      		url: "<%=request.getContextPath()%>/ajax/getFilters",
 	            type: 'POST',
@@ -542,15 +504,7 @@ font-size:22px ;
 	         		   
 	         		   $("#filter-item-holder").html(filters);
 	         								
-						if(subworkid!="")
-						{
-								$("#work_id").val(subworkid).trigger('change');
-						}        								
-						if(assessmentdate!="")
-						{
-								$("#date").val(assessmentdate).trigger('change');
-						}          								
-	
+
 	         		   $('.searchable').select2();
 	         	   }
 	         	   $(".page-loader").hide();
@@ -561,11 +515,7 @@ font-size:22px ;
 	     	 });
 			 $(".page-loader").hide();
 			 getSelectedOption(filterIds,dashboardId);
-      	 }else{
-      		$("#filter-item-holder").html('');
-      		$("#dashboardOpen").attr("src","");
-      		$(".page-loader").hide();
-      	 }
+
 	 }
 	
 	 function getSelectedOption(filterIds,dashboardId){
@@ -593,10 +543,7 @@ font-size:22px ;
 			     }
 			 }
 		 }
-			if(subworkid!="")
-			{
-					$("#work_id").val(subworkid);
-			}  
+
 
 		 $.ajax({
 	      		url: "<%=request.getContextPath()%>/ajax/getDashboardURL",

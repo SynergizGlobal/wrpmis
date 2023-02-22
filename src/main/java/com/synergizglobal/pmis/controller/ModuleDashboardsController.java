@@ -57,27 +57,6 @@ public class ModuleDashboardsController {
 		return model;
 	}
 	
-	@RequestMapping(value = "/ajax/getTALeftNav", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public List<OverviewDashboard> getTALeftNavNodes(@ModelAttribute OverviewDashboard obj,HttpSession session) {
-		List<OverviewDashboard> overviewDashboard = null;
-		try {
-			String parentId = "0";
-			obj.setParent_id(parentId);
-
-			User uObj = (User) session.getAttribute("user");
- 			obj.setUser_type_fk(uObj.getUser_type_fk());
- 			obj.setUser_role_name_fk(uObj.getUser_role_name_fk());
-			obj.setUser_id(uObj.getUser_id());
-			
-			overviewDashboard = moduleDashboardsService.getTALeftNavNodes(obj);
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("getTALeftNav : " + e.getMessage());
-		}
-		return overviewDashboard;
-	}	
-	
 	@RequestMapping(value = "/ajax/getLeftNav", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<OverviewDashboard> getLeftNavNodes(@ModelAttribute OverviewDashboard obj,HttpSession session) {

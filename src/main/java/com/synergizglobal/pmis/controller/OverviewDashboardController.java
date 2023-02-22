@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.synergizglobal.pmis.Iservice.HomeService;
+import com.synergizglobal.pmis.Iservice.ModuleDashboardsService;
 import com.synergizglobal.pmis.Iservice.OverviewDashboardService;
 import com.synergizglobal.pmis.common.TableauTrustedTicket;
 import com.synergizglobal.pmis.common.UrlGenerator;
@@ -37,6 +38,9 @@ public class OverviewDashboardController {
 	
 	@Autowired
 	OverviewDashboardService overviewDashboardService;
+	
+	@Autowired
+	ModuleDashboardsService moduleDashboardsService;	
 	
 	@Autowired
 	HomeService service;	
@@ -63,11 +67,35 @@ public class OverviewDashboardController {
 		ModelAndView model = new ModelAndView();
 		try {
 		    model.setViewName(PageConstants.taDashboard);
+		    model.addObject("dashboard_type", "Works");
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("taDashboard : " + e.getMessage());
 		}
 		return model;
+	}	
+	
+	
+	@RequestMapping(value = "/ajax/getTALeftNav", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<OverviewDashboard> getTALeftNavNodes(@ModelAttribute OverviewDashboard obj,HttpSession session) {
+		List<OverviewDashboard> overviewDashboard = null;
+		try {
+			String parentId = "0";
+			obj.setParent_id(parentId);
+
+			User uObj = (User) session.getAttribute("user");
+ 			obj.setUser_type_fk(uObj.getUser_type_fk());
+ 			obj.setUser_role_name_fk(uObj.getUser_role_name_fk());
+			obj.setUser_id(uObj.getUser_id());
+			obj.setDashboard_type("Works");
+			
+			overviewDashboard = moduleDashboardsService.getTALeftNavNodes(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getTALeftNav : " + e.getMessage());
+		}
+		return overviewDashboard;
 	}	
 	
 	

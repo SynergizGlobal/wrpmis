@@ -260,7 +260,7 @@
                                 </div>
                                 <input type="hidden" name="expenditure_id" value="${expenditureDetails.expenditure_id }" />
                                 <div class="col s12 m8 l4 input-field offset-m2">
-                                    <input id="voucher_no" type="number" class="validate" name="voucher_no" value="${expenditureDetails.voucher_no }">
+                                    <input id="voucher_no" type="text" class="validate" name="voucher_no" value="${expenditureDetails.voucher_no }">
                                     <label for="voucher_no">Voucher No </label>
                                     <span id="voucher_noError" class="error-msg" ></span>
                                 </div>

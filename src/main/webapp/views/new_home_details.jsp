@@ -1130,7 +1130,15 @@
                                     var name = $.trim(val.dashboard_name).toLowerCase();
                                     var link = name.replaceAll(" ", "-");
                                     if ($.trim(val.dashboard_id) == $.trim(val.parent_dashboard_id_sr_fk)) {
-                                        window.location.href = "<%=request.getContextPath()%>/InfoViz/" + link
+                                    		if(work_id=='P04W06')
+                                    		{
+                                    			window.location.href = "<%=request.getContextPath()%>/ta-dashboard";
+                                       			
+                                    		}
+                                    		else
+                                   			{
+                                    			window.location.href = "<%=request.getContextPath()%>/InfoViz/" + link
+                                   			}
                                     } else {
                                         var parent_dashboard_id_sr_fk = $.trim(val.parent_dashboard_id_sr_fk);
                                         var myParams2 = { parent_dashboard_id_sr_fk: parent_dashboard_id_sr_fk };

@@ -3,10 +3,13 @@ package com.synergizglobal.pmis.common;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.InetAddress;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -37,9 +40,11 @@ public class TableauTrustedTicket {
 		
 		String clientIpMap=getExternalIpAddress();
 		
-
+		 InetAddress currentIPAddress;
+		 currentIPAddress = InetAddress.getLocalHost();
 		
-		
+		 InetAddress IP=InetAddress.getLocalHost();
+		 String currentIPAddress1=IP.getHostAddress();		
 		
 		
 		String postURL = "";
@@ -50,7 +55,12 @@ public class TableauTrustedTicket {
 		 postURL = "http://203.153.40.44:8000/trusted";
 		 username = "SynTrack";		
 		 server = "203.153.40.44:8000"; 
-		 clientIp = clientIpMap;
+		 
+		 String Str[]=myPublicIp().split("___");
+		 String ipnew=Str[4];
+		 String Str1[]=ipnew.split(":");
+		 String ipnew1=Str1[1];		 
+		 clientIp = ipnew1;
         
         String target_site = "";//Optional
 		try {
@@ -106,6 +116,27 @@ public class TableauTrustedTicket {
 	            }
 	        }
 	    }
+	}
+	
+	public static String myPublicIp() {
+
+	    /*nslookup myip.opendns.com resolver1.opendns.com*/
+	    String ipAdressDns  = "";
+	    try {
+	        String command = "nslookup myip.opendns.com resolver1.opendns.com";
+	        Process proc = Runtime.getRuntime().exec(command);
+
+	        BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+
+	        String s;
+	        while ((s = stdInput.readLine()) != null) {
+	            ipAdressDns  += s + "___";
+	        }
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+
+	    return ipAdressDns ;
 	}	
 	
 }

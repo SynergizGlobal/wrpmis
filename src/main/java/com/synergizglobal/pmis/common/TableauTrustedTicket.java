@@ -55,9 +55,9 @@ public class TableauTrustedTicket {
 		String server = ""; 
 		String clientIp = "";			
 		
-		 postURL = "http://203.153.40.44:8000/trusted";
+		 postURL = "http://pmis.mrvc.gov.in:8000/trusted";
 		 username = "SynTrack";		
-		 server = "203.153.40.44:8000"; 
+		 server = "pmis.mrvc.gov.in:8000"; 
 		 
 		 String Str[]=myPublicIp().split("___");
 		 String ipnew=Str[2];

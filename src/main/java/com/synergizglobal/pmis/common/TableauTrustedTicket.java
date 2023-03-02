@@ -1,8 +1,11 @@
 package com.synergizglobal.pmis.common;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 import org.apache.http.HttpResponse;
@@ -13,6 +16,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
+
 
 public class TableauTrustedTicket {
 	public static Logger logger = Logger.getLogger(TableauTrustedTicket.class);
@@ -31,6 +35,13 @@ public class TableauTrustedTicket {
 		String server = ugObj.getIpAddress()+":8000";
 		String clientIp = ugObj.getIpAddress();*/
 		
+		String clientIpMap=getExternalIpAddress();
+		
+
+		
+		
+		
+		
 		String postURL = "";
 		String username = "";		
 		String server = ""; 
@@ -39,7 +50,7 @@ public class TableauTrustedTicket {
 		 postURL = "http://203.153.40.44:8000/trusted";
 		 username = "SynTrack";		
 		 server = "203.153.40.44:8000"; 
-		 clientIp = "203.153.40.44";
+		 clientIp = clientIpMap;
         
         String target_site = "";//Optional
 		try {
@@ -77,5 +88,24 @@ public class TableauTrustedTicket {
 		}
 		return getResponseString;
 	}
+	
+	public String getExternalIpAddress() throws Exception {
+	    URL whatismyip = new URL("http://checkip.amazonaws.com");
+	    BufferedReader in = null;
+	    try {
+	        in = new BufferedReader(new InputStreamReader(
+	                whatismyip.openStream()));
+	        String ip = in.readLine();
+	        return ip;
+	    } finally {
+	        if (in != null) {
+	            try {
+	                in.close();
+	            } catch (IOException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    }
+	}	
 	
 }

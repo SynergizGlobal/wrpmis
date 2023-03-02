@@ -39,7 +39,7 @@ public class TableauTrustedTicket {
 		 postURL = "http://203.153.40.44:8000/trusted";
 		 username = "SynTrack";		
 		 server = "203.153.40.44:8000"; 
-		 clientIp = ugObj.getIpAddress();
+		 clientIp = "203.153.40.44";
         
         String target_site = "";//Optional
 		try {

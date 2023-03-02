@@ -112,7 +112,7 @@
   <script src="/pmis/resources/js/dataTables.material.min.js"></script>
   <script src="/pmis/resources/js/select2.min.js"></script>
   <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
-  <script type="text/javascript" src="http://203.153.40.44:8000/javascripts/api/tableau-2.min.js"></script>
+  <script type="text/javascript" src="http://pmis.mrvc.gov.in:8000/javascripts/api/tableau-2.min.js"></script>
   
   <script type="text/javascript">
      $(document).ready(function(){		

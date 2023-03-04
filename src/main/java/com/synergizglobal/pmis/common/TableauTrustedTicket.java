@@ -55,13 +55,13 @@ public class TableauTrustedTicket {
 		String server = ""; 
 		String clientIp = "";			
 		
-		 postURL = "http://pmis.mrvc.gov.in:8000/trusted";
+		 postURL = "http://203.153.40.44:8000/trusted";
 		 username = "SynTrack";		
-		 server = "pmis.mrvc.gov.in:8000"; 
+		 server = "203.153.40.44:8000"; 
 		 
-		 String Str[]=myPublicIp().split("\\___");
-		 String ipnew=Str[4];
-		 String Str1[]=ipnew.split("\\:");
+		 String Str[]=myPublicIp().split("___");
+		 String ipnew=Str[2];
+		 String Str1[]=ipnew.split(":");
 		 String ipnew1=Str1[1];	
 		 
 			String Str6[]=ipnew1.split("\\.");

@@ -297,7 +297,7 @@ public class OverviewDashboardController {
 					url = dashboardUrl.split(":8000/");
 					//baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", trustedTokenId);
 					UrlGenerator ugObj = new UrlGenerator();
-					String baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", "pmis.mrvc.gov.in");
+					String baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", "203.153.40.44");
 					baseUrl = baseUrl.replace("{1}", trustedTokenId);
 				//}
 				

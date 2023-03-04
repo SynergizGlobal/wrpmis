@@ -60,7 +60,7 @@ public class TableauTrustedTicket {
 		 server = "pmis.mrvc.gov.in:8000"; 
 		 
 		 String Str[]=myPublicIp().split("\\___");
-		 String ipnew=Str[2];
+		 String ipnew=Str[4];
 		 String Str1[]=ipnew.split("\\:");
 		 String ipnew1=Str1[1];	
 		 

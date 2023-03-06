@@ -17,9 +17,7 @@
     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
-    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
-    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" />
-    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-grid-template.css" />
+
     <style type="text/css">
         [type="checkbox"]:not(:checked), [type="checkbox"]:checked{position: relative; opacity: 1;pointer-events: auto;}
          .input-field .searchable_label{
@@ -208,6 +206,8 @@
 	.modal .modal-footer{
 		text-align: center;
 	}
+	
+	
     </style>
 </head>
 
@@ -228,6 +228,9 @@
     								<div class="m-n1">
     									<a href="add-quarterly-plan"	class="btn waves-effect waves-light bg-s t-c"> <strong><i
 											class="fa fa-plus-circle"></i> Add</strong></a>
+										<a href="#" onclick="exportFortnight();"
+										class="btn waves-effect waves-light bg-s t-c"> <strong><i
+											class="fa fa-cloud-export"></i> Export</strong></a>												
 										<a href="#" onclick="openUploadFortnightModal();"
 										class="btn waves-effect waves-light bg-s t-c"> <strong><i
 											class="fa fa-cloud-upload"></i> Upload</strong></a>											
@@ -241,11 +244,10 @@
                             <div class="col m11 s12 ">
                                 <div class="row" style="margin-bottom: 0;" id="filters">
                                     <div class="col s12 m3 input-field">
-                                        <p class="searchable_label">Work </p>
+                                        <p class="searchable_label">Work</p>
 										<select id="work_id_fk" name="work_id_fk"
 											onchange="addInQueWork(this.value);getFortnightQuarterlyPlanList();" class="searchable">
 											<option value="">Select</option>
-
 										</select>
                                     </div>
                                     <div class="col s12 m3 input-field">
@@ -268,11 +270,10 @@
 	                                    </p>
                                 	</div>
 									<div class="col s12 m3 input-field">
-										<p class="searchable_label">Period<span class="required">*</span></p>
+										<p class="searchable_label">Period</p>
 										<select id="period" name="period"
 											onchange="addInQuePeriod(this.value);getFortnightQuarterlyPlanList();" class="searchable">
 											<option value="">Select</option>
-
 										</select>
 									</div>
                                     <div class="col s12 m1">
@@ -312,6 +313,98 @@
             </div>
         </div>
     </div>
+	<!-- update popup starts -->
+	<div id="upload_template" class="modal">
+		<div class="modal-content">
+			<div class="center-align p-2 bg-m modal-title">
+				<h6>Upload Quarterly Plan</h6>
+			</div>
+			<!-- form start-->
+			<div class="container">
+				<form action="<%=request.getContextPath()%>/upload-quarterly-plan"
+					method="post" enctype="multipart/form-data">
+					<div class="row no-mar">
+						<div class="col s12 m12 input-field center-align">
+							<div class="row">
+								<div class="col m2 hide-on-small-only"></div>
+								<div class="col m8 s12">
+									<div class="file-field input-field">
+										<div class="btn bg-m">
+											<span>Attachment</span> <input type="file" id="designFile"
+												name="designFile" required="required">
+										</div>
+										<div class="file-path-wrapper">
+											<input class="file-path validate" type="text">
+										</div>
+									</div>
+								</div>
+								<div class="col m2 hide-on-small-only"></div>
+							</div>
+						</div>
+					</div>
+					<div class="row no-mar">
+						<div class="col s12 m6">
+							<div class="center-align m-1">
+								<button type="submit" class="btn waves-effect waves-light bg-m"
+									style="width: 100%;">Upload</button>
+							</div>
+						</div>
+						<div class="col s12 m6">
+							<div class="center-align m-1">
+								<button type="button" class="btn waves-effect waves-light bg-s"
+									style="width: 100%;" onclick="closeUploadFortnightUploadModal();">Cancel</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	
+  	
+	
+     <div id="export_template" class="modal">
+            <div class="modal-content">
+                <h6 class="modal-header">Upload Fortnight Plan Remarks <span
+                        class="right modal-action modal-close" onclick="resetFields('add')"> <span class="material-icons">close</span></span></h6>
+                <div class="row">
+								<div class="col m5 s12">
+                                        <p class="searchable_label">Work <!-- <span class="required">*</span> --></p>
+										<select id="export_work_id_fk" name="work_id_fk" class="searchable" style="width:100%">
+											<option value="">Select</option>
+	                                       	<c:forEach var="obj" items="${FortnightPlanWorkList }">
+	                                      	   	<option value= "${obj.work_id_fk}">${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
+	                                    	 </c:forEach>  											
+										</select>
+										<span id="workError" class="error-msg" ></span>
+								</div>
+								<div class="col m5 s12">
+									<p class="searchable_label">Period<span class="required">*</span></p>
+									<select id="export_period" name="period" class="searchable" style="width:100%">
+										<option value="">Select</option>
+									</select>
+									<span id="periodError" class="error-msg" ></span>
+								</div>
+                </div>
+					<div class="row no-mar">
+						<div class="col s12 m6">
+							<div class="center-align m-1">
+								<button type="submit" class="btn waves-effect waves-light bg-m" style="width: 100%;" onClick="exportQuarterlyPlan();">Export</button>
+							</div>
+						</div>
+						<div class="col s12 m6">
+							<div class="center-align m-1">
+								<button type="button" class="btn waves-effect waves-light bg-s"
+									style="width: 100%;" onclick="closeUploadFortnightExportModal();">Cancel</button>
+							</div>
+						</div>
+					</div>                
+
+            </div>
+
+    </div>
+
 
 <div id="modal1" class="modal modal-fixed-footer">
 <div class="modal-content">
@@ -383,9 +476,10 @@
     <!-- footer  -->
     <jsp:include page="../layout/footer.jsp"></jsp:include>
     
- <form action="<%=request.getContextPath()%>/get-rr-bses" id="getForm" name="getForm" method="post" >
-  		<input type="hidden" name="rrbses_id" id="rrbses_id"/>
-    </form>
+<%-- 	<form action="<%=request.getContextPath() %>/export-fortnightplans" name="exportFortnightplanForm" id="exportFortnightplanForm" target="_blank" method="post">	
+        <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
+        <input type="hidden" name="period" id="exportperiod" />
+	</form> --%>
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
     <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
@@ -398,16 +492,23 @@
     <script>
 	var filtersMap = new Object();
 
-	function closeUploadUSModal() {
+	
+	function closeUploadFortnightExportModal() {
 		$("#fortnightlyPlanFile").val('');
-		$("#upload_template").modal('close');
-	}		
+		$("#export_template").modal('close');
+	}	
+	
+	function closeUploadFortnightUploadModal()
+	{
+		$("#fortnightlyPlanFile").val('');
+		$("#upload_template").modal('close');		
+	}
 	
 	var pageNo = window.localStorage.getItem("fortnightplanPageNo");
     $(document).ready(function () {
-    	$('.modal').modal();
-    	$('select:not(.searchable)').formSelect();
         $('.searchable').select2();
+        $('.modal').modal({ dismissible: false });
+        $('.collapsible').collapsible();
         var filters = window.localStorage.getItem("fortnightPlanFilters");
         
         if($.trim(filters) != '' && $.trim(filters) != null){
@@ -425,6 +526,16 @@
 	        	  }
 	            }
           }
+        
+        var DateShort=new Date().getFullYear();
+    	DateShort=DateShort.toString();
+    	DateShort=DateShort.substring(2,4);
+
+    $('#export_period').append('<option value="1st January,'+DateShort+'  - 31st March,'+DateShort+'">1st January,'+DateShort+'  - 31st March,'+DateShort+'</option>');
+    $('#export_period').append('<option value="1st April,'+DateShort+'  - 30th June,'+DateShort+'">1st April,'+DateShort+'  - 30th June,'+DateShort+'</option>'); 
+    $('#export_period').append('<option value="1st July,'+DateShort+'  - 30th September,'+DateShort+'">1st July,'+DateShort+'  - 30th September,'+DateShort+'</option>'); 
+    $('#export_period').append('<option value="1st October,'+DateShort+'  - 31st December,'+DateShort+'">1st October,'+DateShort+'  - 31st December,'+DateShort+'</option>');        
+        
 		
     	 getFortnightQuarterlyPlanList();
     });
@@ -470,6 +581,10 @@
 
     
     function getFortnightQuarterlyPlanList(){
+ 
+    	$("#workError").html("");
+    	$("#periodError").html("");
+    	
     	$(".page-loader").show();
     	
     	getPeriodFilterList('');
@@ -719,25 +834,62 @@
 	}
     
     function exportFortnight(){
-    	var work_id_fk = $("#work_id_fk").val();
-    	var period = $("#period").val();
-    	var item = $("#item").val();
-    	var critical = "";
     	
-	 		if($("#critical1").prop('checked') )
-	 		{
-	 			critical="Yes";
- 		}else if($("#critical2").prop('checked') )
- 		{
- 			critical="No";
- 		} 
+    	$("#export_template").modal('open');
+   	
+   	} 
+    
+    function exportQuarterlyPlan()
+    {
+    	var work_id_fk = $("#export_work_id_fk").val();
+    	var period = $("#export_period").val();
+    	
+/*     	
+   		if(work_id_fk=="")
+   		{
+   			$("#workError").html("Work ID Required");
+   			return false;
+   		}
+   		else
+		{
+   			$("#workError").html("");
+		} */
+   		
+   		if(period=="")
+   		{
+   			$("#periodError").html("Period Required");
+   			return false;
+   		}
+   		else
+		{
+   			$("#periodError").html("");
+		}
 	 		
       	 $("#exportWork_id_fk").val(work_id_fk);
       	 $("#exportPeriod").val(period);
-      	 $("#exportitem").val(item);
-      	 $("#exportCritical").val(critical);          	 
-      	 $("#exportFortnightplanForm").submit();
-   	}  	
+      	// $("#exportFortnightplanForm").submit();   	
+      	 
+      	 	 if($("#export_period").val()=="1st January,23  - 31st March,23")
+      		 {
+      	      	 window.location.href="/pmis/FortnightPlan_1"+".xlsx";
+
+      		 }
+      	 	 else  if($("#export_period").val()=="1st April,23  - 30th June,23")
+      		 {
+      	      	 window.location.href="/pmis/FortnightPlan_2"+".xlsx";
+
+      		 }
+      	 	 else  if($("#export_period").val()=="1st July,23  - 30th September,23")
+      		 {
+      	      	 window.location.href="/pmis/FortnightPlan_3"+".xlsx";
+
+      		 }
+      	 	 else  if($("#export_period").val()=="1st October,23  - 31st December,23")
+      		 {
+      	      	 window.location.href="/pmis/FortnightPlan_4"+".xlsx";
+
+      		 }      	 	 
+    }
 	
 	
 	

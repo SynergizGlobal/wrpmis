@@ -69,7 +69,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 	@Override
 	public List<FortnightPlan> getFortnightPlanList(FortnightPlan obj) throws Exception {
 		List<FortnightPlan> objsList = null;
-		try {
+		/*try {
 			String qry = "SELECT distinct min(F.ID) as fortnightly_plan_id,category,contract_short_name,structure_type as structure_type_fk,structure, " + 
 					"cast(max(isnull(s_cum_planned_till_date,0)) as varchar) as cum_planned_last_st, " + 
 					"cast(max(isnull(s_cum_actual_till_date,0)) as varchar) as cum_actual_last_st, " + 
@@ -186,7 +186,78 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<FortnightPlan>(FortnightPlan.class));	
 		}catch(Exception e){ 
 			throw new Exception(e);
+		}*/
+		try {	
+		String qry = "select distinct work_id_fk,structure as category,item as critical_item,criticality,TDC,units,scope_of_work,cumulative_progress,backlog_from_previous_months from fortnight_quarterly_plan p   " + 
+				"					left join fortnight_quarterly_plan_activities a on a.fortnight_quarterly_plan_id=p.fortnight_quarterly_plan_id  " + 
+				"					LEFT JOIN work w on p.work_id_fk =w.work_id  " + 
+				"					where p.work_id_fk is not null and fortnight is not  null " ;
+		int arrSize = 0;	
+		
+		
+		if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+			qry = qry + " and work_id_fk = ? ";
+			arrSize++;
 		}
+		if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure())) {
+			qry = qry + " and structure = ? ";
+			arrSize++;
+		}
+		if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCriticality())) {
+			qry = qry + " and criticality = ? ";
+			arrSize++;
+		}
+		
+		if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getPeriod())) {
+			String Str[]=obj.getPeriod().split("_");
+			if(Str.length==2)
+			{
+				qry = qry + " and fortnight_start = ? and fortnight_finish=? ";
+				arrSize++;
+				arrSize++;
+			}
+			else
+			{
+				qry = qry + " and (cast(fortnight_start as varchar) = ? or cast(fortnight_finish as varchar)=?) ";
+				arrSize++;
+				arrSize++;					
+			}
+
+		}		
+		
+		Object[] pValues = new Object[arrSize];
+		
+		int i = 0;
+
+		if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+			pValues[i++] = obj.getWork_id_fk();
+		}
+		if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure())) {
+			pValues[i++] = obj.getStructure();
+		}
+		if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getCriticality())) {
+			pValues[i++] = obj.getCriticality();
+		}
+		
+		if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getPeriod())) {
+			String Str[]=obj.getPeriod().split("_");
+			if(Str.length==2)
+			{
+				pValues[i++] = Str[0];
+				pValues[i++] = Str[1];
+			}
+			else
+			{
+				pValues[i++] = obj.getPeriod();
+				pValues[i++] = obj.getPeriod();
+			}
+		}
+	
+		objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<FortnightPlan>(FortnightPlan.class));	
+	}catch(Exception e){ 
+		throw new Exception(e);
+	}		
+		
 		return objsList;
 	}
 

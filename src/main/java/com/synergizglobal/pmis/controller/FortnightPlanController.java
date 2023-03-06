@@ -132,6 +132,8 @@ public class FortnightPlanController {
 		ModelAndView model = new ModelAndView();
 		try {
 			model.setViewName(PageConstants2.quarterlyPlanGrid);
+			List<FortnightPlan> FortnightPlanWorkList = FortnightPlanService.getFortnightPlanWorkList();
+			model.addObject("FortnightPlanWorkList", FortnightPlanWorkList);			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -848,11 +850,14 @@ public class FortnightPlanController {
 				        
 				        
 			            XSSFRow headingRow = sheet.createRow(0);
-			            String headerString = "S. No^Category^Contract^Structure^Structure ID^Cum Planned\r\n" + 
+			            /*String headerString = "S. No^Category^Contract^Structure^Structure ID^Cum Planned\r\n" + 
 			            		"Last Fortnight^Cum Actual\r\n" + 
 			            		"Last Fortnight^Plan for\r\n" + 
 			            		"Current Fortnight^Actual\r\n" + 
-			            		"progress^FortnightPlan ID^Remarks";
+			            		"progress^FortnightPlan ID^Remarks";*/
+			            
+			            String headerString = "Work^Category^Critical Item^Criticality (Yes/No)^TDC^Units^" + 
+			            		"Scope of Work^Cumulative Progress^Backlog from Previous Months";			            
 			            
 			            String[] firstHeaderStringArr = headerString.split("\\^");
 			            
@@ -866,26 +871,22 @@ public class FortnightPlanController {
 			            for (FortnightPlan obj : dataList) {
 			                XSSFRow row = sheet.createRow(rowNo);
 			                int c = 0;
-			                
-			                Cell cell = row.createCell(c++);
+						
+							Cell cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
-							cell.setCellValue(rowNo);
-							
-							cell = row.createCell(c++);
-							cell.setCellStyle(sectionStyle);
-							cell.setCellValue(obj.getCategory());
+							cell.setCellValue(obj.getWork_id_fk());
 							
 			                cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
-							cell.setCellValue(obj.getContract_short_name());
+							cell.setCellValue(obj.getCategory());
 							
 							cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
-							cell.setCellValue(obj.getStructure_type_fk());
+							cell.setCellValue(obj.getItem());
 							
 							cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);
-							cell.setCellValue(obj.getStructure());								
+							cell.setCellValue(obj.getCriticality());								
 							
 							cell = row.createCell(c++);
 							cell.setCellStyle(sectionStyle);

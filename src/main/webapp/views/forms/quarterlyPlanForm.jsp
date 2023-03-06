@@ -914,13 +914,17 @@
     	document.getElementById('getForm').submit();
     }
     
+    var DateShort=new Date().getFullYear();
+	DateShort=DateShort.toString();
+	DateShort=DateShort.substring(2,4);   
+    
     
     var fortnightArray=
    	 [
-       	["1st January__22 - 15th January__22","16th January__22 - 31st January__22","1st February__22 - 15th February__22","16th February__22 - 31st February__22","1st March__22 - 15th March__22","16th March__22 - 31st March__22"],
-       	["1st April__22 - 15th April__22","16th April__22 - 31st April__22","1st May__22 - 15th May__22","16th May__22 - 31st May__22","1st June__22 - 15th June__22","16th June__22 - 30th June__22"],
-       	["1st July__22 - 15th July__22","16th July__22 - 31st July__22","1st August__22 - 15th August__22","16th August__22 - 31st August__22","1st September__22 - 15th September__22","16th September__22 - 30th September__22"],
-       	["1st October__22 - 15th October__22","16th October__22 - 31st October__22","1st November__22 - 15th November__22","16th November__22 - 30th November__22","1st December__22 - 15th December__22","16th December__22 - 31st December__22"]
+       	["1st January__"+DateShort+" - 15th January__"+DateShort+"","16th January__"+DateShort+" - 31st January__"+DateShort+"","1st February__"+DateShort+" - 15th February__"+DateShort+"","16th February__"+DateShort+" - 28th February__"+DateShort+"","1st March__"+DateShort+" - 15th March__"+DateShort+"","16th March__"+DateShort+" - 31st March__"+DateShort+""],
+       	["1st April__"+DateShort+" - 15th April__"+DateShort+"","16th April__"+DateShort+" - 31st April__"+DateShort+"","1st May__"+DateShort+" - 15th May__"+DateShort+"","16th May__"+DateShort+" - 31st May__"+DateShort+"","1st June__"+DateShort+" - 15th June__"+DateShort+"","16th June__"+DateShort+" - 30th June__"+DateShort+""],
+       	["1st July__"+DateShort+" - 15th July__"+DateShort+"","16th July__"+DateShort+" - 31st July__"+DateShort+"","1st August__"+DateShort+" - 15th August__"+DateShort+"","16th August__"+DateShort+" - 31st August__"+DateShort+"","1st September__"+DateShort+" - 15th September__"+DateShort+"","16th September__"+DateShort+" - 30th September__"+DateShort+""],
+       	["1st October__"+DateShort+" - 15th October__"+DateShort+"","16th October__"+DateShort+" - 31st October__"+DateShort+"","1st November__"+DateShort+" - 15th November__"+DateShort+"","16th November__"+DateShort+" - 30th November__"+DateShort+"","1st December__"+DateShort+" - 15th December__"+DateShort+"","16th December__"+DateShort+" - 31st December__"+DateShort+""]
         ];    
         
         function getFortnights(Iteration)

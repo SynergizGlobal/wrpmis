@@ -366,7 +366,7 @@
 	
      <div id="export_template" class="modal">
             <div class="modal-content">
-                <h6 class="modal-header">Upload Fortnight Plan Remarks <span
+                <h6 class="modal-header">Export Quarterly Plan Template <span
                         class="right modal-action modal-close" onclick="resetFields('add')"> <span class="material-icons">close</span></span></h6>
                 <div class="row">
 								<div class="col m5 s12">

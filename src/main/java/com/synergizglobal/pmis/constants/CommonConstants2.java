@@ -69,6 +69,7 @@ public class CommonConstants2 {
 	public static final String DESIGN_FILE_SAVING_PATH = base_path+"/DESIGN_FILES/";
 	public static final String P6_FILE_SAVING_PATH = base_path+"/P6_FILES/";
 	public static final String FORTNIGHT_PLAN_UPLOAD_REMARKS_PATH = base_path+"/FORTNIGHT_PLAN_UPLOAD_REMARKS_PATH/";
+	public static final String QUARTERLY_PLAN_UPLOAD_PATH = base_path+"/QUARTERLY_PLAN_UPLOAD_PATH/";
 	public static final String DOCX_LOGO = base_path+"/resources/images";
 	public final static String WEB_DOCUMENTS_FILE_SAVING_PATH = base_path+"/WEB_DOCUMENTS/";
 	public final static String PROJECT_GALLERY_FILE_SAVING_PATH = base_path+"/PROJECT_GALLERY/";

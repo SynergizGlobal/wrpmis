@@ -269,8 +269,7 @@ public class FileFormatModel {
 			fileFormat.add(column.trim());
 		}		
 		return fileFormat;
-	}	
-	
+	}
 	public static List<String> getDeliverablesFileFormat() {
 		List<String> fileFormat = new ArrayList<String>();
 		String columns = "Deliverable Id, Project, Work, Contract, Milestones, Deliverable type, "

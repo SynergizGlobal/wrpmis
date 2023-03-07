@@ -188,4 +188,9 @@ public class FortnightPlanServiceImpl implements FortnightPlanService {
 		return fortnightPlanDao.deleteFortnightsByContractShortName(ContractShortName);
 	}
 	
+	public int insertQuarterlyPlans(List<FortnightPlan>FortnightPlansList) throws Exception
+	{
+		return fortnightPlanDao.insertQuarterlyPlans(FortnightPlansList);
+	}
+	
 }

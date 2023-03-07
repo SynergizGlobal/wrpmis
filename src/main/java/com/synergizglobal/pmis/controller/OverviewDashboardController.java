@@ -73,6 +73,18 @@ public class OverviewDashboardController {
 			logger.error("taDashboard : " + e.getMessage());
 		}
 		return model;
+	}
+	
+	@RequestMapping(value="/AIIBDisbursement/{work_id}",method= {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView taDashboard(@PathVariable("work_id") String work_id,HttpSession session,HttpServletRequest request) {
+		ModelAndView model = new ModelAndView();
+		try {
+		    model.setViewName(PageConstants.aIIBDisbursement);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("taDashboard : " + e.getMessage());
+		}
+		return model;
 	}	
 	
 	

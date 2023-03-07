@@ -1647,6 +1647,140 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 		int cnt=stmt.executeUpdate();
 		if(stmt != null){stmt.close();}
 		return cnt;
+	}
+
+	@Override
+	public int insertQuarterlyPlans(List<FortnightPlan> fortnightPlansList) throws Exception {
+		TransactionDefinition def = new DefaultTransactionDefinition();
+		TransactionStatus status = transactionManager.getTransaction(def);
+		Connection connection = null;
+		PreparedStatement updateStmt = null;
+		
+		Connection con = null;
+		int count = 0;
+		int insertCount =0;
+
+		
+
+
+		String query = " insert into fortnight_quarterly_plan (work_id_fk, period, structure, item, criticality, TDC, scope_of_work,cumulative_progress)"
+	               + " values (?,?,?, ?, ?, ?,?,?)";
+		
+		
+		String updateQuery = " update fortnight_quarterly_plan set work_id_fk=?, period=?, structure=?, item=?, criticality=?, TDC=?, scope_of_work=?,cumulative_progress=? "
+	               + " where fortnight_quarterly_plan_id=?";		
+
+		String queryChild = " insert into fortnight_quarterly_plan_activities (fortnight_quarterly_plan_id,fortnight,activity_name,units)"
+	               + " values (?,?,?,?)";
+		
+		String updateChild = " delete from fortnight_quarterly_plan_activities where fortnight_quarterly_plan_id=?";
+		
+	  PreparedStatement preparedStmt = null;
+	  PreparedStatement preparedStmtChild = null;
+	  PreparedStatement deleteChild = null;
+	  
+	  try
+	  {
+		  long Key=0;
+
+		  con = dataSource.getConnection();	
+			for (FortnightPlan obj : fortnightPlansList) 
+			{
+					if(!StringUtils.isEmpty(obj) && StringUtils.isEmpty(obj.getFortnightly_plan_id())) 
+					{		  
+		
+					  preparedStmt = con.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
+					  preparedStmtChild = con.prepareStatement(queryChild);
+			
+				      preparedStmt.setString(1, obj.getWork_id_fk());
+				      preparedStmt.setString(2, obj.getPeriod()!=null ?obj.getPeriod():null);
+				      preparedStmt.setString(3, obj.getCategory());
+				      preparedStmt.setString(4, obj.getItem());
+				      preparedStmt.setString(5, obj.getCriticality());
+				      preparedStmt.setString(6, obj.getTdc_calendar());
+				      preparedStmt.setString(7, obj.getScope());
+				      preparedStmt.setString(8, obj.getCumulative_progress());
+				      preparedStmt.execute();
+				      
+						ResultSet generatedKeys = preparedStmt.getGeneratedKeys();
+						if (generatedKeys.next()) 
+						{
+							Key=generatedKeys.getLong(1);
+						}
+					    if(preparedStmt != null){preparedStmt.close();}	      
+						if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFortnight_date())&& !StringUtils.isEmpty(obj.getActivity_name())) 
+						{
+
+								preparedStmtChild.setLong(1, Key);
+								preparedStmtChild.setString(2, obj.getFortnight_date());
+								preparedStmtChild.setString(3, obj.getActivity_name());
+								preparedStmtChild.setString(4, obj.getUnit());
+								preparedStmtChild.execute();
+								count=1;
+						}
+						if(preparedStmtChild != null){preparedStmtChild.close();}	
+
+					}
+					else
+					{
+						  preparedStmt = con.prepareStatement(updateQuery);
+						  deleteChild = con.prepareStatement(updateChild);
+						  preparedStmtChild = con.prepareStatement(queryChild);
+						  
+
+		
+				
+					      preparedStmt.setString(1, obj.getWork_id_fk());
+					      preparedStmt.setString(2, obj.getPeriod()!=null ?obj.getPeriod():null);
+					      preparedStmt.setString(3, obj.getStructure());
+					      preparedStmt.setString(4, obj.getItem());
+					      preparedStmt.setString(5, obj.getCriticality());
+					      preparedStmt.setString(6, obj.getTdc_calendar());
+					      preparedStmt.setString(7, obj.getScope_of_work_quarterly());
+					      preparedStmt.setString(8, obj.getCumulative_progress());
+					      preparedStmt.setString(9, obj.getFortnightly_plan_id());
+					      preparedStmt.execute();
+						    if(preparedStmt != null){preparedStmt.close();}	
+						    
+						    preparedStmtChild = con.prepareStatement(queryChild);
+		
+							
+						    deleteChild.setString(1, obj.getFortnightly_plan_id());
+						    deleteChild.execute();
+							if(deleteChild != null){deleteChild.close();}	
+						    
+							if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFortnight_date())&& !StringUtils.isEmpty(obj.getActivity_name())) 
+							{
+
+									preparedStmtChild.setString(1, obj.getFortnightly_plan_id());
+									preparedStmtChild.setString(2, obj.getFortnight_date());
+									preparedStmtChild.setString(3, obj.getActivity_name());
+									preparedStmtChild.setString(4, obj.getUnit());
+									preparedStmtChild.execute();
+									count=1;
+								
+							}
+							if(preparedStmtChild != null){preparedStmtChild.close();}	
+							
+				
+							
+					}
+					if(count > 0) {
+						insertCount++;
+					}					
+					
+			}
+			transactionManager.commit(status);
+		}
+		catch(Exception e){ 
+			e.printStackTrace();
+			transactionManager.rollback(status);
+			throw new Exception(e);
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(connection, updateStmt, null);
+		}		
+
+		return insertCount;
 	}	
 
 }

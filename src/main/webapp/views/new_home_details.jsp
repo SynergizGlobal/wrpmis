@@ -64,6 +64,20 @@
 				  /* border-radius: 0 !important; */
 				  border-radius: 20px !important;
 				}
+				
+				.diamondnpa {
+			    justify-content: center;
+			    align-items: center;
+				  color: #000;
+				  line-height: 40px;
+				  padding: 0 20px;
+				  background: #fff !important;
+				  margin: 40px auto;
+				  /* position: relative;*/
+ 				  height: 85px;
+				  /* border-radius: 0 !important; */
+				  border-radius: 20px !important;
+				}				
 				.diamond span {
 				  display: inline-block;
 				  width: 210px;
@@ -861,6 +875,15 @@
                             </c:forEach>
                         </ul>
                     </div>
+                     <c:if test="${projectOverview.project_id eq 'P04'}">
+	                    <div class="row" style="text-align:center;">
+	                    	<ul><li>
+	 								    <a href="AIIBDisbursement/${projectOverview.project_id}"><div class="btn diamondnpa" style="width:500px;font-size:24px;font-weight:bold;padding-top:20px;">
+									         <span>AIIB Disbursement</span>
+									    </div></a>                   	
+	                    	</li></ul>
+	                    </div>
+                    </c:if>
                     <c:forEach var="wObj" items="${projectOverview.worksInfo }" varStatus="loop">
                         <div class="hidden subWorkOverview" id="worksListOfProject${loop.index }">
                        <div class="modal" id="workDetails${loop.index }">

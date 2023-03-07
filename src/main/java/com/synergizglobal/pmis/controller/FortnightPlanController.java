@@ -369,6 +369,179 @@ public class FortnightPlanController {
 		return count;
 	}
 	
+	
+	@RequestMapping(value = "/upload-quarterly-plan", method = {RequestMethod.POST})
+	public ModelAndView uploadQuarterlyPlan(@ModelAttribute FortnightPlan fortnightPlan,RedirectAttributes attributes,HttpSession session){
+		ModelAndView model = new ModelAndView();
+		try {
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			
+			fortnightPlan.setCreated_by_user_id_fk(user_Id);
+			fortnightPlan.setUser_id(user_Id);
+			fortnightPlan.setUser_name(userName);
+			fortnightPlan.setDesignation(userDesignation);
+			model.setViewName("redirect:/FortnightQuarterlyPlan");
+			
+			if(!StringUtils.isEmpty(fortnightPlan.getFortnightPlanFile())){
+				MultipartFile multipartFile = fortnightPlan.getFortnightPlanFile();
+				String fileName = multipartFile.getOriginalFilename();
+				fortnightPlan.setFilename(fileName);
+				// Creates a workbook object from the uploaded excelfile
+				if (multipartFile.getSize() > 0){					
+					XSSFWorkbook workbook = new XSSFWorkbook(multipartFile.getInputStream());
+					// Creates a worksheet object representing the first sheet
+					int sheetsCount = workbook.getNumberOfSheets();
+					if(sheetsCount > 0) {
+						XSSFSheet risksDrawingsSheet = workbook.getSheetAt(0);
+						//System.out.println(uploadFilesSheet.getSheetName());
+						//header row
+						XSSFRow headerRow = risksDrawingsSheet.getRow(0);
+						//checking given file format
+						if(headerRow != null){
+
+						}else{
+							attributes.addFlashAttribute("error",uploadformatError);
+	                		return model;
+						}
+						
+						String saveDirectory = CommonConstants2.QUARTERLY_PLAN_UPLOAD_PATH ;
+						FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);						
+						
+						int count = uploadQuarterlyPlan(fortnightPlan,user_Id,userName);
+						if(count > 0) {
+							attributes.addFlashAttribute("success", + count + " Quarterly Plan uploaded successfully.");
+							FormHistory formHistory = new FormHistory();
+							formHistory.setCreated_by_user_id_fk(fortnightPlan.getCreated_by_user_id_fk());
+							formHistory.setUser(fortnightPlan.getDesignation()+" - "+fortnightPlan.getUser_name());
+							formHistory.setModule_name_fk("QuarterlyPlan");
+							formHistory.setForm_name("Upload QuarterlyPlan");
+							formHistory.setForm_action_type("Upload");
+							formHistory.setForm_details( count + " QuarterlyPlan uploaded successfully.");
+							formHistory.setWork(fortnightPlan.getWork_id_fk());
+							formHistory.setContract(fortnightPlan.getContract_id_fk());
+							
+							boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+							/********************************************************************************/
+							
+						}
+						
+					}
+					workbook.close();
+				}
+			} else {
+				attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
+			logger.fatal("updateDataDate() : "+e.getMessage());
+		}
+		return model;
+	}
+
+	private int uploadQuarterlyPlan(FortnightPlan obj, String userId,String userName) throws Exception {
+		FortnightPlan fortnightPlan = null;
+		List<FortnightPlan> fortnightPlanList = new ArrayList<FortnightPlan>();
+		
+		Writer w = null;
+		int count = 0 ;
+		try {	
+			MultipartFile excelfile = obj.getFortnightPlanFile();
+			// Creates a workbook object from the uploaded excelfile
+			if (!StringUtils.isEmpty(excelfile) && excelfile.getSize() > 0 ){
+				
+				XSSFWorkbook workbook = new XSSFWorkbook(excelfile.getInputStream());
+				int sheetsCount = workbook.getNumberOfSheets();
+				if(sheetsCount > 0) {
+					XSSFSheet risksDrawingsSheet = workbook.getSheetAt(0);
+					//System.out.println(uploadFilesSheet.getSheetName());
+					//header row
+					//XSSFRow headerRow = uploadFilesSheet.getRow(0);							
+					DataFormatter formatter = new DataFormatter(); //creating formatter using the default locale
+					//System.out.println(uploadFilesSheet.getLastRowNum());
+					for(int i = 1; i <= risksDrawingsSheet.getLastRowNum();i++){
+						XSSFRow row = risksDrawingsSheet.getRow(i);
+						// Sets the Read data to the model class
+						// Cell cell = row.getCell(0);
+						// String j_username = formatter.formatCellValue(row.getCell(0));
+						//System.out.println(i);
+						fortnightPlan = new FortnightPlan();
+						fortnightPlan.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
+						fortnightPlan.setFilename(obj.getFilename());
+						String val = null;
+						if(!StringUtils.isEmpty(row)) {								
+						  
+							fortnightPlan.setWork_id_fk(obj.getWork_id_fk());
+							val = formatter.formatCellValue(row.getCell(0)).trim();
+							if(!StringUtils.isEmpty(val)) { fortnightPlan.setCategory(val);}
+							
+							val = formatter.formatCellValue(row.getCell(1)).trim();
+							if(!StringUtils.isEmpty(val)) { fortnightPlan.setItem(val);}
+							
+							val = formatter.formatCellValue(row.getCell(2)).trim();
+							if(!StringUtils.isEmpty(val)) { fortnightPlan.setCriticality(val);}	
+							
+							val = formatter.formatCellValue(row.getCell(3)).trim();
+							if(!StringUtils.isEmpty(val)) { fortnightPlan.setTdc_calendar(val);}					
+							
+							val = formatter.formatCellValue(row.getCell(4)).trim();
+							if(!StringUtils.isEmpty(val)) { fortnightPlan.setUnit(val);}								
+							
+							val = formatter.formatCellValue(row.getCell(5)).trim();
+							if(!StringUtils.isEmpty(val)) { fortnightPlan.setScope(val);}										
+							
+							val = formatter.formatCellValue(row.getCell(6)).trim();
+							if(!StringUtils.isEmpty(val)) { fortnightPlan.setCumulative_progress(val);}
+							
+							val = formatter.formatCellValue(row.getCell(7)).trim();
+							if(!StringUtils.isEmpty(val)) { fortnightPlan.setBacklog_from_previous_months(val);}
+							
+							for(var f=1;f<=6;f++)
+							{
+								XSSFRow row1 = risksDrawingsSheet.getRow(1);
+								int l=7+f;
+								val = formatter.formatCellValue(row1.getCell(l)).trim();
+								if(!StringUtils.isEmpty(val)) { fortnightPlan.setFortnight_date(val);}
+								val = formatter.formatCellValue(row.getCell(l)).trim();
+								if(!StringUtils.isEmpty(val)) { fortnightPlan.setActivity_name(val);}								
+							}
+
+						}						
+						boolean flag = fortnightPlan.checkNullOrEmpty();
+						
+						if(!flag) {
+							fortnightPlanList.add(fortnightPlan);
+						}
+					}
+					
+					if(!fortnightPlanList.isEmpty()){
+						count  = FortnightPlanService.insertQuarterlyPlans(fortnightPlanList);
+					}
+				}
+				workbook.close();
+			}
+				
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("uploadFortnightPlans() : "+e.getMessage());
+			throw new Exception(e);	
+		}finally{
+		    try{
+		        if ( w != null)
+		        	w.close( );
+		    }catch ( IOException e){
+		    	e.printStackTrace();
+		    	logger.error("uploadFortnightPlan() : "+e.getMessage());
+		    	throw new Exception(e);
+		    }
+		}
+		
+		return count;
+	}	
+	
 	@RequestMapping(value="/fortnight-upload-remarks",method=RequestMethod.GET)
 	public ModelAndView fortnightUploadRemarks(@ModelAttribute FortnightPlan obj,HttpSession session) {
 		ModelAndView model = new ModelAndView();

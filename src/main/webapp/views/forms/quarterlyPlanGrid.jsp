@@ -206,7 +206,10 @@
 	.modal .modal-footer{
 		text-align: center;
 	}
-	
+    .container {
+         width:100% !important;
+    }
+
 	
     </style>
 </head>
@@ -237,6 +240,16 @@
     								</div>
     							</div>
                         </div>
+					   <div class="row clearfix">
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								<c:if test="${not empty success }">
+									<div class="center-align m-1 close-message">${success}</div>
+								</c:if>
+								<c:if test="${not empty error }">
+									<div class="center-align m-1 close-message">${error}</div>
+								</c:if>
+							</div>
+					</div>                        
                     </span>
                     <div class="">
                         <div class="row no-mar" style="margin-bottom: 0;">
@@ -321,17 +334,25 @@
 			</div>
 			<!-- form start-->
 			<div class="container">
-				<form action="<%=request.getContextPath()%>/upload-quarterly-plan"
-					method="post" enctype="multipart/form-data">
+				<form action="<%=request.getContextPath()%>/upload-quarterly-plan" method="post" enctype="multipart/form-data" name="exportFortnightplanForm" id="">
 					<div class="row no-mar">
-						<div class="col s12 m12 input-field center-align">
+						<div class="col s12 m12">
 							<div class="row">
-								<div class="col m2 hide-on-small-only"></div>
-								<div class="col m8 s12">
+								<div class="col m6 s12">
+                                        Work <span class="required">*</span>
+										<select id="export_work_id_fk" name="work_id_fk" class="searchable" style="width:100%" onChange="$('#workError').html('');">
+											<option value="">Select</option>
+	                                       	<c:forEach var="obj" items="${FortnightPlanWorkList }">
+	                                      	   	<option value= "${obj.work_id_fk}">${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
+	                                    	 </c:forEach>  											
+										</select>
+										<span id="workError" class="error-msg" ></span>
+								</div>								
+								<div class="col m6 s12">
 									<div class="file-field input-field">
 										<div class="btn bg-m">
-											<span>Attachment</span> <input type="file" id="designFile"
-												name="designFile" required="required">
+											<span>Attachment</span> <input type="file" id="fortnightPlanFile"
+												name="fortnightPlanFile" required="required">
 										</div>
 										<div class="file-path-wrapper">
 											<input class="file-path validate" type="text">
@@ -345,8 +366,7 @@
 					<div class="row no-mar">
 						<div class="col s12 m6">
 							<div class="center-align m-1">
-								<button type="submit" class="btn waves-effect waves-light bg-m"
-									style="width: 100%;">Upload</button>
+								<button type="submit" class="btn waves-effect waves-light bg-m" style="width: 100%;" onClick="UploadQuarterlyPlan();">Upload</button>
 							</div>
 						</div>
 						<div class="col s12 m6">
@@ -369,16 +389,6 @@
                 <h6 class="modal-header">Export Quarterly Plan Template <span
                         class="right modal-action modal-close" onclick="resetFields('add')"> <span class="material-icons">close</span></span></h6>
                 <div class="row">
-								<div class="col m5 s12">
-                                        <p class="searchable_label">Work <!-- <span class="required">*</span> --></p>
-										<select id="export_work_id_fk" name="work_id_fk" class="searchable" style="width:100%">
-											<option value="">Select</option>
-	                                       	<c:forEach var="obj" items="${FortnightPlanWorkList }">
-	                                      	   	<option value= "${obj.work_id_fk}">${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
-	                                    	 </c:forEach>  											
-										</select>
-										<span id="workError" class="error-msg" ></span>
-								</div>
 								<div class="col m5 s12">
 									<p class="searchable_label">Period<span class="required">*</span></p>
 									<select id="export_period" name="period" class="searchable" style="width:100%">
@@ -476,10 +486,6 @@
     <!-- footer  -->
     <jsp:include page="../layout/footer.jsp"></jsp:include>
     
-<%-- 	<form action="<%=request.getContextPath() %>/export-fortnightplans" name="exportFortnightplanForm" id="exportFortnightplanForm" target="_blank" method="post">	
-        <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
-        <input type="hidden" name="period" id="exportperiod" />
-	</form> --%>
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
     <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
@@ -839,12 +845,10 @@
    	
    	} 
     
-    function exportQuarterlyPlan()
+    function UploadQuarterlyPlan()
     {
     	var work_id_fk = $("#export_work_id_fk").val();
-    	var period = $("#export_period").val();
-    	
-/*     	
+    	    	
    		if(work_id_fk=="")
    		{
    			$("#workError").html("Work ID Required");
@@ -853,7 +857,22 @@
    		else
 		{
    			$("#workError").html("");
-		} */
+		}  
+   		
+   		var imgVal = $('#fortnightPlanFile').val(); 
+        if(imgVal=='') 
+        { 
+            alert("empty input file"); 
+            return false; 
+        }   		
+        $("#work_id_fk").val($("#export_work_id_fk").val());
+   		$("#exportFortnightplanForm").submit(); 
+    }
+    
+    function exportQuarterlyPlan()
+    {
+    	var work_id_fk = $("#export_work_id_fk").val();
+    	var period = $("#export_period").val();
    		
    		if(period=="")
    		{
@@ -867,26 +886,26 @@
 	 		
       	 $("#exportWork_id_fk").val(work_id_fk);
       	 $("#exportPeriod").val(period);
-      	// $("#exportFortnightplanForm").submit();   	
+      	   	
       	 
       	 	 if($("#export_period").val()=="1st January,23  - 31st March,23")
       		 {
-      	      	 window.location.href="/pmis/FortnightPlan_1"+".xlsx";
+      	      	 window.location.href="/pmis/QuarterlyPlan_1"+".xlsx";
 
       		 }
       	 	 else  if($("#export_period").val()=="1st April,23  - 30th June,23")
       		 {
-      	      	 window.location.href="/pmis/FortnightPlan_2"+".xlsx";
+      	      	 window.location.href="/pmis/QuarterlyPlan_2"+".xlsx";
 
       		 }
       	 	 else  if($("#export_period").val()=="1st July,23  - 30th September,23")
       		 {
-      	      	 window.location.href="/pmis/FortnightPlan_3"+".xlsx";
+      	      	 window.location.href="/pmis/QuarterlyPlan_3"+".xlsx";
 
       		 }
       	 	 else  if($("#export_period").val()=="1st October,23  - 31st December,23")
       		 {
-      	      	 window.location.href="/pmis/FortnightPlan_4"+".xlsx";
+      	      	 window.location.href="/pmis/QuarterlyPlan_4"+".xlsx";
 
       		 }      	 	 
     }

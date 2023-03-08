@@ -271,7 +271,7 @@ font-size:22px ;
   <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
   <script>
   $(".page-loader").show();
-  var url="http://203.153.40.44:8000/views/AIIBDisbursement/Dashboard1/478300e1-05ed-4342-9687-f48716d82ac2/fb573e95-b4d0-4ba2-b2b6-1946d005905e?:display_count=n&:showVizHome=n&:origin=viz_share_link";
+  var url="http://203.153.40.44:8000/views/AIIBDisbursement/Dashboard1INR?:showAppBanner=false&:origin=viz_share_link&:display_count=n&:showVizHome=n";
 	 $.ajax({
    		url: "<%=request.getContextPath()%>/ajax/getAIIBDashboardURL",
          type: 'POST',

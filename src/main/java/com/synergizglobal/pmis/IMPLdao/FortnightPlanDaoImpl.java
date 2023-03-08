@@ -953,11 +953,11 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 		
 
 
-		String query = " insert into fortnight_quarterly_plan (work_id_fk, period, structure, item, criticality, TDC, scope_of_work,cumulative_progress)"
-	               + " values (?,?,?, ?, ?, ?,?,?)";
+		String query = " insert into fortnight_quarterly_plan (work_id_fk, period, structure, item, criticality, TDC, scope_of_work,cumulative_progress,backlog_from_previous_months)"
+	               + " values (?,?,?, ?, ?, ?,?,?,?)";
 		
 		
-		String updateQuery = " update fortnight_quarterly_plan set work_id_fk=?, period=?, structure=?, item=?, criticality=?, TDC=?, scope_of_work=?,cumulative_progress=? "
+		String updateQuery = " update fortnight_quarterly_plan set work_id_fk=?, period=?, structure=?, item=?, criticality=?, TDC=?, scope_of_work=?,cumulative_progress=?,backlog_from_previous_months=? "
 	               + " where fortnight_quarterly_plan_id=?";		
 
 		String queryChild = " insert into fortnight_quarterly_plan_activities (fortnight_quarterly_plan_id,fortnight,activity_name,units)"
@@ -997,6 +997,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 		      preparedStmt.setString(6, obj.getTdc_calendar());
 		      preparedStmt.setString(7, obj.getScope_of_work_quarterly());
 		      preparedStmt.setString(8, obj.getCumulative_progress());
+		      preparedStmt.setString(9, obj.getBacklog_from_previous_months());
 		      preparedStmt.execute();
 		      
 				ResultSet generatedKeys = preparedStmt.getGeneratedKeys();
@@ -1014,6 +1015,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 						preparedStmtChild.setString(3, obj.getActivity()[i]);
 						preparedStmtChild.setString(4, obj.getUnits()[i]);
 						preparedStmtChild.execute();
+						flag=true;
 					}
 				}
 				if(preparedStmtChild != null){preparedStmtChild.close();}	
@@ -1050,7 +1052,8 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 			      preparedStmt.setString(6, obj.getTdc_calendar());
 			      preparedStmt.setString(7, obj.getScope_of_work_quarterly());
 			      preparedStmt.setString(8, obj.getCumulative_progress());
-			      preparedStmt.setString(9, obj.getFortnightly_plan_id());
+			      preparedStmt.setString(9, obj.getBacklog_from_previous_months());
+			      preparedStmt.setString(10, obj.getFortnightly_plan_id());
 			      preparedStmt.execute();
 				    if(preparedStmt != null){preparedStmt.close();}	
 				    
@@ -1077,6 +1080,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 							preparedStmtChild.setString(3, obj.getActivity()[i]);
 							preparedStmtChild.setString(4, obj.getUnits()[i]);
 							preparedStmtChild.execute();
+							flag=true;
 						}
 					}
 					if(preparedStmtChild != null){preparedStmtChild.close();}	
@@ -1240,7 +1244,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 	public List<FortnightPlan> getFortnightQuarterlyPlanList(FortnightPlan obj) throws Exception {
 		List<FortnightPlan> objsList = null;
 		try {
-			String qry = "SELECT distinct p.fortnight_quarterly_plan_id as fortnight_quarterly_plan_id,work_id_fk,structure,item,criticality,scope_of_work as scope_of_work_quarterly,TDC as tdc_calendar " + 
+			String qry = "SELECT distinct p.fortnight_quarterly_plan_id as fortnight_quarterly_plan_id,work_id_fk,structure,item,criticality,scope_of_work as scope_of_work_quarterly,TDC as tdc_calendar,backlog_from_previous_months " + 
 					"from fortnight_quarterly_plan p " + 
 					"left join fortnight_quarterly_plan_activities a on a.fortnight_quarterly_plan_id=p.fortnight_quarterly_plan_id " + 
 					"LEFT JOIN work w on p.work_id_fk =w.work_id " + 
@@ -1432,7 +1436,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 		List<FortnightPlan> objsList = null;
 		try {
 
-			String qry = "SELECT p.fortnight_quarterly_plan_id as fortnightly_plan_id,fortnight as fortnight_date,work_id_fk,period,structure,units as unit,cumulative_progress as cum_progress,activity_name,item,criticality,scope_of_work as scope_of_work_quarterly,TDC as tdc_calendar,isnull(pending_progress,'') as pending_progress,isnull(reason_for_shortfall,'')  as reason_for_shortfall " + 
+			String qry = "SELECT p.fortnight_quarterly_plan_id as fortnightly_plan_id,fortnight as fortnight_date,work_id_fk,period,structure,units as unit,cumulative_progress as cum_progress,activity_name,item,criticality,scope_of_work as scope_of_work_quarterly,TDC as tdc_calendar,isnull(pending_progress,'') as pending_progress,backlog_from_previous_months,isnull(reason_for_shortfall,'')  as reason_for_shortfall " + 
 					"from fortnight_quarterly_plan p " + 
 					"left join fortnight_quarterly_plan_activities a on a.fortnight_quarterly_plan_id=p.fortnight_quarterly_plan_id " + 
 					"LEFT JOIN work w on p.work_id_fk =w.work_id " + 
@@ -1663,11 +1667,11 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 		
 
 
-		String query = " insert into fortnight_quarterly_plan (work_id_fk, period, structure, item, criticality, TDC, scope_of_work,cumulative_progress)"
-	               + " values (?,?,?, ?, ?, ?,?,?)";
+		String query = " insert into fortnight_quarterly_plan (work_id_fk, period, structure, item, criticality, TDC, scope_of_work,cumulative_progress,backlog_from_previous_months)"
+	               + " values (?,?,?, ?, ?, ?,?,?,?)";
 		
 		
-		String updateQuery = " update fortnight_quarterly_plan set work_id_fk=?, period=?, structure=?, item=?, criticality=?, TDC=?, scope_of_work=?,cumulative_progress=? "
+		String updateQuery = " update fortnight_quarterly_plan set work_id_fk=?, period=?, structure=?, item=?, criticality=?, TDC=?, scope_of_work=?,cumulative_progress=?,backlog_from_previous_months=? "
 	               + " where fortnight_quarterly_plan_id=?";		
 
 		String queryChild = " insert into fortnight_quarterly_plan_activities (fortnight_quarterly_plan_id,fortnight,activity_name,units)"
@@ -1700,6 +1704,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 				      preparedStmt.setString(6, obj.getTdc_calendar());
 				      preparedStmt.setString(7, obj.getScope());
 				      preparedStmt.setString(8, obj.getCumulative_progress());
+				      preparedStmt.setString(9, obj.getBacklog_from_previous_months());
 				      preparedStmt.execute();
 				      
 						ResultSet generatedKeys = preparedStmt.getGeneratedKeys();
@@ -1738,7 +1743,8 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 					      preparedStmt.setString(6, obj.getTdc_calendar());
 					      preparedStmt.setString(7, obj.getScope_of_work_quarterly());
 					      preparedStmt.setString(8, obj.getCumulative_progress());
-					      preparedStmt.setString(9, obj.getFortnightly_plan_id());
+					      preparedStmt.setString(9, obj.getBacklog_from_previous_months());
+					      preparedStmt.setString(10, obj.getFortnightly_plan_id());
 					      preparedStmt.execute();
 						    if(preparedStmt != null){preparedStmt.close();}	
 						    

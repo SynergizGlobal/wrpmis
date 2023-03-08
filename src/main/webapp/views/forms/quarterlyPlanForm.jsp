@@ -385,7 +385,13 @@
                                 
                             </div>
 
-                            
+                             <div class="row" style="margin-top: 20px;">
+                                <div class="col s6 m4 input-field">
+                                    <textarea id="backlog_from_previous_months" name="backlog_from_previous_months" class="pmis-textarea pdr4em w85 my-valid-class" data-length="150" maxlength="150"></textarea>
+                                     <label for="backlog_from_previous_months">Backlog from Previous Months</label>
+                                     <BR><span id="backlog_from_previous_monthsError" class="error-msg" ></span>
+                                </div>
+                            </div>                           
                             </div>
 
                             <div class="container container-no-margin">
@@ -585,6 +591,7 @@
 	   $("#scope_of_work_quarterly").val("${FortnightPlan[0].scope_of_work_quarterly}");
 	   $("#cumulative_progress").val("${FortnightPlan[0].cum_progress}");
 	   $("#fortnightly_plan_id").val("${FortnightPlan[0].fortnightly_plan_id}");
+	   $("#backlog_from_previous_months").val("${FortnightPlan[0].backlog_from_previous_months}");
 	   
 	   
 	   

@@ -85,6 +85,43 @@ public class OverviewDashboardController {
 			logger.error("taDashboard : " + e.getMessage());
 		}
 		return model;
+	}
+	
+	
+	@RequestMapping(value = "/ajax/getAIIBDashboardURL", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public OverviewDashboard getAIIBDashboardURL(@ModelAttribute OverviewDashboard dObj,HttpSession session){
+		String user_Id = null;String userName = null;
+		String tableauUrl = "";
+		try{
+			user_Id = (String) session.getAttribute("USER_ID"); userName = (String) session.getAttribute("USER_NAME");
+		
+
+			if(!StringUtils.isEmpty(dObj) && !StringUtils.isEmpty(dObj.getDashboard_url()) && !"structure-gallery-page".equals(dObj.getDashboard_url()) 
+					 && !"wbs-tree".equals(dObj.getDashboard_url())){
+				String dashboardUrl = dObj.getDashboard_url();
+				String server_name = "MRVC";
+				if(dashboardUrl.contains(".com/")) {
+					server_name = "Syntrack";
+				}else {
+					server_name = "MRVC";
+				}
+				TableauTrustedTicket tObj = new TableauTrustedTicket();
+				String trustedTokenId =  tObj.getTrustedTicket(server_name);
+				String[] url = {};
+
+					url = dashboardUrl.split(":8000/");
+					UrlGenerator ugObj = new UrlGenerator();
+					String baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", "203.153.40.44");
+					baseUrl = baseUrl.replace("{1}", trustedTokenId);
+					tableauUrl = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS;
+				}
+			dObj.setDashboard_url(tableauUrl.toString());	
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getDashboardURL() : User Id - "+user_Id+" - User Name - "+userName+" - "+e.getMessage());
+		}
+		return dObj;
 	}	
 	
 	

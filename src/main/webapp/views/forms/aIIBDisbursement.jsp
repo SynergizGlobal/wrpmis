@@ -236,7 +236,7 @@ font-size:22px ;
 	    <div class="row">
 
 	    	<div class="col s12 m12" id="tableau-item-holder" >	    	 	
-				<iframe id="dashboardOpen" name="dashboardOpen" src="http://203.153.40.44:8000/views/AIIBDisbursement/Dashboard1/478300e1-05ed-4342-9687-f48716d82ac2/fb573e95-b4d0-4ba2-b2b6-1946d005905e?:display_count=n&:showVizHome=n&:origin=viz_share_link" frameborder="1" marginheight="0" marginwidth="0" title="data visualization" allowtransparency="true" allowfullscreen="true" class="timeline_body" src="" ></iframe>
+				<iframe id="dashboardOpen" name="dashboardOpen"  frameborder="1" marginheight="0" marginwidth="0" title="data visualization" allowtransparency="true" allowfullscreen="true" class="timeline_body" src="" ></iframe>
 	    	</div>    	
 
 		</div>
@@ -269,6 +269,23 @@ font-size:22px ;
   <script type="text/javascript" src="http://203.153.40.44:8000/javascripts/api/tableau-2.min.js"></script>
   <!-- <script src="https://code.jquery.com/jquery-3.6.0.js"></script> -->
   <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
-  
+  <script>
+  $(".page-loader").show();
+  var url="http://203.153.40.44:8000/views/AIIBDisbursement/Dashboard1/478300e1-05ed-4342-9687-f48716d82ac2/fb573e95-b4d0-4ba2-b2b6-1946d005905e?:display_count=n&:showVizHome=n&:origin=viz_share_link";
+	 $.ajax({
+   		url: "<%=request.getContextPath()%>/ajax/getAIIBDashboardURL",
+         type: 'POST',
+         data:{dashboard_url : url},
+         async: false,
+         dataType: 'json',
+         success: function (data){
+         	var dashboard_url = data.dashboard_url;
+      	    $("#dashboardOpen").attr("src",dashboard_url);
+      	    $(".page-loader").hide();
+         },error: function(xhr){
+             alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
+         }
+  });
+  </script>
 </body>
 </html>	

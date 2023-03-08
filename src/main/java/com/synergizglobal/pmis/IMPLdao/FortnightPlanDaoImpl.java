@@ -8,6 +8,8 @@ import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -1683,6 +1685,39 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 	  PreparedStatement preparedStmtChild = null;
 	  PreparedStatement deleteChild = null;
 	  
+	  	 Date date = new Date();
+		 Calendar cal = Calendar.getInstance();
+	     cal.setTime(date); 
+	   
+	     int year = cal.get(Calendar.YEAR);
+	     String Str=String.valueOf(year);
+	     String substringYear = Str.substring(Math.max(Str.length() - 2, 0));
+		  String sArray[]=null;
+	   	  sArray = new String[] { "1st January,"+substringYear+"  - 31st March,"+substringYear+"", "1st April,"+substringYear+"  - 30th June,"+substringYear+"","1st July,"+substringYear+"  - 30th September,"+substringYear+"","1st October,"+substringYear+"  - 31st December,"+substringYear+""};     
+	   	  List<String> lList = Arrays.asList(sArray);	  
+	   	  String Period=fortnightPlansList.get(0).getFortnight_date();
+	   	  String StrPeriod[]=Period.split("_");
+	   	  String StrPeriodComma[]=StrPeriod[0].split(",");
+	   	  String StrPeriodCommaSpace[]=StrPeriodComma[0].split(" ");
+	   	  int opt = 0;
+	   	  
+	   	  for(int y=0;y<sArray.length;y++)
+	   	  {
+	   		String word = StrPeriodCommaSpace[1];
+	   		String text = sArray[y];
+	   		Boolean found;
+
+	   		found = text.contains(word);
+	   		if(found==true)
+	   		{
+	   			opt=y;
+	   		}
+
+	   	  }
+	   	  
+
+	   	  
+	  
 	  try
 	  {
 		  long Key=0;
@@ -1698,7 +1733,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 					  preparedStmtChild = con.prepareStatement(queryChild);
 			
 				      preparedStmt.setString(1, obj.getWork_id_fk());
-				      preparedStmt.setString(2, obj.getPeriod()!=null ?obj.getPeriod():null);
+				      preparedStmt.setString(2, sArray[opt]);
 				      preparedStmt.setString(3, obj.getCategory());
 				      preparedStmt.setString(4, obj.getItem());
 				      preparedStmt.setString(5, obj.getCriticality());
@@ -1741,7 +1776,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 		
 				
 					      preparedStmt.setString(1, obj.getWork_id_fk());
-					      preparedStmt.setString(2, obj.getPeriod()!=null ?obj.getPeriod():null);
+					      preparedStmt.setString(2, sArray[opt]);
 					      preparedStmt.setString(3, obj.getStructure());
 					      preparedStmt.setString(4, obj.getItem());
 					      preparedStmt.setString(5, obj.getCriticality());

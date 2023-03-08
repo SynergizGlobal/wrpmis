@@ -463,6 +463,8 @@ public class FortnightPlanController {
 					DataFormatter formatter = new DataFormatter(); //creating formatter using the default locale
 					//System.out.println(uploadFilesSheet.getLastRowNum());
 					for(int i = 1; i <= risksDrawingsSheet.getLastRowNum();i++){
+						for(var f=0;f<6;f++)
+						{						
 						XSSFRow row = risksDrawingsSheet.getRow(i);
 						// Sets the Read data to the model class
 						// Cell cell = row.getCell(0);
@@ -499,21 +501,22 @@ public class FortnightPlanController {
 							val = formatter.formatCellValue(row.getCell(7)).trim();
 							if(!StringUtils.isEmpty(val)) { fortnightPlan.setBacklog_from_previous_months(val);}
 							
-							for(var f=1;f<=6;f++)
-							{
-								XSSFRow row1 = risksDrawingsSheet.getRow(1);
-								int l=7+f;
+
+								XSSFRow row1 = risksDrawingsSheet.getRow(0);
+								int l=8+f;
+								int m=8+f;
 								val = formatter.formatCellValue(row1.getCell(l)).trim();
 								if(!StringUtils.isEmpty(val)) { fortnightPlan.setFortnight_date(val);}
-								val = formatter.formatCellValue(row.getCell(l)).trim();
+								val = formatter.formatCellValue(row.getCell(m)).trim();
 								if(!StringUtils.isEmpty(val)) { fortnightPlan.setActivity_name(val);}								
-							}
+							
 
 						}						
 						boolean flag = fortnightPlan.checkNullOrEmpty();
 						
 						if(!flag) {
 							fortnightPlanList.add(fortnightPlan);
+						}
 						}
 					}
 					

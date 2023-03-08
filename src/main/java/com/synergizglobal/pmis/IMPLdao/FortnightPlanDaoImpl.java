@@ -1686,6 +1686,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 	  try
 	  {
 		  long Key=0;
+		  int k=0;
 
 		  con = dataSource.getConnection();	
 			for (FortnightPlan obj : fortnightPlansList) 
@@ -1708,9 +1709,13 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 				      preparedStmt.execute();
 				      
 						ResultSet generatedKeys = preparedStmt.getGeneratedKeys();
-						if (generatedKeys.next()) 
+						if(k==0)
 						{
-							Key=generatedKeys.getLong(1);
+							if (generatedKeys.next()) 
+							{
+								Key=generatedKeys.getLong(1);
+								k=1;
+							}
 						}
 					    if(preparedStmt != null){preparedStmt.close();}	      
 						if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getFortnight_date())&& !StringUtils.isEmpty(obj.getActivity_name())) 

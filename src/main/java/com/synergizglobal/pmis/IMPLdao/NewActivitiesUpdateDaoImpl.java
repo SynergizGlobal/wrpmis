@@ -2227,10 +2227,8 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					List<String> generatedIds = new ArrayList<String>();
 					if(!StringUtils.isEmpty(StrVar1[k]) && StrVar1[k].compareTo("NoValue")!=0)
 					{
-						int getVal=getPreviousCompletedScope(getActivityId(obj.getP6_task_code()),StrVar[k]).compareTo(StrVar1[k]);
-						int getVal1=getPreviousCompletedScopeApproved(getActivityId(obj.getP6_task_code()),StrVar[k]).compareTo(StrVar1[k]);
 						
-						if(Float.parseFloat(getPreviousCompletedScopeApproved(getActivityId(obj.getP6_task_code()),StrVar[k]))!=Float.parseFloat(StrVar1[k]) && Float.parseFloat(StrVar1[k])>0)
+						if(Float.parseFloat(getPreviousCompletedScopeApproved(getActivityId(obj.getP6_task_code()),StrVar[k]))!=Float.parseFloat(StrVar1[k]) && Float.parseFloat(StrVar1[k])>0 && getPreviousCompletedScope(getActivityId(obj.getP6_task_code()),StrVar[k])==0)
 						
 						/*if((getPreviousCompletedScope(getActivityId(obj.getP6_task_code()),StrVar[k]).compareTo(StrVar1[k])!=0 && Float.parseFloat(StrVar1[k])>0 && getPreviousCompletedScopeApproved(getActivityId(obj.getP6_task_code()),StrVar[k])!=StrVar1[k]))*/
 						{
@@ -2329,21 +2327,15 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 		return p6_activity_id;
 	}
 	
-	private String getPreviousCompletedScope(String p6_activity_id_fk,String progress_date) throws Exception{
+	private int getPreviousCompletedScope(String p6_activity_id_fk,String progress_date) throws Exception{
 		int cnt=0;
-		String completed_scope="0";
 		try {
-			String qry = "select count(*) from p6_validation where p6_activity_id_fk = ? and progress_date=? and approval_status_fk='pending'";
+			String qry = "select count(*) from p6_validation where p6_activity_id_fk = ? and progress_date=? and approval_status_fk='Approved'";
 			cnt = (int) jdbcTemplate.queryForObject(qry, new Object[] { p6_activity_id_fk,progress_date }, int.class);
-			if(cnt>0)
-			{
-				String qry1 = "select completed_scope from p6_validation where p6_activity_id_fk = ? and progress_date=? and approval_status_fk='pending'";
-				completed_scope = (String) jdbcTemplate.queryForObject(qry1, new Object[] { p6_activity_id_fk,progress_date }, String.class);				
-			}
 		} catch (Exception e) {
 			throw new Exception(e);
 		}		
-		return completed_scope;
+		return cnt;
 	}
 	
 	private String getPreviousCompletedScopeApproved(String p6_activity_id_fk,String progress_date) throws Exception{

@@ -717,16 +717,7 @@
        			$("#contractReportForm").submit();
        		}
 		}
-        function generateBGReport() {
-        	//$(".page-loader").show();
-        	$("#contractReportForm").attr("action","<%=request.getContextPath()%>/generate-contract-bg-report");
-        	$("#contractReportForm").submit();
-		}
-        function generateInsurancceReport() {
-        	//$(".page-loader").show();
-        	$("#contractReportForm").attr("action","<%=request.getContextPath()%>/generate-contract-insurance-report");
-        	$("#contractReportForm").submit();
-		}
+
         
         function generateContractDetailReport() {
         	//$(".page-loader").show();

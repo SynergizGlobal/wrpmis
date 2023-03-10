@@ -1352,7 +1352,7 @@ public class HomeDaoImpl implements HomeDao {
 	{
 		int DataId=0;
 		try {
-			String qry = "select count(*) from form where web_form_url='"+URL+"' and soft_delete_status_fk='Active'";
+			String qry = "select count(*) from form where web_form_url like '%"+URL+"%' and soft_delete_status_fk='Active'";
 			DataId = (int) jdbcTemplate.queryForObject(qry, int.class);
 		} catch (Exception e) {
 			throw new Exception(e);

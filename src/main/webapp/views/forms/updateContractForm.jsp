@@ -4420,7 +4420,7 @@
 		   			{
 			   			html=html+'<td data-head="Current" class="input-field   p-h-0"> <p> <label>'
 			 		       +'<input type="hidden" name="approvalbybankstatus" id="approvalbybankstatus'+rNo+'" value="No"><input type="checkbox"  disabled value="No" name="approval_by_bank" id="approval_by_bank'+rNo+'"  onChange="getApprovalByBankRevisions('+rNo+');" /> <span></span> </label><span class="normal-btn">'
-                        +'<input type="file" disabled id="approvalByBankFiles'+rNo+'" name="approvalByBankDocumentFiles" style="display:none" onchange="getapprovalByBankFileName('+rNo+')"/>'
+                        +'<input type="file" id="approvalByBankFiles'+rNo+'" name="approvalByBankDocumentFiles" style="display:none" onchange="getapprovalByBankFileName('+rNo+')"/>'
                         +'<label for="approvalByBankFiles'+rNo+'" disabled class="btn bg-m"><i class="fa fa-paperclip"></i></label>'
                         +'<input type="hidden" id="approvalByBankDocumentFileNames'+rNo+'" name="approvalByBankDocumentFileNames" value="No">'
                         +'<span id="approvalByBankDocumentFileName'+rNo+'" class="filevalue"></span>'

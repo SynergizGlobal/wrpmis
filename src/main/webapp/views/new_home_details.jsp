@@ -1158,6 +1158,10 @@
                                     			window.location.href = "<%=request.getContextPath()%>/ta-dashboard";
                                        			
                                     		}
+                                    		else if(work_id=='P05W06')
+                                    		{ 
+                                    			window.location.href = "<%=request.getContextPath()%>/work-overview-dashboard/"+work_id;
+                                    		}
                                     		else
                                    			{
                                     			window.location.href = "<%=request.getContextPath()%>/InfoViz/" + link

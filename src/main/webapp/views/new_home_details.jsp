@@ -925,7 +925,7 @@
                      <c:if test="${projectOverview.project_id eq 'P04'}">
 	                    <div class="row" style="text-align:center;" id="second-list">
 	                    	<ul><li>
-	 								    <a href="AIIBDisbursement/${projectOverview.project_id}"><div class="btn diamondnpa" style="font-size:19px;font-weight:bold;">
+	 								    <a href="AIIBDisbursement/${projectOverview.project_id}" id="getLinksAIIB"><div class="btn diamondnpa" style="font-size:19px;font-weight:bold;">
 									         <span>AIIB Disbursement</span>
 									    </div></a>                   	
 	                    	</li></ul>
@@ -1170,8 +1170,11 @@
                     fullWidth: true
                 });
             }
+           	if(window.screen.availWidth<=784 && window.screen.availHeight<=900)
+           	{
+           		document.getElementById("getLinksAIIB").removeAttribute("href");
+           	}
             
-
 
         });
         $('i#prev').click(function () {

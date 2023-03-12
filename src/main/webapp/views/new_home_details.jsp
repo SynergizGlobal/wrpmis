@@ -901,7 +901,7 @@
                                     </c:if>
                                     <c:if test="${not empty wObj.work_id_fk}">
                                         <a
-                                            href="javascript:getTableauDashboard('${wObj.work_id_fk }');">
+                                            href="javascript:getTableauDashboard('${wObj.work_id_fk }');" id="getLinks">
                                             <div >
 								    <div class="btn diamond" style="font-size:18px;font-weight:bold;">
 								         <span>${wObj.work_short_name}</span>
@@ -1170,6 +1170,9 @@
                     fullWidth: true
                 });
             }
+            
+
+
         });
         $('i#prev').click(function () {
             $(this).parent().parent().carousel('prev');
@@ -1187,6 +1190,10 @@
         }
 
         function getTableauDashboard(work_id) {
+           	if(window.screen.availWidth>=784 && window.screen.availHeight>=900)
+           	{
+           		document.getElementById("getLinks").removeAttribute("href");
+           	        	
             if ($.trim(work_id) != '') {
                 var myParams = { work_id: work_id };
                 $.ajax({
@@ -1239,6 +1246,7 @@
                 });
 
             }
+           	}
         }
 
       /*   function movingOnPosition(a) {

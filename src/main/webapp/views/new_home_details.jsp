@@ -29,7 +29,7 @@
     /* 3rd demo start */
     .w25{width: 25% !important;}
     .w75{width: 75% !important;}
-    .line p{font-size: 22px;font-weight:bold;}
+    .line p{font-size: 19px;font-weight:bold;}
     .modal{max-height: 73.5%;
     		width: max-content;
 		    max-width: 90%;
@@ -66,10 +66,11 @@
 				}
 				
 				.diamondnpa {
+				display:flex;
 			    justify-content: center;
 			    align-items: center;
 				  color: #000;
-				  line-height: 40px;
+				  line-height: 20px;
 				  padding: 0 20px;
 				  background: #fff !important;
 				  margin: 40px auto;
@@ -77,12 +78,16 @@
  				  height: 85px;
 				  /* border-radius: 0 !important; */
 				  border-radius: 20px !important;
+				  align-items: center;
+				    width: 100%;
+				    margin: 24px auto 16px !important;
+				    justify-content: center;
 				}				
 				.diamond span {
 				  display: inline-block;
 				  width: 210px;
 				  line-height: initial;
-				  font-size: 22px;
+				  font-size: 19px;
 				  font-weight:bold;
 				  
 				}
@@ -129,7 +134,7 @@
 		            transition-duration: 0.2s;
 				}
     			#projectsList ul li{
-    			margin: 0 3.1rem;
+    			margin: 0 20px;
     			}
     			.sub ul{
     				    display: flex;
@@ -472,10 +477,37 @@
         }
         #projectsList ul{
         	display: flex;
-		    flex-wrap: wrap;
-		    align-items: stretch;
-		    align-content: center;
-		    justify-content: space-evenly;
+			  flex-wrap: wrap;
+			      justify-content: space-evenly;
+			  padding: 0; 
+        }
+        #projectsList ul li{
+        	 list-style: none;
+			  text-align: center;
+			  width: 35%;
+			      
+        }
+        #projectsList{
+        	display: flex;
+        	margin: 20px 0 0 !important;
+        }
+        #second-list ul{
+        	display: flex;
+			  flex-wrap: wrap;
+			      justify-content: space-evenly;
+			  padding: 0; 
+			  width: 100%;
+			  margin-top: 0;
+        }
+        #second-list ul li{
+        	 list-style: none;
+			  text-align: center;
+			  width: 35%;
+			  margin: 0 1.1rem;
+        }
+        #second-list{
+        	display: flex;
+        	width: 100%;
         }
         .subWorkOverview:not(.hidden) ul li{
 	       	 animation: showLi .7s ease-out;
@@ -522,7 +554,7 @@
         }
         @media(max-width: 1366px) {
             .heading h3 {
-                font-size: 18px;
+                font-size: 23px;
             }
         }
         .modal-header{margin: 0 !important;}
@@ -530,8 +562,9 @@
         @media(max-width: 820px){
         	.card .card-content{padding: 10px;}
         	.card.main-clr{margin: 5px;}
-        	.diamond{padding: 0 20px !important;}
+        	.diamond{padding: 10px 20px !important;}
         	.diamond span{width: 130px;font-size: 14px;}
+        	.line p{font-size: 14px;}
         	#projectsList ul{
         		padding-top: 0 !important;
     			margin-top: -15px;
@@ -540,6 +573,9 @@
         	.pdlr20px{
         		padding: 0 10px;
         	}
+        	.diamondnpa{
+        		font-size: 14px !important;
+        	}
         }
         @media(max-width: 575px){
         	.mswap{
@@ -547,12 +583,12 @@
     			left: 2em;
         	}
         	.heading h3 {
-			    font-size: 14px;
+			    font-size: 19px;
 			    width: 100%;
 			    line-height: 20px;
 			}
 			.diamond {
-			    padding: 0 10px !important;
+			    padding: 10px !important;
 			}
 			.sub ul li {
 			    margin: 0 1.1rem;
@@ -563,13 +599,24 @@
     			align-items: center;
 				
 			}
+			.btn.tooltipped, #projectBackBtn .btn{
+				width: 100px !important;
+			    font-size: 14px !important;
+			} 
+			#projectsList ul{
+				margin-bottom: 10px;
+			}
         }
         
   .middleText {
-  position: fixed;
+  position: relative;
   top: 33%;
-  align:center;
-}        
+}      
+.btn.diamond{
+	height: auto;
+	min-height: 80px;
+	padding: 10px;
+}  
     </style>
 </head>
 
@@ -585,7 +632,7 @@
                 <div id="projectsBtns">
                     <c:if test="${not empty projectOverview.benefits }">
                         <!-- <a class="btn btn-center">Benefits</a>   -->
-                        <a class="btn tooltipped " data-position="bottom" data-tooltip="${projectOverview.benefits }" style="width:180px;height:80px;padding-top:20px;font-size:22px;font-weight:bold;">Benefits</a>
+                        <a class="btn tooltipped " data-position="bottom" data-tooltip="${projectOverview.benefits }" style="width:150px;height:40px;font-size:19px;font-weight:bold;">Benefits</a>
                     </c:if>
 
                     <c:if
@@ -715,7 +762,7 @@
                 </div>
                 </div>
                 <div class="col s6 m6">
-                    <div class="heading"><br>
+                    <div class="heading">
                         <center>
                             <h3 data-title='${projectOverview.project_name }'>
                                 ${projectOverview.project_name }</h3>
@@ -723,8 +770,8 @@
                     </div>
                 </div>
                 <div class="col s3 m2 right">
-                    <div class="card-title title-btn" id="projectBackBtn"> &nbsp;
- 						<a class="btn " data-position="bottom" href="<%=request.getContextPath()%>/" class="btn tooltipped right btn" style="float:right;width:180px;height:80px;padding-top:20px;font-size:22px;font-weight:bold;">Back</a>  
+                    <div class="card-title title-btn" id="projectBackBtn"> 
+ 						<a class="btn " data-position="bottom" href="<%=request.getContextPath()%>/" class="btn tooltipped right btn" style="float:right;width:150px;height:40px;font-size:19px;font-weight:bold;">Back</a>  
                                                
                     </div>
                     <div class="card-title title-btn hidden" id="workBackBtn"> &nbsp;
@@ -876,9 +923,9 @@
                         </ul>
                     </div>
                      <c:if test="${projectOverview.project_id eq 'P04'}">
-	                    <div class="row" style="text-align:center;">
+	                    <div class="row" style="text-align:center;" id="second-list">
 	                    	<ul><li>
-	 								    <a href="AIIBDisbursement/${projectOverview.project_id}"><div class="btn diamondnpa" style="width:500px;font-size:24px;font-weight:bold;padding-top:20px;">
+	 								    <a href="AIIBDisbursement/${projectOverview.project_id}"><div class="btn diamondnpa" style="font-size:19px;font-weight:bold;">
 									         <span>AIIB Disbursement</span>
 									    </div></a>                   	
 	                    	</li></ul>

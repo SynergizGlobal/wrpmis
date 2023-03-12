@@ -105,7 +105,7 @@
 		    color: #f44336;
 		}
      /*  textarea auto height code ends here */
-     	.brand-logo{width: 15%;}
+     	.brand-logo{width: 100%;}
      	.brand-logo img{width: 4.5rem! important;}
      
      .markread{float: right;
@@ -140,16 +140,19 @@
      	}
      }
      @media(max-width: 912px){
-     	.brand-logo{width: 20%;}
+     	.brand-logo{width: 100%;}
+     	nav .brand-logo {
+    		left: 90%;
+    	}
      	.brand-logo img{width: 4.5rem! important;}
      	.accordions{display:flex !important;}
      	.notifications_group{height: 52em;}
      	#tech_assist_ul{display:block;}
      }
      @media(max-width: 575px){
-     .brand-logo.fs {
+     /* .brand-logo.fs {
     		width: 50%;
-		}
+		} */
 		span.badge1{
 			margin-top: 0px !important;
 		}
@@ -159,7 +162,7 @@
 	    position: fixed;
 	    z-index: 2;
 	    right: -20px;
-	    top: 60px;
+	    top: 80px;
 	    border: 0;
 	    cursor: pointer;
 	    font-size: 1.5rem;
@@ -167,12 +170,12 @@
 	}
 	@media(max-width: 1920px){
 			#CurrentDate{
-			 	left:6.5rem !important;
-			 	font-size:20px !important;
+			 	left:4em !important;
+			 	font-size:18px !important;
 			}
 		}
 			 #CurrentDate{
-			 	font-size:20px !important;
+			 	font-size:18px !important;
 			}
 			
 
@@ -182,6 +185,7 @@
 	    position: absolute;
 	    width: 4em;
 	    display:none;
+	    
 	}
 	.accordion {
 	  margin: 10px 35px;
@@ -217,8 +221,8 @@
 	    height: 23px;
 	}
 	.material-icons-outlined{
-		font-size: 30px;
-		width: 35px;
+		font-size: 28px;
+		width: 30px;
 	}
 	.accordion__icon {
 	  margin-right: .63rem;
@@ -255,6 +259,36 @@
 	  line-height: 1.13rem
 	}
 	.rm9em{right: -9em !important;}
+	@media(max-width: 575px){
+		.brand-logo.fs {
+		    width: 55%;
+    		left: 52%;
+		}
+		.brand-logo img {
+		    width: 3.5rem! important;
+		}
+		#CurrentDate {
+		    font-size: 16px !important;
+		    left: 3.5em !important;
+		}
+		#notificationCountMobile, #messagesCountMobile{
+			font-size: 10px;
+		}
+		.material-icons-outlined{
+			font-size: 24px;
+    		width: 28px;
+		}
+		nav .sidenav-trigger{
+			margin-top: 5px;
+		}
+		.brand-logo.fs, .brand-logo.fs a{
+			    font-size: 16px;
+		}
+		.accordions{
+	    
+	    top:5px;
+	
+	}
 	@media(max-width: 400px){
 		.accordion__body{
 			width: 375px !important;
@@ -263,12 +297,28 @@
 			width: 27rem;
 		}
 	}
-	@media(max-width: 375px){
+	@media(max-width: 376px){
 		.accordion__body{
 			width: 360px !important;
 		}
 		.accordion__inner{
 			width: 26rem;
+		}
+		.m-space{
+			margin-left: -1.5em;
+		}
+		span.badge1{
+			min-width: 10px;
+			padding: 0 5px;
+		}
+		.accordions{
+	    right: 6.5em;
+	    width: 4em;
+		}
+		
+		#CurrentDate{
+			font-size: 14px !important;
+    		left: 4em !important;
 		}
 	}
 	@media(max-width: 360px){
@@ -278,9 +328,9 @@
 		.accordion__inner{
 			width: 26rem;
 		}
-		.brand-logo.fs {
+		/* .brand-logo.fs {
 		    width: 68%;
-		}
+		} */
 	}
 		
 </style>
@@ -407,7 +457,7 @@
             	<div class="accordion">
                 <div class="accordion__header">
                   
-                  <div class="accordion__title"><span class="material-icons-outlined">chat_bubble_outlined</span>
+                  <div class="accordion__title m-space"><span class="material-icons-outlined">chat_bubble_outlined</span>
 						<span class="badge badge1 red" id="messagesCountMobile">0 </span></div>
                 </div>
                 <div class="accordion__body">

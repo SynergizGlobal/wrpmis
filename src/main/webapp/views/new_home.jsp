@@ -190,6 +190,7 @@
         /* map styles end */
         .btn-menu ul {
             text-align: center;
+            display: inline-block;
         }
 
         .btn-menu ul li {
@@ -501,7 +502,7 @@
 			}
         }
         @media(max-width: 575px){
-        	.heading h3{width: 100%;line-height: 1.2;font-size: 15px;}
+        	.heading h3{width: 100%;line-height: 1.2;font-size: 19px;padding: 10px 0;}
         	.map-btn-holder{margin: 0; margin-top: 33px;}
         	/* .heading h3:before, .heading h3:after{
         		border: 28px solid transparent;
@@ -530,7 +531,7 @@
 			.map-btn-holder .fa{font-size: 2rem;}
 			.map-btn-holder .btn{padding: 0 20px;}
 			.map-btn-holder .btn{height: 3rem;padding: 2px 10px;}
-			.heading img{margin-top: 37px;width: 125%;}
+			.heading img{margin-top: 37px;width: 100%;}
         }
 
         /* 2nd demo start */
@@ -1180,7 +1181,7 @@
 
 .middleText {
   position: fixed;
-  top: 35%;
+  top: 25em;
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
@@ -1198,7 +1199,56 @@ margin-right: 0rem;
 }
 
 /* 3rd demo end */
-       
+@media(max-width: 920px){
+	.bg{
+		top: 77%;
+		height: 15%;
+	}
+	.middleText{
+		top: 36em;
+	}
+	.diamond{
+		width: 200px;
+		padding: 0 15px;
+	}
+}  
+@media(max-width: 780px){
+	.bg {
+	    top: 76%;
+	    height: 16%;
+	}
+} 
+@media(max-width: 575px){
+	.row .col{
+		padding: 0 2px !important;
+	}
+	.m-pd0{
+		pdding: 10px 0 !important;
+	}
+	.middleText {
+	    top: 22em;
+	}
+	.diamond{
+		width: 150px;
+		height: 50px;
+	}
+	.diamond span{
+		font-size: 14px;
+	}
+	.bg {
+    	top: 77%;
+    }
+    .tran{
+    	bottom: 3%;
+    }
+    .diamond{
+    	border-radius: 12px;
+    }
+    .bottom{
+    	font-size: 16px;
+    	    height: auto !important;
+    }
+}
     </style>
 </head>
 
@@ -1289,22 +1339,22 @@ margin-right: 0rem;
   </section>
 </main> -->
    		<div class="container middleText">
-	        <div class="row" style="width:1000px;">
+	        <div class="row">
 	            <div class="col s12 m12 l12">
 	            	<div class="row">
-	            		<div class="col s2 m1 l1">
+	            		<div class="col s2 m1 l1 m-pd0">
 		            		<div class="heading">
 		            			<br><br><br><img src="/pmis/resources/images/mrvclogo.png" alt="Logo">
 		            		</div>
 	            		</div>
-	                <div class="col l10 m10 s9">
+	                <div class="col l10 m10 s8">
 	                	<div class="heading color-change-2x">
 	                    <center>
 	                    
 	                    <br><br><br><h3 class="tracking-in-expand-fwd">Mumbai Railway Vikas Corporation</h3></center>
 	                </div>
 	                </div>
-	                <div class="col l1 m1 s1">
+	                <div class="col l1 m1 s2">
 	                <div class="map-btn-holder"><br><br><br>
 	                        <a class="waves-effect waves-light btn modal-trigger" href="#mapmodal" title="click to see map">
 	                            <!-- <span class="material-icons">map</span> -->

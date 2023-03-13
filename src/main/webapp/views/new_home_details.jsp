@@ -1170,7 +1170,7 @@
                     fullWidth: true
                 });
             }
-           	if(window.screen.availWidth<=784 && window.screen.availHeight<=900)
+           	if(window.screen.availWidth<=784)
            	{
            		document.getElementById("getLinksAIIB").removeAttribute("href");
            	}
@@ -1193,9 +1193,9 @@
         }
 
         function getTableauDashboard(work_id) {
-           	if(window.screen.availWidth>=784 && window.screen.availHeight>=900)
+           	if(window.screen.availWidth>=784)
            	{
-           		document.getElementById("getLinks").removeAttribute("href");
+           		
            	        	
             if ($.trim(work_id) != '') {
                 var myParams = { work_id: work_id };
@@ -1250,6 +1250,10 @@
 
             }
            	}
+           	else
+           		{
+           		document.getElementById("getLinks").removeAttribute("href");          		
+           		}
         }
 
       /*   function movingOnPosition(a) {

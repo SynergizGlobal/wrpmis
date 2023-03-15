@@ -936,7 +936,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 	public List<Expenditure> getExpendituresListForExport(Expenditure obj) throws Exception {
 		List<Expenditure> objsList = null;
 		try {
-			String qry  ="SELECT expenditure_id,c.work_id_fk,c.contract_short_name,w.work_short_name,w.work_name,e.contract_id_fk,c.contract_name,ledger_account,e.contractor_name,FORMAT(date,'dd-MM-yyyy') AS date,voucher_type,voucher_no, "
+			String qry  ="SELECT expenditure_id,c.work_id_fk,c.contract_short_name,w.work_short_name,w.work_name,e.contract_id_fk,c.contract_name,ledger_account,e.contractor_name,FORMAT(date,'dd-MMM-yy') AS date,voucher_type,voucher_no, "
 					+ "narration,cast(net_paid as CHAR) as net_paid,cast(gross_work_done as CHAR) as gross_work_done,cast(sd_payable as CHAR) as sd_payable,cast(contractor_income_tax as CHAR) as contractor_income_tax,"
 					+ "cast(cgst_tds as CHAR) as cgst_tds,cast(sgst_tds as CHAR) as sgst_tds,cast(igst_tds as CHAR) as igst_tds,cast(vat_wct as CHAR) as vat_wct,cast(mob_advance as CHAR) as mob_advance,"
 					+ "cast([interest on_mob_adv] as CHAR) as interest_on_mob_adv,cast(amount_withheld as CHAR) as amount_withheld, cast (cess_on_Building as CHAR) as cess_on_Building ,cast(Est_charges_on_Cess as CHAR) as Est_charges_on_Cess,"
@@ -1035,15 +1035,15 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 		ResultSet finalresult=null;
 		try{
 				connection = dataSource.getConnection();	
-				String qry ="select  ROW_NUMBER() OVER (ORDER BY project_name) as 'S. No',project_name,contractor_name,sum(cast(awarded_cost as float))/count(distinct contract_id) as awarded_cost,sum(cast(gross_work_done as float))/10000000 as gross_work_done, " + 
+				String qry ="select  ROW_NUMBER() OVER (ORDER BY project_name) as 'S. No',project_name,contractor_name,round(cast(sum(cast(awarded_cost as float))/count(distinct contract_id) as decimal(18,2)),2) as awarded_cost,round(cast(sum(cast(gross_work_done as float)) as decimal(18,2)),2) as gross_work_done, " + 
 						
-						"sum(cast(net_paid as float)) as net_paid,sum(cast(sd_payable as float)) as sd_payable,sum(cast(cgst_tds as float)) as cgst_tds,sum(cast(sgst_tds as float)) as sgst_tds, " + 
+						"round(cast(sum(cast(net_paid as float)) as decimal(18,2)),2) as net_paid,round(cast(sum(cast(sd_payable as float)) as decimal(18,2)),2) as sd_payable,round(cast(sum(cast(cgst_tds as float)) as decimal(18,2)),2) as cgst_tds,round(cast(sum(cast(sgst_tds as float)) as decimal(18,2)),2) as sgst_tds, " + 
 						
-						"sum(cast(igst_tds as float)) as igst_tds,sum(cast(cgst_output as float)) as cgst_output,sum(cast(sgst_output as float)) as sgst_output, " + 
+						"round(cast(sum(cast(igst_tds as float)) as decimal(18,2)),2) as igst_tds,round(cast(sum(cast(cgst_output as float)) as decimal(18,2)),2) as cgst_output,round(cast(sum(cast(sgst_output as float)) as decimal(18,2)),2) as sgst_output, " + 
 						
-						"sum(cast(tds as float)) as tds,sum(cast(mob_advance as float)) as mob_advance,sum(cast([Mob. Adv. Recovered] as float)) as [mob_adv_recovered], " + 
+						"round(cast(sum(cast(tds as float))as decimal(18,2)),2) as tds,round(cast(sum(cast(mob_advance as float)) as decimal(18,2)),2) as mob_advance,round(cast(sum(cast([Mob. Adv. Recovered] as float)) as decimal(18,2)),2) as [mob_adv_recovered], " + 
 						
-						"sum(cast([Mob. Adv. Pending] as float)) as mob_adv_pending,sum(cast(amount_withheld as float)) as amount_withheld " + 
+						"round(cast(sum(cast([Mob. Adv. Pending] as float)) as decimal(18,2)),2) as mob_adv_pending,round(cast(sum(cast(amount_withheld as float)) as decimal(18,2)),2) as amount_withheld " + 
 						
 						
 						"from( " + 
@@ -1110,15 +1110,15 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 		try{
 				connection = dataSource.getConnection();	
 				String qry =
-						"select  project_name,work_short_name,contractor_name,sum(cast(awarded_cost as float))/count(distinct contract_id) as awarded_cost,sum(cast(gross_work_done as float))/10000000 as gross_work_done, " + 
+						"select  project_name,work_short_name,contractor_name,round(cast(sum(cast(awarded_cost as float))/count(distinct contract_id) as decimal(18,2)),2) as awarded_cost,round(cast(sum(cast(gross_work_done as float)) as decimal(18,2)),2) as gross_work_done, " + 
 						
-						"sum(cast(net_paid as float)) as net_paid,sum(cast(sd_payable as float)) as sd_payable,sum(cast(cgst_tds as float)) as cgst_tds,sum(cast(sgst_tds as float)) as sgst_tds, " + 
+						"round(cast(sum(cast(net_paid as float)) as decimal(18,2)),2) as net_paid,round(cast(sum(cast(sd_payable as float)) as decimal(18,2)),2) as sd_payable,round(cast(sum(cast(cgst_tds as float)) as decimal(18,2)),2) as cgst_tds,round(cast(sum(cast(sgst_tds as float)) as decimal(18,2)),2) as sgst_tds, " + 
 						
-						"sum(cast(igst_tds as float)) as igst_tds,sum(cast(cgst_output as float)) as cgst_output,sum(cast(sgst_output as float)) as sgst_output, " + 
+						"round(cast(sum(cast(igst_tds as float)) as decimal(18,2)),2) as igst_tds,round(cast(sum(cast(cgst_output as float)) as decimal(18,2)),2) as cgst_output,round(cast(sum(cast(sgst_output as float)) as decimal(18,2)),2) as sgst_output, " + 
 						
-						"sum(cast(tds as float)) as tds,sum(cast(mob_advance as float)) as mob_advance,sum(cast([Mob. Adv. Recovered] as float)) as [mob_adv_recovered], " + 
+						"round(cast(sum(cast(tds as float)) as decimal(18,2)),2) as tds,round(cast(sum(cast(mob_advance as float)) as decimal(18,2)),2) as mob_advance,round(cast(sum(cast([Mob. Adv. Recovered] as float)) as decimal(18,2)),2) as [mob_adv_recovered], " + 
 						
-						"sum(cast([Mob. Adv. Pending] as float)) as mob_adv_pending,sum(cast(amount_withheld as float)) as amount_withheld " + 
+						"round(cast(sum(cast([Mob. Adv. Pending] as float)) as decimal(18,2)),2) as mob_adv_pending,round(cast(sum(cast(amount_withheld as float)) as decimal(18,2)),2) as amount_withheld " + 
 						
 						
 						"from( " + 
@@ -1205,15 +1205,15 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 		try{
 				connection = dataSource.getConnection();	
 				String qry =
-						"select  project_name,work_short_name,contract_name,contractor_name,sum(cast(awarded_cost as float))/count(distinct contract_id) as awarded_cost,sum(cast(gross_work_done as float))/10000000 as gross_work_done, " + 
+						"select  project_name,work_short_name,contract_name,contractor_name,round(cast(sum(cast(awarded_cost as float))/count(distinct contract_id) as decimal(18,2)),2) as awarded_cost,round(cast(sum(cast(gross_work_done as float)) as decimal(18,2)),2) as gross_work_done, " + 
 						
-						"sum(cast(net_paid as float)) as net_paid,sum(cast(sd_payable as float)) as sd_payable,sum(cast(cgst_tds as float)) as cgst_tds,sum(cast(sgst_tds as float)) as sgst_tds, " + 
+						"round(cast(sum(cast(net_paid as float)) as decimal(18,2)),2) as net_paid,round(cast(sum(cast(sd_payable as float)) as decimal(18,2)),2) as sd_payable,round(cast(sum(cast(cgst_tds as float)) as decimal(18,2)),2) as cgst_tds,round(cast(sum(cast(sgst_tds as float)) as decimal(18,2)),2) as sgst_tds, " + 
 						
-						"sum(cast(igst_tds as float)) as igst_tds,sum(cast(cgst_output as float)) as cgst_output,sum(cast(sgst_output as float)) as sgst_output, " + 
+						"round(cast(sum(cast(igst_tds as float)) as decimal(18,2)),2) as igst_tds,round(cast(sum(cast(cgst_output as float)) as decimal(18,2)),2) as cgst_output,round(cast(sum(cast(sgst_output as float)) as decimal(18,2)),2) as sgst_output, " + 
 						
-						"sum(cast(tds as float)) as tds,sum(cast(mob_advance as float)) as mob_advance,sum(cast([Mob. Adv. Recovered] as float)) as [mob_adv_recovered], " + 
+						"round(cast(sum(cast(tds as float)) as decimal(18,2)),2) as tds,round(cast(sum(cast(mob_advance as float)) as decimal(18,2)),2) as mob_advance,round(cast(sum(cast([Mob. Adv. Recovered] as float)) as decimal(18,2)),2) as [mob_adv_recovered], " + 
 						
-						"sum(cast([Mob. Adv. Pending] as float)) as mob_adv_pending,sum(cast(amount_withheld as float)) as amount_withheld " + 
+						"round(cast(sum(cast([Mob. Adv. Pending] as float)) as decimal(18,2)),2) as mob_adv_pending,round(cast(sum(cast(amount_withheld as float)) as decimal(18,2)),2) as amount_withheld " + 
 						
 						
 						"from( " + 

@@ -1559,7 +1559,7 @@ public class ExpenditureController {
 								
 								String Str = val;
 								String[] parts = Str.split("-");
-								int TotalDate=2000+Integer.parseInt(parts[2]);
+								int TotalDate=Integer.parseInt(parts[2]);
 								String Concat = TotalDate+"-"+getNumberFromMonthName(parts[1], Locale.ENGLISH)+"-"+parts[0];
 								expenditure.setDate(Concat);
 								expenditure.setDate(DateParser.parse(expenditure.getDate()));
@@ -1574,9 +1574,15 @@ public class ExpenditureController {
 								int getIndex=Str.indexOf("(");
 								int getIndex1=Str.indexOf(")");
 								
-								String VoucherType=Str.substring(getIndex+1,getIndex1);
-								
-								expenditure.setVoucher_type(VoucherType);
+								if(getIndex!=-1)
+								{
+									String VoucherType=Str.substring(getIndex+1,getIndex1);
+									expenditure.setVoucher_type(VoucherType);
+								}
+								else
+								{
+									expenditure.setVoucher_type(val);
+								}
 					
 							
 							}								

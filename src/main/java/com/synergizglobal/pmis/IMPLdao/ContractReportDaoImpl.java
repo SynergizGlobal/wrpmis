@@ -3040,7 +3040,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 						}						
 						
 						objsList = jdbcTemplate.query( hodQry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
-						NumberFormat numberFormatter = new DecimalFormat("#0.00");
+						/*NumberFormat numberFormatter = new DecimalFormat("#0.00");
 						for (Contract cObj : objsList) {
 							
 							String amount_inr_cost = cObj.getAmount_inr();
@@ -3050,7 +3050,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 								amount_inr_cost_value = numberFormatter.format(val);
 							}
 							cObj.setAmount_inr(amount_inr_cost_value);
-						}						
+						}*/					
 						
 						obj.setReport1List(objsList);
 						

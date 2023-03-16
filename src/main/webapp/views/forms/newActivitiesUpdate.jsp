@@ -1810,14 +1810,13 @@
 	                 	}
 	                    if (data.length > 0) {
 	                        $.each(data, function (i, val) {
-	                       		if(val.structure_type != 'FOB'){
 	                            	if(fob == val.structure_type){
 	                            		id1 = val.structure_type;
 	                            		$("#structure_type_fk").append('<option value="' + val.structure_type +'" selected>' + $.trim(val.structure_type) +'</option>');
 	                            	}else{
 	                            		$("#structure_type_fk").append('<option value="' + val.structure_type +'">' + $.trim(val.structure_type) +'</option>');
 	                            	}
-	                       		}
+	                       		
 	                        });
 	                    }
 	                    $('.searchable').select2();

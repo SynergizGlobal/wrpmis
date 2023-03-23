@@ -1560,9 +1560,19 @@ public class ExpenditureController {
 								String Str = val;
 								String[] parts = Str.split("-");
 								int TotalDate=Integer.parseInt(parts[2]);
-								String Concat = TotalDate+"-"+getNumberFromMonthName(parts[1], Locale.ENGLISH)+"-"+parts[0];
-								expenditure.setDate(Concat);
-								expenditure.setDate(DateParser.parse(expenditure.getDate()));
+								if((getNumberFromMonthName(parts[1], Locale.ENGLISH))>9)
+								{
+									String Concat = TotalDate+"-"+getNumberFromMonthName(parts[1], Locale.ENGLISH)+"-"+parts[0];
+									expenditure.setDate(Concat);
+									expenditure.setDate(DateParser.parse(expenditure.getDate()));									
+								}
+								else
+								{
+									String Concat = "20"+TotalDate+"-0"+getNumberFromMonthName(parts[1], Locale.ENGLISH)+"-"+parts[0];
+									expenditure.setDate(Concat);
+									expenditure.setDate(DateParser.parse(expenditure.getDate()));									
+								}
+
 								
 
 							}					

@@ -34,6 +34,11 @@
 			line-height: 50px;
 		}
 		.error-msg{color:red!important;}
+		
+html:not(.browser-android) select {
+   background: #0f0;
+   border: 1px solid #ff0;
+}		
     </style>
 </head>
 

@@ -186,7 +186,7 @@
                                     <span id="contract_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 l4 input-field">
-                                    <p class="searchable_label">Contractor <span class="required">*</span></p>
+                                    <p class="searchable_label">Contractor </p>
                                     <select id="contractor_name" name="contractor_name" class="searchable validate-dropdown">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${contractorsList }">
@@ -939,7 +939,7 @@
 	  			 	  },"date": {
 	  			 		  required: true
 	  			 	  },"contractor_name": {
-	  			 		  required: true
+	  			 		  required: false
 	  			 	  },"voucher_type": {
 	  			 		  required: true
 	  			 	  },"voucher_no": {

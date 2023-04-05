@@ -1144,6 +1144,16 @@
     <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
 
     <script type="text/javascript">
+    
+    $(window).on("load", function (e)  {
+    	
+       	if(window.screen.availWidth<=784)
+       	{
+       		$(".getLinksAIIB").hide();
+       		$(".getLinks").hide();
+       	}   	
+    	
+    });    
         $(document).ready(function () {
             $('.modal').modal();
             $('.media-modal').modal({ dismissible: false });
@@ -1169,12 +1179,7 @@
                     fullWidth: true
                 });
             }
-           	if(window.screen.availWidth<=784)
-           	{
-           		//document.getElementById("getLinksAIIB").removeAttribute("href");
-           		$(".getLinksAIIB").hide();
-           		$(".getLinks").hide();
-           	}
+
             
 
         });

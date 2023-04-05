@@ -901,7 +901,7 @@
                                     </c:if>
                                     <c:if test="${not empty wObj.work_id_fk}">
                                         <a
-                                            href="javascript:getTableauDashboard('${wObj.work_id_fk }');" id="getLinks">
+                                            href="javascript:getTableauDashboard('${wObj.work_id_fk }');" class="getLinks">
                                             <div >
 								    <div class="btn diamond" style="font-size:18px;font-weight:bold;">
 								         <span>${wObj.work_short_name}</span>
@@ -925,7 +925,7 @@
                      <c:if test="${projectOverview.project_id eq 'P04'}">
 	                    <div class="row" style="text-align:center;" id="second-list">
 	                    	<ul><li>
-	 								    <a href="AIIBDisbursement/${projectOverview.project_id}" id="getLinksAIIB"><div class="btn diamondnpa" style="font-size:19px;font-weight:bold;">
+	 								    <a href="AIIBDisbursement/${projectOverview.project_id}" class="getLinksAIIB"><div class="btn diamondnpa" style="font-size:19px;font-weight:bold;">
 									         <span>AIIB Disbursement</span>
 									    </div></a>                   	
 	                    	</li></ul>
@@ -1077,7 +1077,6 @@
                             <div class="row sub">
                             	<ul>
                             	<c:forEach var="wdObj" items="${wObj.workDetails }">  
-                            		<script>console.log(${wdObj})</script>                          		
                             			<c:if test="${wdObj.title eq 'Sanctions Details'}">
 										    <li>
 											    <a href="#workDetails${loop.index}" class="modal-trigger">
@@ -1172,7 +1171,9 @@
             }
            	if(window.screen.availWidth<=784)
            	{
-           		document.getElementById("getLinksAIIB").removeAttribute("href");
+           		//document.getElementById("getLinksAIIB").removeAttribute("href");
+           		$(".getLinksAIIB").hide();
+           		$(".getLinks").hide();
            	}
             
 
@@ -1252,7 +1253,9 @@
            	}
            	else
            		{
-           		document.getElementById("getLinks").removeAttribute("href");          		
+           		//document.getElementById("getLinks").removeAttribute("href"); 
+           		$(".getLinksAIIB").hide();
+           		$(".getLinks").hide();
            		}
         }
 

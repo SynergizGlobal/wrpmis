@@ -531,7 +531,7 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 							p6_activity_id = rs.getString("p6_activity_id");
 						}
 						DBConnectionHandler.closeJDBCResoucrs(null, pstmt, rs);
-						PreparedStatement structureStmt = con.prepareStatement("SELECT structure_id as structure_id_fk FROM structure WHERE work_id_fk=(select work_id_fk from contract where contract_id = '"+pobj.getContract_id_fk()+"') and structure_type_fk = ? and structure = ?");
+						PreparedStatement structureStmt = con.prepareStatement("SELECT top 1 structure_id as structure_id_fk FROM structure WHERE work_id_fk=(select work_id_fk from contract where contract_id = '"+pobj.getContract_id_fk()+"') and structure_type_fk = ? and structure = ? order by structure_id desc ");
 						p = 1;
 						structureStmt.setString(p++,obj.getStructure_type_fk());
 						structureStmt.setString(p++,obj.getStructure());

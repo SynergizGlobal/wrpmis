@@ -221,7 +221,14 @@ font-size:22px ;
 .ui-helper-reset		
 {
 font-size:22px ;
-}			 
+}	
+
+.select{font-weight: bold !important;}		 
+
+
+.select2-container {
+    font-weight: bold !important;
+}
 		 
 	</style>
 	
@@ -609,12 +616,12 @@ font-size:22px ;
 	        			   var filter_column_name = "'"+ filter_column + "'";
 	        			   
 	         			   filters = filters + '<div class="filterHolder">'
-						         			+ '<label>'+value.filter_label_name+'</label>'
+						         			+ '<label><b>'+value.filter_label_name+'</b></label>'
 						         			+ '<select class="searchable" filters_table_alias_name='+value.filters_table_alias_name+' filter_id='+value.filter_id+' name="'+filter_column+'" id="'+filter_column+'" onchange="getSelectedOption('+filterIds+','+dashboardIdTemp+');">'
 						         			//+ '<option value="">All</option>'
 	
 						         			if((value.is_first_option_selected != 'YES')){
-						         				filters = filters + '<option value="" selected>All</option>';
+						         				filters = filters + '<option value="" selected style="font-weight: bold;">All</option>';
 					         			    }
 						         			var optionArray=new Array();
 					         			  	$.each( value.filter, function( index2, value2 ){
@@ -630,7 +637,7 @@ font-size:22px ;
 					         					if(optionArray.indexOf(filter_option_id)==-1)
 					         					{
 						         					optionArray.push(filter_option_id);
-							         				filters = filters + '<option value="'+filter_option_id+'" '+selectedFlag+'>'+value2.filter_option_value+'</option>';
+							         				filters = filters + '<option value="'+filter_option_id+'" '+selectedFlag+' style="font-weight: bold;">'+value2.filter_option_value+'</option>';
 					         					}
 					         					
 												
@@ -802,7 +809,7 @@ font-size:22px ;
 				         				}
 				         				var selectedFlag = "";
 				         				if(((value.is_first_option_selected == 'YES') && (index2 == 0))){
-				         					selectedFlag = 'selected';
+				         					selectedFlag = 'selected';	
 				         				}
 				         				
 			         					if(optionArray.indexOf(filter_option_id)==-1)

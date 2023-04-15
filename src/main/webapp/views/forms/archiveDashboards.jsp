@@ -210,7 +210,14 @@ font-size:22px ;
 .ui-helper-reset		
 {
 font-size:22px ;
-}		 
+}	
+
+.select{font-weight: bold !important;}		 
+
+
+.select2-container {
+    font-weight: bold !important;
+}	 
 		 
 	</style>
 	
@@ -448,7 +455,7 @@ font-size:22px ;
 	    
 	    function getArchiveDates(dashboardId,work_id)
 	    {
-	    	var rhtml='<div class="filterHolder"><label>Archive Date</label><select class="searchable select2-hidden-accessible w100" id="archive_date" style="" data-select2-id="select2-data-archive-item-holder" onChange=changeUrl('+dashboardId+',"'+work_id+'");><option value="">Current</option>';
+	    	var rhtml='<div class="filterHolder"><label><b>Archive Date</b></label><select class="searchable select2-hidden-accessible w100" id="archive_date" style="" data-select2-id="select2-data-archive-item-holder" onChange=changeUrl('+dashboardId+',"'+work_id+'");><option value="">Current</option>';
 	    	 $.ajax({
 	       		url: "<%=request.getContextPath()%>/ajax/getArchiveDates",
 	             type: 'POST',
@@ -648,7 +655,7 @@ font-size:22px ;
         			   var filter_column_name = "'"+ filter_column + "'";
         			   
          			   filters = filters + '<div class="filterHolder">'
-					         			+ '<label>'+value.filter_label_name+'</label>'
+					         			+ '<label><b>'+value.filter_label_name+'</b></label>'
 					         			+ '<select class="searchable" filters_table_alias_name='+value.filters_table_alias_name+' filter_id='+value.filter_id+' name="'+filter_column+'" id="'+filter_column+'" onchange="getSelectedOption('+filterIds+','+dashboardIdTemp+');">'
 					         			//+ '<option value="">All</option>'
 

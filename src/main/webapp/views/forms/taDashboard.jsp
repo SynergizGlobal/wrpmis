@@ -221,7 +221,14 @@ font-size:22px ;
 .ui-helper-reset		
 {
 font-size:22px ;
-}			 
+}	
+
+.select{font-weight: bold !important;}		 
+
+
+.select2-container {
+    font-weight: bold !important;
+}		 
 		 
 	</style>
 	
@@ -467,7 +474,7 @@ font-size:22px ;
 	        			   var filter_column_name = "'"+ filter_column + "'";
 	        			   
 	         			   filters = filters + '<div class="filterHolder">'
-						         			+ '<label>'+value.filter_label_name+'</label>'
+						         			+ '<label><b>'+value.filter_label_name+'</b></label>'
 						         			+ '<select class="searchable" filters_table_alias_name='+value.filters_table_alias_name+' filter_id='+value.filter_id+' name="'+filter_column+'" id="'+filter_column+'" onchange="getSelectedOption('+filterIds+','+dashboardIdTemp+');">'
 						         			//+ '<option value="">All</option>'
 	

@@ -65,7 +65,7 @@ public class TableauTrustedTicket {
 		 clientIp = ugObj.getIpAddress();		
 		 
 		 String Str[]=myPublicIp().split("___");
-		 String ipnew=Str[4];
+		 String ipnew=Str[1];
 		 String Str1[]=ipnew.split(":");
 		 String ipnew1=Str1[1];	
 		 

@@ -40,7 +40,7 @@ public class TableauTrustedTicket {
 		
 		String clientIpMap=getExternalIpAddress();
 		
-		String Str5[]=clientIpMap.split("\\.");
+		String Str5[]=clientIpMap.split(".");
 		String Concat=Str5[2]+'.'+Str5[3];
 		
 		 InetAddress currentIPAddress;
@@ -55,21 +55,20 @@ public class TableauTrustedTicket {
 		String server = ""; 
 		String clientIp = "";			
 		
-		 /*postURL = "http://203.153.40.44:8000/trusted";
+		 postURL = "http://203.153.40.44:8000/trusted";
 		 username = "SynTrack";		
-		 server = "203.153.40.44:8000"; */
+		 server = "203.153.40.44:8000"; 
 		
-		postURL = "http://"+ugObj.getIpAddress()+":8000/trusted"; 
+		/*postURL = "http://"+ugObj.getIpAddress()+":8000/trusted"; 
 		username = "SynTrack"; 
-		 server = ugObj.getIpAddress()+":8000";
-		 clientIp = ugObj.getIpAddress();		
+		 server = ugObj.getIpAddress()+":8000";*/
 		 
 		 String Str[]=myPublicIp().split("___");
 		 String ipnew=Str[4];
 		 String Str1[]=ipnew.split(":");
 		 String ipnew1=Str1[1];	
 		 
-			String Str6[]=ipnew1.split("\\.");
+			String Str6[]=ipnew1.split(".");
 			String ConcatNew=Str6[0]+'.'+Str6[1]+'.'+Concat;
 			
 		 clientIp = ConcatNew;

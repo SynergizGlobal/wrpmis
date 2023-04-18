@@ -280,6 +280,7 @@ font-size:22px ;
          dataType: 'json',
          success: function (data){
          	var dashboard_url = data.dashboard_url;
+         	dashboard_url=dashboard_url+'&:embed=y';
       	    $("#dashboardOpen").attr("src",dashboard_url);
       	    $(".page-loader").hide();
          },error: function(xhr){

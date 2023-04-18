@@ -695,6 +695,7 @@ font-size:22px ;
 	            	}else if($.trim(dashboard_url) == 'wbs-tree'){
 	            		dashboard_url = "<%=request.getContextPath()%>/"+dashboard_url+"/${work_id}";
 	            	}
+	            	dashboard_url=dashboard_url+'&:embed=y';
 	         	    $("#dashboardOpen").attr("src",dashboard_url);
 	         	   	show_left_menu = data.show_left_menu;
 	         	    $(".page-loader").hide();

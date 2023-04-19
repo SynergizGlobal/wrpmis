@@ -349,12 +349,22 @@ public class OverviewDashboardController {
 					String baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", "203.153.40.44");
 					baseUrl = baseUrl.replace("{1}", trustedTokenId);
 				//}
-				
-				if(!StringUtils.isEmpty(params)) {
-					tableauUrl = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS+"&"+params;
-				}else {
-					tableauUrl = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS;
+				String mainUrl[]=baseUrl.split("/");
+				String weburl=mainUrl[2];
+				if(weburl.compareTo("203.153.40.44:8000")==0)
+				{
+					weburl="203.153.40.44:8000";
 				}
+				else if(weburl.compareTo("pmis.mrvc.gov.in:8000")==0)
+				{
+					weburl="203.153.40.44:8000";
+				}				
+				if(!StringUtils.isEmpty(params)) {
+					tableauUrl =  mainUrl[0]+"//"+weburl +"/"+ url[1]+CommonConstants.TABLEAU_PARAMS+"&"+params;
+				}else {
+					tableauUrl =mainUrl[0]+"//"+weburl +"/"+ url[1]+CommonConstants.TABLEAU_PARAMS;
+				}
+				
 				obj.setDashboard_url(tableauUrl.toString());	
 			}
 		} catch (Exception e) {

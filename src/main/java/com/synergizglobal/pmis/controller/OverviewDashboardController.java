@@ -357,7 +357,7 @@ public class OverviewDashboardController {
 				}
 				else if(weburl.compareTo("pmis.mrvc.gov.in:8000")==0)
 				{
-					weburl="203.153.40.44:8000";
+					weburl="pmis.mrvc.gov.in:8000";
 				}				
 				if(!StringUtils.isEmpty(params)) {
 					tableauUrl =  mainUrl[0]+"//"+weburl +"/"+ url[1]+CommonConstants.TABLEAU_PARAMS+"&"+params;

@@ -628,7 +628,7 @@ public class AlertsDaoImpl implements AlertsDao{
                 }
 			}
 			
-			generateIssueAlertsByCronJob();
+			//generateIssueAlertsByCronJob();
 			
 			
 			/*Date date = new Date();
@@ -642,10 +642,10 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			int day = cal.get(Calendar.DAY_OF_MONTH);*/  
             //if(day != 2 && day != 4 ) {
-            	generateRiskMainAlertsByCronJob();
+            	//generateRiskMainAlertsByCronJob();
             //}
 			
-            generateMitigationAndATRRiskAlertsByCronJob();
+            //generateMitigationAndATRRiskAlertsByCronJob();
 			
 			flag = true;
 		}catch(Exception e){ 

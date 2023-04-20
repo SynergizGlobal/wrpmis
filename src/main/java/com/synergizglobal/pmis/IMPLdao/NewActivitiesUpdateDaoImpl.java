@@ -84,14 +84,14 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? "
-						+ "or structure in (select structure from structure_contract_responsible_people s inner join structure s1 on s1.structure_id=s.structure_id_fk where s.contract_id_fk in(select contract_id from contract where (hod_user_id_fk = ? or dy_hod_user_id_fk = ?) group by contract_id) group by structure_id_fk,structure) "
+						//+ "or structure in (select structure from structure_contract_responsible_people s inner join structure s1 on s1.structure_id=s.structure_id_fk where s.contract_id_fk in(select contract_id from contract where (hod_user_id_fk = ? or dy_hod_user_id_fk = ?) group by contract_id) group by structure_id_fk,structure) "
 						+ "or structure in (select structure from structure_contract_responsible_people s inner join structure s1 on s1.structure_id=s.structure_id_fk where s.contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk) group by structure_id_fk,structure) "
-						+ "or structure in (select structure from structure_contract_responsible_people s inner join structure s1 on s1.structure_id=s.structure_id_fk where s.responsible_people_id_fk = ? group by structure_id_fk,structure) "
+						//+ "or structure in (select structure from structure_contract_responsible_people s inner join structure s1 on s1.structure_id=s.structure_id_fk where s.responsible_people_id_fk = ? group by structure_id_fk,structure) "
 						+ ") group by a.contract_id_fk "
 						+ ")";
-				arrSize++;
-				arrSize++;
-				arrSize++;
+				//arrSize++;
+				//arrSize++;
+				//arrSize++;
 				arrSize++;
 				arrSize++;
 				arrSize++;
@@ -104,9 +104,9 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 			
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				pValues[i++] = obj.getUser_id();
-				pValues[i++] = obj.getUser_id();
-				pValues[i++] = obj.getUser_id();
+				//pValues[i++] = obj.getUser_id();
+				//pValues[i++] = obj.getUser_id();
+				//pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
@@ -137,14 +137,14 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					int arrSize = 0;
 					if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 						qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? "
-								+ "or structure in (select structure from structure_contract_responsible_people s inner join structure s1 on s1.structure_id=s.structure_id_fk where s.contract_id_fk in(select contract_id from contract where (hod_user_id_fk = ? or dy_hod_user_id_fk = ?) group by contract_id) group by structure_id_fk,structure) "
+								//+ "or structure in (select structure from structure_contract_responsible_people s inner join structure s1 on s1.structure_id=s.structure_id_fk where s.contract_id_fk in(select contract_id from contract where (hod_user_id_fk = ? or dy_hod_user_id_fk = ?) group by contract_id) group by structure_id_fk,structure) "
 								+ "or structure in (select structure from structure_contract_responsible_people s inner join structure s1 on s1.structure_id=s.structure_id_fk where s.contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk) group by structure_id_fk,structure) "
-								+ "or structure in (select structure from structure_contract_responsible_people s inner join structure s1 on s1.structure_id=s.structure_id_fk where s.responsible_people_id_fk = ? group by structure_id_fk,structure) "
+								//+ "or structure in (select structure from structure_contract_responsible_people s inner join structure s1 on s1.structure_id=s.structure_id_fk where s.responsible_people_id_fk = ? group by structure_id_fk,structure) "
 								+ ") group by a.contract_id_fk "
 								+ ")";
-						arrSize++;
-						arrSize++;
-						arrSize++;
+						//arrSize++;
+						//arrSize++;
+						//arrSize++;
 						arrSize++;
 						arrSize++;
 						arrSize++;
@@ -163,9 +163,9 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 			
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				pValues[i++] = obj.getUser_id();
-				pValues[i++] = obj.getUser_id();
-				pValues[i++] = obj.getUser_id();
+				//pValues[i++] = obj.getUser_id();
+				//pValues[i++] = obj.getUser_id();
+				//pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();

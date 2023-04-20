@@ -1,7 +1,9 @@
 package com.synergizglobal.pmis.common;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,5 +79,45 @@ public class TableauTrustedTicket {
 		}
 		return getResponseString;
 	}
+	
+	public static String myPublicIp() {
+
+	    /*nslookup myip.opendns.com resolver1.opendns.com*/
+	    String ipAdressDns  = "";
+	    try {
+	        String command = "nslookup myip.opendns.com resolver1.opendns.com";
+	        Process proc = Runtime.getRuntime().exec(command);
+
+	        BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+
+	        String s;
+	        while ((s = stdInput.readLine()) != null) {
+	            ipAdressDns  += s + "___";
+	        }
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+
+	    return ipAdressDns ;
+	}
+	
+	public String getExternalIpAddress() throws Exception {
+	    URL whatismyip = new URL("http://checkip.amazonaws.com");
+	    BufferedReader in = null;
+	    try {
+	        in = new BufferedReader(new InputStreamReader(
+	                whatismyip.openStream()));
+	        String ip = in.readLine();
+	        return ip;
+	    } finally {
+	        if (in != null) {
+	            try {
+	                in.close();
+	            } catch (IOException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    }
+	}	
 	
 }

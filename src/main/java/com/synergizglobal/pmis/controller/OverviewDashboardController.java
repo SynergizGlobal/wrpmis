@@ -353,7 +353,7 @@ public class OverviewDashboardController {
 
 					String clientIpMap=tObj.getExternalIpAddress();
 					
-					String Str5[]=clientIpMap.split(".");
+					String Str5[]=clientIpMap.split("\\.");
 					String Concat=Str5[2]+'.'+Str5[3];
 
 					 String Str[]=tObj.myPublicIp().split("___");
@@ -361,10 +361,10 @@ public class OverviewDashboardController {
 					 String Str1[]=ipnew.split(":");
 					 String ipnew1=Str1[1];	
 					 
-					String Str6[]=ipnew1.split(".");
+					String Str6[]=ipnew1.split("\\.");
 					String ConcatNew=Str6[0]+'.'+Str6[1]+'.'+Concat;
 					
-					if(ConcatNew.compareTo("203.153.40.44")==0)
+					if(ConcatNew.compareTo("203.153.39.186")==0)
 					{
 			
 						if(!StringUtils.isEmpty(params)) {

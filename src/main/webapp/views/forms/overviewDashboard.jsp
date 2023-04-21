@@ -243,33 +243,7 @@ font-size:22px ;
 	    <div class="row">
 	        <div class="col s12 m2" id="menu-item-holder">
 	             <div class=" main-menu-collapse">
-	             	<div id="accordion">
-	                 <!-- <h3 class="non-active bg-a"><a href="#">Section 1</a></h3>
-	                 	  <div class="ds-none">
-	                 		<p></p>
-	                 	  </div>
-						  <h3 class="bg-a"><a href="#">Section 2</a></h3>
-						  <div>
-						    <p>
-						    <a href="#" class="bd-bl bg-a">link1</a>
-						    <a href="#" class="bd-bl bg-a">link2</a>
-						    </p>
-						  </div>
-						  <h3 class="bg-a"><a href="#">Section 3</a></h3>
-						  <div>
-						    <p>
-						    <a href="#" class="bd-bl bg-a">link1</a>
-						    <a href="#" class="bd-bl bg-a">link2</a>
-						    </p>
-						  </div>
-						  <h3 class="bg-a"><a href="#">Section 4</a></h3>
-						  <div>
-						    <p>
-						    <a href="#" class="bd-bl bg-a">link1</a>
-						    <a href="#" class="bd-bl bg-a">link2</a>
-						    </p>
-						  </div> -->
-					  </div>
+	             	<div id="accordion"></div>
                </div>
 	        </div>
 	    	<div class="col s12 m10" id="tableau-item-holder" >	    	 	
@@ -340,6 +314,13 @@ font-size:22px ;
 				cache: false,async:false,
 				success : function(data){   
 					$('#accordion').append(getData(data));
+					
+						if(getData(data)=="")
+						{
+							  $("#menu-item-holder").removeClass("col s12 m2");
+
+
+						}
 					
 					var header = document.getElementById("accordion");
 					var btns = header.getElementsByClassName("bg-a");
@@ -731,7 +712,14 @@ font-size:22px ;
 	            }
 	     });
 		 if($.trim(show_left_menu) == 'Yes' && $.trim(filterIds) != ''){
-	   		   $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m8");
+	   		   	   if($('.main-menu-collapse #accordion').html()=="")
+	   			   {
+	   		   		   $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m10");
+	   			   }
+	   		   	   else
+   		   		   {
+   		   		   		$("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m8");
+   		   		   }
 	   		   $("#menu-item-holder").show();
 	   	 }else if($.trim(show_left_menu) == 'Yes'){
 	   		   $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m10");

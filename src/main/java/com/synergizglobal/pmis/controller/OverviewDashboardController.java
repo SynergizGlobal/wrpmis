@@ -351,7 +351,7 @@ public class OverviewDashboardController {
 				//}
 					
 
-					/*String clientIpMap=tObj.getExternalIpAddress();
+					String clientIpMap=tObj.getExternalIpAddress();
 					
 					String Str5[]=clientIpMap.split("\\.");
 					String Concat=Str5[2]+'.'+Str5[3];
@@ -365,7 +365,7 @@ public class OverviewDashboardController {
 					String ConcatNew=Str6[0]+'.'+Str6[1]+'.'+Concat;
 					String SMStr=Str6[0]+'.'+Str6[1];
 					
-					if(SMStr.compareTo("203.153")==0)
+					if(SMStr.compareTo("  203.153")==0)
 					{
 			
 						if(!StringUtils.isEmpty(params)) {
@@ -391,13 +391,9 @@ public class OverviewDashboardController {
 						}else {
 							tableauUrl =mainUrl[0]+"//"+weburl +"/"+ url[1]+CommonConstants.TABLEAU_PARAMS;
 						}						
-					}*/
+					}
 					
-					if(!StringUtils.isEmpty(params)) {
-						tableauUrl =  baseUrl +"/"+ url[1]+CommonConstants.TABLEAU_PARAMS+"&"+params;
-					}else {
-						tableauUrl =baseUrl +"/"+ url[1]+CommonConstants.TABLEAU_PARAMS;
-					}	
+
 				
 				obj.setDashboard_url(tableauUrl.toString());	
 			}

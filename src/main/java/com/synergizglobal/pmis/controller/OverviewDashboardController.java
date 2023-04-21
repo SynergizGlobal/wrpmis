@@ -364,8 +364,9 @@ public class OverviewDashboardController {
 					String Str6[]=ipnew1.split("\\.");
 					String ConcatNew=Str6[0]+'.'+Str6[1]+'.'+Concat;
 					String SMStr=Str6[0]+'.'+Str6[1];
+					System.out.println(ConcatNew);
 					
-					if(ConcatNew.compareTo("  203.153.39.186")==0)
+					if(ConcatNew.compareTo("  203.153.39.186")==0 || ConcatNew.compareTo(" 203.153.39.186")==0 || ConcatNew.compareTo("203.153.39.186")==0)
 					{
 			
 						if(!StringUtils.isEmpty(params)) {

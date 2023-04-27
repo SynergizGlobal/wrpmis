@@ -225,6 +225,7 @@
 											<th>Budget Grant <br>(in Cr)</th>
 											<th>Revised Grant <br>(in Cr)</th>
 											<th>Final Grant <br>(in Cr)	</th>
+											<th>Target <br>(in Cr)</th>
 											<th>Attachment</th>
 											<th>Action</th>
 										</tr>
@@ -280,6 +281,12 @@
 														id="final_grants${index.count }" name="final_grants" type="number" min="0.01" step="0.01"
 														class="validate" placeholder="Amount"
 														value="${bObj.final_grant }">
+											</td>
+											<td data-head="Target (in Cr)" class="input-field">
+													<i class="material-icons prefix center-align">₹</i> <input
+														id="target${index.count }" name="target" type="number" min="0.01" step="0.01"
+														class="validate" placeholder="Amount"
+														value="${bObj.target }">
 											</td>
 											<td data-head="Attachment" class="input-field cell-disp-inb">
 												<c:set var="existingBudgetFilesLength" value="${fn:length(bObj.budgetFilesList )}"></c:set>
@@ -382,6 +389,11 @@
 														id="final_grants0" name="final_grants" type="number" min="0.01" step="0.01"
 														class="validate" placeholder="Amount">
 											</td>
+											<td data-head="Target (in Cr)" class="input-field">
+													<i class="material-icons prefix center-align">₹</i> <input
+														id="target0" name="target" type="number" min="0.01" step="0.01"
+														class="validate" placeholder="Amount">
+											</td>											
 											<td data-head="Attach" class="cell-disp-inb">
 												  <div id="selectedFilesInput">
 				                                    	<div class="file-field input-field" id="budgetFilesDiv1" >
@@ -712,6 +724,8 @@
 							+'class="validate" placeholder="Amount"></td>'
 			            +'<td data-head="Final Grant (in Cr)" class="input-field"><i class="material-icons prefix center-align">₹</i> <input id="final_grants'+rNo+'" name="final_grants" type="number" min="0.01" step="0.01"'
 							+'class="validate" placeholder="Amount"></td>'
+				            +'<td data-head="Target (in Cr)" class="input-field"><i class="material-icons prefix center-align">₹</i> <input id="target'+rNo+'" name="target" type="number" min="0.01" step="0.01"'
+							+'class="validate" placeholder="Amount"></td>'							
 			            +'<td data-head="Attachment" class="cell-disp-inb">  <div id="selectedFilesInput'+rNo+'"><div class="file-field input-field" id="budgetFilesDivs'+rNo+1+'" >' 
 			            + '<div class="btn bg-m t-c"> <span>Attach Files</span>'
                             +'<input type="hidden"  name="budgetFileNames" value=""><input type="file" id="budgetFiles'+rNo+1+'" name="budgetFiles"   onchange="selectFiles('+rNo+1+','+rNo+')"></div>'
@@ -796,6 +810,7 @@
 	  			$('form input[name=budget_grants]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=revised_grants]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=final_grants]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=target]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	   			document.getElementById("budgetForm").submit();			
    	 	 }
         }
@@ -809,6 +824,7 @@
 	  			$('form input[name=budget_grants]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=revised_grants]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=final_grants]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=target]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	   			document.getElementById("budgetForm").submit();	
         	}
         }

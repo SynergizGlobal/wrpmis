@@ -47,7 +47,7 @@ public class BudgetDaoImpl implements BudgetDao {
 		List<Budget> objsList = null;
 		try {
 			
-			String qry ="select budget_id,work_id_fk,w.work_name,w.work_short_name,p.project_id,p.project_name,max(b.financial_year_fk) as financial_year_fk,cast(budget_estimate as CHAR) as budget_estimate,cast(budget_grant as CHAR) as budget_grant, cast(revised_estimate as CHAR) as revised_estimate,cast(revised_grant as CHAR) as revised_grant,cast(final_estimate as CHAR) as final_estimate,cast(final_grant as CHAR) as final_grant  from budget b LEFT JOIN work w on b.work_id_fk = w.work_id LEFT JOIN financial_year f on b.financial_year_fk = f.financial_year LEFT JOIN project p on  w.project_id_fk = p.project_id WHERE b.financial_year_fk = (SELECT (CASE WHEN MONTH(CONVERT(date, getdate())) >= 4 THEN concat(YEAR(CONVERT(date, getdate())), '-',SUBSTRING(cast(YEAR(CONVERT(date, getdate()))+1 as varchar),3,2)) ELSE concat(cast(YEAR(CONVERT(date, getdate()))-1 as varchar),'-', \r\n" + 
+			String qry ="select budget_id,work_id_fk,w.work_name,w.work_short_name,p.project_id,p.project_name,max(b.financial_year_fk) as financial_year_fk,cast(budget_estimate as CHAR) as budget_estimate,cast(budget_grant as CHAR) as budget_grant, cast(revised_estimate as CHAR) as revised_estimate,cast(revised_grant as CHAR) as revised_grant,cast(final_estimate as CHAR) as final_estimate,cast(final_grant as CHAR) as final_grant,cast(target as CHAR) as target  from budget b LEFT JOIN work w on b.work_id_fk = w.work_id LEFT JOIN financial_year f on b.financial_year_fk = f.financial_year LEFT JOIN project p on  w.project_id_fk = p.project_id WHERE b.financial_year_fk = (SELECT (CASE WHEN MONTH(CONVERT(date, getdate())) >= 4 THEN concat(YEAR(CONVERT(date, getdate())), '-',SUBSTRING(cast(YEAR(CONVERT(date, getdate()))+1 as varchar),3,2)) ELSE concat(cast(YEAR(CONVERT(date, getdate()))-1 as varchar),'-', \r\n" + 
 					"SUBSTRING(cast(YEAR(CONVERT(date, getdate())) as varchar),3,2)) END) AS financial_year) AND budget_id is not null and status = ? ";
 			
 			int arrSize = 1;
@@ -137,8 +137,8 @@ public class BudgetDaoImpl implements BudgetDao {
 			con = dataSource.getConnection();
 			con.setAutoCommit(false);
 			String insert_qry = "INSERT into  budget ( work_id_fk, financial_year_fk, budget_estimate, revised_estimate, "
-					+ "final_estimate, budget_grant, revised_grant, final_grant, status) "
-					+"VALUES (?,?,?,?,?,?,?,?,?)";
+					+ "final_estimate, budget_grant, revised_grant, final_grant,target, status) "
+					+"VALUES (?,?,?,?,?,?,?,?,?,?)";
 			insertStmt = con.prepareStatement(insert_qry,Statement.RETURN_GENERATED_KEYS); 
 			int arraySize = 0; 
 			int r = 0;
@@ -184,6 +184,12 @@ public class BudgetDaoImpl implements BudgetDao {
 					arraySize = budget.getFinal_grants().length;
 				}
 			}
+			if(!StringUtils.isEmpty(budget.getTarget()) && budget.getTarget().length > 0) {
+				budget.setTarget(CommonMethods.replaceEmptyByNullInSringArray(budget.getTarget()));
+				if(arraySize < budget.getTarget().length) {
+					arraySize = budget.getTarget().length;
+				}
+			}			
 			int loopTimes=0;
 			if(!StringUtils.isEmpty(budget.getFinancial_year_fks()) && budget.getFinancial_year_fks().length > 0) {
 				for (int i = 0; i < arraySize; i++) {
@@ -197,6 +203,7 @@ public class BudgetDaoImpl implements BudgetDao {
 					    insertStmt.setString(p++,(budget.getBudget_grants().length > 0)?budget.getBudget_grants()[i]:null);
 					    insertStmt.setString(p++,(budget.getRevised_grants().length > 0)?budget.getRevised_grants()[i]:null);
 					    insertStmt.setString(p++,(budget.getFinal_grants().length > 0)?budget.getFinal_grants()[i]:null);
+					    insertStmt.setString(p++,(budget.getTarget().length > 0)?budget.getTarget()[i]:null);
 					    insertStmt.setString(p++,CommonConstants.ACTIVE);
 					   
 					    //insertStmt.addBatch();
@@ -298,8 +305,8 @@ public class BudgetDaoImpl implements BudgetDao {
 			
 			
 			String insert_qry = "INSERT into  budget ( work_id_fk, financial_year_fk, budget_estimate, revised_estimate, "
-					+ "final_estimate, budget_grant, revised_grant, final_grant, status) "
-					+"VALUES (?,?,?,?,?,?,?,?,?)";
+					+ "final_estimate, budget_grant, revised_grant, final_grant,target, status) "
+					+"VALUES (?,?,?,?,?,?,?,?,?,?)";
 			insertStmt = con.prepareStatement(insert_qry,Statement.RETURN_GENERATED_KEYS); 
 			int arraySize = 0; 
 			int r = 0;
@@ -345,6 +352,12 @@ public class BudgetDaoImpl implements BudgetDao {
 					arraySize = budget.getFinal_grants().length;
 				}
 			}
+			if(!StringUtils.isEmpty(budget.getTarget()) && budget.getTarget().length > 0) {
+				budget.setTarget(CommonMethods.replaceEmptyByNullInSringArray(budget.getTarget()));
+				if(arraySize < budget.getTarget().length) {
+					arraySize = budget.getTarget().length;
+				}
+			}			
 			int loopTimes=0;
 			if(!StringUtils.isEmpty(budget.getFinancial_year_fks()) && budget.getFinancial_year_fks().length > 0) {
 				for (int i = 0; i < arraySize; i++) {
@@ -358,6 +371,7 @@ public class BudgetDaoImpl implements BudgetDao {
 					    insertStmt.setString(p++,(budget.getBudget_grants().length > 0)?budget.getBudget_grants()[i]:null);
 					    insertStmt.setString(p++,(budget.getRevised_grants().length > 0)?budget.getRevised_grants()[i]:null);
 					    insertStmt.setString(p++,(budget.getFinal_grants().length > 0)?budget.getFinal_grants()[i]:null);
+					    insertStmt.setString(p++,(budget.getTarget().length > 0)?budget.getTarget()[i]:null);
 					    insertStmt.setString(p++,CommonConstants.ACTIVE);
 					   
 					    //insertStmt.addBatch();
@@ -602,7 +616,7 @@ public class BudgetDaoImpl implements BudgetDao {
 		List<Budget> objsList = null;
 		try {
 			String qry ="SELECT budget_id,work_id_fk,w.work_name,p.project_id,p.project_name,b.financial_year_fk,cast(budget_estimate as CHAR) as budget_estimate,cast(budget_grant as CHAR) as budget_grant, " 
-					+ "cast(revised_estimate as CHAR) as revised_estimate,cast(revised_grant as CHAR) as revised_grant,cast(final_estimate as CHAR) as final_estimate,cast(final_grant as CHAR) as final_grant " 
+					+ "cast(revised_estimate as CHAR) as revised_estimate,cast(revised_grant as CHAR) as revised_grant,cast(final_estimate as CHAR) as final_estimate,cast(final_grant as CHAR) as final_grant,cast(target as CHAR) as target " 
 					+ " from budget b " 
 					+ "LEFT JOIN work w on b.work_id_fk = w.work_id "
 					+ "LEFT JOIN financial_year f on b.financial_year_fk = f.financial_year " 
@@ -748,7 +762,7 @@ public class BudgetDaoImpl implements BudgetDao {
 		List<Budget> objsList = null;
 		try {
 			String qry ="select budget_id,work_id_fk,w.work_name,w.work_short_name,p.project_id,p.project_name,max(b.financial_year_fk) as financial_year_fk,cast(budget_estimate as CHAR) as budget_estimate,cast(budget_grant as CHAR) as budget_grant, " 
-					+ "cast(revised_estimate as CHAR) as revised_estimate,cast(revised_grant as CHAR) as revised_grant,cast(final_estimate as CHAR) as final_estimate,cast(final_grant as CHAR) as final_grant " 
+					+ "cast(revised_estimate as CHAR) as revised_estimate,cast(revised_grant as CHAR) as revised_grant,cast(final_estimate as CHAR) as final_estimate,cast(final_grant as CHAR) as final_grant,cast(target as CHAR) as target " 
 					+ " from budget b "
 					+ "LEFT JOIN work w on b.work_id_fk = w.work_id "
 					+ "LEFT JOIN financial_year f on b.financial_year_fk = f.financial_year " 

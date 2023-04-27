@@ -11,7 +11,7 @@ public class Budget {
 					contract_id,contract_name,contract_short_name,created_by_user_id_fk,user_id,designation,user_name;
 
 	
-	private String[] financial_year_fks,budget_ids, budget_estimates, august_review_estimates,budgetFileNames, revised_estimates, final_estimates, budget_grants, revised_grants, final_grants;
+	private String[] financial_year_fks,budget_ids, budget_estimates, august_review_estimates,budgetFileNames, revised_estimates, final_estimates, budget_grants, revised_grants, final_grants,target;
 	
 	private List<Budget> budget;
 
@@ -359,6 +359,14 @@ public class Budget {
 
 	public void setAttachment(String attachment) {
 		this.attachment = attachment;
+	}
+
+	public String[] getTarget() {
+		return target;
+	}
+
+	public void setTarget(String[] target) {
+		this.target = target;
 	}
 
 }

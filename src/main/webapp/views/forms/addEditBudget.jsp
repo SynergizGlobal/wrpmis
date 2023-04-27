@@ -286,7 +286,7 @@
 													<i class="material-icons prefix center-align">₹</i> <input
 														id="target${index.count }" name="target" type="number" min="0.01" step="0.01"
 														class="validate" placeholder="Amount"
-														value="${bObj.target }">
+														value="${bObj.target_value}">
 											</td>
 											<td data-head="Attachment" class="input-field cell-disp-inb">
 												<c:set var="existingBudgetFilesLength" value="${fn:length(bObj.budgetFilesList )}"></c:set>

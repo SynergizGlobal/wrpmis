@@ -99,7 +99,7 @@ public class BudgetDaoImpl implements BudgetDao {
 			if(!StringUtils.isEmpty(budget) && !StringUtils.isEmpty(budget.getBudget_id())) {
 				List<Budget> objsList = null;
 				String qryDetails = "select budget_id,b.financial_year_fk,budget_estimate, revised_estimate, final_estimate,"+
-						"budget_grant, revised_grant,final_grant "
+						"budget_grant, revised_grant,final_grant,target as target_value "
 						+ "from budget b " 
 						+"left join financial_year f on b.financial_year_fk = f.financial_year where work_id_fk = ?  ORDER BY financial_year_fk DESC";
 				
@@ -796,7 +796,7 @@ public class BudgetDaoImpl implements BudgetDao {
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
-				qry = qry + " group by budget_id,work_id_fk,w.work_name,w.work_short_name,p.project_id,p.project_name,budget_estimate,budget_grant,revised_estimate,revised_grant,final_estimate,final_grant ORDER BY budget_id ASC offset ? rows  fetch next ? rows only";
+				qry = qry + " group by budget_id,work_id_fk,w.work_name,w.work_short_name,p.project_id,p.project_name,budget_estimate,budget_grant,revised_estimate,revised_grant,final_estimate,final_grant,target ORDER BY budget_id ASC offset ? rows  fetch next ? rows only";
 				arrSize++;
 				arrSize++;
 			}

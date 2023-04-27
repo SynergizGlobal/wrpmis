@@ -8,7 +8,7 @@ public class Budget {
 	
 	private String budget_id, work_id_fk,work_id, financial_year_fk, budget_estimate, august_review_estimate, revised_estimate, final_estimate, budget_grant, revised_grant,
 					final_grant, remarks, attachment,project_id_fk,work_name,project_name,project_id,financial_year,work_short_name,
-					contract_id,contract_name,contract_short_name,created_by_user_id_fk,user_id,designation,user_name;
+					contract_id,contract_name,contract_short_name,created_by_user_id_fk,user_id,designation,user_name,target_value;
 
 	
 	private String[] financial_year_fks,budget_ids, budget_estimates, august_review_estimates,budgetFileNames, revised_estimates, final_estimates, budget_grants, revised_grants, final_grants,target;
@@ -367,6 +367,14 @@ public class Budget {
 
 	public void setTarget(String[] target) {
 		this.target = target;
+	}
+
+	public String getTarget_value() {
+		return target_value;
+	}
+
+	public void setTarget_value(String target_value) {
+		this.target_value = target_value;
 	}
 
 }

@@ -733,7 +733,7 @@
                                        <div class="col m12 s12 input-field">
                                             <p class="searchable_label">Contract <span class="required">*</span></p>
                                             <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" data-placeholder="Select"
-                                                onchange="addInQueContract(this.value);getStructureTypesListFilter(this.value);resetWorksAndProjectsDropdowns(null);onLoadMethod();getNewActivitiesUpdateLines(); getNewActivitiesUpdateSections();">
+                                                onchange="addInQueContract(this.value);getStructureTypesListFilter(this.value);resetWorksAndProjectsDropdowns(null);onLoadMethod();">
                                                  <option value=""></option> 
                                                 <c:forEach var="obj" items="${contractsList }">
                                                 	<option name="${obj.work_id_fk }" value="${obj.contract_id }" <c:if test="${obj.contract_id eq activitiesData.contract_id }">selected</c:if>>${obj.contract_short_name}</option>
@@ -1938,7 +1938,10 @@
          var structureId = $("#strip_chart_structure_id_fk").val();
          var strip_chart_line_id_fk = $("#strip_chart_line_id_fk").val();
          var strip_chart_section_name = $("#strip_chart_section_name").val();
-         var myParams = { contract_id_fk: contract_id_fk, strip_chart_structure_id_fk: structure_id, strip_chart_line_id_fk: strip_chart_line_id_fk, strip_chart_section_name: strip_chart_section_name };
+         
+         var structure_type_fk = $("#structure_type_fk").val();
+         
+         var myParams = { contract_id_fk: contract_id_fk, strip_chart_structure_id_fk: structure_id, strip_chart_line_id_fk: strip_chart_line_id_fk, strip_chart_section_name: strip_chart_section_name ,structure_type_fk:structure_type_fk};
          
          if ($.trim(structure_id) != "") {
              $.ajax({
@@ -1994,8 +1997,9 @@
          var structureId = $("#strip_chart_structure_id_fk").val();
          var laneId = $("#strip_chart_line_id_fk").val();
          var sectionId = $("#strip_chart_section_name").val();
+         var structure_type_fk = $("#structure_type_fk").val();
          
-         var myParams = { contract_id_fk: contract_id_fk, strip_chart_structure_id_fk: structureId, strip_chart_line_id_fk: laneId, strip_chart_section_name: sectionId, strip_chart_component : component };
+         var myParams = { contract_id_fk: contract_id_fk, strip_chart_structure_id_fk: structureId, strip_chart_line_id_fk: laneId, strip_chart_section_name: sectionId, strip_chart_component : component,structure_type_fk:structure_type_fk };
          var html = '';
 
          if ($.trim(contract_id_fk) != "" && $.trim(structureId) != "" && $.trim(component) ) {                

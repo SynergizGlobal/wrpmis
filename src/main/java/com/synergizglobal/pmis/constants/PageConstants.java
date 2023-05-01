@@ -63,6 +63,7 @@ public class PageConstants {
 
 	public static final String P6Data = "forms/P6Data";
 	public static final String P6NewData = "forms/P6NewData";
+	public static final String addEditUAV = "forms/addEditUAV";
 
 	public static final String sourceOfFund = "forms/sourceOfFund";
 	public static final String addEditSourceOfFund = "forms/addEditSourceOfFund";

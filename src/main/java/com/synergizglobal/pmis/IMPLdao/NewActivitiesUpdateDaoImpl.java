@@ -79,13 +79,13 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					+ "FROM p6_activities a "
 					+ "left join structure s on s.structure_id = a.structure_id_fk "
 					+ "left outer join contract co on a.contract_id_fk = co.contract_id "	
-					+ "WHERE a.contract_id_fk is not null and (a.component_details != 'OBC' or a.component_details is null)  and a.scope <> ISNULL(Completed,0) ";
+					+ "WHERE a.contract_id_fk is not null  ";
 					
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? "
+				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ?  "
 						//+ "or structure in (select structure from structure_contract_responsible_people s inner join structure s1 on s1.structure_id=s.structure_id_fk where s.contract_id_fk in(select contract_id from contract where (hod_user_id_fk = ? or dy_hod_user_id_fk = ?) group by contract_id) group by structure_id_fk,structure) "
-						+ "or structure in (select structure from structure_contract_responsible_people s inner join structure s1 on s1.structure_id=s.structure_id_fk where s.contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk) group by structure_id_fk,structure) "
+						+ "or  a.contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk)  "
 						//+ "or structure in (select structure from structure_contract_responsible_people s inner join structure s1 on s1.structure_id=s.structure_id_fk where s.responsible_people_id_fk = ? group by structure_id_fk,structure) "
 						+ ") group by a.contract_id_fk "
 						+ ")";
@@ -106,9 +106,9 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				//pValues[i++] = obj.getUser_id();
 				//pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
+				pValues[i++] = obj.getUser_id();
 				//pValues[i++] = obj.getUser_id();
-				pValues[i++] = obj.getUser_id();
-				pValues[i++] = obj.getUser_id();
 				pValues[i++] = obj.getUser_id();
 			
 			}
@@ -130,15 +130,14 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					+ "WHERE c.contract_id IN ("
 					+ "select a.contract_id_fk "
 					+ "from p6_activities a "
-					+ "left join structure s on s.structure_id = a.structure_id_fk "
 					+ "left outer join contract c on a.contract_id_fk = c.contract_id "					
-					+ "where a.contract_id_fk is not null and (a.component_details != 'OBC' or a.component_details is null)  and a.scope <> ISNULL(Completed,0) " ;
+					+ "where a.contract_id_fk is not null " ;
 					
 					int arrSize = 0;
 					if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 						qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? "
 								//+ "or structure in (select structure from structure_contract_responsible_people s inner join structure s1 on s1.structure_id=s.structure_id_fk where s.contract_id_fk in(select contract_id from contract where (hod_user_id_fk = ? or dy_hod_user_id_fk = ?) group by contract_id) group by structure_id_fk,structure) "
-								+ "or structure in (select structure from structure_contract_responsible_people s inner join structure s1 on s1.structure_id=s.structure_id_fk where s.contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk) group by structure_id_fk,structure) "
+								+ "or  a.contract_id_fk in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk)  "
 								//+ "or structure in (select structure from structure_contract_responsible_people s inner join structure s1 on s1.structure_id=s.structure_id_fk where s.responsible_people_id_fk = ? group by structure_id_fk,structure) "
 								+ ") group by a.contract_id_fk "
 								+ ")";
@@ -199,7 +198,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					+ "left join structure s on s.structure_id = a.structure_id_fk "
 					+ "left outer join contract c on a.contract_id_fk = c.contract_id "
 					+ "left outer join contract_executive c1 on c1.contract_id_fk = c.contract_id "	
-					+ "where c.work_id_fk is not null and contract_id not like '%ms%' and a.contract_id_fk is not null and (a.component_details != 'OBC' or a.component_details is null)  and a.scope <> ISNULL(Completed,0) " ;
+					+ "where c.work_id_fk is not null and contract_id not like '%ms%' and a.contract_id_fk is not null   " ;
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and c.work_id_fk = ?";
@@ -255,8 +254,8 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					+ "FROM p6_activities s "
 					+ "left join structure s1 on s1.structure_id = s.structure_id_fk "
 					+ "LEFT JOIN contract c ON c.contract_id = s.contract_id_fk "
-					+ "WHERE s1.structure is not null and (s.component_details != 'OBC' or s.component_details is null)  and s1.structure_type_fk = ? AND s1.structure <> '' AND s.contract_id_fk = ? "
-					+ "AND (select count(*) from p6_activities WHERE scope <> ISNULL(completed,0) and (component_details != 'OBC' or component_details is null)  and s1.structure_type_fk = ? and contract_id_fk = ? AND structure = s1.structure ) > 0 ";
+					+ "WHERE s1.structure is not null  and s1.structure_type_fk = ? AND s1.structure <> '' AND s.contract_id_fk = ? ";
+					//+ "AND (select count(*) from p6_activities WHERE scope <> ISNULL(completed,0)  and s1.structure_type_fk = ? and contract_id_fk = ? AND structure = s1.structure ) > 0 ";
 			int arrSize = 4;
 			
 		
@@ -278,8 +277,8 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 			int i = 0;
 			pValues[i++] = obj.getStructure_type_fk();
 			pValues[i++] = obj.getContract_id_fk();
-			pValues[i++] = obj.getStructure_type_fk();
-			pValues[i++] = obj.getContract_id_fk();
+			//pValues[i++] = obj.getStructure_type_fk();
+			//pValues[i++] = obj.getContract_id_fk();
 			
 			
 			/*if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
@@ -463,7 +462,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 			String qry = "select component as strip_chart_component "
 					+ "from p6_activities a "
 					+ "left join structure s on s.structure_id = a.structure_id_fk "
-					+ "where component is not null and component <> '' and (component_details != 'OBC' or component_details is null)   and a.contract_id_fk = ? and structure = ?";
+					+ "where component is not null and component <> '' and (component_details != 'OBC' or component_details is null)   and a.contract_id_fk = ? and structure_type_fk = ? and structure = ?";
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_line_id_fk())) {
 				qry = qry + " and line = ?";
@@ -477,6 +476,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 			statement = connection.prepareStatement(qry);
 			int i = 1;
 			statement.setString(i++,obj.getContract_id_fk());
+			statement.setString(i++,obj.getStructure_type_fk());
 			statement.setString(i++,obj.getStrip_chart_structure_id_fk());
 						
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_line_id_fk())) {
@@ -523,7 +523,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					+ "component as strip_chart_component "
 					+ "from p6_activities a "
 					+ "left join structure s on s.structure_id = a.structure_id_fk "
-					+ "where component_id is not null and (component_details != 'OBC' or component_details is null) and component_id <> ''  and a.contract_id_fk = ? and structure = ? and component = ?";
+					+ "where component_id is not null and (component_details != 'OBC' or component_details is null) and component_id <> ''  and a.contract_id_fk = ? and structure_type_fk = ?   and structure = ? and component = ?";
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_line_id_fk())) {
 				qry = qry + " and line = ?";
@@ -537,6 +537,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 			statement = connection.prepareStatement(qry);
 			int i = 1;
 			statement.setString(i++,obj.getContract_id_fk());
+			statement.setString(i++,obj.getStructure_type_fk());
 			statement.setString(i++,obj.getStrip_chart_structure_id_fk());
 			statement.setString(i++,obj.getStrip_chart_component());
 						
@@ -722,11 +723,11 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 	public List<StripChart> getAcivitiesBulkActivitiesList(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "select p6_activity_id as strip_chart_activity_id,activity_name as strip_chart_activity_name "
+			String qry = "select p6_activity_id as strip_chart_activity_id,p6_activity_name as strip_chart_activity_name "
 					+ "from p6_activities a left join structure s11 on s11.structure_id = a.structure_id_fk"
 					
 					+ "where p6_activity_id is not null and (component_details != 'OBC' or component_details is null)  and scope <> ISNULL(completed,0)  "
-					+ "and component_id = ? and structure = ? and component = ? ";
+					+ "and component_id = ? and structure_type_fk = ?  and structure = ? and component = ? ";
 			int arrSize = 2;			
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_line_id_fk())) {
@@ -744,6 +745,8 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 			//pValues[i++] = CommonConstants2.STATUS_COMPLETED + "," + CommonConstants2.STATUS_DROPPED;
 			//pValues[i++] = CommonConstants2.STATUS_COMPLETED;
 			pValues[i++] = obj.getStrip_chart_component_id();
+			pValues[i++] = obj.getStructure_type_fk();
+			
 			pValues[i++] = obj.getStrip_chart_structure_id_fk();
 			pValues[i++] = obj.getStrip_chart_component();
 			
@@ -1615,7 +1618,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 			String qry = "SELECT distinct structure_type_fk as structure_type "
 					+ "FROM p6_activities s left join structure s11 on s11.structure_id = s.structure_id_fk "
 					+ "LEFT JOIN contract c ON c.contract_id = s.contract_id_fk "
-					+ "WHERE s11.structure is not null and (s.component_details != 'OBC' or s.component_details is null) AND s11.structure <> '' AND s.contract_id_fk = ? ";
+					+ "WHERE s11.structure_type_fk is not null AND s11.structure_type_fk <> '' AND s.contract_id_fk = ? ";
 			int arrSize = 1;
 			
 			Object[] pValues = new Object[arrSize];
@@ -2060,7 +2063,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 			
 			String qry = "select component as strip_chart_component "
 					+ "from p6_activities a1 left join structure s11 on s11.structure_id = a1.structure_id_fk "
-					+ "where component is not null and component <> '' and a1.contract_id_fk = ? and structure = ?";
+					+ "where component is not null and component <> '' and a1.contract_id_fk = ? and  structure_type_fk = ? and structure = ?";
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_line_id_fk())) {
 				qry = qry + " and line = ?";
@@ -2074,6 +2077,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 			statement = connection.prepareStatement(qry);
 			int i = 1;
 			statement.setString(i++,obj.getContract_id_fk());
+			statement.setString(i++,obj.getStructure_type_fk());
 			statement.setString(i++,obj.getStrip_chart_structure_id_fk());
 						
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_line_id_fk())) {
@@ -2119,7 +2123,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 			String qry = "select distinct component_id as strip_chart_component_id_name,"
 					+ "component as strip_chart_component "
 					+ "from p6_activities a1 left join structure s11 on s11.structure_id = a1.structure_id_fk "
-					+ "where component_id is not null  and component_id <> '' and a1.contract_id_fk = ? and structure = ? and component = ?";
+					+ "where component_id is not null  and component_id <> '' and a1.contract_id_fk = ? and  structure_type_fk = ? and structure = ? and component = ?";
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStrip_chart_line_id_fk())) {
 				qry = qry + " and line = ?";
@@ -2133,6 +2137,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 			statement = connection.prepareStatement(qry);
 			int i = 1;
 			statement.setString(i++,obj.getContract_id_fk());
+			statement.setString(i++,obj.getStructure_type_fk());
 			statement.setString(i++,obj.getStrip_chart_structure_id_fk());
 			statement.setString(i++,obj.getStrip_chart_component());
 						

@@ -256,7 +256,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					+ "LEFT JOIN contract c ON c.contract_id = s.contract_id_fk "
 					+ "WHERE s1.structure is not null  and s1.structure_type_fk = ? AND s1.structure <> '' AND s.contract_id_fk = ? ";
 					//+ "AND (select count(*) from p6_activities WHERE scope <> ISNULL(completed,0)  and s1.structure_type_fk = ? and contract_id_fk = ? AND structure = s1.structure ) > 0 ";
-			int arrSize = 4;
+			int arrSize = 2;
 			
 		
 			/*if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {

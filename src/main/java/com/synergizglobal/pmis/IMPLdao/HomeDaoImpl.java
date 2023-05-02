@@ -1226,7 +1226,7 @@ public class HomeDaoImpl implements HomeDao {
 					
 					String qry = "select count(*) as count from dashboard_access "
 							+ "where dashboard_id_fk = "
-							+ "(SELECT dashboard_id FROM dashboard d "
+							+ "(SELECT top 1 dashboard_id FROM dashboard d "
 							//+ "left join module m on d.module_name_fk = m.module_name "
 							+ "left join user_module m on d.module_name_fk = m.module_fk "
 							+ "WHERE m.executive_id_fk = ? AND m.soft_delete_status = ? AND dashboard_url is not null and dashboard_url <> '' and d.soft_delete_status_fk = ? and LOWER(dashboard_name) = ?) "
@@ -1279,7 +1279,7 @@ public class HomeDaoImpl implements HomeDao {
 						if(UrlExistsFormCount>0)
 						{
 							qry = "select count(*) as count from form_access "
-									+ "where form_id_fk = (SELECT form_id FROM form f "
+									+ "where form_id_fk = (SELECT top 1 form_id FROM form f "
 									//+ "left join module m on f.module_name_fk = m.module_name "
 									+ "left join user_module m on f.module_name_fk = m.module_fk "
 									+ "WHERE m.executive_id_fk = ? AND m.soft_delete_status = ? AND f.web_form_url is not null and f.web_form_url <> '' "
@@ -1292,7 +1292,7 @@ public class HomeDaoImpl implements HomeDao {
 						{
 							
 							qry = "select count(*) as count from dashboard_access "
-									+ "where dashboard_id_fk = (SELECT dashboard_id FROM dashboard f "
+									+ "where dashboard_id_fk = (SELECT top 1 dashboard_id FROM dashboard f "
 									//+ "left join module m on f.module_name_fk = m.module_name "
 									+ "left join user_module m on f.module_name_fk = m.module_fk "
 									+ "WHERE m.executive_id_fk = ? AND m.soft_delete_status = ? AND f.dashboard_url is not null and f.dashboard_url <> '' "
@@ -1310,7 +1310,7 @@ public class HomeDaoImpl implements HomeDao {
 					if(tempURL.startsWith("overview-dashboard")) {
 						qry = "select count(*) as count from dashboard_access "
 								+ "where dashboard_id_fk = "
-								+ "(SELECT dashboard_id FROM dashboard d "
+								+ "(SELECT top 1 dashboard_id FROM dashboard d "
 								//+ "left join module m on d.module_name_fk = m.module_name "
 								+ "left join user_module m on d.module_name_fk = m.module_fk "
 								+ "WHERE m.executive_id_fk = ? AND m.soft_delete_status = ? and d.soft_delete_status_fk = ? and REPLACE(LOWER(dashboard_url),'/','') = ?) "

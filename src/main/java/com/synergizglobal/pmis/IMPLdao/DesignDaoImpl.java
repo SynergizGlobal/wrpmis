@@ -2291,7 +2291,7 @@ public class DesignDaoImpl implements DesignDao{
 					"left outer join [user] u  ON d.hod  =  u.user_id  " + 
 					"left outer join [user] u1  ON d.dy_hod  =  u1.user_id  " + 
 					"LEFT OUTER JOIN department dt  ON d.department_id_fk  =  dt.department   " + 
-					"left join design_revisions ds on d.design_id = ds.design_id_fk  where design_id is not null ";
+					"left join design_revisions ds on d.design_id = ds.design_id_fk  where design_id_fk is not null ";
 				
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {

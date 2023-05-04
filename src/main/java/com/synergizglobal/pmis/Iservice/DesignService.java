@@ -11,6 +11,8 @@ public interface DesignService {
 
 	public List<Design> getDesigns(Design obj) throws Exception;
 	
+	public List<Design> getDesignRevisions(Design obj) throws Exception;
+	
 	public List<Design> getDesignsList(Design obj, int startIndex, int offset, String searchParameter) throws Exception;
 
 	public int getTotalRecords(Design obj, String searchParameter) throws Exception;

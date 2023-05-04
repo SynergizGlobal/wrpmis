@@ -82,4 +82,6 @@ public interface DesignDao {
 	
 	public List<Design> getStructureIdsforDesign(Design obj) throws Exception;
 
+	public List<Design> getDesignRevisions(Design obj)  throws Exception;
+
 }

@@ -864,11 +864,13 @@ public class DesignController {
 	public void exportDesign(HttpServletRequest request, HttpServletResponse response,HttpSession session,@ModelAttribute Design design,RedirectAttributes attributes){
 		ModelAndView view = new ModelAndView(PageConstants.designGrid);
 		List<Design> dataList = new ArrayList<Design>();
+		List<Design> dataRevisionsList = new ArrayList<Design>();
 		String userId = null;String userName = null;
 		try {
 			userId = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
 			view.setViewName("redirect:/design");
-			dataList = designService.getDesigns(design);  
+			dataList = designService.getDesigns(design); 
+			dataRevisionsList = designService.getDesignRevisions(design);  
 			if(dataList != null && dataList.size() > 0){
 	            XSSFWorkbook  workBook = new XSSFWorkbook ();
 	            XSSFSheet sheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Design & Drawing"));
@@ -1173,7 +1175,7 @@ public class DesignController {
 				}
 	            
 	            short rowNo1 = 1;
-	            for (Design obj : dataList) {
+	            for (Design obj : dataRevisionsList) {
 	                XSSFRow row = sheet1.createRow(rowNo1);
 	                int c = 0;
 	            

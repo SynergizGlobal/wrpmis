@@ -27,6 +27,12 @@ public class DesignServiceImpl implements DesignService{
 	}
 
 	@Override
+	public List<Design> getDesignRevisions(Design obj) throws Exception
+	{
+		return designDao.getDesignRevisions(obj);
+	}
+	
+	@Override
 	public List<Design> getDesignsList(Design obj, int startIndex, int offset, String searchParameter) throws Exception {
 		return designDao.getDesignsList(obj,startIndex,offset,searchParameter);
 	}

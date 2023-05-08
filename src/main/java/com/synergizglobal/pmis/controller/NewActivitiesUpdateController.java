@@ -790,6 +790,9 @@ public class NewActivitiesUpdateController {
 							val = formatter.formatCellValue(row.getCell(0)).trim();
 							if(!StringUtils.isEmpty(val)) { stripChart.setP6_task_code(val);}
 							
+							val = formatter.formatCellValue(row.getCell(1)).trim();
+							if(!StringUtils.isEmpty(val)) { stripChart.setContract_short_name(val);}							
+							
 							String ConcatProgressDates="";
 							String ConcatCompletedScopes="";
 							XSSFRow headerRow = risksDrawingsSheet.getRow(1);

@@ -43,6 +43,7 @@ import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.Messages;
 import com.synergizglobal.pmis.model.StripChart;
 import com.synergizglobal.pmis.model.Structure;
+import com.synergizglobal.pmis.model.UtilityShifting;
 @Repository
 public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 	public static Logger logger = Logger.getLogger(NewActivitiesUpdateDaoImpl.class);
@@ -2199,6 +2200,29 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 		}
 		return flag;				
 	}
+	
+	private String getContractIdByContractShortName(String ContractShortName)throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String val = null;
+		Connection connection = null;
+		try {
+			connection = dataSource.getConnection();
+			String qry = "select contract_id from contract where contract_short_name = ? ";
+			stmt = connection.prepareStatement(qry);
+			stmt.setString(1, ContractShortName);
+			
+			rs = stmt.executeQuery();  
+			if(rs.next()) {
+				val = rs.getString("contract_id");
+			}
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(connection, stmt, rs);
+		}
+		return val;
+	}	
 
 	@Override
 	public boolean uploadNewActivities(List<StripChart> stripChartList) throws Exception {
@@ -2233,7 +2257,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					if(!StringUtils.isEmpty(StrVar1[k]) && StrVar1[k].compareTo("NoValue")!=0)
 					{
 						
-						if(Float.parseFloat(getPreviousCompletedScopeApproved(getActivityId(obj.getP6_task_code()),StrVar[k]))!=Float.parseFloat(StrVar1[k]) && Float.parseFloat(StrVar1[k])>0 && getPreviousCompletedScope(getActivityId(obj.getP6_task_code()),StrVar[k])==0)
+						if(Float.parseFloat(getPreviousCompletedScopeApproved(getActivityId(obj.getP6_task_code(),getContractIdByContractShortName(obj.getContract_short_name())),StrVar[k]))!=Float.parseFloat(StrVar1[k]) && Float.parseFloat(StrVar1[k])>0 && getPreviousCompletedScope(getActivityId(obj.getP6_task_code(),getContractIdByContractShortName(obj.getContract_short_name())),StrVar[k])==0)
 						
 						/*if((getPreviousCompletedScope(getActivityId(obj.getP6_task_code()),StrVar[k]).compareTo(StrVar1[k])!=0 && Float.parseFloat(StrVar1[k])>0 && getPreviousCompletedScopeApproved(getActivityId(obj.getP6_task_code()),StrVar[k])!=StrVar1[k]))*/
 						{
@@ -2241,21 +2265,21 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 								
 								String deleteQry = "delete from p6_validation_dyhod where progress_id_fk in(select progress_id from p6_validation where p6_activity_id_fk = ? and progress_date=? and approval_status_fk='pending')";
 								stmt = con.prepareStatement(deleteQry);
-								stmt.setString(1,getActivityId(obj.getP6_task_code()));
+								stmt.setString(1,getActivityId(obj.getP6_task_code(),getContractIdByContractShortName(obj.getContract_short_name())));
 								stmt.setString(2,StrVar[k]);
 								stmt.executeUpdate();
 								
 								
 								String deleteQry1 = "delete from p6_validation where p6_activity_id_fk = ? and progress_date=? and approval_status_fk='pending'";
 								stmt1 = con.prepareStatement(deleteQry1);
-								stmt1.setString(1,getActivityId(obj.getP6_task_code()));
+								stmt1.setString(1,getActivityId(obj.getP6_task_code(),getContractIdByContractShortName(obj.getContract_short_name())));
 								stmt1.setString(2,StrVar[k]);
 								stmt1.executeUpdate();						
 								
 							    insertStmt.setString(1, obj.getCreated_by_user_id_fk());
 							    insertStmt.setString(2, obj.getRemarks());
 						    	insertStmt.setString(3,StrVar1[k]);
-							    insertStmt.setString(4,getActivityId(obj.getP6_task_code()));
+							    insertStmt.setString(4,getActivityId(obj.getP6_task_code(),getContractIdByContractShortName(obj.getContract_short_name())));
 							    insertStmt.setString(5, StrVar[k]);
 							    insertStmt.setString(6, "Pending");
 							    count=insertStmt.executeUpdate();
@@ -2321,11 +2345,11 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 		return flag;
 	}
 	
-	private String getActivityId(String task_code) throws Exception{
+	private String getActivityId(String task_code,String ContractId) throws Exception{
 		String p6_activity_id="";
 		try {
-			String qry = "select distinct p6_activity_id from p6_activities where task_code=?";
-			p6_activity_id = (String) jdbcTemplate.queryForObject(qry, new Object[] { task_code }, String.class);
+			String qry = "select distinct p6_activity_id from p6_activities where task_code=? and contract_id_fk=?";
+			p6_activity_id = (String) jdbcTemplate.queryForObject(qry, new Object[] { task_code,ContractId }, String.class);
 		} catch (Exception e) {
 			throw new Exception(e);
 		}		

@@ -1577,22 +1577,31 @@
         
         
         function ExportNewActivitiesUpdate(){
-	         var contract_id_fk = $("#contract_id_fk").val();
-	         var structure_type_fk = $("#structure_type_fk").val();
-	         var strip_chart_structure_id_fk = $("#strip_chart_structure_id_fk").val();
-		        var prdate = new Date(document.getElementById("progress_date").value);
-		        var prdateformat = ('0' + (prdate.getMonth()+1)).slice(-2)+'-'+('0' + prdate.getDate()).slice(-2)+'-'+prdate.getFullYear();
-		        document.getElementById("data_date").value=prdateformat;
-		        document.getElementById("progress_date").value=prdateformat;
-
-		   		var searchStrValue = $('[type=search]').val();
-          	 
-          	$("#exportContract_id_fk").val(contract_id_fk);
-          	$("#exportStructure_type_fk").val(structure_type_fk);
-          	$("#exportStrip_chart_structure_id_fk").val(strip_chart_structure_id_fk);
-          	$("#exportProgress_date").val(prdateformat);
-          	$("#exportData_date").val(prdateformat);
-          	$("#exportNewActivities").submit();
+			var contract_id_fk = $("#contract_id_fk").val();
+			if($.trim(contract_id_fk) != '')
+			{        	
+		         	var contract_id_fk = $("#contract_id_fk").val();
+		         	var structure_type_fk = $("#structure_type_fk").val();
+		         	var strip_chart_structure_id_fk = $("#strip_chart_structure_id_fk").val();
+			        var prdate = new Date(document.getElementById("progress_date").value);
+			        var prdateformat = ('0' + (prdate.getMonth()+1)).slice(-2)+'-'+('0' + prdate.getDate()).slice(-2)+'-'+prdate.getFullYear();
+			        document.getElementById("data_date").value=prdateformat;
+			        document.getElementById("progress_date").value=prdateformat;
+	
+			   		var searchStrValue = $('[type=search]').val();
+	          	 
+	          	$("#exportContract_id_fk").val(contract_id_fk);
+	          	$("#exportStructure_type_fk").val(structure_type_fk);
+	          	$("#exportStrip_chart_structure_id_fk").val(strip_chart_structure_id_fk);
+	          	$("#exportProgress_date").val(prdateformat);
+	          	$("#exportData_date").val(prdateformat);
+	          	$("#exportNewActivities").submit();
+			}
+			else
+			{
+				$("#contract_id_fkError").html("Please select Contract ID");
+				return false;
+			}
        	}	       
         
 <%--     function ExportNewActivitiesUpdate()

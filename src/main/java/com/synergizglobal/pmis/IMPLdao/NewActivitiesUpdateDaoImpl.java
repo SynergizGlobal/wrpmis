@@ -2261,7 +2261,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 						
 						/*if((getPreviousCompletedScope(getActivityId(obj.getP6_task_code()),StrVar[k]).compareTo(StrVar1[k])!=0 && Float.parseFloat(StrVar1[k])>0 && getPreviousCompletedScopeApproved(getActivityId(obj.getP6_task_code()),StrVar[k])!=StrVar1[k]))*/
 						{
-								obj.setContract_id_fk(getContractId(obj.getP6_task_code()));
+								obj.setContract_id_fk(getContractIdByContractShortName(obj.getContract_short_name()));
 								
 								String deleteQry = "delete from p6_validation_dyhod where progress_id_fk in(select progress_id from p6_validation where p6_activity_id_fk = ? and progress_date=? and approval_status_fk='pending')";
 								stmt = con.prepareStatement(deleteQry);

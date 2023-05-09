@@ -1605,14 +1605,16 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 			String qryUsers ="";
 			if(contract_id.compareTo("P04W02EN02")==0 || contract_id.compareTo("P04W02EN03")==0 || contract_id.compareTo("P04W02EN04")==0 || contract_id.compareTo("P04W02EN10")==0 || contract_id.compareTo("P04W02EN11")==0 || contract_id.compareTo("P04W02EN17")==0) 
 			{	
-				qryUsers ="select distinct 'PMIS_SU_163' as dy_hod_user_id_fk from contract where contract_id in('P04W02EN02','P04W02EN03','P04W02EN04','P04W02EN10','P04W02EN11','P04W02EN17')";
-				dy_hods = jdbcTemplate.queryForList( qryUsers, String.class);
+				qryUsers ="select distinct 'PMIS_SU_163' as dy_hod_user_id_fk from contract where contract_id in('P04W02EN02','P04W02EN03','P04W02EN04','P04W02EN10','P04W02EN11','P04W02EN17') union " + 
+						"select distinct  dy_hod_user_id_fk from contract where contract_id=?";
+				dy_hods = jdbcTemplate.queryForList( qryUsers,new Object[]{contract_id}, String.class);
 
 			}
 			else if(contract_id.compareTo("P04W01EN04")==0 || contract_id.compareTo("P04W01EN05")==0 || contract_id.compareTo("P04W01EN13")==0 || contract_id.compareTo("P04W01EN14")==0)
 			{
-				qryUsers ="select distinct 'PMIS_SU_173' as dy_hod_user_id_fk from contract where contract_id in('P04W01EN04','P04W01EN05','P04W01EN13','P04W01EN14')";
-				dy_hods = jdbcTemplate.queryForList( qryUsers, String.class);				
+				qryUsers ="select distinct 'PMIS_SU_173' as dy_hod_user_id_fk from contract where contract_id in('P04W01EN04','P04W01EN05','P04W01EN13','P04W01EN14') union " + 
+						" select distinct dy_hod_user_id_fk from contract where contract_id=? ";
+				dy_hods = jdbcTemplate.queryForList( qryUsers,new Object[]{contract_id}, String.class);				
 			}
 			else
 			{

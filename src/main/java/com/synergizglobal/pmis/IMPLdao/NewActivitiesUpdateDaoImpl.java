@@ -2272,6 +2272,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 				for(int k=0;k<StrVar.length;k++)
 				{
 					List<String> generatedIds = new ArrayList<String>();
+					obj.setContract_id_fk(getContractIdByContractShortName(obj.getContract_short_name()));
 					if(!StringUtils.isEmpty(StrVar1[k]) && StrVar1[k].compareTo("NoValue")!=0)
 					{
 						
@@ -2279,7 +2280,6 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 						
 						/*if((getPreviousCompletedScope(getActivityId(obj.getP6_task_code()),StrVar[k]).compareTo(StrVar1[k])!=0 && Float.parseFloat(StrVar1[k])>0 && getPreviousCompletedScopeApproved(getActivityId(obj.getP6_task_code()),StrVar[k])!=StrVar1[k]))*/
 						{
-								obj.setContract_id_fk(getContractIdByContractShortName(obj.getContract_short_name()));
 								
 								String deleteQry = "delete from p6_validation_dyhod where progress_id_fk in(select progress_id from p6_validation where p6_activity_id_fk = ? and progress_date=? and approval_status_fk='pending')";
 								stmt = con.prepareStatement(deleteQry);
@@ -2310,7 +2310,9 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 						        }						  
 							  loopTimes++;
 						}
+				
 					}
+
 				
 				if(stmt != null){stmt.close();}	
 				if(stmt1 != null){stmt1.close();}	

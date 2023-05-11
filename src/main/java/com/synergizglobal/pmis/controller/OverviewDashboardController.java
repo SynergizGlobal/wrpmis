@@ -112,7 +112,7 @@ public class OverviewDashboardController {
 
 					url = dashboardUrl.split(":8000/");
 					UrlGenerator ugObj = new UrlGenerator();
-					String baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", "203.153.40.44");
+					String baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", "10.203.10.158");
 					baseUrl = baseUrl.replace("{1}", trustedTokenId);
 					tableauUrl = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS;
 				}
@@ -346,7 +346,7 @@ public class OverviewDashboardController {
 					url = dashboardUrl.split(":8000/");
 					//baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", trustedTokenId);
 					UrlGenerator ugObj = new UrlGenerator();
-					String baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", "203.153.40.44");
+					String baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", "10.203.10.158");
 					baseUrl = baseUrl.replace("{1}", trustedTokenId);
 				//}
 					
@@ -366,7 +366,7 @@ public class OverviewDashboardController {
 					String SMStr=Str6[0]+'.'+Str6[1];
 					System.out.println(ConcatNew);
 					
-					if(ConcatNew.compareTo("  203.153.39.186")==0)
+					if(ConcatNew.compareTo("  203.153.39.186")==0 || ConcatNew.compareTo("  10.203.10.158")==0)
 					{
 			
 						if(!StringUtils.isEmpty(params)) {
@@ -379,9 +379,9 @@ public class OverviewDashboardController {
 					{
 						String mainUrl[]=baseUrl.split("/");
 						String weburl=mainUrl[2];
-						if(weburl.compareTo("203.153.40.44:8000")==0)
+						if(weburl.compareTo("10.203.10.158:8000")==0)
 						{
-							weburl="203.153.40.44:8000";
+							weburl="10.203.10.158:8000";
 						}
 						else if(weburl.compareTo("pmis.mrvc.gov.in:8000")==0)
 						{

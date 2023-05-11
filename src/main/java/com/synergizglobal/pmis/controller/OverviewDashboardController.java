@@ -366,7 +366,7 @@ public class OverviewDashboardController {
 					String SMStr=Str6[0]+'.'+Str6[1];
 					System.out.println(ConcatNew);
 					
-					if(ConcatNew.compareTo("  203.153.39.186")==0 || ConcatNew.compareTo("  10.203.10.158")==0)
+					if(ConcatNew.compareTo("  203.153.39.186")==0)
 					{
 			
 						if(!StringUtils.isEmpty(params)) {

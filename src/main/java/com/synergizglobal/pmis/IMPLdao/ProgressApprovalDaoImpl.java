@@ -45,7 +45,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 		List<Activity> objsList = null;
 		NumberFormat numberFormatter = new DecimalFormat("#0.00");
 		try {
-			String qry = "select * from(select a.task_code as p6_task_code,progress_id,v.created_date,u1.department_fk,progress_date,a.p6_activity_id as activity_id_fk,a.scope as total_scope,a.completed as cumulative_completed,v.completed_scope as actual_for_the_day, " + 
+			String qry = "select * from(select distinct a.task_code as p6_task_code,progress_id,v.created_date,u1.department_fk,progress_date,a.p6_activity_id as activity_id_fk,a.scope as total_scope,a.completed as cumulative_completed,v.completed_scope as actual_for_the_day, " + 
 					"(ISNULL(a.scope,0) - ISNULL(a.completed,0)) as remaining_scope,attachment_url,v.remarks,FORMAT(v.created_date,'dd-MM-yyyy') as updated_on,v.created_by_user_id_fk, " + 
 					"u.user_name as updated_by,c.hod_user_id_fk,approved_or_rejected_by,FORMAT(approved_on,'dd-MM-yyyy') as approved_on,FORMAT(rejected_on,'dd-MM-yyyy') as rejected_on, " + 
 					"approval_status_fk,c.work_id_fk,w.work_short_name,a.contract_id_fk,c.contract_short_name,a.component,a.component_id,s.structure,p6_activity_name as activity_name, " + 

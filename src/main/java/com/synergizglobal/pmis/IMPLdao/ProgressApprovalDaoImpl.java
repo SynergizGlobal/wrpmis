@@ -45,6 +45,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 		List<Activity> objsList = null;
 		NumberFormat numberFormatter = new DecimalFormat("#0.00");
 		try {
+			String qry1 ="";
 			String qry = "select * from(select distinct a.task_code as p6_task_code,progress_id,v.created_date,u1.department_fk,progress_date,a.p6_activity_id as activity_id_fk,a.scope as total_scope,a.completed as cumulative_completed,v.completed_scope as actual_for_the_day, " + 
 					"(ISNULL(a.scope,0) - ISNULL(a.completed,0)) as remaining_scope,attachment_url,v.remarks,FORMAT(v.created_date,'dd-MM-yyyy') as updated_on,v.created_by_user_id_fk, " + 
 					"u.user_name as updated_by,c.hod_user_id_fk,approved_or_rejected_by,FORMAT(approved_on,'dd-MM-yyyy') as approved_on,FORMAT(rejected_on,'dd-MM-yyyy') as rejected_on, " + 
@@ -70,8 +71,8 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 					"left join (select sum(isnull(completed_scope,0)) as actual_to_be_approved,p6_activity_id_fk from p6_validation pv where pv.approval_status_fk='"+obj.getApproval_status_fk()+"' " + 
 					" " + 
 					"group by p6_activity_id_fk) m on m.p6_activity_id_fk=a.p6_activity_id " + 
-					"where approval_status_fk = '"+obj.getApproval_status_fk()+"' " + 
-					"group by a.task_code,progress_id,v.created_date,u1.department_fk,v.progress_date,a.p6_activity_id,a.scope,a.completed,v.completed_scope,v.attachment_url, " + 
+					"where approval_status_fk = '"+obj.getApproval_status_fk()+"' "+qry1+"" + 
+					" group by a.task_code,progress_id,v.created_date,u1.department_fk,v.progress_date,a.p6_activity_id,a.scope,a.completed,v.completed_scope,v.attachment_url, " + 
 					"v.remarks,v.created_by_user_id_fk,aph.dyhod_user_id_fk,c.hod_user_id_fk,u.user_name,v.approved_or_rejected_by,v.approved_on,v.rejected_on,v.approval_status_fk, " + 
 					"c.work_id_fk,w.work_short_name,a.contract_id_fk,c.contract_short_name,a.component,a.component_id,s.structure,a.p6_activity_name,v.updated_scope,a.unit " + 
 					" ) as qc where 0=0 " ;
@@ -80,7 +81,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 			int arrSize = 0;			
 			
 			if(!CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				qry = qry + " and (dyhod_user_id_fk = ? or hod_user_id_fk = ?) ";
+				qry1 = qry1 + " and (dyhod_user_id_fk = ? or hod_user_id_fk = ?) ";
 				arrSize++;
 				arrSize++;
 			}

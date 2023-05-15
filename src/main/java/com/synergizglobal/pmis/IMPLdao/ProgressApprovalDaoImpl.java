@@ -46,6 +46,16 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 		NumberFormat numberFormatter = new DecimalFormat("#0.00");
 		try {
 			String qry1 ="";
+			
+			int arrSize = 0;			
+			
+			if(!CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+				qry1 = qry1 + " and (dyhod_user_id_fk = ? or hod_user_id_fk = ?) ";
+				arrSize++;
+				arrSize++;
+			}
+			
+			
 			String qry = "select * from(select distinct a.task_code as p6_task_code,progress_id,v.created_date,u1.department_fk,progress_date,a.p6_activity_id as activity_id_fk,a.scope as total_scope,a.completed as cumulative_completed,v.completed_scope as actual_for_the_day, " + 
 					"(ISNULL(a.scope,0) - ISNULL(a.completed,0)) as remaining_scope,attachment_url,v.remarks,FORMAT(v.created_date,'dd-MM-yyyy') as updated_on,v.created_by_user_id_fk, " + 
 					"u.user_name as updated_by,c.hod_user_id_fk,approved_or_rejected_by,FORMAT(approved_on,'dd-MM-yyyy') as approved_on,FORMAT(rejected_on,'dd-MM-yyyy') as rejected_on, " + 
@@ -78,13 +88,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 					" ) as qc where 0=0 " ;
 			
 			
-			int arrSize = 0;			
-			
-			if(!CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				qry1 = qry1 + " and (dyhod_user_id_fk = ? or hod_user_id_fk = ?) ";
-				arrSize++;
-				arrSize++;
-			}
+
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and work_id_fk = ?";

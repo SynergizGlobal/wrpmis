@@ -20,6 +20,21 @@
     <link rel="stylesheet" href="/pmis/resources/css/rits.css">
     <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
     <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
+    
+    
+     <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">    
+    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/material-design-lite-v.1.0.css">
+    <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
+    
+    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
+    <!-- <link rel="stylesheet" href="/pmis/resources/css/project.css"> -->
+    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
+    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" >
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" >
+    
+    
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/select2.min.js"></script>
     
@@ -29,6 +44,9 @@
     <style>
         #session-table .datepicker~button {
             top: 26px;
+        }
+         #session-table {
+            padding-left: 0px;;
         }
 
         #session-table input[type="text"]::-webkit-input-placeholder,
@@ -60,6 +78,7 @@
         .datepicker-table td:first-of-type,
         .datepicker-table td:last-of-type {
             padding: 0 !important;
+           
         }
 
         .datepicker-table th,
@@ -368,6 +387,7 @@
 						</span>
 					</div>
 					<!-- form start-->
+						<!-- form start-->
 						<c:if test="${action eq 'edit'}">
 							<form action="<%=request.getContextPath() %>/update-training" id="trainingForm" name="trainingForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
 						</c:if>
@@ -405,7 +425,23 @@
 								</select> 
 								<span id="training_category_fkError" class="error-msg"></span>
 							</div>
-							<div class="col s12 m4 l4 input-field">
+							
+							
+						
+								<div class="col s6 m4 l4 input-field">
+ 							 <p class="searchable_label">Periodicity : <span class="required">*</span></p>
+												  <select class="searchable validate-dropdown" name="period_fk " id="period_fk ">
+												    <option value="">Select Periodicity</option>
+												    <c:forEach var="obj" items="${periodicityList}">
+													<option value="${obj.period_fk }"
+													<c:if test="${trainingDetails.period_fk  eq obj.period_fk }">selected</c:if>>${obj.period_fk }</option>
+													</c:forEach>
+												  </select> 
+												  <span id="periodicityError" class="error-msg"></span>
+												</div>				
+
+
+					<!-- card  	<div class="col s12 m4 l4 input-field">
 								<p class="searchable_label">Status <span class="required">*</span></p>
 								<select class="searchable validate-dropdown" name="status_fk"
 									id="status_fk">
@@ -416,7 +452,7 @@
 									</c:forEach>
 								</select> 
 								<span id="status_fkError" class="error-msg"></span>
-							</div>
+							</div> -->
 							 
 						</div>
 
@@ -438,11 +474,25 @@
 						</div>
 						<div class="row">
 							 
-							<div class="col s12 m12 l12 input-field">
+							<div class="col s12 m8 l8 input-field">
 								<textarea id="description" name="description" class="pmis-textarea">${trainingDetails.description }</textarea>
 								<label for="description">Description <span class="required">*</span></label>
 								<span id="descriptionError" class="error-msg"></span>
-							</div>
+								</div>
+								
+								
+								<div class="col s12 m4 l4 input-field">
+ 							 <p class="searchable_label">Conducted By : <span class="required">*</span></p>
+												  <select class="searchable validate-dropdown" name="conduct_by_fk" id="conduct_by_fk">
+												    <option value="">Conducted By</option>
+												    <c:forEach var="obj" items="${training_ConductedList}">
+													<option value="${obj.conduct_by_fk }"
+													<c:if test="${trainingDetails.conduct_by_fk  eq obj.conduct_by_fk }">selected</c:if>>${obj.conduct_by_fk }</option>
+													</c:forEach>
+												   
+												  </select> 
+												  <span id="conducted_byError" class="error-msg"></span>
+								</div>
 							 
 						</div>
 
@@ -466,21 +516,82 @@
 							</div>
 							 
 						</div>
+									<div class="col s6 m4 l4 input-field">
+								    <p class="searchable_label">Provided To : <span class="required">*</span></p>
+								    <select class="searchable validate-dropdown"
+								        name="provide_to_fk" id="provide_to_fk">
+								        <option value="">Provided To</option>
+								        <c:forEach var="obj" items="${providedList}">
+									<option value="${obj.provide_to_fk}"
+									<c:if test="${trainingDetails.provide_to_fk  eq obj.provide_to_fk }">selected</c:if>>${obj.provide_to_fk }</option>
+									</c:forEach>
+								    </select> 
+								    <span id="training_typeError" class="error-msg"></span>
+								</div>
+								
+								<div class="col s6 m4 l4 input-field" id="contractors-dropdown" style="display:none;">
+								    <p class="searchable_label">Select Option: </p>
+								    <select class="searchable validate-dropdown"
+								        name="contract_short_name_fk" id="contract_short_name_fk">
+								        <option value="">Select Option</option>
+								        <c:forEach var="obj" items="${contract_short_nameList}">
+													<option value="${obj.contract_short_name_fk }"
+													<c:if test="${trainingDetails.contract_short_name_fk  eq obj.contract_short_name_fk}">selected</c:if>>${obj.contract_short_name_fk }</option>
+													</c:forEach>
+								    </select> 
+								    <span id="contractor_optionError" class="error-msg"></span>
+								</div>
+								<script>
+							    $(document).ready(function() {
+							         // Check initial value of provide_to_fk
+							        if ($("#provide_to_fk").val() == "Contractors") {
+							            $("#contractors-dropdown").show();
+							        }
+							    	$("#provide_to_fk").change(function() {
+							            if ($(this).val() == "Contractors") {
+							                $("#contractors-dropdown").show();
+							            } else {
+							                $("#contractors-dropdown").hide();
+							            }
+							        });
+							    });
+								</script>
+								
+			
+						
+						<!-- <div class="col s6 m4 l4 input-field">
+								<p class="searchable_label">Contract Name : <span class="required">*</span></p>
+								<select class="searchable validate-dropdown"
+									name="contract_short_name_fk" id="contract_short_name_fk" type="hidden" >
+									<option value="">Select Contract </option>
+									<c:forEach var="obj" items="${contract_short_nameList}">
+													<option value="${obj.contract_short_name_fk }"
+													<c:if test="${trainingDetails.contract_short_name_fk  eq obj.contract_short_name_fk}">selected</c:if>>${obj.contract_short_name_fk }</option>
+													</c:forEach>
+								</select> 
+								<span id="training_category_fkError" class="error-msg"></span>
+							</div>  -->	
 					
 					
 				<div class="row">
     				<div class="col m12 s12">        
 						<div class="row fixed-width">
 							<h5 class="center-align">Sessions</h5>
-							<div class="col s12 m12 l12 table-inside">
-								<table id="session-table" class="mdl-data-table mobile_responsible_table" style="text-align:center;">
+							<div class="col s12 m12 l12 table-inside" style=" width: 130%; margin-left:-150px; ">
+								<table id="session-table" class="mdl-data-table mobile_responsible_table"style="text-align:center;">
 									<thead>
 										<tr>
-											<th class="fw-110">Session No</th>	
-											<th>Start Time</th>
-											<th>End Time</th>
-											<c:if test="${action eq 'edit'}"><th id="addAtten">Attendees</th></c:if>
-											<th>Action</th>
+											<th class="fw-110">Session No<span class="required">*</span></th>	
+											<th>Date <span class="required">*</span></th>
+											<th>Start Time<span class="required">*</span></th>
+											<th>End Time<span class="required">*</span></th>
+											<th>No.of Participants<span class="required">*</span></th>
+											<th>No.of Absentees<span class="required">*</span></th>
+											<c:if test="${action eq 'edit'}"><th>Dld Image</th></c:if>
+											<th>Upload Photo</th>
+											<th>Remarks</th>
+										<c:if test="${action eq 'edit'}"><th id="addAtten">Attendees</th></c:if> 
+											<th>Delete</th>
 										</tr>
 									</thead>
 									<tbody id="trainingTableBody">
@@ -491,16 +602,72 @@
 													items="${trainingDetails.trainingSessions }"
 													varStatus="index">
 													<tr id="trainingRow${index.count }">
-														<td data-head="Session No" class="input-field"><input type="hidden" name="training_session_ids" id="training_session_ids${index.count }" value="${tObj.training_session_id}" />
+													
+														<td data-head="Session No" class="input-field">
+														
+														<input type="hidden" name="training_session_ids" id="training_session_ids${index.count }" value="${tObj.training_session_id}" />
+														
 														 <input id="session_nos${index.count }" name="session_nos" type="text" class="validate" value="${tObj.session_no }"
-															placeholder="Session No"></td>
+															placeholder="Session No"> </td>
+															
+														<td data-head="Data" class="input-field">
+														<input id="created_dates${index.count }" name="created_dates" type="text" class="validate datepicker" value="${tObj.date }" style="width: 110px;">
+										                <button type="button" id="created_date${index.count }_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
+										                 <span id="dateError" class="error-msg" ></span> </td>
 														<td data-head="Start Time"  class="input-field"><div class="pos-rel">
-															<input id="start_times${index.count }"  name="start_times" type="text" class="validate timepicker" value="${tObj.start_time }"
-															placeholder="Start Time">
+														<input id="start_times${index.count }"  name="start_times" type="text" class="validate timepicker" value="${tObj.start_time}"placeholder="Start Time" style="width: 200px;">
 															<button type="button" id="start_time_icon${index.count }"><i class="fa fa-clock-o"></i></button></div></td>
-														<td data-head="End Time"  class="input-field"><div class="pos-rel"><input id="end_times${index.count }" name="end_times" type="text" class="validate timepicker" value="${tObj.end_time }" placeholder="End Time">
+															
+														<td data-head="End Time"  class="input-field"><div class="pos-rel">
+														<input id="end_times${index.count }" name="end_times" type="text" class="validate timepicker" value="${tObj.end_time}" placeholder="End Time" style="width: 200px;">
 															<button type="button" id="end_time_icon${index.count }"><i class="fa fa-clock-o"></i></button></div></td>
-<c:if test="${action eq 'edit'}"><td data-head="Attendees" class="attendees-column" id="addAttenData"><a href="#session-update-modal${index.count }" class="btn waves-effect waves-light bg-m t-c modal-trigger"
+															
+															
+															
+														<td data-head="No. of Participants" class="input-field">
+            											 <input id="num_participants${index.count }" name="num_participants"  type="text" class="validate" value="${tObj.no_of_Participants}" placeholder="No.of Participants" ></td>
+                        									
+                        									<td data-head="No. of Absentees" class="input-field">
+                           									 <input  id="num_absentees${index.count}"  name="num_absentees" type="text" class="validate"  value="${tObj.no_of_Absentees}"   placeholder="No.of Absentees"  onblur="validateAbsentees(${index.count})">
+                        									<script>
+															function validateAbsentees(index) {
+															  var num_participants = parseInt(document.getElementById(`num_participants${index}`).value);
+															  var num_absentees = parseInt(document.getElementById(`num_absentees${index}`).value);
+															  
+															  if (num_absentees >= num_participants) {
+																alert("The number of absentees should be less than number of participants.");
+															    document.getElementById(`num_absentees${index}`).value = 0;
+															  }
+															}
+															</script>
+                        									</td> 
+                        									<td data-head="s Photo" >
+                        										 <div class="btn-small bg-m t-c" style="margin-right: 5px;">
+															        <a href="/pmis/TRAINING_GALLERY/${tObj.training_id}/${tObj.file_name}" download="" class="template-btn" title="Click to Download Old Image">
+															            <i class="material-icons">file_download</i>
+															        </a>
+															    </div>
+                           									 				</td> 
+                        										
+													<td data-head="Attach Image" class="cell-disp-inb input-field file-field">
+									                                        <div class="btn bg-m t-c">
+									                                            <span>Attach Image</span>
+									                                            <input type="file" id="projectGalleryFiles${index.count }" name="projectGalleryFiles" accept="image/x-png,image/gif,image/jpeg" onchange="validateImage('${index.count }')" value="${tObj.projectGalleryFiles}">
+									                                        </div>
+									                                        <div class="file-path-wrapper">
+									                                            <input class="file-path validate" type="text" id="projectGalleryFileNames${index.count }" name="projectGalleryFileNames" value="${tObj.file_name }">
+									                                      </div>          
+			                                                      	</td>
+			                                                      	
+			                                                      	
+			                                                      	
+			                                                      	<td data-head="Remarks" class="input-field">
+                           									 <input type="text" name="remarkss" id="remarkss${index.count }" class="validate" value="${tObj.remarks}" placeholder="Remarks">
+                        									</td> 
+															
+														<!-- put edit in this column below when u want to use this input  below as "${action eq 'edit'}" -->		
+															
+														<c:if test="${action eq 'edit'}"><td data-head="Attendees" class="attendees-column" id="addAttenData"><a href="#session-update-modal${index.count }" class="btn waves-effect waves-light bg-m t-c modal-trigger"
 															onclick="showNo(this);"> Update </a>
 															<div id="session-update-modal${index.count }" class="modal">
 																<div class="modal-content">
@@ -511,7 +678,7 @@
 																	<div class="row fixed-width" >
 																		<div class="table-inside">
 																			<table id="training-update-table${index.count }"
-																				class="mdl-data-table val mobile_responsible_table">
+																				class="mdl-data-table val mobile_responsible_table" >
 																				<thead>
 																					<tr>
 																						<th>Department</th>																						
@@ -579,6 +746,7 @@
 																											<i class="fa fa-close"></i>
 																									</a></td>
 																								</tr>
+																								
 																					
 																							</c:forEach>
 																						 </c:when>
@@ -649,7 +817,7 @@
 																			                    	 });
 												                            
 												                            				</script>
-																						</c:otherwise> 
+																						</c:otherwise>  
 																					</c:choose>
 																				</tbody>
 																			</table>
@@ -699,12 +867,16 @@
 																						<c:when
 																							test="${not empty tObj.trainingNewList && fn:length(tObj.trainingNewList) gt 0 }">
 																							<c:forEach var="dObj" items="${tObj.trainingNewList }" varStatus="indexx">
+																							
 																								<tr id="newAttendeesRow0${indexx.count }${index.count }">
 																									<td data-head="Attendee" class="input-field">
-																										 <input id="new_attendees0${indexx.count }${index.count }${indexx.count }" name="attendees" type="text" class="validate no-reset attendees" placeholder="Name" value="${dObj.attendee}" autocomplete="on" onSelect="addSelectedRow(this);">
-																										 <span id="new_attendeesError0${index.count }" class="error-msg"></span>  
-																									</td>
-																									<td data-head="Department" class="input-field">
+																											    <input id="new_attendees0${indexx.count}${index.count}${indexx.count}" name="new_attendees" type="text" class="validate no-reset attendees" placeholder="Name" value="${dObj.attendee}" autocomplete="on" onSelect="addSelectedRow(this);" onchange="updateIsNewUser(this);">
+																											    <input type="hidden" name="is_new_users" class="no-reset" value="Yes" id="is_new_users_input">
+																											    <span id="new_attendeesError0${index.count}" class="error-msg"></span>  
+																											</td>
+																											
+																						
+																																																				<td data-head="Department" class="input-field">
 																									<input type="hidden" class="no-reset" name="training_session_id_fks" id="new_training_session_id_fks0${indexx.count }${index.count }${indexx.count }"
 																										 value="${dObj.training_session_id_fk}" />
 																										<input type="hidden" class="no-reset" name="training_attendees_ids" id="new_training_attendees_ids0${indexx.count }${index.count }${indexx.count }"
@@ -717,16 +889,17 @@
 																													<c:if test="${dObj.department_name eq obj.department_name }">selected</c:if>>${obj.department_name }</option>
 																											</c:forEach>
 																									</select><span id="new_department_fksError0${index.count }" class="error-msg"></span></td>																									
-																									<td data-head="HOD" class="input-field">																											
-																                                        <select class="searchable no-reset hod_user_id_fks"  name="hod_user_id_fks" id="new_hod_user_id_fks0${indexx.count }${index.count }${indexx.count }" onchange="setHODDeptList('0${indexx.count }${index.count }${indexx.count }');">
-																                                            <option value="" >Select HOD</option>  
-																                                            <c:forEach var="obj" items="${dObj.HODsList}">
-																												<option name="${obj.department_fk }" value="${obj.hod_user_id_fk }"<c:if test="${dObj.hod_user_id_fk eq obj.hod_user_id_fk }">selected</c:if>>${obj.designation }</option>
-																											</c:forEach>                                         
-																                                        </select>  
-																                                        <span id="new_hod_user_id_fkError0${index.count }" class="error-msg"></span>                                 
+																									<td data-head="HOD" class="input-field">
+																									    <select class="searchable no-reset hod_user_id_fks" name="hod_user_id_fks" id="new_hod_user_id_fks0${indexx.count}${index.count}${indexx.count}" onchange="setHODDeptList('0${indexx.count}${index.count}${indexx.count}');">
+																									        <option value="">Select HOD</option>
+																									        <c:forEach var="obj" items="${dObj.HODsList}">
+																									            <option name="${obj.department_fk}" value="${obj.hod_user_id_fk}" <c:if test="${dObj.hod_user_id_fk eq obj.hod_user_id_fk}">selected</c:if>>${obj.designation}</option>
+																									        </c:forEach>
+																									    </select>
+																									    <span id="new_hod_user_id_fkError0${index.count}" class="error-msg"></span>
 																									</td>
-																									<input type="hidden"  name="is_new_users" class="no-reset" value="Yes"/>
+
+																									
 																									
 																									<td data-head="Designation" class="input-field"> <input type="text" placeholder="Designation" id="new_trainee_designations0${indexx.count }${index.count }${indexx.count }" name="trainee_designations" value="${dObj.trainee_designation}" class="no-reset trainee_designations">
 																									<span id="new_trainee_designationsError0${index.count }" class="error-msg"></span></td>		
@@ -739,7 +912,7 @@
 																									</td>
 																									<td data-head="Nominated" class="input-field">
 																										<p class="disp-init">
-																											<label><input type="hidden" class="no-reset" name="required_fks" value ="${dObj.required_fk}" id="new_required_fk0${indexx.count }${index.count }${indexx.count }" />
+																											<label><input type="hidden" class="no-reset" name="new_required_fks" value ="${dObj.required_fk}" id="new_required_fk0${indexx.count }${index.count }${indexx.count }" />
 																											  
 																											   <input type="checkbox" id="new_required_fks0${indexx.count }${index.count }${indexx.count }"  class="required_fks no-reset" onChange="checkBox('0${indexx.count }${index.count }${indexx.count }')"
 																												 <c:if test="${dObj.required_fk eq 'Yes'}">  checked</c:if> />
@@ -750,7 +923,7 @@
 																									</td>
 																									<td data-head="Participated" class="input-field">
 																										<p class="disp-init">
-																											<label> <input type="hidden" name="participated_fks" class="no-reset" value ="${dObj.participated_fk}" id="new_participated_fk0${indexx.count }${index.count }${indexx.count }" /> 
+																											<label> <input type="hidden" name="new_participated_fks" class="no-reset" value ="${dObj.participated_fk}" id="new_participated_fk0${indexx.count }${index.count }${indexx.count }" /> 
 																											  
 																											   <input type="checkbox" id="new_participated_fks0${indexx.count }${index.count }${indexx.count }"  class="participated_fks no-reset" onChange="checkBoxs('0${indexx.count }${index.count }${indexx.count }')"
 																												 <c:if test="${dObj.participated_fk eq 'Yes'}">    checked</c:if> />
@@ -764,6 +937,7 @@
 																											<i class="fa fa-close"></i>
 																									</a></td>
 																								</tr>
+																								
 																							 <script>
 																									 var len = $("#newAttendeesTableBody${index.count } tr").length + $("#attendeesTableBody${index.count }  tr").length
 																									 $("#rowsCounts${index.count }").val(len);
@@ -797,9 +971,11 @@
 																	 					<c:otherwise>
 																							<tr id="newAttendeesRow0${index.count }">
 																								<td data-head="Attendee" class="input-field">																									
-																									<input id="new_attendees0${index.count }" name="attendees" type="text" class="validate attendees" placeholder="Name" onSelect="addSelectedRow(this);" autocomplete="on">		
-																									<span id="new_attendeesError0${index.count }" class="error-msg"></span>  																						    
-																								</td>
+																									<input id="new_attendees0${index.count }" name="new_attendees" type="text" class="validate attendees" placeholder="Name" onSelect="addSelectedRow(this);" autocomplete="on">		
+																									   <input type="hidden" name="is_new_users" class="no-reset" value="Yes" id="is_new_users_input">
+																											    <span id="new_attendeesError0${index.count}" class="error-msg"></span>  
+																											</td>
+																											
 																								<td data-head="Department" class="input-field">
 																								<input type="hidden" name="training_session_id_fks" id="new_training_session_id_fks0${index.count }"
 																									 value="${tObj.training_session_id}" />
@@ -810,17 +986,18 @@
 																												<option value="${obj.department_fk }">${obj.department_name }</option>
 																											</c:forEach>
 																									  </select><span id="new_department_fksError0${index.count }" class="error-msg"></span></td>
-																								<td data-head="HOD" class="input-field">																											
-																                                        <select class="searchable hod_user_id_fks" name="hod_user_id_fks" id="new_hod_user_id_fks0${index.count }" onchange="setHODDeptList('0${index.count }');">
-																                                            <option value="" >Select HOD</option>  
-																                                        <c:forEach var="obj" items="${usersList}">
-																												<option name="${obj.department_fk }" value="${obj.hod_user_id_fk }">${obj.designation }</option>
-																											</c:forEach>                                            
-																                                        </select>        
-																                                        <span id="new_hod_user_id_fkError0${index.count }" class="error-msg"></span>                           
-																								</td>
+																								<td data-head="HOD" class="input-field">
+																									    <select class="searchable no-reset hod_user_id_fks" name="hod_user_id_fks" id="new_hod_user_id_fks0${indexx.count}${index.count}${indexx.count}" onchange="setHODDeptList('0${indexx.count}${index.count}${indexx.count}');">
+																									        <option value="">Select HOD</option>
+																									        <c:forEach var="obj" items="${dObj.HODsList}">
+																									            <option name="${obj.department_fk}" value="${obj.hod_user_id_fk}" <c:if test="${dObj.hod_user_id_fk eq obj.hod_user_id_fk}">selected</c:if>>${obj.designation}</option>
+																									        </c:forEach>
+																									    </select>
+																									    <span id="new_hod_user_id_fkError0${index.count}" class="error-msg"></span>
+																									</td>
+
 																								<%-- <input type="hidden" id="rowsCounts${index.count }" name="rowsCounts"/>	 --%>
-																								<input type="hidden"  name="is_new_users" value="Yes"/>
+																								
 																									
 																								<td data-head="Designation" class="input-field"> <input type="text" placeholder="Designation" id="new_trainee_designations0${index.count }" name="trainee_designations" class="trainee_designations">
 																									<span id="new_trainee_designationsError0${index.count }" class="error-msg"></span>  </td>																							
@@ -832,7 +1009,7 @@
 																								</td>
 																								<td data-head="Nominated" class="input-field">
 																									<p class="disp-init">
-																										<label> <input type="hidden" id="new_required_fk0${index.count }" name="required_fks" value="No" class="req" />
+																										<label> <input type="hidden" id="new_required_fk0${index.count }" name="new_required_fks" value="No" class="req" />
 																											<input type="checkbox" id="new_required_fks0${index.count }" class="required_fks" /> <span></span>
 																										</label>
 																									</p>
@@ -840,7 +1017,7 @@
 																								</td>
 																								<td data-head="Participated" class="input-field">
 																									<p class="disp-init">
-																										<label> <input type="hidden" id="new_participated_fk0${index.count }" name="participated_fks" value="No" class="part" /> 
+																										<label> <input type="hidden" id="new_participated_fk0${index.count }" name="new_participated_fks" value="No" class="part" /> 
 																											<input type="checkbox" id="new_participated_fks0${index.count }" class="participated_fks" /> <span></span>
 																										</label>
 																									</p>
@@ -881,7 +1058,7 @@
 																					</c:choose>
 																				</tbody>
 																			</table>
-
+																	
 																			<table class="mdl-data-table" style="margin-bottom:20px;">
 																				<tbody id="trainingUpdateBody">
 																					<tr>
@@ -913,24 +1090,67 @@
 																	</div> 
 																	
 																</div>
-															</div></td>	</c:if>														
+															</div></td>	</c:if>					  									
 															
 															
 														<td class="mobile_btn_close center"><a onclick="removeTraining('${index.count }');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td>
 													</tr>
+													
 													<script>
                                           				dateTimesInits++;                                         
                                           			 </script>
 												</c:forEach>
 											</c:when>
 											<c:otherwise>
-												<tr id="trainingRow0">
+											<tr id="trainingRow0">
 													<td data-head="Session No"  class="input-field" ><input type="hidden" name= "training_session_ids" id="training_session_ids0"  value="${tObj.training_session_id}"/>
 														<input id="session_nos0" name="session_nos" type="text" class="validate" placeholder="Session No"></td>
-													<td data-head="Start Time"  class="input-field"><div class="pos-rel"><input id="start_times0" name="start_times" type="text" class="validate timepicker" placeholder="Start Time">
-														<button type="button" id="start_time_icon0"><i class="fa fa-clock-o"></i></button></div></td>
-													<td data-head="End Time"  class="input-field"><div class="pos-rel"><input id="end_times0" name="end_times" type="text" class="validate timepicker" placeholder="End Time">
-														<button type="button" id="end_time_icon0"><i class="fa fa-clock-o"></i></button></div></td>
+													<td data-head="Date" class="input-field">
+													<input id="created_date0" name="created_dates" type="text" class="validate datepicker" placeholder="Date">
+									                <button type="button" id="created_date0_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
+									                <span id="dateError" class="error-msg" ></span></td>	
+													
+													<td data-head="Start Time"  class="input-field"><div class="pos-rel"><input id="start_times0" name="start_times" type="text" class="validate timepicker" value="${tObj.start_times}" placeholder="Start Time">
+													<button type="button" id="start_time_icon0"><i class="fa fa-clock-o"></i></button></div></td>
+														
+													<td data-head="End Time"  class="input-field"><div class="pos-rel"><input id="end_times0" name="end_times" type="text" class="validate timepicker"value="${tObj.end_times}" placeholder="End Time">
+													<button type="button" id="end_time_icon0"><i class="fa fa-clock-o"></i></button></div></td>
+														
+													<td data-head="No. of Participants" class="input-field">
+             										<input id="num_participants${index.count }" name="num_participants"  type="text" class="validate" value="${tObj.num_participants}" placeholder="No.of Participants"></td>
+                        									
+                        							<td data-head="No. of Absentees" class="input-field">
+                           							<input id="num_absentees${index.count}" name="num_absentees" type="text" class="validate" value="${tObj.num_absentees}" placeholder="No.of Absentees" onblur="validateAbsentees(${index.count})">
+                        									
+                        									<script>
+															function validateAbsentees(index) {
+															  var num_participants = parseInt(document.getElementById(`num_participants${index}`).value);
+															  var num_absentees = parseInt(document.getElementById(`num_absentees${index}`).value);
+															  
+															  if (num_absentees >= num_participants) {
+																alert("The number of absentees should be less than number of participants.");
+															    document.getElementById(`num_absentees${index}`).value = 0;
+															  }
+															}
+															</script>
+                        									</td>	
+                        									
+                        										<td data-head="Attach Image" class="cell-disp-inb input-field file-field">
+								                                        <div class="btn bg-m t-c">
+								                                            <span>Attach Image</span>
+								                                            <input type="file" id="projectGalleryFiles0" name="projectGalleryFiles" accept="image/x-png,image/gif,image/jpeg"  >
+								                                        </div>
+								                                        <div class="file-path-wrapper">
+								                                            <input class="file-path validate" type="text" id="projectGalleryFileNames0" name="projectGalleryFileNames">
+								                                        </div>
+		                                                  		</td>
+			                                                      
+			                                                    	
+			                                                 	
+			                                                 	<td data-head="Remarks" class="input-field">
+                           									 <input type="text" name="remarkss" id="remarkss${index.count }" class="validate" value="${tObj.remarkss}" placeholder="Remarks">
+                        									</td> 
+			                                                 	
 													<c:if test="${action eq 'edit'}"><td data-head="Attendees" class="input-field attendees-column" id="addAttenData1"><a href="#session-update-modal0" class="btn waves-effect waves-light bg-m t-c modal-trigger" onclick="showNo(this)"> Update </a>
 														<div id="session-update-modal0" class="modal">
 															<div class="modal-content">
@@ -1024,9 +1244,12 @@
 																			<input type="hidden" id="rowsCounts0" name="rowsCounts" value="2"/>
 																				<tr id="newAttendeesRow00">
 																					<td data-head="Attendee" class="input-field attendees">																						
-																						 <input id="new_attendees00" name="attendees" type="text" class="validate attendees" placeholder="Name" onSelect="addSelectedRow(this);" autocomplete="on">
-																						 <span id="new_attendeesError00${index.count }" class="error-msg"></span>  
-																					</td>
+																						 <input id="new_attendees00" name="new_attendees" type="text" class="validate attendees" placeholder="Name" onSelect="addSelectedRow(this);" autocomplete="on">
+																						    <input type="hidden" name="is_new_users" class="no-reset" value="Yes" id="is_new_users_input">
+																											    <span id="new_attendeesError0${index.count}" class="error-msg"></span>  
+																											</td>
+																											
+																									
 																					<td data-head="Department" class="input-field">
 																					<input type="hidden" name="training_attendees_ids" id="training_attendees_ids00" value="${tObj.training_session_id_fk}"/> 
 																					<select class="searchable validate-dropdown department_fks" name="department_fks" id="new_department_fks00" onchange="getHODsList('00');">
@@ -1043,7 +1266,7 @@
 																					</select> 
 																					<span id="new_hod_user_id_fkError00${index.count }" class="error-msg"></span>   
 																					</td>
-																					<input type="hidden"  name="is_new_users" value="Yes"/>
+																					
 																					
 																					<td data-head="Designation" class="input-field"> <input class="trainee_designations" type="text" placeholder="Designation" id="new_trainee_designations0" name="trainee_designations" >
 																						<span id="new_trainee_designationsError00${index.count }" class="error-msg"></span>	
@@ -1056,7 +1279,7 @@
 																					<td data-head="Nominated" class="input-field">
 																						<p class="disp-init">
 																							<label> 
-																								<input type="hidden" id="new_required_fk00" name="required_fks" value="No" class="req" /> 
+																								<input type="hidden" id="new_required_fk00" name="new_required_fks" value="No" class="req" /> 
 																								<input type="checkbox" id="new_required_fks0" class="required_fks" /> <span></span>
 																							</label>
 																						</p>
@@ -1064,7 +1287,7 @@
 																					</td>
 																					<td data-head="Participated" class="input-field">
 																						<p class="disp-init">
-																							<label> <input type="hidden" id="new_participated_fk00" name="participated_fks" value="No" class="part" />
+																							<label> <input type="hidden" id="new_participated_fk00" name="new_participated_fks" value="No" class="part" />
 																								<input type="checkbox" id="new_participated_fks00" class="participated_fks" /> <span></span>
 																							</label>
 																						</p>
@@ -1134,6 +1357,7 @@
 											<td colspan="4"><a type="button" class="btn waves-effect waves-light bg-m t-c "
 												onclick="addSessionRow('${tObj.training_session_id}')"> <i class="fa fa-plus"></i></a>
 										</tr>
+										
 									</tbody>
 								</table>
 								<c:choose>
@@ -1146,23 +1370,15 @@
 									</c:otherwise>
 								</c:choose>
 							</div>
+							
 							<div class="col s12 m2 table-inside"></div>
 						</div>
+								
 										
 				    </div>
 				</div>
-					
 					<br><br>
-
-						<div class="row">
-						 
-							<div class="col s12 m12 l12 input-field">
-								<textarea id="remarks" class="pmis-textarea" name="remarks" id="remarks" data-length="1000">${trainingDetails.remarks }</textarea>
-								<label for="remarks">Remarks</label>
-							</div>
-						</div>
-
-						<div class="row">
+							<div class="row">
 							 
 							<div class="col s6 m6 l6 mt-brdr center-align">
 								<div class=" m-1">
@@ -1220,9 +1436,47 @@
 	<script src="/pmis/resources/js/select2.min.js"></script>
 	<script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
 	<script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
+	
 	<script src="/pmis/resources/js/datetimepicker.js"></script>
 	
+	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
+    <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/pmis/resources/js/datepickerDepedency.js"></script>
+    <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+    <script src="/pmis/resources/js/dataTables.material.min.js"></script>
+    <script src="/pmis/resources/js/select2.min.js"></script>
+	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+	
 	<script>
+	$(document).ready(function() {
+        $(".num").keypress(function() {
+            if ($(this).val().length == $(this).attr("maxlength")) {
+                return false;
+            }
+        });
+    });
+	 $("[data-length]").each(function(i,val){
+     	$('#'+val.id).characterCounter();;
+     });
+	   function validateImage(RowNum) 
+       {
+           var formData = new FormData();
+           var file = document.getElementById("projectGalleryFiles"+RowNum).files[0];
+           formData.append("Filedata", file);
+           var t = file.type.split('/').pop().toLowerCase();
+           
+           if (t != "jpeg" && t != "jpg" && t != "png" && t != "bmp" && t != "gif") {
+               alert('Please select a valid image file');
+               document.getElementById("projectGalleryFiles"+RowNum).value = '';
+               return false;
+           }
+           return true;
+       }
+	    	
+	    function removeImage(rowNo){
+	    	$("#imageRow"+rowNo).remove();
+	    }
+	
 	
 	function autocomplete(inp, arr) {
 		  /*the autocomplete function takes two arguments,
@@ -1553,51 +1807,46 @@
 		   	$('#hide'+no+' input').removeAttr('name');
 		   	
 		  } 
-        $(document).ready(function () {
-            $('select:not(.searchable)').formSelect();
-            $('.searchable').select2();
-            $('.modal').modal();
-            $('#remarks').characterCounter();
-            MaterialDateTimePicker.create($("#start_times0"));
-            MaterialDateTimePicker.create($("#end_times0"));
+		$(document).ready(function () {
+		    $('select:not(.searchable)').formSelect();
+		    $('.searchable').select2();
+		    $('.modal').modal();
+		    $('#remarks').characterCounter();
+		    MaterialDateTimePicker.create($("#start_times0"), { format: 'HH:mm' });
+		    MaterialDateTimePicker.create($("#end_times0"), { format: 'HH:mm' });
 
-            $('#start_time_icon0').click(function () {
-                // event.stopPropagation();
-                // $('#star_time').click();
-                MaterialDateTimePicker.create($("#start_times0"));
-            });
-            $('#end_time_icon0').click(function () {
-                // event.stopPropagation();
-                // $('#end_time').click();
-                MaterialDateTimePicker.create($("#end_times0"));
-            });
-            $('input[name=is_there_issue]').change(function () {
-                var radioval = $('input[name=is_there_issue]:checked').val();
-                if (radioval == 'yes') {
-                    $('#issue_yes').css("display", "block");
-                }
-                else if (radioval == 'no') {
-                    $('#issue_yes').css("display", "none");
-                }
-            });
-            callDateTimePicker(dateTimesInits);
-        });
-        //initializing datetime pickers 
-        
-        function callDateTimePicker(){
-        	
-        	for ( var i = 1; i <= dateTimesInits; i++ ) {
-        		//cons(dateTimesInits)
-        		 MaterialDateTimePicker.create($("#start_times"+i));
-        		 MaterialDateTimePicker.create($("#end_times"+i));
-        		 $('#start_time_icon'+i).click(function () {
-                     MaterialDateTimePicker.create($("#start_times"+i));
-                 });
-                 $('#end_time_icon'+i).click(function () {
-                     MaterialDateTimePicker.create($("#end_times"+i));
-                 });
-        	}
-        }
+		    $('#start_time_icon0').click(function () {
+		        MaterialDateTimePicker.create($("#start_times0"), { format: 'HH:mm' });
+		    });
+		    $('#end_time_icon0').click(function () {
+		        MaterialDateTimePicker.create($("#end_times0"), { format: 'HH:mm' });
+		    });
+
+		    $('input[name=is_there_issue]').change(function () {
+		        var radioval = $('input[name=is_there_issue]:checked').val();
+		        if (radioval == 'yes') {
+		            $('#issue_yes').css("display", "block");
+		        }
+		        else if (radioval == 'no') {
+		            $('#issue_yes').css("display", "none");
+		        }
+		    });
+		    callTimePicker(dateTimesInits);
+		});
+
+		function callTimePicker() {
+		    for ( var i = 1; i <= dateTimesInits; i++ ) {
+		        MaterialDateTimePicker.create($("#start_times"+i), { format: 'HH:mm' });
+		        MaterialDateTimePicker.create($("#end_times"+i), { format: 'HH:mm' });
+		        $('#start_time_icon'+i).click(function () {
+		            MaterialDateTimePicker.create($("#start_times"+i), { format: 'HH:mm' });
+		        });
+		        $('#end_time_icon'+i).click(function () {
+		            MaterialDateTimePicker.create($("#end_times"+i), { format: 'HH:mm' });
+		        });
+		    }
+		}
+
 
       function checkBox(rowCount){
     	  if ($('#required_fks'+ rowCount).is(':checked')) {
@@ -1835,7 +2084,7 @@
             var rNo = Number(trainNo)+1;
       
             var html = '<tr id="newAttendeesRow'+rNo+'">' +
-            '<td data-head="Attendee" class="input-field"> <input id="new_attendees'+ rNo +tNo+'" name="attendees" type="text" class="validate attendees autocomplete" placeholder="Name"><span id="new_attendeesError'+ rNo +tNo+'" class="error-msg"></span>  </td>' +
+            '<td data-head="Attendee" class="input-field"> <input id="new_attendees'+ rNo +tNo+'" name="new_attendees" type="text" class="validate attendees autocomplete" placeholder="Name"><span id="new_attendeesError'+ rNo +tNo+'" class="error-msg"></span>  </td>' +
             '<td data-head="Department" class="input-field">'+
 		 	   '<input type="hidden" name= "training_session_id_fks" id="new_training_session_id_fks'+rNo+tNo+'" value="'+trainingSessionId+'" />'+
 			   '<input type="hidden" name="training_attendees_ids" id="new_training_attendees_ids'+ rNo +tNo+'" />'+
@@ -1997,14 +2246,49 @@
     	  var html = '<tr id="trainingRow'+rNo+'">' +
           '<td data-head="Session No" class="input-field"><input type="hidden" name= "training_session_ids" id="training_session_ids'+rNo+'"  />'+
           ' <input id="session_nos'+ rNo +'" name="session_nos" type="text" class="validate" placeholder="Session No"> </td>' +
-          '<td data-head="Start Time"  class="input-field"><div class="pos-rel"><input id="start_times'+ rNo +'" name="start_times" type="text" class="validate timepicker"  placeholder="Start Time">' +
+          
+          ' <td data-head="Data" class="input-field">'
+			+'<input id="created_date'+rNo+'" name="created_dates" type="text" class="validate datepicker" placeholder="date">'
+			+'<button type="button" id="created_date'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>'
+          +'<span id="dateError" class="error-msg" ></span></td>'+
+          
+           '<td data-head="Start Time"  class="input-field"><div class="pos-rel"><input id="start_times'+ rNo +'" name="start_times" type="text" class="validate timepicker"  placeholder="Start Time">' +
          	  '<button type="button" id="start_times_icon'+ rNo +'"><i class="fa fa-clock-o"></i></button></div> </td>' +
+         	 
           '<td data-head="End Time" class="input-field"><div class="pos-rel"><input id="end_times'+ rNo +'" name="end_times" type="text" class="validate timepicker"placeholder="End Time">' +
-          	  '<button type="button" id="end_times_icon'+ rNo +'"><i class="fa fa-clock-o"></i></button></div></td>';
+          	  '<button type="button" id="end_times_icon'+ rNo +'"><i class="fa fa-clock-o"></i></button></div></td>'+
           	  
-     
-          	<c:if test="${action eq 'edit'}">
           	  
+          	 '<td data-head="No. of Participants" class="input-field">'+
+             ' <input id="num_participants'+ rNo +'" name="num_participants" type="text" class="validate"placeholder="No.of Participants"></td> ' +
+             
+             '<td data-head="No. of Absentees" class="input-field">'+
+             ' <input id="num_absentees"'+ rNo +'" name="num_absentees" type="text" class="validate"placeholder="No. of Absentees"></td> ' +
+             
+             <c:if test="${action eq 'edit'}">
+             '<td data-head="Download Photo" >'+
+			 '<div class="btn-small bg-m t-c" style="margin-right: 5px;">'+
+		        '<a href="/pmis/TRAINING_GALLERY/${tObj.file_name}" download="" class="template-btn" title="Click to Download Old Image">'+
+		           ' <i class="material-icons">file_download</i>'+
+		        '</a> </div></td>'+ </c:if>      
+                        
+              
+             '<td data-head="Attach Image" class="cell-disp-inb input-field file-field"> '	
+			   +'<div class="btn bg-m t-c">'	
+			   +'<span>Attach Image</span>'	
+			   +'<input type="file" id="projectGalleryFiles'+rNo+'" name="projectGalleryFiles" accept="image/x-png,image/gif,image/jpeg" onchange="validateImage('+rNo+')">'	
+			   +'</div>'	
+			   +'<div class="file-path-wrapper">'	
+			   +'<input class="file-path validate" type="text" id="projectGalleryFileNames'+rNo+'" name="projectGalleryFileNames">'	
+			   +'</div></td>'
+			   +
+             
+             
+             '<td data-head="Remarks" class="input-field">'+
+                ' <input id="remarkss'+ rNo +'" name="remarkss" type="text" class="validate"placeholder="Remarks"></td> ';
+             
+            <c:if test="${action eq 'edit'}">
+              
           	html +='<td data-head="Attendees" class="input-field attendees-column"><a href="#session-update-modal'+ rNo +'" class="btn waves-effect waves-light bg-m t-c modal-trigger" onclick="showNo(this)"> Update </a> ' +
 			  '<div id="session-update-modal'+ rNo +'" class="modal"><div class="modal-content">'+
 				 '<h4 class="modal-header">Trainee Updation Details <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h4> <div class="row">'+
@@ -2286,6 +2570,8 @@
 			$('form input[name=session_nos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 			$('form input[name=start_times]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 			$('form input[name=end_times]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+			$('form input[name=num_participants]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+			$('form input[name=num_absentees]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 			$('form input[name=remarkss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 			$('form input[name=department_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 			$('form input[name=attendees]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
@@ -2308,8 +2594,11 @@
     	if(validator.form()){ // validation perform
 			$(".page-loader").show();
 			$('form input[name=session_nos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+			$('form input[name=created_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 			$('form input[name=start_times]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 			$('form input[name=end_times]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+			$('form input[name=num_participants]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+			$('form input[name=num_absentees]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 			$('form input[name=remarkss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 			$('form input[name=department_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 			$('form input[name=attendees]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
@@ -2319,6 +2608,11 @@
 			$('form input[name=participated_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 			$('form input[name=hod_user_id_fk]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 			$('form input[name=is_new_user]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+			
+			
+			
+			
+			
 			document.getElementById("trainingForm").submit();
     	}
  }
@@ -2330,7 +2624,7 @@
   			 		required: true
   			 	  },"training_category_fk": {
   			 		required: true
-  			 	  },"status_fk": {
+  			 	  },"period_fk": {
   		 		    required: true
   			 	  },"title": {
   		 		    required: true
@@ -2345,6 +2639,22 @@
 	  				  number: true,
 	  				  minlength: 10,
 	  				  maxlength: 10
+  			 	  },"session_nos":{
+  			 		required: true
+  			 	  },"created_dates":{
+  			 		required: true
+  			 	  },"start_times":{
+  			 		required: true
+  			 	  },"end_times":{
+  			 		required: true
+  			 	  },"num_participants":{
+  			 		required: true
+  			 	  },"num_absentees":{
+  			 		required: true
+  			 	  },"remarkss":{
+  			 		required: false
+  			 	  },"session_nos":{
+  			 		required: true
   			 	  }
   			 	  
   		 	},
@@ -2367,6 +2677,18 @@
   		 			required: "Enter your mobile no",
   		 			minlength : "please enter valid number",
   		 			minlength : "please enter valid number"
+  		 	  	 },"session_nos": {
+  		 			required: ' This field is required'
+  		 	  	 },"created_dates": {
+  		 			required: ' This field is required'
+  		 	  	 },"start_times": {
+  		 			required: ' This field is required'
+  		 	  	 },"end_times": {
+  		 			required: ' This field is required'
+  		 	  	 },"num_participants": {
+  		 			required: ' This field is required'
+  		 	  	 },"num_absentees": {
+  		 			required: ' This field is required'
   		 	  	 }
 	   		},
 	   		errorPlacement:function(error, element){
@@ -2648,7 +2970,32 @@
  				}
              });
  		});
+      
+      document.addEventListener('DOMContentLoaded', function() {
+    	    var elems = document.querySelectorAll('.datepicker');
+    	    var options = {
+    	        format: 'yyyy-mm-dd',
+    	        autoClose: true
+    	    };
+    	    var instances = M.Datepicker.init(elems, options);
+    	});
      
+      function loadContracts() {
+    	    var provideTo = document.getElementById("provide_to_fk").value;
+    	    var url = "loadContracts.jsp?provide_to=" + provideTo;
+    	    var xhttp = new XMLHttpRequest();
+    	    xhttp.onreadystatechange = function() {
+    	        if (this.readyState == 4 && this.status == 200) {
+    	            document.getElementById("contract_short_name_fk").innerHTML = this.responseText;
+    	        }
+    	    };
+    	    xhttp.open("GET", url, true);
+    	    xhttp.send();
+    	}
+
+    
+
+
  </script>
 </body>
 

@@ -1,6 +1,7 @@
 package com.synergizglobal.pmis.model;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.util.StringUtils;
@@ -8,14 +9,36 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class Training {
 
-	private String training_id, training_type_fk, training_category_fk, faculty_name, designation,
-	title, description, training_center, status_fk, remarks,training_attendees_id, training_id_fk, training_session_id_fk, 
-	department_fk, attendee, mobile_no, required_fk, participated_fk,training_session_id, session_no, start_time, end_time,hours,department_name,
-	is_there_issue,category,issue_description,created_by_user_id_fk,issue_priority_id,issue_category_id,hod_user_id_fk,user_name ,
-	date,session_remarks,nominated,attended,attachment,user_id,reporting_to,reporting_to_designation,trainee_designation,is_new_user,email,user_type_fk,existing_status_fk;
+	private String period_fk, conduct_by_fk, provide_to_fk, contract_short_name_fk, training_id, training_type_fk,
+			training_category_fk, faculty_name, designation, title, description, training_center, status_fk, remarks,
+			training_attendees_id, training_id_fk, training_session_id_fk, department_fk, attendee, mobile_no,
+			required_fk, participated_fk, training_session_id, session_no, start_time, end_time, hours, department_name,
+			is_there_issue, category, issue_description, created_by_user_id_fk, issue_priority_id, issue_category_id,
+			hod_user_id_fk, user_name, date, session_remarks, nominated, attended, attachment, file_name, user_id,
+			reporting_to, reporting_to_designation, trainee_designation, is_new_user, email, user_type_fk,
+			existing_status_fk,
+
+			periodicity, conducted_by, provided_to, contract_name, created_date, no_of_Participants, no_of_Absentees;
+
+	public String getNo_of_Participants() {
+		return no_of_Participants;
+	}
+
+	public void setNo_of_Participants(String no_of_Participants) {
+		this.no_of_Participants = no_of_Participants;
+	}
+
+	public String getNo_of_Absentees() {
+		return no_of_Absentees;
+	}
+
+	public void setNo_of_Absentees(String no_of_Absentees) {
+		this.no_of_Absentees = no_of_Absentees;
+	}
+
+	private MultipartFile[] projectGalleryFiles, projectFiles;
 
 	private MultipartFile trainingFile;
-	
 	private List<Training> trainingSessions;
 	private List<Training> trainingAttendees;
 	private MultipartFile[] trainingSessionFiles;
@@ -29,11 +52,29 @@ public class Training {
 	private List<Training> employeeReportList;
 	private String mail_body_header;
 
-	
-	private String[] training_attendees_ids, training_id_fks, training_session_id_fks, department_fks, attendees,trainee_designations, mobile_nos, required_fks, participated_fks,
-	training_session_ids, session_nos, start_times, end_times, remarkss,hod_user_id_fks,trainingSessionFileNames,is_new_users,emails;
- 
-    public List<Training> getStatusList() {
+	private String[] training_attendees_ids, training_id_fks, training_session_id_fks, department_fks, attendees,
+			trainee_designations, mobile_nos, required_fks, participated_fks, training_session_ids, session_nos,
+			start_times, end_times, remarkss, hod_user_id_fks, trainingSessionFileNames, is_new_users, emails,
+			created_dates, num_participants, num_absentees, projectGalleryFileNames, new_attendees, new_required_fks,
+			new_participated_fks;
+
+	public String getProvided_to() {
+		return provided_to;
+	}
+
+	public void setProvided_to(String provided_to) {
+		this.provided_to = provided_to;
+	}
+
+	public String getContract_name() {
+		return contract_name;
+	}
+
+	public void setContract_name(String contract_name) {
+		this.contract_name = contract_name;
+	}
+
+	public List<Training> getStatusList() {
 		return statusList;
 	}
 
@@ -153,7 +194,7 @@ public class Training {
 		this.attended = attended;
 	}
 
-	private int [] rowCounts,attendeesRowCount,rowsCounts;
+	private int[] rowCounts, attendeesRowCount, rowsCounts;
 
 	public int[] getRowsCounts() {
 		return rowsCounts;
@@ -267,7 +308,6 @@ public class Training {
 		this.category = category;
 	}
 
-
 	public String getIs_there_issue() {
 		return is_there_issue;
 	}
@@ -291,8 +331,6 @@ public class Training {
 	public void setTrainingAttendees(List<Training> trainingAttendees) {
 		this.trainingAttendees = trainingAttendees;
 	}
-
-
 
 	public List<Training> getTrainingSessions() {
 		return trainingSessions;
@@ -589,18 +627,18 @@ public class Training {
 	public void setEnd_time(String end_time) {
 		this.end_time = end_time;
 	}
-	
+
 	public boolean checkNullOrEmpty() throws IllegalAccessException {
 		boolean flag = true;
 		try {
 			for (Field f : getClass().getDeclaredFields())
-		        if (!StringUtils.isEmpty(f.get(this)))
-		        	flag = false;
+				if (!StringUtils.isEmpty(f.get(this)))
+					flag = false;
 		} catch (Exception e) {
-			
+
 		}
-	    
-	    return flag;            
+
+		return flag;
 	}
 
 	public String getAttachment() {
@@ -682,4 +720,192 @@ public class Training {
 	public void setMail_body_header(String mail_body_header) {
 		this.mail_body_header = mail_body_header;
 	}
+
+	public String getPeriodicity() {
+		return periodicity;
+	}
+
+	public void setPeriodicity(String periodicity) {
+		this.periodicity = periodicity;
+	}
+
+	public String getConducted_by() {
+		return conducted_by;
+	}
+
+	public void setConducted_by(String conducted_by) {
+		this.conducted_by = conducted_by;
+	}
+
+	public String getPeriod_fk() {
+		return period_fk;
+	}
+
+	public void setPeriod_fk(String period_fk) {
+		this.period_fk = period_fk;
+	}
+
+	public String getConduct_by_fk() {
+		return conduct_by_fk;
+	}
+
+	public void setConduct_by_fk(String conduct_by_fk) {
+		this.conduct_by_fk = conduct_by_fk;
+	}
+
+	public String getProvide_to_fk() {
+		return provide_to_fk;
+	}
+
+	public void setProvide_to_fk(String provide_to_fk) {
+		this.provide_to_fk = provide_to_fk;
+	}
+
+	public String getContract_short_name_fk() {
+		return contract_short_name_fk;
+	}
+
+	public void setContract_short_name_fk(String contract_short_name_fk) {
+		this.contract_short_name_fk = contract_short_name_fk;
+	}
+
+	public String getCreated_date() {
+		return created_date;
+	}
+
+	public void setCreated_date(String created_date) {
+		this.created_date = created_date;
+	}
+
+	public String[] getCreated_dates() {
+		return created_dates;
+	}
+
+	public void setCreated_dates(String[] created_dates) {
+		this.created_dates = created_dates;
+	}
+
+	public String[] getNum_participants() {
+		return num_participants;
+	}
+
+	public void setNum_participants(String[] num_participants) {
+		this.num_participants = num_participants;
+	}
+
+	public String[] getNum_absentees() {
+		return num_absentees;
+	}
+
+	public void setNum_absentees(String[] num_absentees) {
+		this.num_absentees = num_absentees;
+	}
+
+	public String[] getProjectGalleryFileNames() {
+		return projectGalleryFileNames;
+	}
+
+	public void setProjectGalleryFileNames(String[] projectGalleryFileNames) {
+		this.projectGalleryFileNames = projectGalleryFileNames;
+	}
+
+	public String getFile_name() {
+		return file_name;
+	}
+
+	public void setFile_name(String file_name) {
+		this.file_name = file_name;
+	}
+
+	public MultipartFile[] getProjectGalleryFiles() {
+		return projectGalleryFiles;
+	}
+
+	public void setProjectGalleryFiles(MultipartFile[] projectGalleryFiles) {
+		this.projectGalleryFiles = projectGalleryFiles;
+	}
+
+	public MultipartFile[] getProjectFiles() {
+		return projectFiles;
+	}
+
+	public void setProjectFiles(MultipartFile[] projectFiles) {
+		this.projectFiles = projectFiles;
+	}
+
+	public String[] getNew_attendees() {
+		return new_attendees;
+	}
+
+	public void setNew_attendees(String[] new_attendees) {
+		this.new_attendees = new_attendees;
+	}
+
+	public String[] getNew_required_fks() {
+		return new_required_fks;
+	}
+
+	public void setNew_required_fks(String[] new_required_fks) {
+		this.new_required_fks = new_required_fks;
+	}
+
+	public String[] getNew_participated_fks() {
+		return new_participated_fks;
+	}
+
+	public void setNew_participated_fks(String[] new_participated_fks) {
+		this.new_participated_fks = new_participated_fks;
+	}
+
+	@Override
+	public String toString() {
+		return "Training [period_fk=" + period_fk + ", conduct_by_fk=" + conduct_by_fk + ", provide_to_fk="
+				+ provide_to_fk + ", contract_short_name_fk=" + contract_short_name_fk + ", training_id=" + training_id
+				+ ", training_type_fk=" + training_type_fk + ", training_category_fk=" + training_category_fk
+				+ ", faculty_name=" + faculty_name + ", designation=" + designation + ", title=" + title
+				+ ", description=" + description + ", training_center=" + training_center + ", status_fk=" + status_fk
+				+ ", remarks=" + remarks + ", training_attendees_id=" + training_attendees_id + ", training_id_fk="
+				+ training_id_fk + ", training_session_id_fk=" + training_session_id_fk + ", department_fk="
+				+ department_fk + ", attendee=" + attendee + ", mobile_no=" + mobile_no + ", required_fk=" + required_fk
+				+ ", participated_fk=" + participated_fk + ", training_session_id=" + training_session_id
+				+ ", session_no=" + session_no + ", start_time=" + start_time + ", end_time=" + end_time + ", hours="
+				+ hours + ", department_name=" + department_name + ", is_there_issue=" + is_there_issue + ", category="
+				+ category + ", issue_description=" + issue_description + ", created_by_user_id_fk="
+				+ created_by_user_id_fk + ", issue_priority_id=" + issue_priority_id + ", issue_category_id="
+				+ issue_category_id + ", hod_user_id_fk=" + hod_user_id_fk + ", user_name=" + user_name + ", date="
+				+ date + ", session_remarks=" + session_remarks + ", nominated=" + nominated + ", attended=" + attended
+				+ ", attachment=" + attachment + ", file_name=" + file_name + ", user_id=" + user_id + ", reporting_to="
+				+ reporting_to + ", reporting_to_designation=" + reporting_to_designation + ", trainee_designation="
+				+ trainee_designation + ", is_new_user=" + is_new_user + ", email=" + email + ", user_type_fk="
+				+ user_type_fk + ", existing_status_fk=" + existing_status_fk + ", periodicity=" + periodicity
+				+ ", conducted_by=" + conducted_by + ", provided_to=" + provided_to + ", contract_name=" + contract_name
+				+ ", created_date=" + created_date + ", no_of_Participants=" + no_of_Participants + ", no_of_Absentees="
+				+ no_of_Absentees + ", projectGalleryFiles=" + Arrays.toString(projectGalleryFiles) + ", projectFiles="
+				+ Arrays.toString(projectFiles) + ", trainingFile=" + trainingFile + ", trainingSessions="
+				+ trainingSessions + ", trainingAttendees=" + trainingAttendees + ", trainingSessionFiles="
+				+ Arrays.toString(trainingSessionFiles) + ", filecounts=" + Arrays.toString(filecounts)
+				+ ", trainingFilesList=" + trainingFilesList + ", trainingNewList=" + trainingNewList
+				+ ", attendeesList=" + attendeesList + ", HODsList=" + HODsList + ", deptList=" + deptList
+				+ ", statusList=" + statusList + ", employeeReportList=" + employeeReportList + ", mail_body_header="
+				+ mail_body_header + ", training_attendees_ids=" + Arrays.toString(training_attendees_ids)
+				+ ", training_id_fks=" + Arrays.toString(training_id_fks) + ", training_session_id_fks="
+				+ Arrays.toString(training_session_id_fks) + ", department_fks=" + Arrays.toString(department_fks)
+				+ ", attendees=" + Arrays.toString(attendees) + ", trainee_designations="
+				+ Arrays.toString(trainee_designations) + ", mobile_nos=" + Arrays.toString(mobile_nos)
+				+ ", required_fks=" + Arrays.toString(required_fks) + ", participated_fks="
+				+ Arrays.toString(participated_fks) + ", training_session_ids=" + Arrays.toString(training_session_ids)
+				+ ", session_nos=" + Arrays.toString(session_nos) + ", start_times=" + Arrays.toString(start_times)
+				+ ", end_times=" + Arrays.toString(end_times) + ", remarkss=" + Arrays.toString(remarkss)
+				+ ", hod_user_id_fks=" + Arrays.toString(hod_user_id_fks) + ", trainingSessionFileNames="
+				+ Arrays.toString(trainingSessionFileNames) + ", is_new_users=" + Arrays.toString(is_new_users)
+				+ ", emails=" + Arrays.toString(emails) + ", created_dates=" + Arrays.toString(created_dates)
+				+ ", num_participants=" + Arrays.toString(num_participants) + ", num_absentees="
+				+ Arrays.toString(num_absentees) + ", projectGalleryFileNames="
+				+ Arrays.toString(projectGalleryFileNames) + ", new_attendees=" + Arrays.toString(new_attendees)
+				+ ", new_required_fks=" + Arrays.toString(new_required_fks) + ", new_participated_fks="
+				+ Arrays.toString(new_participated_fks) + ", rowCounts=" + Arrays.toString(rowCounts)
+				+ ", attendeesRowCount=" + Arrays.toString(attendeesRowCount) + ", rowsCounts="
+				+ Arrays.toString(rowsCounts) + "]";
+	}
+
 }

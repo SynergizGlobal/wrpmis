@@ -10,7 +10,7 @@ import com.synergizglobal.pmis.Iservice.TrainingService;
 import com.synergizglobal.pmis.model.Training;
 
 @Service
-public class TrainingServiceImpl implements TrainingService{
+public class TrainingServiceImpl implements TrainingService {
 
 	@Autowired
 	TrainingDao dao;
@@ -29,11 +29,11 @@ public class TrainingServiceImpl implements TrainingService{
 	public List<Training> getTrainingCategorysList(Training obj) throws Exception {
 		return dao.getTrainingCategorysList(obj);
 	}
-	
+
 	@Override
 	public List<Training> getTrainingTitlesList(Training obj) throws Exception {
 		return dao.getTrainingTitlesList(obj);
-	}	
+	}
 
 	@Override
 	public List<Training> getStatusList(Training obj) throws Exception {
@@ -112,12 +112,42 @@ public class TrainingServiceImpl implements TrainingService{
 
 	@Override
 	public int getTotalRecords(Training obj, String searchParameter) throws Exception {
-		return dao.getTotalRecords(obj,searchParameter);
+		return dao.getTotalRecords(obj, searchParameter);
+	}
+
+	@Override
+	public List<Training> getperiodicityList() throws Exception {
+
+		return dao.getperiodicityList();
+	}
+
+	@Override
+	public List<Training> getprovidedList() throws Exception {
+
+		return dao.getprovidedList();
+	}
+
+	@Override
+	public List<Training> gettraining_ConductedList() throws Exception {
+
+		return dao.gettraining_ConductedList();
+	}
+
+	@Override
+	public List<Training> getcontract_short_nameList() throws Exception {
+
+		return dao.getcontract_short_nameList();
+	}
+
+	@Override
+	public List<Training> getTrainingsList(Training obj) throws Exception {
+		return dao.getTrainingsList(obj);
 	}
 
 	@Override
 	public List<Training> getTrainingsList(Training obj, int startIndex, int offset, String searchParameter)
 			throws Exception {
-		return dao.getTrainingsList(obj,startIndex,offset,searchParameter);
+
+		return dao.getTrainingsList(obj);
 	}
 }

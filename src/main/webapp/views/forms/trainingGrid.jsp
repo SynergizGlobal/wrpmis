@@ -231,14 +231,14 @@
 											<option value="">Select Title</option>
 										</select>
 									</div>
-									<div class="col s6 m2 input-field">
+								<!-- 	<div class="col s6 m2 input-field">
 										<p class="searchable_label">Status</p>
 										<select class="searchable" name="status_fk" id="status_fk"
 											onchange="addInQueStatus(this.value);getTraningList();">
 											<option value="">Select Status</option>
 
 										</select> 
-									</div>
+									</div>  -->
 									<div class="col s12 m2 center-align">
 										<button
 											class="btn bg-s waves-effect waves-light t-c clear-filters"
@@ -258,14 +258,17 @@
 											<th class="no-sort fw-50">ID</th>
 											<th>Type &nbsp; &nbsp;</th>
 											<th>Category</th>
+											<th>Title</th>
 											<th class="fw-300">Description</th>
 											<th class="fw-150">Faculty</th>
 											<th>Start Date</th>
 											<th>End Date &nbsp; </th>
 											<th>Hours</th>
-											<th>Status &nbsp; &nbsp;</th>
-											<th class="fw-70">Nominated</th>
-											<th class="fw-70">Attended</th>
+											<th>Periodicity</th>
+											<th>No Of Participants</th>
+											<th>No Of Absentees</th>
+											<th>Nominated</th>
+											<th>Attended</th>
 											<th class="nosort">Action</th>
 										</tr>
 									</thead>
@@ -481,7 +484,7 @@
         }
         
         var queue = 1;
-        function getTraningList(){
+        <%--  function getTraningList(){
         	$(".page-loader-2").show();
         	getTrainingTypesFilterList('');
          	getTrainingCategorysFilterList('');
@@ -629,13 +632,13 @@
 			            	if($.trim(data.hours) == ''){ return '-'; }else{ return data.hours; }
 			            } },
 			            { "mData": function(data,type,row){
-			            	if($.trim(data.status_fk) == ''){ return '-'; }else{ return data.status_fk; }
+			            	if($.trim(data.period_fk) == ''){ return '-'; }else{ return data.period_fk; }
 			            } },
 			            { "mData": function(data,type,row){
-			            	if($.trim(data.nominated) == ''){ return '-'; }else{ return data.nominated; }
+			            	if($.trim(data.no_of_Participants) == ''){ return '-'; }else{ return data.no_of_Participants; }
 			            } },
 			         	{ "mData": function(data,type,row){
-			            	if($.trim(data.attended) == ''){ return '-'; }else{ return data.attended; }
+			            	if($.trim(data.no_of_Absentees) == ''){ return '-'; }else{ return data.no_of_Absentees; }
 			            } },
 			         	{ "mData": function(data,type,row){
 			         		var training_id = "'"+data.training_id+"'";
@@ -648,9 +651,9 @@
 		    
 		  $(".page-loader-2").hide();  		     
       	
-     }
+     }--%>
 
-        function getTraningList1(){
+        function getTraningList(){
         	$(".page-loader-2").show();
         	getTrainingTypesFilterList('');
          	getTrainingCategorysFilterList('');
@@ -704,7 +707,7 @@
     		
     		table.state.clear();		
     	 	var myParams = {training_type_fk : training_type_fk, training_category_fk : training_category_fk, status_fk : status_fk,title:title};
-    	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/get-training",
+    	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/get-training-List",
     	 		type:"POST",
 				data:myParams, cache: false,async:false,
 				success : function(data){   
@@ -719,12 +722,15 @@
                        	rowArray.push($.trim(val.training_id));
                        	rowArray.push($.trim(val.training_type_fk));
                        	rowArray.push($.trim(val.training_category_fk));
+                    	rowArray.push($.trim(val.title));
                        	rowArray.push($.trim(val.description));
                        	rowArray.push($.trim(val.faculty_name));
                        	rowArray.push($.trim(val.start_time));
                        	rowArray.push($.trim(val.end_time));
                        	rowArray.push($.trim(val.hours));
-                       	rowArray.push($.trim(val.status_fk));
+                       	rowArray.push($.trim(val.period_fk));
+                       	rowArray.push($.trim(val.no_of_Participants));
+                       	rowArray.push($.trim(val.no_of_Absentees));
                        	rowArray.push($.trim(val.nominated));
                        	rowArray.push($.trim(val.attended));
                        	rowArray.push($.trim(actions));   	                   	

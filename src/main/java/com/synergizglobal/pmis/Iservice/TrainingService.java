@@ -2,8 +2,6 @@ package com.synergizglobal.pmis.Iservice;
 
 import java.util.List;
 
-import com.synergizglobal.pmis.model.Budget;
-import com.synergizglobal.pmis.model.Document;
 import com.synergizglobal.pmis.model.Training;
 
 public interface TrainingService {
@@ -46,9 +44,19 @@ public interface TrainingService {
 
 	public int getTotalRecords(Training obj, String searchParameter) throws Exception;
 
-	public List<Training> getTrainingsList(Training obj, int startIndex, int offset, String searchParameter) throws Exception;
+	public List<Training> getTrainingsList(Training obj, int startIndex, int offset, String searchParameter)
+			throws Exception;
+
+	public List<Training> getTrainingsList(Training obj) throws Exception;
 
 	List<Training> getTrainingTitlesList(Training obj) throws Exception;
 
+	public List<Training> getperiodicityList() throws Exception;
+
+	public List<Training> getprovidedList() throws Exception;
+
+	public List<Training> gettraining_ConductedList() throws Exception;
+
+	public List<Training> getcontract_short_nameList() throws Exception;
 
 }

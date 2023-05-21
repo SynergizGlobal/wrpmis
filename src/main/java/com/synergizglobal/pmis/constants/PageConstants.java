@@ -64,6 +64,8 @@ public class PageConstants {
 	public static final String P6Data = "forms/P6Data";
 	public static final String P6NewData = "forms/P6NewData";
 	public static final String addEditUAV = "forms/addEditUAV";
+	
+	public static final String uav = "forms/UAVGrid";
 
 	public static final String sourceOfFund = "forms/sourceOfFund";
 	public static final String addEditSourceOfFund = "forms/addEditSourceOfFund";
@@ -186,6 +188,7 @@ public class PageConstants {
 	public static final String archiveDashboardsMenu = "forms/archiveDashboardsMenu";
 	
 	public static final String structureGalleryPage ="forms/structureGalleryPage";
+	public static final String droneSurvey ="forms/droneSurvey";
 	public static final String newFile ="forms/newFile";
 
 	//******************************************************************************************

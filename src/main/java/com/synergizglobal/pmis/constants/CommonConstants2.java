@@ -37,6 +37,7 @@ public class CommonConstants2 {
 	public static final String CONTRACT_FILES = "/" + context_path + "/CONTRACT_FILES/";
 	public static final String FOB_GALLERY = "/" + context_path + "/FOB_GALLERY/";
 	public static final String FOB_FILES = "/" + context_path + "/FOB_FILES/";
+	public static final String DRONE_SURVEY = "/"+context_path+"/DRONE_SURVEY/";
 	public static final String ISSUE_FILES = "/" + context_path + "/ISSUE_FILES/";
 	public static final String SAFETY_FILES = "/" + context_path + "/SAFETY_FILES/";
 	public static final String WORK_FILES = "/" + context_path + "/WORK_FILES/";
@@ -63,6 +64,7 @@ public class CommonConstants2 {
 	public static final String SAFETY_FILE_SAVING_PATH = base_path + "/SAFETY_FILES/";
 	public static final String FOB_GALLERY_SAVING_PATH = base_path + "/FOB_GALLERY/";
 	public static final String FOB_FILE_SAVING_PATH = base_path + "/FOB_FILES/";
+	public static final String DRONE_SURVEY_SAVING_PATH = base_path+"/DRONE_SURVEY/";
 	public static final String USER_IMAGE_SAVING_PATH = base_path + "/USER_IMAGES/";
 	public static final String DESIGN_FILE_SAVING_PATH = base_path + "/DESIGN_FILES/";
 	public static final String P6_FILE_SAVING_PATH = base_path + "/P6_FILES/";

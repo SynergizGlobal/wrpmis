@@ -208,6 +208,16 @@ font-size:22px ;
 .ui-helper-reset		
 {
 font-size:22px ;
+}
+
+b, strong {
+    font-weight: bolder;
+    font-size: 20px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    text-align: left;
+    font-size: 1.2rem;
 }		 
 		 
 	</style>

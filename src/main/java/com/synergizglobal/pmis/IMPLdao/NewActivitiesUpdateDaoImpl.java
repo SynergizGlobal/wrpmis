@@ -1062,7 +1062,16 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 			            
 					    insertStmt.setString(k++, obj.getCreated_by_user_id_fk());
 					    insertStmt.setString(k++, obj.getRemarks());
-				    	insertStmt.setString(k++, obj.getActualScopes().length > 0 ?obj.getActualScopes()[i]:"0");
+					    
+					    if(!StringUtils.isEmpty(obj.getActualScopes()[i])) 
+					    {
+					    	insertStmt.setString(k++, obj.getActualScopes().length > 0 ?obj.getActualScopes()[i]:"0");
+					    }
+					    else
+					    {
+					    	insertStmt.setString(k++, "0");
+					    }
+					    
 					    insertStmt.setString(k++,(obj.getActivity_ids()[i]));
 					    insertStmt.setString(k++, Prdate);
 					    insertStmt.setString(k++, "Pending");
@@ -1124,7 +1133,18 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					
 										    insertStmt.setString(k++, obj.getCreated_by_user_id_fk());
 										    insertStmt.setString(k++, obj.getRemarks());
-									    	insertStmt.setString(k++, obj.getActualScopes().length > 0 ?obj.getActualScopes()[i]:"0");
+										    
+										    
+										    if(!StringUtils.isEmpty(obj.getActualScopes()[i])) 
+										    {
+										    	insertStmt.setString(k++, obj.getActualScopes().length > 0 ?obj.getActualScopes()[i]:"0");
+										    }
+										    else
+										    {
+										    	insertStmt.setString(k++, "0");
+										    }
+									    	
+									    	
 										    insertStmt.setString(k++,(obj.getActivity_ids()[i]));
 										    insertStmt.setString(k++, Prdate);
 				    insertStmt.setString(k++, "Pending");

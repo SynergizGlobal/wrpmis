@@ -62,4 +62,10 @@ public interface NewActivitiesUpdateDao {
 	public boolean uploadNewActivities(List<StripChart> stripChartList) throws Exception;
 
 	public ResultSet getExportActivitiesbyContract(StripChart obj) throws Exception;
+
+	public List<StripChart> getTaskCodesList(StripChart obj) throws Exception;
+
+	public boolean updateModifyActualsBulk(StripChart obj) throws Exception;
+
+	public List<StripChart> getContractStructures(StripChart obj) throws Exception;
 }

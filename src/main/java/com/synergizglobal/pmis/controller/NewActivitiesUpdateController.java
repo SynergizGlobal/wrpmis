@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 
 import com.synergizglobal.pmis.model.FileFormatModel;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.springframework.web.multipart.MultipartFile;
@@ -120,6 +122,39 @@ public class NewActivitiesUpdateController {
 		}
 		return model;
 	}
+	
+	@RequestMapping(value="/modify-actuals",method=RequestMethod.GET)
+	public ModelAndView ModifyActuals(@ModelAttribute  StripChart obj,HttpSession session) throws IOException {
+		ModelAndView model = new ModelAndView(PageConstants.modifyActuals);
+		try {
+			
+			User uObj = (User) session.getAttribute("user");
+			if(!StringUtils.isEmpty(uObj)) {
+				obj.setUser_type_fk(uObj.getUser_type_fk());
+				obj.setUser_role_code(uObj.getUser_role_code());
+				obj.setUser_id(uObj.getUser_id());
+				obj.setDepartment_fk(uObj.getDepartment_fk());
+			}
+			
+			List<StripChart> projectsList = newActivitiesUpdateService.getNewActivitiesUpdateProjectsList(obj);
+			model.addObject("projectsList", projectsList);
+			
+			List<StripChart> worksList = newActivitiesUpdateService.getNewActivitiesUpdateWorksList(obj);
+			model.addObject("worksList", worksList);
+			
+			List<StripChart> contractsList = newActivitiesUpdateService.getNewActivitiesUpdateContractsList(obj);
+			model.addObject("contractsList", contractsList);
+			
+			List<StripChart> taskCodesList = newActivitiesUpdateService.getTaskCodesList(obj);
+			model.addObject("taskCodesList", taskCodesList);
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("AcivitiesBulkUpload : " + e.getMessage());
+		}
+		return model;
+	}	
 	
 	@RequestMapping(value="/new-activities-update/{activity_id}",method= {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView newAcivitiesBulkUpdate(@PathVariable("activity_id")String activity_id,@ModelAttribute  StripChart obj,HttpSession session) throws IOException {
@@ -280,11 +315,22 @@ public class NewActivitiesUpdateController {
 	                Cell newpath = row1.createCell(col);
 	                newpath.setCellValue(rsmd.getColumnLabel(col+1));
 	            }
+	            NumberFormat numberFormatter = new DecimalFormat("#0.00");
 	            while(rs.next()) {
 	                XSSFRow row = executionOverviewReportSheet.createRow(rs.getRow());
-	                for(int col=0 ;col < columnsNumber;col++) {
-	                    Cell newpath = row.createCell(col);
-	                    newpath.setCellValue(rs.getString(col+1));  
+	                for(int col=0 ;col < columnsNumber;col++) 
+	                {
+		                    Cell newpath = row.createCell(col);
+		                    if(col>9)
+		                    {
+		                    	String Str=rs.getString(col+1);
+		                    	newpath.setCellValue(Float.parseFloat(Str));
+		                    }
+		                	else
+		                	{
+			                    newpath.setCellValue(rs.getString(col+1));               		
+		                	}		                   
+
 	                }
 	            }
 	            /*******************************************************************************************/
@@ -390,6 +436,22 @@ public class NewActivitiesUpdateController {
 		return structures;
 	}
 	
+	@RequestMapping(value = "/ajax/getNewActivitiesUpdateTaskCodes", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<StripChart> getNewActivitiesUpdateTaskCodes(@ModelAttribute StripChart obj,HttpSession session){
+		List<StripChart> structures = null;
+		try{
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());				
+			structures = newActivitiesUpdateService.getTaskCodesList(obj);	
+		}catch(Exception e){
+			logger.error("getNewActivitiesUpdateTaskCodes() : "+e.getMessage());
+		}
+		return structures;
+	}
+	
 	@RequestMapping(value = "/ajax/getDeleteActivitiesStructures", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<StripChart> getDeleteActivitiesStructures(@ModelAttribute StripChart obj,HttpSession session){
@@ -405,6 +467,23 @@ public class NewActivitiesUpdateController {
 		}
 		return structures;
 	}	
+	
+
+	@RequestMapping(value = "/ajax/getContractStructures", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<StripChart> getContractStructures(@ModelAttribute StripChart obj,HttpSession session){
+		List<StripChart> structures = null;
+		try{
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());				
+			structures = newActivitiesUpdateService.getContractStructures(obj);			
+		}catch(Exception e){
+			logger.error("getContractStructures() : "+e.getMessage());
+		}
+		return structures;
+	}
 	
 	
 	@RequestMapping(value = "/ajax/getNewActivitiesUpdateInProgressStructures", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
@@ -570,7 +649,44 @@ public class NewActivitiesUpdateController {
 			logger.error("getStructureTypesInActivitiesUpload : " + e.getMessage());
 		}
 		return objList;
-	}		
+	}
+	
+	@RequestMapping(value = "/update-modify-actuals-bulk", method = {RequestMethod.GET,RequestMethod.POST})
+	@ResponseBody
+	public ModelAndView updateModifyActualsBulk(@ModelAttribute StripChart obj,RedirectAttributes attributes,HttpSession session){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName("redirect:/modify-actuals");
+			
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+
+			
+			obj.setCreated_by_user_id_fk(user_Id);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
+			
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());		
+			
+			boolean flag =  newActivitiesUpdateService.updateModifyActualsBulk(obj);
+			if(flag) {
+				attributes.addFlashAttribute("success", "Updated Succesfully.");
+			}
+			else {
+				attributes.addFlashAttribute("error","Updating Acivities are failed. Try again.");
+			}
+		}catch (Exception e) {
+			attributes.addFlashAttribute("error","Updating Acivities are failed. Try again.");
+			logger.error("updateModifyActualsBulk : " + e.getMessage());
+		}
+		return model;
+	}	
+	
+	
 	
 
 	@RequestMapping(value = "/update-new-activities-bulk", method = {RequestMethod.GET,RequestMethod.POST})

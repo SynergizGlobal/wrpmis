@@ -44,6 +44,11 @@ public interface NewActivitiesUpdateService {
 	List<StripChart> getStructureTypesInDeleteActivities(StripChart obj) throws Exception;
 
 	public boolean updateNewAcivitiesBulk(StripChart obj) throws Exception;
+	
+	public boolean updateModifyActualsBulk(StripChart obj) throws Exception;
+	
+	
+	
 	public boolean deleteAcivitiesBulk(StripChart obj) throws Exception;
 	
 	public boolean insertFOBDailyUpdate(StripChart obj) throws Exception;
@@ -61,6 +66,11 @@ public interface NewActivitiesUpdateService {
 	public boolean uploadNewActivities(List<StripChart> stripChartList) throws Exception;
 	
 	public ResultSet getExportActivitiesbyContract(StripChart obj) throws Exception;	
+	
+	public List<StripChart> getTaskCodesList(StripChart obj) throws Exception;
+	
+	public List<StripChart> getContractStructures(StripChart obj) throws Exception;
+	
 
 	
 }

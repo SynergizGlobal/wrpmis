@@ -19,7 +19,7 @@ public class StripChart {
 
 	private MultipartFile stripChartFile,uploadFile;
 	
-	private String [] actualScopes,strip_chart_ids,ids,completedScopes,totalScopes,actual_starts,actual_finishs,activity_ids;
+	private String [] actualScopes,strip_chart_ids,ids,completedScopes,totalScopes,actual_starts,actual_finishs,activity_ids,p6_task_codes;
 	
 	private String reported_by_email_id,zonal_railway_fk,other_organization,department_fk,department_name;
 	
@@ -925,6 +925,14 @@ public class StripChart {
 		}
 	    
 	    return flag;            
+	}
+
+	public String [] getP6_task_codes() {
+		return p6_task_codes;
+	}
+
+	public void setP6_task_codes(String [] p6_task_codes) {
+		this.p6_task_codes = p6_task_codes;
 	}
 
 }

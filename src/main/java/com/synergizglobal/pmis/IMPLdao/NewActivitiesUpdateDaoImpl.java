@@ -26,6 +26,9 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -2472,6 +2475,177 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 		}
         return rs;				
 
+	}
+
+	@Override
+	public List<StripChart> getTaskCodesList(StripChart obj) throws Exception {
+		List<StripChart> objsList = null;
+		try {
+			String qry = "SELECT distinct task_code as p6_task_code "
+					+ "FROM p6_activities s left join structure s11 on s11.structure_id = s.structure_id_fk "
+					+ "LEFT JOIN contract c ON c.contract_id = s.contract_id_fk "
+					+ "WHERE 0=0 and task_code is not null ";
+			int arrSize = 0;
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and s.contract_id_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getP6_task_code())){
+				qry = qry + " and task_code = ?";
+				arrSize++;
+			}			
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getP6_task_code())){
+				pValues[i++] = obj.getP6_task_code();
+			}			
+			
+			objsList = jdbcTemplate.query( qry, pValues ,new BeanPropertyRowMapper<StripChart>(StripChart.class));			
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public boolean updateModifyActualsBulk(StripChart obj) throws Exception {
+		boolean flag = false;
+		TransactionDefinition def = new DefaultTransactionDefinition();
+		TransactionStatus status = transactionManager.getTransaction(def);
+		Connection con = null;
+		PreparedStatement updateStmt = null;
+		PreparedStatement updateStmt1 = null;
+		PreparedStatement updateStmt2 = null;
+		PreparedStatement updateStmt3 = null;
+		ResultSet resultSet = null;
+		java.sql.CallableStatement cstmt=null;
+		
+		con = dataSource.getConnection();	
+		
+		if(obj.getPending().compareTo("1")==0 || obj.getPending().compareTo("2")==0)
+		{
+			for (int i = 0; i < obj.getActivity_ids().length; i++)
+			{
+				if(obj.getIds()[i].compareTo("1")==0)
+				{
+		
+					String deleteQry = "delete from p6_validation_dyhod where progress_id_fk in    " + 
+							"(select progress_id from p6_validation where p6_activity_id_fk in(select  p6_activity_id from p6_activities where task_code=? and contract_id_fk=?)); ";		 
+					updateStmt = con.prepareStatement(deleteQry);
+					
+					updateStmt.setString(1, obj.getP6_task_codes()[i]);
+					updateStmt.setString(2, obj.getContract_id_fk());
+					updateStmt.execute();
+					if(updateStmt != null){updateStmt.close();}	
+					
+			
+					String deleteQry1 = "delete from p6_validation where p6_activity_id_fk in(select  p6_activity_id from p6_activities where task_code=? and contract_id_fk=?)";		 
+					updateStmt1 = con.prepareStatement(deleteQry1);
+					
+					updateStmt1.setString(1, obj.getP6_task_codes()[i]);
+					updateStmt1.setString(2, obj.getContract_id_fk());
+					updateStmt1.execute();
+					if(updateStmt1 != null){updateStmt1.close();}
+					
+			
+					String deleteQry2 = "delete from p6_activity_progress where p6_activity_id_fk in(select  p6_activity_id from p6_activities where task_code=? and contract_id_fk=?)";		 
+					updateStmt2 = con.prepareStatement(deleteQry2);
+					
+					updateStmt2.setString(1, obj.getP6_task_codes()[i]);
+					updateStmt2.setString(2, obj.getContract_id_fk());
+					updateStmt2.execute();
+					if(updateStmt2 != null){updateStmt2.close();}
+				}
+			}
+		}
+		
+		if(obj.getPending().compareTo("1")==0)
+		{
+			for (int i = 0; i < obj.getActivity_ids().length; i++)
+			{
+				if(obj.getIds()[i].compareTo("1")==0)
+				{			
+					String deleteQry3 = "update p6_activities set completed=0 where p6_activity_id in(select  p6_activity_id from p6_activities where task_code=? and contract_id_fk=?)";		 
+					updateStmt3 = con.prepareStatement(deleteQry3);
+					
+					updateStmt3.setString(1, obj.getP6_task_codes()[i]);
+					updateStmt3.setString(2, obj.getContract_id_fk());
+					updateStmt3.execute();
+					if(updateStmt3 != null){updateStmt3.close();}	
+				}
+			}
+		}
+		if(obj.getPending().compareTo("2")==0)
+		{
+			for (int i = 0; i < obj.getActivity_ids().length; i++)
+			{
+				if(obj.getIds()[i].compareTo("1")==0)
+				{			
+					String deleteQry3 = "delete from p6_activities where p6_activity_id in(select  p6_activity_id from p6_activities where task_code=? and contract_id_fk=?)";		 
+					updateStmt3 = con.prepareStatement(deleteQry3);
+					
+					updateStmt3.setString(1, obj.getP6_task_codes()[i]);
+					updateStmt3.setString(2, obj.getContract_id_fk());
+					updateStmt3.execute();
+					if(updateStmt3 != null){updateStmt3.close();}
+				}
+			}
+		}
+		if(obj.getPending().compareTo("3")==0)
+		{		
+			String concat="";
+			for (int i = 0; i < obj.getActivity_ids().length; i++)
+			{
+				if(obj.getIds()[i].compareTo("1")==0)
+				{
+					concat=concat+obj.getActivity_ids()[i]+",";
+				}
+			}
+			concat=concat.substring(0, concat.length() - 1);  
+			
+			cstmt = con.prepareCall("{call dbo.deleteActivities(?, ?)}"); 
+	        cstmt.setString(1, concat);
+	        cstmt.registerOutParameter(2, java.sql.Types.BOOLEAN);  
+	        cstmt.execute(); 
+		}
+		
+		return true;
+		
+	}
+
+	@Override
+	public List<StripChart> getContractStructures(StripChart obj) throws Exception {
+		List<StripChart> objsList = null;
+		try {
+			String qry = "SELECT s1.structure as strip_chart_structure_id_fk "
+					+ "FROM p6_activities s "
+					+ "left join structure s1 on s1.structure_id = s.structure_id_fk "
+					+ "LEFT JOIN contract c ON c.contract_id = s.contract_id_fk "
+					+ "WHERE s1.structure is not null  and s1.structure <> '' AND s.contract_id_fk = ? ";
+			int arrSize = 1;
+			
+			qry = qry + " group by s1.structure ";			
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			pValues[i++] = obj.getContract_id_fk();
+
+		
+			objsList = jdbcTemplate.query( qry, pValues ,new BeanPropertyRowMapper<StripChart>(StripChart.class));			
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objsList;
 	}	
 
 }

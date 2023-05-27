@@ -158,5 +158,22 @@ public class NewActivitiesUpdateServiceImpl implements NewActivitiesUpdateServic
 		return dao.getExportActivitiesbyContract(obj);
 	}
 
+	@Override
+	public List<StripChart> getTaskCodesList(StripChart obj) throws Exception {
+		return dao.getTaskCodesList(obj);
+	}
+
+	@Override
+	public boolean updateModifyActualsBulk(StripChart obj) throws Exception {
+		return dao.updateModifyActualsBulk(obj);
+		
+	}
+	
+	@Override
+	public List<StripChart> getContractStructures(StripChart obj) throws Exception
+	{
+		return dao.getContractStructures(obj);
+	}
+
 
 }

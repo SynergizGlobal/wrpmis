@@ -232,14 +232,13 @@ public class StructureGalleryPageDaoImpl implements StructureGalleryPageDao{
 	public Structure getWorkShortName(Structure obj) throws Exception {
 		Structure work_short_name = null;
 		try {
-			String qry ="select work_short_name from work w  ";
+			String qry ="select distinct work_short_name from work w  ";
 			int arrSize = 0;
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id())) {
 				qry = qry + " where work_id = ?";
 				arrSize++;
 			}
-			qry = qry +" GROUP BY work_id";
 
 			Object[] pValues = new Object[arrSize];
 			int i = 0;

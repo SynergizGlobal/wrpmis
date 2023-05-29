@@ -1282,7 +1282,7 @@
 	 
 	
      function getNewActivitiesUpdateActivitiesList(componentId){
-    	 $(".page-loader").show();
+    	 $(".page-loader-4").show();
     	 
     	 $("#btn1").show();
     	 $('#btn1').addClass('disabled');
@@ -1383,11 +1383,11 @@
 
  	                     });
  	                }
- 	                $(".page-loader").hide();
+ 	                $(".page-loader-4").hide();
  	            }
  	        });
  	    }else{
- 	    	$(".page-loader").hide();
+ 	    	$(".page-loader-4").hide();
  	    }
       
     }

@@ -1300,9 +1300,10 @@
     	
     	 var strip_chart_activity_id = $("#strip_chart_activity_id").val();
     	 var contract_id_fk = $("#contract_id_fk").val();
+    	 var strip_chart_structure_id_fk=$("#strip_chart_structure_id_fk").val();
     	 
     	 if ($.trim(contract_id_fk) != "") {
- 	        var myParams = {  strip_chart_activity_id: strip_chart_activity_id, contract_id_fk : contract_id_fk };
+ 	        var myParams = {  strip_chart_activity_id: strip_chart_activity_id, contract_id_fk : contract_id_fk,strip_chart_structure_id_fk: strip_chart_structure_id_fk};
  	        $.ajax({
  	            url: "<%=request.getContextPath()%>/ajax/getNewActivitiesfiltersList",
  	            data: myParams, cache: false,

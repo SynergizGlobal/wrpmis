@@ -851,7 +851,11 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 				qry = qry + " and s11.structure_type_fk = ?";
 				arrSize++;
 			}			
-			//qry = qry + " group by p6_activity_id ";
+ 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSearchStr())) {
+				qry = qry + " and (task_code like ? or p6_activity_name like ? )";
+				arrSize++;
+				arrSize++;
+			}
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -874,7 +878,11 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type_fk())){
 				pValues[i++] = obj.getStructure_type_fk();
-			}			
+			}	
+			if(!StringUtils.isEmpty(obj.getSearchStr())) {
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+				pValues[i++] = "%"+obj.getSearchStr()+"%";
+			} 			
 			
 			objsList = jdbcTemplate.query( qry, pValues ,new BeanPropertyRowMapper<StripChart>(StripChart.class));			
 		}catch(Exception e){ 

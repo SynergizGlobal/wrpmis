@@ -14,7 +14,7 @@ public class StripChart {
 	strip_chart_line, strip_chart_section_id,component,strip_chart_section_name,line, strip_chart_type,project_id,work_id_fk,weight,strip_chart_structure_id_fk,id,total_scope,
 	progress,progress_date,component_id_color,remaining,issue_description,issue_priority_id,issue_category_id,is_there_issue,attachment_url,created_by_user_id_fk,
 	project_id_fk,project_name,work_id,work_name,contract_id,contract_name,unit,to_structure_id,from_structure_id,structure,section,strip_chart_structure_id,structure_type,status_name,work_short_name,contract_short_name,data_date,milestone_fk,reported_by
-	,user_role_code,p6_task_code,weightage,component_id,status,baseline_start,baseline_finish,finish,start,
+	,user_role_code,p6_task_code,weightage,component_id,status,baseline_start,baseline_finish,finish,start,searchStr,
 	user_type_fk,user_id,user_name,designation,structure_type_fk,pending,modified_date,target_date_of_completion,structure_type_completed,structure_completed,component_completed,validation_pending;
 
 	private MultipartFile stripChartFile,uploadFile;
@@ -933,6 +933,14 @@ public class StripChart {
 
 	public void setP6_task_codes(String [] p6_task_codes) {
 		this.p6_task_codes = p6_task_codes;
+	}
+
+	public String getSearchStr() {
+		return searchStr;
+	}
+
+	public void setSearchStr(String searchStr) {
+		this.searchStr = searchStr;
 	}
 
 }

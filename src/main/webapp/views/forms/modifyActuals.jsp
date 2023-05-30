@@ -675,6 +675,10 @@
         .w65{
         	width:65% !important;
         }
+        
+  div.dataTables_filter {
+    text-align: right;
+}      
     </style>
 </head>
 <body>
@@ -762,9 +766,10 @@
                                            <option value=""></option>
                                        </select>
                                        <span id="strip_chart_structure_id_fkError" class="error-msg" ></span>
-					     </div> 
+					     </div>
+<div id="datatable-actuals_filter" class="dataTables_filter" style="display:none;"><label>Search:<input type="search" name="searchStr" id="searchStr" class="form-control input-sm" placeholder="Search" aria-controls="datatable-contract" style="width: 350px; display: inline-block;"></label><div class="right-btns"><i class="fa fa-search" title="Go" onClick="getNewActivitiesUpdateActivitiesList(this.value);"></i><i class="fa fa-close" title="Reset"></i></div></div>
 					     
-                                         <div class="col m4 s4 input-field" >
+                                         <div class="row" >
                                           <div class="center-align m-3" style="float:right;">
                                                 <button type="button" onclick="updateProgress();" id="btn1" class="h3em btn waves-effect waves-light bg-m" >Update</button>
                                        	  </div>
@@ -1004,6 +1009,11 @@
     	//document.getElementById("p6_task_codeError").innerHTML="";
     }
     
+    function getActivitiesbySearch()
+    {
+    	alert("Hii");
+    }
+    
  
 	  function getNewActivitiesUpdateTaskCodes(value) {
       	  $(".page-loader-4").show();
@@ -1191,6 +1201,11 @@
 
         
         });
+        
+        function getActivitiesbySearch(Str)
+        {
+        	alert(Str);
+        }
 
         
         function onLoadMethod(){
@@ -1292,6 +1307,8 @@
     	 //document.getElementById("p6_task_codeError").innerHTML="";
     	 document.getElementById("strip_chart_structure_id_fkError").innerHTML="";
     	 
+    	 $("#datatable-actuals_filter").show();
+    	 
     	 $( ".dot" ).removeClass( "active" );
      	 
     	 $("#table_show").show();
@@ -1303,7 +1320,7 @@
     	 var strip_chart_structure_id_fk=$("#strip_chart_structure_id_fk").val();
     	 
     	 if ($.trim(contract_id_fk) != "") {
- 	        var myParams = {  strip_chart_activity_id: strip_chart_activity_id, contract_id_fk : contract_id_fk,strip_chart_structure_id_fk: strip_chart_structure_id_fk};
+ 	        var myParams = {  strip_chart_activity_id: strip_chart_activity_id, contract_id_fk : contract_id_fk,strip_chart_structure_id_fk: strip_chart_structure_id_fk,searchStr:$("#searchStr").val()};
  	        $.ajax({
  	            url: "<%=request.getContextPath()%>/ajax/getNewActivitiesfiltersList",
  	            data: myParams, cache: false,

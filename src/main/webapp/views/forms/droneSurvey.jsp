@@ -239,6 +239,20 @@ b, strong {
     text-align: left;
     font-size: 1.2rem;
 }
+
+ .overlayText {
+  position: absolute;
+  top: 70%;
+  left: 10%;
+  z-index: 1;
+}
+
+#topText {
+  color: white;
+  font-size: 13px;
+  font-family:verdana;
+  align-self: center;
+}
 		 
 	</style>
 	
@@ -256,15 +270,51 @@ b, strong {
 	             	<div id="accordion"></div>
                </div>
 	        </div>
-	    	<div class="col s12 m10" id="tableau-item-holder" >	    	 	
-				<iframe id="dashboardOpen" name="dashboardOpen" frameborder="1" marginheight="0" marginwidth="0" title="data visualization" allowtransparency="true" allowfullscreen="true" class="timeline_body" src="" ></iframe>
-	    	</div>    	
+	    	<div class="col s12 m10 timeline_body" id="tableau-item-holder" >
+	    	<div class="row" style="text-align:center;">
+	    	<div class="col s12 m3 input-field"></div>
+	    	<div class="col s12 m6 input-field">
+									<h4 style="background-color:#deebf7;color:#000000;text-align:center;" class="card"><span class="ui-accordion-header-icon ui-icon ui-icon-triangle-1-e"></span>${work_short_name} Drone Survey</h4>
+	    	</div><div class="col s12 m3 input-field"></div>
+	    	 </div>
+	    	<div class="row"> 
+										<div class="col s12 m4 input-field">
+											<p class="searchable_label">Survey Date 1</p>
+											<select id="survey_date" name="survey_date" onchange="Survey_Date(this.value,1);" class="searchable">
+												<option value="">Select</option>
+	
+											</select>
+										</div>
+										
+										<div class="col s12 m4 input-field">
+											<p class="searchable_label">Survey Date 2</p>
+											<select id="survey_date1" name="survey_date1" onchange="Survey_Date(this.value,2);" class="searchable">
+												<option value="">Select</option>
+	
+											</select>
+										</div>
+							
+										<div class="col s12 m4 input-field">
+											<p class="searchable_label">Structure</p>
+											<select id="structure" name="structure" onchange="StructureSurvey_Date(this.value);" class="searchable">
+												<option value="">Select</option>
+							
+											</select>
+										</div>
+									
+									</div>									
+									
+									<div class="row ">
+										<div class="col s12 m6 input-field" id="survey_dateVideo">
+
+										</div>
+										
+										<div class="col s12 m6 input-field" id="survey_date1Video">
+
+										</div>
+									</div> 	 	
 	    	
-	    	<div class="col m2 s12" id="filter-item-holder" style="display:none;">
-		    	<!-- <div class="clearHolder">
-		    		<button class="btn waves-effect waves-light t-c" onclick="clearFilter();">Clear Filters</button>
-		    	</div> -->
-	    	</div>
+</div>	
 		</div>
 
 		<div class="page-loader" style="display: none;">
@@ -305,15 +355,11 @@ b, strong {
 		var safetyid=""; 
 		
 	    $(document).ready(function(){
- 		 	subworkid = getUrlVars()["sub_work"];
- 		 	safetyid = getUrlVars()["safety_id"];
-		   			
-    		if(subworkid!="" && subworkid!=undefined && subworkid!=" ")
-    		{
-				var rlc=subworkid.replace(/%20/g, " ");
-				subworkid = getWorkId(rlc);
-   				assessmentdate = getUrlVars()["assessment_date"];
-    		}
+	    	
+	        getSurveyDatesFilterList();
+	        getStructuresFilterList();
+
+
 	    	
 		    var overview_work_id = '${work_id}';
 		    requestedDashboardId = '${dashboardId}';
@@ -369,44 +415,7 @@ b, strong {
 				}
 			}
 		    $('.searchable').select2();
-			
-    		if(subworkid!="" && subworkid!=undefined && subworkid!=" ")
-    		{
-	    			openDashboard(36,'true');
-    		}
-    		else   if(safetyid!="" && safetyid!=undefined && safetyid!=" ")
-    		{
-    			openDashboard(38,'true');
-    			$("#"+safetyid).click();
-			}
-    		
-    		getSurveyDatesFilterList();
 	});
-	    
-	    function getSurveyDatesFilterList() {
-	     	$(".page-loader").show();
-	     	
-	     		var work_id = '${work_id}';
-	        
-	         	var myParams = {work_id_fk: work_id };
-	         	
-	             $.ajax({
-	                 url: "<%=request.getContextPath()%>/ajax/getSurveyDatesFilterList",
-	                 data: myParams, cache: false,async: false,
-	                 success: function (data) {
-	                     if (data.length > 0) {
-	                    	 $('#btnDroneSurvey').show();
-	                    	 
-	                     }
-	                     $('.searchable').select2();
-	                     $(".page-loader").hide();
-	                 },error: function (jqXHR, exception) {
-	     	   			      $(".page-loader").hide();
-	        	          	  getErrorMessage(jqXHR, exception);
-	        	     	  }
-	             });
-
-	     }
 	    
 	    
 	function getWorkId(rlc)
@@ -462,18 +471,7 @@ b, strong {
 				tempDashboardId = parentDashboardId;
 				flag = flag + 1;
 			}
-			
-			/* if(getDashboardLeftMenuAccess(parentDashboardId,2)==true)
-			{
-				if(getDashboardLeftMenuAccess(parentDashboardId,3)==true)
-					{
-						html = html+'<h3 class="bg-a" id="'+parentDashboardId+'" parent_id="" onclick="openDashboard('+value.dashboard_id+');"><a href="javascript:void(0);">'+value.dashboard_name+'</a></h3>';
-					}
-				else
-					{
-						html = html+'<h3 class="bg-a" id="'+parentDashboardId+'" parent_id="" onclick="openDashboard('+value.dashboard_id+');"><a href="javascript:void(0);" style="cursor: default;">'+value.dashboard_name+'</a><span style="float:right;"><img src="/pmis/resources/images/notaccess.png" width="20" height="20"></span></h3>';
-					}
-			} */
+
 			var level2List = value.formsSubMenu;
 			var accessibility = "'"+value.accessibility+"'";
 
@@ -565,7 +563,7 @@ b, strong {
 			}
 		});
 		 var overview_work_id = '${work_id}';
-		html +='<br><button type="button" class="btn waves-effect waves-light bg-s f-w-b" style="float:right;display:none;" id="btnDroneSurvey"><a href="/pmis/work-drone-survey/'+overview_work_id+'">Drone Survey</a></button>';
+		html +='<br><button type="button" class="btn waves-effect waves-light bg-s f-w-b" style="float:right;" id="btnDroneSurvey"><a href="/pmis/work-drone-survey/'+overview_work_id+'">Drone Survey</a></button>';
 	    return html;	
 	}
     
@@ -691,180 +689,152 @@ b, strong {
 	            }
 	     	 });
 			 $(".page-loader").hide();
-			 getSelectedOption(filterIds,dashboardId);
       	 }else{
       		$("#filter-item-holder").html('');
-      		$("#dashboardOpen").attr("src","");
       		$(".page-loader").hide();
       	 }
 	 }
-	
-	 function getSelectedOption(filterIds,dashboardId){
-		 $(".page-loader").show();	 
-		 var show_left_menu = '';	 
-		 var params = "";
-		 var ids = [];
-		 if($.trim(filterIds) != ''){
-			 filterIds = filterIds.replace(/['"]+/g, '');
-	      	 ids = filterIds.split(",");
-		 }
-		 
-	     getFilteredOptions(filterIds,dashboardId);
-	     $(".page-loader").show();
-	    
-		 for(var  i=0;i<ids.length;i++){
-			 var id = ids[i];
-			 var val = $("#"+id).val();
-			 var param = id+"="+val;
-			 if($.trim(val) != ''){
-				 if($.trim(params) != ''){
-				 	params = params +"&"+ param;
-			   	 }else{
-				   params = param;
-			     }
-			 }
-		 }
-			if(subworkid!="")
-			{
-					$("#work_id").val(subworkid);
-			}  
 
-		 $.ajax({
-	      		url: "<%=request.getContextPath()%>/ajax/getDashboardURL",
-	            type: 'POST',
-	            data:{dashboard_id : dashboardId,work_id : '${work_id}',params : encodeURIComponent(params)},
-	            async: false,
-	            dataType: 'json',
-	            success: function (data){
-	            	var dashboard_url = data.dashboard_url;
-	            	if($.trim(dashboard_url) == 'structure-gallery-page'){
-	            		dashboard_url = "<%=request.getContextPath()%>/"+dashboard_url+"/${work_id}";
-	            	}else if($.trim(dashboard_url) == 'wbs-tree'){
-	            		dashboard_url = "<%=request.getContextPath()%>/"+dashboard_url+"/${work_id}";
-	            	}
-	            	dashboard_url=dashboard_url+'&:embed=y';
-	         	    $("#dashboardOpen").attr("src",dashboard_url);
-	         	   	show_left_menu = data.show_left_menu;
-	         	    $(".page-loader").hide();
-	            },error: function(xhr){
-	                alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
-	            }
-	     });
-		 if($.trim(show_left_menu) == 'Yes' && $.trim(filterIds) != ''){
-	   		   	   if($('.main-menu-collapse #accordion').html()=="")
-	   			   {
-	   		   		   $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m10");
-	   			   }
-	   		   	   else
-   		   		   {
-   		   		   		$("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m8");
-   		   		   }
-	   		   $("#menu-item-holder").show();
-	   	 }else if($.trim(show_left_menu) == 'Yes'){
-	   		   $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m10");
-	   		   $("#menu-item-holder").show();
-	   		   $("#filter-item-holder").hide();
-		       $("#filter-item-holder").html("");
-	   	 }else if(($.trim(show_left_menu) == 'No' || $.trim(show_left_menu) == '') && $.trim(filterIds) != ''){
- 		      $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m10");
-		      $("#menu-item-holder").hide();
-		      $("#filter-item-holder").show();
-	   	 }else {
- 		      $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m12");
-		      $("#menu-item-holder").hide();
-		      $("#filter-item-holder").hide();
-		      $("#filter-item-holder").html("");
-	   	 }
-	 }
-	 
-	 function getFilteredOptions(filterIds,dashboardId){
-		 $(".page-loader").show();
-		 
-		 var ids = [];
-		 if($.trim(filterIds) != ''){
-			 ids = filterIds.split(",");
-		 }
-		 
-		 for(var  i=0;i<ids.length;i++){
-			 var params = "";
-			 for(var  j=0;j<ids.length;j++){
-				 var idTemp = ids[j];
-				 var valTemp = $("#"+idTemp).val();
-				 
-				 var filters_table_alias_name = $('#'+idTemp).attr("filters_table_alias_name");
-				 
-				 if($.trim(filters_table_alias_name) != '' && filters_table_alias_name != 'null' && filters_table_alias_name != null && filters_table_alias_name != 'undefined'){
-					 idTemp = filters_table_alias_name+"."+idTemp;
-				 }
-				 var param = idTemp+"='"+valTemp+"'";
-				 if($.trim(valTemp) != ''){
-					 if($.trim(params) != ''){
-					 	params = params +" AND "+ param;
-				   	 }else{
-					   params = param;
-				     }
-				 }
-			 }
-
-			 var id = ids[i];
-			 var val = $("#"+id).val();
-			 
-			 var filter_id_temp = $('#'+id).attr("filter_id");
-			 
-			 if($.trim(val) == ''){
-				 //$("#"+id+" option:not(:first)").remove();
-				 $("#"+id+" option").remove();
-				 $.ajax({
-			      		url: "<%=request.getContextPath()%>/ajax/getFilteredOptions",
-			            type: 'POST',
-			            data:{dashboard_id : dashboardId,work_id : '${work_id}',filter_id : filter_id_temp,params : encodeURIComponent(params)},
-			            async: false,
-			            dataType: 'json',
-			            success: function (data){
-			         	   if(data.length){
-			         		   $.each( data, function( index, value ){
-			         			  var filterOptions = value.filter;
-			         			  var length = filterOptions.length;
-			         			  /* if((value.is_first_option_selected != 'YES') && length > 1){ */
-			         			  if((value.is_first_option_selected != 'YES')){
-			         				$("#"+id).append('<option value="" selected>All</option>');
-			         			  }
-			         			  var optionArray=new Array();
-			         			  $.each( value.filter, function( index2, value2 ){
-				         			  	var filter_option_id = value2.filter_option_value;
-				         				if($.trim(value2.filter_option_id) != ''){
-				         					filter_option_id = value2.filter_option_id;
-				         				}
-				         				var selectedFlag = "";
-				         				if(((value.is_first_option_selected == 'YES') && (index2 == 0))){
-				         					selectedFlag = 'selected';	
-				         				}
-				         				
-			         					if(optionArray.indexOf(filter_option_id)==-1)
-			         					{
-				         					optionArray.push(filter_option_id);
-					         				$("#"+id).append('<option value="'+filter_option_id+'" '+selectedFlag+'>'+value2.filter_option_value+'</option>');
-
-			         					}
-			         					
-			                      });
-			         		  });
-			         		   $('.searchable').select2();
-			         	   }
-			         	   $(".page-loader").hide();
-			            },error: function(xhr){
-			            	$(".page-loader").hide();
-			            }
-			     });
-			 }
-		 }
-		 $(".page-loader").hide();
-	 }
-		
-	
      function clearFilter(filterIds,dashboardId){
        	openDashboard(dashboardId,'true');
      }
+     
+     
+     function Survey_Date(survey_date,No)
+     {
+     	$(".page-loader").show();
+     	var work_id = '${work_id}';
+     	var myParams = {work_id_fk: work_id,survey_date:survey_date };
+     	
+         $.ajax({
+             url: "<%=request.getContextPath()%>/ajax/getSurveyDateVideoSpecifications",
+             data: myParams, cache: false,async: false,
+             success: function (data) {
+                 if (data.length > 0) {
+                     $.each(data, function (i, val) 
+                     	{
+     	                	var splitStrfrom=val.time_from;
+     	                		splitStr=splitStrfrom.split(",");
+     	                	var splitStrto=val.time_to;
+     	                		splitStr1=splitStrto.split(",");
+                    		var videoHtml='<video width="610" height="450" controls autoplay><source src="/pmis/DRONE_SURVEY/'+val.video_file_name+'#t='+splitStr[1]+','+splitStr1[1]+'" type="video/mp4"></video><div class="overlayText"><p id="topText">Frame Cnt : '+val.framecnt+', DiffTime : '+val.difftime+'<br> '+val.srt_date+'<br>['+val.cnt_number+'] [latitude : '+val.latitude+'] [longtitude : '+val.longtitude+'] [altitude : '+val.altitude+']</p></div>';
+                    		if(No==1)
+                    		{
+                    			$("#survey_dateVideo").html(videoHtml);
+                    		}
+                    		else if(No==2)
+                    		{
+                    			$("#survey_date1Video").html(videoHtml);
+                    		}
+                     });
+                 }
+                 $('.searchable').select2();
+                 $(".page-loader").hide();
+             },error: function (jqXHR, exception) {
+        			      $(".page-loader").hide();
+     	          	  getErrorMessage(jqXHR, exception);
+     	     	  }
+         }); 	
+     }
+
+
+
+     function getSurveyDatesFilterList() {
+     	$(".page-loader").show();
+     	
+     		var work_id = '${work_id}';
+        
+         	$("#survey_date option:not(:first)").remove();
+         	var myParams = {work_id_fk: work_id };
+         	
+             $.ajax({
+                 url: "<%=request.getContextPath()%>/ajax/getSurveyDatesFilterList",
+                 data: myParams, cache: false,async: false,
+                 success: function (data) {
+                     if (data.length > 0) {
+                    	 $('#btnDroneSurvey').show();
+                         $.each(data, function (i, val) {
+                         	 var survey_dateSelected = '';
+                              if ($.trim(val.survey_date) != '') { survey_dateSelected = $.trim(val.survey_date) }
+                              var selectedFlag = (survey_date == val.survey_date)?'selected':'';
+                              $("#survey_date").append('<option value="' + val.survey_date + '"'+selectedFlag+'>' + $.trim(val.survey_date) +'</option>');
+                              $("#survey_date1").append('<option value="' + val.survey_date + '"'+selectedFlag+'>' + $.trim(val.survey_date) +'</option>');
+                         });
+                     }
+                     $('.searchable').select2();
+                     $(".page-loader").hide();
+                 },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+        	          	  getErrorMessage(jqXHR, exception);
+        	     	  }
+             });
+
+     }
+
+     function StructureSurvey_Date(structure)
+     {
+     	$(".page-loader").show();
+     	var work_id = '${work_id}';
+     	var myParams = {work_id_fk: work_id,structure:structure };
+     	
+     	
+         $.ajax({
+             url: "<%=request.getContextPath()%>/ajax/getStructureSurvey_Date",
+             data: myParams, cache: false,async: false,
+             success: function (data) {
+                 if (data.length > 0) {
+                 	
+                 	alert(data.length);
+                     $.each(data, function (i, val) 
+                     	{
+     	                	var splitStrfrom=val.time_from;
+     	                		splitStr=splitStrfrom.split(",");
+     	                	var splitStrto=val.time_to;
+     	                		splitStr1=splitStrto.split(",");
+                    		var videoHtml='<video width="610" height="450" controls autoplay><source src="/pmis/DRONE_SURVEY/'+val.video_file_name+'#t='+splitStr[1]+','+splitStr1[1]+'" type="video/mp4"></video><div class="overlayText"><p id="topText">Frame Cnt : '+val.framecnt+', DiffTime : '+val.difftime+'<br> '+val.srt_date+'<br>['+val.cnt_number+'] [latitude : '+val.latitude+'] [longtitude : '+val.longtitude+'] [altitude : '+val.altitude+']</p></div>';
+
+                    			$("#survey_dateVideo").html(videoHtml);
+                    		
+                     });
+                 }
+                 $('.searchable').select2();
+                 $(".page-loader").hide();
+             },error: function (jqXHR, exception) {
+        			      $(".page-loader").hide();
+     	          	  getErrorMessage(jqXHR, exception);
+     	     	  }
+         }); 
+     }
+
+     function getStructuresFilterList() {
+     	$(".page-loader").show();
+     	
+     		var work_id = '${work_id}';
+        
+         	$("#structure option:not(:first)").remove();
+         	var myParams = {work_id_fk: work_id };
+         	
+             $.ajax({
+                 url: "<%=request.getContextPath()%>/ajax/getStructuresFilterList",
+                 data: myParams, cache: false,async: false,
+                 success: function (data) {
+                     if (data.length > 0) {
+                         $.each(data, function (i, val) {
+                         	 var structureSelected = '';
+                              if ($.trim(val.structure) != '') { structureSelected = $.trim(val.structure) }
+                              var selectedFlag = (structure == val.structure)?'selected':'';
+                              $("#structure").append('<option value="' + val.structure + '"'+selectedFlag+'>' + $.trim(val.structure) +'</option>');
+                         });
+                     }
+                     $('.searchable').select2();
+                     $(".page-loader").hide();
+                 },error: function (jqXHR, exception) {
+     	   			      $(".page-loader").hide();
+        	          	  getErrorMessage(jqXHR, exception);
+        	     	  }
+             });
+
+     }   
 
  </script>
 </body>

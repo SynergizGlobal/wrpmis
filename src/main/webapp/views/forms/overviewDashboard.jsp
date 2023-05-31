@@ -229,16 +229,6 @@ font-size:22px ;
 .select2-container {
     font-weight: bold !important;
 }
-
-b, strong {
-    font-weight: bolder;
-    font-size: 20px;
-}
-
-.select2-container--default .select2-selection--single .select2-selection__rendered {
-    text-align: left;
-    font-size: 1.2rem;
-}
 		 
 	</style>
 	
@@ -379,34 +369,7 @@ b, strong {
     			openDashboard(38,'true');
     			$("#"+safetyid).click();
 			}
-    		
-    		getSurveyDatesFilterList();
 	});
-	    
-	    function getSurveyDatesFilterList() {
-	     	$(".page-loader").show();
-	     	
-	     		var work_id = '${work_id}';
-	        
-	         	var myParams = {work_id_fk: work_id };
-	         	
-	             $.ajax({
-	                 url: "<%=request.getContextPath()%>/ajax/getSurveyDatesFilterList",
-	                 data: myParams, cache: false,async: false,
-	                 success: function (data) {
-	                     if (data.length > 0) {
-	                    	 $('#btnDroneSurvey').show();
-	                    	 
-	                     }
-	                     $('.searchable').select2();
-	                     $(".page-loader").hide();
-	                 },error: function (jqXHR, exception) {
-	     	   			      $(".page-loader").hide();
-	        	          	  getErrorMessage(jqXHR, exception);
-	        	     	  }
-	             });
-
-	     }
 	    
 	    
 	function getWorkId(rlc)
@@ -564,8 +527,6 @@ b, strong {
 				html = html+'<div class="ds-none"> <p></p> </div>';
 			}
 		});
-		 var overview_work_id = '${work_id}';
-		html +='<br><button type="button" class="btn waves-effect waves-light bg-s f-w-b" style="float:right;display:none;" id="btnDroneSurvey"><a href="/pmis/work-drone-survey/'+overview_work_id+'">Drone Survey</a></button>';
 	    return html;	
 	}
     

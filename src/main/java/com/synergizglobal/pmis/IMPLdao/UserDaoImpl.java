@@ -104,14 +104,14 @@ public class UserDaoImpl implements UserDao{
 	public List<User> getUsersList(User obj) throws Exception {
 		List<User> objsList = new ArrayList<User>();
 		try {
-			String qry = "select u.user_id,u.user_name,u.password,u.designation,u.email_id,cast(u.mobile_number as CHAR) as mobile_number,\r\n" + 
-					"cast(u.personal_contact_number as CHAR) as personal_contact_number,cast(u.landline as CHAR) as landline,\r\n" + 
-					"cast(u.extension as CHAR) as extension,u.department_fk,u.reporting_to_id_srfk,u.pmis_key_fk,u.user_role_name_fk,\r\n" + 
-					"u.remarks,u.user_type_fk,u.user_image,department_name,usr.designation as reporting_to_name,\r\n" + 
-					"(select FORMAT(max(login_date_time),'dd-MM-yyyy hh : mm : ss tt') from user_login_details where user_id_fk = u.user_id ) as last_login,\r\n" + 
-					"(select COUNT(*) from user_login_details where user_id_fk = u.user_id and login_date_time >= DATEADD(day, -7, GETDATE())) as last7DaysLogins,\r\n" + 
-					"(select COUNT(*) from user_login_details where user_id_fk = u.user_id and login_date_time >= DATEADD(day, -30, GETDATE())) as last30DaysLogins \r\n" + 
-					"FROM [user] u LEFT OUTER JOIN department d ON u.department_fk = d.department left outer join [user] usr ON u.reporting_to_id_srfk = usr.user_id \r\n" + 
+			String qry = "select u.user_id,u.user_name,u.password,u.designation,u.email_id,u.mobile_number as mobile_number, " + 
+					"u.personal_contact_number as personal_contact_number,u.landline as landline, " + 
+					"u.extension as extension,u.department_fk,u.reporting_to_id_srfk,u.pmis_key_fk,u.user_role_name_fk, " + 
+					"u.remarks,u.user_type_fk,u.user_image,department_name,usr.designation as reporting_to_name, " + 
+					"(select FORMAT(max(login_date_time),'dd-MM-yyyy hh : mm : ss tt') from user_login_details where user_id_fk = u.user_id ) as last_login, " + 
+					"(select COUNT(*) from user_login_details where user_id_fk = u.user_id and login_date_time >= DATEADD(day, -7, GETDATE())) as last7DaysLogins, " + 
+					"(select COUNT(*) from user_login_details where user_id_fk = u.user_id and login_date_time >= DATEADD(day, -30, GETDATE())) as last30DaysLogins  " + 
+					"FROM [user] u LEFT OUTER JOIN department d ON u.department_fk = d.department left outer join [user] usr ON u.reporting_to_id_srfk = usr.user_id  " + 
 					"where u.user_id is not null " ;
 			
 			int arrSize = 0;
@@ -151,7 +151,7 @@ public class UserDaoImpl implements UserDao{
 			}
 			
 			
-			//qry = qry + " order by case when (u.user_id like '%Dummy%') then 0 else 1 end desc,case when (u.user_name like '%user%')  then 0 else 1 end desc, \r\n" + 
+			//qry = qry + " order by case when (u.user_id like '%Dummy%') then 0 else 1 end desc,case when (u.user_name like '%user%')  then 0 else 1 end desc,  " + 
 					//"case when(u.pmis_key_fk like '%SGS%') then 0 else 1 end desc";
 			
 			objsList = jdbcTemplate.query( qry, pValues, new BeanPropertyRowMapper<User>(User.class));	
@@ -379,7 +379,7 @@ public class UserDaoImpl implements UserDao{
 			connection = dataSource.getConnection();
 			if(getUserCount(role_code)>0)
 			{
-				String maxIdQry = "SELECT TOP 1 CONCAT(SUBSTRING(user_id, 1, 4),'_"+role_code+"_',substring(cast(MAX(SUBSTRING(user_id, 9, LEN(user_id)))+1 as varchar),0,3) ) AS maxId \r\n" + 
+				String maxIdQry = "SELECT TOP 1 CONCAT(SUBSTRING(user_id, 1, 4),'_"+role_code+"_',substring(cast(MAX(SUBSTRING(user_id, 9, LEN(user_id)))+1 as varchar),0,3) ) AS maxId  " + 
 						"					FROM [user] WHERE user_id LIKE 'PMIS_"+role_code+"_%' group by user_id";
 				
 				stmt = connection.prepareStatement(maxIdQry);
@@ -418,7 +418,7 @@ public class UserDaoImpl implements UserDao{
 	public User getUser(User obj) throws Exception {
 		User uobj = null;
 		try {
-			String qry = "select u.user_id,u.user_name,u.password,u.designation,u.email_id,cast(u.mobile_number as CHAR) as mobile_number,cast(u.personal_contact_number as CHAR) as personal_contact_number,cast(u.landline as CHAR) as landline,cast(u.extension as CHAR) as extension,u.department_fk,"
+			String qry = "select u.user_id,u.user_name,u.password,u.designation,u.email_id,u.mobile_number as mobile_number,u.personal_contact_number as personal_contact_number,u.landline as landline,u.extension as extension,u.department_fk,"
 					+ "u.reporting_to_id_srfk,u.pmis_key_fk,u.user_role_name_fk,u.remarks,u.user_type_fk,u.user_image,department_name,usr.user_name as reporting_to_name "
 					+ "FROM [user] u "
 					+ "LEFT OUTER JOIN department d ON u.department_fk = d.department "
@@ -1048,7 +1048,7 @@ public class UserDaoImpl implements UserDao{
 	public List<User> getUsersExportList(User obj) throws Exception {
 		List<User> objsList = null;
 		try {
-			String qry = "select u.user_id,u.user_name,u.password,u.designation,u.email_id,cast(u.mobile_number as CHAR) as mobile_number,cast(u.personal_contact_number as CHAR) as personal_contact_number,cast(u.landline as CHAR) as landline,cast(u.extension as CHAR) as extension,u.department_fk,"
+			String qry = "select u.user_id,u.user_name,u.password,u.designation,u.email_id,u.mobile_number as mobile_number,u.personal_contact_number as personal_contact_number,u.landline as landline,u.extension as extension,u.department_fk,"
 					+ "u.reporting_to_id_srfk,u.pmis_key_fk,u.user_role_name_fk,u.remarks,u.user_image,department_name,usr.user_name as reporting_to_name,usr.designation as reporting_to_designation,u.user_type_fk  "
 					+ "FROM [user] u "
 					+ "LEFT OUTER JOIN department d ON u.department_fk = d.department "
@@ -1137,11 +1137,11 @@ public class UserDaoImpl implements UserDao{
 				qry = qry + " and u.user_type_fk = ?";
 				arrSize++;
 			}
-			qry = qry + " GROUP BY u.user_type_fk ORDER BY \r\n" + 
-					"					case when u.user_type_fk='HOD' then 1\r\n" + 
-					"					when u.user_type_fk='DYHOD' then 2\r\n" + 
-					"					when u.user_type_fk='Officers ( Jr./Sr. Scale )' then 3\r\n" + 
-					"					when u.user_type_fk='Others' then 4 when u.user_type_fk='Training' then 5 \r\n" + 
+			qry = qry + " GROUP BY u.user_type_fk ORDER BY  " + 
+					"					case when u.user_type_fk='HOD' then 1 " + 
+					"					when u.user_type_fk='DYHOD' then 2 " + 
+					"					when u.user_type_fk='Officers ( Jr./Sr. Scale )' then 3 " + 
+					"					when u.user_type_fk='Others' then 4 when u.user_type_fk='Training' then 5  " + 
 					"					end asc";
 			Object[] pValues = new Object[arrSize];
 			
@@ -1170,7 +1170,7 @@ public class UserDaoImpl implements UserDao{
 	public List<User> getAllUsersList(User obj) throws Exception {
 		List<User> objsList = new ArrayList<User>();
 		try {
-			String qry = "select distinct u.user_id,u.user_name,u.password,u.designation,u.email_id,cast(u.mobile_number as CHAR) as mobile_number,cast(u.personal_contact_number as CHAR) as personal_contact_number,cast(u.landline as CHAR) as landline,cast(u.extension as CHAR) as extension,u.department_fk,"
+			String qry = "select distinct u.user_id,u.user_name,u.password,u.designation,u.email_id,u.mobile_number as mobile_number,u.personal_contact_number as personal_contact_number,u.landline as landline,u.extension as extension,u.department_fk,"
 					+ "u.reporting_to_id_srfk,u.pmis_key_fk,u.user_role_name_fk,u.remarks,u.user_type_fk,u.user_image,department_name,usr.designation as reporting_to_name,"
 					+ "(select FORMAT(max(login_date_time),'%d-%m-%Y %h:%i %p') from user_login_details where user_id_fk = u.user_id ) as last_login,"
 					+ "(select COUNT(*) from user_login_details where user_id_fk = u.user_id and login_date_time >= DATEADD(day, -7, GETDATE())) as last7DaysLogins,"
@@ -1250,7 +1250,7 @@ public class UserDaoImpl implements UserDao{
 	public List<User> getResponsiblePersonUsers(User obj) throws Exception {
 		List<User> objsList = new ArrayList<User>();
 		try {
-			String qry = "select distinct u.user_id,u.user_name,u.password,u.designation,u.email_id,cast(u.mobile_number as CHAR) as mobile_number,cast(u.personal_contact_number as CHAR) as personal_contact_number,cast(u.landline as CHAR) as landline,cast(u.extension as CHAR) as extension,u.department_fk,"
+			String qry = "select distinct u.user_id,u.user_name,u.password,u.designation,u.email_id,u.mobile_number as mobile_number,u.personal_contact_number as personal_contact_number,u.landline as landline,u.extension as extension,u.department_fk,"
 					+ "u.reporting_to_id_srfk,u.pmis_key_fk,u.user_role_name_fk,u.remarks,u.user_type_fk,u.user_image,department_name,usr.designation as reporting_to_name,"
 					+ "(select FORMAT(max(login_date_time),'%d-%m-%Y %h:%i %p') from user_login_details where user_id_fk = u.user_id ) as last_login,"
 					+ "(select COUNT(*) from user_login_details where user_id_fk = u.user_id and login_date_time >= DATEADD(day, -7, GETDATE())) as last7DaysLogins,"
@@ -1384,20 +1384,20 @@ public class UserDaoImpl implements UserDao{
 					+ " left join user_module um on m.module_name = um.module_fk where module_name in ('Contracts','Design','Execution &  Monitoring','Finance',"
 					+ "'Issues','Land Acquisition','R & R','Risk','Safety','Training','Unmanned Aerial Vehicle','Utility Shifting','Works')"
 					+ " and soft_delete_status_fk = 'Active' and executive_id_fk = ?  group by module_name, um.executive_id_fk, um.soft_delete_status "
-					+ "order by case when module_name='Contracts' then 1\r\n" + 
-					"when module_name='Risk' then 2\r\n" + 
-					"when module_name='Land Acquisition' then 3\r\n" + 
-					"when module_name='R & R' then 4\r\n" + 
-					"when module_name='Utility Shifting' then 5\r\n" + 
-					"when module_name='Works' then 6\r\n" + 
-					"when module_name='Safety' then 7\r\n" + 
-					"when module_name='Design' then 8\r\n" + 
-					"when module_name='Execution &  Monitoring' then 9 \r\n" + 
-					"when module_name='Finance' then 10 \r\n" + 
-					"when module_name='Issues' then 11 \r\n" + 
-					"when module_name='Training' then 12 \r\n" + 
-					"when module_name='Unmanned Aerial Vehicle' then 13 \r\n" + 
-					"\r\n" + 
+					+ "order by case when module_name='Contracts' then 1 " + 
+					"when module_name='Risk' then 2 " + 
+					"when module_name='Land Acquisition' then 3 " + 
+					"when module_name='R & R' then 4 " + 
+					"when module_name='Utility Shifting' then 5 " + 
+					"when module_name='Works' then 6 " + 
+					"when module_name='Safety' then 7 " + 
+					"when module_name='Design' then 8 " + 
+					"when module_name='Execution &  Monitoring' then 9  " + 
+					"when module_name='Finance' then 10  " + 
+					"when module_name='Issues' then 11  " + 
+					"when module_name='Training' then 12  " + 
+					"when module_name='Unmanned Aerial Vehicle' then 13  " + 
+					" " + 
 					"end asc";
 			
 			int arrSize = 1;
@@ -1419,20 +1419,20 @@ public class UserDaoImpl implements UserDao{
 					+ " where module_name in ('Contracts','Design','Execution &  Monitoring','Finance',"
 					+ "'Issues','Land Acquisition','R & R','Risk','Safety','Training','Unmanned Aerial Vehicle','Utility Shifting','Works')"
 					+ " and soft_delete_status_fk = 'Active' group by module_name  "
-					+ "order by case when module_name='Contracts' then 1\r\n" + 
-					"when module_name='Risk' then 2\r\n" + 
-					"when module_name='Land Acquisition' then 3\r\n" + 
-					"when module_name='R & R' then 4\r\n" + 
-					"when module_name='Utility Shifting' then 5\r\n" + 
-					"when module_name='Works' then 6\r\n" + 
-					"when module_name='Safety' then 7\r\n" + 
-					"when module_name='Design' then 8\r\n" + 
-					"when module_name='Execution &  Monitoring' then 9 \r\n" + 
-					"when module_name='Finance' then 10 \r\n" + 
-					"when module_name='Issues' then 11 \r\n" + 
-					"when module_name='Training' then 12 \r\n" + 
-					"when module_name='Unmanned Aerial Vehicle' then 13 \r\n" + 
-					"\r\n" + 
+					+ "order by case when module_name='Contracts' then 1 " + 
+					"when module_name='Risk' then 2 " + 
+					"when module_name='Land Acquisition' then 3 " + 
+					"when module_name='R & R' then 4 " + 
+					"when module_name='Utility Shifting' then 5 " + 
+					"when module_name='Works' then 6 " + 
+					"when module_name='Safety' then 7 " + 
+					"when module_name='Design' then 8 " + 
+					"when module_name='Execution &  Monitoring' then 9  " + 
+					"when module_name='Finance' then 10  " + 
+					"when module_name='Issues' then 11  " + 
+					"when module_name='Training' then 12  " + 
+					"when module_name='Unmanned Aerial Vehicle' then 13  " + 
+					" " + 
 					"end asc";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<User>(User.class));			

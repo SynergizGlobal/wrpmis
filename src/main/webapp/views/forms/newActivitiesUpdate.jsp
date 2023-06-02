@@ -1970,10 +1970,6 @@
                      			$("#strip_chart_component").append('<option value="' + val.strip_chart_component + '">' + $.trim(val.strip_chart_component) + '</option>');
                       		 }
                          });
-             	    	if(sessionStorage.getItem("contract_id_fk")!="")
-            	    	{
-            		    	$("#strip_chart_component").val(sessionStorage.getItem("component")).trigger('change');
-            	    	}
              	    	
                      }
                      $('.searchable').select2();
@@ -1990,6 +1986,7 @@
      }
 
 	 function getComponentIdsList(component) {
+		 
      	 $(".page-loader-3").show();
        	 var strip_chart_component = $("#strip_chart_component").val();
     	 if ($.trim(strip_chart_structure_id_fk) != ""){
@@ -2065,10 +2062,7 @@
  	                            }
                              }                                
                          });
-                     	 if(glb!="")
-                    	 {
-                     		$("#strip_chart_component").val(glb);
-                    	 }                         
+                      
                          $('.searchable').select2();
                          //getNewActivitiesUpdateActivitiesList('');
                          if($.trim(glbID) != ''){

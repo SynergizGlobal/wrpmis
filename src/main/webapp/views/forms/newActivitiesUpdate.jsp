@@ -2143,6 +2143,11 @@
  	                	$("#filerList").html('');
  	                    $.each(data, function (i, val) {
  	                    	 var num = $('#table tbody tr').length;
+ 	                    	var addText="";
+	                    	 	if(val.data_date!=null)
+	                    		 {
+	                    	 		addText='last update date : ' + val.data_date + '';
+	                    		 } 	                    	
  	                    	 html = '<tr id="row'+num+'"><td>'+$.trim(val.p6_task_code)+'</td>'
  	            	 			/* +'<td>' + $.trim(val.strip_chart_component_id_name) + '<input type="hidden" name="activity_ids"  id="activity_id'+num+'"  value="' + $.trim(val.activity_id) + '" /></td>'
  	            	 			+'<td>' + $.trim(val.strip_chart_component) + '</td>' */
@@ -2171,7 +2176,7 @@
  	            	 			
  	            	 			
  	            	 			html +='<input type="hidden" name="totalScopes"  id="totalScopes'+num+'"  value="' + $.trim(val.scope) + '" /></td><td style="text-align:center;"><span style="color:red;" id="validationPending'+num+'" >'+$.trim(val.validation_pending)+'</span></td>'
- 	            	 			+'<td data-head="Completed" class="input-field"><span>' + Number($.trim(val.completed)) + '</span>'
+ 	            	 			+'<td data-head="Completed" class="input-field"><span data-toggle="tooltip" title="' + addText + '">' + Number($.trim(val.completed)) + '</span>'
  	            	 			+'<input type="hidden" name="completedScopes"  id="completedScopes'+num+'"  value="' + $.trim(val.completed) + '" /></td>'
  	            	 			+' <td data-head="Actual" class="input-field"><input type="number" min="0" name="actualScopes" id="actualScopes'+num+'" '+disDisabled+' value="null"><br><span id="actualScopesError'+num+'" name="actualScopesError" class=" actualScopesError" style="color:red"></span></td></tr>';
  	                    		$("#filerList").append(html);	

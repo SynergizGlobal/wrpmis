@@ -815,7 +815,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 	public List<StripChart> getActivitiesfiltersList(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "select task_code as p6_task_code,isnull((select sum(isnull(completed_scope,0)) as completed_scope from p6_validation where p6_activity_id_fk=a.p6_activity_id and approval_status_fk='Pending'\r\n" + 
+			String qry = "select task_code as p6_task_code,(select top 1 isnull(created_date,'') from p6_validation where p6_activity_id_fk=a.p6_activity_id order by progress_id desc) as data_date,isnull((select sum(isnull(completed_scope,0)) as completed_scope from p6_validation where p6_activity_id_fk=a.p6_activity_id and approval_status_fk='Pending'\r\n" + 
 					"),0) as validation_pending,p6_activity_id as activity_id,component_id as strip_chart_component_id_name,component as strip_chart_component,p6_activity_id as strip_chart_activity_id,p6_activity_name as strip_chart_activity_name,FORMAT(baseline_start,'dd-MMM-yy') AS planned_start "  
 					+",FORMAT(baseline_finish,'dd-MMM-yy') AS planned_finish,FORMAT(start,'dd-MMM-yy') AS start,FORMAT(finish,'dd-MMM-yy') AS finish,ISNULL(scope, 0) as scope,ISNULL(completed, 0) as completed, unit as unit_fk from p6_activities a left join structure s11 on s11.structure_id = a.structure_id_fk " 
 					+ " where p6_activity_id is not null and (component_details != 'OBC' or component_details is null)  ";

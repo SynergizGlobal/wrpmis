@@ -204,6 +204,56 @@ public class NewActivitiesUpdateController {
 		return projects;
 	}
 	
+	@RequestMapping(value = "/ajax/getLatestRowData", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<StripChart> getLatestRowData(@ModelAttribute StripChart obj,HttpSession session){
+		List<StripChart> projects = null;
+		try{
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());			
+			projects = newActivitiesUpdateService.getLatestRowData(obj);			
+		}catch(Exception e){
+			logger.error("getLatestRowData() : "+e.getMessage());
+		}
+		return projects;
+	}
+	
+	@RequestMapping(value = "/ajax/getLastUpdateRows", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<StripChart> getLastUpdateRows(@ModelAttribute StripChart obj,HttpSession session){
+		List<StripChart> projects = null;
+		try{
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());			
+			projects = newActivitiesUpdateService.getLastUpdateRows(obj);			
+		}catch(Exception e){
+			logger.error("getLastUpdateRows() : "+e.getMessage());
+		}
+		return projects;
+	}	
+	
+	
+	
+	@RequestMapping(value = "/ajax/bindData", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<StripChart> bindData(@ModelAttribute StripChart obj,HttpSession session){
+		List<StripChart> projects = null;
+		try{
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());			
+			projects = newActivitiesUpdateService.bindData(obj);			
+		}catch(Exception e){
+			logger.error("bindData() : "+e.getMessage());
+		}
+		return projects;
+	}	
+
 	@RequestMapping(value = "/ajax/getNewActivitiesUpdateWorksList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<StripChart> getNewActivitiesUpdateWorksList(@ModelAttribute StripChart obj,HttpSession session){

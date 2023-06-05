@@ -2654,6 +2654,80 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 			throw new Exception(e);
 		}
 		return objsList;
+	}
+
+	@Override
+	public List<StripChart> getLatestRowData(StripChart obj) throws Exception {
+		List<StripChart> objsList = null;
+		try {
+			String qry = "select distinct a.contract_id_fk,structure_type_fk,structure,component as strip_chart_component from p6_activities a " + 
+					"left join structure s on s.structure_id=a.structure_id_fk " + 
+					"where p6_activity_id=(select top 1 p6_activity_id_fk from p6_validation where created_by_user_id_fk=? order by progress_id desc)";
+			int arrSize = 1;
+			
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			pValues[i++] = obj.getUser_id();
+
+		
+			objsList = jdbcTemplate.query( qry, pValues ,new BeanPropertyRowMapper<StripChart>(StripChart.class));			
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<StripChart> bindData(StripChart obj) throws Exception {
+		List<StripChart> objsList = null;
+		try {
+			String qry = "select distinct a.contract_id_fk,structure_type_fk,structure,component as strip_chart_component from p6_activities a " + 
+					"left join structure s on s.structure_id=a.structure_id_fk " + 
+					"where p6_activity_id=?";
+			int arrSize = 1;
+			
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			pValues[i++] = obj.getActivity_id();
+
+		
+			objsList = jdbcTemplate.query( qry, pValues ,new BeanPropertyRowMapper<StripChart>(StripChart.class));			
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<StripChart> getLastUpdateRows(StripChart obj) throws Exception {
+		List<StripChart> objsList = null;
+		try {
+			String qry = "select distinct structure,p6_activity_id as activity_id from p6_activities a " + 
+					"left join structure s on s.structure_id=a.structure_id_fk " + 
+					"where p6_activity_id in( " + 
+					"select distinct p6_activity_id_fk from ( " + 
+					"select top 3 p6_activity_id_fk from p6_validation where created_by_user_id_fk=? order by progress_id desc) as a)";
+			int arrSize = 1;
+			
+			
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			pValues[i++] = obj.getUser_id();
+
+		
+			objsList = jdbcTemplate.query( qry, pValues ,new BeanPropertyRowMapper<StripChart>(StripChart.class));			
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objsList;
 	}	
 
 }

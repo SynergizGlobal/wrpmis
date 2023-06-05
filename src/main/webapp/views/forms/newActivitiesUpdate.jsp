@@ -706,12 +706,12 @@
                     <form action="<%=request.getContextPath() %>/update-new-activities-bulk" id="ActivitiesBulkUpdateForm" name="ActivitiesBulkUpdateForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
                     <div class="container container-no-margin">
                         <div class="row">                          
-                                <div class="col m10 s12 offset-m1">
+                                <div class="col m10">
                                     <div class="row">
                                         <div class="col m4 s6 input-field">
                                             <p class="searchable_label">Project</p>
                                             <select class="searchable validate-dropdown" id="project_id" name="project_id" data-placeholder="Select"
-                                                onchange="addInQueProject(this.value);getNewActivitiesUpdateWorksList(this.value);onLoadMethod();">
+                                                onchange="getNewActivitiesUpdateWorksList(this.value);">
                                                <option value="" ></option> 
                                                 <c:forEach var="obj" items="${projectsList }">
                                                     <option value="${obj.project_id }" <c:if test="${obj.project_id eq activitiesData.project_id }">selected</c:if>>${obj.project_name }</option>
@@ -722,7 +722,7 @@
                                         <div class="col m8 s6 input-field">
                                             <p class="searchable_label">Work</p>
                                             <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" data-placeholder="Select"
-                                                onchange="addInQueWork(this.value);getNewActivitiesUpdateContractsList(this.value);onLoadMethod();">
+                                                onchange="getNewActivitiesUpdateContractsList(this.value);">
                                                  <option value=""></option> 
                                                 <c:forEach var="obj" items="${worksList }">
                                                     <option value="${obj.work_id }" <c:if test="${obj.work_id eq activitiesData.work_id }">selected</c:if>>${obj.work_short_name }</option>
@@ -733,7 +733,7 @@
                                        <div class="col m12 s12 input-field">
                                             <p class="searchable_label">Contract <span class="required">*</span></p>
                                             <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" data-placeholder="Select"
-                                                onchange="addInQueContract(this.value);getStructureTypesListFilter(this.value);resetWorksAndProjectsDropdowns(null);onLoadMethod();">
+                                                onchange="getStructureTypesListFilter(this.value);resetWorksAndProjectsDropdowns(null);">
                                                  <option value=""></option> 
                                                 <c:forEach var="obj" items="${contractsList }">
                                                 	<option name="${obj.work_id_fk }" value="${obj.contract_id }" <c:if test="${obj.contract_id eq activitiesData.contract_id }">selected</c:if>>${obj.contract_short_name}</option>
@@ -746,7 +746,7 @@
                                     
                                         <div class="col m3 s6 input-field" >
 											<p class="searchable_label">Structure Type <span class="required">*</span></p>
-	                                        <select id="structure_type_fk" name="structure_type_fk" class="searchable" onchange="addInQueStructureType(this.value);getNewActivitiesUpdateStructures();" class="searchable">
+	                                        <select id="structure_type_fk" name="structure_type_fk" class="searchable" onchange="getNewActivitiesUpdateStructures();" class="searchable">
 	                                            <option value="">Select</option>
 	                                        </select>
                                             <span id="structure_type_fkError" class="error-msg" ></span>
@@ -755,7 +755,7 @@
                                         <div class="col m3 s6 input-field" >
                                             <p class="searchable_label">Structure <span class="required">*</span></p>
                                            <select id="strip_chart_structure_id_fk" name="strip_chart_structure_id_fk" data-placeholder="Select"
-                                                class="searchable validate-dropdown" onchange="addInQueStructure(this.value);ClearComponents();getComponentsList(this.value);onLoadMethod();">
+                                                class="searchable validate-dropdown" onchange="ClearComponents();getComponentsList(this.value);">
                                                 <option value=""></option>
                                             </select>
                                             <span id="strip_chart_structure_id_fkError" class="error-msg" ></span>
@@ -763,7 +763,7 @@
                                        
                                         <div class="col m3 s6 input-field">
                                             <p class="searchable_label">Component<span class="required">*</span></p>
-                                             <select class="searchable validate-dropdown" data-placeholder="Select" id="strip_chart_component" name="strip_chart_component" onchange="addInQueComponent(this.value);getComponentIdsList(this.value);onLoadMethod();">
+                                             <select class="searchable validate-dropdown" data-placeholder="Select" id="strip_chart_component" name="strip_chart_component" onchange="getComponentIdsList(this.value);">
                                                 <option value=""></option>
                                             </select>
                                             <span id="strip_chart_componentError" class="error-msg" ></span>
@@ -771,125 +771,14 @@
                                         
                                          <div class="col m3 s12 input-field">
                                             <p class="searchable_label">Element</p>
-                                             <select class="searchable validate-dropdown" data-placeholder="Select" id="strip_chart_component_id" name="strip_chart_component_id" onchange="addInQueComponentID(this.value);getNewActivitiesUpdateActivitiesList(this.value);onLoadMethod();">
+                                             <select class="searchable validate-dropdown" data-placeholder="Select" id="strip_chart_component_id" name="strip_chart_component_id" onchange="getNewActivitiesUpdateActivitiesList(this.value);">
                                                 <option value=""></option>
                                             </select>
                                             <span id="strip_chart_component_idError" class="error-msg" ></span>
                                         </div>
                                     </div>
                                     
-                                    <!-- <div class="row" style="margin-bottom: 20px;display:none;" id="component_circles_row">
-                                        <div class="col m12 s12" id="dotgroup1">
-                                            <div class="dotgroup-scroll">
-                                                <div id="component_circles" style="padding: 10px;">
-                                                    <div class="dot-container">
-                                                        <a href="javascript:void(0);" class="dot"
-                                                            style="margin-left: 0;">
-                                                            <span class="project odd">P2P4P2P4</span></a>
-                                                    </div>
-                                                    <div class="dot-container">
-                                                        <a href="#" class="dot in-progress">
-                                                            <span class="project even">A2A4A2A4</span></a>
-                                                        <span class="dot-line"></span>
-                                                    </div>
-                                                    <div class="dot-container">
-                                                        <a href="#" class="dot completed"><span
-                                                                class="project odd">P1P4P1P4</span></a>
-                                                        <span class="dot-line"></span>
-                                                    </div>
-                                                    <div class="dot-container">
-                                                        <a href="#" class="dot delayed"><span
-                                                                class="project even">P2P4P2P4</span></a>
-                                                        <span class="dot-line"></span>
-                                                    </div>
-                                                    <div class="dot-container">
-                                                        <a href="#" class="dot not-started active"><span
-                                                                class="project odd">P3A4P3A4</span></a>
-                                                        <span class="dot-line"></span>
-                                                    </div>
-                                                    <div class="dot-container">
-                                                        <a href="#" class="dot in-progress">
-                                                            <span class="project even">A2A4A2A4</span></a>
-                                                        <span class="dot-line"></span>
-                                                    </div>
-                                                    <div class="dot-container">
-                                                        <a href="#" class="dot completed"><span
-                                                                class="project odd">P1P4P1P4</span></a>
-                                                        <span class="dot-line"></span>
-                                                    </div>
-                                                    <div class="dot-container">
-                                                        <a href="#" class="dot delayed"><span
-                                                                class="project even">P2P4P2P4</span></a>
-                                                        <span class="dot-line"></span>
-                                                    </div>
-                                                    <div class="dot-container">
-                                                        <a href="#" class="dot not-started"><span
-                                                                class="project odd">P3A4P3A4</span></a>
-                                                        <span class="dot-line"></span>
-                                                    </div>
-                                                    <div class="dot-container">
-                                                        <a href="#" class="dot in-progress">
-                                                            <span class="project even">A2A4A2A4</span></a>
-                                                        <span class="dot-line"></span>
-                                                    </div>
-                                                    <div class="dot-container">
-                                                        <a href="#" class="dot completed"><span
-                                                                class="project odd">P1P4P1P4</span></a>
-                                                        <span class="dot-line"></span>
-                                                    </div>
-                                                    <div class="dot-container">
-                                                        <a href="#" class="dot delayed"><span
-                                                                class="project even">P2P4P2P4</span></a>
-                                                        <span class="dot-line"></span>
-                                                    </div>
-                                                    <div class="dot-container">
-                                                        <a href="#" class="dot not-started"><span
-                                                                class="project odd">P3A4P3A4</span></a>
-                                                        <span class="dot-line"></span>
-                                                    </div>
-                                                    <div class="dot-container">
-                                                        <a href="#" class="dot in-progress">
-                                                            <span class="project even">A2A4A2A4</span></a>
-                                                        <span class="dot-line"></span>
-                                                    </div>
-                                                    <div class="dot-container">
-                                                        <a href="#" class="dot completed"><span
-                                                                class="project odd">P1P4P1P4</span></a>
-                                                        <span class="dot-line"></span>
-                                                    </div>
-                                                    <div class="dot-container">
-                                                        <a href="#" class="dot delayed"><span
-                                                                class="project even">P2P4P2P4</span></a>
-                                                        <span class="dot-line"></span>
-                                                    </div>
-                                                    <div class="dot-container">
-                                                        <a href="#" class="dot not-started"><span
-                                                                class="project odd">P3A4P3A4</span></a>
-                                                        <span class="dot-line"></span>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>  -->
-
-									<!-- <div class="row" style="display:none;" id="legends">
-									 <fieldset class="p-2 brdr" >
-  										<legend> Legend </legend>  										
-                                        <div class="col m4 s4 center-align">
-                                            <span class="box not-started"></span>
-                                            <span class="description">Not Started</span>
-                                        </div>
-                                        <div class="col m4 s4 center-align">
-                                            <span class="box in-progress"></span>
-                                            <span class="description">In Progress</span>
-                                        </div>
-                                        <div class="col m4 s4 center-align">
-                                            <span class="box completed"></span>
-                                            <span class="description">Completed</span>
-                                        </div>
-                                     </fieldset>
-                                    </div> -->
+ 
 
                                     <div class="row">
                                         <div class="col m4 s6 input-field left-align">
@@ -905,24 +794,7 @@
 		                                    <span id="remarksError" class="error-msg"></span>
                                         </div> 
                                         <div class="col m3 s6 input-field left-align">
-                                           <!-- <div id="btn-fl">
-                                           <div class="input-field">
-                                        	<div class="t-c">
-                                        	<span id="myList">Attach Photo</span>
-                                        		<input class="bg-m" name="structureFileNames" type="file" id="structureFileNames" accept="gif|jpg|png|jpeg|webp|svg|gif|jiff" />
-		                                    	<ul class='circle-container'>
-												  <li class="slide-top"><img src='/pmis/resources/images/mrvclogo.png'></li>
-												  <li class="slide-tr"><img src='/pmis/resources/images/mrvclogo.png'></li>
-												  <li class="slide-right"><img src='/pmis/resources/images/mrvclogo.png'></li>
-												  <li class="slide-br"><img src='/pmis/resources/images/mrvclogo.png'></li>
-												  <li class="slide-bottom"><img src='/pmis/resources/images/mrvclogo.png'></li>
-												  <li class="slide-bl"><img src='/pmis/resources/images/mrvclogo.png'></li>
-												  <li class="slide-left"><img src='/pmis/resources/images/mrvclogo.png'></li>
-												  <li class="slide-tl"><img src='/pmis/resources/images/mrvclogo.png'></li>
-												</ul>
-                                        	</div>
-		                                    </div>
-		                                 	</div> -->
+ 
 		                                    <div>
 		                                    	<div id="selectedFilesInput">
 		                                    	<div class="file-field input-field mt0" id="workFilesDiv1" >
@@ -952,6 +824,18 @@
 									<!-- <span id="actualScopesError" class="error-msg" style="text-align:center"></span> -->
 								</div>
 							
+                               
+                               
+                                <div class="col m2">
+                                	
+                                	<table border="1" id="appendLastUpdateRows" style="border: 1px solid black;border-collapse: collapse;">
+                                		<thead><tr><th style="border: 1px solid black;border-collapse: collapse;">Last Update Structures</th></tr></thead>
+                                		<tbody></tbody>
+                                	</table>
+                                
+                                </div>
+                                
+                                
                                 <div class="row fixed-width col m12 s12" id="table_show" style= "display:none;">					 <!-- style= "display:none;" -->
                                         <div class="table-inside">
                                             <table class="mdl-data-table mobile_responsible_table" id="table">
@@ -1191,6 +1075,7 @@
     <script>
     
     
+    
     function  openUploadNewActivitiesModal() {
 		$("#newActivitiesFile").val('');
     	$("#upload_template").modal('open');
@@ -1201,9 +1086,68 @@
     	$("#upload_template").modal('close');
 	}
 	
+	function getLatestRowData()
+	{
+        $.ajax({
+            url: "<%=request.getContextPath()%>/ajax/getLatestRowData",
+            cache: false,async: false,
+            success: function (data) {
+                if (data.length > 0) {
+                    $.each(data, function (i, val) {
+                    	$("#contract_id_fk").val(val.contract_id_fk).trigger('change');
+                    	$("#structure_type_fk").val(val.structure_type_fk).trigger('change');
+                    	$("#strip_chart_structure_id_fk").val(val.structure).trigger('change');
+                    	glb=val.strip_chart_component
+                    });
+                }
+                $('.searchable').select2();
+            }
+        });		
+	}
+	
+	
+	function getLastUpdateRows()
+	{
+        $.ajax({
+            url: "<%=request.getContextPath()%>/ajax/getLastUpdateRows",
+            cache: false,async: false,
+            success: function (data) {
+                if (data.length > 0) {
+                	var html="";
+                    $.each(data, function (i, val) {
+                    	html=html+"<tr><td style='border: 1px solid black;border-collapse: collapse;'><a href='#' onClick='bindData("+val.activity_id+");'>"+val.structure+"</a></td></tr>";
+                    });
+                    $("#appendLastUpdateRows tbody").append(html);
+                }
+                $('.searchable').select2();
+            }
+        });		
+	}	
+	
+	function bindData(activity_id)
+	{
+		 var myParams = { activity_id: activity_id };
+        $.ajax({
+            url: "<%=request.getContextPath()%>/ajax/bindData",
+            data:myParams,cache: false,async: false,
+            success: function (data) {
+                if (data.length > 0) {
+                    $.each(data, function (i, val) {
+                    	$("#contract_id_fk").val(val.contract_id_fk).trigger('change');
+                    	$("#structure_type_fk").val(val.structure_type_fk).trigger('change');
+                    	$("#strip_chart_structure_id_fk").val(val.structure).trigger('change');
+                    	glb=val.strip_chart_component
+                    });
+                }
+                $('.searchable').select2();
+            }
+        });		
+	}	
+	
     $(document).ready(function () {
    	    $('.modal').modal();   
-    
+   	 	getLatestRowData();
+   	 	getLastUpdateRows();
         $(".num").keypress(function() {
             if ($(this).val().length == $(this).attr("maxlength")) {
                 return false;
@@ -1227,17 +1171,6 @@
 	    	$("#contract_id_fk").val(cid);
 	    	getStructureTypesListFilter(cid);resetWorksAndProjectsDropdowns(null);
 	    }  
-	    
-
-	    	if(sessionStorage.getItem("contract_id_fk")!="")
-	    	{
-		    	$("#contract_id_fk").val(sessionStorage.getItem("contract_id_fk"));
-		    	getStructureTypesListFilter(cid);resetWorksAndProjectsDropdowns(null);	  
-		    	$("#structure_type_fk").val(sessionStorage.getItem("critical_item"));
-		    	getNewActivitiesUpdateStructures();
-		    	$("#strip_chart_structure_id_fk").val(sessionStorage.getItem("structure"));
-	    	}
-	    
     
     	var monthShortCode=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 	    var datePickerSelectAddClass = function () {
@@ -1399,64 +1332,7 @@
             	getNewActivitiesUpdateWorksList(project_id);
             }
            
-    		/*if("${sessionScope.USER_ROLE_NAME}"!='IT Admin')
-    		{
-                $('#btn').prop('disabled',true);
-                $('#btn1').prop('disabled',true); 
-    		}
-    		else
-    			{
-			        $('#btn').prop('disabled', false);  
-			        $('#btn1').prop('disabled', false); 						    			
-    			}  */         
-            
-            var filters = window.localStorage.getItem("BulkFilters");
-            if($.trim(filters) != '' && $.trim(filters) != null && $.trim(project_id) == ''){
-          	   var temp = filters.split('^'); 
-          	   for(var i=0;i< temp.length;i++){
-    	        	  if($.trim(temp[i]) != '' ){
-    	        		  var temp2 = temp[i].split('=');
-    		        	  if($.trim(temp2[0]) == 'project_id_fk' ){
-    		        		  getNewActivitiesUpdateWorksList(temp2[1]);
-    		        	  }else if($.trim(temp2[0]) == 'work_id_fk'){
-    		        		  getNewActivitiesUpdateContractsList(temp2[1]);
-    		        	  }else if($.trim(temp2[0]) == 'contract_id_fk'){
-    		        		  resetWorksAndProjectsDropdowns(temp2[1]);
-    		        	  }else if($.trim(temp2[0]) == 'structure_type_fk'){
-        		        	  getStructureTypesListFilter(temp2[1]);
-        		        	  structureVal = temp2[1];
-        		          }else if($.trim(temp2[0]) == 'strip_chart_structure_id_fk'){
-    		        		  getNewActivitiesUpdateStructures(temp2[1]);
-    		        		  //structureVal = temp2[1];
-    		        	  }else if($.trim(temp2[0]) == 'strip_chart_component'){
-    		        		  getComponentsList(temp2[1]);
-    		        		  glb=temp2[1];
-    		        	  }  
-    		        	  else if($.trim(temp2[0]) == 'strip_chart_component_id'){
-    		        		  getComponentIdsList(temp2[1]);
-    		        		  glbID=temp2[1];
-    		        	  }      		        	  
-    	        	  }
-    	        }
-             }
-            
-           // $('#progress_date').datepicker();
-           /*  $('#progress_date').datepicker({
-                maxDate: new Date(),
-                format: 'dd-mmm-yy',
-                autoClose:true,
-                onOpen: datePickerSelectAddClass,
-                showClearBtn: true,
-                onClose: function () {
-                    if (!$(this.el).val()) {
-                        $(this.el).siblings('label').removeClass('active');
-                    }
-                }
-            });
-            $('#progress_date_icon').click(function () {
-                event.stopPropagation();
-                $('#progress_date').click();
-            }); */
+
             $('#remarks').characterCounter();
         
         });
@@ -1466,108 +1342,10 @@
         	var numFiles = $("input:file")[0].files.length;
 			alert($("input:file")[0].files.length);
         }
-        
-        function onLoadMethod(){
-	        $(".page-loader").show();
-	       
-	       
-	       	var filters = '';
-	       	Object.keys(filtersMap).forEach(function (key) {
-	       		//alert(filtersMap[key]);
-	       		filters = filters + key +"="+filtersMap[key] + "^";
-	       		window.localStorage.setItem("BulkFilters", filters);
-	   			});
-	        $(".page-loader").hide();
-       }
-        
-        function addInQueProject(project_id_fk){
-        	Object.keys(filtersMap).forEach(function (key) {
-       			if(key.match('project_id_fk')) delete filtersMap[key];
-       		});
-        	if($.trim(project_id_fk) != ''){
-       	    	filtersMap["project_id_fk"] = project_id_fk;
-        	}
-        }
-        
-        function addInQueWork(work_id_fk){
-          	Object.keys(filtersMap).forEach(function (key) {
-    	   		if(key.match('work_id_fk')) delete filtersMap[key];
-       	   	});
-          	if($.trim(work_id_fk) != ''){
-            	filtersMap["work_id_fk"] = work_id_fk;
-          	}
-        }
-        function addInQueContract(contract_id_fk){
-	      	Object.keys(filtersMap).forEach(function (key) {
-		   		if(key.match('contract_id_fk')) delete filtersMap[key];
-	   	   	});
-	      	if($.trim(contract_id_fk) != ''){
-            	filtersMap["contract_id_fk"] = contract_id_fk;
-	      	}
-        }
-        
-        function addInQueStructureType(structure_type_fk){
-	      	Object.keys(filtersMap).forEach(function (key) {
-		   		if(key.match('structure_type_fk')) delete filtersMap[key];
-	   	   	});
-	      	if($.trim(structure_type_fk) != ''){
-            	filtersMap["structure_type_fk"] = structure_type_fk;
-	      	}
-        }       
-        function addInQueStructure(strip_chart_structure_id_fk){
-	      	Object.keys(filtersMap).forEach(function (key) {
-		   		if(key.match('strip_chart_structure_id_fk')) delete filtersMap[key];
-	   	   	});
-	      	if($.trim(strip_chart_structure_id_fk) != ''){
-            	filtersMap["strip_chart_structure_id_fk"] = strip_chart_structure_id_fk;
-	      	}
-        }
-        
-        function addInQueComponent(strip_chart_component){
-	      	Object.keys(filtersMap).forEach(function (key) {
-		   		if(key.match('strip_chart_component')) delete filtersMap[key];
-	   	   	});
-	      	if($.trim(strip_chart_component) != ''){
-	      		storeValues();
-            	filtersMap["strip_chart_component"] = strip_chart_component;
-            	
-	      	}
-        }
-        function addInQueComponentID(strip_chart_component_id){
-        	
-	      	Object.keys(filtersMap).forEach(function (key) {
-		   		if(key.match('strip_chart_component_id')) delete filtersMap[key];
-	   	   	});
-	      	if($.trim(strip_chart_component_id) != ''){
-	      		storeValueswithComponent();
-            	filtersMap["strip_chart_component_id"] = strip_chart_component_id;
-	      	}
-        }   
-        
-        function storeValues()
-        {
-        	var project_id = $("#project_id").val();addInQueProject(project_id);
-        	
-        	var work_id_fk = $("#work_id_fk").val();addInQueWork(work_id_fk);
-        	var contract_id_fk = $("#contract_id_fk").val();addInQueContract(contract_id_fk);
-        	var structure_type_fk = $("#structure_type_fk").val();addInQueStructureType(structure_type_fk);
-        	var strip_chart_structure_id_fk = $("#strip_chart_structure_id_fk").val();addInQueStructure(strip_chart_structure_id_fk);
-        }
-      
-        function storeValueswithComponent()
-        {
-        	var project_id = $("#project_id").val();addInQueProject(project_id);
-        	
-        	var work_id_fk = $("#work_id_fk").val();addInQueWork(work_id_fk);
-        	var contract_id_fk = $("#contract_id_fk").val();addInQueContract(contract_id_fk);
-        	var structure_type_fk = $("#structure_type_fk").val();addInQueStructureType(structure_type_fk);
-        	var strip_chart_structure_id_fk = $("#strip_chart_structure_id_fk").val();addInQueStructure(strip_chart_structure_id_fk);
-        	var strip_chart_component = $("#strip_chart_component").val();addInQueComponent(strip_chart_component); 
-        }        
+     
         
        
         function clearFilters(){
-        	window.localStorage.setItem("BulkFilters",'');
         }
         
         function ClearComponents(){
@@ -1604,35 +1382,7 @@
 			}
        	}	       
         
-<%--     function ExportNewActivitiesUpdate()
-    {
-			var contract_id_fk = $("#contract_id_fk").val();
-			if($.trim(contract_id_fk) != '')
-			{   
-		         var contract_id_fk = $("#contract_id_fk").val();
-		         var structure_type_fk = $("#structure_type_fk").val();
-		         var structureId = $("#strip_chart_structure_id_fk").val();
-		         
-		         var myParams = { contract_id_fk: contract_id_fk, strip_chart_structure_id_fk: structureId, structure_type_fk: structure_type_fk };
-		         
-			        $.ajax({
-			            url: "<%=request.getContextPath()%>/ajax/exportActivitiesbyContract",
-			            data: myParams, cache: false,async: false,
-			            success: function (data) {
-			                if (data.length > 0) {
-			                    $.each(data, function (i, val) {
-			                    });
-			                }
-			            }
-			        });		         
 
-			}
-			else
-			{
-				$("#contract_id_fkError").html("Select Contract");
-				return false;
-			}
-    } --%>
 	
 	function getNewActivitiesUpdateWorksList(projectId) { 
 		$(".page-loader-1").show();
@@ -1970,6 +1720,8 @@
                      			$("#strip_chart_component").append('<option value="' + val.strip_chart_component + '">' + $.trim(val.strip_chart_component) + '</option>');
                       		 }
                          });
+                     	$("#strip_chart_component").val(glb).trigger('change');
+
              	    	
                      }
                      $('.searchable').select2();

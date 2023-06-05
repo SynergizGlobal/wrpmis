@@ -68,4 +68,10 @@ public interface NewActivitiesUpdateDao {
 	public boolean updateModifyActualsBulk(StripChart obj) throws Exception;
 
 	public List<StripChart> getContractStructures(StripChart obj) throws Exception;
+
+	public List<StripChart> getLatestRowData(StripChart obj) throws Exception;
+
+	public List<StripChart> bindData(StripChart obj) throws Exception;
+
+	public List<StripChart> getLastUpdateRows(StripChart obj) throws Exception;
 }

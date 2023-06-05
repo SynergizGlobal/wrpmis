@@ -70,6 +70,12 @@ public interface NewActivitiesUpdateService {
 	public List<StripChart> getTaskCodesList(StripChart obj) throws Exception;
 	
 	public List<StripChart> getContractStructures(StripChart obj) throws Exception;
+
+	public List<StripChart> getLatestRowData(StripChart obj) throws Exception;
+
+	public List<StripChart> bindData(StripChart obj) throws Exception;
+
+	public List<StripChart> getLastUpdateRows(StripChart obj) throws Exception;
 	
 
 	

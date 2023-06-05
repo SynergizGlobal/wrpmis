@@ -175,5 +175,20 @@ public class NewActivitiesUpdateServiceImpl implements NewActivitiesUpdateServic
 		return dao.getContractStructures(obj);
 	}
 
+	@Override
+	public List<StripChart> getLatestRowData(StripChart obj) throws Exception {
+		return dao.getLatestRowData(obj);
+	}
+
+	@Override
+	public List<StripChart> bindData(StripChart obj) throws Exception {
+		return dao.bindData(obj);
+	}
+
+	@Override
+	public List<StripChart> getLastUpdateRows(StripChart obj) throws Exception {
+		return dao.getLastUpdateRows(obj);
+	}
+
 
 }

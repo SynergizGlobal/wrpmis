@@ -822,6 +822,7 @@ public class WorkDaoImpl implements WorkDao {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		String workId = null;
+		
 		try{			
 			String maxIdQry = "SELECT top 1 CONCAT(SUBSTRING(work_id, 1, 5),'',cast(MAX(SUBSTRING(work_id, 5, LEN(work_id)))+1 as varchar) ) AS maxId FROM work WHERE work_id LIKE ? GROUP BY WORK_ID ORDER BY CAST(SUBSTRING(CONCAT(SUBSTRING(work_id, 1, 5),'',cast(MAX(SUBSTRING(work_id, 5, LEN(work_id)))+1 as varchar) ), 6, 3) AS INT) desc ";
 			stmt = con.prepareStatement(maxIdQry);

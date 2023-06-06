@@ -706,7 +706,7 @@
                     <form action="<%=request.getContextPath() %>/update-new-activities-bulk" id="ActivitiesBulkUpdateForm" name="ActivitiesBulkUpdateForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
                     <div class="container container-no-margin">
                         <div class="row">                          
-                                <div class="col m10">
+                                <div class="col m9">
                                     <div class="row">
                                         <div class="col m4 s6 input-field">
                                             <p class="searchable_label">Project</p>
@@ -826,7 +826,7 @@
 							
                                
                                
-                                <div class="col m2">
+                                <div class="col m3">
                                 	
                                 	<table border="1" id="appendLastUpdateRows" style="border: 1px solid black;border-collapse: collapse;">
                                 		<thead><tr><th style="border: 1px solid black;border-collapse: collapse;">Last Update Structures</th></tr></thead>
@@ -1105,6 +1105,9 @@
         });		
 	}
 	
+	var structureArray=new Array();
+	var activityidArray=new Array();
+	var componentArray=new Array();
 	
 	function getLastUpdateRows()
 	{
@@ -1115,8 +1118,20 @@
                 if (data.length > 0) {
                 	var html="";
                     $.each(data, function (i, val) {
-                    	html=html+"<tr><td style='border: 1px solid black;border-collapse: collapse;'><a href='#' onClick='bindData("+val.activity_id+");'>"+val.structure+"</a></td></tr>";
+                    		if(structureArray.indexOf(val.structure)=="-1")
+                    		{
+                    			structureArray.push(val.structure);
+                    			activityidArray.push(val.activity_id);
+                    			componentArray.push(val.strip_chart_component);
+                    		}
                     });
+                    	for(var t=0;t<structureArray.length;t++)
+                    	{
+                    			if(t<3)
+                    			{
+                    				html=html+"<tr><td style='border: 1px solid black;border-collapse: collapse;text-align:left;'><a href='#' onClick='bindData("+activityidArray[t]+");' style='text-decoration: underline;color:#006699;'>"+structureArray[t]+" --> "+componentArray[t]+"</a></td></tr>";
+                    			}
+                    	}
                     $("#appendLastUpdateRows tbody").append(html);
                 }
                 $('.searchable').select2();

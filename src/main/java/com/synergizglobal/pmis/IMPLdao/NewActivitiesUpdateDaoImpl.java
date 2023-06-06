@@ -2708,11 +2708,11 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 	public List<StripChart> getLastUpdateRows(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "select distinct structure,p6_activity_id as activity_id from p6_activities a " + 
+			String qry = "select distinct structure,p6_activity_id as activity_id,component as strip_chart_component from p6_activities a " + 
 					"left join structure s on s.structure_id=a.structure_id_fk " + 
 					"where p6_activity_id in( " + 
 					"select distinct p6_activity_id_fk from ( " + 
-					"select top 3 p6_activity_id_fk from p6_validation where created_by_user_id_fk=? order by progress_id desc) as a)";
+					"select top 40 p6_activity_id_fk from p6_validation where created_by_user_id_fk=? order by progress_id desc) as a)";
 			int arrSize = 1;
 			
 			

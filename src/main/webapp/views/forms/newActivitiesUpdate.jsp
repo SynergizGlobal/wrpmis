@@ -1141,7 +1141,8 @@
 	
 	function bindData(activity_id)
 	{
-		 var myParams = { activity_id: activity_id };
+		getContracts();
+		var myParams = { activity_id: activity_id };
         $.ajax({
             url: "<%=request.getContextPath()%>/ajax/bindData",
             data:myParams,cache: false,async: false,
@@ -1158,6 +1159,25 @@
             }
         });		
 	}	
+	
+	function getContracts()
+	{
+		$.ajax({
+            url: "<%=request.getContextPath()%>/ajax/getNewActivitiesUpdateContractsList",
+            cache: false,async: false,
+            success: function (data) {
+                if (data.length > 0) {
+                    $.each(data, function (i, val) {
+                        	var contract_name = '';
+                        	if ($.trim(val.contract_short_name) != '') { contract_name =  $.trim(val.contract_short_name) }
+
+                            $("#contract_id_fk").append('<option name="'+val.work_id_fk+'" value="' + val.contract_id + '">' + $.trim(contract_name) + '</option>');
+                    });
+                }
+                $('.searchable').select2();
+            }
+        });
+	}
 	
     $(document).ready(function () {
    	    $('.modal').modal();   

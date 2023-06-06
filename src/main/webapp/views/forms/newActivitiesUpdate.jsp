@@ -829,7 +829,7 @@
                                 <div class="col m3">
                                 	
                                 	<table border="1" id="appendLastUpdateRows" style="border: 1px solid black;border-collapse: collapse;">
-                                		<thead><tr><th style="border: 1px solid black;border-collapse: collapse;">Last Update Structures</th></tr></thead>
+                                		<thead><tr><th style="border: 1px solid black;border-collapse: collapse;">Latest Updated Structure --> Component</th></tr></thead>
                                 		<tbody></tbody>
                                 	</table>
                                 

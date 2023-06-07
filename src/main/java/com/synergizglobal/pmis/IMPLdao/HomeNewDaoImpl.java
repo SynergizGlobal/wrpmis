@@ -78,7 +78,7 @@ public class HomeNewDaoImpl implements HomeNewDao{
 			
 			for (Project project : objsList) {		
 				List<Work> worksList = new ArrayList<Work>();
-				if(project.getProject_id().equals("P08")) {
+				/*if(project.getProject_id().equals("P08")) {
 					String projectsQry = "select project_id,project_name from project where project_id in('P06','P07')";
 					List<Project> cr_wr_projects = jdbcTemplate.query( projectsQry,new Object[] {}, new BeanPropertyRowMapper<Project>(Project.class));	
 					for (Project project_temp : cr_wr_projects) {
@@ -101,7 +101,7 @@ public class HomeNewDaoImpl implements HomeNewDao{
 						}						
 						worksList.add(work);
 					}
-				}
+				}*/
 				
 				List<Project> projectInfoList = jdbcTemplate.query( projectDetailsQry, new Object[] {project.getProject_id(),project.getProject_id()}, new BeanPropertyRowMapper<Project>(Project.class));
 				for (Project projectInfo : projectInfoList) {

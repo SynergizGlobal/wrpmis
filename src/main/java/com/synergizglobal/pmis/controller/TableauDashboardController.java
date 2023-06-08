@@ -168,12 +168,12 @@ String clientIpMap=tObj.getExternalIpAddress();
 							weburl="pmis.mrvc.gov.in:8000";
 						}				
 
-						tableauUrl =mainUrl[0]+"//"+weburl +"/"+ url[1]+CommonConstants.TABLEAU_PARAMS;
+						tableauUrl =mainUrl[0]+"//"+weburl +"/"+ url[1]+CommonConstants.TABLEAU_PARAMS+"&:embed=y";
 							
 					}
 										
 				
-				//String tableauUrl = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS;
+				//String tableauUrl1 = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS;
 				vo.setTableauUrl(tableauUrl);
 				vo.setTableauTrustedToken(trustedTokenId);
 			}
@@ -291,11 +291,11 @@ String clientIpMap=tObj.getExternalIpAddress();
 							weburl="pmis.mrvc.gov.in:8000";
 						}				
 
-						tableauUrl =mainUrl[0]+"//"+weburl +"/"+ url[1]+CommonConstants.TABLEAU_PARAMS;
+						tableauUrl =mainUrl[0]+"//"+weburl +"/"+ url[1]+CommonConstants.TABLEAU_PARAMS+"&:embed=y";
 							
 					}					
 				
-				//String tableauUrl = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS;
+				//String tableauUrl1 = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS;
 				vo.setTableauUrl(tableauUrl);
 				vo.setTableauTrustedToken(trustedTokenId);
 			}

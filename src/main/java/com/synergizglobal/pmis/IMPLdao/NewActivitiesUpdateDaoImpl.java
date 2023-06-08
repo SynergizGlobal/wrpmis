@@ -1145,14 +1145,21 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 										    insertStmt.setString(k++, obj.getCreated_by_user_id_fk());
 										    insertStmt.setString(k++, obj.getRemarks());
 										    
-										    
-										    if(!StringUtils.isEmpty(obj.getActualScopes()[i])) 
+										    if( obj.getActualScopes().length==0)
 										    {
-										    	insertStmt.setString(k++, obj.getActualScopes().length > 0 ?obj.getActualScopes()[i]:"0");
+										    	insertStmt.setString(k++, "0");
 										    }
 										    else
 										    {
-										    	insertStmt.setString(k++, "0");
+										    
+											    if(!StringUtils.isEmpty(obj.getActualScopes()[i])) 
+											    {
+											    	insertStmt.setString(k++, obj.getActualScopes().length > 0 ?obj.getActualScopes()[i]:"0");
+											    }
+											    else
+											    {
+											    	insertStmt.setString(k++, "0");
+											    }
 										    }
 									    	
 									    	

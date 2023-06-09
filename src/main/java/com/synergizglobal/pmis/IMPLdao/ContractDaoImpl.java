@@ -1039,7 +1039,7 @@ public class ContractDaoImpl implements ContractDao {
 		try{
 			String maxIdQry = "SELECT top 1 CONCAT(SUBSTRING(contract_id, 1, LEN(contract_id)-4),'"+department_code+"'," + 
 					"IIF(" + 
-					"SUBSTRING(CAST(MAX(SUBSTRING(contract_id, CHARINDEX('EN',contract_id)+LEN('EN'), LEN(contract_id)))+1 AS VARCHAR),0,3)>CHARINDEX('EN',contract_id)+LEN('EN'),SUBSTRING(CAST(MAX(SUBSTRING(contract_id, CHARINDEX('EN',contract_id)+LEN('EN'), LEN(contract_id)))+1 AS VARCHAR),0,3),CONCAT('0',SUBSTRING(CAST(MAX(SUBSTRING(contract_id, CHARINDEX('EN',contract_id)+LEN('EN'), LEN(contract_id)))+1 AS VARCHAR),0,3)))" + 
+					"SUBSTRING(CAST(MAX(SUBSTRING(contract_id, CHARINDEX('"+department_code+"',contract_id)+LEN('"+department_code+"'), LEN(contract_id)))+1 AS VARCHAR),0,3)>CHARINDEX('"+department_code+"',contract_id)+LEN('"+department_code+"'),SUBSTRING(CAST(MAX(SUBSTRING(contract_id, CHARINDEX('"+department_code+"',contract_id)+LEN('"+department_code+"'), LEN(contract_id)))+1 AS VARCHAR),0,3),CONCAT('0',SUBSTRING(CAST(MAX(SUBSTRING(contract_id, CHARINDEX('"+department_code+"',contract_id)+LEN('"+department_code+"'), LEN(contract_id)))+1 AS VARCHAR),0,3)))" + 
 					"" + 
 					") AS maxId FROM contract WHERE contract_id LIKE ? group by contract_id ORDER BY maxId desc ";
 			stmt = con.prepareStatement(maxIdQry);

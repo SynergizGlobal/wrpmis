@@ -102,10 +102,10 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 				qry = qry + " and structure = ?";
 				arrSize++;
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk()) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+			/*if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk()) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				qry = qry + " and department_fk = ?";
 				arrSize++;
-			}
+			}*/
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUpdated_by_user_id_fk())) {
 				qry = qry + " and created_by_user_id_fk = ?";
 				arrSize++;
@@ -153,9 +153,9 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure())) {
 				pValues[i++] = obj.getStructure();
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk()) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
+			/*if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk()) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				pValues[i++] = obj.getDepartment_fk();
-			}
+			}*/
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getUpdated_by_user_id_fk())) {
 				pValues[i++] = obj.getUpdated_by_user_id_fk();
 			}

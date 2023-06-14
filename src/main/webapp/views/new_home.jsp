@@ -1376,14 +1376,30 @@ margin-right: 0rem;
 	                    <div class="row">
 	                    	<ul class="">
 	                    	<c:forEach var="project" items="${projects }">
-		                        <a href="javascript:getProjectOverview('${project.project_id }');">
-		                        	<li class="col s6 m4 l4 text-align-left">
-		                            <div id="diamond">
-									    <div class="btn diamond">
-									         <span>${project.project_name }</span>
-									    </div>
-									</div>
-		                        </li></a>
+                                <c:choose>
+                        			<c:when test="${project.project_id eq 'P08'}">
+			                        <a href="http://203.153.40.44:8000/views/OtherworksExpenditure/Dashboard1?:showAppBanner=false&:display_count=n&:showVizHome=n&:origin=viz_share_link">
+			                        	<li class="col s6 m4 l4 text-align-left">
+			                            <div id="diamond">
+										    <div class="btn diamond">
+										         <span>${project.project_name }</span>
+										    </div>
+										</div>
+			                        </li></a>     
+                        			</c:when>
+                        			<c:otherwise>
+			                        <a href="javascript:getProjectOverview('${project.project_id }');">
+			                        	<li class="col s6 m4 l4 text-align-left">
+			                            <div id="diamond">
+										    <div class="btn diamond">
+										         <span>${project.project_name }</span>
+										    </div>
+										</div>
+			                        </li></a>     
+                        			</c:otherwise>
+                        		</c:choose>                      	
+	                    	
+
 	                        </c:forEach>
 	                    </ul>
 	                    </div>                    

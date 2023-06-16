@@ -87,6 +87,18 @@ public class OverviewDashboardController {
 		return model;
 	}
 	
+	@RequestMapping(value="/OtherWorks",method= {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView otherWorks(HttpSession session,HttpServletRequest request) {
+		ModelAndView model = new ModelAndView();
+		try {
+		    model.setViewName(PageConstants.otherWorks);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("otherWorks : " + e.getMessage());
+		}
+		return model;
+	}	
+	
 	
 	@RequestMapping(value = "/ajax/getAIIBDashboardURL", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody

@@ -598,7 +598,7 @@ font-size:22px ;
 	        			   
 	         			   filters = filters + '<div class="filterHolder">'
 						         			+ '<label><b>'+value.filter_label_name+'</b></label>'
-						         			+ '<select class="searchable" filters_table_alias_name='+value.filters_table_alias_name+' filter_id='+value.filter_id+' name="'+filter_column+'" id="'+filter_column+'" onchange="getSelectedOption('+filterIds+','+dashboardIdTemp+');">'
+						         			+ '<select class="searchable" filters_table_alias_name='+value.filters_table_alias_name+' filter_id='+value.filter_id+' name="'+filter_column+'" id="'+filter_column+'" onchange=getSelectedOption('+filterIds+','+dashboardIdTemp+',"'+filter_column+'");>'
 						         			//+ '<option value="">All</option>'
 	
 						         			if((value.is_first_option_selected != 'YES')){
@@ -660,7 +660,7 @@ font-size:22px ;
       	 }
 	 }
 	
-	 function getSelectedOption(filterIds,dashboardId){
+	 function getSelectedOption(filterIds,dashboardId,clm){
 		 $(".page-loader").show();	 
 		 var show_left_menu = '';	 
 		 var params = "";
@@ -670,7 +670,7 @@ font-size:22px ;
 	      	 ids = filterIds.split(",");
 		 }
 		 
-	     getFilteredOptions(filterIds,dashboardId);
+	     getFilteredOptions(filterIds,dashboardId,clm);
 	     $(".page-loader").show();
 	    
 		 for(var  i=0;i<ids.length;i++){
@@ -737,8 +737,9 @@ font-size:22px ;
 		      $("#filter-item-holder").html("");
 	   	 }
 	 }
+	 var getItemArray=new Array();
 	 
-	 function getFilteredOptions(filterIds,dashboardId){
+	 function getFilteredOptions(filterIds,dashboardId,clm){
 		 $(".page-loader").show();
 		 
 		 var ids = [];
@@ -772,6 +773,15 @@ font-size:22px ;
 			 
 			 var filter_id_temp = $('#'+id).attr("filter_id");
 			 
+			 	for(var k=0;k<getItemArray.length;k++)
+				 {
+				 
+			 			if($("#"+getItemArray[k]).val()!="" && getItemArray[k]!=clm)
+			 			{
+						 	$("#"+getItemArray[k]).val("");
+			 			}
+				 }
+			 
 			 if($.trim(val) == ''){
 				 //$("#"+id+" option:not(:first)").remove();
 				 $("#"+id+" option").remove();
@@ -782,7 +792,12 @@ font-size:22px ;
 			            async: false,
 			            dataType: 'json',
 			            success: function (data){
-			         	   if(data.length){
+			         	   if(data.length){   
+			         		  if(getItemArray.indexOf(id)==-1)
+			         			  {
+			         				getItemArray.push(id);
+			         			  }
+			         		  
 			         		   $.each( data, function( index, value ){
 			         			  var filterOptions = value.filter;
 			         			  var length = filterOptions.length;

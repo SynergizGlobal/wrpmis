@@ -1939,10 +1939,21 @@
  	            	 					if($.trim(val.scope)==$.trim(val.completed)){
             	 							disDisabled="readonly";
             	 						}
-		 	            	 			html +='<td data-head="Planned Start" class="input-field"><input disabled id="planned_start'+num+'" name="planned_start" type="text" class="validate datepicker-max" value="' + $.trim(val.planned_start) + '"><button type="button" id="planned_start'+num+'_icon" class="datepicker-max-button"></button><span id="planned_startError" class="error-msg" ></span></td>'
-		 	            	 			+'<td data-head="Planned Finish" class="input-field"><input disabled id="planned_finish'+num+'" name="planned_finish" type="text" class="validate datepicker-max" value="' + $.trim(val.planned_finish) + '"><button type="button" id="planned_finish'+num+'_icon" class="datepicker-max-button"></button><span id="planned_finishError" class="error-msg" ></span></td>'
-		 	            	 			+'<td data-head="Expected Start" class="input-field"><input disabled id="start'+num+'" name="start" type="text" class="validate datepicker-max" value="' + $.trim(val.start) + '"><button type="button" id="start'+num+'_icon" class="datepicker-max-button"></button><span id="startError" class="error-msg" ></span></td>'
-		 	            	 			+'<td data-head="Expected Finish" class="input-field"><input disabled id="finish'+num+'" name="finish" type="text" class="validate datepicker-max" value="' + $.trim(val.finish) + '"><button type="button" id="finish'+num+'_icon" class="datepicker-max-button"></button><span id="finishError" class="error-msg" ></span></td>'
+ 	            	 			
+ 	            	 				if("${sessionScope.USER_ROLE_NAME}"=='Data Admin')
+ 	            	 				{
+		 	            	 			html +='<td data-head="Planned Start" class="input-field"><input  id="planned_start'+num+'" name="planned_start" type="text" class="validate datepicker-max" value="' + $.trim(val.planned_start) + '"><button type="button" id="planned_start'+num+'_icon" class="datepicker-max-button"></button><span id="planned_startError" class="error-msg" ></span></td>'
+		 	            	 			+'<td data-head="Planned Finish" class="input-field"><input  id="planned_finish'+num+'" name="planned_finish" type="text" class="validate datepicker-max" value="' + $.trim(val.planned_finish) + '"><button type="button" id="planned_finish'+num+'_icon" class="datepicker-max-button"></button><span id="planned_finishError" class="error-msg" ></span></td>'
+		 	            	 			+'<td data-head="Expected Start" class="input-field"><input  id="start'+num+'" name="start" type="text" class="validate datepicker-max" value="' + $.trim(val.start) + '"><button type="button" id="start'+num+'_icon" class="datepicker-max-button"></button><span id="startError" class="error-msg" ></span></td>'
+		 	            	 			+'<td data-head="Expected Finish" class="input-field"><input  id="finish'+num+'" name="finish" type="text" class="validate datepicker-max" value="' + $.trim(val.finish) + '"><button type="button" id="finish'+num+'_icon" class="datepicker-max-button"></button><span id="finishError" class="error-msg" ></span></td>';
+ 	            	 				}
+ 	            	 				else
+	            	 					{
+			 	            	 			html +='<td data-head="Planned Start" class="input-field"><input  disabled id="planned_start'+num+'" name="planned_start" type="text" class="validate datepicker-max" value="' + $.trim(val.planned_start) + '"><button type="button" id="planned_start'+num+'_icon" class="datepicker-max-button"></button><span id="planned_startError" class="error-msg" ></span></td>'
+			 	            	 			+'<td data-head="Planned Finish" class="input-field"><input  disabled id="planned_finish'+num+'" name="planned_finish" type="text" class="validate datepicker-max" value="' + $.trim(val.planned_finish) + '"><button type="button" id="planned_finish'+num+'_icon" class="datepicker-max-button"></button><span id="planned_finishError" class="error-msg" ></span></td>'
+			 	            	 			+'<td data-head="Expected Start" class="input-field"><input  disabled id="start'+num+'" name="start" type="text" class="validate datepicker-max" value="' + $.trim(val.start) + '"><button type="button" id="start'+num+'_icon" class="datepicker-max-button"></button><span id="startError" class="error-msg" ></span></td>'
+			 	            	 			+'<td data-head="Expected Finish" class="input-field"><input  disabled id="finish'+num+'" name="finish" type="text" class="validate datepicker-max" value="' + $.trim(val.finish) + '"><button type="button" id="finish'+num+'_icon" class="datepicker-max-button"></button><span id="finishError" class="error-msg" ></span></td>';	            	 					
+	            	 					}
 
 		 	            	 			//+'<td data-head="Scope" class="input-field"><span><input type="text" min="0" name="scope" id="scope'+num+'"  value="' + $.trim(val.scope) + '"></span>';
 		 	            	 	/* }else{ 
@@ -2162,7 +2173,7 @@
      //update button functionality
      function updateProgress(){
 			var checkValidate=0;
-     		if("${sessionScope.USER_ROLE_NAME}"=='IT Admin'){
+     		//if("${sessionScope.USER_ROLE_NAME}"=='IT Admin'){
 	    		 var num = document.getElementById("table").rows.length;
 	    		 var tbleLen=num-1;
 	    		 
@@ -2174,6 +2185,11 @@
 	    			 var s4=document.getElementById("planned_finish"+i).value;
 	    			 var s5=document.getElementById("actualScopes"+i).value;
 	    			 
+	    			 
+	    			 var s6=document.getElementById("start"+i).value;
+	    			 var s7=document.getElementById("finish"+i).value;
+	    			 
+	    			 
 	 			     if(parseFloat(s1)<parseFloat(s2)){
 	    		    	alert("Scope Should be greater than or equal to Completed in row "+(i+1));
 	   		    	 	return false;
@@ -2183,9 +2199,16 @@
 	   		    	 	return false;	    			        		
 		        	 }
 		        	 if (process(s4) < process(s3)){
-  		    	 	 	alert("Planned Finish Should be greater than or equal to Planned Start in row "+(i+1));
+  		    	 	 	alert("Baseline Finish Should be greater than or equal to Baseline Start in row "+(i+1));
 	   		    	 	return false;
 		        	 } 
+		        	 
+		        	 if (process(s7) < process(s6)){
+	  		    	 	 	alert("Expected Finish Should be greater than or equal to Expected Start in row "+(i+1));
+		   		    	 	return false;
+			        	 } 
+		        	 
+		        	 
 	    			 if($("#actualScopes"+i).val()!="" && $("#actualScopes"+i).val()!=0){
 	    				checkValidate=1;
     				 }	
@@ -2201,7 +2224,7 @@
          	 		}
     				
 	    		 }
-    		}
+    		//}
     		if(checkValidate==0 && "${sessionScope.USER_ROLE_NAME}"=='IT Admin'){
     			 var y = document.getElementById("progress_date");
     			 y.type= "hidden";    			

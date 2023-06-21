@@ -704,14 +704,14 @@
 	 
 }
 .bg{
-	    background-image: url(/pmis/resources/images/new-background-railway-3.png);
+/* 	    background-image: url(/pmis/resources/images/new-background-railway-3.png);
 	    background-repeat: no-repeat;
 	    position: absolute;
 	    width: 100%;
 	    height: 45%;
 	    top: 45%;
 	    background-size: cover;
-	    z-index: 0;
+	    z-index: 0; */
 }
 /* .gr-bg{
 	background: linear-gradient(to top, rgba(255, 255, 255, 1), rgba(101, 150, 255, .75));

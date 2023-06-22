@@ -708,6 +708,7 @@ font-size:22px ;
 	            }
 	     });
 		 if($.trim(show_left_menu) == 'Yes' && $.trim(filterIds) != ''){
+			 
 	   		   	   if($('.main-menu-collapse #accordion').html()=="")
 	   			   {
 	   		   		   $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m10");
@@ -718,26 +719,32 @@ font-size:22px ;
    		   		   }
 	   		   $("#menu-item-holder").show();
 	   	 }else if($.trim(show_left_menu) == 'Yes'){
-	   			if($("#filter-item-holder").html()=="" && $("#menu-item-holder").html()=="")
+	   		 
+	   			if($("#filter-item-holder").html()=="" && $("#accordion").html()=="")
 	   			{
+	   				
 	 	   		   $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m12");
 	   			}
-	   			else if($("#filter-item-holder").html()=="")
+	   			else if($("#filter-item-holder").html()=="" && $("#accordion").html()!="")
    				{
-	 	   		   $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m12");
+	   				
+	 	   		   $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m10");
    				}
 	   			else
 	   				{
-	   					$("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m10");
+	   				
+	   					$("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m12");
 	   				}
 	   		   $("#menu-item-holder").show();
 	   		   $("#filter-item-holder").hide();
 		       $("#filter-item-holder").html("");
 	   	 }else if(($.trim(show_left_menu) == 'No' || $.trim(show_left_menu) == '') && $.trim(filterIds) != ''){
+	   		
  		      $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m10");
 		      $("#menu-item-holder").hide();
 		      $("#filter-item-holder").show();
 	   	 }else {
+	   		
  		      $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m12");
 		      $("#menu-item-holder").hide();
 		      $("#filter-item-holder").hide();

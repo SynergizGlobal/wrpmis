@@ -22,7 +22,7 @@
 			width: 100% !important;
 		}
 		.ui-icon, .ui-widget-content .ui-icon{
-			display:none;
+			display:none;		
 		}
 		.ui-state-active .ui-icon, .ui-button:active .ui-icon{
 			display:none;
@@ -250,11 +250,7 @@ font-size:22px ;
 				<iframe id="dashboardOpen" name="dashboardOpen" frameborder="1" marginheight="0" marginwidth="0" title="data visualization" allowtransparency="true" allowfullscreen="true" class="timeline_body" src="" ></iframe>
 	    	</div>    	
 	    	
-	    	<div class="col m2 s12" id="filter-item-holder" style="display:none;">
-		    	<!-- <div class="clearHolder">
-		    		<button class="btn waves-effect waves-light t-c" onclick="clearFilter();">Clear Filters</button>
-		    	</div> -->
-	    	</div>
+	    	<div class="col m2 s12" id="filter-item-holder" style="display:none;"></div>
 		</div>
 
 		<div class="page-loader" style="display: none;">
@@ -722,7 +718,14 @@ font-size:22px ;
    		   		   }
 	   		   $("#menu-item-holder").show();
 	   	 }else if($.trim(show_left_menu) == 'Yes'){
-	   		   $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m10");
+	   			if($("#filter-item-holder").html()=="")
+	   			{
+	 	   		   $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m12");
+	   			}
+	   			else
+   				{
+	 	   		   $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m10");
+   				}
 	   		   $("#menu-item-holder").show();
 	   		   $("#filter-item-holder").hide();
 		       $("#filter-item-holder").html("");

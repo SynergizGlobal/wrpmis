@@ -1378,7 +1378,7 @@ margin-right: 0rem;
 	                    	<c:forEach var="project" items="${projects }">
                                 <c:choose>
                         			<c:when test="${project.project_id eq 'P08'}">
-			                        <a href="/pmis/OtherWorks">
+			                        <a href="OtherWorks">
 			                        	<li class="col s6 m4 l4 text-align-left">
 			                            <div id="diamond">
 										    <div class="btn diamond">

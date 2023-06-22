@@ -281,7 +281,16 @@ b, strong {
   <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
   <script>
   $(".page-loader").show();
-  var url="http://203.153.40.44:8000/views/OtherworksExpenditure/Dashboard1?:showAppBanner=false&:display_count=n&:showVizHome=n&:origin=viz_share_link";
+  var str = window.location.pathname.replace(/^\/([^\/]*).*$/, '$1');
+  var url="";
+  	  if(str=="pmis")
+	  {
+  		url="http://203.153.40.44:8000/views/OtherworksExpenditure/Dashboard1?:showAppBanner=false&:display_count=n&:showVizHome=n&:origin=viz_share_link";
+	  }
+  	  else if(str=="pmis_qa")
+	  {
+    		url="http://203.153.40.44:8000/#/views/OtherworksExpenditureqa/Dashboard1?:display_count=n&:iid=1&:origin=viz_share_link&:showAppBanner=false&:showVizHome=n";
+  	  }
 	 $.ajax({
    		url: "<%=request.getContextPath()%>/ajax/getAIIBDashboardURL",
          type: 'POST',

@@ -289,7 +289,7 @@ b, strong {
 	  }
   	  else if(str=="pmis_qa")
 	  {
-    		url="http://203.153.40.44:8000/#/views/OtherworksExpenditureqa/Dashboard1?:display_count=n&:iid=1&:origin=viz_share_link&:showAppBanner=false&:showVizHome=n";
+    		url="http://203.153.40.44:8000/views/OtherworksExpenditureqa/Dashboard1?:showAppBanner=false&:display_count=n&:showVizHome=n&:origin=viz_share_link";
   	  }
 	 $.ajax({
    		url: "<%=request.getContextPath()%>/ajax/getAIIBDashboardURL",

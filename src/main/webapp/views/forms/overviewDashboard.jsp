@@ -718,14 +718,18 @@ font-size:22px ;
    		   		   }
 	   		   $("#menu-item-holder").show();
 	   	 }else if($.trim(show_left_menu) == 'Yes'){
-	   			if($("#filter-item-holder").html()=="")
+	   			if($("#filter-item-holder").html()=="" && $("#menu-item-holder").html()=="")
 	   			{
 	 	   		   $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m12");
 	   			}
-	   			else
+	   			else if($("#filter-item-holder").html()=="")
    				{
-	 	   		   $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m10");
+	 	   		   $("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m12");
    				}
+	   			else
+	   				{
+	   					$("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m10");
+	   				}
 	   		   $("#menu-item-holder").show();
 	   		   $("#filter-item-holder").hide();
 		       $("#filter-item-holder").html("");

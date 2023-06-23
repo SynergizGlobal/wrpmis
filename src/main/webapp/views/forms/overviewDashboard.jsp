@@ -732,8 +732,14 @@ font-size:22px ;
    				}
 	   			else
 	   				{
-	   				
-	   					$("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m12");
+	   					if($("#filter-item-holder").html()=="")
+	   						{
+	   							$("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m12");
+	   						}
+	   					else
+	   						{
+	   							$("#tableau-item-holder").removeClass("m10 m8 m12").addClass("m10");
+	   						}
 	   				}
 	   		   $("#menu-item-holder").show();
 	   		   $("#filter-item-holder").hide();
@@ -789,7 +795,6 @@ font-size:22px ;
 			 
 			 	for(var k=0;k<getItemArray.length;k++)
 				 {
-				 
 			 			if($("#"+getItemArray[k]).val()!="" && getItemArray[k]!=clm)
 			 			{
 						 	$("#"+getItemArray[k]).val("");

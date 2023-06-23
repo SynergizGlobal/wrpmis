@@ -1302,10 +1302,10 @@ public class ExpenditureController {
 						double Str7=Double.parseDouble(!StringUtils.isEmpty(eObj.getIgst_tds())?eObj.getIgst_tds():"0")*Double.parseDouble(!StringUtils.isEmpty(eObj.getIgst_tds_units())?eObj.getIgst_tds_units():"0");
 						if(Str7!=0.0){cell.setCellValue(Str7);}else {cell.setCellValue("");}
 						
-						cell = row.createCell(c++);
+						/*cell = row.createCell(c++);
 						cell.setCellStyle(sectionValueStyle);
 						double Str8=Double.parseDouble(!StringUtils.isEmpty(eObj.getVat_wct())?eObj.getVat_wct():"0")*Double.parseDouble(!StringUtils.isEmpty(eObj.getVat_wct_units())?eObj.getVat_wct_units():"0");
-						if(Str8!=0.0){cell.setCellValue(Str8);}else {cell.setCellValue("");}
+						if(Str8!=0.0){cell.setCellValue(Str8);}else {cell.setCellValue("");}*/
 						
 						cell = row.createCell(c++);
 						cell.setCellStyle(sectionValueStyle);
@@ -1318,6 +1318,28 @@ public class ExpenditureController {
 						if(Str10!=0.0){cell.setCellValue(Str10);}else {cell.setCellValue("");}
 						
 						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(eObj.getCess_on_building());	
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(eObj.getEst_charges_on_cess());	
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(eObj.getCgst_output());
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionStyle);
+						cell.setCellValue(eObj.getSgst_output());	
+						
+						
+						cell = row.createCell(c++);
+						cell.setCellStyle(sectionValueStyle);
+						double Str91=Double.parseDouble(!StringUtils.isEmpty(eObj.getVat_wct())?eObj.getVat_wct():"0")*Double.parseDouble(!StringUtils.isEmpty(eObj.getVat_wct_units())?eObj.getVat_wct_units():"0");
+						if(Str91!=0.0){cell.setCellValue(Str91);}else {cell.setCellValue("");}					
+						
+						cell = row.createCell(c++);
 						cell.setCellStyle(sectionValueStyle);
 						double Str11=Double.parseDouble(!StringUtils.isEmpty(eObj.getAmount_withheld())?eObj.getAmount_withheld():"0")*Double.parseDouble(!StringUtils.isEmpty(eObj.getAmount_withheld_units())?eObj.getAmount_withheld_units():"0");
 						if(Str11!=0.0){cell.setCellValue(Str11);}else {cell.setCellValue("");}
@@ -1327,21 +1349,11 @@ public class ExpenditureController {
 						cell.setCellStyle(sectionStyle);
 						cell.setCellValue(eObj.getRemarks());
 						
-						cell = row.createCell(c++);
-						cell.setCellStyle(sectionStyle);
-						cell.setCellValue(eObj.getCess_on_building());
+
 						
-						cell = row.createCell(c++);
-						cell.setCellStyle(sectionStyle);
-						cell.setCellValue(eObj.getEst_charges_on_cess());
+
 						
-						cell = row.createCell(c++);
-						cell.setCellStyle(sectionStyle);
-						cell.setCellValue(eObj.getCgst_output());
-						
-						cell = row.createCell(c++);
-						cell.setCellStyle(sectionStyle);
-						cell.setCellValue(eObj.getSgst_output());
+
 						rowNo++;
 	            }
 	            for(int columnIndex = 0; columnIndex < 100; columnIndex++) {

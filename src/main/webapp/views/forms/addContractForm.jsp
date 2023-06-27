@@ -720,7 +720,7 @@
 			                    </div>
 							</div>
 
-
+							<div class="row"></div>
                             <div class="row">
                                 <div class="col s12 m12 l12 center-align">
                                         <button type="button" onclick="addContract();" class="btn waves-effect waves-light bg-m" style="min-width:90px;" id="btnAdd">Add</button>
@@ -729,7 +729,7 @@
                                          <span style="width:300px;"></span>
                                         <a href="<%=request.getContextPath()%>/contract"class="btn waves-effect waves-light bg-s">Cancel</a>
                                 </div>
-                                <BR><BR>
+                                <BR><BR><BR><BR><BR>
                             </div>
                        </div>
                         </form>

@@ -1104,7 +1104,36 @@ public class UAVDaoImpl implements UAVDao {
 		    	}
 		    	if(w==4)
 		    	{
-		    		String[] Str3=line.split(":");
+		    		
+		    		int latiIndex3=line.indexOf("[ct :");
+		    		int next3 = line.indexOf("]", latiIndex3+1);
+		    		
+		    		String GRT3=line.substring(latiIndex3+5, next3);
+		    		ar.add(GRT3);
+		    		
+		    		
+		    		int latiIndex=line.indexOf("[latitude :");
+		    		int next = line.indexOf("]", latiIndex+1);
+		    		
+		    		String GRT=line.substring(latiIndex+11, next);
+		    		ar.add(GRT);
+		    		
+
+		    		int latiIndex1=line.indexOf("[longtitude :");
+		    		int next1 = line.indexOf("]", latiIndex1+1);
+		    		
+		    		String GRT1=line.substring(latiIndex1+13, next1);
+		    		ar.add(GRT1);
+		    		
+		    		int latiIndex2=line.indexOf("[altitude:");
+		    		int next2 = line.indexOf("]", latiIndex2+1);
+		    		
+		    		String GRT2=line.substring(latiIndex2+11, next2);
+		    		ar.add(GRT2);
+		    		
+		    		
+		    		
+		    		/*String[] Str3=line.split(":");
 		    		String First=Str3[0].replaceAll("latitude", "");
 		    		String FirstStr=First.replaceAll("[\\[\\]]", "");
 		    		String GRT=FirstStr.replaceAll("          ", "");
@@ -1125,6 +1154,7 @@ public class UAVDaoImpl implements UAVDao {
 		    		altitude= Fourth;
 		    		
 		    		ar.add(altitude);
+		    		*/
 
 				        String insertQuery = "Insert into uav_srt_file_data_structure (video_file_name,s_no,time_from,time_to,difftime,date,latitude,longitude,altitude,work,created_date,survey_date,framecnt,cnt_number) values (?,?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP,?,?,?)";
 				        stmt = con.prepareStatement(insertQuery,Statement.RETURN_GENERATED_KEYS);
@@ -1175,13 +1205,13 @@ public class UAVDaoImpl implements UAVDao {
 			}
 			else
 			{
-				String qry = "DELETE FROM uav_srt_file_data_structure WHERE work=? and survey_date=? ";
+				/*String qry = "DELETE FROM uav_srt_file_data_structure WHERE work=? and survey_date=? ";
 				PreparedStatement deleteExistingIDStmt = con.prepareStatement(qry);
 			
 				deleteExistingIDStmt.setString(1, obj.getWork_id_fk());
 				deleteExistingIDStmt.setString(2, obj.getSurvey_date());
 				
-				int c = deleteExistingIDStmt.executeUpdate(); 	
+				int c = deleteExistingIDStmt.executeUpdate(); */	
 				
 				String line = null;
 			    File file = new File( CommonConstants2.DRONE_SURVEY_SAVING_PATH+"/"+fileName);
@@ -1233,7 +1263,35 @@ public class UAVDaoImpl implements UAVDao {
 			    	}
 			    	if(w==4)
 			    	{
-			    		String[] Str3=line.split(":");
+			    		
+			    		int latiIndex3=line.indexOf("[ct :");
+			    		int next3 = line.indexOf("]", latiIndex3+1);
+			    		
+			    		String GRT3=line.substring(latiIndex3+5, next3);
+			    		ar.add(GRT3);
+			    		
+			    		
+			    		int latiIndex=line.indexOf("[latitude :");
+			    		int next = line.indexOf("]", latiIndex+1);
+			    		
+			    		String GRT=line.substring(latiIndex+11, next);
+			    		ar.add(GRT);
+			    		
+
+			    		int latiIndex1=line.indexOf("[longtitude :");
+			    		int next1 = line.indexOf("]", latiIndex1+1);
+			    		
+			    		String GRT1=line.substring(latiIndex1+13, next1);
+			    		ar.add(GRT1);
+			    		
+			    		int latiIndex2=line.indexOf("[altitude:");
+			    		int next2 = line.indexOf("]", latiIndex2+1);
+			    		
+			    		String GRT2=line.substring(latiIndex2+11, next2);
+			    		ar.add(GRT2);
+			    		
+			    		
+			    		/*String[] Str3=line.split(":");
 			    		String First=Str3[0].replaceAll("latitude", "");
 			    		String FirstStr=First.replaceAll("[\\[\\]]", "");
 			    		String GRT=FirstStr.replaceAll("          ", "");
@@ -1253,7 +1311,7 @@ public class UAVDaoImpl implements UAVDao {
 			    		String Fourth=Str3[3].replaceAll("]", "");
 			    		altitude= Fourth;
 			    		
-			    		ar.add(altitude);
+			    		ar.add(altitude);*/
 
 					        String insertQuery = "Insert into uav_srt_file_data_structure (video_file_name,s_no,time_from,time_to,difftime,date,latitude,longitude,altitude,work,created_date,survey_date,framecnt,cnt_number) values (?,?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP,?,?,?)";
 					        stmt = con.prepareStatement(insertQuery,Statement.RETURN_GENERATED_KEYS);
@@ -1398,13 +1456,13 @@ public class UAVDaoImpl implements UAVDao {
 			{
 				
 				
-				String qry = "DELETE FROM annotation_file_data_structure WHERE work=? and survey_date=? ";
+				/*String qry = "DELETE FROM annotation_file_data_structure WHERE work=? and survey_date=? ";
 				PreparedStatement deleteExistingIDStmt = con.prepareStatement(qry);
 			
 				deleteExistingIDStmt.setString(1, obj.getWork_id_fk());
 				deleteExistingIDStmt.setString(2, obj.getSurvey_date());
 				
-				int c = deleteExistingIDStmt.executeUpdate(); 		
+				int c = deleteExistingIDStmt.executeUpdate();*/		
 				
 				
 		        String insertQuery = "Insert into annotation_file_data_structure (video_file_name,latitude,longitude,structure,work,created_date,survey_date) "

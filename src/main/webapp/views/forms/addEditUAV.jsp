@@ -402,10 +402,10 @@
          
             // Allowing file type
             var allowedExtensions =
-                    /(\.txt)$/i;
+                    /(\.SRT)$/i;
              
             if (!allowedExtensions.exec(filePath)) {
-                alert('Invalid file type-File type is txt only');
+                alert('Invalid file type-File type is SRT only');
                 fileInput.value = '';
                 return false;
             }        	

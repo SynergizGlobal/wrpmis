@@ -226,7 +226,7 @@ public class ExpenditureDaoImpl implements ExpenditureDao{
 			connection = dataSource.getConnection();
 			String qry = "SELECT expenditure_id,w.project_id_fk,p.project_name,c.work_id_fk,w.work_name,e.contract_id_fk,"
 					+ "c.contract_name,ledger_account,e.contractor_name,FORMAT(date,'dd-MM-yyyy') AS date,voucher_type , " + 
-					"voucher_no,narration,cast(net_paid as decimal(10,2)) as net_paid,cast(gross_work_done as decimal(10,2)) as gross_work_done,sd_payable,contractor_income_tax,"+
+					"voucher_no,narration,cast(net_paid as decimal(18,2)) as net_paid,cast(gross_work_done as decimal(18,2)) as gross_work_done,sd_payable,contractor_income_tax,"+
 					"cgst_tds,sgst_tds,igst_tds,vat_wct,mob_advance,[interest on_mob_adv],cast(cess_on_building as varchar) as cess_on_building,cast(est_charges_on_cess as varchar) as est_charges_on_cess,cast(cgst_output as varchar) as cgst_output,cast(sgst_output as varchar) as sgst_output," + 
 					"amount_withheld,e.remarks,e.net_paid_units,e.gross_work_done_units,e.sd_payable_units,e.contractor_income_tax_units,"
 					+ "e.cgst_tds_units,e.sgst_tds_units,e.igst_tds_units,e.vat_wct_units,e.mob_advance_units,"

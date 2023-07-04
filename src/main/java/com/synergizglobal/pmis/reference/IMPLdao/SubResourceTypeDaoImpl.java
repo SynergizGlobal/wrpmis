@@ -56,7 +56,7 @@ public class SubResourceTypeDaoImpl implements SubResourceTypeDao{
 		List<TrainingType> objsList1 = null;
 		TrainingType sObj =null; 
 		try {
-			String qry ="select id, resource_type_fk, STRING_AGG(sub_resource_type) as sub_resource_type from sub_resource_type group by resource_type_fk ";
+			String qry ="select id, resource_type_fk, STRING_AGG(sub_resource_type,'') as sub_resource_type from sub_resource_type group by resource_type_fk,id ";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<TrainingType>(TrainingType.class));		
 			obj.setdList1(objsList);

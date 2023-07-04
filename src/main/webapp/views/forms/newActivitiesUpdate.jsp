@@ -1940,7 +1940,7 @@
             	 							disDisabled="readonly";
             	 						}
  	            	 			
- 	            	 				if("${sessionScope.USER_ROLE_NAME}"=='Data Admin')
+ 	            	 				if("${sessionScope.USER_ROLE_NAME}"=='Data Admin' || "${sessionScope.USER_ROLE_NAME}"=='IT Admin')
  	            	 				{
 		 	            	 			html +='<td data-head="Planned Start" class="input-field"><input  id="planned_start'+num+'" name="planned_start" type="text" class="validate datepicker-max" value="' + $.trim(val.planned_start) + '"><button type="button" id="planned_start'+num+'_icon" class="datepicker-max-button"></button><span id="planned_startError" class="error-msg" ></span></td>'
 		 	            	 			+'<td data-head="Planned Finish" class="input-field"><input  id="planned_finish'+num+'" name="planned_finish" type="text" class="validate datepicker-max" value="' + $.trim(val.planned_finish) + '"><button type="button" id="planned_finish'+num+'_icon" class="datepicker-max-button"></button><span id="planned_finishError" class="error-msg" ></span></td>'

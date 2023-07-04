@@ -1356,7 +1356,7 @@ margin-right: 0rem;
 	                </div>
 	                <div class="col l1 m1 s2">
 	                <div class="map-btn-holder"><br><br><br>
-	                        <a class="waves-effect waves-light btn modal-trigger" href="#mapmodal" title="click to see map">
+	                        <a target="_new" class="waves-effect waves-light btn modal-trigger" href="/pmis/resources/images/final_map.png" title="click to see map">
 	                            <!-- <span class="material-icons">map</span> -->
 	                            <i class="fa fa-globe"></i>
 	                        </a>

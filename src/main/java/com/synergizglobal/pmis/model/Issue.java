@@ -12,7 +12,7 @@ public class Issue {
 	reported_by_user_id,responsible_person_user_id,escalated_to_user_id,reported_by_designation,responsible_person_designation,escalated_to_designation,
 	reported_by_email_id,responsible_person_email_id,escalated_to_email_id,assigned_date,contract_hod_email_id,contract_dyhod_email_id,contract_type_fk,
 	dy_hod_user_id_fk,user_type,user_role_code,user_id,file_name,message_id,remarks_old,remarks_new,hod_designation,comment,existingAssignedPerson, 
-	dyHod_designation,pending_Since,other_org_resposible_person_name,other_org_resposible_person_designation,created_by,alerts_user_id,modified_by,modified_date;
+	dyHod_designation,pending_Since,other_org_resposible_person_name,other_org_resposible_person_designation,created_by,alerts_user_id,modified_by,modified_date,structure,component;
 	
 	private String contract_hod_user_id,contract_dyhod_user_id,created_by_user_id_fk,created_date,created_by_email_id,
 	existing_status_fk,mail_body_header,existing_responsible_person,existing_escalated_to,issue_file_type_fk,issue_file_type,
@@ -887,6 +887,22 @@ public class Issue {
 
 	public void setLa_id(String la_id) {
 		this.la_id = la_id;
+	}
+
+	public String getStructure() {
+		return structure;
+	}
+
+	public void setStructure(String structure) {
+		this.structure = structure;
+	}
+
+	public String getComponent() {
+		return component;
+	}
+
+	public void setComponent(String component) {
+		this.component = component;
 	}
 	
 }

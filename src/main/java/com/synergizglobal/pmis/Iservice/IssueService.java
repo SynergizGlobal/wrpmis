@@ -61,6 +61,10 @@ public interface IssueService {
 
 	List<Issue> getIssueFileTypes() throws Exception;
 	List<Issue> getPendingIssues(Issue obj) throws Exception;
+	
+	List<Issue> getStructures(Issue obj) throws Exception;
+
+	List<Issue> getComponents(Issue obj) throws Exception;
 
 
 }

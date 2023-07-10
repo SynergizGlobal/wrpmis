@@ -574,8 +574,8 @@ public class TrainingDaoImpl implements TrainingDao {
 				String deleteQry1 = "DELETE from training_session where training_id_fk = :training_id";
 				paramSource = new BeanPropertySqlParameterSource(obj);
 				count = namedParamJdbcTemplate.update(deleteQry1, paramSource);
-				String insertQry1 = "INSERT into  training_session (training_id_fk,session_no,Date,start_time,end_time,No_of_Participants,No_of_Absentees,remarks,file_name) "
-						+ "VALUES (?,?,?,?,?,?,?,?,?)";
+				String insertQry1 = "INSERT into  training_session (training_id_fk,session_no,start_time,end_time,No_of_Participants,No_of_Absentees,remarks,file_name) "
+						+ "VALUES (?,?,?,?,?,?,?,?)";
 				insertStmt = con.prepareStatement(insertQry1, Statement.RETURN_GENERATED_KEYS);
 
 				int arraySize = 0;
@@ -583,13 +583,6 @@ public class TrainingDaoImpl implements TrainingDao {
 					obj.setSession_nos(CommonMethods.replaceEmptyByNullInSringArray(obj.getSession_nos()));
 					if (arraySize < obj.getSession_nos().length) {
 						arraySize = obj.getSession_nos().length;
-					}
-				}
-
-				if (!StringUtils.isEmpty(obj.getCreated_dates()) && obj.getCreated_dates().length > 0) {
-					obj.setCreated_dates(CommonMethods.replaceEmptyByNullInSringArray(obj.getCreated_dates()));
-					if (arraySize < obj.getCreated_dates().length) {
-						arraySize = obj.getCreated_dates().length;
 					}
 				}
 
@@ -650,8 +643,7 @@ public class TrainingDaoImpl implements TrainingDao {
 
 						insertStmt.setString(p++, (obj.getTraining_id()));
 						insertStmt.setString(p++, (obj.getSession_nos().length > 0) ? obj.getSession_nos()[i] : null);
-						insertStmt.setString(p++,
-								(obj.getCreated_dates().length > 0) ? obj.getCreated_dates()[i] : null);
+
 						insertStmt.setString(p++, DateParser
 								.parseDateTime((obj.getStart_times().length > 0) ? obj.getStart_times()[i] : null));
 						insertStmt.setString(p++, DateParser
@@ -685,7 +677,7 @@ public class TrainingDaoImpl implements TrainingDao {
 						if (obj.getNew_attendees() != null && obj.getNew_attendees().length > 0) {
 							for (int j = 0; j < obj.getNew_attendees().length; j++) {
 								int k = 1;
-								System.out.println(obj);
+
 								String role_code = "SU";
 								obj.setUser_type_fk("Training");
 								obj.setUser_name(obj.getNew_attendees()[j]);
@@ -827,8 +819,8 @@ public class TrainingDaoImpl implements TrainingDao {
 
 			if (flag) {
 				if (!StringUtils.isEmpty(obj.getSession_nos()) && obj.getSession_nos().length > 0) {
-					String insertQry1 = "INSERT into  training_session (training_id_fk,session_no,Date,start_time,end_time,No_of_Participants,No_of_Absentees,remarks,file_name) "
-							+ "VALUES (?,?,?,?,?,?,?,?,?)";
+					String insertQry1 = "INSERT into  training_session (training_id_fk,session_no,start_time,end_time,No_of_Participants,No_of_Absentees,remarks,file_name) "
+							+ "VALUES (?,?,?,?,?,?,?,?)";
 					insertStmt = con.prepareStatement(insertQry1, Statement.RETURN_GENERATED_KEYS);
 
 					int arraySize = 0;
@@ -836,13 +828,6 @@ public class TrainingDaoImpl implements TrainingDao {
 						obj.setSession_nos(CommonMethods.replaceEmptyByNullInSringArray(obj.getSession_nos()));
 						if (arraySize < obj.getSession_nos().length) {
 							arraySize = obj.getSession_nos().length;
-						}
-					}
-
-					if (!StringUtils.isEmpty(obj.getCreated_dates()) && obj.getCreated_dates().length > 0) {
-						obj.setCreated_dates(CommonMethods.replaceEmptyByNullInSringArray(obj.getCreated_dates()));
-						if (arraySize < obj.getCreated_dates().length) {
-							arraySize = obj.getCreated_dates().length;
 						}
 					}
 
@@ -905,8 +890,7 @@ public class TrainingDaoImpl implements TrainingDao {
 							insertStmt.setString(p++, (obj.getTraining_id()));
 							insertStmt.setString(p++,
 									(obj.getSession_nos().length > 0) ? obj.getSession_nos()[i] : null);
-							insertStmt.setString(p++,
-									(obj.getCreated_dates().length > 0) ? obj.getCreated_dates()[i] : null);
+
 							insertStmt.setString(p++, DateParser
 									.parseDateTime((obj.getStart_times().length > 0) ? obj.getStart_times()[i] : null));
 							insertStmt.setString(p++, DateParser

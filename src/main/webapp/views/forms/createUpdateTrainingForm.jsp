@@ -512,7 +512,7 @@
                                     <label for="training_center"> Training Center </label> -->
 								<textarea id="training_center" name="training_center" rows="2"
 									class="pmis-textarea-h pmis-textarea">${trainingDetails.training_center }</textarea>
-								<label for="training_center">Training Center</label>
+								<label for="training_center">Location</label>
 							</div>
 							 
 						</div>
@@ -530,7 +530,7 @@
 								</div>
 								
 								<div class="col s6 m4 l4 input-field" id="contractors-dropdown" style="display:none;">
-								    <p class="searchable_label">Select Option: </p>
+								    <p class="searchable_label">Contractor Name: </p>
 								    <select class="searchable validate-dropdown"
 								        name="contract_short_name_fk" id="contract_short_name_fk">
 								        <option value="">Select Option</option>
@@ -571,7 +571,7 @@
 								</select> 
 								<span id="training_category_fkError" class="error-msg"></span>
 							</div>  -->	
-					
+					<!--  -->	
 					
 				<div class="row">
     				<div class="col m12 s12">        
@@ -582,7 +582,7 @@
 									<thead>
 										<tr>
 											<th class="fw-110">Session No<span class="required">*</span></th>	
-											<th>Date <span class="required">*</span></th>
+							<!--  		    <th>Date <span class="required">*</span></th> -->
 											<th>Start Time<span class="required">*</span></th>
 											<th>End Time<span class="required">*</span></th>
 											<th>No.of Participants<span class="required">*</span></th>
@@ -610,10 +610,11 @@
 														 <input id="session_nos${index.count }" name="session_nos" type="text" class="validate" value="${tObj.session_no }"
 															placeholder="Session No"> </td>
 															
-														<td data-head="Data" class="input-field">
+							<!-- 	  					    <td data-head="Data" class="input-field">
 														<input id="created_dates${index.count }" name="created_dates" type="text" class="validate datepicker" value="${tObj.date }" style="width: 110px;">
 										                <button type="button" id="created_date${index.count }_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
-										                 <span id="dateError" class="error-msg" ></span> </td>
+										                 <span id="dateError" class="error-msg" ></span> </td> -->	
+														
 														<td data-head="Start Time"  class="input-field"><div class="pos-rel">
 														<input id="start_times${index.count }"  name="start_times" type="text" class="validate timepicker" value="${tObj.start_time}"placeholder="Start Time" style="width: 200px;">
 															<button type="button" id="start_time_icon${index.count }"><i class="fa fa-clock-o"></i></button></div></td>
@@ -876,7 +877,7 @@
 																											</td>
 																											
 																						
-																																																				<td data-head="Department" class="input-field">
+																									<td data-head="Department" class="input-field">
 																									<input type="hidden" class="no-reset" name="training_session_id_fks" id="new_training_session_id_fks0${indexx.count }${index.count }${indexx.count }"
 																										 value="${dObj.training_session_id_fk}" />
 																										<input type="hidden" class="no-reset" name="training_attendees_ids" id="new_training_attendees_ids0${indexx.count }${index.count }${indexx.count }"
@@ -1105,10 +1106,10 @@
 											<tr id="trainingRow0">
 													<td data-head="Session No"  class="input-field" ><input type="hidden" name= "training_session_ids" id="training_session_ids0"  value="${tObj.training_session_id}"/>
 														<input id="session_nos0" name="session_nos" type="text" class="validate" placeholder="Session No"></td>
-													<td data-head="Date" class="input-field">
-													<input id="created_date0" name="created_dates" type="text" class="validate datepicker" placeholder="Date">
+											<!--    <td data-head="Date" class="input-field">
+												 	<input id="created_date0" name="created_dates" type="text" class="validate datepicker" placeholder="Date">
 									                <button type="button" id="created_date0_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
-									                <span id="dateError" class="error-msg" ></span></td>	
+									                <span id="dateError" class="error-msg" ></span></td>	-->	
 													
 													<td data-head="Start Time"  class="input-field"><div class="pos-rel"><input id="start_times0" name="start_times" type="text" class="validate timepicker" value="${tObj.start_times}" placeholder="Start Time">
 													<button type="button" id="start_time_icon0"><i class="fa fa-clock-o"></i></button></div></td>
@@ -2247,11 +2248,7 @@
           '<td data-head="Session No" class="input-field"><input type="hidden" name= "training_session_ids" id="training_session_ids'+rNo+'"  />'+
           ' <input id="session_nos'+ rNo +'" name="session_nos" type="text" class="validate" placeholder="Session No"> </td>' +
           
-          ' <td data-head="Data" class="input-field">'
-			+'<input id="created_date'+rNo+'" name="created_dates" type="text" class="validate datepicker" placeholder="date">'
-			+'<button type="button" id="created_date'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>'
-          +'<span id="dateError" class="error-msg" ></span></td>'+
-          
+              
            '<td data-head="Start Time"  class="input-field"><div class="pos-rel"><input id="start_times'+ rNo +'" name="start_times" type="text" class="validate timepicker"  placeholder="Start Time">' +
          	  '<button type="button" id="start_times_icon'+ rNo +'"><i class="fa fa-clock-o"></i></button></div> </td>' +
          	 
@@ -2594,7 +2591,7 @@
     	if(validator.form()){ // validation perform
 			$(".page-loader").show();
 			$('form input[name=session_nos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-			$('form input[name=created_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+			
 			$('form input[name=start_times]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 			$('form input[name=end_times]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 			$('form input[name=num_participants]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
@@ -2641,8 +2638,6 @@
 	  				  maxlength: 10
   			 	  },"session_nos":{
   			 		required: true
-  			 	  },"created_dates":{
-  			 		required: true
   			 	  },"start_times":{
   			 		required: true
   			 	  },"end_times":{
@@ -2678,8 +2673,6 @@
   		 			minlength : "please enter valid number",
   		 			minlength : "please enter valid number"
   		 	  	 },"session_nos": {
-  		 			required: ' This field is required'
-  		 	  	 },"created_dates": {
   		 			required: ' This field is required'
   		 	  	 },"start_times": {
   		 			required: ' This field is required'

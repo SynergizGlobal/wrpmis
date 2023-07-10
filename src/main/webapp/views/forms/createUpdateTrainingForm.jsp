@@ -526,7 +526,7 @@
 									<c:if test="${trainingDetails.provide_to_fk  eq obj.provide_to_fk }">selected</c:if>>${obj.provide_to_fk }</option>
 									</c:forEach>
 								    </select> 
-								    <span id="training_typeError" class="error-msg"></span>
+								       <span id="training_typeError" class="error-msg"></span>
 								</div>
 								
 								<div class="col s6 m4 l4 input-field" id="contractors-dropdown" style="display:none;">

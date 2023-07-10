@@ -1473,7 +1473,7 @@ public class TrainingDaoImpl implements TrainingDao {
 		} catch (Exception e) {
 			throw new Exception(e);
 		}
-		return objsList;
+		 return objsList;
 	}
 
 	@Override

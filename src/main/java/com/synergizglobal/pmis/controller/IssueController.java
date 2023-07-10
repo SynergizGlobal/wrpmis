@@ -285,6 +285,15 @@ public class IssueController {
 			List<Issue> issueFileTypes = issueService.getIssueFileTypes();
 			model.addObject("issueFileTypes", issueFileTypes);
 			
+			
+			List<Issue> structures = issueService.getStructures(obj);
+			model.addObject("structures", structures);
+			
+			
+			List<Issue> components = issueService.getComponents(obj);
+			model.addObject("components", components);			
+			
+			
 			model.addObject("iObj", obj);
 			
 		} catch (Exception e) {

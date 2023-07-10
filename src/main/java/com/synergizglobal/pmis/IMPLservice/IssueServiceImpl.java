@@ -152,5 +152,15 @@ public class IssueServiceImpl implements IssueService {
 	@Override
 	public List<Issue> getPendingIssues(Issue obj) throws Exception {
 		return issueDao.getPendingIssues(obj);
+	}
+
+	@Override
+	public List<Issue> getStructures(Issue obj) throws Exception {
+		return issueDao.getStructures(obj);
+	}
+
+	@Override
+	public List<Issue> getComponents(Issue obj) throws Exception {
+		return issueDao.getComponents(obj);
 	}	
 }

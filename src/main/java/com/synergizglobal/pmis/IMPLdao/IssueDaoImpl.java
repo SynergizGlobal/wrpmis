@@ -239,7 +239,7 @@ public class IssueDaoImpl implements IssueDao {
 	public List<Issue> getRailwayList() throws Exception {
 		List<Issue> objsList = null;
 		try {
-			String qry = "SELECT railway_id,railway_name from railway WHERE railway_id <> 'Con' ORDER BY case when railway_id='MRVC' then 1\r\n" + 
+			String qry = "SELECT railway_id,railway_name from railway WHERE railway_id <> 'Con' ORDER BY case when railway_id='MRVC' then 1" + 
 					"when railway_id='CR' then 2 when railway_id='WR' then 3 when railway_id='Others' then 4 end asc";
 			objsList = jdbcTemplate.query(qry, new BeanPropertyRowMapper<Issue>(Issue.class));
 		} catch (Exception e) {
@@ -434,11 +434,11 @@ public class IssueDaoImpl implements IssueDao {
 			String qry = "INSERT INTO issue"
 					+ "(contract_id_fk,title,date,location,reported_by,responsible_person,"
 					+ "priority_fk,category_fk,status_fk,assigned_date,corrective_measure,resolved_date,escalated_to,remarks,"
-					+ "zonal_railway_fk,other_organization,other_org_resposible_person_name,other_org_resposible_person_designation,escalation_date,created_by_user_id_fk,created_date,description,la_id) "
+					+ "zonal_railway_fk,other_organization,other_org_resposible_person_name,other_org_resposible_person_designation,escalation_date,created_by_user_id_fk,created_date,description,la_id,structure,component) "
 					+ "VALUES "
 					+ "(:contract_id_fk,:title,:date,:location,:reported_by,:responsible_person,:"
 					+ "priority_fk,:category_fk,:status_fk,:assigned_date,:corrective_measure,:resolved_date,:escalated_to,:remarks,"
-					+ ":zonal_railway_fk,:other_organization,:other_org_resposible_person_name,:other_org_resposible_person_designation,:escalation_date,:created_by_user_id_fk,CURRENT_TIMESTAMP,:description,:la_id)";
+					+ ":zonal_railway_fk,:other_organization,:other_org_resposible_person_name,:other_org_resposible_person_designation,:escalation_date,:created_by_user_id_fk,CURRENT_TIMESTAMP,:description,:la_id,:structure,:component)";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
 			KeyHolder keyHolder = new GeneratedKeyHolder();
 			int count = template.update(qry, paramSource, keyHolder);
@@ -560,7 +560,7 @@ public class IssueDaoImpl implements IssueDao {
 					+ "priority_fk,category_fk,status_fk,corrective_measure,FORMAT(resolved_date,'dd-MM-yyyy') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,work_short_name,c.contract_short_name,project_id_fk,project_name,i.zonal_railway_fk,r.railway_name,other_organization,"
 					+ "FORMAT(escalation_date,'dd-MM-yyyy') AS escalation_date,FORMAT(assigned_date,'dd-MM-yyyy') AS assigned_date, "
 					+ "u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,"
-					+ "c.hod_user_id_fk,c.dy_hod_user_id_fk,i.status_fk as existing_status_fk,other_org_resposible_person_name,other_org_resposible_person_designation,description  "
+					+ "c.hod_user_id_fk,c.dy_hod_user_id_fk,i.status_fk as existing_status_fk,other_org_resposible_person_name,other_org_resposible_person_designation,description,structure,component  "
 					+ "from issue i " + "left outer join [user] u2 on i.responsible_person = u2.user_id "
 					+ "left outer join [user] u3 on i.escalated_to = u3.user_id "
 					+ "LEFT OUTER JOIN contract c ON i.contract_id_fk  = c.contract_id "
@@ -666,7 +666,7 @@ public class IssueDaoImpl implements IssueDao {
 					+ "priority_fk=:priority_fk,category_fk=:category_fk,status_fk=:status_fk,corrective_measure=:corrective_measure,resolved_date=:resolved_date,escalated_to=:escalated_to,"
 					+ "remarks=:remarks,zonal_railway_fk=:zonal_railway_fk,"
 					+ "other_organization=:other_organization,other_org_resposible_person_name=:other_org_resposible_person_name,other_org_resposible_person_designation=:other_org_resposible_person_designation,"
-					+ "escalation_date=:escalation_date,assigned_date=:assigned_date,description=:description,modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP " + "where issue_id = :issue_id";
+					+ "escalation_date=:escalation_date,assigned_date=:assigned_date,description=:description,modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP,structure=:structure,component=:component " + "where issue_id = :issue_id";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
 			int count = template.update(qry, paramSource);
 			if (count > 0) {
@@ -1946,60 +1946,60 @@ public class IssueDaoImpl implements IssueDao {
 				arrSize++;
 				arrSize++;
 			}
-			qry = qry + " group by u.designation,hod_user_id_fk ORDER BY case when u.designation='ED Civil' then 1 \r\n" + 
-					"   when u.designation='CPM I' then 2 \r\n" + 
-					"   when u.designation='CPM II' then 3\r\n" + 
-					"   when u.designation='CPM III' then 4 \r\n" + 
-					"   when u.designation='CPM V' then 5\r\n" + 
-					"   when u.designation='CE' then 6 \r\n" + 
-					"   when u.designation='ED S&T' then 7 \r\n" + 
-					"   when u.designation='CSTE' then 8\r\n" + 
-					"   when u.designation='GM Electrical' then 9\r\n" + 
-					"   when u.designation='CEE Project I' then 10\r\n" + 
-					"   when u.designation='CEE Project II' then 11\r\n" + 
-					"   when u.designation='ED Finance & Planning' then 12\r\n" + 
-					"   when u.designation='AGM Civil' then 13\r\n" + 
-					"   when u.designation='DyCPM Civil' then 14\r\n" + 
-					"   when u.designation='DyCPM III' then 15\r\n" + 
-					"   when u.designation='DyCPM V' then 16\r\n" + 
-					"   when u.designation='DyCE EE' then 17\r\n" + 
-					"   when u.designation='DyCE Badlapur' then 18\r\n" + 
-					"   when u.designation='DyCPM Pune' then 19\r\n" + 
-					"   when u.designation='DyCE Proj' then 20\r\n" + 
-					"   when u.designation='DyCEE I' then 21\r\n" + 
-					"   when u.designation='DyCEE Projects' then 22\r\n" + 
-					"   when u.designation='DyCEE PSI' then 23\r\n" + 
-					"   when u.designation='DyCSTE I' then 24\r\n" + 
-					"   when u.designation='DyCSTE IT' then 25\r\n" + 
-					"   when u.designation='DyCSTE Projects' then 26\r\n" + 
-					"   when u.designation='XEN Consultant' then 27\r\n" + 
-					"   when u.designation='AEN Adhoc' then 28\r\n" + 
-					"   when u.designation='AEN Project' then 29\r\n" + 
-					"   when u.designation='AEN P-Way' then 30\r\n" + 
-					"   when u.designation='AEN' then 31\r\n" + 
-					"   when u.designation='Sr Manager Signal' then 32 \r\n" + 
-					"   when u.designation='Manager Signal' then 33\r\n" + 
-					"   when u.designation='Manager Civil' then 34 \r\n" + 
-					"   when u.designation='Manager OHE' then 35\r\n" + 
-					"   when u.designation='Manager GS' then 36\r\n" + 
-					"   when u.designation='Manager Finance' then 37\r\n" + 
-					"   when u.designation='Planning Manager' then 38\r\n" + 
-					"   when u.designation='Manager Project' then 39\r\n" + 
-					"   when u.designation='Manager' then 40 \r\n" + 
-					"   when u.designation='SSE' then 41\r\n" + 
-					"   when u.designation='SSE Project' then 42\r\n" + 
-					"   when u.designation='SSE Works' then 43\r\n" + 
-					"   when u.designation='SSE Drg' then 44\r\n" + 
-					"   when u.designation='SSE BR' then 45\r\n" + 
-					"   when u.designation='SSE P-Way' then 46\r\n" + 
-					"   when u.designation='SSE OHE' then 47\r\n" + 
-					"   when u.designation='SPE' then 48\r\n" + 
-					"   when u.designation='PE' then 49\r\n" + 
-					"   when u.designation='JE' then 50\r\n" + 
-					"   when u.designation='Demo-HOD-Elec' then 51\r\n" + 
-					"   when u.designation='Demo-HOD-Engg' then 52\r\n" + 
-					"   when u.designation='Demo-HOD-S&T' then 53\r\n" + 
-					"\r\n" + 
+			qry = qry + " group by u.designation,hod_user_id_fk ORDER BY case when u.designation='ED Civil' then 1 " + 
+					"   when u.designation='CPM I' then 2 " + 
+					"   when u.designation='CPM II' then 3" + 
+					"   when u.designation='CPM III' then 4 " + 
+					"   when u.designation='CPM V' then 5" + 
+					"   when u.designation='CE' then 6 " + 
+					"   when u.designation='ED S&T' then 7 " + 
+					"   when u.designation='CSTE' then 8" + 
+					"   when u.designation='GM Electrical' then 9" + 
+					"   when u.designation='CEE Project I' then 10" + 
+					"   when u.designation='CEE Project II' then 11" + 
+					"   when u.designation='ED Finance & Planning' then 12" + 
+					"   when u.designation='AGM Civil' then 13" + 
+					"   when u.designation='DyCPM Civil' then 14" + 
+					"   when u.designation='DyCPM III' then 15" + 
+					"   when u.designation='DyCPM V' then 16" + 
+					"   when u.designation='DyCE EE' then 17" + 
+					"   when u.designation='DyCE Badlapur' then 18" + 
+					"   when u.designation='DyCPM Pune' then 19" + 
+					"   when u.designation='DyCE Proj' then 20" + 
+					"   when u.designation='DyCEE I' then 21" + 
+					"   when u.designation='DyCEE Projects' then 22" + 
+					"   when u.designation='DyCEE PSI' then 23" + 
+					"   when u.designation='DyCSTE I' then 24" + 
+					"   when u.designation='DyCSTE IT' then 25" + 
+					"   when u.designation='DyCSTE Projects' then 26" + 
+					"   when u.designation='XEN Consultant' then 27" + 
+					"   when u.designation='AEN Adhoc' then 28" + 
+					"   when u.designation='AEN Project' then 29" + 
+					"   when u.designation='AEN P-Way' then 30" + 
+					"   when u.designation='AEN' then 31" + 
+					"   when u.designation='Sr Manager Signal' then 32 " + 
+					"   when u.designation='Manager Signal' then 33" + 
+					"   when u.designation='Manager Civil' then 34 " + 
+					"   when u.designation='Manager OHE' then 35" + 
+					"   when u.designation='Manager GS' then 36" + 
+					"   when u.designation='Manager Finance' then 37" + 
+					"   when u.designation='Planning Manager' then 38" + 
+					"   when u.designation='Manager Project' then 39" + 
+					"   when u.designation='Manager' then 40 " + 
+					"   when u.designation='SSE' then 41" + 
+					"   when u.designation='SSE Project' then 42" + 
+					"   when u.designation='SSE Works' then 43" + 
+					"   when u.designation='SSE Drg' then 44" + 
+					"   when u.designation='SSE BR' then 45" + 
+					"   when u.designation='SSE P-Way' then 46" + 
+					"   when u.designation='SSE OHE' then 47" + 
+					"   when u.designation='SPE' then 48" + 
+					"   when u.designation='PE' then 49" + 
+					"   when u.designation='JE' then 50" + 
+					"   when u.designation='Demo-HOD-Elec' then 51" + 
+					"   when u.designation='Demo-HOD-Engg' then 52" + 
+					"   when u.designation='Demo-HOD-S&T' then 53" + 
+					"" + 
 					"   end asc" ;
 
 
@@ -2158,14 +2158,14 @@ public class IssueDaoImpl implements IssueDao {
 					+ "priority_fk,category_fk,status_fk,corrective_measure,FORMAT(resolved_date,'dd-MMM-yy') AS resolved_date,escalated_to,i.remarks,contract_name,work_id_fk,work_name,work_short_name,project_id_fk,project_name,i.zonal_railway_fk,r.railway_name,"
 					+ "u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,railway_name,FORMAT(assigned_date,'dd-MMM-yy') AS assigned_date,"
 					+ "c.hod_user_id_fk,c.dy_hod_user_id_fk,created_by_user_id_fk,other_organization,FORMAT(i.created_date,'dd-MMM-yy') AS created_date,FORMAT(escalation_date,'dd-MMM-yy') AS escalation_date,"
-					+ "other_org_resposible_person_name,other_org_resposible_person_designation,description,i.modified_by,FORMAT(i.modified_date,'dd-MM-yyyy') as modified_date,(select count(*) from issue i 					left outer join [user] u2 on i.responsible_person = u2.user_id \r\n"
-					+ "					left outer join [user] u3 on i.escalated_to = u3.user_id \r\n"
-					+ "					LEFT OUTER JOIN contract c ON i.contract_id_fk  = c.contract_id \r\n"
-					+ "					left outer join [user] u on c.hod_user_id_fk = u.user_id \r\n"
-					+ "					LEFT OUTER JOIN work w ON c.work_id_fk  = w.work_id \r\n"
-					+ "					LEFT OUTER JOIN project p ON w.project_id_fk  = p.project_id \r\n"
-					+ "					LEFT OUTER JOIN department d ON c.department_fk  = d.department \r\n"
-					+ "					LEFT OUTER JOIN railway r ON i.zonal_railway_fk  = r.railway_id \r\n"
+					+ "other_org_resposible_person_name,other_org_resposible_person_designation,description,i.modified_by,FORMAT(i.modified_date,'dd-MM-yyyy') as modified_date,(select count(*) from issue i 					left outer join [user] u2 on i.responsible_person = u2.user_id "
+					+ "					left outer join [user] u3 on i.escalated_to = u3.user_id "
+					+ "					LEFT OUTER JOIN contract c ON i.contract_id_fk  = c.contract_id "
+					+ "					left outer join [user] u on c.hod_user_id_fk = u.user_id "
+					+ "					LEFT OUTER JOIN work w ON c.work_id_fk  = w.work_id "
+					+ "					LEFT OUTER JOIN project p ON w.project_id_fk  = p.project_id "
+					+ "					LEFT OUTER JOIN department d ON c.department_fk  = d.department "
+					+ "					LEFT OUTER JOIN railway r ON i.zonal_railway_fk  = r.railway_id "
 					+ "					where issue_id is not null ) as total_issues " 
 					+ "from issue i "
 					+ "left outer join [user] u2 on i.responsible_person = u2.user_id "
@@ -2192,6 +2192,50 @@ public class IssueDaoImpl implements IssueDao {
 			objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));
 		} catch (Exception e) {
 			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Issue> getStructures(Issue obj) throws Exception {
+		List<Issue> objsList = null;
+		try {
+			String qry = "select distinct structure from activities_view ";
+			int arraSize = 0;
+			if (!StringUtils.isEmpty(obj.getContract_id())) {
+				qry = qry + "where contract_id = ? ";
+				arraSize++;
+			}
+			Object[] pValues = new Object[arraSize];
+			int i = 0;
+			if (!StringUtils.isEmpty(obj.getContract_id())) {
+				pValues[i++] = obj.getContract_id();
+			}
+			objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));
+		} catch (Exception e) {
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Issue> getComponents(Issue obj) throws Exception {
+		List<Issue> objsList = null;
+		try {
+			String qry = "select distinct component from activities_view ";
+			int arraSize = 0;
+			if (!StringUtils.isEmpty(obj.getContract_id())) {
+				qry = qry + "where contract_id = ? ";
+				arraSize++;
+			}
+			Object[] pValues = new Object[arraSize];
+			int i = 0;
+			if (!StringUtils.isEmpty(obj.getContract_id())) {
+				pValues[i++] = obj.getContract_id();
+			}
+			objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));
+		} catch (Exception e) {
 			throw new Exception(e);
 		}
 		return objsList;

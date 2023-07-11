@@ -10,9 +10,13 @@ public class UAV {
 	contract_name,fob_id,fob_name,created_by_user_id_fk,user_name,designation,isRevised,structure_type_fk,structure,
 	 task_code, structure_id_fk , from_structure_id, to_structure_id, section, line, component, component_id , original_duration,
 	unit,  component_details, remarks, created_date, modified_date, modified_by_user_id_fk,user_role_code,user_type_fk,user_id,scope, completed, weightage,project_id,project_name,work_id,
-	project_id_fk,id,survey_date,video_file_name,upload_date,time_from,	time_to,	difftime,	srt_date,	latitude,	longtitude,	altitude,		framecnt,	cnt_number;
+	project_id_fk,id,survey_date,video_file_name,upload_date,time_from,	time_to,	difftime,	srt_date,	latitude,	longtitude,	altitude,		framecnt,	cnt_number,
 	
-	private MultipartFile mp4FileUpload,srtFileUpload,annotationFileUpload;
+	from_station,to_station,station_id,station_name,filename;
+	
+	//private MultipartFile mp4FileUpload;
+	
+	private MultipartFile srtFileUpload,annotationFileUpload;
 	 
 	public String getOriginal_duration() {
 		return original_duration;
@@ -625,12 +629,36 @@ public class UAV {
 		this.cnt_number = cnt_number;
 	}
 
-	public MultipartFile getMp4FileUpload() {
-		return mp4FileUpload;
+	public String getFrom_station() {
+		return from_station;
 	}
 
-	public void setMp4FileUpload(MultipartFile mp4FileUpload) {
-		this.mp4FileUpload = mp4FileUpload;
+	public void setFrom_station(String from_station) {
+		this.from_station = from_station;
+	}
+
+	public String getTo_station() {
+		return to_station;
+	}
+
+	public void setTo_station(String to_station) {
+		this.to_station = to_station;
+	}
+
+	public String getStation_id() {
+		return station_id;
+	}
+
+	public void setStation_id(String station_id) {
+		this.station_id = station_id;
+	}
+
+	public String getStation_name() {
+		return station_name;
+	}
+
+	public void setStation_name(String station_name) {
+		this.station_name = station_name;
 	}
 
 	public MultipartFile getSrtFileUpload() {
@@ -648,5 +676,15 @@ public class UAV {
 	public void setAnnotationFileUpload(MultipartFile annotationFileUpload) {
 		this.annotationFileUpload = annotationFileUpload;
 	}
+
+	public String getFilename() {
+		return filename;
+	}
+
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+	
+	
 
 }

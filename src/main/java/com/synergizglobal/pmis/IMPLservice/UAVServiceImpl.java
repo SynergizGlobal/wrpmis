@@ -114,6 +114,12 @@ public class UAVServiceImpl implements UAVService{
 	public int uploadAnnotationData(UAV obj) throws Exception {
 		return dao.uploadAnnotationData(obj);
 	}
+
+
+	@Override
+	public List<UAV> getStationList(UAV obj) throws Exception {
+		return dao.getStationList(obj);
+	}
 	
 	
 

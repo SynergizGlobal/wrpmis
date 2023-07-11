@@ -523,6 +523,8 @@ font-size:22px ;
 				html = html+'<div class="ds-none"> <p></p> </div>';
 			}
 		});
+		var overview_work_id = '${work_id}';
+		html +='<br><button type="button" class="btn waves-effect waves-light bg-s f-w-b" style="float:right;" id="btnDroneSurvey"><a href="/pmis/work-drone-survey/'+overview_work_id+'">Drone Survey</a></button>';
 	    return html;	
 	}
     

@@ -205,6 +205,9 @@ public class UAVController {
 			List<UAV> projectsList = UAVService.getProjectsList(obj);
 			model.addObject("projectsList", projectsList);
 			
+			List<UAV> stationList = UAVService.getStationList(obj);
+			model.addObject("stationList", stationList);			
+			
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("UAV : " + e.getMessage());
@@ -338,32 +341,10 @@ public class UAVController {
 			uav.setUser_name(userName);
 			uav.setDesignation(userDesignation);
 			model.setViewName("redirect:/uav");
-			
-			if(uav.getMp4FileUpload().getSize()>0)
-			{
-			
-				if(!StringUtils.isEmpty(uav.getMp4FileUpload()))
-				{
-					int cnt=UAVService.uploadMP4Data(uav);
-					attributes.addFlashAttribute("success", "Uploaded successfully");
-				}
-			}
-			if(uav.getSrtFileUpload().getSize()>0)
-			{			
-				if(!StringUtils.isEmpty(uav.getSrtFileUpload()))
-				{
-					int cnt=UAVService.uploadSRTData(uav);
-					attributes.addFlashAttribute("success", "Uploaded successfully");
-				}
-			}
-			 if(uav.getAnnotationFileUpload().getSize()>0)
-			 {			
-				if(!StringUtils.isEmpty(uav.getAnnotationFileUpload()))
-				{
-					int cnt=UAVService.uploadAnnotationData(uav);
-					attributes.addFlashAttribute("success", "Uploaded successfully");
-				}
-			 }
+
+			int cnt1=UAVService.uploadMP4Data(uav);
+			attributes.addFlashAttribute("success", "Uploaded successfully");
+
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -558,6 +539,9 @@ public class UAVController {
 			
 			List<UAV> projectsList = UAVService.getProjectsList(uav);
 			model.addObject("projectsList", projectsList);
+			
+			List<UAV> stationList = UAVService.getStationList(uav);
+			model.addObject("stationList", stationList);			
 
 			UAV uavDetails = UAVService.getUav(uav);
 			model.addObject("uavDetails", uavDetails);
@@ -589,6 +573,9 @@ public class UAVController {
 			
 			List<UAV> projectsList = UAVService.getProjectsList(uav);
 			model.addObject("projectsList", projectsList);
+			
+			List<UAV> stationList = UAVService.getStationList(uav);
+			model.addObject("stationList", stationList);			
 			
 			UAV uavDetails = UAVService.getUav(uav);
 			model.addObject("uavDetails", uavDetails);			

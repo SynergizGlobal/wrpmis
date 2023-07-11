@@ -115,6 +115,18 @@
 		.cw-m{width: 95px !important;}
 	}
     </style>
+    
+<style>
+.action-icon{padding:5px;cursor:pointer;color:#fff}
+.table{font-size:11px;}
+.table>tbody>tr>td{padding: 2px 6px;vertical-align: middle;border:none;}
+#main-container{padding: 0px 20px 40px; width: 50%;margin:auto;}
+#upload-status-container{display:none;}
+#upload-header{height:35px;width:100%;background-color: #323254;color: #fff;padding: 8px;border-top-left-radius: 10px;border-top-right-radius: 10px;}
+#progress-bar-container{padding:20px;max-height:260px;overflow-y:auto;border:1px solid #323254;}
+::-webkit-scrollbar {background-color: #fff; width: 8px; height: 8px;}
+::-webkit-scrollbar-thumb {background-color: #C0C0C0; border-radius: 10px;}
+</style>    
 </head>
 <body>
 
@@ -176,61 +188,70 @@
 				                                    <span id="survey_dateUploadError" class="error-msg" ></span>
 				                                </div>
 				                            </div>
-				                            <div>
-				                                <div class="col s12 m4">
+				                            <div class="row">
+				                            
+				                                <div class="col s6 m4 l4 input-field offset-m2">
+					                                    <p class="searchable_label">From Station <span class="required">*</span></p>
+					                                    <select class="searchable validate-dropdown" id="from_station" name="from_station" onchange="checkStationsValidation(this.value,'From');">
+					                                        <option value="" >Select</option>
+					                                        <c:forEach var="obj" items="${stationList }">
+					                                      	   <option value= "${ obj.station_id}" <c:if test="${uavDetails.from_station eq obj.station_id}">selected</c:if>>${obj.station_name}</option>
+					                                         </c:forEach>
+					                                    </select>
+					                                    <span id="from_stationError" class="error-msg" ></span>
+				                                </div>
+				                                <div class="col s6 m4 l4 input-field offset-m2">
+				                                    <p class="searchable_label">To Station <span class="required">*</span></p>
+				                                    <select class="searchable validate-dropdown" id="to_station" name="to_station" onchange="checkStationsValidation(this.value,'To');">
+				                                        <option value="" >Select</option>
+				                                        <c:forEach var="obj" items="${stationList }">
+				                                      	   <option value= "${ obj.station_id}" <c:if test="${uavDetails.to_station eq obj.station_id}">selected</c:if>>${obj.station_name}</option>
+				                                         </c:forEach>
+				                                    </select>
+				                                    <span id="to_stationError" class="error-msg" ></span>
+				                                </div>					                            
+				                                <div class="col s6 m4 l4 input-field offset-m2">
 				                                    <div class="file-field">
 				                                        <div class="btn btn-outline bt-sh">
 				                                            <span>Upload Video </span>
 				                                            <input type="file" name="mp4FileUpload" id="mp4FileUpload"  onchange="return mp4fileValidation();" accept="video/*" value="${uavDetails.video_file_name}" /> 
+				                                            <input type="hidden" name="filename" id="filename" value="${uavDetails.video_file_name}">
 				                                        </div>
 				                                        <div class="file-path-wrapper">
 				                                            <input class="file-path validate" type="text">
 				                                        </div>
-				                                        
+        <div id="upload-status-container">
+            <div id="upload-header">
+                <span id="upload-header-text"></span>
+                <i class="action-icon fa fa-window-minimize pull-right" onclick="showHide(this)" title="minimize"></i>
+            </div>
+            <div id="progress-bar-container">
+                <table class="table">
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>				                                        
 				                                         <span id="uploadFileError" class="error-msg"></span>
 				                                    </div>
 				                                </div>
-				                                <div class="col s12 m4">
-				                                    <div class="file-field input-field">
-				                                        <div class="btn btn-outline bt-sh">
-				                                            <span>Upload SRT Text File </span>
-				                                            <input type="file" name="srtFileUpload" id="srtFileUpload" onchange="return srtfileValidation();" >
-				                                        </div>
-				                                        <div class="file-path-wrapper">
-				                                            <input class="file-path validate" type="text">
-				                                        </div>
-				                                         <span id="uploadFileError" class="error-msg"></span>
-				                                    </div>
-				                                </div>
-				                                <div class="col s12 m4">
-				                                    <div class="file-field input-field">
-				                                        <div class="btn btn-outline bt-sh">
-				                                            <span>Upload Annotation </span>
-				                                            <input type="file" name="annotationFileUpload" id="annotationFileUpload" onchange="return annotationfileValidation();" >
-				                                        </div>
-				                                        <div class="file-path-wrapper">
-				                                            <input class="file-path validate" type="text">
-				                                        </div>
-				                                         <span id="uploadFileError" class="error-msg"></span>
-				                                    </div>
-				                                </div>				                                				                                
+			                                				                                
 				                            </div>
 
 				                            <br>
 				                            <div class="row">
-				                            		<div class="col s12 m4" style="font-size: 1rem;" id="mp4Error">Mp4 Format only
-				                            		</div>
-				                            		<div class="col s12 m4" style="font-size: 1rem;" id="txtError">Txt Format only
-				                            		</div>
-				                            		<div class="col s12 m4" style="font-size: 1rem;" id="csvError">CSV Format only
+					                            	<div class="col s12 m4"></div>
+					                            	<div class="col s12 m4"></div>
+				                            		<div class="col s12 m4" style="font-size: 1rem;padding-top:0px;" id="mp4Error">Mp4 Format only
 				                            		</div>
 				                            </div>
 				                            <div class="row">
+
+				                            <div class="col s12 m4"></div>
+				                             <div class="col s12 m4"></div>
 				                            <div class="col s12 m4" id="attachFile">
 				                            
 				                             				                                          
-				                            				                                         </div> <div class="col s12 m4"></div> <div class="col s12 m4"></div>
-				                            				                                         
+				                            </div> 				                            				                                         
 				                            
 				                            </div>				                            
 				                            <div class="row">
@@ -300,6 +321,159 @@
 		
     <script>
     	var filtersMap = new Object();
+    	
+    	var totalFileCount, fileUploadCount, fileSize;
+    	
+    	
+    	 
+        /* start uploading files */
+        function startUploading() {
+            var files = document.getElementById('files').files;
+            if(files.length==0){
+                alert("Please choose at least one file and try.");
+                return;
+            }
+            fileUploadCount=0;
+            prepareProgressBarUI(files);
+             
+            // upload through ajax call     
+            uploadFile();
+        }
+         
+        /* This method will be called to prepare progress-bar UI */
+        function prepareProgressBarUI(files){
+            totalFileCount = files.length;
+            var $tbody=$("#progress-bar-container").find("tbody");
+            $tbody.empty();
+            $("#upload-header-text").html("1 of "+totalFileCount+" file(s) is uploading");
+            for(var i=0;i<totalFileCount;i++){
+                var fsize=parseFileSize(files[i].size);
+                var fname=files[i].name;
+                var bar='<tr id="progress-bar-'+i+'"><td style="width:75%"><div class="filename">'+fname+'</div>'
+                +'<div class="progress"><div class="progress-bar progress-bar-striped active" style="width:0%"></div></div></td>'
+                +'<td  style="width:25%"><span class="size-loaded"></span> '+fsize+' <span class="percent-loaded"></span></td></tr>';
+                $tbody.append(bar);
+            }
+            $("#upload-status-container").show();
+        }
+         
+        /* parse the file size in kb/mb/gb */
+        function parseFileSize(size){
+            var precision=1;
+            var factor = Math.pow(10, precision);
+            size = Math.round(size / 1024); //size in KB
+            if(size < 1000){
+                return size+" KB";
+            }else{
+                size = Number.parseFloat(size / 1024); //size in MB
+                if(size < 1000){
+                    return (Math.round(size * factor) / factor) + " MB";
+                }else{
+                    size = Number.parseFloat(size / 1024); //size in GB
+                    return (Math.round(size * factor) / factor) + " GB";
+                }
+            }
+            return 0;
+        }
+     
+        /* one by one file will be uploaded to the server by ajax call*/
+        function uploadFile() {
+            var file = document.getElementById('mp4FileUpload').files[fileUploadCount];
+            fileSize = file.size;
+            var xhr = new XMLHttpRequest();
+            var fd = new FormData();
+            fd.append("multipartFile", file);
+            xhr.upload.addEventListener("progress", onUploadProgress, false);
+            xhr.addEventListener("load", onUploadComplete, false);
+            xhr.addEventListener("error", onUploadError, false);
+            xhr.open("POST", "UploadServlet");
+            xhr.send(fd);
+             
+        }
+     
+        /* This function will continueously update the progress bar */
+        function onUploadProgress(e) {
+            if (e.lengthComputable) {
+                var percentComplete = parseInt((e.loaded) * 100 / fileSize);
+                var pbar = $('#progress-bar-'+fileUploadCount);
+                var bar=pbar.find(".progress-bar");
+                var sLoaded=pbar.find(".size-loaded");
+                var pLoaded=pbar.find(".percent-loaded");
+                bar.css("width",percentComplete + '%');
+                sLoaded.html(parseFileSize(e.loaded)+ " / ");
+                pLoaded.html("("+percentComplete+ "%)");
+            } else {
+                alert('unable to compute');
+            }
+        }
+     
+        /* This function will call when upload is completed */
+        function onUploadComplete(e, error) {
+            var pbar = $('#progress-bar-'+fileUploadCount);
+            if(error){
+                pbar.find(".progress-bar").removeClass("active").addClass("progress-bar-danger");
+            }else{
+                pbar.find(".progress-bar").removeClass("active");
+                pbar.find(".size-loaded").html('<i class="fa fa-check text-success"></i> ');
+            }
+            fileUploadCount++;
+            if (fileUploadCount < totalFileCount) {
+                //ajax call if more files are there 
+                uploadFile();
+                $("#upload-header-text").html((fileUploadCount+1)+" of "+totalFileCount+" file(s) is uploading");
+            } else {
+                $("#upload-header-text").html("File(s) uploaded successfully!");
+            }
+        }
+     
+        /* This function will call when an error come while uploading */
+        function onUploadError(e) {
+            console.error("Something went wrong!");
+            onUploadComplete(e,true);
+        }
+         
+        function showHide(ele){
+            if($(ele).hasClass('fa-window-minimize')){
+                $(ele).removeClass('fa-window-minimize').addClass('fa-window-restore').attr("title","restore");
+                $("#progress-bar-container").slideUp();
+            }else{
+                $(ele).addClass('fa-window-minimize').removeClass('fa-window-restore').attr("title","minimize");
+                $("#progress-bar-container").slideDown();
+            }
+        }   	
+    	
+    	function checkStationsValidation(selectedValue,Station)
+    	{
+    			if(Station=="From")
+    			{
+    					if($("#to_station").val()!="" && selectedValue==$("#to_station").val())
+    					{
+    						$("#from_stationError").html("From Station should not same as To Station");
+    						$("#from_station").val("");
+    						$("#from_station #select2-to_station-container").html("Select");
+    						
+    					}
+    					else
+    						{
+    							$("#from_stationError").html("");
+    						}
+    			}
+    			if(Station=="To")
+    			{
+					if($("#from_station").val()!="" && selectedValue==$("#from_station").val())
+					{
+						$("#to_stationError").html("From Station should not same as To Station");
+						$("#to_station").val("");
+						$("#to_station #select2-to_station-container").html("Select");
+					} 
+					else
+					{
+						$("#to_stationError").html("");
+					}
+    			}    			
+    	}
+    	
+    	
     	
     	var monthShortCode=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 	    var datePickerSelectAddClass = function () {
@@ -381,6 +555,7 @@
                 document.getElementById('mp4FileUpload');
              
             var filePath = fileInput.value;
+            document.getElementById('filename').value=$("#mp4FileUpload").val().split('/').pop().split('\\').pop();
          
             // Allowing file type
             var allowedExtensions =
@@ -390,7 +565,18 @@
                 alert('Invalid file type-File type is Mp4 only');
                 fileInput.value = '';
                 return false;
-            }        	
+            }  
+            
+            var files = document.getElementById('mp4FileUpload').files;
+            if(files.length==0){
+                alert("Please choose at least one file and try.");
+                return;
+            }
+            fileUploadCount=0;
+            prepareProgressBarUI(files);
+             
+            // upload through ajax call     
+            uploadFile();           
         }
         function srtfileValidation()
         {
@@ -432,24 +618,25 @@
 
 	    function uploadUAV() {
 	    	
-    		if($("#mp4FileUpload").val()!="" || $("#srtFileUpload").val()!="" || $("#annotationFileUpload").val()!="")
-   			{
-    			$("#errorUploadFile").html("");
-   			}
-    		else
-   			{
-   				$("#errorUploadFile").html("Please select atleast one file of MP4/Txt/CSV");
-   				return false;
-   			}
-	    	
-	    	if(validatorUpload.form()){ // validation perform
-				$(".page-loader").show();
-	    	
-	    	
-	    		if($("#mp4FileUpload").val())
-	    		{
+
+	    	if(validatorUpload.form()){ 
 	    		
-	    		}
+	    		if($("#mp4FileUpload").val()!="")
+	   			{
+	    			$("#errorUploadFile").html("");
+	   			}
+	    		else
+	   			{
+	    				if("${uavDetails.video_file_name}"=="")
+	    				{
+			   				$("#errorUploadFile").html("Please upload MP4 file.");
+			   				return false;
+	    				}
+	   			}
+	    		
+	    		$('#mp4FileUpload').get(0).type = 'text';
+	    		
+				$(".page-loader").show();
 				document.getElementById("uavForm").submit();
 	    	}
 		}
@@ -479,6 +666,10 @@
 	  			 		required: true
 	  			 	  },"survey_date": {
 	  		 		    required: true
+	  			 	  },"from_station": {
+	  			 		required: true
+	  			 	  },"to_station": {
+	  		 		    required: true
 	  			 	  }
 	  		 	},
 	  		    messages: {
@@ -487,6 +678,10 @@
 		  			  },"work_id_fk": {
 	  				 	required: 'This field is required',
 	  			 	  },"survey_date": {
+	  		 			required: ' This field is required'
+	  		 	  	  },"from_station": {
+	  				 	required: 'This field is required',
+	  			 	  },"to_station": {
 	  		 			required: ' This field is required'
 	  		 	  	  }
 		   		},
@@ -500,6 +695,12 @@
 					}else if(element.attr("id") == "survey_dateUpload" ){
 						document.getElementById("survey_dateUploadError").innerHTML="";
 					 	error.appendTo('#survey_dateUploadError');
+					}else if(element.attr("id") == "from_station" ){
+						document.getElementById("from_stationError").innerHTML="";
+					 	error.appendTo('#from_stationError');
+					}else if(element.attr("id") == "to_station" ){
+						document.getElementById("to_stationError").innerHTML="";
+					 	error.appendTo('#to_stationError');
 					} else if(element.attr("id") == "p6dataFileUpload" ){
 						document.getElementById("uploadFileError").innerHTML="";
 					 	error.appendTo('#uploadFileError');
@@ -510,26 +711,7 @@
 			    	form.submit();
 			    }
 			});      
-
-       
-       function addInQueProject(project_id_fk){
-	      	Object.keys(filtersMap).forEach(function (key) {
-		   		if(key.match('project_id_fk')) delete filtersMap[key];
-	   	   	});
-	      	if($.trim(project_id_fk) != ''){
-           	filtersMap["project_id_fk"] = project_id_fk;
-	      	}
-       }
-       
-       function addInQueWork(work_id){
-       	Object.keys(filtersMap).forEach(function (key) {
-	   			if(key.match('work_id')) delete filtersMap[key];
-	   		});
-       	if($.trim(work_id) != ''){
-      	    	filtersMap["work_id"] = work_id;
-       	}
-       }
-    	
+   	
 
        function getWorksList(projectId) {
        	$(".page-loader").show();

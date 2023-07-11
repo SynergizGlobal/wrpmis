@@ -564,7 +564,7 @@ public class UAVDaoImpl implements UAVDao {
 	public List<UAV> getUAVList(UAV obj, int startIndex, int offset, String searchParameter) throws Exception {
 		List<UAV> objsList = null;
 		try {
-			String qry = "select * from (select id,work as work_id,survey_date,video_file_name,created_date as upload_date,work_short_name from uav_video_data_structure u " + 
+			String qry = "select * from (select u.id,work as work_id,survey_date,video_file_name,n.station_name as from_station,n1.station_name as to_station,created_date as upload_date,work_short_name from uav_video_data_structure u inner join stationnames n on n.id=u.from_station inner join stationnames n1 on n1.id=u.to_station " + 
 					"inner join work w on w.work_id=u.work " + 
 					
 					") as a where 0=0 ";
@@ -629,14 +629,8 @@ public class UAVDaoImpl implements UAVDao {
 	public List<UAV> getWorksFilterListInUAV(UAV obj) throws Exception {
 		List<UAV> objsList = null;
 		try {
-			String qry = "select distinct work_id as work_id_fk,work_short_name from (select id,work as work_id,survey_date,video_file_name,created_date as upload_date,work_short_name from uav_srt_file_data_structure u " + 
-					"inner join work w on w.work_id=u.work " + 
-					"union all " + 
-					"SELECT id,work as work_id,survey_date,video_file_name,created_date as upload_date,work_short_name FROM uav_video_data_structure u " + 
-					"inner join work w on w.work_id=u.work " + 
-					"union all " + 
-					"select id,work as work_id,survey_date,video_file_name,created_date as upload_date,work_short_name from annotation_file_data_structure u " + 
-					"inner join work w on w.work_id=u.work) as a where 0=0  ";
+			String qry = "select distinct work_id as work_id_fk,work_short_name from (select id,work as work_id,survey_date,video_file_name,created_date as upload_date,work_short_name from uav_video_data_structure u " + 
+					"inner join work w on w.work_id=u.work ) as a where 0=0  ";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -671,15 +665,7 @@ public class UAVDaoImpl implements UAVDao {
 	public List<UAV> getSurveyDatesFilterList(UAV obj) throws Exception {
 		List<UAV> objsList = null;
 		try {
-			/*String qry = "select distinct survey_date from (select id,work as work_id,survey_date,video_file_name,created_date as upload_date,work_short_name from uav_srt_file_data_structure u " + 
-					"inner join work w on w.work_id=u.work " + 
-					"union all " + 
-					"SELECT id,work as work_id,survey_date,video_file_name,created_date as upload_date,work_short_name FROM uav_video_data_structure u " + 
-					"inner join work w on w.work_id=u.work " + 
-					"union all " + 
-					"select id,work as work_id,survey_date,video_file_name,created_date as upload_date,work_short_name from annotation_file_data_structure u " + 
-					"inner join work w on w.work_id=u.work) as a where survey_date is not null ";*/
-			String qry="select distinct u.survey_date from uav_video_data_structure u left join uav_srt_file_data_structure u1 on u1.video_file_name=u.video_file_name and u.work=u1.work and u.survey_date=u1.survey_date left join annotation_file_data_structure u2 on u2.video_file_name=u.video_file_name and u2.work=u.work and u2.survey_date=u.survey_date where 0=0  ";
+			String qry="select distinct u.survey_date from uav_video_data_structure u  where 0=0  ";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -714,7 +700,7 @@ public class UAVDaoImpl implements UAVDao {
 	public List<UAV> getSurveyDateVideoSpecifications(UAV obj) throws Exception {
 		List<UAV> objsList = null;
 		try {
-			String qry = "select top 1 u1.video_file_name,time_from,time_to,difftime,date as srt_date,latitude,longitude as longtitude,altitude,u1.work as work_id,u1.created_date,u1.survey_date,framecnt,cnt_number from uav_video_data_structure u inner join uav_srt_file_data_structure u1 on u1.video_file_name=u.video_file_name and u.work=u1.work and u.survey_date=u1.survey_date where 0=0 ";
+			String qry = "select distinct n.station_name +' to '+n1.station_name as to_station,u.video_file_name from uav_video_data_structure u inner join stationnames n on n.id=u.from_station inner join stationnames n1 on n1.id=u.to_station where 0=0  ";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -725,7 +711,13 @@ public class UAVDaoImpl implements UAVDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSurvey_date())) {
 				qry = qry + " and u.survey_date = ?";
 				arrSize++;
-			}			
+			}
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure())) {
+				qry = qry + " and n.station_name = ? and n1.station_name=?";
+				arrSize++;
+				arrSize++;
+			}				
 			
 			Object[] pValues = new Object[arrSize];
 			
@@ -736,6 +728,12 @@ public class UAVDaoImpl implements UAVDao {
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSurvey_date())) {
 				pValues[i++] = obj.getSurvey_date();
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure())) {
+				
+				String[] SplitStr=obj.getStructure().split(" to ");
+				pValues[i++] = SplitStr[0];
+				pValues[i++] = SplitStr[1];
 			}			
 			
 			objsList = jdbcTemplate.query( qry,pValues,new BeanPropertyRowMapper<UAV>(UAV.class));
@@ -749,8 +747,9 @@ public class UAVDaoImpl implements UAVDao {
 	public List<UAV> getStructuresFilterList(UAV obj) throws Exception {
 		List<UAV> objsList = null;
 		try {
-			String qry="select distinct a.structure from uav_video_data_structure u inner join uav_srt_file_data_structure u1 on u1.video_file_name=u.video_file_name and u.work=u1.work and u.survey_date=u1.survey_date inner join annotation_file_data_structure a on a.survey_date=u.survey_date and a.work=u.work and a.video_file_name=u.video_file_name where 0=0 ";
-			
+			String qry = "select distinct n.station_name +' to '+n1.station_name as to_station from uav_video_data_structure u inner join stationnames n on n.id=u.from_station inner join stationnames n1 on n1.id=u.to_station " + 
+					"inner join work w on w.work_id=u.work " ;
+							
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and u.work = ?";
@@ -828,7 +827,7 @@ public class UAVDaoImpl implements UAVDao {
 		UAV uav = null;
 		try {
 			connection = dataSource.getConnection();
-			String qry ="select id,project as project_id_fk,work as work_id,FORMAT(survey_date,'dd-MM-yyyy') as survey_date,video_file_name,upload_date,created_date from uav_video_data_structure where id=? ";
+			String qry ="select id,project as project_id_fk,work as work_id,FORMAT(survey_date,'dd-MM-yyyy') as survey_date,video_file_name,upload_date,created_date,from_station,to_station from uav_video_data_structure where id=? ";
 
 			stmt = connection.prepareStatement(qry);
 			stmt.setString(1, obj.getId());
@@ -840,6 +839,8 @@ public class UAVDaoImpl implements UAVDao {
 				uav.setWork_id_fk(resultSet.getString("work_id"));
 				uav.setSurvey_date(resultSet.getString("survey_date"));
 				uav.setVideo_file_name(resultSet.getString("video_file_name"));
+				uav.setFrom_station(resultSet.getString("from_station"));
+				uav.setTo_station(resultSet.getString("to_station"));				
 
 			}
 				
@@ -862,15 +863,6 @@ public class UAVDaoImpl implements UAVDao {
 		int count=0;
 		try {
 			con = dataSource.getConnection();
-			MultipartFile multipartFile = obj.getMp4FileUpload();
-			String saveDirectory = CommonConstants2.DRONE_SURVEY_SAVING_PATH ;
-			String fileName="";
-	
-			if (null != multipartFile && multipartFile.getSize() > 0){
-				fileName = multipartFile.getOriginalFilename();
-			
-				FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);	
-			}
 			
 			String[] Survey_dateStr=obj.getSurvey_date().split("-");
 			
@@ -882,39 +874,20 @@ public class UAVDaoImpl implements UAVDao {
 		
 			if(getUavMP4DataCheck(obj.getProject_id_fk(),obj.getWork_id_fk(),obj.getSurvey_date())==0)
 			{
-		        String insertQuery = "Insert into uav_video_data_structure (project,work,survey_date,video_file_name,upload_date,created_date) values (?,?,?,?,getdate(),CURRENT_TIMESTAMP)";
+		        String insertQuery = "Insert into uav_video_data_structure (project,work,survey_date,video_file_name,upload_date,created_date,from_station,to_station) values (?,?,?,?,getdate(),CURRENT_TIMESTAMP,?,?)";
 		        stmt = con.prepareStatement(insertQuery,Statement.RETURN_GENERATED_KEYS);
 		        
 				stmt.setString(1,obj.getProject_id_fk());
 				stmt.setString(2,obj.getWork_id_fk());
 				stmt.setString(3,obj.getSurvey_date());
-				stmt.setString(4,fileName);
+				stmt.setString(4,obj.getFilename());
+				stmt.setString(5,obj.getFrom_station());
+				stmt.setString(6,obj.getTo_station());
 				
 				int c = stmt.executeUpdate();
 				if (c > 0) {
 					count=1;	
 				}
-				
-				
-				
-		        String updateQuery = "update uav_srt_file_data_structure set video_file_name=? where work=? and survey_date=?";
-		        stmt2 = con.prepareStatement(updateQuery,Statement.RETURN_GENERATED_KEYS);
-		        
-		        stmt2.setString(1,fileName);
-		        stmt2.setString(2,obj.getWork_id_fk());
-		        stmt2.setString(3,obj.getSurvey_date());
-				
-				int c1 = stmt2.executeUpdate();
-				
-
-		        String updateQuery1 = "update annotation_file_data_structure set video_file_name=? where work=? and survey_date=?";
-		        stmt3 = con.prepareStatement(updateQuery1,Statement.RETURN_GENERATED_KEYS);
-		        
-		        stmt3.setString(1,fileName);
-		        stmt3.setString(2,obj.getWork_id_fk());
-		        stmt3.setString(3,obj.getSurvey_date());
-				
-				int c2 = stmt3.executeUpdate();
 				
 								
 			}
@@ -931,32 +904,21 @@ public class UAVDaoImpl implements UAVDao {
 				int c = deleteExistingIDStmt.executeUpdate(); 
 				
 
-		        String insertQuery = "Insert into uav_video_data_structure (project,work,survey_date,video_file_name,upload_date,created_date) values (?,?,?,?,getdate(),CURRENT_TIMESTAMP)";
+		        String insertQuery = "Insert into uav_video_data_structure (project,work,survey_date,video_file_name,upload_date,created_date,from_station,to_station) values (?,?,?,?,getdate(),CURRENT_TIMESTAMP,?,?)";
 		        stmt = con.prepareStatement(insertQuery,Statement.RETURN_GENERATED_KEYS);
 		        
 				stmt.setString(1,obj.getProject_id_fk());
 				stmt.setString(2,obj.getWork_id_fk());
 				stmt.setString(3,obj.getSurvey_date());
-				stmt.setString(4,fileName);
+				stmt.setString(4,obj.getFilename());
+				stmt.setString(5,obj.getFrom_station());
+				stmt.setString(6,obj.getTo_station());				
 				
 				int c1 = stmt.executeUpdate();
 				if (c1 > 0) {
 					count=1;	
 				}
-				
-				
-		        /*String insertQuery = "update uav_video_data_structure set video_file_name=?,upload_date=getdate() where project=? and work=? and survey_date=?";
-		        stmt = con.prepareStatement(insertQuery,Statement.RETURN_GENERATED_KEYS);
-		        
-				stmt.setString(1,fileName);
-				stmt.setString(2,obj.getProject_id_fk());
-				stmt.setString(3,obj.getWork_id_fk());
-				stmt.setString(4,obj.getSurvey_date());
-				
-				int c = stmt.executeUpdate();
-				if (c > 0) {
-					count=1;	
-				}	*/			
+
 			}
 			
 			
@@ -1569,6 +1531,21 @@ public class UAVDaoImpl implements UAVDao {
 			DBConnectionHandler.closeJDBCResoucrs(con, stmt, null);
 		}
 		return count;
+	}
+
+	@Override
+	public List<UAV> getStationList(UAV obj) throws Exception {
+		List<UAV> objsList = null;
+		try {
+			String qry ="select id as station_id,station_name from stationnames ";
+	
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<UAV>(UAV.class));	
+		}catch(Exception e){ 
+			throw new Exception(e.getMessage());
+		}finally {
+			
+		}
+		return objsList;
 	}
 
 	

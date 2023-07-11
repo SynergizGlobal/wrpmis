@@ -295,7 +295,7 @@ b, strong {
 										</div>
 							
 										<div class="col s12 m4 input-field">
-											<p class="searchable_label">Structure</p>
+											<p class="searchable_label">Location</p>
 											<select id="structure" name="structure" onchange="StructureSurvey_Date(this.value);" class="searchable">
 												<option value="">Select</option>
 							
@@ -704,7 +704,7 @@ b, strong {
      {
      	$(".page-loader").show();
      	var work_id = '${work_id}';
-     	var myParams = {work_id_fk: work_id,survey_date:survey_date };
+     	var myParams = {work_id_fk: work_id,survey_date:survey_date,structure:$("#structure").val() };
      	
          $.ajax({
              url: "<%=request.getContextPath()%>/ajax/getSurveyDateVideoSpecifications",
@@ -713,11 +713,7 @@ b, strong {
                  if (data.length > 0) {
                      $.each(data, function (i, val) 
                      	{
-     	                	var splitStrfrom=val.time_from;
-     	                		splitStr=splitStrfrom.split(",");
-     	                	var splitStrto=val.time_to;
-     	                		splitStr1=splitStrto.split(",");
-                    		var videoHtml='<video width="610" height="450" controls autoplay><source src="/pmis/DRONE_SURVEY/'+val.video_file_name+'#t='+splitStr[1]+','+splitStr1[1]+'" type="video/mp4"></video><div class="overlayText"><p id="topText">Frame Cnt : '+val.framecnt+', DiffTime : '+val.difftime+'<br> '+val.srt_date+'<br>['+val.cnt_number+'] [latitude : '+val.latitude+'] [longtitude : '+val.longtitude+'] [altitude : '+val.altitude+']</p></div>';
+                    		var videoHtml='<video width="610" height="450" controls autoplay><source src="/pmis/DRONE_SURVEY/'+val.video_file_name+'" type="video/mp4"></video>';
                     		if(No==1)
                     		{
                     			$("#survey_dateVideo").html(videoHtml);
@@ -823,7 +819,7 @@ b, strong {
                          	 var structureSelected = '';
                               if ($.trim(val.structure) != '') { structureSelected = $.trim(val.structure) }
                               var selectedFlag = (structure == val.structure)?'selected':'';
-                              $("#structure").append('<option value="' + val.structure + '"'+selectedFlag+'>' + $.trim(val.structure) +'</option>');
+                              $("#structure").append('<option value="' + val.to_station + '"'+selectedFlag+'>' + $.trim(val.to_station) +'</option>');
                          });
                      }
                      $('.searchable').select2();

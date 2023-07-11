@@ -24,6 +24,8 @@ public interface UAVService {
 	
 	public List<UAV> getProjectsList(UAV obj) throws Exception;
 	
+	public List<UAV> getStationList(UAV obj) throws Exception;
+	
 	public int getTotalRecords(UAV obj, String searchParameter) throws Exception;
 	
 	public List<UAV> getUAVList(UAV obj, int startIndex, int offset, String searchParameter) throws Exception;

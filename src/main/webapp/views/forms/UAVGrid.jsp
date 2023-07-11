@@ -124,7 +124,7 @@
 									<div class="col s6 m4 input-field">
 										<p class="searchable_label">Work</p>
 										<select id="work_id_fk" name="work_id_fk"
-											onchange="addInQueWork(this.value);getUAVList();getSurveyDatesFilterList('');" class="searchable">
+											onchange="addInQueWork(this.value);getUAVList();" class="searchable">
 											<option value="">Select</option>
 
 										</select>
@@ -155,6 +155,7 @@
 											<tr>
 												<th class='fw-300'>Work</th>
 												<th>Survey Date</th>
+												<th>Length Desp.</th>
 												<th>Video</th>
 												<th>Last Update</th>
 												<th class="no-sort">Action</th>
@@ -452,6 +453,9 @@
       		         	{ "mData": function(data,type,row){
                              if($.trim(data.survey_date) == ''){ return '-'; }else{ return data.survey_date ; }
       		            } },
+      		         	{ "mData": function(data,type,row){
+                            if($.trim(data.from_station) == '' && $.trim(data.to_station) == ''){ return '-'; }else{ return data.from_station+' to '+ data.to_station; }
+     		            } },
       		       
     		            { "mData": function(data,type,row){ 
     		            	var file='<a href="DRONE_SURVEY/'+data.video_file_name+'" target="_new">'+data.video_file_name+'</a>';

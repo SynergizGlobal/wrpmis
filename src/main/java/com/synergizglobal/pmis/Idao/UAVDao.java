@@ -40,5 +40,7 @@ public interface UAVDao {
 	public int uploadSRTData(UAV obj) throws Exception;
 	public int uploadAnnotationData(UAV obj) throws Exception;
 
+	public List<UAV> getStationList(UAV obj) throws Exception;
+
 
 }

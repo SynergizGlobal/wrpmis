@@ -100,6 +100,9 @@ public class TrainingDaoImpl implements TrainingDao {
 				pValues[i++] = obj.getTitle();
 			}
 			objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<Training>(Training.class));
+			for (Training training : objsList) {
+				System.out.println(training.toString());
+			}
 
 		} catch (Exception e) {
 			throw new Exception(e);
@@ -568,9 +571,9 @@ public class TrainingDaoImpl implements TrainingDao {
 				flag = true;
 			}
 			if (flag) {
-				String deleteQry = "DELETE from training_attendees where training_id_fk = :training_id";
-				paramSource = new BeanPropertySqlParameterSource(obj);
-				count = namedParamJdbcTemplate.update(deleteQry, paramSource);
+//				String deleteQry = "DELETE from training_attendees where training_id_fk = :training_id";
+//				paramSource = new BeanPropertySqlParameterSource(obj);
+//				count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 				String deleteQry1 = "DELETE from training_session where training_id_fk = :training_id";
 				paramSource = new BeanPropertySqlParameterSource(obj);
 				count = namedParamJdbcTemplate.update(deleteQry1, paramSource);
@@ -661,71 +664,69 @@ public class TrainingDaoImpl implements TrainingDao {
 
 					int insertCount = insertStmt.executeUpdate();
 					rs = insertStmt.getGeneratedKeys();
-					if (insertCount > 0) {
-
-						if (rs.next()) {
-							String sessionId = rs.getString(1);
-							obj.setTraining_session_id(sessionId);
-						}
-						String insertQry2 = "INSERT into  training_attendees (training_id_fk,training_session_id_fk,required_fk,participated_fk,user_id) "
-								+ "VALUES (?,?,?,?,?)";
-						insertStmt1 = con.prepareStatement(insertQry2);
-
-						int a = r++;
-						String user_id = null;
-
-						if (obj.getNew_attendees() != null && obj.getNew_attendees().length > 0) {
-							for (int j = 0; j < obj.getNew_attendees().length; j++) {
-								int k = 1;
-
-								String role_code = "SU";
-								obj.setUser_type_fk("Training");
-								obj.setUser_name(obj.getNew_attendees()[j]);
-								obj.setDepartment_fk(obj.getDepartment_fks()[j]);
-								obj.setEmail(obj.getEmails()[j + 1]);
-								obj.setMobile_no(obj.getMobile_nos()[a + 1]);
-								obj.setHod_user_id_fk(obj.getHod_user_id_fks()[j + 1]);
-								user_id = getMaxUserId(role_code);
-								obj.setDesignation(obj.getTrainee_designations()[j + 1]);
-								obj.setUser_id(user_id);
-								namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-								String addUserQry = "INSERT INTO [user]"
-										+ "(user_id,user_name,designation,email_id,mobile_number,department_fk,reporting_to_id_srfk,user_type_fk) "
-										+ "VALUES "
-										+ "(:user_id,:user_name,:designation,:email,:mobile_no,:department_fk,:hod_user_id_fk,:user_type_fk)";
-								paramSource = new BeanPropertySqlParameterSource(obj);
-								int userCount = namedParamJdbcTemplate.update(addUserQry, paramSource);
-								String insertQry21 = "INSERT into  training_attendees (training_id_fk,training_session_id_fk,required_fk,participated_fk,user_id) "
-										+ "VALUES (?,?,?,?,?)";
-								insertStmt3 = con.prepareStatement(insertQry21);
-								insertStmt3.setString(k++, (obj.getTraining_id()));
-								insertStmt3.setString(k++, (obj.getTraining_session_id()));
-								String[] newrequiredFks = obj.getNew_required_fks();
-								insertStmt3.setString(k++, newrequiredFks[a]);
-								String[] newparticipatedFks = obj.getNew_participated_fks();
-								insertStmt3.setString(k++, newparticipatedFks[a]);
-								insertStmt3.setString(k++, user_id);
-								insertStmt3.executeUpdate();
-							}
-						}
-						if (!StringUtils.isEmpty(obj.getDepartment_fks()) && obj.getDepartment_fks().length > 0) {
-
-							for (int j = 0; j < obj.getAttendees().length; j++) {
-								int M = 1;
-								user_id = obj.getAttendees()[j];
-								insertStmt1.setString(M++, (obj.getTraining_id()));
-								insertStmt1.setString(M++, (obj.getTraining_session_id()));
-								String[] requiredFks = obj.getRequired_fks();
-								insertStmt1.setString(M++, requiredFks[j]);
-								String[] participatedFks = obj.getParticipated_fks();
-								insertStmt1.setString(M++, participatedFks[j]);
-								insertStmt1.setString(M++, user_id);
-								insertStmt1.executeUpdate();
-
-							}
-						}
-
-					}
+//					if (insertCount > 0) {
+//
+//						if (rs.next()) {
+//							String sessionId = rs.getString(1);
+//							obj.setTraining_session_id(sessionId);
+//						}
+//						String insertQry2 = "INSERT into  training_attendees (training_id_fk,training_session_id_fk,required_fk,participated_fk,user_id) "
+//								+ "VALUES (?,?,?,?,?)";
+//						insertStmt1 = con.prepareStatement(insertQry2);
+//
+//						int a = r++;
+//						String user_id = null;
+//
+//						if (obj.getNew_attendees() != null && obj.getNew_attendees().length > 0) {
+//							for (int j = 0; j < obj.getNew_attendees().length; j++) {
+//								int k = 1;
+//
+//								String role_code = "SU";
+//								obj.setUser_type_fk("Training");
+//								obj.setUser_name(obj.getNew_attendees()[j]);
+//								obj.setDepartment_fk(obj.getDepartment_fks()[j]);
+//								obj.setEmail(obj.getEmails()[j + 1]);
+//								obj.setMobile_no(obj.getMobile_nos()[a + 1]);
+//								obj.setHod_user_id_fk(obj.getHod_user_id_fks()[j + 1]);
+//								user_id = getMaxUserId(role_code);
+//								obj.setDesignation(obj.getTrainee_designations()[j + 1]);
+//								obj.setUser_id(user_id);
+//								namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+//								String addUserQry = "INSERT INTO [user]"
+//										+ "(user_id,user_name,designation,email_id,mobile_number,department_fk,reporting_to_id_srfk,user_type_fk) "
+//										+ "VALUES "
+//										+ "(:user_id,:user_name,:designation,:email,:mobile_no,:department_fk,:hod_user_id_fk,:user_type_fk)";
+//								paramSource = new BeanPropertySqlParameterSource(obj);
+//								int userCount = namedParamJdbcTemplate.update(addUserQry, paramSource);
+//								String insertQry21 = "INSERT into  training_attendees (training_id_fk,training_session_id_fk,required_fk,participated_fk,user_id) "
+//										+ "VALUES (?,?,?,?,?)";
+//								insertStmt3 = con.prepareStatement(insertQry21);
+//								insertStmt3.setString(k++, (obj.getTraining_id()));
+//								insertStmt3.setString(k++, (obj.getTraining_session_id()));
+//								String[] newrequiredFks = obj.getNew_required_fks();
+//								insertStmt3.setString(k++, newrequiredFks[a]);
+//								String[] newparticipatedFks = obj.getNew_participated_fks();
+//								insertStmt3.setString(k++, newparticipatedFks[a]);
+//								insertStmt3.setString(k++, user_id);
+//								insertStmt3.executeUpdate();
+//							}
+//						}
+//						if (!StringUtils.isEmpty(obj.getDepartment_fks()) && obj.getDepartment_fks().length > 0) {
+//
+//							for (int j = 0; j < obj.getAttendees().length; j++) {
+//								int M = 1;
+//								user_id = obj.getAttendees()[j];
+//								insertStmt1.setString(M++, (obj.getTraining_id()));
+//								insertStmt1.setString(M++, (obj.getTraining_session_id()));
+//								String[] requiredFks = obj.getRequired_fks();
+//								insertStmt1.setString(M++, requiredFks[j]);
+//								String[] participatedFks = obj.getParticipated_fks();
+//								insertStmt1.setString(M++, participatedFks[j]);
+//								insertStmt1.setString(M++, user_id);
+//								insertStmt1.executeUpdate();
+//
+//							}
+//						}
 
 				}
 			}
@@ -1473,7 +1474,7 @@ public class TrainingDaoImpl implements TrainingDao {
 		} catch (Exception e) {
 			throw new Exception(e);
 		}
-		 return objsList;
+		return objsList;
 	}
 
 	@Override
@@ -1496,11 +1497,11 @@ public class TrainingDaoImpl implements TrainingDao {
 					+ "training_center, status_fk, t.remarks, FORMAT(start_time,'dd-MM-yyyy') AS date,\n"
 					+ "FORMAT(start_time,'dd-MM-yyyy HH:mm:ss') AS start_time,\n"
 					+ "FORMAT(end_time,'dd-MM-yyyy HH:mm:ss') AS end_time, CONCAT(DATEDIFF(minute, start_time, end_time) / 60,'h ',DATEDIFF(minute, start_time, end_time) % 60,'m') AS hours,\n"
-					+ "period_fk, no_of_Participants, no_of_Absentees FROM training t  \n"
+					+ "period_fk, no_of_Participants, no_of_Absentees,contract_short_name_fk FROM training t  \n"
 					+ "LEFT JOIN training_session ts ON t.training_id = ts.training_id_fk \n"
 					+ "left join training_attendees ta on training_session_id = training_session_id_fk\n"
 					+ "GROUP BY t.training_id,ta.training_id_fk, training_type_fk, training_category_fk, period_fk, title, faculty_name, t.designation, description, \n"
-					+ "training_center, status_fk, t.remarks, start_time, end_time, no_of_Participants, no_of_Absentees) subquery ";
+					+ "training_center, status_fk, t.remarks, start_time, end_time, no_of_Participants, no_of_Absentees,contract_short_name_fk) subquery ";
 			int arrSize = 0;
 			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTraining_type_fk())) {
 				qry = qry + " WHERE training_type_fk = ? ";

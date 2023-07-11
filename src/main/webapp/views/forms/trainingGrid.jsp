@@ -259,16 +259,8 @@
 											<th>Type &nbsp; &nbsp;</th>
 											<th>Category</th>
 											<th>Title</th>
-											<th class="fw-300">Description</th>
-											<th class="fw-150">Faculty</th>
-											<th>Start Date</th>
-											<th>End Date &nbsp; </th>
-											<th>Hours</th>
 											<th>Periodicity</th>
-											<th>No Of Participants</th>
-											<th>No Of Absentees</th>
-											<th>Nominated</th>
-											<th>Attended</th>
+											<th>Contract</th>
 											<th class="nosort">Action</th>
 										</tr>
 									</thead>
@@ -694,7 +686,7 @@
                         targets: 'nosort', ordarable:false
                     },
                     { orderable: false, 'aTargets': ['nosort'] },
-                    { "width": "20px", "targets": [11] },
+                    { "width": "20px", "targets": [6] },
                 ],
                 // "ScrollX": true,
                 "sScrollX": "100%",
@@ -715,24 +707,14 @@
              		$.each(data,function(key,val){
              			var training_id = "'"+val.training_id+"'";
                         var actions = '<a href="javascript:void(0);"  onclick="getTraining('+training_id+');" class="btn waves-effect waves-light bg-m t-c"><i class="fa fa-pencil"></i></a>'
-                        			 // +'<a href="javascript:void(0);" onclick="getTrainingDetails('+training_id+');" class="btn waves-effect waves-light bg-s t-c"><i class="fa fa-download"></i></a>'
-    /*                     			  +'<a onclick="deleteBudget('+budget_id+');" class="btn waves-effect waves-light bg-s t-c "><i class="fa fa-trash"></i></a>'
-     */                   	var rowArray = [];    	                                       	
+                        	var rowArray = [];    	                                       	
                                           
                        	rowArray.push($.trim(val.training_id));
                        	rowArray.push($.trim(val.training_type_fk));
                        	rowArray.push($.trim(val.training_category_fk));
                     	rowArray.push($.trim(val.title));
-                       	rowArray.push($.trim(val.description));
-                       	rowArray.push($.trim(val.faculty_name));
-                       	rowArray.push($.trim(val.start_time));
-                       	rowArray.push($.trim(val.end_time));
-                       	rowArray.push($.trim(val.hours));
                        	rowArray.push($.trim(val.period_fk));
-                       	rowArray.push($.trim(val.no_of_Participants));
-                       	rowArray.push($.trim(val.no_of_Absentees));
-                       	rowArray.push($.trim(val.nominated));
-                       	rowArray.push($.trim(val.attended));
+                       	rowArray.push($.trim(val.contract_short_name_fk));
                        	rowArray.push($.trim(actions));   	                   	
                        	
                         table.row.add(rowArray).draw( true );

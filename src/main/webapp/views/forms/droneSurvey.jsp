@@ -717,10 +717,12 @@ b, strong {
                     		if(No==1)
                     		{
                     			$("#survey_dateVideo").html(videoHtml);
+                    			document.querySelector('video').playbackRate = 2.0;
                     		}
                     		else if(No==2)
                     		{
                     			$("#survey_date1Video").html(videoHtml);
+                    			document.querySelector('video').playbackRate = 2.0;
                     		}
                      });
                  }

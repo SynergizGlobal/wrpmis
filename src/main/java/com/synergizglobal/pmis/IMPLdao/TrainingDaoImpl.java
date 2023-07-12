@@ -1493,15 +1493,11 @@ public class TrainingDaoImpl implements TrainingDao {
 	public List<Training> getTrainingsList(Training obj) throws Exception {
 		List<Training> objsList = null;
 		try {
-			String qry = "SELECT * FROM (SELECT training_id,ta.training_id_fk, training_type_fk, training_category_fk, SUM(CASE WHEN required_fk = 'Yes' THEN 1 ELSE 0 END) AS nominated, SUM(CASE WHEN participated_fk = 'Yes' THEN 1 ELSE 0 END) AS attended,title, faculty_name, t.designation, description,\n"
-					+ "training_center, status_fk, t.remarks, FORMAT(start_time,'dd-MM-yyyy') AS date,\n"
-					+ "FORMAT(start_time,'dd-MM-yyyy HH:mm:ss') AS start_time,\n"
-					+ "FORMAT(end_time,'dd-MM-yyyy HH:mm:ss') AS end_time, CONCAT(DATEDIFF(minute, start_time, end_time) / 60,'h ',DATEDIFF(minute, start_time, end_time) % 60,'m') AS hours,\n"
-					+ "period_fk, no_of_Participants, no_of_Absentees,contract_short_name_fk FROM training t  \n"
-					+ "LEFT JOIN training_session ts ON t.training_id = ts.training_id_fk \n"
-					+ "left join training_attendees ta on training_session_id = training_session_id_fk\n"
-					+ "GROUP BY t.training_id,ta.training_id_fk, training_type_fk, training_category_fk, period_fk, title, faculty_name, t.designation, description, \n"
-					+ "training_center, status_fk, t.remarks, start_time, end_time, no_of_Participants, no_of_Absentees,contract_short_name_fk) subquery ";
+			String qry = "SELECT * FROM ( SELECT t.training_id,training_type_fk,training_category_fk,title,faculty_name,t.designation,\n"
+					+ "description,training_center,status_fk,t.remarks,FORMAT(start_time, 'dd-MM-yyyy HH:mm:ss') AS start_time,\n"
+					+ "period_fk FROM training t LEFT JOIN training_session ts ON t.training_id = ts.training_id_fk\n"
+					+ "GROUP BY  t.training_id, training_type_fk,training_category_fk,period_fk,title, faculty_name,\n"
+					+ "t.designation,description,training_center,status_fk,t.remarks,start_time ) subquery ";
 			int arrSize = 0;
 			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTraining_type_fk())) {
 				qry = qry + " WHERE training_type_fk = ? ";

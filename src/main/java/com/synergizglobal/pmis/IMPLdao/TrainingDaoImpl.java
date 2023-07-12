@@ -1495,9 +1495,9 @@ public class TrainingDaoImpl implements TrainingDao {
 		try {
 			String qry = "SELECT * FROM ( SELECT t.training_id,training_type_fk,training_category_fk,title,faculty_name,t.designation,\n"
 					+ "description,training_center,status_fk,t.remarks,FORMAT(start_time, 'dd-MM-yyyy HH:mm:ss') AS start_time,\n"
-					+ "period_fk FROM training t LEFT JOIN training_session ts ON t.training_id = ts.training_id_fk\n"
+					+ "period_fk, contract_short_name_fk FROM training t LEFT JOIN training_session ts ON t.training_id = ts.training_id_fk\n"
 					+ "GROUP BY  t.training_id, training_type_fk,training_category_fk,period_fk,title, faculty_name,\n"
-					+ "t.designation,description,training_center,status_fk,t.remarks,start_time ) subquery ";
+					+ "t.designation,description,training_center,status_fk,t.remarks,start_time,contract_short_name_fk ) subquery";
 			int arrSize = 0;
 			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTraining_type_fk())) {
 				qry = qry + " WHERE training_type_fk = ? ";

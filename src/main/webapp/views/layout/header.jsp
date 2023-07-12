@@ -1398,6 +1398,24 @@
 	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
 	<!-- <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>  -->
 	<script>
+	
+	var win = window,
+    doc = document,
+    docElem = doc.documentElement,
+    body = doc.getElementsByTagName('body')[0],
+    x = win.innerWidth || docElem.clientWidth || body.clientWidth,
+    y = win.innerHeight|| docElem.clientHeight|| body.clientHeight;
+	
+	if(x<=400)
+	{
+		$(window).on("navigate", function (event, data) {
+			  var direction = data.state.direction;
+			  if (direction == 'back') {
+			    window.history.back();
+			  }
+			});
+	}
+	
 	let accordions = document.querySelectorAll(".accordion");
 	accordions.forEach((element) => {
 	  element.querySelector(".accordion__header").addEventListener("click", () => {

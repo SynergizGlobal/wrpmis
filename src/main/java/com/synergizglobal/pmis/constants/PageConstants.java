@@ -299,6 +299,7 @@ public class PageConstants {
 	public static final String zonalRailwayFunds = "referenceForms/zonalRailwayFunds";
 	
 	public static final String alertLevel = "referenceForms/alertLevel";
+	public static final String stationNames = "referenceForms/stationNames";
 	
 	public static final String resourceType = "referenceForms/resourceType";
 	

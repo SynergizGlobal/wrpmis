@@ -1,0 +1,19 @@
+package com.synergizglobal.pmis.reference.Idao;
+
+import java.util.List;
+
+import com.synergizglobal.pmis.reference.model.TrainingType;
+
+public interface StationNamesDao {
+
+	public List<TrainingType> getStationNamesList() throws Exception;
+
+	public TrainingType getStationNamesDetails(TrainingType obj) throws Exception;
+
+	public boolean addStationNames(TrainingType obj) throws Exception;
+
+	public boolean updateStationNames(TrainingType obj) throws Exception;
+
+	public boolean deleteStationNames(TrainingType obj) throws Exception;
+
+}

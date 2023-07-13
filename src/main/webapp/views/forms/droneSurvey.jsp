@@ -773,7 +773,44 @@ b, strong {
 
      function StructureSurvey_Date(structure)
      {
-     	$(".page-loader").show();
+    	 
+    	 $(".page-loader").show();
+      	var work_id = '${work_id}';
+      	var myParams = {work_id_fk: work_id,survey_date:$("#survey_date").val(),structure:structure };
+      	
+          $.ajax({
+              url: "<%=request.getContextPath()%>/ajax/getSurveyDateVideoSpecifications",
+              data: myParams, cache: false,async: false,
+              success: function (data) {
+                  if (data.length > 0) {
+                      $.each(data, function (i, val) 
+                      	{
+                    	  var No=1;
+                     		var videoHtml='<video id="vd1" width="610" height="450" controls autoplay><source src="/pmis/DRONE_SURVEY/'+val.video_file_name+'" type="video/mp4"></video>';
+                     		var videoHtml1='<video id="vd2" width="610" height="450" controls autoplay><source src="/pmis/DRONE_SURVEY/'+val.video_file_name+'" type="video/mp4"></video>';
+                     		if(No==1)
+                     		{
+                     			$("#survey_dateVideo").html(videoHtml);
+                     			$("#vd1").playbackRate = 2.0;
+                     			document.getElementById('vd1').playbackRate = 2.0;
+                     		}
+                     		else if(No==2)
+                     		{
+                     			$("#survey_date1Video").html(videoHtml1);
+                     			document.getElementById('vd2').playbackRate = 2.0;
+                     		}
+                      });
+                  }
+                  $('.searchable').select2();
+                  $(".page-loader").hide();
+              },error: function (jqXHR, exception) {
+         			      $(".page-loader").hide();
+      	          	  getErrorMessage(jqXHR, exception);
+      	     	  }
+          }); 	    	 
+    	 
+    	 
+<%--      	$(".page-loader").show();
      	var work_id = '${work_id}';
      	var myParams = {work_id_fk: work_id,structure:structure };
      	
@@ -803,7 +840,7 @@ b, strong {
         			      $(".page-loader").hide();
      	          	  getErrorMessage(jqXHR, exception);
      	     	  }
-         }); 
+         });  --%>
      }
 
      function getStructuresFilterList() {

@@ -265,7 +265,7 @@
 				                                <div class="col s12 center-align">
 				                                    <div style="display: inline-block;">
 				                                        <!-- <input type="submit" value="" > -->
-				                                        <button type="button" class="btn waves-effect waves-light bg-m f-w-b" onclick="uploadUAV();">
+				                                        <button type="button" id="btnUpdate" disabled class="btn waves-effect waves-light bg-m f-w-b" onclick="uploadUAV();">
 				                                            Update
 				                                        </button>
 				                                        <button type="reset" onClick="window.location.reload(); clearFilters();" class="btn waves-effect waves-light bg-s f-w-b">Reset</button>			                                        
@@ -326,6 +326,11 @@
     	var totalFileCount, fileUploadCount, fileSize;
     	
     	
+    		if("${uavDetails.id}"!="")
+    		{
+    			$("#btnUpdate").prop("disabled",false);
+    		}
+    	
     	 
         /* start uploading files */
         function startUploading() {
@@ -337,7 +342,8 @@
             fileUploadCount=0;
             prepareProgressBarUI(files);
              
-            // upload through ajax call     
+            // upload through ajax call
+            
             uploadFile();
         }
          
@@ -384,6 +390,7 @@
             var xhr = new XMLHttpRequest();
             var fd = new FormData();
             fd.append("multipartFile", file);
+            $("#btnUpdate").prop("disabled",true);
             xhr.upload.addEventListener("progress", onUploadProgress, false);
             xhr.addEventListener("load", onUploadComplete, false);
             xhr.addEventListener("error", onUploadError, false);
@@ -393,8 +400,10 @@
         }
      
         /* This function will continueously update the progress bar */
-        function onUploadProgress(e) {
-            if (e.lengthComputable) {
+        function onUploadProgress(e) 
+        {
+            if (e.lengthComputable) 
+            {
                 var percentComplete = parseInt((e.loaded) * 100 / fileSize);
                 var pbar = $('#progress-bar-'+fileUploadCount);
                 var bar=pbar.find(".progress-bar");
@@ -403,7 +412,9 @@
                 bar.css("width",percentComplete + '%');
                 sLoaded.html(parseFileSize(e.loaded)+ " / ");
                 pLoaded.html("("+percentComplete+ "%)");
-            } else {
+
+            } else 
+            {
                 alert('unable to compute');
             }
         }
@@ -415,7 +426,13 @@
                 pbar.find(".progress-bar").removeClass("active").addClass("progress-bar-danger");
             }else{
                 pbar.find(".progress-bar").removeClass("active");
+                $("#btnUpdate").prop("disabled",false);
                 pbar.find(".size-loaded").html('<i class="fa fa-check text-success"></i> ');
+                //var str=$(".size-loaded").html();
+                //if(percentComplete=="100" && str.indexOf('fa-check')!="-1")
+               	//{
+               		
+               	//}
             }
             fileUploadCount++;
             if (fileUploadCount < totalFileCount) {

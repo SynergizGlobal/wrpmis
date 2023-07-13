@@ -748,7 +748,7 @@ public class UAVDaoImpl implements UAVDao {
 	public List<UAV> getStructuresFilterList(UAV obj) throws Exception {
 		List<UAV> objsList = null;
 		try {
-			String qry = "select distinct n.station_name +' to '+n1.station_name as to_station from uav_video_data_structure u inner join stationnames n on n.id=u.from_station inner join stationnames n1 on n1.id=u.to_station " + 
+			String qry = "select distinct to_station from (select n.station_name +' to '+n1.station_name as to_station from uav_video_data_structure u inner join stationnames n on n.id=u.from_station inner join stationnames n1 on n1.id=u.to_station " + 
 					"inner join work w on w.work_id=u.work " ;
 							
 			int arrSize = 0;
@@ -772,7 +772,7 @@ public class UAVDaoImpl implements UAVDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSurvey_date())) {
 				pValues[i++] = obj.getSurvey_date();
 			}			
-			
+			qry = qry + " order by u.id offset 0 rows  fetch next 100000 rows only) as a ";
 			objsList = jdbcTemplate.query( qry,pValues,new BeanPropertyRowMapper<UAV>(UAV.class));
 		}catch(Exception e){ 
 			throw new Exception(e);

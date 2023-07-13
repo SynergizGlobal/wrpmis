@@ -563,7 +563,7 @@ b, strong {
 			}
 		});
 		 var overview_work_id = '${work_id}';
-		html +='<br><button type="button" class="btn waves-effect waves-light bg-s f-w-b" style="float:right;" id="btnDroneSurvey"><a href="/pmis/work-drone-survey/'+overview_work_id+'">Drone Survey</a></button>';
+		html +='<br><button type="button" class="btn waves-effect waves-light bg-s f-w-b" style="float:right;display:none;" id="btnDroneSurvey"><a href="/pmis/work-drone-survey/'+overview_work_id+'">Drone Survey</a></button>';
 	    return html;	
 	}
     
@@ -713,16 +713,18 @@ b, strong {
                  if (data.length > 0) {
                      $.each(data, function (i, val) 
                      	{
-                    		var videoHtml='<video width="610" height="450" controls autoplay><source src="/pmis/DRONE_SURVEY/'+val.video_file_name+'" type="video/mp4"></video>';
+                    		var videoHtml='<video id="vd1" width="610" height="450" controls autoplay><source src="/pmis/DRONE_SURVEY/'+val.video_file_name+'" type="video/mp4"></video>';
+                    		var videoHtml1='<video id="vd2" width="610" height="450" controls autoplay><source src="/pmis/DRONE_SURVEY/'+val.video_file_name+'" type="video/mp4"></video>';
                     		if(No==1)
                     		{
                     			$("#survey_dateVideo").html(videoHtml);
-                    			document.querySelector('video').playbackRate = 2.0;
+                    			$("#vd1").playbackRate = 2.0;
+                    			document.getElementById('vd1').playbackRate = 2.0;
                     		}
                     		else if(No==2)
                     		{
-                    			$("#survey_date1Video").html(videoHtml);
-                    			document.querySelector('video').playbackRate = 2.0;
+                    			$("#survey_date1Video").html(videoHtml1);
+                    			document.getElementById('vd2').playbackRate = 2.0;
                     		}
                      });
                  }

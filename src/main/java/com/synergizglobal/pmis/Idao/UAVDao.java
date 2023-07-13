@@ -41,6 +41,8 @@ public interface UAVDao {
 	public int uploadAnnotationData(UAV obj) throws Exception;
 
 	public List<UAV> getStationList(UAV obj) throws Exception;
+	boolean checkDataAvailable(String id,String work_id_fk, String survey_date, String from_station, String to_station) throws Exception;
+
 
 
 }

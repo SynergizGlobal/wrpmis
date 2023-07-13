@@ -41,6 +41,8 @@ public interface UAVService {
 	public int uploadMP4Data(UAV obj) throws Exception;
 	public int uploadSRTData(UAV obj) throws Exception;
 	public int uploadAnnotationData(UAV obj) throws Exception;
+
+	boolean checkDataAvailable(String id,String work_id_fk, String survey_date, String from_station, String to_station) throws Exception;
 	
 	
 }

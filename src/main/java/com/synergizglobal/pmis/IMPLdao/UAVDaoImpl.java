@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -872,8 +873,11 @@ public class UAVDaoImpl implements UAVDao {
 			}			
 			
 		
-			if(getUavMP4DataCheck(obj.getProject_id_fk(),obj.getWork_id_fk(),obj.getSurvey_date())==0)
-			{
+			//if(getUavMP4DataCheck(obj.getProject_id_fk(),obj.getWork_id_fk(),obj.getSurvey_date())==0)
+			//{
+			
+			if(StringUtils.isEmpty(obj.getId())) 
+			{			
 		        String insertQuery = "Insert into uav_video_data_structure (project,work,survey_date,video_file_name,upload_date,created_date,from_station,to_station) values (?,?,?,?,getdate(),CURRENT_TIMESTAMP,?,?)";
 		        stmt = con.prepareStatement(insertQuery,Statement.RETURN_GENERATED_KEYS);
 		        
@@ -888,10 +892,29 @@ public class UAVDaoImpl implements UAVDao {
 				if (c > 0) {
 					count=1;	
 				}
-				
-								
 			}
 			else
+			{
+				String insertQuery = "update uav_video_data_structure set project=?,work=?,survey_date=?,video_file_name=?,upload_date=getdate(),from_station=?,to_station=? where id=?";
+		        stmt = con.prepareStatement(insertQuery,Statement.RETURN_GENERATED_KEYS);
+		        
+				stmt.setString(1,obj.getProject_id_fk());
+				stmt.setString(2,obj.getWork_id_fk());
+				stmt.setString(3,obj.getSurvey_date());
+				stmt.setString(4,obj.getFilename());
+				stmt.setString(5,obj.getFrom_station());
+				stmt.setString(6,obj.getTo_station());
+				stmt.setString(7,obj.getId());
+				
+				int c = stmt.executeUpdate();
+				if (c > 0) {
+					count=1;	
+				}					
+			}
+				
+								
+			//}
+			/*else
 			{
 				
 				String qry = "DELETE FROM uav_video_data_structure WHERE project=? and work=? and survey_date=? ";
@@ -919,7 +942,7 @@ public class UAVDaoImpl implements UAVDao {
 					count=1;	
 				}
 
-			}
+			}*/
 			
 			
 
@@ -1546,6 +1569,48 @@ public class UAVDaoImpl implements UAVDao {
 			
 		}
 		return objsList;
+	}
+
+	@Override
+	public boolean checkDataAvailable(String id,String work_id_fk, String survey_date, String from_station, String to_station)
+			throws Exception {
+		Connection con = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		boolean process = false;
+		try{  
+			con = dataSource.getConnection();
+			String updateQry ="";
+			
+			if(StringUtils.isEmpty(id)) 
+			{
+				updateQry = "select survey_date from uav_video_data_structure WHERE work = ? and survey_date=? and from_station=? and to_station=?";
+				stmt = con.prepareStatement(updateQry);
+				stmt.setString(1, work_id_fk);
+				stmt.setString(2, survey_date);	
+				stmt.setString(3, from_station);	
+				stmt.setString(4, to_station);	
+			}
+			else
+			{
+				updateQry = "select survey_date from uav_video_data_structure WHERE work = ? and survey_date=? and from_station=? and to_station=? and id not in(?)";
+				stmt = con.prepareStatement(updateQry);
+				stmt.setString(1, work_id_fk);
+				stmt.setString(2, survey_date);	
+				stmt.setString(3, from_station);	
+				stmt.setString(4, to_station);	
+				stmt.setString(5, id);
+			}
+			rs = stmt.executeQuery(); 
+			if(rs.next()) {		
+				process=true;			
+			}
+		}catch(Exception e){ 
+			throw new SQLException(e);
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, stmt, rs);
+		}
+		return process;
 	}
 
 	

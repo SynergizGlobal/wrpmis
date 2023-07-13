@@ -120,6 +120,13 @@ public class UAVServiceImpl implements UAVService{
 	public List<UAV> getStationList(UAV obj) throws Exception {
 		return dao.getStationList(obj);
 	}
+
+
+	@Override
+	public boolean checkDataAvailable(String id,String work_id_fk, String survey_date, String from_station, String to_station)
+			throws Exception {
+		return dao.checkDataAvailable(id,work_id_fk, survey_date, from_station, to_station);
+	}
 	
 	
 

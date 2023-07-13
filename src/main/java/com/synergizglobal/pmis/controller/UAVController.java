@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.nio.file.Files;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -214,6 +215,19 @@ public class UAVController {
 		}
 		return model;
 	}
+	
+	@RequestMapping(value = "/ajax/checkDataAvailable", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public boolean checkDataAvailable(String id,String work_id_fk,String survey_date,String from_station, String to_station) throws Exception {
+		boolean flag = false;
+		try {
+			flag = UAVService.checkDataAvailable(id,work_id_fk,survey_date,from_station, to_station);
+		} catch (SQLException e) {
+			logger.error("checkDataAvailable : " + e.getMessage());
+		}
+		return flag;
+	}	
+	
 	
 	@RequestMapping(value = "/ajax/getWorksFilterListInUAV", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody

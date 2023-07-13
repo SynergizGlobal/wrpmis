@@ -216,6 +216,7 @@
 				                                            <span>Upload Video </span>
 				                                            <input type="file" name="mp4FileUpload" id="mp4FileUpload"  onchange="return mp4fileValidation();" accept="video/*" value="${uavDetails.video_file_name}" /> 
 				                                            <input type="hidden" name="filename" id="filename" value="${uavDetails.video_file_name}">
+				                                            <input type="hidden" name="id" id="hdnId" value="${uavDetails.id}">
 				                                        </div>
 				                                        <div class="file-path-wrapper">
 				                                            <input class="file-path validate" type="text">
@@ -578,66 +579,60 @@
             // upload through ajax call     
             uploadFile();           
         }
-        function srtfileValidation()
-        {
-        	$("#errorUploadFile").html("");
-        	var fileInput =
-                document.getElementById('srtFileUpload');
-             
-            var filePath = fileInput.value;
-         
-            // Allowing file type
-            var allowedExtensions =
-                    /(\.SRT)$/i;
-             
-            if (!allowedExtensions.exec(filePath)) {
-                alert('Invalid file type-File type is SRT only');
-                fileInput.value = '';
-                return false;
-            }        	
-        }
-        function annotationfileValidation()   
-        {
-        	$("#errorUploadFile").html("");
-        	var fileInput =
-                document.getElementById('annotationFileUpload');
-             
-            var filePath = fileInput.value;
-         
-            // Allowing file type
-            var allowedExtensions =
-                    /(\.csv)$/i;
-             
-            if (!allowedExtensions.exec(filePath)) {
-                alert('Invalid file type-File type is csv only');
-                fileInput.value = '';
-                return false;
-            }        	
-        }
         
+        function checkDataAvailable()
+        {
+
+        	var bool = false;
+           	 $.ajax({
+                 url: "<%=request.getContextPath()%>/ajax/checkDataAvailable",
+                 data: {id:$("#hdnId").val(),work_id_fk:$("#work_id_fk").val(),survey_date:$("#survey_dateUpload").val().split("-").reverse().join("-"),from_station:$("#from_station").val(),to_station:$("#to_station").val()},type: 'POST',
+                 async: false,
+                 dataType: 'json',
+                 success: function (data) 
+                 {
+                	 if (data == true) {
+                         bool = true;
+                     }
+                 }
+             });
+           	return trueOrFalse(bool);
+        }	
+        
+        function trueOrFalse(bool){
+            return bool;
+    	}       
 
 	    function uploadUAV() {
 	    	
 
-	    	if(validatorUpload.form()){ 
-	    		
-	    		if($("#mp4FileUpload").val()!="")
-	   			{
-	    			$("#errorUploadFile").html("");
-	   			}
+	    	if(validatorUpload.form())
+	    	{ 
+	    		if(checkDataAvailable()==false)
+	    		{
+			    		if($("#mp4FileUpload").val()!="")
+			   			{
+			    			$("#errorUploadFile").html("");
+			   			}
+			    		else
+			   			{
+			    				if("${uavDetails.video_file_name}"=="")
+			    				{
+					   				$("#errorUploadFile").html("Please upload MP4 file.");
+					   				return false;
+			    				}
+			   			}
+			    		
+			    		$('#mp4FileUpload').get(0).type = 'text';
+			    		
+						$(".page-loader").show();
+						document.getElementById("uavForm").submit();
+	    		}
 	    		else
-	   			{
-	    				if("${uavDetails.video_file_name}"=="")
-	    				{
-			   				$("#errorUploadFile").html("Please upload MP4 file.");
-			   				return false;
-	    				}
-	   			}
-	    		
-	    		$('#mp4FileUpload').get(0).type = 'text';
-	    		
-				$(".page-loader").show();
-				document.getElementById("uavForm").submit();
+	    		{
+	   				$("#from_stationError").html("Data already exists with work id, survey date, from station & to station");
+	   				return false;	    			
+	    		}
 	    	}
 		}
         

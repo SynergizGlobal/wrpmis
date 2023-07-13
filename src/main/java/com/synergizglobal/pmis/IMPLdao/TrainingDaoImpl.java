@@ -733,7 +733,7 @@ public class TrainingDaoImpl implements TrainingDao {
 
 			FormHistory formHistory = new FormHistory();
 			formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
-			formHistory.setUser(obj.getDesignation() + " - " + obj.getUser_name());
+			formHistory.setUser(obj.getForm_designation() + " - " + obj.getUser_name());
 			formHistory.setModule_name_fk("Training");
 			formHistory.setForm_name("Update Training");
 			formHistory.setForm_action_type("Update");
@@ -802,13 +802,13 @@ public class TrainingDaoImpl implements TrainingDao {
 			con = dataSource.getConnection();
 			con.setAutoCommit(false);
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+
 			String qry = "INSERT INTO training (training_type_fk,training_category_fk,faculty_name,designation,title,description,training_center,"
 					+ "status_fk,remarks,period_fk,conduct_by_fk,provide_to_fk,contract_short_name_fk) " + "VALUES"
 					+ "(:training_type_fk,:training_category_fk,:faculty_name,:designation,:title,:description,:training_center,:status_fk,:remarks,"
 					+ ":period_fk,:conduct_by_fk,:provide_to_fk,:contract_short_name_fk)";
 			SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
 			KeyHolder keyHolder = new GeneratedKeyHolder();
-//		   
 
 			int count = namedParamJdbcTemplate.update(qry, paramSource, keyHolder);
 			String training_id = null;
@@ -912,7 +912,7 @@ public class TrainingDaoImpl implements TrainingDao {
 
 				FormHistory formHistory = new FormHistory();
 				formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
-				formHistory.setUser(obj.getDesignation() + " - " + obj.getUser_name());
+				formHistory.setUser(obj.getForm_designation() + " - " + obj.getUser_name());
 				formHistory.setModule_name_fk("Training");
 				formHistory.setForm_name("Add Training");
 				formHistory.setForm_action_type("Add");
@@ -1494,10 +1494,10 @@ public class TrainingDaoImpl implements TrainingDao {
 		List<Training> objsList = null;
 		try {
 			String qry = "SELECT * FROM ( SELECT t.training_id,training_type_fk,training_category_fk,title,faculty_name,t.designation,\n"
-					+ "description,training_center,status_fk,t.remarks,FORMAT(start_time, 'dd-MM-yyyy HH:mm:ss') AS start_time,\n"
-					+ "period_fk, contract_short_name_fk FROM training t LEFT JOIN training_session ts ON t.training_id = ts.training_id_fk\n"
+					+ "description,training_center,status_fk,t.remarks,\n"
+					+ "period_fk, contract_short_name_fk FROM training t \n"
 					+ "GROUP BY  t.training_id, training_type_fk,training_category_fk,period_fk,title, faculty_name,\n"
-					+ "t.designation,description,training_center,status_fk,t.remarks,start_time,contract_short_name_fk ) subquery";
+					+ "t.designation,description,training_center,status_fk,t.remarks,contract_short_name_fk ) subquery ";
 			int arrSize = 0;
 			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getTraining_type_fk())) {
 				qry = qry + " WHERE training_type_fk = ? ";
@@ -1528,7 +1528,7 @@ public class TrainingDaoImpl implements TrainingDao {
 				pValues[i++] = obj.getTitle();
 			}
 
-			qry = qry + " ORDER BY start_time DESC ";
+			qry = qry + " ORDER BY training_id DESC ";
 			objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<Training>(Training.class));
 
 		} catch (Exception e) {

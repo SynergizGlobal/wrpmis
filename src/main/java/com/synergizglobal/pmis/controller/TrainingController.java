@@ -486,6 +486,7 @@ public class TrainingController {
 			HttpServletRequest request) {
 		ModelAndView model = new ModelAndView();
 		try {
+
 			String user_Id = (String) session.getAttribute("USER_ID");
 			String userName = (String) session.getAttribute("USER_NAME");
 			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
@@ -493,7 +494,7 @@ public class TrainingController {
 			obj.setCreated_by_user_id_fk(user_Id);
 			obj.setUser_id(user_Id);
 			obj.setUser_name(userName);
-			obj.setDesignation(userDesignation);
+			obj.setForm_designation(userDesignation);
 
 			model.setViewName("redirect:/training");
 
@@ -526,7 +527,7 @@ public class TrainingController {
 			obj.setCreated_by_user_id_fk(user_Id);
 			obj.setUser_id(user_Id);
 			obj.setUser_name(userName);
-			obj.setDesignation(userDesignation);
+			obj.setForm_designation(userDesignation);
 			model.setViewName("redirect:/training");
 			obj.setStart_time(DateParser.parseDateTime(obj.getStart_time()));
 			obj.setEnd_time(DateParser.parseDateTime(obj.getEnd_time()));

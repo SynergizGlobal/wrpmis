@@ -16,9 +16,8 @@ public class Training {
 			is_there_issue, category, issue_description, created_by_user_id_fk, issue_priority_id, issue_category_id,
 			hod_user_id_fk, user_name, date, session_remarks, nominated, attended, attachment, file_name, user_id,
 			reporting_to, reporting_to_designation, trainee_designation, is_new_user, email, user_type_fk,
-			existing_status_fk,
-
-			periodicity, conducted_by, provided_to, contract_name, created_date, no_of_Participants, no_of_Absentees;
+			existing_status_fk, periodicity, conducted_by, provided_to, contract_name, created_date, no_of_Participants,
+			no_of_Absentees, work_short_name, form_designation;
 
 	public String getNo_of_Participants() {
 		return no_of_Participants;
@@ -857,6 +856,22 @@ public class Training {
 		this.new_participated_fks = new_participated_fks;
 	}
 
+	public String getWork_short_name() {
+		return work_short_name;
+	}
+
+	public void setWork_short_name(String work_short_name) {
+		this.work_short_name = work_short_name;
+	}
+
+	public String getForm_designation() {
+		return form_designation;
+	}
+
+	public void setForm_designation(String form_designation) {
+		this.form_designation = form_designation;
+	}
+
 	@Override
 	public String toString() {
 		return "Training [period_fk=" + period_fk + ", conduct_by_fk=" + conduct_by_fk + ", provide_to_fk="
@@ -880,27 +895,27 @@ public class Training {
 				+ user_type_fk + ", existing_status_fk=" + existing_status_fk + ", periodicity=" + periodicity
 				+ ", conducted_by=" + conducted_by + ", provided_to=" + provided_to + ", contract_name=" + contract_name
 				+ ", created_date=" + created_date + ", no_of_Participants=" + no_of_Participants + ", no_of_Absentees="
-				+ no_of_Absentees + ", projectGalleryFiles=" + Arrays.toString(projectGalleryFiles) + ", projectFiles="
-				+ Arrays.toString(projectFiles) + ", trainingFile=" + trainingFile + ", trainingSessions="
-				+ trainingSessions + ", trainingAttendees=" + trainingAttendees + ", trainingSessionFiles="
-				+ Arrays.toString(trainingSessionFiles) + ", filecounts=" + Arrays.toString(filecounts)
-				+ ", trainingFilesList=" + trainingFilesList + ", trainingNewList=" + trainingNewList
-				+ ", attendeesList=" + attendeesList + ", HODsList=" + HODsList + ", deptList=" + deptList
-				+ ", statusList=" + statusList + ", employeeReportList=" + employeeReportList + ", mail_body_header="
-				+ mail_body_header + ", training_attendees_ids=" + Arrays.toString(training_attendees_ids)
-				+ ", training_id_fks=" + Arrays.toString(training_id_fks) + ", training_session_id_fks="
-				+ Arrays.toString(training_session_id_fks) + ", department_fks=" + Arrays.toString(department_fks)
-				+ ", attendees=" + Arrays.toString(attendees) + ", trainee_designations="
-				+ Arrays.toString(trainee_designations) + ", mobile_nos=" + Arrays.toString(mobile_nos)
-				+ ", required_fks=" + Arrays.toString(required_fks) + ", participated_fks="
-				+ Arrays.toString(participated_fks) + ", training_session_ids=" + Arrays.toString(training_session_ids)
-				+ ", session_nos=" + Arrays.toString(session_nos) + ", start_times=" + Arrays.toString(start_times)
-				+ ", end_times=" + Arrays.toString(end_times) + ", remarkss=" + Arrays.toString(remarkss)
-				+ ", hod_user_id_fks=" + Arrays.toString(hod_user_id_fks) + ", trainingSessionFileNames="
-				+ Arrays.toString(trainingSessionFileNames) + ", is_new_users=" + Arrays.toString(is_new_users)
-				+ ", emails=" + Arrays.toString(emails) + ", created_dates=" + Arrays.toString(created_dates)
-				+ ", num_participants=" + Arrays.toString(num_participants) + ", num_absentees="
-				+ Arrays.toString(num_absentees) + ", projectGalleryFileNames="
+				+ no_of_Absentees + ", work_short_name=" + work_short_name + ", projectGalleryFiles="
+				+ Arrays.toString(projectGalleryFiles) + ", projectFiles=" + Arrays.toString(projectFiles)
+				+ ", trainingFile=" + trainingFile + ", trainingSessions=" + trainingSessions + ", trainingAttendees="
+				+ trainingAttendees + ", trainingSessionFiles=" + Arrays.toString(trainingSessionFiles)
+				+ ", filecounts=" + Arrays.toString(filecounts) + ", trainingFilesList=" + trainingFilesList
+				+ ", trainingNewList=" + trainingNewList + ", attendeesList=" + attendeesList + ", HODsList=" + HODsList
+				+ ", deptList=" + deptList + ", statusList=" + statusList + ", employeeReportList=" + employeeReportList
+				+ ", mail_body_header=" + mail_body_header + ", training_attendees_ids="
+				+ Arrays.toString(training_attendees_ids) + ", training_id_fks=" + Arrays.toString(training_id_fks)
+				+ ", training_session_id_fks=" + Arrays.toString(training_session_id_fks) + ", department_fks="
+				+ Arrays.toString(department_fks) + ", attendees=" + Arrays.toString(attendees)
+				+ ", trainee_designations=" + Arrays.toString(trainee_designations) + ", mobile_nos="
+				+ Arrays.toString(mobile_nos) + ", required_fks=" + Arrays.toString(required_fks)
+				+ ", participated_fks=" + Arrays.toString(participated_fks) + ", training_session_ids="
+				+ Arrays.toString(training_session_ids) + ", session_nos=" + Arrays.toString(session_nos)
+				+ ", start_times=" + Arrays.toString(start_times) + ", end_times=" + Arrays.toString(end_times)
+				+ ", remarkss=" + Arrays.toString(remarkss) + ", hod_user_id_fks=" + Arrays.toString(hod_user_id_fks)
+				+ ", trainingSessionFileNames=" + Arrays.toString(trainingSessionFileNames) + ", is_new_users="
+				+ Arrays.toString(is_new_users) + ", emails=" + Arrays.toString(emails) + ", created_dates="
+				+ Arrays.toString(created_dates) + ", num_participants=" + Arrays.toString(num_participants)
+				+ ", num_absentees=" + Arrays.toString(num_absentees) + ", projectGalleryFileNames="
 				+ Arrays.toString(projectGalleryFileNames) + ", new_attendees=" + Arrays.toString(new_attendees)
 				+ ", new_required_fks=" + Arrays.toString(new_required_fks) + ", new_participated_fks="
 				+ Arrays.toString(new_participated_fks) + ", rowCounts=" + Arrays.toString(rowCounts)

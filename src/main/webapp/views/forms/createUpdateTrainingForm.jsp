@@ -419,25 +419,24 @@
 									name="training_category_fk" id="training_category_fk">
 									<option value="">Select Category </option>
 									<c:forEach var="obj" items="${categoriesList}">
-										<option value="${obj.training_category_fk }"
+										<option value="${obj.training_category_fk}"
 											<c:if test="${trainingDetails.training_category_fk eq obj.training_category_fk }">selected</c:if>>${obj.training_category_fk }</option>
 									</c:forEach>
 								</select> 
 								<span id="training_category_fkError" class="error-msg"></span>
 							</div>
 							
-							
-						
-								<div class="col s6 m4 l4 input-field">
- 							 <p class="searchable_label">Periodicity : <span class="required">*</span></p>
-												  <select class="searchable validate-dropdown" name="period_fk " id="period_fk ">
+							<div class="col s6 m4 l4 input-field">
+ 							 <p class="searchable_label">Periodicity <span class="required">*</span></p>
+												  <select class="searchable validate-dropdown" 
+												  name="period_fk" id="period_fk">
 												    <option value="">Select Periodicity</option>
 												    <c:forEach var="obj" items="${periodicityList}">
-													<option value="${obj.period_fk }"
-													<c:if test="${trainingDetails.period_fk  eq obj.period_fk }">selected</c:if>>${obj.period_fk }</option>
+														<option value="${obj.period_fk}"
+															<c:if test="${trainingDetails.period_fk eq obj.period_fk }">selected</c:if>>${obj.period_fk }</option>
 													</c:forEach>
 												  </select> 
-												  <span id="periodicityError" class="error-msg"></span>
+												  <span id="period_fkError" class="error-msg"></span>
 												</div>				
 
 
@@ -483,15 +482,16 @@
 								
 								<div class="col s12 m4 l4 input-field">
  							 <p class="searchable_label">Conducted By : <span class="required">*</span></p>
-												  <select class="searchable validate-dropdown" name="conduct_by_fk" id="conduct_by_fk">
+												  <select class="searchable validate-dropdown" 
+												  name="conduct_by_fk" id="conduct_by_fk">
 												    <option value="">Conducted By</option>
 												    <c:forEach var="obj" items="${training_ConductedList}">
-													<option value="${obj.conduct_by_fk }"
-													<c:if test="${trainingDetails.conduct_by_fk  eq obj.conduct_by_fk }">selected</c:if>>${obj.conduct_by_fk }</option>
+													<option value="${obj.conduct_by_fk}"
+													<c:if test="${trainingDetails.conduct_by_fk  eq obj.conduct_by_fk}">selected</c:if>>${obj.conduct_by_fk }</option>
 													</c:forEach>
 												   
 												  </select> 
-												  <span id="conducted_byError" class="error-msg"></span>
+												  <span id="conduct_by_fkError" class="error-msg"></span>
 								</div>
 							 
 						</div>
@@ -1005,7 +1005,7 @@
 	<jsp:include page="../layout/footer.jsp"></jsp:include>
 
 	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
+	
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 	<script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
 	<script src="/pmis/resources/js/dataTables.material.min.js"></script>
@@ -2145,6 +2145,8 @@
   		 		    required: true
   			 	  },"description": {
   		 		    required: true
+  			 	  },"conduct_by_fk": {
+  		 		    required: true
   			 	  },"designation": {
   		 		    required: false
   			 	  },"faculty_name": {
@@ -2176,12 +2178,16 @@
   				 	required: 'This field is required',
   			 	  },"training_category_fk": {
   			 		required: ' This field is required'
+  			 	  },"period_fk": {
+  			 		required: ' This field is required'
   			 	  },"status_fk": {
   		 			required: ' This field is required'
   		 	  	 },"title": {
   		 			required: ' This field is required'
   		 	  	 },"description": {
   		 			required: ' This field is required'
+  		 	     },"conduct_by_fk": {
+		 			required: ' This field is required'
   		 	  	 },"designation": {
   		 			required: ' This field is required'
   		 	  	 },"faculty_name": {
@@ -2209,6 +2215,9 @@
 			    }else if(element.attr("id") == "training_category_fk" ){
 					   document.getElementById("training_category_fkError").innerHTML="";
 				 	   error.appendTo('#training_category_fkError');
+			    }else if(element.attr("id") == "period_fk" ){
+					   document.getElementById("period_fkError").innerHTML="";
+				 	   error.appendTo('#period_fkError');
 			    }else if(element.attr("id") == "status_fk" ){
 						document.getElementById("status_fkError").innerHTML="";
 					 	error.appendTo('#status_fkError');
@@ -2218,6 +2227,9 @@
 				}else if(element.attr("id") == "description" ){
 			 		 document.getElementById("descriptionError").innerHTML="";
 	 				 error.appendTo('#descriptionError');
+				}else if(element.attr("id") == "conduct_by_fk" ){
+			 		 document.getElementById("conduct_by_fkError").innerHTML="";
+	 				 error.appendTo('#conduct_by_fkError');
 				}else if(element.attr("id") == "designation" ){
 			 		 document.getElementById("designationError").innerHTML="";
 	 				 error.appendTo('#designationError');

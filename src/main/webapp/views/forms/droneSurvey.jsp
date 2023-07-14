@@ -563,7 +563,7 @@ b, strong {
 			}
 		});
 		 var overview_work_id = '${work_id}';
-		html +='<br><button type="button" class="btn waves-effect waves-light bg-s f-w-b" style="float:right;display:none;" id="btnDroneSurvey"><a href="/pmis/work-drone-survey/'+overview_work_id+'">Drone Survey</a></button>';
+		//html +='<br><button type="button" class="btn waves-effect waves-light bg-s f-w-b" style="float:right;display:none;" id="btnDroneSurvey"><a href="/pmis/work-drone-survey/'+overview_work_id+'">Drone Survey</a></button>';
 	    return html;	
 	}
     

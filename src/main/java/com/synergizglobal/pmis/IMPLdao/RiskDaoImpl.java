@@ -798,7 +798,7 @@ public boolean checkRiskAssessment(String subwork,String Date) throws Exception 
 						  				 
 						 String messageType = "Risk";
 						 
-							String riskQuery = "select dashboard_id from left_menu where dashboard_type_fk='modules' and dashboard_name='Risk' offset 0 rows  fetch next 1 rows only";
+							String riskQuery = "select dashboard_id from left_menu where dashboard_type_fk='modules' and dashboard_name='Risk' order by dashboard_id offset 0 rows  fetch next 1 rows only";
 							String dashboardid = jdbcTemplate.queryForObject( riskQuery, String.class);
 							
 						 String redirect_url = "/overview-dashboard/"+dashboardid+"?&sub_work="+obj.getSub_work()+"&assessment_date="+DateParser.parse(obj.getAssessment_date());

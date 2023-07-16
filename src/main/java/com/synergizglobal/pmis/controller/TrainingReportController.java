@@ -3,7 +3,6 @@ package com.synergizglobal.pmis.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
@@ -25,12 +24,8 @@ import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
-import org.docx4j.jaxb.Context;
-import org.docx4j.wml.ObjectFactory;
-import org.docx4j.wml.STPageOrientation;
-import org.docx4j.wml.SectPr;
-import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTSectPr;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTShd;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTcPr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -47,7 +42,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.TrainingReportService;
-import com.synergizglobal.pmis.common.CTPageSz;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.constants.PageConstants2;
 import com.synergizglobal.pmis.model.Training;
@@ -89,24 +83,6 @@ public class TrainingReportController {
 		return model;
 	}
 
-	private SectPr createSectPr() {
-		ObjectFactory factory = Context.getWmlObjectFactory();
-		SectPr sectPr = factory.createSectPr();
-		return sectPr;
-	}
-
-	private void setLandscapePage(SectPr sectPr) {
-		SectPr.PgSz pgSz = sectPr.getPgSz();
-		if (pgSz == null) {
-			pgSz = Context.getWmlObjectFactory().createSectPrPgSz();
-			sectPr.setPgSz(pgSz);
-		}
-		pgSz.setW(BigInteger.valueOf(15840)); // Landscape width in twentieths of a point
-		pgSz.setH(BigInteger.valueOf(12240)); // Landscape height in twentieths of a point
-		pgSz.setOrient(STPageOrientation.LANDSCAPE);
-		pgSz.setCode("9");
-	}
-
 	@RequestMapping(value = "/generate-training-report", method = RequestMethod.GET)
 	public ResponseEntity<byte[]> generatetrainingReport(@ModelAttribute Training obj, RedirectAttributes attributes,
 			HttpSession session, HttpServletRequest request, HttpServletResponse response) {
@@ -125,47 +101,6 @@ public class TrainingReportController {
 			// Create Word document
 			XWPFDocument document = new XWPFDocument();
 
-			// Create landscape page size
-			CTSectPr sectPr = document.getDocument().getBody().addNewSectPr();
-			CTPageSz pageSize = sectPr.addNewPgSz();
-			pageSize.setW(BigInteger.valueOf(15840)); // Landscape width in twentieths of a point
-			pageSize.setH(BigInteger.valueOf(12240)); // Landscape height in twentieths of a point
-			pageSize.setOrient(STPageOrientation.LANDSCAPE);
-
-			// Create landscape page size
-//			CTDocument1 ctDocument = document.getDocument();
-//			CTBody body = ctDocument.getBody();
-//			CTSectPr sectPr = body.isSetSectPr() ? body.getSectPr() : body.addNewSectPr();
-//			CTPageSz pageSize = sectPr.isSetPgSz() ? sectPr.getPgSz() : sectPr.addNewPgSz();
-//			pageSize.setW(BigInteger.valueOf(15840)); // Landscape width in twentieths of a point
-//			pageSize.setH(BigInteger.valueOf(12240)); // Landscape height in twentieths of a point
-//			pageSize.setOrient(STPageOrientation.LANDSCAPE);
-
-			// Set landscape page size indirectly
-//			POIXMLProperties props = document.getProperties();
-//			if (props != null) {
-//			    CustomProperties customProps = props.getCustomProperties();
-//			    if (customProps == null) {
-//			        customProps = props.getCoreProperties().getCustomProperties();
-//			    }
-//			    if (customProps != null) {
-//			        customProps.addProperty("PageSize", "A4_LANDSCAPE");
-//			    }
-
-//		// Create Word document using docx4j
-//			WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage();
-//
-//			// Get the Main Document Part
-//			MainDocumentPart mainDocumentPart = wordMLPackage.getMainDocumentPart();
-//
-//			// Create landscape page size
-//			SectPr sectPr = mainDocumentPart.getContents().getBody().getSectPr();
-//			if (sectPr == null) {
-//				sectPr = createSectPr();
-//				mainDocumentPart.getContents().getBody().setSectPr(sectPr);
-//			}
-//			setLandscapePage(sectPr);
-
 			// Add logo at the beginning of the document
 			String imagePath = CommonConstants2.DOCX_LOGO + "/" + "report_logo_mrvc.png";
 			XWPFParagraph logoParagraph = document.createParagraph();
@@ -177,13 +112,12 @@ public class TrainingReportController {
 			// Create paragraph and add text
 			XWPFParagraph paragraph = document.createParagraph();
 			XWPFRun run = paragraph.createRun();
-			run.setText("Training Report For: " + obj.getWork_short_name());
+			run.setText("Training Report For : " + obj.getWork_short_name());
 			run.setFontSize(16);
 			run.setBold(true);
 
 			// Create table
 			XWPFTable table = document.createTable(reportList.size() + 1, 12); // Add an additional column for images
-
 			List<XWPFTableRow> rows = table.getRows();
 
 			// Create table headers
@@ -203,7 +137,11 @@ public class TrainingReportController {
 
 			// Set header row background color
 			for (XWPFTableCell headerCell : headerRow.getTableCells()) {
-				CTShd headerShading = headerCell.getCTTc().addNewTcPr().addNewShd();
+				CTTcPr tcPr = headerCell.getCTTc().getTcPr();
+				if (tcPr == null) {
+					tcPr = headerCell.getCTTc().addNewTcPr();
+				}
+				CTShd headerShading = tcPr.addNewShd();
 				headerShading.setFill("C0C0C0"); // Set the desired background color
 			}
 

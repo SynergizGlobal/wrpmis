@@ -20,4 +20,8 @@ public interface TrainingReportService {
 
 	Training getEmployeeTrainingWithStatus(Training obj) throws Exception;
 
+	List<Training> getWorkShortNameList() throws Exception;
+
+	List<Training> geTrainingReportList(Training obj) throws Exception;
+
 }

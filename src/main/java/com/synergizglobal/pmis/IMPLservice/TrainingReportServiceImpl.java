@@ -8,12 +8,13 @@ import org.springframework.stereotype.Service;
 import com.synergizglobal.pmis.Idao.TrainingReportDao;
 import com.synergizglobal.pmis.Iservice.TrainingReportService;
 import com.synergizglobal.pmis.model.Training;
+
 @Service
-public class TrainingReportServiceImpl implements TrainingReportService{
-	
+public class TrainingReportServiceImpl implements TrainingReportService {
+
 	@Autowired
 	TrainingReportDao dao;
-	
+
 	@Override
 	public List<Training> getEmployeesInTraining(Training obj) throws Exception {
 		return dao.getEmployeesInTraining(obj);
@@ -49,4 +50,14 @@ public class TrainingReportServiceImpl implements TrainingReportService{
 		return dao.getEmployeeTrainingWithStatus(obj);
 	}
 
+	@Override
+	public List<Training> getWorkShortNameList() throws Exception {
+		return dao.getWorkShortNameList();
+	}
+
+	@Override
+	public List<Training> geTrainingReportList(Training obj) throws Exception {
+
+		return dao.geTrainingReportList(obj);
+	}
 }

@@ -725,5 +725,18 @@ public class OverviewDashboardDaoImpl implements OverviewDashboardDao {
 			throw new Exception(e);
 		}		
 		return objsList;
+	}
+
+
+	@Override
+	public int getWorkDroneSurveyCount(String work_id) throws Exception {
+		int count=0;
+		try {
+			String qry = "select count(*) as cnt from uav_video_data_structure where work=?";
+			count = (int) jdbcTemplate.queryForObject(qry, new Object[] { work_id } ,int.class);
+		} catch (Exception e) {
+			throw new Exception(e);
+		}		
+		return count;
 	}	
 }

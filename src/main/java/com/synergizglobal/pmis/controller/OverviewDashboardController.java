@@ -62,6 +62,19 @@ public class OverviewDashboardController {
 		return model;
 	}
 	
+	@RequestMapping(value = "/ajax/getWorkDroneSurveyCount", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public int getWorkDroneSurveyCount(String work_id) throws Exception {
+		int cnt = 0;
+		try {
+			cnt = overviewDashboardService.getWorkDroneSurveyCount(work_id);
+		} catch (SQLException e) {
+			logger.error("getModulesCount : " + e.getMessage());
+		}
+		return cnt;
+	}	
+	
+	
 	@RequestMapping(value="/ta-dashboard",method= {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView taDashboard(HttpSession session) {
 		ModelAndView model = new ModelAndView();

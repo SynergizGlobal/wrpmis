@@ -42,4 +42,9 @@ public class OverviewDashboardServiceImpl implements OverviewDashboardService {
 	public boolean getDashboardLeftMenuAccess(OverviewDashboard dObj) throws Exception{
 		return dao.getDashboardLeftMenuAccess(dObj);
 	}
+
+	@Override
+	public int getWorkDroneSurveyCount(String work_id) throws Exception {
+		return dao.getWorkDroneSurveyCount(work_id);
+	}
 }

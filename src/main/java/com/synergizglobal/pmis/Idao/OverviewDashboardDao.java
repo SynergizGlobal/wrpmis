@@ -17,4 +17,6 @@ public interface OverviewDashboardDao {
 	public boolean getDashboardLeftMenuAccess(OverviewDashboard dObj)  throws Exception;
 
 	public List<OverviewDashboard> getArchiveDates(OverviewDashboard obj) throws Exception;
+
+	public int getWorkDroneSurveyCount(String work_id) throws Exception;
 }

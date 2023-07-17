@@ -258,26 +258,11 @@ b, strong {
 	
 </head>
 <body>
-	<!-- header included -->
-	<jsp:include page="../layout/header.jsp"></jsp:include>
 	
-	<!-- model 1 which closes entire navigation -->
-	
-	<div class="gr-bl" style="margin-top:2rem;">
-	    <div class="row">
-	        <div class="col s12 m2" id="menu-item-holder">
-	             <div class=" main-menu-collapse">
-	             	<div id="accordion"></div>
-               </div>
-	        </div>
-	    	<div class="col s12 m10 timeline_body" id="tableau-item-holder" >
-	    	<div class="row" style="text-align:center;">
-	    	<div class="col s12 m3 input-field"></div>
-	    	<div class="col s12 m6 input-field">
-									<h4 style="background-color:#deebf7;color:#000000;text-align:center;" class="card"><span class="ui-accordion-header-icon ui-icon ui-icon-triangle-1-e"></span>${work_short_name} Drone Survey</h4>
-	    	</div><div class="col s12 m3 input-field"></div>
-	    	 </div>
-	    	<div class="row"> 
+		    	<div class="row">
+	    	<div class="col s12 m12 timeline_body">
+									<h4 style="color:#000000;text-align:center;"><span class="ui-accordion-header-icon ui-icon ui-icon-triangle-1-e"></span>${work_short_name} Drone Survey</h4>
+	    	
 										<div class="col s12 m4 input-field">
 											<p class="searchable_label">Survey Date 1</p>
 											<select id="survey_date" name="survey_date" onchange="Survey_Date(this.value,1);" class="searchable">
@@ -302,7 +287,6 @@ b, strong {
 											</select>
 										</div>
 									
-									</div>									
 									
 									<div class="row ">
 										<div class="col s12 m6 input-field" id="survey_dateVideo">
@@ -317,24 +301,7 @@ b, strong {
 </div>	
 		</div>
 
-		<div class="page-loader" style="display: none;">
-			<div class="preloader-wrapper big active">
-				<div class="spinner-layer spinner-blue-only">
-					<div class="circle-clipper left">
-						<div class="circle"></div>
-					</div>
-					<div class="gap-patch">
-						<div class="circle"></div>
-					</div>
-					<div class="circle-clipper right">
-						<div class="circle"></div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- footer included -->
- 	<jsp:include page="../layout/footer.jsp"></jsp:include> 
+
 
   <script src="/pmis/resources/js/jQuery-v.3.5.min.js" ></script>
   <script src="/pmis/resources/js/materialize-v.1.0.min.js" ></script>
@@ -360,7 +327,6 @@ b, strong {
 	        getStructuresFilterList();
 
 
-	    	
 		    var overview_work_id = '${work_id}';
 		    requestedDashboardId = '${dashboardId}';
 		    var dashboard_type = '${dashboard_type}';
@@ -370,6 +336,7 @@ b, strong {
 				cache: false,async:false,
 				success : function(data){   
 					$('#accordion').append(getData(data));
+					$('#accordion').append('<h3 class="bg-a ui-accordion-header ui-corner-top ui-accordion-header-collapsed ui-corner-all ui-state-default ui-accordion-icons" id="0" parent_id="" onclick="surveypage();" role="tab" aria-controls="ui-id-12" aria-selected="false" aria-expanded="false" tabindex="-1"><span class="ui-accordion-header-icon ui-icon ui-icon-triangle-1-e"></span><a href="javascript:void(0);">Drone Survey</a></h3>');
 					
 						if(getData(data)=="")
 						{
@@ -416,6 +383,12 @@ b, strong {
 			}
 		    $('.searchable').select2();
 	});
+	    
+		   
+	 function surveypage()
+	 {
+			window.location.href="/pmis/work-drone-survey/"+'${work_id}';
+	 }
 	    
 	    
 	function getWorkId(rlc)

@@ -301,6 +301,7 @@ font-size:22px ;
    				assessmentdate = getUrlVars()["assessment_date"];
     		}
 	    	
+
 		    var overview_work_id = '${work_id}';
 		    requestedDashboardId = '${dashboardId}';
 		    var dashboard_type = '${dashboard_type}';
@@ -310,6 +311,11 @@ font-size:22px ;
 				cache: false,async:false,
 				success : function(data){   
 					$('#accordion').append(getData(data));
+					
+					if('${work_id}'!="")
+						{
+							$('#accordion').append('<h3 class="bg-a ui-accordion-header ui-corner-top ui-accordion-header-collapsed ui-corner-all ui-state-default ui-accordion-icons" id="27" parent_id="" onclick="surveypage();" role="tab" aria-controls="ui-id-12" aria-selected="false" aria-expanded="false" tabindex="-1"><span class="ui-accordion-header-icon ui-icon ui-icon-triangle-1-e"></span><a href="javascript:void(0);">Drone Survey</a></h3>');
+						}
 					
 						if(getData(data)=="")
 						{
@@ -366,7 +372,12 @@ font-size:22px ;
     			$("#"+safetyid).click();
 			}
 	});
-	    
+	   
+	 function surveypage()
+	 {
+			var url="/pmis/work-drone-survey/"+'${work_id}';
+		 	$("#dashboardOpen").attr("src",url);
+	 }
 	    
 	function getWorkId(rlc)
 	{
@@ -551,6 +562,7 @@ font-size:22px ;
     
 	  
 	function openDashboard(dashboardId,accessibility){
+		
 		  $(".page-loader").show();
 		  $(".bg-a").removeClass("active");
 		  $("#"+dashboardId).addClass("active");

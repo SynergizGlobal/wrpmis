@@ -49,20 +49,20 @@
 											<option value="${obj.work_short_name}" ${trainingDetails.work_short_name eq obj.work_short_name ? 'selected' : ''} name="work_short_name">${obj.work_short_name}</option>
 											</c:forEach>
 											</select>
-	                                        <span id="hod_user_id_fkError" class="error-msg" ></span>
+	                                        <span id="work_short_nameError" class="error-msg" ></span>
 	                                    </div>
 	                                    <div class="col s6 m4 l3 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Start Date</p>
 	                                        <input id="start_time${index.count }" name="start_time" type="text" class="validate datepicker" value="${iObj.created_date }" placeholder="Start Date">
 											<button type="button" id="created_date${index.count }_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 							
-	                                        <span id="work_id_fkError" class="error-msg" ></span>
+	                                        <span id="start_timeError" class="error-msg" ></span>
 	                                    </div>
 	                                     <div class="col s6 m4 l3 input-field">
 	                                        <p class="searchable_label" style="text-align:left">End Date</p>
 	                                       <input id="end_time${index.count }" name="end_time" type="text" class="validate datepicker" value="${iObj.created_date }" placeholder="End Date">
 											<button type="button" id="created_date${index.count }_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
-	                                        <span id="work_id_fkError" class="error-msg" ></span>
+	                                        <span id="end_timeError" class="error-msg" ></span>
 	                                    </div>
 	                                    
 	                                </div>    
@@ -249,33 +249,35 @@
         var validator =	$('#reportForm').validate({
 			 ignore: ":hidden:not(.validate-dropdown)",
 	  		    rules: {
-	  		 		  "work_id_fk": {
-	  			 		required: false
-	  			 	  },"contract_id_fk": {
-	  			 		required: false
-	  			 	  },"hod_user_id_fk": {
-	  			 		required: false
-	  			 	  }
+	  		    	 "work_short_name": {
+	  		    	      required: true
+	  		    	    },
+	  		    	    "start_time": {
+	  		    	      required: true
+	  		    	    },
+	  		    	    "end_time": {
+	  		    	      required: true
+	  		    	    }
 	  		 	},
 	  		    messages: {
-	  		 		 "work_id_fk": {
+	  		 		 "work_short_name": {
 	  				 	required: 'This field is required',
-	  			 	  },"contract_id_fk": {
+	  			 	  },"start_time": {
 	  			 		required: ' This field is required'
-	  			 	  },"hod_user_id_fk": {
+	  			 	  },"end_time": {
 	  			 		required: ' This field is required'
 	  			 	  }
 		   		},
 		   		errorPlacement:function(error, element){
-		   		 	if (element.attr("id") == "work_id_fk" ){
-						 document.getElementById("work_id_fkError").innerHTML="";
-				 		 error.appendTo('#work_id_fkError');
-					} else if(element.attr("id") == "contract_id_fk" ){
-						   document.getElementById("contract_id_fkError").innerHTML="";
-					 	   error.appendTo('#contract_id_fkError');
-					} else if(element.attr("id") == "hod_user_id_fk" ){
-						   document.getElementById("hod_user_id_fkError").innerHTML="";
-					 	   error.appendTo('#hod_user_id_fkError');
+		   		 	if (element.attr("id") == "work_short_name" ){
+						 document.getElementById("work_short_nameError").innerHTML="";
+				 		 error.appendTo('#work_short_nameError');
+					} else if(element.attr("id") == "start_time" ){
+						   document.getElementById("start_timeError").innerHTML="";
+					 	   error.appendTo('#start_timeError');
+					} else if(element.attr("id") == "end_time" ){
+						   document.getElementById("end_timeError").innerHTML="";
+					 	   error.appendTo('#end_timeError');
 					} else{
 	 					error.insertAfter(element);
 			        }

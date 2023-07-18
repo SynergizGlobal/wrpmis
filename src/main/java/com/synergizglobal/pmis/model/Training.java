@@ -9,15 +9,15 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class Training {
 
-	private String period_fk, conduct_by_fk, provide_to_fk, contract_short_name_fk, training_id, training_type_fk,
-			training_category_fk, faculty_name, designation, title, description, training_center, status_fk, remarks,
-			training_attendees_id, training_id_fk, training_session_id_fk, department_fk, attendee, mobile_no,
-			required_fk, participated_fk, training_session_id, session_no, start_time, end_time, hours, department_name,
-			is_there_issue, category, issue_description, created_by_user_id_fk, issue_priority_id, issue_category_id,
-			hod_user_id_fk, user_name, date, session_remarks, nominated, attended, attachment, file_name, user_id,
-			reporting_to, reporting_to_designation, trainee_designation, is_new_user, email, user_type_fk,
-			existing_status_fk, periodicity, conducted_by, provided_to, contract_name, created_date, no_of_Participants,
-			no_of_Absentees, work_short_name, form_designation;
+	private String period_fk, conduct_by_fk, provide_to_fk, contract_short_name_fk, contractor_name, training_id,
+			training_type_fk, training_category_fk, faculty_name, designation, title, description, training_center,
+			status_fk, remarks, training_attendees_id, training_id_fk, training_session_id_fk, department_fk, attendee,
+			mobile_no, required_fk, participated_fk, training_session_id, session_no, start_time, end_time, hours,
+			department_name, is_there_issue, category, issue_description, created_by_user_id_fk, issue_priority_id,
+			issue_category_id, hod_user_id_fk, user_name, date, session_remarks, nominated, attended, attachment,
+			file_name, user_id, reporting_to, reporting_to_designation, trainee_designation, is_new_user, email,
+			user_type_fk, existing_status_fk, periodicity, conducted_by, provided_to, contract_name, created_date,
+			no_of_Participants, no_of_Absentees, work_short_name, form_designation;
 
 	public String getNo_of_Participants() {
 		return no_of_Participants;
@@ -638,6 +638,14 @@ public class Training {
 		}
 
 		return flag;
+	}
+
+	public String getContractor_name() {
+		return contractor_name;
+	}
+
+	public void setContractor_name(String contractor_name) {
+		this.contractor_name = contractor_name;
 	}
 
 	public String getAttachment() {

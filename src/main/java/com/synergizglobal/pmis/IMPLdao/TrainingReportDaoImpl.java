@@ -340,9 +340,9 @@ public class TrainingReportDaoImpl implements TrainingReportDao {
 	public List<Training> geTrainingReportList(Training obj) throws Exception {
 		List<Training> objsList = null;
 		try {
-			String qry = "SELECT training_id, start_time, end_time, title, training_center, contract_short_name_fk, conduct_by_fk, period_fk, session_no, file_name, c.remarks FROM training AS a "
-					+ "LEFT JOIN contract_details AS b ON a.contract_short_name_fk = b.contract_short_name "
-					+ "LEFT JOIN training_session AS c ON c.training_id_fk = a.training_id ";
+			String qry = "select training_id,start_time,end_time,title,training_center,contractor_name,contract_short_name_fk,faculty_name,conduct_by_fk,period_fk,session_no,file_name,c.remarks from training as a\n"
+					+ "left join contract_details as b on a.contract_short_name_fk=b.contract_short_name\n"
+					+ "left join training_session as c on c.training_id_fk=a.training_id ";
 
 			List<Object> params = new ArrayList<>();
 			if (obj != null && !StringUtils.isEmpty(obj.getWork_short_name())) {
@@ -373,7 +373,7 @@ public class TrainingReportDaoImpl implements TrainingReportDao {
 			objsList = jdbcTemplate.query(qry, params.toArray(), new BeanPropertyRowMapper<>(Training.class));
 
 			SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
-			SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+			SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy");
 
 			for (Training obj1 : objsList) {
 				Date startTime = inputFormat.parse(obj1.getStart_time());

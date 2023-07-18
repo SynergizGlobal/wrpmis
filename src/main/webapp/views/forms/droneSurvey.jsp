@@ -853,6 +853,17 @@ b, strong {
                               var selectedFlag = (structure == val.structure)?'selected':'';
                               $("#structure").append('<option value="' + val.to_station + '"'+selectedFlag+'>' + $.trim(val.to_station) +'</option>');
                          });
+                         
+                         $("#structure>option").each( function(){
+
+                        	 var $option = $(this);  
+
+                        	 $option.siblings()
+                        	       .filter( function(){ return $(this).val() == $option.val() } )
+                        	       .remove()
+
+
+                        	})                        
                      }
                      $('.searchable').select2();
                      $(".page-loader").hide();

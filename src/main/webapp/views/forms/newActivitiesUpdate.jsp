@@ -797,18 +797,19 @@
  
 		                                    <div>
 		                                    	<div id="selectedFilesInput">
-		                                    	<div class="file-field input-field mt0" id="workFilesDiv1" >
-			                                        <div class="btn bg-m t-c" id="btn-fl">
-			                                           <span class="w-60p" id="countNo" count="">Attach Photo</span>
-			                                           <input  name="structureFileNames" type="file" id="structureFileNames" accept="gif, .jpg, .png, .jpeg, .webp, .svg, .gif, .jiff"  multiple />
-			                                           <ul class='circle-container' id="myList">
-
-														</ul>
-			                                        </div>
-                                      
-			                                    </div>
-										</div>
+			                                    	<div class="file-field input-field mt0" id="workFilesDiv1" >
+				                                        <div class="btn bg-m t-c" id="btn-fl">
+				                                           <span class="w-60p" id="countNo" count="">Attach Photo</span>
+				                                           <input  name="structureFileNames" type="file" id="structureFileNames"  multiple />
+				                                           <ul class='circle-container' id="myList">
+	
+															</ul>
+				                                        </div>
+	                                      
+				                                    </div>
+												</div>
 		                                    </div>
+		                                    <div class="file-field input-field mt0 btn bg-m t-c"><span class="w-60p" id="countNo" count="">Click Picture</span><input type="file" accept="image/*;capture=camera"></div>
 	                                    <div id="selectedFiles">
 	                                    	
 										</div>

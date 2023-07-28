@@ -1393,6 +1393,8 @@
 			type="hidden" id="globalWorkName" name="globalWorkName" /> <input
 			type="hidden" id="currentUrl" name="currentUrl" />
 	</form>
+	
+	<img src="/pmis/resources/images/backbtn.png" onclick="javascript:window.history.back();" width="30" height="30" style="display:none;" id="imgbackBtn">
 
 	<!-- <script src="https://code.jquery.com/jquery-3.5.0.min.js" ></script> -->
 	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
@@ -1414,7 +1416,12 @@
 			    window.history.back();
 			  }
 			});
+		$("#imgbackBtn").show();
 	}
+	else
+		{
+			$("#imgbackBtn").hide();
+		}
 	
 	let accordions = document.querySelectorAll(".accordion");
 	accordions.forEach((element) => {

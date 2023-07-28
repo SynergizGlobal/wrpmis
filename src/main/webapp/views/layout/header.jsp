@@ -1049,6 +1049,11 @@
 		</div>
 	</div>
 	</nav>
+	
+	<img src="/pmis/resources/images/backbtn.png" onclick="javascript:window.history.back();" width="30" height="30" style="display:none;" id="imgbackBtn">
+	
+	
+	
 	<!-- header @navigation ends here -->
 
 	<!-- Mobile navigation stars here -->
@@ -1394,7 +1399,6 @@
 			type="hidden" id="currentUrl" name="currentUrl" />
 	</form>
 	
-	<img src="/pmis/resources/images/backbtn.png" onclick="javascript:window.history.back();" width="30" height="30" style="display:none;" id="imgbackBtn">
 
 	<!-- <script src="https://code.jquery.com/jquery-3.5.0.min.js" ></script> -->
 	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>

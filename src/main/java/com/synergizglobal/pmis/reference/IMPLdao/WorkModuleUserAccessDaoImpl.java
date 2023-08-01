@@ -425,7 +425,7 @@ public class WorkModuleUserAccessDaoImpl implements WorkModuleUserAccessDao{
 		List<WorkModuleUserAccess> objsList = null;
 		try {
 			String qry = "SELECT distinct module_name_fk from dashboard  " + 
-					"where module_name_fk is not null and module_name_fk <> '' and soft_delete_status_fk='Active' and soft_delete_status_fk='Active' and module_name_fk in('Contracts','Utility Shifting','Risk','R & R','Finance','Design','Land Acquisition')";
+					"where module_name_fk is not null and module_name_fk <> '' and module_name_fk in('Contracts','Utility Shifting','Risk','R & R','Finance','Design','Land Acquisition')";
 		    objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<WorkModuleUserAccess>(WorkModuleUserAccess.class));
 		}catch(Exception e){ 
 			throw new Exception(e);

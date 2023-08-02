@@ -99,10 +99,6 @@ public class TrainingReportController {
 			List<Training> worklist = service.getWorkShortNameList();
 			model.addObject("worklist", worklist);
 
-			obj.setStatus_fk("Completed");
-//			List<Training> completedTrainingTitles = service.getCompletedTrainingTitles(obj);
-//			model.addObject("completedTrainingTitles", completedTrainingTitles);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("trainingReport : " + e.getMessage());
@@ -110,143 +106,10 @@ public class TrainingReportController {
 		return model;
 	}
 
-//	@RequestMapping(value = "/generate-training-report", method = RequestMethod.GET)
-//	public ResponseEntity<byte[]> generatetrainingReport(@ModelAttribute Training obj, RedirectAttributes attributes,
-//			HttpSession session, HttpServletRequest request, HttpServletResponse response) {
-//
-//		try {
-//			// Convert start_time and end_time to desired format (yyyy-MM-dd)
-//			DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-//			DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//			LocalDate startDate = LocalDate.parse(obj.getStart_time(), inputFormatter);
-//			LocalDate endDate = LocalDate.parse(obj.getEnd_time(), inputFormatter);
-//			obj.setStart_time(outputFormatter.format(startDate));
-//			obj.setEnd_time(outputFormatter.format(endDate));
-//
-//			List<Training> reportList = service.geTrainingReportList(obj);
-//
-//			// Create Word document
-//			XWPFDocument document = new XWPFDocument();
-//
-//			// Set the page orientation to landscape
-//			CTSectPr sectPr = document.getDocument().getBody().isSetSectPr()
-//					? document.getDocument().getBody().getSectPr()
-//					: document.getDocument().getBody().addNewSectPr();
-//			if (sectPr.isSetPgSz()) {
-//				sectPr.unsetPgSz();
-//			}
-//			CTPageSz pageSize = sectPr.addNewPgSz();
-//			pageSize.setOrient(STPageOrientation.LANDSCAPE);
-//			pageSize.setW(BigInteger.valueOf(15840)); // Set the width to 15840 twentieths of a point (A4 landscape)
-//			pageSize.setH(BigInteger.valueOf(12240)); // Set the height to 12240 twentieths of a point (A4 landscape)
-//
-//			// Add logo at the beginning of the document
-//			String imagePath = CommonConstants2.DOCX_LOGO + "/" + "report_logo_mrvc.png";
-//			XWPFParagraph logoParagraph = document.createParagraph();
-//			XWPFRun logoRun = logoParagraph.createRun();
-//			logoRun.addPicture(new FileInputStream(imagePath), XWPFDocument.PICTURE_TYPE_PNG, "Logo", Units.toEMU(70),
-//					Units.toEMU(70));
-//			logoParagraph.setAlignment(ParagraphAlignment.CENTER);
-//
-//			// Create paragraph and add text
-//			XWPFParagraph paragraph = document.createParagraph();
-//			XWPFRun run = paragraph.createRun();
-//			run.setText("Training Report For : " + obj.getWork_short_name());
-//			run.setFontSize(16);
-//			run.setBold(true);
-//
-//			// Create table
-//			XWPFTable table = document.createTable(reportList.size() + 1, 12); // Add an additional column for images
-//			List<XWPFTableRow> rows = table.getRows();
-//
-//			// Create table headers
-//			XWPFTableRow headerRow = rows.get(0);
-//			headerRow.getCell(0).setText("Training ID");
-//			headerRow.getCell(1).setText("Start Time");
-//			headerRow.getCell(2).setText("End Time");
-//			headerRow.getCell(3).setText("Title");
-//			headerRow.getCell(4).setText("Location");
-//			headerRow.getCell(5).setText("Contract Short Name");
-//			headerRow.getCell(6).setText("Conduct By");
-//			headerRow.getCell(7).setText("Period");
-//			headerRow.getCell(8).setText("Session No");
-//			headerRow.getCell(9).setText("File Name");
-//			headerRow.getCell(10).setText("Remarks");
-//			headerRow.getCell(11).setText("Image"); // Add header for the image column
-//
-//			// Set header row background color
-//			for (XWPFTableCell headerCell : headerRow.getTableCells()) {
-//				CTTcPr tcPr = headerCell.getCTTc().getTcPr();
-//				if (tcPr == null) {
-//					tcPr = headerCell.getCTTc().addNewTcPr();
-//				}
-//				CTShd headerShading = tcPr.addNewShd();
-//				headerShading.setFill("C0C0C0"); // Set the desired background color
-//			}
-//
-//			// Populate table with data and add image to the last column
-//			for (int i = 0; i < reportList.size(); i++) {
-//				XWPFTableRow row = rows.get(i + 1);
-//				Training training = reportList.get(i);
-//				row.getCell(0).setText(training.getTraining_id());
-//				row.getCell(1).setText(training.getStart_time());
-//				row.getCell(2).setText(training.getEnd_time());
-//				row.getCell(3).setText(training.getTitle());
-//				row.getCell(4).setText(training.getTraining_center());
-//				row.getCell(5).setText(training.getContract_short_name_fk());
-//				row.getCell(6).setText(training.getConduct_by_fk());
-//				row.getCell(7).setText(training.getPeriod_fk());
-//				row.getCell(8).setText(training.getSession_no());
-//				row.getCell(9).setText(training.getFile_name());
-//				row.getCell(10).setText(training.getRemarks());
-//
-//				// Add image to the last column
-//				String imageFilePath = CommonConstants2.TRAINING_GALLERY_FILE_SAVING_PATH + "/"
-//						+ training.getTraining_id() + "/" + training.getFile_name();
-//				if (new File(imageFilePath).exists()) {
-//					XWPFParagraph imageParagraph = row.getCell(11).addParagraph(); // Add the image to the 12th column
-//					XWPFRun imageRun = imageParagraph.createRun();
-//					imageRun.addPicture(new FileInputStream(imageFilePath), Document.PICTURE_TYPE_PNG, "Image",
-//							Units.toEMU(70), Units.toEMU(70));
-//				}
-//			}
-//
-//			// Generate file name with timestamp
-//			String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
-//			String fileName = "Training_Report_" + timestamp + ".docx";
-//			String filePath = "C:/Users/Synergiz/Downloads/" + fileName;
-//
-//			// Save the document to file
-//			FileOutputStream fileOutputStream = new FileOutputStream(filePath);
-//			document.write(fileOutputStream);
-//			fileOutputStream.close();
-//
-//			// Prepare the response
-//			byte[] fileContent = Files.readAllBytes(Paths.get(filePath));
-//			HttpHeaders headers = new HttpHeaders();
-//			headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-//			headers.setContentDispositionFormData(fileName, fileName);
-//			headers.setContentLength(fileContent.length);
-//
-//			// Delete the temporary file
-//			Files.deleteIfExists(Paths.get(filePath));
-//
-//			return ResponseEntity.ok().headers(headers).body(fileContent);
-//
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			logger.error("trainingReport: " + e.getMessage());
-//			// Handle any exceptions and return an appropriate response
-//		}
-//
-//		return null;
-//	}
-//				
-
 	@RequestMapping(value = "/generate-training-report", method = { RequestMethod.GET, RequestMethod.POST })
 	public ModelAndView TrainingReportList(HttpServletRequest request, HttpServletResponse response,
 			HttpSession session, RedirectAttributes attributes, @ModelAttribute Training obj) {
-		ModelAndView model = new ModelAndView();
+
 		try {
 
 			// Convert start_time and end_time to desired format (yyyy-MM-dd)
@@ -262,7 +125,7 @@ public class TrainingReportController {
 			Date date = new Date();
 			String currentDate = sqlDate.format(date);
 
-			List<Training> list = service.geTrainingReportList(obj);
+			List<Training> list = service.getTrainingReportList(obj);
 
 			boolean flag = generatTrainingReportList(response, currentDate, list);
 
@@ -270,7 +133,7 @@ public class TrainingReportController {
 			e.printStackTrace();
 			logger.error("generatTrainingReport : " + e.getMessage());
 		}
-		return model;
+		return null;
 	}
 
 	public Hdr getHdr(WordprocessingMLPackage wordprocessingMLPackage, ObjectFactory factory, HeaderPart sourcePart,
@@ -809,6 +672,139 @@ public class TrainingReportController {
 
 		return flag;
 	}
+
+//	@RequestMapping(value = "/generate-training-report", method = RequestMethod.GET)
+//	public ResponseEntity<byte[]> generatetrainingReport(@ModelAttribute Training obj, RedirectAttributes attributes,
+//			HttpSession session, HttpServletRequest request, HttpServletResponse response) {
+//
+//		try {
+//			// Convert start_time and end_time to desired format (yyyy-MM-dd)
+//			DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+//			DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//			LocalDate startDate = LocalDate.parse(obj.getStart_time(), inputFormatter);
+//			LocalDate endDate = LocalDate.parse(obj.getEnd_time(), inputFormatter);
+//			obj.setStart_time(outputFormatter.format(startDate));
+//			obj.setEnd_time(outputFormatter.format(endDate));
+//
+//			List<Training> reportList = service.geTrainingReportList(obj);
+//
+//			// Create Word document
+//			XWPFDocument document = new XWPFDocument();
+//
+//			// Set the page orientation to landscape
+//			CTSectPr sectPr = document.getDocument().getBody().isSetSectPr()
+//					? document.getDocument().getBody().getSectPr()
+//					: document.getDocument().getBody().addNewSectPr();
+//			if (sectPr.isSetPgSz()) {
+//				sectPr.unsetPgSz();
+//			}
+//			CTPageSz pageSize = sectPr.addNewPgSz();
+//			pageSize.setOrient(STPageOrientation.LANDSCAPE);
+//			pageSize.setW(BigInteger.valueOf(15840)); // Set the width to 15840 twentieths of a point (A4 landscape)
+//			pageSize.setH(BigInteger.valueOf(12240)); // Set the height to 12240 twentieths of a point (A4 landscape)
+//
+//			// Add logo at the beginning of the document
+//			String imagePath = CommonConstants2.DOCX_LOGO + "/" + "report_logo_mrvc.png";
+//			XWPFParagraph logoParagraph = document.createParagraph();
+//			XWPFRun logoRun = logoParagraph.createRun();
+//			logoRun.addPicture(new FileInputStream(imagePath), XWPFDocument.PICTURE_TYPE_PNG, "Logo", Units.toEMU(70),
+//					Units.toEMU(70));
+//			logoParagraph.setAlignment(ParagraphAlignment.CENTER);
+//
+//			// Create paragraph and add text
+//			XWPFParagraph paragraph = document.createParagraph();
+//			XWPFRun run = paragraph.createRun();
+//			run.setText("Training Report For : " + obj.getWork_short_name());
+//			run.setFontSize(16);
+//			run.setBold(true);
+//
+//			// Create table
+//			XWPFTable table = document.createTable(reportList.size() + 1, 12); // Add an additional column for images
+//			List<XWPFTableRow> rows = table.getRows();
+//
+//			// Create table headers
+//			XWPFTableRow headerRow = rows.get(0);
+//			headerRow.getCell(0).setText("Training ID");
+//			headerRow.getCell(1).setText("Start Time");
+//			headerRow.getCell(2).setText("End Time");
+//			headerRow.getCell(3).setText("Title");
+//			headerRow.getCell(4).setText("Location");
+//			headerRow.getCell(5).setText("Contract Short Name");
+//			headerRow.getCell(6).setText("Conduct By");
+//			headerRow.getCell(7).setText("Period");
+//			headerRow.getCell(8).setText("Session No");
+//			headerRow.getCell(9).setText("File Name");
+//			headerRow.getCell(10).setText("Remarks");
+//			headerRow.getCell(11).setText("Image"); // Add header for the image column
+//
+//			// Set header row background color
+//			for (XWPFTableCell headerCell : headerRow.getTableCells()) {
+//				CTTcPr tcPr = headerCell.getCTTc().getTcPr();
+//				if (tcPr == null) {
+//					tcPr = headerCell.getCTTc().addNewTcPr();
+//				}
+//				CTShd headerShading = tcPr.addNewShd();
+//				headerShading.setFill("C0C0C0"); // Set the desired background color
+//			}
+//
+//			// Populate table with data and add image to the last column
+//			for (int i = 0; i < reportList.size(); i++) {
+//				XWPFTableRow row = rows.get(i + 1);
+//				Training training = reportList.get(i);
+//				row.getCell(0).setText(training.getTraining_id());
+//				row.getCell(1).setText(training.getStart_time());
+//				row.getCell(2).setText(training.getEnd_time());
+//				row.getCell(3).setText(training.getTitle());
+//				row.getCell(4).setText(training.getTraining_center());
+//				row.getCell(5).setText(training.getContract_short_name_fk());
+//				row.getCell(6).setText(training.getConduct_by_fk());
+//				row.getCell(7).setText(training.getPeriod_fk());
+//				row.getCell(8).setText(training.getSession_no());
+//				row.getCell(9).setText(training.getFile_name());
+//				row.getCell(10).setText(training.getRemarks());
+//
+//				// Add image to the last column
+//				String imageFilePath = CommonConstants2.TRAINING_GALLERY_FILE_SAVING_PATH + "/"
+//						+ training.getTraining_id() + "/" + training.getFile_name();
+//				if (new File(imageFilePath).exists()) {
+//					XWPFParagraph imageParagraph = row.getCell(11).addParagraph(); // Add the image to the 12th column
+//					XWPFRun imageRun = imageParagraph.createRun();
+//					imageRun.addPicture(new FileInputStream(imageFilePath), Document.PICTURE_TYPE_PNG, "Image",
+//							Units.toEMU(70), Units.toEMU(70));
+//				}
+//			}
+//
+//			// Generate file name with timestamp
+//			String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+//			String fileName = "Training_Report_" + timestamp + ".docx";
+//			String filePath = "C:/Users/Synergiz/Downloads/" + fileName;
+//
+//			// Save the document to file
+//			FileOutputStream fileOutputStream = new FileOutputStream(filePath);
+//			document.write(fileOutputStream);
+//			fileOutputStream.close();
+//
+//			// Prepare the response
+//			byte[] fileContent = Files.readAllBytes(Paths.get(filePath));
+//			HttpHeaders headers = new HttpHeaders();
+//			headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+//			headers.setContentDispositionFormData(fileName, fileName);
+//			headers.setContentLength(fileContent.length);
+//
+//			// Delete the temporary file
+//			Files.deleteIfExists(Paths.get(filePath));
+//
+//			return ResponseEntity.ok().headers(headers).body(fileContent);
+//
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			logger.error("trainingReport: " + e.getMessage());
+//			// Handle any exceptions and return an appropriate response
+//		}
+//
+//		return null;
+//	}
+//				
 
 //	@RequestMapping(value = "/ajax/getScheduledListInTrainingReport", method = { RequestMethod.GET,
 //			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)

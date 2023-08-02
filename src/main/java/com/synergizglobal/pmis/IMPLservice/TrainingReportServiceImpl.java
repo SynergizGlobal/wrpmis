@@ -56,8 +56,8 @@ public class TrainingReportServiceImpl implements TrainingReportService {
 	}
 
 	@Override
-	public List<Training> geTrainingReportList(Training obj) throws Exception {
+	public List<Training> getTrainingReportList(Training obj) throws Exception {
 
-		return dao.geTrainingReportList(obj);
+		return dao.getTrainingReportList(obj);
 	}
 }

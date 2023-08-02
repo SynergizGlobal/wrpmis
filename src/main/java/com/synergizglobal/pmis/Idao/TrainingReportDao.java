@@ -22,6 +22,6 @@ public interface TrainingReportDao {
 
 	List<Training> getWorkShortNameList() throws Exception;
 
-	List<Training> geTrainingReportList(Training obj) throws Exception;
+	List<Training> getTrainingReportList(Training obj) throws Exception;
 
 }

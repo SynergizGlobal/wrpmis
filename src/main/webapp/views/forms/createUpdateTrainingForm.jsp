@@ -526,7 +526,7 @@
 									<c:if test="${trainingDetails.provide_to_fk  eq obj.provide_to_fk }">selected</c:if>>${obj.provide_to_fk }</option>
 									</c:forEach>
 								    </select> 
-								       <span id="training_typeError" class="error-msg"></span>
+								       <span id="provide_to_fkError" class="error-msg"></span>
 								</div>
 								
 								<div class="col s6 m4 l4 input-field" id="contractors-dropdown" style="display:none;">
@@ -679,25 +679,30 @@
 											</c:when>
 											<c:otherwise>
 											<tr id="trainingRow0">
-													<td data-head="Session No"  class="input-field" ><input type="hidden" name= "training_session_ids" id="training_session_ids0"  value="${tObj.training_session_id}"/>
-														<input id="session_nos0" name="session_nos" type="text" class="validate" placeholder="Session No"></td>
+													<td data-head="Session No"  class="input-field" ><input type="hidden" name= "training_session_ids" id="training_session_ids0"  value="${tObj.training_session_id}"/><span id="session_nosError" class="error-msg">
+													<input id="session_nos0" name="session_nos" type="text" class="validate" placeholder="Session No"></span></td>
+														
 											<!--    <td data-head="Date" class="input-field">
 												 	<input id="created_date0" name="created_dates" type="text" class="validate datepicker" placeholder="Date">
 									                <button type="button" id="created_date0_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 									                <span id="dateError" class="error-msg" ></span></td>	-->	
 													
 													<td data-head="Start Time"  class="input-field"><div class="pos-rel"><input id="start_times0" name="start_times" type="text" class="validate timepicker" value="${tObj.start_times}" placeholder="Start Time">
-													<button type="button" id="start_time_icon0"><i class="fa fa-clock-o"></i></button></div></td>
+													<button type="button" id="start_time_icon0"><i class="fa fa-clock-o"></i></button></div>
+													<span id="start_timesError" class="error-msg"  ></span></td>
 														
 													<td data-head="End Time"  class="input-field"><div class="pos-rel"><input id="end_times0" name="end_times" type="text" class="validate timepicker"value="${tObj.end_times}" placeholder="End Time">
-													<button type="button" id="end_time_icon0"><i class="fa fa-clock-o"></i></button></div></td>
+													<span id="end_timesError" class="error-msg" ></span>
+													<button type="button" id="end_time_icon0"><i class="fa fa-clock-o"></i></button></div>
+													</td>
 														
 													<td data-head="No. of Participants" class="input-field">
-             										<input id="num_participants${index.count }" name="num_participants"  type="text" class="validate" value="${tObj.num_participants}" placeholder="No.of Participants"></td>
+             										<input id="num_participants${index.count }" name="num_participants"  type="text" class="validate" value="${tObj.num_participants}" placeholder="No.of Participants">
+             										<span id="num_participantsError" class="error-msg" ></span></td>
                         									
                         							<td data-head="No. of Absentees" class="input-field">
                            							<input id="num_absentees${index.count}" name="num_absentees" type="text" class="validate" value="${tObj.num_absentees}" placeholder="No.of Absentees" onblur="validateAbsentees(${index.count})">
-                        									
+                        							<span id="num_absenteesError" class="error-msg" ></span></td>		
                         									<script>
 															function validateAbsentees(index) {
 															  var num_participants = parseInt(document.getElementById(`num_participants${index}`).value);
@@ -709,6 +714,7 @@
 															  }
 															}
 															</script>
+															
                         									</td>	
                         									
                         										<td data-head="Attach Image" class="cell-disp-inb input-field file-field">
@@ -2149,13 +2155,10 @@
   		 		    required: true
   			 	  },"designation": {
   		 		    required: false
-  			 	  },"faculty_name": {
+  			 	  },"faculty_name":{
   		 		    required: true
-  			 	  },"mobile_nos": {
-  			 		  required: false,
-	  				  number: true,
-	  				  minlength: 10,
-	  				  maxlength: 10
+  			 	  },"provide_to_fk":{
+  			 		required: true
   			 	  },"session_nos":{
   			 		required: true
   			 	  },"start_times":{
@@ -2192,12 +2195,10 @@
   		 			required: ' This field is required'
   		 	  	 },"faculty_name": {
   		 			required: ' This field is required'
-  		 	  	 },"mobile_nos": {
-  		 			required: "Enter your mobile no",
-  		 			minlength : "please enter valid number",
-  		 			minlength : "please enter valid number"
-  		 	  	 },"session_nos": {
+  		 	  	 },"provide_to_fk": {
   		 			required: ' This field is required'
+  		 	  	 },"session_nos": {
+  		 			required: ' Required'
   		 	  	 },"start_times": {
   		 			required: ' This field is required'
   		 	  	 },"end_times": {
@@ -2208,6 +2209,7 @@
   		 			required: ' This field is required'
   		 	  	 }
 	   		},
+	   		
 	   		errorPlacement:function(error, element){
 	   		 	if (element.attr("id") == "training_type_fk" ){
 					 document.getElementById("training_typeError").innerHTML="";
@@ -2236,9 +2238,26 @@
 				}else if(element.attr("id") == "faculty_name" ){
 			 		 document.getElementById("faculty_nameError").innerHTML="";
 	 				 error.appendTo('#faculty_nameError');
+				}else if(element.attr("id") == "provide_to_fk" ){
+			 		 document.getElementById("provide_to_fkError").innerHTML="";
+	 				 error.appendTo('#provide_to_fkError');
+				}else if(element.attr("id") == "session_nos" ){
+			 		 document.getElementById("session_nosError").innerHTML="";
+	 				 error.appendTo('#session_nosError');
+				}else if(element.attr("id") == "start_times" ){
+			 		 document.getElementById("start_timesError").innerHTML="";
+	 				 error.appendTo('#start_timesError');
+				}else if(element.attr("id") == "num_participants" ){
+			 		 document.getElementById("num_participantsError").innerHTML="";
+	 				 error.appendTo('#num_participantsError');
+				}else if(element.attr("id") == "num_absentees" ){
+			 		 document.getElementById("num_absenteesError").innerHTML="";
+	 				 error.appendTo('#num_absenteesError');
 				}else{
 	 					error.insertAfter(element);
 			       } 
+	   		 	
+	   		
 	   		},invalidHandler: function (form, validator) {
 		         var errors = validator.numberOfInvalids();
 		         if (errors) {

@@ -337,7 +337,7 @@ public class TrainingReportDaoImpl implements TrainingReportDao {
 	}
 
 	@Override
-	public List<Training> geTrainingReportList(Training obj) throws Exception {
+	public List<Training> getTrainingReportList(Training obj) throws Exception {
 		List<Training> objsList = null;
 		try {
 			String qry = "select training_id,start_time,end_time,title,training_center,contractor_name,contract_short_name_fk,faculty_name,conduct_by_fk,period_fk,session_no,file_name,c.remarks from training as a\n"

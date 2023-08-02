@@ -656,9 +656,17 @@ public class TrainingDaoImpl implements TrainingDao {
 						insertStmt.setString(p++,
 								(obj.getNum_absentees().length > 0) ? obj.getNum_absentees()[i] : null);
 						insertStmt.setString(p++, (obj.getRemarkss().length > 0) ? obj.getRemarkss()[i] : null);
-						insertStmt.setString(p++,
-								(obj.getProjectGalleryFileNames().length > 0) ? obj.getProjectGalleryFileNames()[i]
-										: null);
+						// Get the gallery file name for the current index
+						String galleryFileName = (obj.getProjectGalleryFileNames().length > 0)
+								? obj.getProjectGalleryFileNames()[i]
+								: null;
+						// Check if the gallery file name is not null but contains only blank spaces
+						// after trimming
+						if (galleryFileName != null && galleryFileName.trim().isEmpty()) {
+							// Set it to null explicitly to store NULL value in the database
+							galleryFileName = null;
+						}
+						insertStmt.setString(p++, galleryFileName);
 
 					}
 
@@ -901,9 +909,17 @@ public class TrainingDaoImpl implements TrainingDao {
 							insertStmt.setString(p++,
 									(obj.getNum_absentees().length > 0) ? obj.getNum_absentees()[i] : null);
 							insertStmt.setString(p++, (obj.getRemarkss().length > 0) ? obj.getRemarkss()[i] : null);
-							insertStmt.setString(p++,
-									(obj.getProjectGalleryFileNames().length > 0) ? obj.getProjectGalleryFileNames()[i]
-											: null);
+							// Get the gallery file name for the current index
+							String galleryFileName = (obj.getProjectGalleryFileNames().length > 0)
+									? obj.getProjectGalleryFileNames()[i]
+									: null;
+							// Check if the gallery file name is not null but contains only blank spaces
+							// after trimming
+							if (galleryFileName != null && galleryFileName.trim().isEmpty()) {
+								// Set it to null explicitly to store NULL value in the database
+								galleryFileName = null;
+							}
+							insertStmt.setString(p++, galleryFileName);
 							insertStmt.executeUpdate();
 						}
 					}

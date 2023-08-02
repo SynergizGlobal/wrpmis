@@ -152,18 +152,11 @@ public class DocxTableCreationForTrainingReport {
 				// Add image to the last column
 				String imageFilePath = CommonConstants2.TRAINING_GALLERY_FILE_SAVING_PATH + "/" + cObj1.getTraining_id()
 						+ "/" + cObj1.getFile_name();
+				String trainingIdFolderPath = CommonConstants2.TRAINING_GALLERY_FILE_SAVING_PATH + "/"
+						+ cObj1.getTraining_id();
 				boolean hasBgColor = false;
 				String backgroundColor = null;
 				Tr contentRow = factory.createTr();
-
-				tableHeader0.add("Start Date");
-				tableHeader0.add("Title");
-				tableHeader0.add("Location");
-				tableHeader0.add("Contractor");
-				tableHeader0.add("Faculty");
-				tableHeader0.add("Period");
-				tableHeader0.add("Remarks");
-				tableHeader0.add("Image");
 
 				tableHeader0.add("Start Date");
 				tableHeader0.add("Title");
@@ -194,7 +187,7 @@ public class DocxTableCreationForTrainingReport {
 //						hasBgColor, backgroundColor, backgroundColor);
 				addTableCell(factory, wordMLPackage, contentRow, cObj1.getRemarks(), timesNewRomanRPr,
 						JcEnumeration.LEFT, hasBgColor, backgroundColor, backgroundColor);
-				addTableCellWithImage(factory, wordMLPackage, contentRow, imageFilePath);
+				addTableCellWithImage(factory, wordMLPackage, contentRow, trainingIdFolderPath, imageFilePath, cObj1);
 
 				table.getContent().add(contentRow);
 			}
@@ -211,11 +204,29 @@ public class DocxTableCreationForTrainingReport {
 	/**************************************************************************************************************/
 
 	private static void addTableCellWithImage(ObjectFactory factory, WordprocessingMLPackage wordMLPackage, Tr tableRow,
-			String imageFilePath) throws Exception {
+			String trainingIdFolderPath, String imageFilePath, Training cObj1) throws Exception {
 		Tc tableCell = factory.createTc();
-		tableCell.getContent().add(createImageParagraph(factory, wordMLPackage, imageFilePath));
+
+		if (cObj1.getFile_name() != null) {
+			tableCell.getContent().add(createImageParagraph(factory, wordMLPackage, imageFilePath));
+		}
+		// else condition for when the image file does not exist
+		else {
+			// Add an empty paragraph to keep the cell empty
+			tableCell.getContent().add(factory.createP());
+		}
+
 		tableRow.getContent().add(tableCell);
 	}
+
+	/**************************************************************************************************************/
+
+//	private static void addTableCellWithImage(ObjectFactory factory, WordprocessingMLPackage wordMLPackage, Tr tableRow,
+//			String imageFilePath) throws Exception {
+//		Tc tableCell = factory.createTc();
+//		tableCell.getContent().add(createImageParagraph(factory, wordMLPackage, imageFilePath));
+//		tableRow.getContent().add(tableCell);
+//	}
 
 	private static P createImageParagraph(ObjectFactory factory, WordprocessingMLPackage wordMLPackage,
 			String imageFilePath) throws Exception {

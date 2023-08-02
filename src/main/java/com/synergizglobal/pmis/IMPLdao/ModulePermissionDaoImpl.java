@@ -232,18 +232,18 @@ public class ModulePermissionDaoImpl implements ModulePermissionDao{
 				qry = qry + "AND module_name = ? ";
 				arrSize++;
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSoft_delete_status_fk())) {
+			/*if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSoft_delete_status_fk())) {
 				qry = qry + "AND soft_delete_status_fk = ? ";
 				arrSize++;
-			}
+			}*/
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getModule_name())) {
 				pValues[i++] = obj.getModule_name();
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSoft_delete_status_fk())) {
+			/*if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getSoft_delete_status_fk())) {
 				pValues[i++] = obj.getSoft_delete_status_fk();
-			}
+			}*/
 					
 		    objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<ModulePermission>(ModulePermission.class));
 			

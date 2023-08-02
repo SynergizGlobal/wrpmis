@@ -168,6 +168,19 @@ public class UserController {
 		return users;
 	}
 	
+	@RequestMapping(value = "/ajax/getStructuresByContractId", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<User> getStructuresByContractId(@ModelAttribute User obj) {
+		List<User> users = null;
+		try {
+			users = userService.getStructuresByContractId(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getStructuresByContractId : " + e.getMessage());
+		}
+		return users;
+	}	
+	
 	@RequestMapping(value = "/ajax/getUsersList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<User> getUsersList(@ModelAttribute User obj) {

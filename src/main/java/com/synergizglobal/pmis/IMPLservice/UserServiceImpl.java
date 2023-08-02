@@ -156,6 +156,11 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public List<User> getModuleSList(User obj) throws Exception {
 		return userDao.getModuleSList( obj);
+	}
+
+	@Override
+	public List<User> getStructuresByContractId(User obj) throws Exception {
+		return userDao.getStructuresByContractId( obj);
 	}	
 
 }

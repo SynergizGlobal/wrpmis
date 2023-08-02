@@ -194,6 +194,15 @@
 				width: 100% !important;
 			}
 		}
+
+ .checkCss{
+    position: relative !important;
+    opacity: 5 !important;
+    pointer-events: inherit !important;
+}	 
+
+
+
     </style>
 </head>
 <body>
@@ -663,7 +672,7 @@
                                                 	 <c:forEach var="contractObj" items="${usrObj.executivesList }" varStatus="index"> 
                                                 	   <tr id="actionStRow${index.count }">
                                                         <td data-head="Contract" class="input-field">
-                                                            <select id="str_con${index.count }" class="searchable" name="contract_ids" >
+                                                            <select id="str_con${index.count }" class="searchable" name="contract_ids" onchange="getStructuresByContractId(this.value,${index.count });">
                                                                 <option value="">Select</option>
                                                                 <c:forEach var="obj" items="${contractsList }">
 						                                        	<option value="${obj.contract_id }" <c:if test="${contractObj.contract_id_fk eq obj.contract_id}">selected</c:if>>${obj.contract_short_name }</option>
@@ -674,18 +683,22 @@
                                                         <td data-head="Structure" class="input-field">
                                                         <input type="hidden"  id="structure${index.count }" name="structures" />
                                                             <select id="structures${index.count }" class="searchable"  name="Structure" multiple onchange="executivesToStringMethod('${index.count }');">
-                                                                <option value="Select">Select</option>
-                                                                 <c:forEach var="obj" items="${structuresList }">
-						                                        	<option value="${obj.structure_id }"
-						                                        	<c:forEach var="tempobj" items="${contractObj.structureExecutivesList}">
-																		 			<c:if test="${tempobj.structure_id_fk eq obj.structure_id}">selected</c:if>
-									                                          	</c:forEach>
-						                                        	>${obj.structure }</option>
+<%--                                                                 <option value="Select"> <p> <input type="checkbox" id="checkbox${index.count }" onchange="selectAll(${index.count });" class="checkCss">Select All</p></option>
+ --%>                                                                 <c:forEach var="obj" items="${structuresList }">
+	                                                                 <c:if test="${obj.contract_id_fk eq contractObj.contract_id_fk}">
+							                                        	<option value="${obj.structure_id }"
+							                                        	<c:forEach var="tempobj" items="${contractObj.structureExecutivesList}">
+																			 			<c:if test="${tempobj.structure_id_fk eq obj.structure_id}">selected</c:if>
+										                                          	</c:forEach>
+							                                        	>${obj.structure }</option>
+							                                         </c:if>
 						                                        </c:forEach>
                                                             </select>
                                                             <span id="access_value${index.count }Error" class="error-msg"></span>
                                                         </td>
                                                         <td class="input-field mobile_btn_close">
+                                                                                                                   
+                                                        
                                                             <a href="#" onclick="removeStActions('${index.count }');" class="btn waves-effect waves-light red t-c ">
                                                                 <i class="fa fa-close"></i></a>
                                                         </td>
@@ -701,7 +714,7 @@
                                                        <tr id="actionStRow0">
                                                         <td data-head="Contract" class="input-field">
                                                             <select id="str_con" class="searchable"
-                                                                name="contract_ids" >
+                                                                name="contract_ids" onchange="getStructuresByContractId(this.value,0);">
                                                                 <option value="">Select</option>
                                                                 <c:forEach var="obj" items="${contractsList }">
 						                                        	<option value="${obj.contract_id }">${obj.contract_short_name }</option>
@@ -713,15 +726,17 @@
                                                          <input type="hidden"  id="structure0" name="structures" />
                                                             <select id="structures0" class="searchable"
                                                                 name="Structure" multiple   onchange="executivesToStringMethod('0');">
-                                                                <option value="Select">Select</option>
-                                                                 <c:forEach var="obj" items="${structuresList }">
+                                                                <option value="Select"><p><input type="checkbox" id="checkbox0" onchange="selectAll(0);" class="checkCss">Select All</p></option>
+<%--                                                                  <c:forEach var="obj" items="${structuresList }">
 						                                        	<option value="${obj.structure_id }">${obj.structure }</option>
-						                                        </c:forEach>
+						                                        </c:forEach> --%>
                                                             </select>
                                                             <span id="access_value0Error" class="error-msg"></span>
                                                            
                                                         </td>
                                                         <td class="input-field mobile_btn_close">
+                                                                                                                    
+                                                        
                                                             <a href="#" onclick="removeStActions('0');" class="btn waves-effect waves-light red t-c ">
                                                                 <i class="fa fa-close"></i></a>
                                                         </td>
@@ -858,7 +873,7 @@
 	        var html = '<tr id="actionStRow' + rNo + '">'
 	           +'<td data-head="Contract" class="input-field">'
 	           
-	           +'<select id="str_con' + rNo + '" class="searchable" name="contract_ids" >'	   			
+	           +'<select id="str_con' + rNo + '" class="searchable" name="contract_ids" onchange="getStructuresByContractId(this.value,'+ rNo+');">'	   			
 	   		   +'<option value="" >Select</option>'
 			   	   <c:forEach var="obj" items="${contractsList }">
 		             	+'<option value="${obj.contract_id }">${obj.contract_short_name }</option>'
@@ -866,10 +881,10 @@
 	   		   +'</select><span id="access_type' + rNo + 'Error" class="error-msg"></span></td>' 			
 	   		   +'<td data-head="Structure" class="input-field"> <input type="hidden"  id="structure'+rNo+'" name="structures" />'
 			   +'  <select id="structures' + rNo + '" class="searchable"  name="Structure" multiple onchange="executivesToStringMethod('+rNo+');">'	
-			   +'<option value="" >Select</option>'	
-				   <c:forEach var="obj" items="${structuresList }">
+			   +'<option value="" > <p><input type="checkbox" id="checkbox' + rNo + '" onchange="selectAll('+ rNo+');" class="checkCss">Select All </p></option>'	
+/* 				   <c:forEach var="obj" items="${structuresList }">
 	            	+'<option value="${obj.structure_id }">${obj.structure }</option>'
-	         	   </c:forEach>
+	         	   </c:forEach> */
 			   +'</select><span id="access_value' + rNo + 'Error" class="error-msg"></span> </td>'
 			   +'<td class="input-field mobile_btn_close"><a href="#" onclick="removeStActions(' + rNo + ');" class="btn waves-effect waves-light red t-c "><i class="fa fa-close"></i></a></td>'
 			   +'</tr>';
@@ -936,6 +951,61 @@
                    }
              });
         }
+        
+        
+        function getStructuresByContractId(val,row)
+        {
+        	 $(".page-loader").show(); 
+        	 if(row!="")
+       		 {
+       	 		$("#structures"+row+" option:not(:first)").remove();
+       		 }
+        	 else
+       		 {
+       		 	$("#structures0 option:not(:first)").remove();
+       		 }
+             var myParams = { contract_id_fk : val };
+             $.ajax({
+                   url: "<%=request.getContextPath()%>/ajax/getStructuresByContractId",
+                   data: myParams, cache: false,async:true,
+                   success: function (data) {
+                       if (data.length > 0) {
+                           $.each(data, function (i, val) {
+                        	       if(row!="")
+                        		   {
+                              			$("#structures"+row).append('<option value="' + val.structure_id_fk + '">' + $.trim(val.structure)+ '</option>');
+                        		   }
+                        	       else
+                       	    	   {
+                        	    	   $("#structures0").append('<option value="' + val.structure_id_fk + '">' + $.trim(val.structure)+ '</option>');
+                       	    	   }
+                           });
+                       }
+                       $('.searchable').select2();
+                       $(".page-loader").hide();
+                   },error:function(){
+                	   $(".page-loader").hide();
+                   }
+             });        	
+        }
+        
+        
+        function selectAll(row) {
+        	if($("#checkbox"+row).is(':checked') ){
+                $("#structures"+row).find('option').not(':first').prop("selected","selected");
+                $("#structures"+row).trigger("change");
+            }else{
+            	$("#select2-structures"+row+"-container").empty();
+            		if(row==0)
+            		{
+            			getStructuresByContractId($("#str_con").val(),row);
+            		}
+            		else
+           			{
+           				getStructuresByContractId($("#str_con"+row).val(),row);
+           			}
+             }
+        }       
         
         function setUserRoleCode(){
         	var user_role_code = $("#user_role_name_fk").find('option:selected').attr("name");

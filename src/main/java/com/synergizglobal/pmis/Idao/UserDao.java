@@ -67,4 +67,6 @@ public interface UserDao {
 	List<User> getModuleList(User obj) throws Exception;
 
 	List<User> getModuleSList(User obj) throws Exception;
+
+	List<User> getStructuresByContractId(User obj) throws Exception;
 }

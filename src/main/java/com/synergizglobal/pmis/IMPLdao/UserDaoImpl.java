@@ -1356,7 +1356,8 @@ public class UserDaoImpl implements UserDao{
 	public List<Structure> getStructuresList(User obj) throws Exception {
 		List<Structure> objsList = new ArrayList<Structure>();
 		try {
-			String qry = "select structure_id,structure from structure " ;
+			String qry = "select DISTINCT structure,structure_id,p.contract_id_fk from p6_activities p " + 
+					"left join structure s on s.structure_id=p.structure_id_fk " ;
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Structure>(Structure.class));	
 		}catch(Exception e){ 
 			throw new Exception(e);
@@ -1436,6 +1437,25 @@ public class UserDaoImpl implements UserDao{
 					"end asc";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<User>(User.class));			
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<User> getStructuresByContractId(User obj) throws Exception {
+		List<User> objsList = null;
+		try {
+			String qry = "select DISTINCT Structure,structure_id as structure_id_fk from p6_activities p " + 
+					"left join structure s on s.structure_id=p.structure_id_fk " + 
+					"where p.contract_id_fk=?";
+			
+			int arrSize = 1;
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			pValues[i++] = obj.getContract_id_fk();
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<User>(User.class));			
 		}catch(Exception e){ 
 			throw new Exception(e);
 		}

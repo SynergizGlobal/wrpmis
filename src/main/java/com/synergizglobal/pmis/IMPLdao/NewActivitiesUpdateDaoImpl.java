@@ -1314,7 +1314,8 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 	
 							DateFormat dfm1 = new SimpleDateFormat("dd-MM-yy");
 							DateFormat rdfm1 = new SimpleDateFormat("YYYY");
-							Date Cdfm1=dfm1.parse(SplitWith[0]+'-'+c1.get(Calendar.MONTH)+'-'+SplitWith[2]);	
+							int YearPlus=Integer.parseInt(SplitWith[2])+1;
+							Date Cdfm1=dfm1.parse(SplitWith[0]+'-'+c1.get(Calendar.MONTH)+'-'+String.valueOf(YearPlus));	
 							
 				            String gdate1=rdfm1.format(Cdfm1);
 				            

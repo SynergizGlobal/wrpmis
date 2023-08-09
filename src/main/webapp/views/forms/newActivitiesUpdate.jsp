@@ -809,6 +809,7 @@
 				                                    </div>
 												</div>
 		                                    </div>
+		                                    
 	                                    <div id="selectedFiles">
 	                                    	
 										</div>

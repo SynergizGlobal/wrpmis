@@ -809,7 +809,6 @@
 				                                    </div>
 												</div>
 		                                    </div>
-		                                    <div class="file-field input-field mt0 btn bg-m t-c"><span class="w-60p" id="countNo" count="">Click Picture</span><input type="file" accept="image/*;capture=camera"></div>
 	                                    <div id="selectedFiles">
 	                                    	
 										</div>

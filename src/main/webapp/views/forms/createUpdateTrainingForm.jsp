@@ -301,10 +301,12 @@
 	        	right:-10px;
 	        }
 			td.cell-disp-inb .file-path-wrapper {
-			    visibility: hidden;
-			    width: 2px;
-			    margin-bottom: 0;
+			   
+			   
+			    margin-bottom: 50px;
 			}
+			
+			
 			.pos-rel{
 				white-space:inherit !important;
 			}
@@ -362,6 +364,55 @@
 		.autoList:hover{
 			background-color:rgba(0,0,0,.05);
 		}
+		
+		
+/* Base styles for the row */
+
+  /* Media query for smaller screens */
+ @media screen and (max-width: 768px) {
+  #trainingRow0 td {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 5px 30px 5px 150px;
+    text-align : center;
+  }
+  #trainingRow0 td[data-head]::before {
+    content: attr(data-head);
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+  }
+   .file-path.validate {
+    width: 100%;
+  }
+  
+  /* Add space between input elements */
+  #trainingRow0 input[type="text"].validate {
+    margin-bottom: 50px; /* Adjust the margin value as needed */
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+  #trainingRow td {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 5px 30px 5px 150px;
+    text-align : center;
+  }
+  #trainingRow td[data-head]::before {
+    content: attr(data-head);
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .RemarksCell {
+  padding-top: 100px;
+}
+
     </style>
 </head>
 
@@ -589,6 +640,7 @@
 											<th>No.of Absentees<span class="required">*</span></th>
 											<c:if test="${action eq 'edit'}"><th>Dld Image</th></c:if>
 											<th>Upload Photo</th>
+											
 											<th>Remarks</th>
 										    <th>Delete</th>
 										</tr>
@@ -641,29 +693,30 @@
 															}
 															</script>
                         									</td> 
-                        									<td data-head="s Photo" >
-                        										 <div class="btn-small bg-m t-c" style="margin-right: 5px;">
-															        <a href="/pmis/TRAINING_GALLERY/${tObj.training_id}/${tObj.file_name}" download="" class="template-btn" title="Click to Download Old Image">
+                        									<td data-head="Dld Image" >
+															    <a href="/pmis/TRAINING_GALLERY/${tObj.training_id}/${tObj.file_name}" download="" title="Click to Download Old Image">
+															        <div class="btn bg-m t-c">
 															            <i class="material-icons">file_download</i>
-															        </a>
-															    </div>
-                           									 				</td> 
-                        										
-													<td data-head="Attach Image" class="cell-disp-inb input-field file-field">
+															            
+															        </div>
+															    </a>
+															</td>
+															<td data-head="Attach Image" class="cell-disp-inb input-field file-field">
 									                                        <div class="btn bg-m t-c">
 									                                            <span>Attach Image</span>
 									                                            <input type="file" id="projectGalleryFiles${index.count }" name="projectGalleryFiles" accept="image/x-png,image/gif,image/jpeg" onchange="validateImage('${index.count }')" value="${tObj.projectGalleryFiles}">
 									                                        </div>
-									                                        <div class="file-path-wrapper">
+									                                        	 <div class="file-path-wrapper">
 									                                            <input class="file-path validate" type="text" id="projectGalleryFileNames${index.count }" name="projectGalleryFileNames" value="${tObj.file_name }">
-									                                      </div>          
+									                                      </div>    
+									                                           
 			                                                      	</td>
-			                                                      	
-			                                                      	
+			                                                        
+			                                                   
 			                                                      	
 			                                                      	<td data-head="Remarks" class="input-field">
                            									 <input type="text" name="remarkss" id="remarkss${index.count }" class="validate" value="${tObj.remarks}" placeholder="Remarks">
-                        									</td> 
+                        										</td> 
 															
 														<!-- put edit in this column below when u want to use this input  below as "${action eq 'edit'}" -->		
 														  									
@@ -726,206 +779,13 @@
 								                                            <input class="file-path validate" type="text" id="projectGalleryFileNames0" name="projectGalleryFileNames">
 								                                        </div>
 		                                                  		</td>
-			                                                      
-			                                                    	
+			                                                
 			                                                 	
 			                                                 	<td data-head="Remarks" class="input-field">
                            									 <input type="text" name="remarkss" id="remarkss${index.count }" class="validate" value="${tObj.remarkss}" placeholder="Remarks">
                         									</td> 
 			                                                 	
-													<c:if test="${action eq 'edit'}"><td data-head="Attendees" class="input-field attendees-column" id="addAttenData1"><a href="#session-update-modal0" class="btn waves-effect waves-light bg-m t-c modal-trigger" onclick="showNo(this)"> Update </a>
-														<div id="session-update-modal0" class="modal">
-															<div class="modal-content">
-																<h4 class="modal-header">Trainee Updation Details <span class="right modal-action modal-close"><span class="material-icons">close</span></span></h4>
-																<div class="row">
-																    <div class="s12 m8 offset-m2 col">
-																        <div class="row fixed-width">
-																            <div class="table-inside">
-																                <table id="training-update-table0" class="mdl-data-table val mobile_responsible_table">
-																                    <thead>
-																                        <tr>
-																                            <th>Department</th>
-																                            <th>Attendee</th>
-																                            <th class="py-0">Nominated</th>
-																                            <th>Participated</th>
-																                            <th>Action</th>
-																                        </tr>
-																                    </thead>
-																                    <tbody id="attendeesTableBody0">
-																                        <tr id="attendeesRow0">
-																                            <td data-head="Department" class="input-field">
-																                              
-																                                    <input type="hidden" name="training_session_id_fks" id="training_session_id_fks0"> 
-																                                    <input type="hidden"name="training_attendees_ids" id="training_attendees_ids0"> 
-																                                    <select class="searchable validate-dropdown " name="department_fks" id="department_fks0" onchange="getAttendeesList('0');">
-																                                   		<option value="" >Select Department</option> 
-																                                   		<c:forEach var="obj" items="${departmentsList}">
-																											<option value="${obj.department_fk }">${obj.department_name }</option>
-																										</c:forEach>
-																                                    </select>
-																                            </td><input type="hidden"  name="is_new_users"/>
-																                            <td data-head="Attendee" class="input-field attendee-dropdown">
-																                                <select class="searchable validate-dropdown " name="attendees"
-																                                    id="attendees0" onchange="setDepartment(0);">   
-																                                    <option value="" >Select Attendee</option>
-																                                   <c:forEach var="obj" items="${attendeesList}">
-																										'<option name="${obj.department_fk }" value="${obj.user_id }">${obj.designation }<c:if test="${not empty obj.designation }"> - </c:if>${obj.attendee }</option>'+
-																									</c:forEach>                                  
-																                                </select>
-																                                </td>
-																                                <input type="hidden" name="hod_user_id_fks"/>
-																								<input type="hidden" name="trainee_designations"/>
-																								<input type="hidden" name="mobile_nos"/>
-																								<input type="hidden"  name="emails" class="no-reset" >
-																                            <td data-head="Nominated" class="input-field">
-																                                <p class="disp-init"> <label><input type="hidden" name="required_fks"
-																                                            id="required_fk0"> <input type="checkbox" id="required_fks0"
-																                                            class="required_fks" onchange="checkBox(0)"><span></span></label></p>
-																                            </td>
-																                            <td data-head="Participated" class="input-field">
-																                                <p class="disp-init"><label> <input type="hidden" name="participated_fks"
-																                                            id="participated_fk0"><input type="checkbox" id="participated_fks0"
-																                                            class="participated_fks" onchange="checkBoxs(0)"><span></span></label></p>
-																                            </td>
-																                            <td class="mobile_btn_close"><a onclick="removeTrainingAttendees(0,0);"
-																                                    class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td>
-																                        </tr>
-																                        
-																                    </tbody>
-																                </table> <input type="hidden" id="trainNo" name="trainNo" value="1">
-																                <table class="mdl-data-table">
-																                    <tbody id="trainingUpdateBody">
-																                        <tr>
-																                            <td colspan="7"> <a type="button" class="btn waves-effect waves-light bg-m t-c "
-																                                    onclick="addTrainingUpdateRow('','0')"> <i class="fa fa-plus"></i></a> </td>
-																                        </tr>
-																                    </tbody>
-																                </table>
-																            </div>
-																        </div>
-																    </div>
-																</div>
-																<p id="msg-text"><b>If name of attendee is not in list please add below</b></p>
-															   	<div class="row fixed-width">																
-																	<div class="table-inside"> 
-																		<table id="training-new-update-table0"	class="mdl-data-table mobile_responsible_table">
-																			<thead>
-																				<tr>
-																					<th>Attendee</th>
-																					<th>Department</th>
-																					<th>HOD</th>
-																					<th>Designation</th>
-																					<th class='fw-220'>Email </th>
-																					<th class="mw-150"> Mobile</th>
-																					<th class="py-0">Nominated</th>
-																					<th>Participated</th>
-																					<th>Action</th>
-																				</tr>
-																			</thead>
-																			<tbody id="newAttendeesTableBody00">
-																			<input type="hidden" id="rowsCounts0" name="rowsCounts" value="2"/>
-																				<tr id="newAttendeesRow00">
-																					<td data-head="Attendee" class="input-field attendees">																						
-																						 <input id="new_attendees00" name="new_attendees" type="text" class="validate attendees" placeholder="Name" onSelect="addSelectedRow(this);" autocomplete="on">
-																						    <input type="hidden" name="is_new_users" class="no-reset" value="Yes" id="is_new_users_input">
-																											    <span id="new_attendeesError0${index.count}" class="error-msg"></span>  
-																											</td>
-																											
-																									
-																					<td data-head="Department" class="input-field">
-																					<input type="hidden" name="training_attendees_ids" id="training_attendees_ids00" value="${tObj.training_session_id_fk}"/> 
-																					<select class="searchable validate-dropdown department_fks" name="department_fks" id="new_department_fks00" onchange="getHODsList('00');">
-																							<option value="">Select Department</option>
-																							<c:forEach var="obj" items="${departmentsList}">
-																								<option value="${obj.department_fk }">${obj.department_name }</option>
-																							</c:forEach>
-																					</select>  <span id="new_department_fksError00${index.count }" class="error-msg"></span> <!-- //pattern="[6-7-9]{1}[0-9]{9}" --> 
-																					<td data-head="HOD" class="input-field"> <select class="searchable hod_user_id_fks" name="hod_user_id_fks" id="new_hod_user_id_fks00" onchange="setHODDeptList('00');">
-																					<option value="" >Select HOD</option>
-																					 <c:forEach var="obj" items="${usersList}">
-																							<option name="${obj.department_fk }" value="${obj.hod_user_id_fk }">${obj.designation }</option>
-																					</c:forEach>   
-																					</select> 
-																					<span id="new_hod_user_id_fkError00${index.count }" class="error-msg"></span>   
-																					</td>
 																					
-																					
-																					<td data-head="Designation" class="input-field"> <input class="trainee_designations" type="text" placeholder="Designation" id="new_trainee_designations0" name="trainee_designations" >
-																						<span id="new_trainee_designationsError00${index.count }" class="error-msg"></span>	
-																					</td>
-																					<td data-head="Email" class="input-field"> <input class="email" type="text" placeholder="Email" id="email0" name="emails" >
-																						<span id="emailError00${index.count }" class="error-msg"></span>
-																					</td>
-																					<td data-head="Mobile" class="input-field"><input id="new_mobile_nos00" name="mobile_nos" type="number" class="validate num new_mobile_nos" placeholder="Mobile">
-																					<br><span id="mobile_nosError00${index.count }" class="error-msg"></span></td>
-																					<td data-head="Nominated" class="input-field">
-																						<p class="disp-init">
-																							<label> 
-																								<input type="hidden" id="new_required_fk00" name="new_required_fks" value="No" class="req" /> 
-																								<input type="checkbox" id="new_required_fks0" class="required_fks" /> <span></span>
-																							</label>
-																						</p>
-																						<span id="new_required_fkError00${index.count }" class="error-msg"></span>
-																					</td>
-																					<td data-head="Participated" class="input-field">
-																						<p class="disp-init">
-																							<label> <input type="hidden" id="new_participated_fk00" name="new_participated_fks" value="No" class="part" />
-																								<input type="checkbox" id="new_participated_fks00" class="participated_fks" /> <span></span>
-																							</label>
-																						</p>
-																						<span id="new_participated_fkError00${index.count }" class="error-msg"></span>
-																					</td>
-																					
-																					<td class="mobile_btn_close"><a onclick="removeNewTrainingAttendees('00','0');" class="btn waves-effect waves-light red t-c "><i class="fa fa-close"></i>
-																					</a></td>
-																				</tr>
-
-																			</tbody>
-																		</table>
-																		<script>
-															                       	 $('#new_required_fks0').on('change', function(e){
-															                             if($(this).prop('checked'))
-															                             {
-															                            	 //$(".req").prop('disabled', true);
-															                                 $('#new_required_fk00').val('Yes');
-															                             } else{
-															                              	  $("#new_required_fk00").val('No')
-															                            	  $("#new_required_fk00").prop('checked',false).removeAttr('checked');
-															                              }
-															                   	    });
-															                    	 $('#new_participated_fks00').on('change', function(e){
-															                             if($(this).prop('checked'))
-															                             {
-															                            	// $(".part").prop('disabled', true);
-															                                 $('#new_participated_fk00').val('Yes');
-															                             } else{
-															                              	  $("#new_participated_fk00").val('No')
-															                            	  $("#new_participated_fk00").prop('checked',false).removeAttr('checked');
-															                              }
-															                   	    });
-												                            
-												                            </script>
-																		<input type="hidden" id="newTrainNo" name="newTainNo"
-																			value="0" />
-																		<table class="mdl-data-table" style="margin-bottom:20px;">
-																			<tbody id="trainingUpdateBody">
-																				<tr>
-																					<td colspan="7"><a type="button" class="btn waves-effect waves-light bg-m t-c "
-																						onclick="addNewTrainingUpdateRow('00','00')"> <i class="fa fa-plus"></i></a>
-																				</tr>
-																			</tbody>
-																		</table>
-																		<div class="row" style="margin:0;">    
-																			<div class="col s6 m4 offset-m2 center-align">        
-																				<a type="button" onclick="validateAttendees(00);" class="btn waves-effect waves-light bg-m t-c"> Update</a>    
-																			</div>    
-																			<div class="col s6 m4 center-align">        
-																				<button type="button" class="btn waves-effect waves-light modal-close t-c bg-s" onclick="resetModal(this)">Cancel</button>  
-																			</div>     
-																		</div>
-																</div>
-															</div>
-														</div></td></c:if>														
 													<td class="mobile_btn_close center"><a onclick="removeTraining('0');" class="btn waves-effect waves-light red t-c "> <i class="fa fa-close"></i></a></td>
 												</tr>
 											</c:otherwise>

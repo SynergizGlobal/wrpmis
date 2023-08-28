@@ -121,6 +121,7 @@ import com.synergizglobal.pmis.common.DocxTableCreationForContractReport;
 import com.synergizglobal.pmis.common.EMailSender;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
+import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.constants.PageConstants2;
 import com.synergizglobal.pmis.model.ActivitiesProgressReport;
 import com.synergizglobal.pmis.model.Contract;
@@ -361,6 +362,37 @@ public class ContractReportController {
 		}
 		return contractList;
 	}
+	
+	@RequestMapping(value="/bg-contractual-letters",method={RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView bgContractualLetters(HttpSession session){
+		ModelAndView model = new ModelAndView(PageConstants2.displayOfTheExpiringBgs);
+		try {
+
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("bgContractualLetters : " + e.getMessage());
+		}
+		return model;
+	}	
+	
+	@RequestMapping(value = "/ajax/generate-bg-contractual-letters", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Contract> generatBGContractualLettersReport(@ModelAttribute Contract obj,HttpSession session) {
+		List<Contract> contractList = null;
+		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			contractList = service.getTheListOfExpiringBgs(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("generatBGContractualLettersReport : " + e.getMessage());
+		}
+		return contractList;
+    }
+	
+	
 	
 	@RequestMapping(value = "/generate-contract-report/{id}", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView generatContractReport(@ModelAttribute Contract obj,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){

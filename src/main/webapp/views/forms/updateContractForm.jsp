@@ -1387,7 +1387,7 @@
                                                         placeholder="BG Type">
                                                 </td> -->
                                                 <td data-head="Issuing Bank " class="input-field">
-                                                    <input id="issuing_banks0" name="issuing_banks" maxlength="25" data-length="25" type="text" class="validate w80 pdr4em"
+                                                    <input id="issuing_banks0" name="issuing_banks" maxlength="400" data-length="400" type="text" class="validate w80 pdr4em"
                                                         placeholder="Issuing Bank">
                                                 </td>
                                                <!--  <td>
@@ -1662,7 +1662,7 @@
                                                         placeholder="Issuing Agency">
                                                 </td>
                                                 <td data-head="Agency Address " class="input-field">
-                                                    <input id="agency_addresss0" name="agency_addresss" maxlength="100" data-length="100" type="text" class="validate w80 pdr4em" 
+                                                    <input id="agency_addresss0" name="agency_addresss" maxlength="400" data-length="400" type="text" class="validate w80 pdr4em" 
                                                         placeholder="Agency Address">
                                                 </td>
 

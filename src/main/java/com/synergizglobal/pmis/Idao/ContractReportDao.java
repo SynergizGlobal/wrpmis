@@ -56,5 +56,7 @@ public interface ContractReportDao {
 
 	Contract generateContractCompletionReport(Contract obj) throws Exception;
 
+	List<Contract> getTheListOfExpiringBgs(Contract obj) throws Exception;
+
 	
 }

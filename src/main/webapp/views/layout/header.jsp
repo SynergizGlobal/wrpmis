@@ -259,6 +259,9 @@
 	  line-height: 1.13rem
 	}
 	.rm9em{right: -9em !important;}
+	.d-dis-none{
+		display: none;
+	}
 	@media(max-width: 575px){
 		.brand-logo.fs {
 		    width: 55%;
@@ -285,9 +288,11 @@
 			    font-size: 16px;
 		}
 		.accordions{
-	    
 	    top:5px;
-	
+		}
+		.d-dis-none{
+			display: block;
+		}
 	}
 	@media(max-width: 400px){
 		.accordion__body{
@@ -1050,7 +1055,7 @@
 	</div>
 	</nav>
 	
-	<img src="/pmis/resources/images/backbtn.png" onclick="javascript:window.history.back();" width="30" height="30" style="display:none;" id="imgbackBtn">
+	<img src="/pmis/resources/images/backbtn.png" onclick="javascript:window.history.back();" width="30" height="30" id="imgbackBtn" class="d-dis-none">
 	
 	
 	
@@ -1405,7 +1410,7 @@
 	<!-- <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>  -->
 	<script>
 	
-	var win = window,
+	/*var win = window,
     doc = document,
     docElem = doc.documentElement,
     body = doc.getElementsByTagName('body')[0],
@@ -1425,7 +1430,7 @@
 	else
 		{
 			$("#imgbackBtn").hide();
-		}
+		}*/
 	
 	let accordions = document.querySelectorAll(".accordion");
 	accordions.forEach((element) => {

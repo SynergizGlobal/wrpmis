@@ -55,4 +55,6 @@ public interface ContractReportService {
 	List<Contract> getStatsuListInContractReport(Contract obj) throws Exception;
 
 	List<Contract> getTheListOfExpiringBgs(Contract obj) throws Exception;
+
+	List<Contract> getContractDownload(Contract obj) throws Exception;
 }

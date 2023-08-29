@@ -3231,6 +3231,40 @@ public class ContractReportDaoImpl implements ContractReportDao {
 		}
 		return objsList;
 	}
+
+	@Override
+	public List<Contract> getContractDownload(Contract obj) throws Exception {
+		List<Contract> objsList = null;
+		try {
+			String qry ="select  contract_id,contract_short_name,contractor_name,bg_type_fk,issuing_bank,bg_number,bg_value,valid_upto as bg_valid_upto " + 
+					"from contract c   " + 
+					"left join work w on c.work_id_fk = w.work_id    " + 
+					"left join contractor cr on c.contractor_id_fk = cr.contractor_id   " + 
+					"left join bank_guarantee bg on bg.contract_id_fk = c.contract_id  " + 
+					"where contract_id is not null and valid_upto>=DATEADD(M,DATEDIFF(M,0,getdate())-1,0) and valid_upto<=DATEADD(M,DATEDIFF(M,0,getdate())+2,0)";
+			
+			int arrSize = 0;
+			NumberFormat numberFormatter = new DecimalFormat("#0.00");
+			
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
+				qry = qry + " and c.contract_id = ? ";
+				arrSize++;
+			}	
+
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
+				pValues[i++] = obj.getContract_id();
+			}			
+			
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
+		
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objsList;
+	}
 }
 
 

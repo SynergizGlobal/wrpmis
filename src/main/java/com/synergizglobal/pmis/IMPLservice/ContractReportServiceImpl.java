@@ -147,4 +147,10 @@ public class ContractReportServiceImpl implements ContractReportService{
 		return dao.getTheListOfExpiringBgs(obj);
 	}
 
+	@Override
+	public List<Contract> getContractDownload(Contract obj) throws Exception {
+		
+		return dao.getContractDownload(obj);
+	}
+
 }

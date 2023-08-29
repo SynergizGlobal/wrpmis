@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
@@ -38,8 +37,7 @@
     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
     <script src="/pmis/resources/js/select2.min.js"></script>
     
-	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" >
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" >
+
    
     <style>
         #session-table .datepicker~button {
@@ -581,7 +579,7 @@
 								</div>
 								
 								<div class="col s6 m4 l4 input-field" id="contractors-dropdown" style="display:none;">
-								    <p class="searchable_label">Contractor Name: </p>
+								    <p class="searchable_label">Contract Name: <span class="required">*</span></p>
 								    <select class="searchable validate-dropdown"
 								        name="contract_short_name_fk" id="contract_short_name_fk">
 								        <option value="">Select Option</option>
@@ -590,7 +588,7 @@
 													<c:if test="${trainingDetails.contract_short_name_fk  eq obj.contract_short_name_fk}">selected</c:if>>${obj.contract_short_name_fk }</option>
 													</c:forEach>
 								    </select> 
-								    <span id="contractor_optionError" class="error-msg"></span>
+								    <span id="contract_short_name_fkError" class="error-msg"></span>
 								</div>
 								<script>
 							    $(document).ready(function() {
@@ -2019,6 +2017,8 @@
   		 		    required: true
   			 	  },"provide_to_fk":{
   			 		required: true
+  			 	  },"contract_short_name_fk":{
+  			 		required: false
   			 	  },"session_nos":{
   			 		required: true
   			 	  },"start_times":{
@@ -2056,6 +2056,8 @@
   		 	  	 },"faculty_name": {
   		 			required: ' This field is required'
   		 	  	 },"provide_to_fk": {
+  		 			required: ' This field is required'
+  		 	  	 },"contract_short_name_fk": {
   		 			required: ' This field is required'
   		 	  	 },"session_nos": {
   		 			required: ' Required'
@@ -2101,6 +2103,9 @@
 				}else if(element.attr("id") == "provide_to_fk" ){
 			 		 document.getElementById("provide_to_fkError").innerHTML="";
 	 				 error.appendTo('#provide_to_fkError');
+				}else if(element.attr("id") == "contract_short_name_fk" ){
+			 		 document.getElementById("contract_short_name_fkError").innerHTML="";
+	 				 error.appendTo('#contract_short_name_fkError');
 				}else if(element.attr("id") == "session_nos" ){
 			 		 document.getElementById("session_nosError").innerHTML="";
 	 				 error.appendTo('#session_nosError');

@@ -640,9 +640,13 @@
         .box.delayed {
             background-color: #f00;
         }
+        .ip-scope{
+        	width: 200px;
+        }
 		@media(max-width: 1024px){
 			#btn-fl{
 				width: 10em;
+				text-align: center;
 			}
 			.file-field span{
 				margin-left: -0.5em;
@@ -675,6 +679,17 @@
         .w65{
         	width:65% !important;
         }
+       @media(max-width: 575px){
+        .input-field #remarks{
+        	width:-webkit-fill-available !important;
+        }
+        .ip-scope{
+        	width: 55%;
+        }
+        .m-dis-none{
+        	display: none !important;
+        }
+       }
     </style>
 </head>
 <body>
@@ -706,9 +721,9 @@
                     <form action="<%=request.getContextPath() %>/update-new-activities-bulk" id="ActivitiesBulkUpdateForm" name="ActivitiesBulkUpdateForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
                     <div class="container container-no-margin">
                         <div class="row">                          
-                                <div class="col m9">
+                                <div class="col m9 s12">
                                     <div class="row">
-                                        <div class="col m4 s6 input-field">
+                                        <div class="col m4 s6 input-field m-dis-none">
                                             <p class="searchable_label">Project</p>
                                             <select class="searchable validate-dropdown" id="project_id" name="project_id" data-placeholder="Select"
                                                 onchange="getNewActivitiesUpdateWorksList(this.value);">
@@ -719,7 +734,7 @@
                                             </select>
                                             <span id="project_idError" class="error-msg" ></span>
                                         </div>
-                                        <div class="col m8 s6 input-field">
+                                        <div class="col m8 s6 input-field m-dis-none">
                                             <p class="searchable_label">Work</p>
                                             <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" data-placeholder="Select"
                                                 onchange="getNewActivitiesUpdateContractsList(this.value);">
@@ -1943,17 +1958,17 @@
  	            	 			
  	            	 				if("${sessionScope.USER_ROLE_NAME}"=='Data Admin' || "${sessionScope.USER_ROLE_NAME}"=='IT Admin')
  	            	 				{
-		 	            	 			html +='<td data-head="Planned Start" class="input-field"><input  id="planned_start'+num+'" name="planned_start" type="text" class="validate datepicker-max" value="' + $.trim(val.planned_start) + '"><button type="button" id="planned_start'+num+'_icon" class="datepicker-max-button"></button><span id="planned_startError" class="error-msg" ></span></td>'
-		 	            	 			+'<td data-head="Planned Finish" class="input-field"><input  id="planned_finish'+num+'" name="planned_finish" type="text" class="validate datepicker-max" value="' + $.trim(val.planned_finish) + '"><button type="button" id="planned_finish'+num+'_icon" class="datepicker-max-button"></button><span id="planned_finishError" class="error-msg" ></span></td>'
-		 	            	 			+'<td data-head="Expected Start" class="input-field"><input  id="start'+num+'" name="start" type="text" class="validate datepicker-max" value="' + $.trim(val.start) + '"><button type="button" id="start'+num+'_icon" class="datepicker-max-button"></button><span id="startError" class="error-msg" ></span></td>'
-		 	            	 			+'<td data-head="Expected Finish" class="input-field"><input  id="finish'+num+'" name="finish" type="text" class="validate datepicker-max" value="' + $.trim(val.finish) + '"><button type="button" id="finish'+num+'_icon" class="datepicker-max-button"></button><span id="finishError" class="error-msg" ></span></td>';
+		 	            	 			html +='<td data-head="Planned Start" class="input-field m-dis-none"><input  id="planned_start'+num+'" name="planned_start" type="text" class="validate datepicker-max" value="' + $.trim(val.planned_start) + '"><button type="button" id="planned_start'+num+'_icon" class="datepicker-max-button"></button><span id="planned_startError" class="error-msg" ></span></td>'
+		 	            	 			+'<td data-head="Planned Finish" class="input-field m-dis-none"><input  id="planned_finish'+num+'" name="planned_finish" type="text" class="validate datepicker-max" value="' + $.trim(val.planned_finish) + '"><button type="button" id="planned_finish'+num+'_icon" class="datepicker-max-button"></button><span id="planned_finishError" class="error-msg" ></span></td>'
+		 	            	 			+'<td data-head="Expected Start" class="input-field m-dis-none"><input  id="start'+num+'" name="start" type="text" class="validate datepicker-max" value="' + $.trim(val.start) + '"><button type="button" id="start'+num+'_icon" class="datepicker-max-button"></button><span id="startError" class="error-msg" ></span></td>'
+		 	            	 			+'<td data-head="Expected Finish" class="input-field m-dis-none"><input  id="finish'+num+'" name="finish" type="text" class="validate datepicker-max" value="' + $.trim(val.finish) + '"><button type="button" id="finish'+num+'_icon" class="datepicker-max-button"></button><span id="finishError" class="error-msg" ></span></td>';
  	            	 				}
  	            	 				else
 	            	 					{
-			 	            	 			html +='<td data-head="Planned Start" class="input-field"><input  disabled id="planned_start'+num+'" name="planned_start" type="text" class="validate datepicker-max" value="' + $.trim(val.planned_start) + '"><button type="button" id="planned_start'+num+'_icon" class="datepicker-max-button"></button><span id="planned_startError" class="error-msg" ></span></td>'
-			 	            	 			+'<td data-head="Planned Finish" class="input-field"><input  disabled id="planned_finish'+num+'" name="planned_finish" type="text" class="validate datepicker-max" value="' + $.trim(val.planned_finish) + '"><button type="button" id="planned_finish'+num+'_icon" class="datepicker-max-button"></button><span id="planned_finishError" class="error-msg" ></span></td>'
-			 	            	 			+'<td data-head="Expected Start" class="input-field"><input  disabled id="start'+num+'" name="start" type="text" class="validate datepicker-max" value="' + $.trim(val.start) + '"><button type="button" id="start'+num+'_icon" class="datepicker-max-button"></button><span id="startError" class="error-msg" ></span></td>'
-			 	            	 			+'<td data-head="Expected Finish" class="input-field"><input  disabled id="finish'+num+'" name="finish" type="text" class="validate datepicker-max" value="' + $.trim(val.finish) + '"><button type="button" id="finish'+num+'_icon" class="datepicker-max-button"></button><span id="finishError" class="error-msg" ></span></td>';	            	 					
+			 	            	 			html +='<td data-head="Planned Start" class="input-field m-dis-none"><input  disabled id="planned_start'+num+'" name="planned_start" type="text" class="validate datepicker-max" value="' + $.trim(val.planned_start) + '"><button type="button" id="planned_start'+num+'_icon" class="datepicker-max-button"></button><span id="planned_startError" class="error-msg" ></span></td>'
+			 	            	 			+'<td data-head="Planned Finish" class="input-field m-dis-none"><input  disabled id="planned_finish'+num+'" name="planned_finish" type="text" class="validate datepicker-max" value="' + $.trim(val.planned_finish) + '"><button type="button" id="planned_finish'+num+'_icon" class="datepicker-max-button"></button><span id="planned_finishError" class="error-msg" ></span></td>'
+			 	            	 			+'<td data-head="Expected Start" class="input-field m-dis-none"><input  disabled id="start'+num+'" name="start" type="text" class="validate datepicker-max" value="' + $.trim(val.start) + '"><button type="button" id="start'+num+'_icon" class="datepicker-max-button"></button><span id="startError" class="error-msg" ></span></td>'
+			 	            	 			+'<td data-head="Expected Finish" class="input-field m-dis-none"><input  disabled id="finish'+num+'" name="finish" type="text" class="validate datepicker-max" value="' + $.trim(val.finish) + '"><button type="button" id="finish'+num+'_icon" class="datepicker-max-button"></button><span id="finishError" class="error-msg" ></span></td>';	            	 					
 	            	 					}
 
 		 	            	 			//+'<td data-head="Scope" class="input-field"><span><input type="text" min="0" name="scope" id="scope'+num+'"  value="' + $.trim(val.scope) + '"></span>';
@@ -1965,10 +1980,10 @@
 		 	            	 			//+'<td data-head="Scope" class="input-field"><span>' + $.trim(val.scope) + '</span>';
  	            	 			 }  */
  	            	 			
- 	            	 			html +='<td data-head="Scope" class="input-field" style="width:200px;"><span><input type="text" min="0" name="scope" id="scope'+num+'"  value="' + Number($.trim(val.scope)) + '" size="6"></span><span id="scopesError'+num+'" name="scopesError" class=" scopesError" style="color:red"></span>';
+ 	            	 			html +='<td data-head="Scope" class="input-field ip-scope"><span><input type="text" min="0" name="scope" id="scope'+num+'"  value="' + Number($.trim(val.scope)) + '" size="6"></span><span id="scopesError'+num+'" name="scopesError" class=" scopesError" style="color:red"></span>';
  	            	 			
  	            	 			
- 	            	 			html +='<input type="hidden" name="totalScopes"  id="totalScopes'+num+'"  value="' + $.trim(val.scope) + '" /></td><td style="text-align:center;"><span style="color:red;" id="validationPending'+num+'" >'+$.trim(val.validation_pending)+'</span></td>'
+ 	            	 			html +='<input type="hidden" name="totalScopes"  id="totalScopes'+num+'"  value="' + $.trim(val.scope) + '" /></td><td data-head="Validation Pending" style="text-align:center;"><span style="color:red;" id="validationPending'+num+'" >'+$.trim(val.validation_pending)+'</span></td>'
  	            	 			+'<td data-head="Completed" class="input-field"><span data-toggle="tooltip" title="' + addText + '">' + Number($.trim(val.completed)) + '</span>'
  	            	 			+'<input type="hidden" name="completedScopes"  id="completedScopes'+num+'"  value="' + $.trim(val.completed) + '" /></td>'
  	            	 			+' <td data-head="Actual" class="input-field"><input type="number" min="0" name="actualScopes" id="actualScopes'+num+'" '+disDisabled+' value="null"><br><span id="actualScopesError'+num+'" name="actualScopesError" class=" actualScopesError" style="color:red"></span></td></tr>';

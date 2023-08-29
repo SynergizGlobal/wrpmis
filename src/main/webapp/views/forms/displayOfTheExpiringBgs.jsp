@@ -288,7 +288,7 @@
 					var iteration=1;
 	         		$.each(data,function(key,val){
 	         			var actions = '<a href="javascript:void(0);"  class="btn waves-effect waves-light bg-m t-c" title="Refresh"><i class="fa fa-refresh"></i></a>'; 
-	         			var actionsDownload = '<a href="javascript:void(0);"  class="btn waves-effect waves-light bg-s t-c" title="Download"><i class="fa fa-download"></i></a>';                     	
+	         			var actionsDownload = '<a href="javascript:void(0);"  onClick=getContractDownload("'+val.contract_id+'"); class="btn waves-effect waves-light bg-s t-c" title="Download"><i class="fa fa-download"></i></a>';                     	
 
 	                   	var rowArray = []; 
 	                   	
@@ -321,12 +321,22 @@
 				
 			}});
     } 
+    
+    
+    function getContractDownload(contract_id)
+    {
+	 	var myParams = {contract_id : contract_id};
+        $.ajax({
+            url: "<%=request.getContextPath()%>/ajax/get-contract-download",
+            data: myParams, cache: false,async: false,
+            success: function (data) {
+
+            }
+        });    	
+    }
 
     
     var queue = 1;
-
-    
-
 
 	
   	//This function is used to get error message for all ajax calls

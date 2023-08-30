@@ -407,8 +407,8 @@ public class ContractReportController {
 		return contractList;
     }
 	
-	@RequestMapping(value = "/generate-contract-download/{id}", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView getContractDownload(@ModelAttribute Contract obj,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
+	@RequestMapping(value = "/generate-contract-download/{contract_id}", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView getContractDownload(@PathVariable("contract_id") String contract_id,@ModelAttribute Contract obj,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView("redirect:/bg-contractual-letters");
 		byte[] byteArray;        
 		try{

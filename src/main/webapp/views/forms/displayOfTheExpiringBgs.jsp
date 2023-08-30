@@ -156,7 +156,6 @@
 										<th class="no-sort fw-150">Expiry Date</th>
 										<th class="no-sort">Download Letter</th>
 										<th class="no-sort fw-250">Status</th>
-										<th>Update</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -288,27 +287,26 @@
 				if(data != null && data != '' && data.length > 0){
 					var iteration=1;
 	         		$.each(data,function(key,val){
-	         			var actions = '<a href="javascript:void(0);"  class="btn waves-effect waves-light bg-m t-c" title="Refresh"><i class="fa fa-refresh"></i></a>'; 
 	         			var actionsDownload = '<a href="javascript:void(0);"  onClick=getContractDownload("'+val.contract_id+'"); class="btn waves-effect waves-light bg-s t-c" title="Download"><i class="fa fa-download"></i></a>';                     	
 
 	                   	var rowArray = []; 
 	                   	
 	                   	var StatusArray="";
-                   		if(val.letter_status=="Submitted")
+                   		if(val.bg_letter_status=="Submitted")
                    		{
-                   			StatusArray='<select class="searchable" disabled name="letter_status" id="letter_status'+iteration+'" onChange=updateLetterStatus("'+val.contract_id+'",this.value);>';
+                   			StatusArray='<select class="searchable" disabled name="letter_status" id="letter_status'+iteration+'" onChange=updateLetterStatus("'+val.contract_id+'",this.value,"'+val.bg_number+'");>';
                    		}
                    		else
                			{
-                   			StatusArray='<select class="searchable" name="letter_status" id="letter_status'+iteration+'" onChange=updateLetterStatus("'+val.contract_id+'",this.value);>';
+                   			StatusArray='<select class="searchable" name="letter_status" id="letter_status'+iteration+'" onChange=updateLetterStatus("'+val.contract_id+'",this.value,"'+val.bg_number+'");>';
                			}
 	                   	
 	                   	
-	                   	if(val.letter_status=="Not Submitted")
+	                   	if(val.bg_letter_status=="Not Submitted")
                    		{
 	                   		StatusArray=StatusArray+'<option value="Not Submitted" selected>Not Submitted</option><option value="Submitted">Submitted</option>';
                    		}
-	                   	else if(val.letter_status=="Submitted")
+	                   	else if(val.bg_letter_status=="Submitted")
                    		{
 	                   		StatusArray=StatusArray+'<option value="Not Submitted">Not Submitted</option><option value="Submitted" selected>Submitted</option>';
                    		}
@@ -320,7 +318,7 @@
 	                   	var bglink="<a href='/pmis/get-contract/"+val.contract_id+"'>"+val.bg_number+"</a>";
 	                   	
 	                   	StatusArray=StatusArray+'</select>';
-                        var table11="<tr><td>"+iteration+"</td><td>"+val.contract_id+"</td><td>"+val.contract_short_name+"</td><td>"+val.contractor_name+"</td><td>"+val.bg_type_fk+"</td><td>"+val.issuing_bank+"</td><td>"+val.bg_number+"</td><td>"+val.bg_value+"</td><td>"+val.valid_upto+"</td><td>"+val.valid_upto+"</td><td>"+val.valid_upto+"</td><td>"+StatusArray+"</td><td>"+actions+"</td></tr>";
+                        var table11="<tr><td>"+iteration+"</td><td>"+val.contract_id+"</td><td>"+val.contract_short_name+"</td><td>"+val.contractor_name+"</td><td>"+val.bg_type_fk+"</td><td>"+val.issuing_bank+"</td><td>"+val.bg_number+"</td><td>"+val.bg_value+"</td><td>"+val.valid_upto+"</td><td>"+val.valid_upto+"</td><td>"+val.valid_upto+"</td><td>"+StatusArray+"</td></tr>";
 	                   	rowArray.push($.trim(iteration));
 	                   	rowArray.push($.trim(val.contract_id));
 	                   	rowArray.push($.trim(val.contract_short_name));
@@ -332,7 +330,6 @@
 	                   	rowArray.push($.trim(val.bg_valid_upto));
 	                   	rowArray.push($.trim(actionsDownload));
 	                   	rowArray.push(StatusArray);
-	                   	rowArray.push(actions);   	                   	
 	                   	
 	                    table.row.add(rowArray).draw( true );
 	                    
@@ -349,9 +346,9 @@
 			}});
     } 
     
-    function updateLetterStatus(contractid,letter_status)
+    function updateLetterStatus(contractid,letter_status,bg_number)
     {
-	 	var myParams = {contract_id : contractid,letter_status:letter_status};
+	 	var myParams = {contract_id : contractid,letter_status:letter_status,bg_number:bg_number};
         $.ajax({
             url: "<%=request.getContextPath()%>/ajax/UpdateLetterStatus",
             data: myParams, cache: false,async: false,

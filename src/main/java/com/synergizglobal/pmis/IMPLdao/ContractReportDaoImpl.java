@@ -3221,7 +3221,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 	public List<Contract> getTheListOfExpiringBgs(Contract obj) throws Exception {
 		List<Contract> objsList = null;
 		try {
-			String qry ="select  contract_id,contract_short_name,contractor_name,bg_type_fk,issuing_bank,bg_number,bg_value,valid_upto as bg_valid_upto,letter_status " + 
+			String qry ="select  contract_id,contract_short_name,contractor_name,bg_type_fk,issuing_bank,bg_number,bg_value,valid_upto as bg_valid_upto,bg_letter_status " + 
 					"from contract c   " + 
 					"left join work w on c.work_id_fk = w.work_id    " + 
 					"left join contractor cr on c.contractor_id_fk = cr.contractor_id   " + 
@@ -3279,10 +3279,11 @@ public class ContractReportDaoImpl implements ContractReportDao {
 		boolean flag = false;
 		try{  
 			con = dataSource.getConnection();
-			String updateQry = "UPDATE contract set letter_status = ? WHERE contract_id = ?";
+			String updateQry = "UPDATE bank_guarantee set bg_letter_status = ? WHERE contract_id_fk = ? and bg_number=?";
 			stmt = con.prepareStatement(updateQry);
 			stmt.setString(1, obj.getLetter_status());
 			stmt.setString(2, obj.getContract_id());
+			stmt.setString(3, obj.getBg_number());
 			int c = stmt.executeUpdate(); 
 			if(c > 0) {		
 				flag = true;				

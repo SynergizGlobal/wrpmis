@@ -60,5 +60,7 @@ public interface ContractReportDao {
 
 	List<Contract> getContractDownload(Contract obj) throws Exception;
 
+	boolean UpdateLetterStatus(Contract obj) throws Exception;
+
 	
 }

@@ -141,7 +141,7 @@
 
 					<div class="row">
 						<div class="col m12 s12">
-
+						<form id="contractReportForm" name="contractReportForm" method="post">
 							<table id="datatable-contract" class="mdl-data-table">
 								<thead>
 									<tr>
@@ -163,6 +163,7 @@
 									
 								</tbody>
 							</table>
+							</form>
 						</div>
 					</div>
 				</div>
@@ -292,7 +293,33 @@
 
 	                   	var rowArray = []; 
 	                   	
-	                   	var StatusArray='<select class="searchable" name="status" id="status"><option>Not Submitted</option><option>Submitted</option></select>';
+	                   	var StatusArray="";
+                   		if(val.letter_status=="Submitted")
+                   		{
+                   			StatusArray='<select class="searchable" disabled name="letter_status" id="letter_status'+iteration+'" onChange=updateLetterStatus("'+val.contract_id+'",this.value);>';
+                   		}
+                   		else
+               			{
+                   			StatusArray='<select class="searchable" name="letter_status" id="letter_status'+iteration+'" onChange=updateLetterStatus("'+val.contract_id+'",this.value);>';
+               			}
+	                   	
+	                   	
+	                   	if(val.letter_status=="Not Submitted")
+                   		{
+	                   		StatusArray=StatusArray+'<option value="Not Submitted" selected>Not Submitted</option><option value="Submitted">Submitted</option>';
+                   		}
+	                   	else if(val.letter_status=="Submitted")
+                   		{
+	                   		StatusArray=StatusArray+'<option value="Not Submitted">Not Submitted</option><option value="Submitted" selected>Submitted</option>';
+                   		}
+	                   	else
+                   		{
+	                   		StatusArray=StatusArray+'<option value="Not Submitted">Not Submitted</option><option value="Submitted">Submitted</option>';
+                   		}
+	                   	
+	                   	var bglink="<a href='/pmis/get-contract/"+val.contract_id+"'>"+val.bg_number+"</a>";
+	                   	
+	                   	StatusArray=StatusArray+'</select>';
                         var table11="<tr><td>"+iteration+"</td><td>"+val.contract_id+"</td><td>"+val.contract_short_name+"</td><td>"+val.contractor_name+"</td><td>"+val.bg_type_fk+"</td><td>"+val.issuing_bank+"</td><td>"+val.bg_number+"</td><td>"+val.bg_value+"</td><td>"+val.valid_upto+"</td><td>"+val.valid_upto+"</td><td>"+val.valid_upto+"</td><td>"+StatusArray+"</td><td>"+actions+"</td></tr>";
 	                   	rowArray.push($.trim(iteration));
 	                   	rowArray.push($.trim(val.contract_id));
@@ -300,7 +327,7 @@
 	                   	rowArray.push($.trim(val.contractor_name));
 	                   	rowArray.push($.trim(val.bg_type_fk));
 	                   	rowArray.push($.trim(val.issuing_bank));
-	                   	rowArray.push($.trim(val.bg_number));
+	                   	rowArray.push($.trim(bglink));
 	                   	rowArray.push($.trim(val.bg_value));
 	                   	rowArray.push($.trim(val.bg_valid_upto));
 	                   	rowArray.push($.trim(actionsDownload));
@@ -322,17 +349,23 @@
 			}});
     } 
     
-    
-    function getContractDownload(contract_id)
+    function updateLetterStatus(contractid,letter_status)
     {
-	 	var myParams = {contract_id : contract_id};
+	 	var myParams = {contract_id : contractid,letter_status:letter_status};
         $.ajax({
-            url: "<%=request.getContextPath()%>/ajax/get-contract-download",
+            url: "<%=request.getContextPath()%>/ajax/UpdateLetterStatus",
             data: myParams, cache: false,async: false,
             success: function (data) {
 
             }
         });    	
+    }
+    
+    
+    function getContractDownload(contract_id)
+    {
+    	$("#contractReportForm").attr("action","<%=request.getContextPath()%>/generate-contract-download/"+contract_id);
+    	$("#contractReportForm").submit();
     }
 
     

@@ -124,6 +124,7 @@ import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.constants.PageConstants2;
 import com.synergizglobal.pmis.model.ActivitiesProgressReport;
+import com.synergizglobal.pmis.model.AlertConditions;
 import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Issue;
 import com.synergizglobal.pmis.model.StripChart;
@@ -375,6 +376,20 @@ public class ContractReportController {
 		return model;
 	}	
 	
+	@RequestMapping(value = "/ajax/UpdateLetterStatus", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public boolean UpdateLetterStatus(@ModelAttribute Contract obj) {
+		boolean flag = false;
+		try {
+			flag = service.UpdateLetterStatus(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("UpdateLetterStatus : " + e.getMessage());
+		}
+		return flag;
+	}	
+	
+	
 	@RequestMapping(value = "/ajax/generate-bg-contractual-letters", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Contract> generatBGContractualLettersReport(@ModelAttribute Contract obj,HttpSession session) {
@@ -392,9 +407,8 @@ public class ContractReportController {
 		return contractList;
     }
 	
-	@RequestMapping(value="/ajax/get-contract-download", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public void getContractDownload(@ModelAttribute Contract obj,HttpSession session,HttpServletResponse response) {
+	@RequestMapping(value = "/generate-contract-download/{id}", method = {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView getContractDownload(@ModelAttribute Contract obj,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView("redirect:/bg-contractual-letters");
 		byte[] byteArray;        
 		try{
@@ -421,9 +435,9 @@ public class ContractReportController {
 			JcEnumeration imageAlignment = JcEnumeration.CENTER;
 			
 			//String headerTextMiddle = "Summary of Risk Assessment of Projects";
-			String headerTextMiddle = list.get(0).getContract_name();
+			String headerTextMiddle = "test";
 
-			String headerTextRight = report_created_date;
+			String headerTextRight = "date";
 			
 			RPr titleRpr = getRPr(factory, "Calibri", "000000", "26", STHint.EAST_ASIA, true, false, false, false);
 			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,imagePath,imageAlignment,headerTextMiddle,headerTextRight,titleRpr);		
@@ -459,6 +473,7 @@ public class ContractReportController {
 			e.printStackTrace();
 			logger.error("FinanceReport >> " + e.getMessage());
 		}
+		return model;
 	}
 	
 	

@@ -153,4 +153,10 @@ public class ContractReportServiceImpl implements ContractReportService{
 		return dao.getContractDownload(obj);
 	}
 
+	@Override
+	public boolean UpdateLetterStatus(Contract obj) throws Exception {
+		
+		return dao.UpdateLetterStatus(obj);
+	}
+
 }

@@ -3,6 +3,7 @@ package com.synergizglobal.pmis.IMPLdao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -15,6 +16,9 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -22,6 +26,7 @@ import org.springframework.util.StringUtils;
 import com.synergizglobal.pmis.Idao.ContractReportDao;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.constants.CommonConstants;
+import com.synergizglobal.pmis.model.AlertConditions;
 import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.StripChart;
 
@@ -3216,7 +3221,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 	public List<Contract> getTheListOfExpiringBgs(Contract obj) throws Exception {
 		List<Contract> objsList = null;
 		try {
-			String qry ="select  contract_id,contract_short_name,contractor_name,bg_type_fk,issuing_bank,bg_number,bg_value,valid_upto as bg_valid_upto " + 
+			String qry ="select  contract_id,contract_short_name,contractor_name,bg_type_fk,issuing_bank,bg_number,bg_value,valid_upto as bg_valid_upto,letter_status " + 
 					"from contract c   " + 
 					"left join work w on c.work_id_fk = w.work_id    " + 
 					"left join contractor cr on c.contractor_id_fk = cr.contractor_id   " + 
@@ -3264,6 +3269,30 @@ public class ContractReportDaoImpl implements ContractReportDao {
 			throw new Exception(e);
 		}
 		return objsList;
+	}
+
+	@Override
+	public boolean UpdateLetterStatus(Contract obj) throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		Connection con = null;
+		boolean flag = false;
+		try{  
+			con = dataSource.getConnection();
+			String updateQry = "UPDATE contract set letter_status = ? WHERE contract_id = ?";
+			stmt = con.prepareStatement(updateQry);
+			stmt.setString(1, obj.getLetter_status());
+			stmt.setString(2, obj.getContract_id());
+			int c = stmt.executeUpdate(); 
+			if(c > 0) {		
+				flag = true;				
+			}
+		}catch(Exception e){ 
+			throw new SQLException(e.getMessage());
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
+		}
+		return flag;
 	}
 }
 

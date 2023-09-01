@@ -121,6 +121,15 @@
   select {
     display: block !important;
 }  
+
+@page WordSection1{
+         mso-page-orientation: landscape;
+         size: 841.95pt 595.35pt; /* EU A4 */
+         /* size:11.0in 8.5in; */ /* US Letter */
+     }
+     div.WordSection1 {
+         page: WordSection1;
+     }
     
     </style>
 </head>
@@ -138,6 +147,41 @@
 							</div>
 						</span>
 					</div>
+					<div id="docx" style="display:none;">
+					<div class="WordSection1">
+
+
+
+
+<p><strong><span style="font-size: 14px; line-height: 123%; font-family: 'Century Gothic',sans-serif; color: black;"><img style="width: 95px; height: 69.774px;" src="https://myfiles.space/user_files/173095_15c158b78d540b9a/173095_custom_files/img169346494752.png" width="95" height="69.774"><img style="float: right; padding-right:0px;padding-left:500px;width: 235px; height: 69.1176px;" src="https://myfiles.space/user_files/173095_15c158b78d540b9a/173095_custom_files/img1693464948.png" width="235" height="69.1176"></span></strong></p>
+<p style="margin: 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; text-align: center; line-height: 123%;">&nbsp;</p>
+<p style="margin: 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; margin-top: 7.2pt; line-height: 200%;"><strong><span style="font-size: 14px; line-height: 200%; font-family: 'Arial',sans-serif; color: black;">Letter No. MRVC/ACCTS/EXP/BG/<u id="currentyeartext">2020-21</u></span></strong><strong><span style="font-size: 14px; line-height: 200%; font-family: 'Arial',sans-serif; color: black;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span></strong><strong><span style="font-size: 14px; line-height: 200%; font-family: 'Arial',sans-serif; color: black;">Date:&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;<span id="bgdate2months"></span>&nbsp;</span></strong></p>
+<p style="margin: 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; margin-top: 7.2pt; line-height: 200%;"><strong><span style="font-size: 14px; line-height: 200%; font-family: 'Arial',sans-serif; color: black;">DY.CPM-III MRVC</span></strong></p>
+<table style="border-collapse: collapse; border: none;">
+<tbody>
+<tr>
+<td style="width: 49.65pt; padding: 0cm 5.4pt; vertical-align: top;">
+<p style="margin: 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; margin-top: 7.2pt; line-height: 200%;"><strong><span style="font-size: 14px; line-height: 200%; font-family: 'Arial',sans-serif; color: black;">SUB:</span></strong></p>
+</td>
+<td style="width: 448.6pt; padding: 0cm 5.4pt; vertical-align: top;">
+<p style="margin: 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; margin-top: 7.2pt; line-height: 115%;"><strong><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">Extension of BG No <u id="bgNumber">IBG103814</u>&nbsp; &nbsp; &nbsp; &nbsp;Dt: <u id="bgDate">03-Mar-21</u> for Rs <u id="bgAmount">3,00,00,000.00</u> against CA/ PO. No. MRVC/W/109/CA of <u id="bgContractorName">M/S M VENKATA RAO INFRA PROJECTS PVT LTD</u></span></strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p style="margin: 14.4pt 9.7pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; text-align: justify; text-indent: 50.4pt; line-height: 115%;"><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">The validity of the subject&nbsp;</span><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">Bank Guarantee received from </span><strong><u><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;" id="bgContractorName1">VENKATA RAO INFRA PROJECTS PVT</span></u></strong><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">&nbsp;</span><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">expires on <strong><u id="bgExpiryDate">02-Sep-23</u></strong>. You are requested to arrange for extension of&nbsp;</span><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">BG before the expiry date in case the contract is not completed in all respects.&nbsp;</span><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">In case the contract has been completed satisfactorily in all respects, advice to this effect must be sent to this office before <span id="bgExpiryDate1">02-Sep-23</span>.&nbsp;</span></p>
+<p style="margin: 14.4pt 9.7pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; text-align: justify; text-indent: 50.4pt; line-height: 115%;"><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">If this office does not receive the extension/reply within the stipulated date before the expiry date of BG, the issuing bank should be advised by this office to deposit the amount due to MRVC under guarantee. A copy of this letter is being endorsed to the firm's bank for taking necessary action.</span><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif;">&nbsp;</span></p>
+<p style="margin: 14.4pt 32.4pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; text-align: right;"><span style="font-size: 14px; font-family: 'Arial',sans-serif;"><img src="https://myfiles.space/user_files/173095_15c158b78d540b9a/173095_custom_files/img1693464947.png" alt="Signature On" width="170" height="113"></span></p>
+<p style="margin: 14.4pt 32.4pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; text-align: right;"><strong><span style="font-size: 14px; font-family: 'Arial',sans-serif; color: black;">FACAO(MRVC)</span></strong></p>
+<p style="margin: 14.4pt 32.4pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif;"><strong><span style="font-size: 14px; font-family: 'Arial',sans-serif; color: black;">Copy to:</span></strong></p>
+<p style="margin: 14.4pt 32.4pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif;"><strong><u><span style="font-size: 14px; font-family: 'Arial',sans-serif; color: black;" id="bgContractorAddress">VENKATA RAO INFRA PROJECTS PVT LTD,&nbsp;B-212, Western Edge-II, Behind Metro Mall, Borivali(E), Mumbai- 400066</span></u></strong></p>
+<p style="margin: 14.4pt 32.4pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; text-align: justify; line-height: 115%;"><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">M/S MVR is advised to take speedy steps for extension of the above BG [or submit the completion report to enable this office to release the said BG].</span></p>
+<p style="margin: 14.4pt 32.4pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif;"><strong><span style="font-size: 14px; font-family: 'Arial',sans-serif; color: black;">Copy to:</span></strong></p>
+<p style="margin: 14.4pt 32.4pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif;"><strong><span style="font-size: 14px; font-family: 'Arial',sans-serif; color: black;" id="bgBankAddress">The Manager, <u>HDFC BANK LTD,1<sup>st</sup> Floor, Metropolis II, Opp. Vintage Hospital, St.Inez Panjim, GOA-403001</span></u></strong></p>
+<p style="margin: 14.4pt 32.4pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; text-align: justify; line-height: 115%;"><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">The above BG confirmed vide your L.N <u id="bgDateonExpiry">03-03-2021&nbsp;</u>as issued by you, expires on <u id="bgExpiryDate2">02-Sep-23</u>. If the firm fails to extend the same unconditionally before the expiry date, these offices claim for Rs. <span>3,00,000</span> is deemed to be lodged on your bank which may please be noted.</span></p>
+<p><span style="font-size: 14px; line-height: 115%; font-family: 'Century Gothic',sans-serif; color: black;"><br><img style="width: 767px; height: 60.9686px;" src="https://myfiles.space/user_files/173095_15c158b78d540b9a/173095_custom_files/img169346494879.png" width="767" height="60.9686"></span></p>
+<p style="margin: 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; line-height: 115%;"><strong><span style="font-size: 14px; line-height: 115%; font-family: 'Century Gothic',sans-serif; color: black;">&nbsp;</span></strong></p>
+</div></div>
 
 					<div class="row">
 						<div class="col m12 s12">
@@ -214,10 +258,94 @@
 	<script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script> 
 	
     <script>
+    
+    function getCurrentFinancialYear() {
+        var financial_year = "";
+        var today = new Date();
+        if ((today.getMonth() + 1) <= 3) {
+            financial_year = (today.getFullYear() - 1) + "-" + today.getFullYear();
+        } else {
+            financial_year = today.getFullYear() + "-" + (today.getFullYear() + 1)% 100;
+        }
+        return financial_year;
+    }
+    
+    function subtractMonth(date, months) {
+    	  let d = date.getDate();
+    	  date.setMonth(date.getMonth() - months);
+    	  if (date.getDate() != d) {
+    	    date.setDate(0);
+    	  }
+    	  return date;
+    	}  
+
 
     getContractList();
     
     var pageNo = window.localStorage.getItem("contractPageNo");
+    
+    function export2Word( element,row,contract_id,bg_number ) {
+
+    	
+		$.ajax({url : "<%=request.getContextPath()%>/ajax/get-contract-bg-details",type:"POST",data: {contract_id:contract_id,bg_number:bg_number},success : function(data){  
+			if(data != null && data != '' && data.length > 0)
+			{
+				$.each(data,function(key,val){
+					$("#currentyeartext").html(getCurrentFinancialYear());
+					
+					var SplitStr=val.bg_valid_upto;
+					SplitStr=SplitStr.toString();
+					var SplitStrwith=SplitStr.split("-");
+					
+					var d = new Date(SplitStrwith[0], SplitStrwith[1], SplitStrwith[2]);
+					$("#bgdate2months").html(subtractMonth(d, 1).toString());
+					$("#bgNumber").html(val.bg_number);
+					$("#bgDate").html(val.bg_date);
+					$("#bgAmount").html(val.bg_value);
+					$("#bgContractorName").html(val.contractor_name);
+					$("#bgContractorName1").html(val.contractor_name);
+					$("#bgExpiryDate").html(val.bg_valid_upto);
+					$("#bgExpiryDate1").html(val.bg_valid_upto);
+					$("#bgContractorAddress").html(val.contractor_name+', '+val.address);
+					$("#bgBankAddress").html(val.issuing_bank);
+					$("#bgDateonExpiry").html(val.bg_date);
+					$("#bgExpiryDate2").html(val.bg_valid_upto);
+					$("#bgAmountNew").html(val.bg_value);
+					
+					
+					 var html, link, blob, url, css;
+			    	   
+			    	   css = (
+			    	     '<style>' +
+			    	     '@page WordSection1{size: 670.95pt 595.35pt;mso-page-orientation: Portrait;}' +
+			    	     'div.WordSection1 {page: WordSection1;}' +
+			    	     '</style>'
+			    	   );
+			    	   
+			    	   html = element.innerHTML;
+			    	   blob = new Blob(['\ufeff', css + html], {
+			    	     type: 'application/msword'
+			    	   });
+			    	   url = URL.createObjectURL(blob);
+			    	   link = document.createElement('A');
+			    	   link.href = url;
+			    	   link.download = 'BG Expiry Letter';  // default name without extension 
+			    	   document.body.appendChild(link);
+			    	   if (navigator.msSaveOrOpenBlob ) navigator.msSaveOrOpenBlob( blob, 'BG_Expiry_Letter.doc'); // IE10-11
+			    	       else link.click();  // other browsers
+			    	   document.body.removeChild(link);					
+				
+				});
+			}
+         		
+			
+		}});   	
+
+    	
+    	  
+    	 }
+    	 
+    	 
     
     function getContractList(){
     	$(".page-loader-2").show();
@@ -287,7 +415,7 @@
 				if(data != null && data != '' && data.length > 0){
 					var iteration=1;
 	         		$.each(data,function(key,val){
-	         			var actionsDownload = '<a href="javascript:void(0);"  onClick=getContractDownload("'+val.contract_id+'"); class="btn waves-effect waves-light bg-s t-c" title="Download"><i class="fa fa-download"></i></a>';                     	
+	         			var actionsDownload = '<a href="javascript:void(0);"  onclick=export2Word(window.docx,'+iteration+',"'+val.contract_id+'","'+val.bg_number+'") class="btn waves-effect waves-light bg-s t-c" title="Download"><i class="fa fa-download"></i></a>';                     	
 
 	                   	var rowArray = []; 
 	                   	

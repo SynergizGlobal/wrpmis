@@ -62,5 +62,7 @@ public interface ContractReportDao {
 
 	boolean UpdateLetterStatus(Contract obj) throws Exception;
 
+	List<Contract> generateContractBGDetails(Contract obj) throws Exception;
+
 	
 }

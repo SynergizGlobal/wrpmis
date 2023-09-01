@@ -159,4 +159,10 @@ public class ContractReportServiceImpl implements ContractReportService{
 		return dao.UpdateLetterStatus(obj);
 	}
 
+	@Override
+	public List<Contract> generateContractBGDetails(Contract obj) throws Exception {
+		
+		return dao.generateContractBGDetails(obj);
+	}
+
 }

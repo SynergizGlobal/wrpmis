@@ -389,6 +389,22 @@ public class ContractReportController {
 		return flag;
 	}	
 	
+	@RequestMapping(value = "/ajax/get-contract-bg-details", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Contract> generatContractBGDetails(@ModelAttribute Contract obj,HttpSession session) {
+		List<Contract> contractList = null;
+		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			contractList = service.generateContractBGDetails(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("generatContractBGDetails : " + e.getMessage());
+		}
+		return contractList;
+    }	
 	
 	@RequestMapping(value = "/ajax/generate-bg-contractual-letters", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
@@ -410,79 +426,20 @@ public class ContractReportController {
 	@RequestMapping(value = "/generate-contract-download/{contract_id}", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView getContractDownload(@PathVariable("contract_id") String contract_id,@ModelAttribute Contract obj,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView("redirect:/bg-contractual-letters");
-		byte[] byteArray;        
 		try{
+			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 			SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
 			Date date = new Date();
             String currentDate = sqlDate.format(date);
-						
-			List<Contract> list = service.getContractDownload(obj);
-			
-			
-			boolean landscape = false;
-			WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
-			
-			MainDocumentPart mp = wordMLPackage.getMainDocumentPart();
-			ObjectFactory factory = Context.getWmlObjectFactory();
-			
-			//DateFormat df = new SimpleDateFormat("dd-MMM-YYYY HH:mm"); 
-			DateFormat df = new SimpleDateFormat("dd-MM-YYYY hh:mm aa");
-			String report_created_date = df.format(new Date()); 
-			
-			
-			String imagePath = CommonConstants2.DOCX_LOGO+"/"+"report_logo_mrvc.png";
-			
-			JcEnumeration imageAlignment = JcEnumeration.CENTER;
-			
-			//String headerTextMiddle = "Summary of Risk Assessment of Projects";
-			String headerTextMiddle = "test";
-
-			String headerTextRight = "date";
-			
-			RPr titleRpr = getRPr(factory, "Calibri", "000000", "26", STHint.EAST_ASIA, true, false, false, false);
-			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,imagePath,imageAlignment,headerTextMiddle,headerTextRight,titleRpr);		
-			//Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,headerTextRight);
-			createHeaderReference(wordMLPackage, mp, factory, relationship);
-			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
-			createFooterReference(wordMLPackage, mp, factory, relationship);
-			 			  
-			DocxTableCreationForContractReport.createTableForListofContractsClosertoBGExpiryDateReport(wordMLPackage, mp, factory, list, report_created_date);
-	    	  
-						
-			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){	
-				wordMLPackage.save(bos);
-				byteArray = bos.toByteArray();
-				InputStream targetStream = new ByteArrayInputStream(byteArray);
-				String FILE_EXTENSION = ".docx";
-				String fileName = "FinanceReport-" + currentDate + FILE_EXTENSION;
-				
-				response.setContentType("application/msword");
-				response.setContentType("application/vnd.ms-word");
-				// add response header
-				response.addHeader("Content-Disposition", "attachment; filename=" + fileName);
-				//copies all bytes from a file to an output stream
-				IOUtils.copy(targetStream, response.getOutputStream());
-				//flushes output stream
-				response.getOutputStream().flush();
-		    }catch (Exception e) {
-				e.printStackTrace();
-				logger.error("FinanceReport >> FileNotFoundException occurs.." + e.getMessage());
-		    }	
-		 	
-		} catch (Exception e) {
+	           
+            obj.setDate(DateParser.parse(obj.getDate()));
+            
+			boolean flag = generatContractBGExpiryLetterReport(response,currentDate,obj);
+		}catch (Exception e) {
 			e.printStackTrace();
-			logger.error("FinanceReport >> " + e.getMessage());
+			logger.error("generatContractBGExpiryLetterReport : " + e.getMessage());
 		}
 		return model;
-	}
-	
-	
-	
-	private Relationship createHeaderPart(WordprocessingMLPackage wordMLPackage, MainDocumentPart mp,
-			ObjectFactory factory, String imagePath, JcEnumeration imageAlignment, String headerTextMiddle,
-			String headerTextRight, RPr titleRpr) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@RequestMapping(value = "/generate-contract-report/{id}", method = {RequestMethod.GET,RequestMethod.POST})
@@ -1953,6 +1910,87 @@ public class ContractReportController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("generatContractDocReport >> " + e.getMessage());
+			flag = false;
+		}
+		
+		return flag;
+	}
+	
+	private boolean generatContractBGExpiryLetterReport(HttpServletResponse response, String currentDate, Contract obj) {
+		//XWPFDocument document = new XWPFDocument(); 
+		//StringBuilder repositoryExcerpts = new StringBuilder(); 
+		byte[] byteArray;        
+        //ObjectFactory objectFactory = new ObjectFactory();
+		boolean flag = false;
+		try{			
+			//DateFormat df = new SimpleDateFormat("dd-MMM-YYYY HH:mm"); 
+			DateFormat df = new SimpleDateFormat("dd-MM-YYYY hh:mm aa");
+			String report_created_date = df.format(new Date()); 
+			List<Contract> list = service.getContractDownload(obj);
+			
+			boolean landscape = false;
+			WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
+			
+			MainDocumentPart mp = wordMLPackage.getMainDocumentPart();
+			ObjectFactory factory = Context.getWmlObjectFactory();
+			
+			String imagePath = CommonConstants2.DOCX_LOGO + "/" + "report_logo_mrvc.png";
+
+			JcEnumeration imageAlignment = JcEnumeration.LEFT;
+			
+			String headerTextRight = "";
+
+				
+			headerTextRight=CommonConstants2.DOCX_LOGO + "/" + "logocom.png";
+						
+			
+			String headerTextMiddle = "BG Expiry Letter For "+obj.getContract_id();
+			
+			//String headerTextRight = report_created_date;
+			
+			//String headerText = "PMIS Report - Status of Contract Insurance";
+			
+			int tabs1 = 8;int tabs2 = 3;
+			
+			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,imagePath,imageAlignment,headerTextMiddle,headerTextRight,tabs1,tabs2);
+			//Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,headerText);			 
+			createHeaderReference(wordMLPackage, mp, factory, relationship);
+			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
+			createFooterReference(wordMLPackage, mp, factory, relationship);
+			 			  
+			DocxTableCreationForContractReport.createTableForListofContractsClosertoBGExpiryDateReport(wordMLPackage, mp, factory,list,report_created_date);
+	    	  
+						
+			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){	
+				wordMLPackage.save(bos);
+				byteArray = bos.toByteArray();
+				InputStream targetStream = new ByteArrayInputStream(byteArray);
+				String FILE_EXTENSION = ".docx";
+				String fileName = "BG Expiry Letter For - "+obj.getContract_id()+" on " + currentDate + FILE_EXTENSION;
+				
+				response.setContentType("application/.csv");
+				response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+				response.setContentType("application/vnd.ms-excel");
+				response.setContentType("application/pdf");
+				response.setContentType("application/msword");
+				response.setContentType("application/vnd.ms-word");
+				// add response header
+				response.addHeader("Content-Disposition", "attachment; filename=" + fileName);
+				//copies all bytes from a file to an output stream
+				IOUtils.copy(targetStream, response.getOutputStream());
+				//flushes output stream
+				response.getOutputStream().flush();
+				
+				flag = true;
+		    }catch (Exception e) {
+				e.printStackTrace();
+				logger.error("generatContractBGExpiryLetterReport >> FileNotFoundException occurs.." + e.getMessage());
+				flag = false;
+		    }	
+		 	
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("generatContractBGExpiryLetterReport >> " + e.getMessage());
 			flag = false;
 		}
 		

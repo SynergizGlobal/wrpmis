@@ -153,7 +153,47 @@
 
 
 
-<div title="header"><p><strong><span style="font-size: 14px; line-height: 123%; font-family: 'Century Gothic',sans-serif; color: black;"><img style="width: 95px; height: 69.774px;" src="https://myfiles.space/user_files/173095_15c158b78d540b9a/173095_custom_files/img169346494752.png" width="95" height="69.774"></span><span style="float:right;"></span><img style="float: right; padding-right:0px;padding-left:500px;width: 235px; height: 69.1176px;" src="https://myfiles.space/user_files/173095_15c158b78d540b9a/173095_custom_files/img1693464948.png" width="235" height="69.1176"></span></strong></p></div>
+<html>
+<head>
+    <style type="text/css">
+    @page Section1 {
+        margin:0.75in 0.75in 0.75in 0.75in;
+        size:670.95pt 595.35pt;
+        mso-page-orientation:Portrait;
+        mso-header-margin:0.5in;
+        mso-header: h1;
+        mso-footer-margin:0.5in;
+        mso-footer: f1;
+    }
+
+    div.Section1 {page:Section1;}
+
+    p.headerFooter { margin:0in; text-align: center; }
+    </style>
+</head>
+<body><div class=Section1>
+
+<table style='margin-left:50in;'><tr style='height:1pt;mso-height-rule:exactly'>
+    <td>
+      <div style='mso-element:header' id=h1>
+        <p class=headerFooter>
+        
+        <span style="text-align:left;"><img src="https://myfiles.space/user_files/173095_15c158b78d540b9a/173095_custom_files/img169346494752.png" width="95" height="69.774"></span>
+        <span style="text-align:right;"><img src="https://myfiles.space/user_files/173095_15c158b78d540b9a/173095_custom_files/img1693464948.png" width="235" height="69.1176"></span>
+        </p>
+
+      </div>
+      &nbsp;
+    </td>
+
+    <td>
+      <div style='mso-element:footer' id=f1>
+        <p class=headerFooter>
+       <span style="font-size: 14px; line-height: 115%; font-family: 'Century Gothic',sans-serif; color: black;"><br><img style="width: 767px; height: 60.9686px;" src="https://myfiles.space/user_files/173095_15c158b78d540b9a/173095_custom_files/img169346494879.png" width="767" height="60.9686"></span></p>
+      </div>
+      &nbsp;
+</td></tr></table>
+
 <p style="margin: 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; margin-top: 7.2pt; line-height: 200%;"><strong><span style="font-size: 14px; line-height: 200%; font-family: 'Arial',sans-serif; color: black;">Letter No. MRVC/ACCTS/EXP/BG/<u id="currentyeartext">2020-21</u></span></strong><strong><span style="font-size: 14px; line-height: 200%; font-family: 'Arial',sans-serif; color: black;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span></strong><strong><span style="font-size: 14px; line-height: 200%; font-family: 'Arial',sans-serif; color: black;">Date:&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;<span id="bgdate2months"></span>&nbsp;</span></strong></p>
 <p style="margin: 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; margin-top: 7.2pt; line-height: 200%;"><strong><span style="font-size: 14px; line-height: 200%; font-family: 'Arial',sans-serif; color: black;">DY.CPM-III MRVC</span></strong></p>
 <table style="border-collapse: collapse; border: none;">
@@ -168,24 +208,25 @@
 </tr>
 </tbody>
 </table>
-<p style="margin: 14.4pt 9.7pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; text-align: justify; text-indent: 50.4pt; line-height: 115%;"><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">The validity of the subject&nbsp;</span><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">Bank Guarantee received from </span><strong><u><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;" id="bgContractorName1">VENKATA RAO INFRA PROJECTS PVT</span></u></strong><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">&nbsp;</span><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">expires on <strong><u id="bgExpiryDate">02-Sep-23</u></strong>. You are requested to arrange for extension of&nbsp;</span><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">BG before the expiry date in case the contract is not completed in all respects.&nbsp;</span><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">In case the contract has been completed satisfactorily in all respects, advice to this effect must be sent to this office before <span id="bgExpiryDate1">02-Sep-23</span>.&nbsp;</span></p>
-<p style="margin: 14.4pt 9.7pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; text-align: justify; text-indent: 50.4pt; line-height: 115%;"><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">If this office does not receive the extension/reply within the stipulated date before the expiry date of BG, the issuing bank should be advised by this office to deposit the amount due to MRVC under guarantee. A copy of this letter is being endorsed to the firm's bank for taking necessary action.</span><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif;">&nbsp;</span></p>
-<p style="margin: 14.4pt 32.4pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; text-align: right;"><strong><span style="font-size: 14px; font-family: 'Arial',sans-serif; color: black;">FACAO(MRVC)</span></strong></p>
-<p style="margin: 14.4pt 32.4pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif;"><strong><span style="font-size: 14px; font-family: 'Arial',sans-serif; color: black;">Copy to:</span></strong></p>
-<p style="margin: 14.4pt 32.4pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif;"><strong><u><span style="font-size: 14px; font-family: 'Arial',sans-serif; color: black;" id="bgContractorAddress">VENKATA RAO INFRA PROJECTS PVT LTD,&nbsp;B-212, Western Edge-II, Behind Metro Mall, Borivali(E), Mumbai- 400066</span></u></strong></p>
+<p><span style="height:30px;">&nbsp;</span></p>
+<p style="margin: 6pt 9.7pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; text-align: justify; text-indent: 50.4pt; line-height: 115%;"><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">The validity of the subject&nbsp;</span><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">Bank Guarantee received from </span><strong><u><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;" id="bgContractorName1">VENKATA RAO INFRA PROJECTS PVT</span></u></strong><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">&nbsp;</span><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">expires on <strong><u id="bgExpiryDate">02-Sep-23</u></strong>. You are requested to arrange for extension of&nbsp;</span><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">BG before the expiry date in case the contract is not completed in all respects.&nbsp;</span><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">In case the contract has been completed satisfactorily in all respects, advice to this effect must be sent to this office before <span id="bgExpiryDate1">02-Sep-23</span>.&nbsp;</span></p>
+<p style="margin: 6pt 9.7pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; text-align: justify; text-indent: 50.4pt; line-height: 115%;"><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">If this office does not receive the extension/reply within the stipulated date before the expiry date of BG, the issuing bank should be advised by this office to deposit the amount due to MRVC under guarantee. A copy of this letter is being endorsed to the firm's bank for taking necessary action.</span><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif;">&nbsp;</span></p>
 
-<div title="footer"><p><span style="font-size: 14px; line-height: 115%; font-family: 'Century Gothic',sans-serif; color: black;"><br><img style="width: 767px; height: 60.9686px;" src="https://myfiles.space/user_files/173095_15c158b78d540b9a/173095_custom_files/img169346494879.png" width="767" height="60.9686"></span></p></div>
+<p><span style="height:30px;">&nbsp;</span></p>
 
-<div title="header"><p><strong><span style="font-size: 14px; line-height: 123%; font-family: 'Century Gothic',sans-serif; color: black;"><img style="width: 95px; height: 69.774px;" src="https://myfiles.space/user_files/173095_15c158b78d540b9a/173095_custom_files/img169346494752.png" width="95" height="69.774"></span><span style="float:right;"></span><img style="float: right; padding-right:0px;padding-left:500px;width: 235px; height: 69.1176px;" src="https://myfiles.space/user_files/173095_15c158b78d540b9a/173095_custom_files/img1693464948.png" width="235" height="69.1176"></span></strong></p></div>
+<p style="margin: 6pt 32.4pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; text-align: right;"><strong><span style="font-size: 14px; font-family: 'Arial',sans-serif; color: black;">FACAO(MRVC)</span></strong></p>
+<p style="margin: 6pt 32.4pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif;"><strong><span style="font-size: 14px; font-family: 'Arial',sans-serif; color: black;">Copy to:</span></strong></p>
+<p style="margin: 6pt 32.4pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif;"><strong><u><span style="font-size: 14px; font-family: 'Arial',sans-serif; color: black;" id="bgContractorAddress">VENKATA RAO INFRA PROJECTS PVT LTD,&nbsp;B-212, Western Edge-II, Behind Metro Mall, Borivali(E), Mumbai- 400066</span></u></strong></p>
+<p style="margin: 6pt 32.4pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; text-align: justify; line-height: 115%;"><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">M/S MVR is advised to take speedy steps for extension of the above BG [or submit the completion report to enable this office to release the said BG].</span></p>
+<br clear=all style='mso-special-character:line-break; page-break-before:always'>
+
+<p style="margin: 6pt 32.4pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif;"><strong><span style="font-size: 14px; font-family: 'Arial',sans-serif; color: black;">Copy to:</span></strong></p>
+<p style="margin: 6pt 32.4pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif;"><strong><span style="font-size: 14px; font-family: 'Arial',sans-serif; color: black;" id="bgBankAddress">The Manager, <u>HDFC BANK LTD,1<sup>st</sup> Floor, Metropolis II, Opp. Vintage Hospital, St.Inez Panjim, GOA-403001</span></u></strong></p>
+<p style="margin: 6pt 32.4pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; text-align: justify; line-height: 115%;"><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">The above BG confirmed vide your L.N <u id="bgDateonExpiry">03-03-2021&nbsp;</u>as issued by you, expires on <u id="bgExpiryDate2">02-Sep-23</u>. If the firm fails to extend the same unconditionally before the expiry date, these offices claim for Rs. <span id="bgAmountNew">3,00,000</span> is deemed to be lodged on your bank which may please be noted.</span></p>
 
 
-<p style="margin: 14.4pt 32.4pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; text-align: justify; line-height: 115%;"><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">M/S MVR is advised to take speedy steps for extension of the above BG [or submit the completion report to enable this office to release the said BG].</span></p>
-
-<p style="margin: 14.4pt 32.4pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif;"><strong><span style="font-size: 14px; font-family: 'Arial',sans-serif; color: black;">Copy to:</span></strong></p>
-<p style="margin: 14.4pt 32.4pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif;"><strong><span style="font-size: 14px; font-family: 'Arial',sans-serif; color: black;" id="bgBankAddress">The Manager, <u>HDFC BANK LTD,1<sup>st</sup> Floor, Metropolis II, Opp. Vintage Hospital, St.Inez Panjim, GOA-403001</span></u></strong></p>
-<p style="margin: 14.4pt 32.4pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; text-align: justify; line-height: 115%;"><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">The above BG confirmed vide your L.N <u id="bgDateonExpiry">03-03-2021&nbsp;</u>as issued by you, expires on <u id="bgExpiryDate2">02-Sep-23</u>. If the firm fails to extend the same unconditionally before the expiry date, these offices claim for Rs. <span id="bgAmountNew">3,00,000</span> is deemed to be lodged on your bank which may please be noted.</span></p>
-<div title="footer"><p><span style="padding-top:600px;padding-bottom:10px;font-size: 14px; line-height: 115%; font-family: 'Century Gothic',sans-serif; color: black;"><br><img style="padding-top:600px;padding-bottom:10px;width: 767px; height: 60.9686px;" src="https://myfiles.space/user_files/173095_15c158b78d540b9a/173095_custom_files/img169346494879.png" width="767" height="60.9686"></span></p></div>
-<p style="margin: 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; line-height: 115%;"><strong><span style="font-size: 14px; line-height: 115%; font-family: 'Century Gothic',sans-serif; color: black;">&nbsp;</span></strong></p>
+</div></body>
+</html>
 </div></div>
 
 					<div class="row">

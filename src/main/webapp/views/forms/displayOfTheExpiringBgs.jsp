@@ -316,15 +316,24 @@
         return financial_year;
     }
     
-    function subtractMonth(date, months) {
-    	  let d = date.getDate();
-    	  date.setMonth(date.getMonth() - months);
-    	  if (date.getDate() != d) {
-    	    date.setDate(0);
+    function addDate(dt, amount, dateType) {
+    	  switch (dateType) {
+    	    case 'days':
+    	      return dt.setDate(dt.getDate() + amount) && dt;
+    	    case 'weeks':
+    	      return dt.setDate(dt.getDate() + (7 * amount)) && dt;
+    	    case 'months':
+    	      return dt.setMonth(dt.getMonth() + amount) && dt;
+    	    case 'years':
+    	      return dt.setFullYear( dt.getFullYear() + amount) && dt;
     	  }
-    	  return date;
-    	}  
-
+    	}
+    function convert(str) {
+    	  var date = new Date(str),
+    	    mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+    	    day = ("0" + date.getDate()).slice(-2);
+    	  return [date.getFullYear(), mnth, day].join("-");
+    	}
 
     getContractList();
     
@@ -343,8 +352,11 @@
 					SplitStr=SplitStr.toString();
 					var SplitStrwith=SplitStr.split("-");
 					
-					var d = new Date(SplitStrwith[0], SplitStrwith[1], SplitStrwith[2]);
-					$("#bgdate2months").html(val.bg_valid_upto);
+					var dt = new Date(val.bg_valid_upto);
+					
+					
+					var subdate=addDate(dt, -2, 'months');
+					$("#bgdate2months").html(convert(subdate));
 					$("#bgNumber").html(val.bg_number);
 					$("#bgDate").html(val.bg_date);
 					$("#bgAmount").html(val.bg_value);

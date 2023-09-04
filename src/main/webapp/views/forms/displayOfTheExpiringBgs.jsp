@@ -473,7 +473,15 @@
 				if(data != null && data != '' && data.length > 0){
 					var iteration=1;
 	         		$.each(data,function(key,val){
-	         			var actionsDownload = '<a href="javascript:void(0);"  onclick=export2Word(window.docx,'+iteration+',"'+val.contract_id+'","'+val.bg_number+'") class="btn waves-effect waves-light bg-s t-c" title="Download"><i class="fa fa-download"></i></a>';                     	
+	         			var actionsDownload ="";
+	         			if(new Date(val.bg_valid_upto)<new Date())
+         				{
+         			 		actionsDownload = '<a href="javascript:void(0);"  onclick=export2Word(window.docx,'+iteration+',"'+val.contract_id+'","'+val.bg_number+'") disabled class="btn waves-effect waves-light bg-s t-c" title="Download"><i class="fa fa-download"></i></a>';    
+         				}
+	         			else
+         				{
+         			 		actionsDownload = '<a href="javascript:void(0);"  onclick=export2Word(window.docx,'+iteration+',"'+val.contract_id+'","'+val.bg_number+'") class="btn waves-effect waves-light bg-s t-c" title="Download"><i class="fa fa-download"></i></a>';    
+         				}
 
 	                   	var rowArray = []; 
 	                   	

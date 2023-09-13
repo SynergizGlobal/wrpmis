@@ -379,7 +379,7 @@
     content: attr(data-head);
     font-weight: bold;
     display: block;
-    margin-bottom: 5px;
+    
   }
    .file-path.validate {
     width: 100%;
@@ -626,7 +626,7 @@
     				<div class="col m12 s12">        
 						<div class="row fixed-width">
 							<h5 class="center-align">Sessions</h5>
-							<div class="col s12 m12 l12 table-inside" style=" width: 130%; margin-left:-150px; ">
+							<div class="col s12 m12 l12 table-inside" style="width: 156%; margin-left:-150px;">
 								<table id="session-table" class="mdl-data-table mobile_responsible_table"style="text-align:center;">
 									<thead>
 										<tr>

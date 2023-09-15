@@ -64,7 +64,19 @@
 					<div class="center-align">
 						<span class="card-title headbg">
 							<div class="center-align p-2 bg-m">
-								<h5><strong style="text-transform: capitalize;">${documentType}</strong></h5>
+								<h5><strong style="text-transform: capitalize;">
+								
+								<c:if test="${documentType eq 'Faq'}">
+								
+								User Manual
+								
+								</c:if>
+								<c:if test="${documentType ne 'Faq'}">
+								
+								${documentType}
+								
+								</c:if>
+								</strong></h5>
 							</div>
 						</span>
 					</div>

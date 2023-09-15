@@ -148,7 +148,7 @@
 											                </c:if>
 											                <td><a href="#modal1${indexx.count }${index.count }" class="modal-trigger"><i class="fa fa-eye"></i></a> 
 											                    <a class="file-name" href="<%=CommonConstants2.WEB_DOCUMENTS %>${documentType }/${webDocCategory.category }/${webDoc.file_name }" download><i class="fa fa-download"></i></a>
-											                    <c:if test='${(sessionScope.USER_ROLE_CODE eq ROLE_CODE_DATA_ADMIN) or (sessionScope.USER_ROLE_CODE eq ROLE_CODE_IT_ADMIN)}'>
+											                    <c:if test='${(sessionScope.USER_ROLE_CODE eq ROLE_CODE_IT_ADMIN)}'>
 											                    	<a href="#" onclick="editWebDocument('${webDoc.title}','${webDoc.category_id_fk}','${webDoc.file_name}','${webDoc.date_of_issue}','${webDoc.web_document_id}')"><i class="fa fa-pencil"></i></a>
 											                    	<a href="#" ><i class="fa fa-trash" onclick="deleteRow('${webDoc.web_document_id}')"></i></a>
 											                    </c:if> 

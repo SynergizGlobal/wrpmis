@@ -413,6 +413,10 @@ public class OverviewDashboardController {
 					UrlGenerator ugObj = new UrlGenerator();
 					String baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", "203.153.40.44");
 					baseUrl = baseUrl.replace("{1}", trustedTokenId);
+					if(baseUrl.endsWith("/")) {
+
+						baseUrl= baseUrl.substring(0, baseUrl.length() - 1);
+					 }					
 				//}
 				
 				if(!StringUtils.isEmpty(params)) {

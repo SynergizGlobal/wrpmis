@@ -374,12 +374,14 @@ public class OverviewDashboardController {
 			/*dashboardName = dashboardName.replaceAll("_", "&");
 			dashboardName = dashboardName.replaceAll("--", " ");*/
 			
+			
 			String dashboard_id = dObj.getDashboard_id();
 			String work_id = dObj.getWork_id();
 			String params = dObj.getParams();
 			obj = overviewDashboardService.getTableauUrl(dashboard_id);
 
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDashboard_url()) && !"structure-gallery-page".equals(obj.getDashboard_url())){
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDashboard_url()) && !"structure-gallery-page".equals(obj.getDashboard_url()) 
+					 && !"wbs-tree".equals(obj.getDashboard_url())){
 				String dashboardUrl = obj.getDashboard_url();
 				if(!StringUtils.isEmpty(params)) {
 					params = decodeURIComponent(params);
@@ -389,7 +391,7 @@ public class OverviewDashboardController {
 				}else if(!StringUtils.isEmpty(work_id)){
 					params = obj.getSource_field_name()+"="+work_id;
 				}
-				String server_name = "Syntrack";
+				String server_name = "MRVC";
 				if(dashboardUrl.contains(".com/")) {
 					server_name = "Syntrack";
 				}else {
@@ -397,21 +399,21 @@ public class OverviewDashboardController {
 				}
 				TableauTrustedTicket tObj = new TableauTrustedTicket();
 				String trustedTokenId =  tObj.getTrustedTicket(server_name);
-				String baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", "infoviz.syntrackpro.com");
-				baseUrl = baseUrl.replace("{1}", trustedTokenId);
+				//String baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", "infoviz.syntrackpro.com");
+				//baseUrl = baseUrl.replace("{1}", trustedTokenId);
 				String[] url = {};
-				if(dashboardUrl.contains(".com/")) {
-					url = dashboardUrl.split(".com/");
-					//baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
-					baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", "infoviz.syntrackpro.com");
-					baseUrl = baseUrl.replace("{1}", trustedTokenId);
-				}else {
+				//if(dashboardUrl.contains(".com/")) {
+				//	url = dashboardUrl.split(".com/");
+				//	//baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
+				//	baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", "infoviz.syntrackpro.com");
+				//	baseUrl = baseUrl.replace("{1}", trustedTokenId);
+				//}else {
 					url = dashboardUrl.split(":8000/");
 					//baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", trustedTokenId);
 					UrlGenerator ugObj = new UrlGenerator();
-					baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", ugObj.getIpAddress());
+					String baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", "203.153.40.44");
 					baseUrl = baseUrl.replace("{1}", trustedTokenId);
-				}
+				//}
 				
 				if(!StringUtils.isEmpty(params)) {
 					tableauUrl = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS+"&"+params;

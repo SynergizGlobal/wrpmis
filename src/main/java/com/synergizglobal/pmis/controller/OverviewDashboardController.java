@@ -416,9 +416,9 @@ public class OverviewDashboardController {
 				//}
 				
 				if(!StringUtils.isEmpty(params)) {
-					tableauUrl = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS+"&"+params;
+					tableauUrl = baseUrl + tObj.getExternalIpAddress()+CommonConstants.TABLEAU_PARAMS+"&"+params;
 				}else {
-					tableauUrl = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS;
+					tableauUrl = baseUrl + tObj.getExternalIpAddress()+CommonConstants.TABLEAU_PARAMS;
 				}
 				obj.setDashboard_url(tableauUrl.toString());	
 			}

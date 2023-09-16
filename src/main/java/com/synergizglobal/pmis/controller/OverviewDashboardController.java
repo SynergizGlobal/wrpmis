@@ -413,17 +413,54 @@ public class OverviewDashboardController {
 					UrlGenerator ugObj = new UrlGenerator();
 					String baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", "203.153.40.44");
 					baseUrl = baseUrl.replace("{1}", trustedTokenId);
-					if(baseUrl.endsWith("/")) {
-
-						baseUrl= baseUrl.substring(0, baseUrl.length() - 1);
-					 }					
 				//}
+					
+
+					String clientIpMap=tObj.getExternalIpAddress();
+					
+					String Str5[]=clientIpMap.split("\\.");
+					String Concat=Str5[2]+'.'+Str5[3];
+
+					 String Str[]=tObj.myPublicIp().split("___");
+					 String ipnew=Str[4];
+					 String Str1[]=ipnew.split(":");
+					 String ipnew1=Str1[1];	
+					 
+					String Str6[]=ipnew1.split("\\.");
+					String ConcatNew=Str6[0]+'.'+Str6[1]+'.'+Concat;
+					String SMStr=Str6[0]+'.'+Str6[1];
+					System.out.println(ConcatNew);
+					
+					if(ConcatNew.compareTo("  203.153.39.186")==0)
+					{
+			
+						if(!StringUtils.isEmpty(params)) {
+							tableauUrl =  baseUrl +"/"+ url[1]+CommonConstants.TABLEAU_PARAMS+"&"+params;
+						}else {
+							tableauUrl =baseUrl +"/"+ url[1]+CommonConstants.TABLEAU_PARAMS;
+						}						
+					}
+					else
+					{
+						String mainUrl[]=baseUrl.split("/");
+						String weburl=mainUrl[2];
+						if(weburl.compareTo("203.153.40.44:8000")==0)
+						{
+							weburl="203.153.40.44:8000";
+						}
+						else if(weburl.compareTo("pmis.mrvc.gov.in:8000")==0)
+						{
+							weburl="pmis.mrvc.gov.in:8000";
+						}				
+						if(!StringUtils.isEmpty(params)) {
+							tableauUrl =  mainUrl[0]+"//"+weburl +"/"+ url[1]+CommonConstants.TABLEAU_PARAMS+"&"+params;
+						}else {
+							tableauUrl =mainUrl[0]+"//"+weburl +"/"+ url[1]+CommonConstants.TABLEAU_PARAMS;
+						}						
+					}
+					
+
 				
-				if(!StringUtils.isEmpty(params)) {
-					tableauUrl = baseUrl + CommonConstants.TABLEAU_PARAMS+"&"+params;
-				}else {
-					tableauUrl = baseUrl + CommonConstants.TABLEAU_PARAMS;
-				}
 				obj.setDashboard_url(tableauUrl.toString());	
 			}
 		} catch (Exception e) {

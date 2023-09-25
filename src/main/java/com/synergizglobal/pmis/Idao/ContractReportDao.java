@@ -64,5 +64,17 @@ public interface ContractReportDao {
 
 	List<Contract> generateContractBGDetails(Contract obj) throws Exception;
 
+	List<Contract> getTheListOfExpiringInsurances(Contract obj) throws Exception;
+
+	List<Contract> generatContractInsuranceDetails(Contract obj) throws Exception;
+
+	boolean UpdateInsuranceLetterStatus(Contract obj) throws Exception;
+
+	boolean UpdateDateOfCompletionLetterStatus(Contract obj)  throws Exception;
+
+	List<Contract> generatContractDOCDetails(Contract obj) throws Exception;
+
+	List<Contract> getTheListOfExpiringDocs(Contract obj) throws Exception;
+
 	
 }

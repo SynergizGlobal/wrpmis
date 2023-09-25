@@ -13,6 +13,8 @@ public class PageConstants2 {
 	public static final String usersGrid = "forms/usersGrid";
 	public static final String addEditUser = "forms/addEditUser";
 	public static final String displayOfTheExpiringBgs = "forms/displayOfTheExpiringBgs";
+	public static final String displayOfTheExpiringInsurances = "forms/displayOfTheExpiringInsurances";
+	public static final String displayOfTheExpiringDateOfCompletions = "forms/displayOfTheExpiringDateOfCompletions";
 	
 	public static final String progressUploadGrid = "forms/progressUploadGrid";
 	public static final String progressUploadGridNew = "forms/progressUploadGridNew";

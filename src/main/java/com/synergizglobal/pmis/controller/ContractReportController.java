@@ -374,6 +374,30 @@ public class ContractReportController {
 			logger.error("bgContractualLetters : " + e.getMessage());
 		}
 		return model;
+	}
+	
+	@RequestMapping(value="/insurance-contractual-letters",method={RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView insuranceContractualLetters(HttpSession session){
+		ModelAndView model = new ModelAndView(PageConstants2.displayOfTheExpiringInsurances);
+		try {
+
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("insuranceContractualLetters : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value="/doc-contractual-letters",method={RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView dateOfCompletionContractualLetters(HttpSession session){
+		ModelAndView model = new ModelAndView(PageConstants2.displayOfTheExpiringDateOfCompletions);
+		try {
+
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("dateOfCompletionContractualLetters : " + e.getMessage());
+		}
+		return model;
 	}	
 	
 	@RequestMapping(value = "/ajax/UpdateLetterStatus", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
@@ -385,6 +409,32 @@ public class ContractReportController {
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("UpdateLetterStatus : " + e.getMessage());
+		}
+		return flag;
+	}
+	
+	@RequestMapping(value = "/ajax/UpdateInsuranceLetterStatus", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public boolean UpdateInsuranceLetterStatus(@ModelAttribute Contract obj) {
+		boolean flag = false;
+		try {
+			flag = service.UpdateInsuranceLetterStatus(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("UpdateInsuranceLetterStatus : " + e.getMessage());
+		}
+		return flag;
+	}
+	
+	@RequestMapping(value = "/ajax/UpdateDateOfCompletionLetterStatus", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public boolean UpdateDateOfCompletionLetterStatus(@ModelAttribute Contract obj) {
+		boolean flag = false;
+		try {
+			flag = service.UpdateDateOfCompletionLetterStatus(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("UpdateDateOfCompletionLetterStatus : " + e.getMessage());
 		}
 		return flag;
 	}	
@@ -402,6 +452,40 @@ public class ContractReportController {
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.error("generatContractBGDetails : " + e.getMessage());
+		}
+		return contractList;
+    }
+	
+	@RequestMapping(value = "/ajax/get-contract-insurance-details", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Contract> generatContractInsuranceDetails(@ModelAttribute Contract obj,HttpSession session) {
+		List<Contract> contractList = null;
+		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			contractList = service.generatContractInsuranceDetails(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("generatContractInsuranceDetails : " + e.getMessage());
+		}
+		return contractList;
+    }	
+	
+	@RequestMapping(value = "/ajax/get-contract-doc-details", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Contract> generatContractDOCDetails(@ModelAttribute Contract obj,HttpSession session) {
+		List<Contract> contractList = null;
+		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			contractList = service.generatContractDOCDetails(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("generatContractDOCDetails : " + e.getMessage());
 		}
 		return contractList;
     }	
@@ -422,6 +506,40 @@ public class ContractReportController {
 		}
 		return contractList;
     }
+	
+	@RequestMapping(value = "/ajax/generate-insurance-contractual-letters", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Contract> generatInsuranceContractualLettersReport(@ModelAttribute Contract obj,HttpSession session) {
+		List<Contract> contractList = null;
+		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			contractList = service.getTheListOfExpiringInsurances(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("generatInsuranceContractualLettersReport : " + e.getMessage());
+		}
+		return contractList;
+    }
+	
+	@RequestMapping(value = "/ajax/generate-doc-contractual-letters", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Contract> generatDOCContractualLettersReport(@ModelAttribute Contract obj,HttpSession session) {
+		List<Contract> contractList = null;
+		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			contractList = service.getTheListOfExpiringDocs(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("generatDOCContractualLettersReport : " + e.getMessage());
+		}
+		return contractList;
+    }	
 	
 	@RequestMapping(value = "/generate-contract-download/{contract_id}", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView getContractDownload(@PathVariable("contract_id") String contract_id,@ModelAttribute Contract obj,HttpServletRequest request,HttpServletResponse response,HttpSession session, RedirectAttributes attributes){

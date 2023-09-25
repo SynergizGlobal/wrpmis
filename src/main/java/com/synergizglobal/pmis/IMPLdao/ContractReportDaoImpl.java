@@ -3334,6 +3334,179 @@ public class ContractReportDaoImpl implements ContractReportDao {
 		}
 		return flag;
 	}
+
+	@Override
+	public List<Contract> getTheListOfExpiringInsurances(Contract obj) throws Exception {
+		List<Contract> objsList = null;
+		try {
+			String qry ="select  contract_id,contract_short_name,contractor_name,STRING_AGG(insurance_type_fk,',')  as insurance_type_fk, " + 
+					"count(insurance_type_fk) as insurance_count,STRING_AGG(insurance_number,',') as insurance_number,FORMAT (valid_upto, 'MMM yyyy')  as insurance_valid_upto,insurance_letter_status " + 
+					"from contract c    " + 
+					"left join work w on c.work_id_fk = w.work_id     " + 
+					"left join contractor cr on c.contractor_id_fk = cr.contractor_id    " + 
+					"left join insurance bg on bg.contract_id_fk = c.contract_id   " + 
+					"where contract_id is not null and valid_upto>=DATEADD(M,DATEDIFF(M,0,getdate())-1,0) and valid_upto<=GETDATE() and insurance_number is not null " + 
+					"group by contract_id,contract_short_name,contractor_name,valid_upto,insurance_letter_status order by contract_id";
+			
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Contract>(Contract.class));
+		
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Contract> generatContractInsuranceDetails(Contract obj) throws Exception {
+		List<Contract> objsList = null;
+		try {
+			String qry ="select  contract_id,contract_short_name,contractor_name,address,insurance_type_fk,  " + 
+					"					insurance_number,FORMAT (valid_upto, 'MMM yyyy')  as insurance_valid_upto,insurance_value,issuing_agency  " + 
+					"					from contract c     " + 
+					"					left join work w on c.work_id_fk = w.work_id      " + 
+					"					left join contractor cr on c.contractor_id_fk = cr.contractor_id     " + 
+					"					left join insurance bg on bg.contract_id_fk = c.contract_id    " + 
+					"					where contract_id is not null and valid_upto>=DATEADD(M,DATEDIFF(M,0,getdate())-1,0) and valid_upto<=GETDATE() and insurance_number is not null ";
+			
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
+				qry = qry + " and contract_id = ? ";
+				arrSize++;
+			}	
+			/*if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getInsurance_number())) {
+				qry = qry + " and insurance_number = ? ";
+				arrSize++;
+			}*/			
+
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
+				pValues[i++] = obj.getContract_id();
+			}			
+			/*if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getInsurance_number())) {
+				pValues[i++] = obj.getInsurance_number();
+			}*/	
+			
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
+		
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public boolean UpdateInsuranceLetterStatus(Contract obj) throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		Connection con = null;
+		boolean flag = false;
+		try{  
+			con = dataSource.getConnection();
+			String updateQry = "UPDATE insurance set insurance_letter_status = ? WHERE contract_id_fk = ? and insurance_number in (					select     " + 
+					"					insurance_number " + 
+					"					from contract c      " + 
+					"					left join work w on c.work_id_fk = w.work_id       " + 
+					"					left join contractor cr on c.contractor_id_fk = cr.contractor_id      " + 
+					"					left join insurance bg on bg.contract_id_fk = c.contract_id     " + 
+					"					where contract_id is not null and valid_upto>=DATEADD(M,DATEDIFF(M,0,getdate())-1,0) and valid_upto<=GETDATE() and insurance_number is not null   " + 
+					" " + 
+					"					and contract_id=?)";
+			stmt = con.prepareStatement(updateQry);
+			stmt.setString(1, obj.getLetter_status());
+			stmt.setString(2, obj.getContract_id());
+			stmt.setString(3, obj.getContract_id());
+			int c = stmt.executeUpdate(); 
+			if(c > 0) {		
+				flag = true;				
+			}
+		}catch(Exception e){ 
+			throw new SQLException(e.getMessage());
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
+		}
+		return flag;
+	}
+
+	@Override
+	public boolean UpdateDateOfCompletionLetterStatus(Contract obj) throws Exception {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		Connection con = null;
+		boolean flag = false;
+		try{  
+			con = dataSource.getConnection();
+			String updateQry = "UPDATE contract_revision set doc_letter_status = ? WHERE contract_id_fk = ?";
+			stmt = con.prepareStatement(updateQry);
+			stmt.setString(1, obj.getLetter_status());
+			stmt.setString(2, obj.getContract_id());
+			int c = stmt.executeUpdate(); 
+			if(c > 0) {		
+				flag = true;				
+			}
+		}catch(Exception e){ 
+			throw new SQLException(e.getMessage());
+		}finally {
+			DBConnectionHandler.closeJDBCResoucrs(null, stmt, rs);
+		}
+		return flag;
+	}
+
+	@Override
+	public List<Contract> generatContractDOCDetails(Contract obj) throws Exception {
+		List<Contract> objsList = null;
+		try {
+			String qry ="select  distinct contract_id,contract_short_name,contractor_name,address,case when revised_doc is null then doc else revised_doc end as doc,doc_letter_status  " + 
+					"from contract c     " + 
+					"left join work w on c.work_id_fk = w.work_id      " + 
+					"left join contractor cr on c.contractor_id_fk = cr.contractor_id     " + 
+					"left join contract_revision bg on bg.contract_id_fk = c.contract_id    " + 
+					"where contract_id is not null and (case when revised_doc is null then doc else revised_doc end)>=DATEADD(M,DATEDIFF(M,0,getdate())-1,0) and (case when revised_doc is null then doc else revised_doc end)<=DATEADD(M,DATEDIFF(M,0,getdate())+3,0)";
+			
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
+				qry = qry + " and c.contract_id = ? ";
+				arrSize++;
+			}	
+	
+
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
+				pValues[i++] = obj.getContract_id();
+			}			
+
+			
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
+		
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Contract> getTheListOfExpiringDocs(Contract obj) throws Exception {
+		List<Contract> objsList = null;
+		try {
+			String qry ="select  distinct contract_id,contract_short_name,contractor_name,case when revised_doc is null then doc else revised_doc end as doc,doc_letter_status  " + 
+					"from contract c     " + 
+					"left join work w on c.work_id_fk = w.work_id      " + 
+					"left join contractor cr on c.contractor_id_fk = cr.contractor_id     " + 
+					"left join contract_revision bg on bg.contract_id_fk = c.contract_id    " + 
+					"where contract_id is not null and (case when revised_doc is null then doc else revised_doc end)>=DATEADD(M,DATEDIFF(M,0,getdate())-1,0) and (case when revised_doc is null then doc else revised_doc end)<=DATEADD(M,DATEDIFF(M,0,getdate())+3,0)";
+			
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Contract>(Contract.class));
+		
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		return objsList;
+	}
 }
 
 

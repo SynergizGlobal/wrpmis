@@ -165,4 +165,35 @@ public class ContractReportServiceImpl implements ContractReportService{
 		return dao.generateContractBGDetails(obj);
 	}
 
+	@Override
+	public List<Contract> getTheListOfExpiringInsurances(Contract obj) throws Exception {
+		return dao.getTheListOfExpiringInsurances(obj);
+	}
+
+	@Override
+	public List<Contract> generatContractInsuranceDetails(Contract obj) throws Exception {
+		
+		return dao.generatContractInsuranceDetails(obj);
+	}
+
+	@Override
+	public boolean UpdateInsuranceLetterStatus(Contract obj) throws Exception {
+		return dao.UpdateInsuranceLetterStatus(obj);
+	}
+
+	@Override
+	public boolean UpdateDateOfCompletionLetterStatus(Contract obj) throws Exception {
+		return dao.UpdateDateOfCompletionLetterStatus(obj);
+	}
+
+	@Override
+	public List<Contract> generatContractDOCDetails(Contract obj) throws Exception {
+		return dao.generatContractDOCDetails(obj);
+	}
+
+	@Override
+	public List<Contract> getTheListOfExpiringDocs(Contract obj) throws Exception {
+		return dao.getTheListOfExpiringDocs(obj);
+	}
+
 }

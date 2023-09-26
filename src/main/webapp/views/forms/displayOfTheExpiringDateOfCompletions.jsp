@@ -23,6 +23,15 @@
         .input-field .searchable_label{
         	font-size:0.85rem;
         }
+        
+       	 .fw-10{
+    	 	width:100px !important;
+    	 	max-width:100px;
+    	 }  
+     	 .fw-320{
+    	 	width:420px !important;
+    	 	max-width:320px;
+    	 }        
     	 .fw-250{
     	 	width:250px !important;
     	 	max-width:250px;
@@ -227,10 +236,10 @@
 							<table id="datatable-contract" class="mdl-data-table">
 								<thead>
 									<tr>
-										<th>S. No.</th>
+										<th class="no-sort fw-10">S. No.</th>
 										<th class="no-sort fw-150">Contract ID</th>
-										<th class="no-sort fw-250">Contract Short Name</th>
-										<th class="no-sort fw-250">Contractor Name</th>
+										<th class="no-sort fw-420">Contract Short Name</th>
+										<th class="no-sort fw-420">Contractor Name</th>
 										<th class="no-sort fw-250">Latest DOC</th>
 										<th class="no-sort">Download Letter</th>
 										<th class="no-sort fw-250">Status</th>

@@ -27,6 +27,15 @@
     	 	width:250px !important;
     	 	max-width:250px;
     	 }
+    	 
+      	 .fw-10{
+    	 	width:100px !important;
+    	 	max-width:100px;
+    	 }  
+     	 .fw-320{
+    	 	width:320px !important;
+    	 	max-width:320px;
+    	 }   	 	 
     	 .fw-150{
     	 	width:150px !important;
     	 	max-width:150px;
@@ -242,12 +251,12 @@
 							<table id="datatable-contract" class="mdl-data-table">
 								<thead>
 									<tr>
-										<th>S. No.</th>
+										<th class="no-sort fw-10">S. No.</th>
 										<th class="no-sort fw-150">Contract ID</th>
-										<th class="no-sort fw-250">Contract Short Name</th>
-										<th class="no-sort fw-250">Contractor Name</th>
-										<th class="no-sort fw-250">Insurance Type</th>
-										<th class="no-sort fw-250">Insurance No.</th>
+										<th class="no-sort fw-320">Contract Short Name</th>
+										<th class="no-sort fw-320">Contractor Name</th>
+										<th class="no-sort fw-320">Insurance Type</th>
+										<th class="no-sort fw-320">Insurance No.</th>
 										<th class="no-sort fw-150">No. of Insurances</th>
 										<th class="no-sort fw-150">Expiry Month</th>
 										<th class="no-sort">Download Letter</th>

@@ -3497,7 +3497,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 					"left join work w on c.work_id_fk = w.work_id      " + 
 					"left join contractor cr on c.contractor_id_fk = cr.contractor_id     " + 
 					"left join contract_revision bg on bg.contract_id_fk = c.contract_id    " + 
-					"where contract_id is not null and (case when revised_doc is null then doc else revised_doc end)>=DATEADD(M,DATEDIFF(M,0,getdate())-1,0) and (case when revised_doc is null then doc else revised_doc end)<=DATEADD(M,DATEDIFF(M,0,getdate())+3,0)";
+					"where contract_id is not null and (case when revised_doc is null then doc else revised_doc end)>=DATEADD(M,DATEDIFF(M,0,getdate())-1,0) and (case when revised_doc is null then doc else revised_doc end)<=DATEADD(M,DATEDIFF(M,0,getdate())+3,0) order by doc_letter_status,(case when revised_doc is null then doc else revised_doc end)";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Contract>(Contract.class));
 		

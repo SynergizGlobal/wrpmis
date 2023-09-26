@@ -551,6 +551,7 @@
 	        		for(var i = 0; i < table1.tBodies.length; i++) {
 	        			  var tbody =  table1.tBodies[i];
 	        			  for (var j = 0; j < tbody.rows.length; j++) {
+
 	        			    var row = tbody.rows[j];
 	        			    
 	        			    var test=row.cells[4].innerHTML;
@@ -559,12 +560,12 @@
 	        			    		test.indexOf(">") + 1, 
 	        			    		test.lastIndexOf("<")
 	        			    	);
-	        			    
 	        			    date.setDate(date.getDate());   
 	        			    var now = new Date(mySubString); 
 	        			    now.setDate(now.getDate() - 30);
+	        			    
 
-	        			    if(formatDate(date)==formatDate(now))
+	        			    if(formatDate(date)==formatDate(now) && $("#letter_status"+(j+1)).val()=="Not Submitted")
 	        			    {
 	        			    	$(row).addClass("redActive"); 
 	        			    }

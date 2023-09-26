@@ -522,7 +522,9 @@
 	                   		StatusArray=StatusArray+'<option value="Not Submitted">Not Submitted</option><option value="Submitted">Submitted</option>';
                    		}
 	                   	
-	                   	var insurancelink="<a href='/pmis/get-contract/"+val.contract_id+"' style='color:#006699;'>"+val.insurance_number+"</a>";
+	                   	var insurancelink="<a href='/pmis/get-contract/"+val.contract_id+"'>"+val.insurance_number+"</a>";
+	                   	
+	                   	insurancelink=replaceAll(insurancelink, ',',',<br>');
 	                   	
 	                   	StatusArray=StatusArray+'</select>';
                         var table11="<tr><td>"+iteration+"</td><td>"+val.contract_id+"</td><td>"+val.contract_short_name+"</td><td>"+val.contractor_name+"</td><td>"+val.insurance_type_fk+"</td><td>"+val.insurance_count+"</td><td>"+val.insurance_number+"</td><td>"+val.valid_upto+"</td><td>"+StatusArray+"</td></tr>";
@@ -551,6 +553,10 @@
 				
 			}});
     } 
+    
+    function replaceAll(str, find, replace) {
+  	  return str.replace(new RegExp(find, 'g'), replace);
+  }   
     
     function updateLetterStatus(contractid,letter_status,insurance_number)
     {

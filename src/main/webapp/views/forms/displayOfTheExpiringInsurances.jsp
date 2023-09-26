@@ -213,7 +213,7 @@
 
 <p>
 
-<table id="appendData" class="mdl-data-table no-footer dataTable" border="1" cellspacing="2" cellpadding="2">
+<table id="appendData" class="mdl-data-table no-footer dataTable" border="1" cellspacing="2" cellpadding="2" style="font-family:arial;font-size:10.5px;width:100%" >
 	<thead>
 	<tr><th>Insurance Type</th><th>Insurance Number</th><th>Insurance Value (INR)</th><th>Agency</th><th>Valid Upto</th></tr></thead>
 	<tbody></tbody>
@@ -228,12 +228,8 @@
 <p style="margin: 6pt 32.4pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; text-align: right;"><strong><span style="font-size: 14px; font-family: 'Arial',sans-serif; color: black;">FACAO(MRVC)</span></strong></p>
 <p style="margin: 6pt 32.4pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif;"><strong><span style="font-size: 14px; font-family: 'Arial',sans-serif; color: black;">Copy to:</span></strong></p>
 <p style="margin: 6pt 32.4pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif;"><strong><u><span style="font-size: 14px; font-family: 'Arial',sans-serif; color: black;" id="insuranceContractorAddress">VENKATA RAO INFRA PROJECTS PVT LTD,&nbsp;B-212, Western Edge-II, Behind Metro Mall, Borivali(E), Mumbai- 400066</span></u></strong></p>
-<p style="margin: 6pt 32.4pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; text-align: justify; line-height: 115%;"><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">M/S MVR is advised to take speedy steps for extension of the above Insurance [or submit the completion report to enable this office to release the said Insurance].</span></p>
 <br clear=all style='mso-special-character:line-break; page-break-before:always'>
 
-<p style="margin: 6pt 32.4pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif;"><strong><span style="font-size: 14px; font-family: 'Arial',sans-serif; color: black;">Copy to:</span></strong></p>
-<p style="margin: 6pt 32.4pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif;"><strong><span style="font-size: 14px; font-family: 'Arial',sans-serif; color: black;" id="insuranceBankAddress">The Manager, <u>HDFC BANK LTD,1<sup>st</sup> Floor, Metropolis II, Opp. Vintage Hospital, St.Inez Panjim, GOA-403001</span></u></strong></p>
-<p style="margin: 6pt 32.4pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; text-align: justify; line-height: 115%;"><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">The above Insurance confirmed vide your L.N <u id="insuranceDateonExpiry">03-03-2021&nbsp;</u>as issued by you, expires on <u id="insuranceExpiryDate2">02-Sep-23</u>. If the firm fails to extend the same unconditionally before the expiry date, these offices claim for Rs. <span id="insuranceAmountNew">3,00,000</span> is deemed to be lodged on your bank which may please be noted.</span></p>
 
 
 </div></body>
@@ -409,7 +405,8 @@
 		    	   document.body.appendChild(link);
 		    	   if (navigator.msSaveOrOpenBlob ) navigator.msSaveOrOpenBlob( blob, 'Insurance_Expiry_Letter.doc'); // IE10-11
 		    	       else link.click();  // other browsers
-		    	   document.body.removeChild(link);					
+		    	   document.body.removeChild(link);	
+		    	       window.location.reload();
 			}
          		
 			
@@ -525,7 +522,7 @@
 	                   		StatusArray=StatusArray+'<option value="Not Submitted">Not Submitted</option><option value="Submitted">Submitted</option>';
                    		}
 	                   	
-	                   	var insurancelink="<a href='/pmis/get-contract/"+val.contract_id+"'>"+val.insurance_number+"</a>";
+	                   	var insurancelink="<a href='/pmis/get-contract/"+val.contract_id+"' style='color:#006699;'>"+val.insurance_number+"</a>";
 	                   	
 	                   	StatusArray=StatusArray+'</select>';
                         var table11="<tr><td>"+iteration+"</td><td>"+val.contract_id+"</td><td>"+val.contract_short_name+"</td><td>"+val.contractor_name+"</td><td>"+val.insurance_type_fk+"</td><td>"+val.insurance_count+"</td><td>"+val.insurance_number+"</td><td>"+val.valid_upto+"</td><td>"+StatusArray+"</td></tr>";

@@ -488,13 +488,14 @@
 	                   		StatusArray=StatusArray+'<option value="Not Submitted">Not Submitted</option><option value="Submitted">Submitted</option>';
                    		}
 	                   	
+	                   	var linkdoc="<a href='/pmis/get-contract/"+val.contract_id+"'>"+val.doc+"</a>";
 	                   	
 	                   	StatusArray=StatusArray+'</select>';
 	                   	rowArray.push($.trim(iteration));
 	                   	rowArray.push($.trim(val.contract_id));
 	                   	rowArray.push($.trim(val.contract_short_name));
 	                   	rowArray.push($.trim(val.contractor_name));
-	                   	rowArray.push($.trim(val.doc));
+	                   	rowArray.push($.trim(linkdoc));
 	                   	rowArray.push($.trim(actionsDownload));
 	                   	rowArray.push(StatusArray);
 	                   	

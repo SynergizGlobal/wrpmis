@@ -312,7 +312,6 @@
     <script>
     
     var date = new Date();
-    date.setDate(date.getDate() - 30);   
     
     function getCurrentFinancialYear() {
         var financial_year = "";
@@ -561,7 +560,11 @@
 	        			    		test.lastIndexOf("<")
 	        			    	);
 	        			    
-	        			    if(formatDate(date)==mySubString)
+	        			    date.setDate(date.getDate());   
+	        			    var now = new Date(mySubString); 
+	        			    now.setDate(now.getDate() - 30);
+
+	        			    if(formatDate(date)==formatDate(now))
 	        			    {
 	        			    	$(row).addClass("redActive"); 
 	        			    }

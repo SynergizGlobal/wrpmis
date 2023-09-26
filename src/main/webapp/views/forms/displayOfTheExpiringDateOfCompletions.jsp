@@ -139,6 +139,15 @@
      div.WordSection1 {
          page: WordSection1;
      }
+     
+ .redActive {
+  background: red !important;
+  color:#ffffff;
+} 
+
+.redActive a{
+  color:#ffffff;
+}    
     
     </style>
 </head>
@@ -302,6 +311,9 @@
 	
     <script>
     
+    var date = new Date();
+    date.setDate(date.getDate() - 30);   
+    
     function getCurrentFinancialYear() {
         var financial_year = "";
         var today = new Date();
@@ -312,6 +324,20 @@
         }
         return financial_year;
     }
+    
+    function formatDate(date) {
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2)
+            month = '0' + month;
+        if (day.length < 2)
+            day = '0' + day;
+
+        return [year, month, day].join('-');
+    }   
     
     function addDate(dt, amount, dateType) {
     	  switch (dateType) {
@@ -510,17 +536,47 @@
 	                   	
 	                    table.row.add(rowArray).draw( true );
 	                    
+	                    	                    
+	                    //var html="<tr><td>"+$.trim(iteration)+"</td><td>"+$.trim(val.contract_id)+"</td><td>"+$.trim(val.contract_short_name)+"</td><td>"+$.trim(val.contractor_name)+"</td><td>"+$.trim(linkdoc)+"</td><td>"+$.trim(actionsDownload)+"</td><td>"+StatusArray+"</td></tr>";
+	                    
+	                    //$("#datatable-contract tbody").append(html);
+	                    
 	                    iteration++;
 					});
 	         		if(pageNo == null){pageNo = 0;}else{pageNo = Number(pageNo);}
 	                var oTable = $('#datatable-contract').dataTable();
 	                oTable.fnPageChange( pageNo );
 	         		$(".page-loader-2").hide();
+	        		var table1 = document.getElementById('datatable-contract');
+
+	        		for(var i = 0; i < table1.tBodies.length; i++) {
+	        			  var tbody =  table1.tBodies[i];
+	        			  for (var j = 0; j < tbody.rows.length; j++) {
+	        			    var row = tbody.rows[j];
+	        			    
+	        			    var test=row.cells[4].innerHTML;
+	        			    
+	        			    var mySubString = test.substring(
+	        			    		test.indexOf(">") + 1, 
+	        			    		test.lastIndexOf("<")
+	        			    	);
+	        			    
+	        			    if(formatDate(date)==mySubString)
+	        			    {
+	        			    	$(row).addClass("redActive"); 
+	        			    }
+	        			    
+	        			  }
+	        			}	         		
+	         		
 				}else{
 					$(".page-loader-2").hide();
 				}
 				
 			}});
+		
+
+		
     } 
     
     function updateLetterStatus(contractid,letter_status)

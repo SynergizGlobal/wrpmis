@@ -241,7 +241,7 @@
 										<th class="no-sort fw-420">Contract Short Name</th>
 										<th class="no-sort fw-420">Contractor Name</th>
 										<th class="no-sort fw-250">Latest DOC</th>
-										<th class="no-sort">Download Letter</th>
+										<th class="no-sort fw-150">Download Letter</th>
 										<th class="no-sort fw-250">Status</th>
 									</tr>
 								</thead>

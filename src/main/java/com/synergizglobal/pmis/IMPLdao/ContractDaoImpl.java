@@ -2627,7 +2627,7 @@ public class ContractDaoImpl implements ContractDao {
 		try {
 			String qry = "SELECT c.work_id_fk,w.work_name,w.work_short_name "
 					+ "from contract c " + 
-					"LEFT JOIN contractexecutives ce on ce.work_id_fk = c.work_id_fk " +
+					//"LEFT JOIN contractexecutives ce on ce.work_id_fk = c.work_id_fk " +
 					"LEFT JOIN work w on c.work_id_fk = w.work_id " + 
 					"LEFT JOIN project p on w.project_id_fk = p.project_id " +
 					"where c.work_id_fk is not null and c.work_id_fk <> '' ";
@@ -2672,10 +2672,10 @@ public class ContractDaoImpl implements ContractDao {
 				arrSize++;
 			}
 
-			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  !CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk()) &&  !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
+			/*if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  !CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk()) &&  !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
 				qry = qry + " and ce.executive_user_id_fk = ? ";
 				arrSize++;
-			}
+			}*/
 			
 			qry = qry + " GROUP BY c.work_id_fk,w.work_name,w.work_short_name ";
 			Object[] pValues = new Object[arrSize];
@@ -2709,9 +2709,9 @@ public class ContractDaoImpl implements ContractDao {
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_fk())) {
 				pValues[i++] = obj.getDepartment_fk();
 			}
-			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  !CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk()) &&  !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
+			/*if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code()) &&  !CommonConstants.USER_TYPE_HOD.equals(obj.getUser_type_fk()) &&  !CommonConstants.USER_TYPE_DYHOD.equals(obj.getUser_type_fk())) {
 				pValues[i++] = obj.getUser_id();
-			}			
+			}*/			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Contract>(Contract.class));
 			
 		}catch(Exception e){ 

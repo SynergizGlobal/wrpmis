@@ -3,6 +3,7 @@ package com.synergizglobal.pmis.common;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.InetAddress;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,8 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 public class TableauTrustedTicket {
 	public static Logger logger = Logger.getLogger(TableauTrustedTicket.class);
@@ -33,12 +36,15 @@ public class TableauTrustedTicket {
 		String postURL = "http://"+ugObj.getIpAddress()+":8000/trusted"; 
 		String username = "SynTrack"; 
 		String server = ugObj.getIpAddress()+":8000";
-		String clientIp =  getExternalIpAddress();
 		
 		String a=myPublicIp();
-		String b=getExternalIpAddress();
-		String c=request.getLocalAddr();
-	
+
+       String Str[]=a.split(":");
+       
+       String LstString=Str[Str.length-1]; 
+       String fnlString=LstString.replaceAll("_", "");
+	   String clientIp =  fnlString;
+
 		
 		/*String postURL = "http://pmis.mrvc.gov.in:8000/trusted";
 		
@@ -103,6 +109,8 @@ public class TableauTrustedTicket {
 
 	    return ipAdressDns ;
 	}
+	
+	
 	
 	public String getExternalIpAddress() throws Exception {
 	    URL whatismyip = new URL("http://checkip.amazonaws.com");

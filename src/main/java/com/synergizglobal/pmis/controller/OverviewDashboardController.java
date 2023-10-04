@@ -115,7 +115,7 @@ public class OverviewDashboardController {
 	
 	@RequestMapping(value = "/ajax/getAIIBDashboardURL", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public OverviewDashboard getAIIBDashboardURL(@ModelAttribute OverviewDashboard dObj,HttpSession session){
+	public OverviewDashboard getAIIBDashboardURL(@ModelAttribute OverviewDashboard dObj,HttpSession session, HttpServletRequest request){
 		String user_Id = null;String userName = null;
 		String tableauUrl = "";
 		try{
@@ -132,7 +132,7 @@ public class OverviewDashboardController {
 					server_name = "MRVC";
 				}
 				TableauTrustedTicket tObj = new TableauTrustedTicket();
-				String trustedTokenId =  tObj.getTrustedTicket(server_name);
+				String trustedTokenId =  tObj.getTrustedTicket(server_name,request);
 				
 				String[] url = {};
 
@@ -366,7 +366,7 @@ public class OverviewDashboardController {
 	
 	@RequestMapping(value = "/ajax/getDashboardURL", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public OverviewDashboard getDashboardURL(@ModelAttribute OverviewDashboard dObj,HttpSession session){
+	public OverviewDashboard getDashboardURL(@ModelAttribute OverviewDashboard dObj,HttpSession session, HttpServletRequest request){
 		String user_Id = null;String userName = null;
 		OverviewDashboard obj = new OverviewDashboard();
 		String tableauUrl = "";
@@ -462,7 +462,7 @@ public class OverviewDashboardController {
 				
 				String[] url = {};
 				url = dashboardUrl.split(":8000/");
-				String trustedTokenId =  tObj.getTrustedTicket(server_name);
+				String trustedTokenId =  tObj.getTrustedTicket(server_name,request);
 				String baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", "203.153.40.44");
 				baseUrl = baseUrl.replace("{1}", trustedTokenId);
 				String tableauUrl1 = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS;

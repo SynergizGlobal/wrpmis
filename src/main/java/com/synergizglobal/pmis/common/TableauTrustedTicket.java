@@ -31,7 +31,7 @@ public class TableauTrustedTicket {
 		String postURL = "http://"+ugObj.getIpAddress()+":8000/trusted"; 
 		String username = "SynTrack"; 
 		String server = ugObj.getIpAddress()+":8000";
-		String clientIp = "49.205.101.8";
+		String clientIp = getExternalIpAddress();
 	
 		
 		/*String postURL = "http://pmis.mrvc.gov.in:8000/trusted";

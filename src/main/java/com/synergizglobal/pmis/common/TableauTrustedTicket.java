@@ -38,7 +38,7 @@ public class TableauTrustedTicket {
 		
 		String username = "SynTrack";
 		String server = "pmis.mrvc.gov.in:8000";
-        String clientIp = "pmis.mrvc.gov.in";
+        String clientIp = "203.153.40.44";
         
         String target_site = "";//Optional
 		try {

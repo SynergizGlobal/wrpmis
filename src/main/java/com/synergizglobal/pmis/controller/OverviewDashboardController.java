@@ -133,6 +133,7 @@ public class OverviewDashboardController {
 				}
 				TableauTrustedTicket tObj = new TableauTrustedTicket();
 				String trustedTokenId =  tObj.getTrustedTicket(server_name);
+				
 				String[] url = {};
 
 					url = dashboardUrl.split(":8000/");
@@ -398,7 +399,7 @@ public class OverviewDashboardController {
 					server_name = "MRVC";
 				}
 				TableauTrustedTicket tObj = new TableauTrustedTicket();
-				String trustedTokenId =  tObj.getTrustedTicket(server_name);
+				/*String trustedTokenId =  tObj.getTrustedTicket(server_name);
 				//String baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", "infoviz.syntrackpro.com");
 				//baseUrl = baseUrl.replace("{1}", trustedTokenId);
 				String[] url = {};
@@ -457,11 +458,16 @@ public class OverviewDashboardController {
 						}else {
 							tableauUrl =mainUrl[0]+"//"+weburl +"/"+ url[1]+CommonConstants.TABLEAU_PARAMS;
 						}						
-					}
-					
+					}*/
+				
+				String[] url = {};
+				url = dashboardUrl.split(":8000/");
+				String trustedTokenId =  tObj.getTrustedTicket(server_name);
+				String baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", trustedTokenId);
+				String tableauUrl1 = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS;
 
 				
-				obj.setDashboard_url(tableauUrl.toString());	
+				obj.setDashboard_url(tableauUrl1.toString());	
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

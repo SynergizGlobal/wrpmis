@@ -7,6 +7,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -18,7 +20,7 @@ import org.apache.log4j.Logger;
 
 public class TableauTrustedTicket {
 	public static Logger logger = Logger.getLogger(TableauTrustedTicket.class);
-	public String getTrustedTicket(String server_name) throws Exception{
+	public String getTrustedTicket(String server_name, HttpServletRequest  request) throws Exception{
 		UrlGenerator ugObj = new UrlGenerator();
 		String getResponseString = "";
 		
@@ -31,7 +33,11 @@ public class TableauTrustedTicket {
 		String postURL = "http://"+ugObj.getIpAddress()+":8000/trusted"; 
 		String username = "SynTrack"; 
 		String server = ugObj.getIpAddress()+":8000";
-		String clientIp = getExternalIpAddress();
+		String clientIp =  getExternalIpAddress();
+		
+		String a=myPublicIp();
+		String b=getExternalIpAddress();
+		String c=request.getLocalAddr();
 	
 		
 		/*String postURL = "http://pmis.mrvc.gov.in:8000/trusted";

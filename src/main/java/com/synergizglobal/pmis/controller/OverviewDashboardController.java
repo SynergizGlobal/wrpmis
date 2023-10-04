@@ -463,9 +463,9 @@ public class OverviewDashboardController {
 				String[] url = {};
 				url = dashboardUrl.split(":8000/");
 				String trustedTokenId =  tObj.getTrustedTicket(server_name);
-				String baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", trustedTokenId);
+				String baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", "203.153.40.44");
+				baseUrl = baseUrl.replace("{1}", trustedTokenId);
 				String tableauUrl1 = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS;
-
 				
 				obj.setDashboard_url(tableauUrl1.toString());	
 			}

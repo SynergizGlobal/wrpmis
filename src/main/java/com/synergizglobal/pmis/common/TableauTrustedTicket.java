@@ -45,10 +45,7 @@ public class TableauTrustedTicket {
 
 		     
        
-	   String clientIp =  "49.205.101.8";
-	   
-	   
-
+	   String clientIp =  ipaddr.toString();
 
 		
 		/*String postURL = "http://pmis.mrvc.gov.in:8000/trusted";

@@ -3,9 +3,14 @@ package com.synergizglobal.pmis.common;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.NetworkInterface;
+import java.net.Socket;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,10 +42,20 @@ public class TableauTrustedTicket {
 		String postURL = "http://"+ugObj.getIpAddress()+":8000/trusted"; 
 		String username = "SynTrack"; 
 		String server = ugObj.getIpAddress()+":8000";
-      
+		
+		
+		final DatagramSocket datagramSocket = new DatagramSocket(); 
+		datagramSocket.connect(InetAddress.getByName("8.8.8.8"), 12345);
+		
+		
+		Socket socket = new Socket(); 
+		    socket.connect(new InetSocketAddress("google.com", 80));
+		     
        
-	   InetAddress ip = InetAddress.getLocalHost();
-	   String clientIp =  ip.getHostAddress();
+	   String clientIp =  getExternalIpAddress();
+	   
+	   
+
 
 		
 		/*String postURL = "http://pmis.mrvc.gov.in:8000/trusted";
@@ -110,7 +125,7 @@ public class TableauTrustedTicket {
 	
 	
 	public String getExternalIpAddress() throws Exception {
-	    URL whatismyip = new URL("http://checkip.amazonaws.com");
+	    URL whatismyip = new URL("http://myexternalip.com/raw");
 	    BufferedReader in = null;
 	    try {
 	        in = new BufferedReader(new InputStreamReader(

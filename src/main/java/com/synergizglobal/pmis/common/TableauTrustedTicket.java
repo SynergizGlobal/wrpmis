@@ -45,7 +45,7 @@ public class TableauTrustedTicket {
 
 		     
        
-	   String clientIp =  ipaddr;
+	   String clientIp =  "49.205.101.8";
 	   
 	   
 

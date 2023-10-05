@@ -3362,7 +3362,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 		List<Contract> objsList = null;
 		try {
 			String qry ="select  contract_id,contract_short_name,contractor_name,address,insurance_type_fk,  " + 
-					"					insurance_number,FORMAT (valid_upto, 'MMM yyyy')  as insurance_valid_upto,insurance_value,issuing_agency  " + 
+					"					insurance_number,FORMAT (valid_upto, 'dd-MMM-yy')  as insurance_valid_upto,insurance_value,issuing_agency  " + 
 					"					from contract c     " + 
 					"					left join work w on c.work_id_fk = w.work_id      " + 
 					"					left join contractor cr on c.contractor_id_fk = cr.contractor_id     " + 

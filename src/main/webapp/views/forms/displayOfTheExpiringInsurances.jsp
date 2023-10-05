@@ -198,7 +198,15 @@
     <td>
       <div style='mso-element:footer' id=f1>
         <p class=headerFooter>
-       <span style="font-size: 14px; line-height: 115%; font-family: 'Century Gothic',sans-serif; color: black;"><br><img style="width: 767px; height: 60.9686px;" src="https://myfiles.space/user_files/173095_15c158b78d540b9a/173095_custom_files/img169346494879.png" width="767" height="60.9686"></span></p>
+       <span style="font-size: 14px; line-height: 115%; font-family: 'Century Gothic',sans-serif; color: black;"><br><img style="width: 767px; height: 60.9686px;" src="https://myfiles.space/user_files/173095_15c158b78d540b9a/173095_custom_files/img169346494879.png" width="767" height="60.9686"></span>
+<span style='color:#005686'>Page</span>
+                <span style='color:#005686;mso-no-proof:yes'>1</span>
+                <span style='color:#005686'> </span>
+                <span style='font-size:10.0pt;color:#005686'>
+                    <o:p></o:p>
+                </span>       
+       </p>
+       
       </div>
       &nbsp;
 </td></tr></table>
@@ -218,7 +226,7 @@
 </tbody>
 </table>
 <p><span style="height:30px;">&nbsp;</span></p>
-<p style="margin: 6pt 9.7pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; text-align: justify; text-indent: 50.4pt; line-height: 115%;"><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">The validity of the following Insurances received from </span><strong><u><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;" id="insuranceContractorName1">VENKATA RAO INFRA PROJECTS PVT</span></u></strong><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">&nbsp;</span><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">expires in <strong><u id="insuranceExpiryDate">02-Sep-23</u></strong>. You are requested to arrange for extension of&nbsp;</span><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">Insurance before the expiry date in case the contract is not completed in all respects.&nbsp;</span><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">In case the contract has been completed satisfactorily in all respects, advice to this effect must be sent to this office before <span id="insuranceExpiryDate1">02-Sep-23</span>.&nbsp;</span></p>
+<p style="margin: 6pt 9.7pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; text-align: justify; text-indent: 50.4pt; line-height: 115%;"><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">The validity of the following Insurances received from </span><strong><u><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;" id="insuranceContractorName1">VENKATA RAO INFRA PROJECTS PVT</span></u></strong><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">&nbsp;</span><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">expires in <strong><u id="insuranceExpiryDate">02-Sep-23</u></strong>. You are requested to arrange for extension of&nbsp;</span><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">Insurance before the expiry date in case the contract is not completed in all respects.&nbsp;The contractor is required to provide insurance cover from the start date to the end date of the Defect Liability Period.&nbsp;</span><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">In case the contract has been completed satisfactorily in all respects, advice to this effect must be sent to this office before <span id="insuranceExpiryDate1">02-Sep-23</span>.&nbsp;</span></p>
 
 <p>
 
@@ -410,7 +418,7 @@
 		    	   url = URL.createObjectURL(blob);
 		    	   link = document.createElement('A');
 		    	   link.href = url;
-		    	   link.download = 'Insurance Expiry Letter';  // default name without extension 
+		    	   link.download = 'Insurance Expiry Letter_'+contract_id; // default name without extension 
 		    	   document.body.appendChild(link);
 		    	   if (navigator.msSaveOrOpenBlob ) navigator.msSaveOrOpenBlob( blob, 'Insurance_Expiry_Letter.doc'); // IE10-11
 		    	       else link.click();  // other browsers

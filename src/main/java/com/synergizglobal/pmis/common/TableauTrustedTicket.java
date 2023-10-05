@@ -29,7 +29,7 @@ import java.net.InetAddress;
 
 public class TableauTrustedTicket {
 	public static Logger logger = Logger.getLogger(TableauTrustedTicket.class);
-	public String getTrustedTicket(String server_name, HttpServletRequest  request) throws Exception{
+	public String getTrustedTicket(String server_name, HttpServletRequest  request,String ipaddr) throws Exception{
 		UrlGenerator ugObj = new UrlGenerator();
 		String getResponseString = "";
 		
@@ -42,17 +42,10 @@ public class TableauTrustedTicket {
 		String postURL = "http://"+ugObj.getIpAddress()+":8000/trusted"; 
 		String username = "SynTrack"; 
 		String server = ugObj.getIpAddress()+":8000";
-		
-		
-		final DatagramSocket datagramSocket = new DatagramSocket(); 
-		datagramSocket.connect(InetAddress.getByName("8.8.8.8"), 12345);
-		
-		
-		Socket socket = new Socket(); 
-		    socket.connect(new InetSocketAddress("google.com", 80));
+
 		     
        
-	   String clientIp =  getExternalIpAddress();
+	   String clientIp =  ipaddr;
 	   
 	   
 

@@ -7,7 +7,7 @@ public class OverviewDashboard {
 	private String dashboard_id,dashboard_name,dashboard_icon,dashboard_url,source_table_name,source_field_name,source_field_value,show_left_menu;
 	private List<OverviewDashboard> formsSubMenu;
 	
-	private String filter_id, left_menu_id_fk, filters_table, filter_label_name, filter_column_name,
+	private String filter_id, left_menu_id_fk, filters_table, filter_label_name, filter_column_name,ipaddress,
 	default_filter_column,default_filter_value, selected_value, priority, 
 	filter_column_id,filters_reference_table,filter_option_id,filter_option_value,work_id,parent_id,params,
 	query_for_work_search,query_for_filter_options,source_table_alias_name,filters_table_alias_name,order_by,is_first_option_selected,union_all,dashboard_type,dashboard_type_fk,
@@ -363,6 +363,14 @@ public class OverviewDashboard {
 
 	public void setAccessibility(String accessibility) {
 		this.accessibility = accessibility;
+	}
+
+	public String getIpaddress() {
+		return ipaddress;
+	}
+
+	public void setIpaddress(String ipaddress) {
+		this.ipaddress = ipaddress;
 	}
 	
 }

@@ -114,7 +114,7 @@ public class TableauDashboardController {
 					server_name = "MRVC";
 				}*/
 				TableauTrustedTicket tObj = new TableauTrustedTicket();
-				String trustedTokenId =  tObj.getTrustedTicket(server_name,request);
+				String trustedTokenId =  tObj.getTrustedTicket(server_name,request,"203.153.40.44");
 				
 				//String baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", "infoviz.syntrackpro.com");
 				//baseUrl = baseUrl.replace("{1}", trustedTokenId);
@@ -238,7 +238,7 @@ String clientIpMap=tObj.getExternalIpAddress();
 					server_name = "MRVC";
 				}*/
 				TableauTrustedTicket tObj = new TableauTrustedTicket();
-				String trustedTokenId =  tObj.getTrustedTicket(server_name,request);
+				String trustedTokenId =  tObj.getTrustedTicket(server_name,request,"203.153.40.44");
 				//String baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", "infoviz.syntrackpro.com");
 				//baseUrl = baseUrl.replace("{1}", trustedTokenId);
 				String[] url = {};
@@ -342,7 +342,7 @@ String clientIpMap=tObj.getExternalIpAddress();
 					server_name = "MRVC";
 				}
 				TableauTrustedTicket tObj = new TableauTrustedTicket();
-				String trustedTokenId =  tObj.getTrustedTicket(server_name,request);
+				String trustedTokenId =  tObj.getTrustedTicket(server_name,request,"203.153.40.44");
 				//String baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", "infoviz.syntrackpro.com");
 				//baseUrl = baseUrl.replace("{1}", trustedTokenId);
 				String[] url = {};
@@ -407,7 +407,7 @@ String clientIpMap=tObj.getExternalIpAddress();
 					server_name = "MRVC";
 				}
 				TableauTrustedTicket tObj = new TableauTrustedTicket();
-				String trustedTokenId =  tObj.getTrustedTicket(server_name,request);
+				String trustedTokenId =  tObj.getTrustedTicket(server_name,request,"203.153.40.44");
 				//String baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", "infoviz.syntrackpro.com");
 				//baseUrl = baseUrl.replace("{1}", trustedTokenId);
 				String[] url = {};
@@ -472,7 +472,7 @@ String clientIpMap=tObj.getExternalIpAddress();
 					server_name = "MRVC";
 				}
 				TableauTrustedTicket tObj = new TableauTrustedTicket();
-				String trustedTokenId =  tObj.getTrustedTicket(server_name,request);
+				String trustedTokenId =  tObj.getTrustedTicket(server_name,request,"203.153.40.44");
 				//String baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", "infoviz.syntrackpro.com");
 				//baseUrl = baseUrl.replace("{1}", trustedTokenId);
 				String[] url = {};

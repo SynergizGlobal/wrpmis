@@ -46,6 +46,11 @@ public class TableauTrustedTicket {
 		  String ip=ipaddr;
        
 	   String clientIp =  ip.trim();
+	   
+	   if(clientIp.compareTo("203.153.39.186")==0)
+	   {
+		   clientIp="203.153.40.44";
+	   }
 
 		
 		/*String postURL = "http://pmis.mrvc.gov.in:8000/trusted";

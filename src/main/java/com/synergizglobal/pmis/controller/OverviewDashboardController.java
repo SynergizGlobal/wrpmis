@@ -178,7 +178,7 @@ public class OverviewDashboardController {
 							weburl="pmis.mrvc.gov.in:8000";
 						}				
 
-						tableauUrl =mainUrl[0]+"//"+weburl +"/"+ url[1]+CommonConstants.TABLEAU_PARAMS+"&:embed=y";
+						tableauUrl =mainUrl[0]+"//"+weburl +"/"+ url[1];
 							
 					}					
 					

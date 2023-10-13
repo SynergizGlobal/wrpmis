@@ -411,9 +411,68 @@ public class ContractDaoImpl implements ContractDao {
 			stmt.setString(q++,contract.getType_of_review());
 			stmt.setString(q++,contract.getContract_notice_inviting_tender());
 			
-			stmt.setString(q++,contract.getTender_opening_date());
-			stmt.setString(q++,contract.getTechnical_eval_submission());
-			stmt.setString(q++,contract.getFinancial_eval_submission());			
+			if(!StringUtils.isEmpty(contract.getContract_notice_inviting_tender()))
+			{
+				SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");
+				SimpleDateFormat formatter3 = new SimpleDateFormat("dd-MM-yyyy");
+				Date date24 = null;
+				String dateString24 = null;
+				date24 = formatter3.parse(contract.getContract_notice_inviting_tender());
+				dateString24 = formatter2.format(date24);
+				stmt.setString(q++,dateString24);
+			}
+			else
+			{
+				stmt.setString(q++,contract.getContract_notice_inviting_tender());
+			}
+			
+			
+			if(!StringUtils.isEmpty(contract.getTender_opening_date()))
+			{
+				SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");
+				SimpleDateFormat formatter3 = new SimpleDateFormat("dd-MM-yyyy");
+				Date date24 = null;
+				String dateString24 = null;
+				date24 = formatter3.parse(contract.getTender_opening_date());
+				dateString24 = formatter2.format(date24);
+				stmt.setString(q++,dateString24);
+			}
+			else
+			{
+				stmt.setString(q++,contract.getTender_opening_date());
+			}	
+			
+			
+			if(!StringUtils.isEmpty(contract.getTechnical_eval_submission()))
+			{
+				SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");
+				SimpleDateFormat formatter3 = new SimpleDateFormat("dd-MM-yyyy");
+				Date date24 = null;
+				String dateString24 = null;
+				date24 = formatter3.parse(contract.getTechnical_eval_submission());
+				dateString24 = formatter2.format(date24);
+				stmt.setString(q++,dateString24);
+			}
+			else
+			{
+				stmt.setString(q++,contract.getTechnical_eval_submission());
+			}	
+			
+
+			if(!StringUtils.isEmpty(contract.getFinancial_eval_submission()))
+			{
+				SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");
+				SimpleDateFormat formatter3 = new SimpleDateFormat("dd-MM-yyyy");
+				Date date24 = null;
+				String dateString24 = null;
+				date24 = formatter3.parse(contract.getFinancial_eval_submission());
+				dateString24 = formatter2.format(date24);
+				stmt.setString(q++,dateString24);
+			}
+			else
+			{
+				stmt.setString(q++,contract.getFinancial_eval_submission());
+			}				
 			
 			
 			count = stmt.executeUpdate();
@@ -1712,10 +1771,10 @@ public class ContractDaoImpl implements ContractDao {
 				stmt.setString(p++,contract.getPlanned_date_of_completion());
 
 				
-				/*if(!StringUtils.isEmpty(contract.getContract_notice_inviting_tender()))
+				if(!StringUtils.isEmpty(contract.getContract_notice_inviting_tender()))
 				{
 					SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");
-					SimpleDateFormat formatter3 = new SimpleDateFormat("MM-dd-yyyy");
+					SimpleDateFormat formatter3 = new SimpleDateFormat("dd-MM-yyyy");
 					Date date24 = null;
 					String dateString24 = null;
 					date24 = formatter3.parse(contract.getContract_notice_inviting_tender());
@@ -1725,13 +1784,55 @@ public class ContractDaoImpl implements ContractDao {
 				else
 				{
 					stmt.setString(p++,contract.getContract_notice_inviting_tender());
-				}*/
+				}
 				
-				stmt.setString(p++,contract.getContract_notice_inviting_tender());
 				
-				stmt.setString(p++,contract.getTender_opening_date());
-				stmt.setString(p++,contract.getTechnical_eval_submission());
-				stmt.setString(p++,contract.getFinancial_eval_submission());					
+				if(!StringUtils.isEmpty(contract.getTender_opening_date()))
+				{
+					SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");
+					SimpleDateFormat formatter3 = new SimpleDateFormat("dd-MM-yyyy");
+					Date date24 = null;
+					String dateString24 = null;
+					date24 = formatter3.parse(contract.getTender_opening_date());
+					dateString24 = formatter2.format(date24);
+					stmt.setString(p++,dateString24);
+				}
+				else
+				{
+					stmt.setString(p++,contract.getTender_opening_date());
+				}	
+				
+				
+				if(!StringUtils.isEmpty(contract.getTechnical_eval_submission()))
+				{
+					SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");
+					SimpleDateFormat formatter3 = new SimpleDateFormat("dd-MM-yyyy");
+					Date date24 = null;
+					String dateString24 = null;
+					date24 = formatter3.parse(contract.getTechnical_eval_submission());
+					dateString24 = formatter2.format(date24);
+					stmt.setString(p++,dateString24);
+				}
+				else
+				{
+					stmt.setString(p++,contract.getTechnical_eval_submission());
+				}	
+				
+
+				if(!StringUtils.isEmpty(contract.getFinancial_eval_submission()))
+				{
+					SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");
+					SimpleDateFormat formatter3 = new SimpleDateFormat("dd-MM-yyyy");
+					Date date24 = null;
+					String dateString24 = null;
+					date24 = formatter3.parse(contract.getFinancial_eval_submission());
+					dateString24 = formatter2.format(date24);
+					stmt.setString(p++,dateString24);
+				}
+				else
+				{
+					stmt.setString(p++,contract.getFinancial_eval_submission());
+				}				
 				
 				
 				stmt.setString(p++,contract.getContract_id());

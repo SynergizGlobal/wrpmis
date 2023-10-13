@@ -360,8 +360,8 @@ public class ContractDaoImpl implements ContractDao {
 							+ "dy_hod_user_id_fk,doc,awarded_cost,loa_letter_number,loa_date,ca_no,ca_date,actual_completion_date,completed_cost,date_of_start,"
 							+ "estimated_cost,contract_closure_date,completion_certificate_release,final_takeover,final_bill_release,defect_liability_period,"
 							+ "retention_money_release,pbg_release,contract_status_fk,bg_required,insurance_required,estimated_cost_units,awarded_cost_units,"
-							+ "status,milestone_requried,revision_requried,contractors_key_requried,is_contract_closure_initiated,planned_date_of_award,remarks,planned_date_of_completion,contract_department,bank_funded,bank_name,type_of_review,notice_inviting_tender)"
-							+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+							+ "status,milestone_requried,revision_requried,contractors_key_requried,is_contract_closure_initiated,planned_date_of_award,remarks,planned_date_of_completion,contract_department,bank_funded,bank_name,type_of_review,notice_inviting_tender,tender_opening_date,technical_eval_submission,financial_eval_submission)"
+							+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			stmt = con.prepareStatement(ContractQry);
 			int q = 1;
 		    int r =0;
@@ -410,6 +410,11 @@ public class ContractDaoImpl implements ContractDao {
 			stmt.setString(q++,contract.getBank_name());
 			stmt.setString(q++,contract.getType_of_review());
 			stmt.setString(q++,contract.getContract_notice_inviting_tender());
+			
+			stmt.setString(q++,contract.getTender_opening_date());
+			stmt.setString(q++,contract.getTechnical_eval_submission());
+			stmt.setString(q++,contract.getFinancial_eval_submission());			
+			
 			
 			count = stmt.executeUpdate();
 			
@@ -565,8 +570,8 @@ public class ContractDaoImpl implements ContractDao {
 					
 					
 					PreparedStatement preparedStmtRevisions = null;
-					String queryTdcRevisions = " insert into contract_revisions (contract_id_fk,revision_no,revision_estimated_cost,revision_planned_date_of_award,revision_planned_date_of_completion,notice_inviting_tender)"
-				               + " values (?,?,?,?,?,?)";				
+					String queryTdcRevisions = " insert into contract_revisions (contract_id_fk,revision_no,revision_estimated_cost,revision_planned_date_of_award,revision_planned_date_of_completion,notice_inviting_tender,tender_bid_opening_date,technical_eval_approval,financial_eval_approval,tender_bid_remarks)"
+				               + " values (?,?,?,?,?,?,?,?,?,?)";				
 					
 					preparedStmtRevisions = con.prepareStatement(queryTdcRevisions);
 	
@@ -602,7 +607,9 @@ public class ContractDaoImpl implements ContractDao {
 								else
 								{
 									preparedStmtRevisions.setString(5,null);
-								}									
+								}	
+								
+								
 								if(contract.getNotice_inviting_tender().length>0)
 								{
 									preparedStmtRevisions.setString(6, contract.getNotice_inviting_tender()[i]==null?"0":contract.getNotice_inviting_tender()[i]);
@@ -610,7 +617,51 @@ public class ContractDaoImpl implements ContractDao {
 								else
 								{
 									preparedStmtRevisions.setString(6,null);
-								}									
+								}
+								
+								
+								
+								
+								if(contract.getTender_bid_opening_date().length>0)
+								{
+									preparedStmtRevisions.setString(7, contract.getTender_bid_opening_date()[i]==null?"0":contract.getTender_bid_opening_date()[i]);
+								}
+								else
+								{
+									preparedStmtRevisions.setString(7,null);
+								}
+								
+								
+								if(contract.getTechnical_eval_approval().length>0)
+								{
+									preparedStmtRevisions.setString(8, contract.getTechnical_eval_approval()[i]==null?"0":contract.getTechnical_eval_approval()[i]);
+								}
+								else
+								{
+									preparedStmtRevisions.setString(8,null);
+								}								
+								
+								if(contract.getFinancial_eval_approval().length>0)
+								{
+									preparedStmtRevisions.setString(9, contract.getFinancial_eval_approval()[i]==null?"0":contract.getFinancial_eval_approval()[i]);
+								}
+								else
+								{
+									preparedStmtRevisions.setString(9,null);
+								}
+								
+								
+								if(contract.getTender_bid_remarks().length>0)
+								{
+									preparedStmtRevisions.setString(10, contract.getTender_bid_remarks()[i]==null?"0":contract.getTender_bid_remarks()[i]);
+								}
+								else
+								{
+									preparedStmtRevisions.setString(10,null);
+								}								
+								
+								
+								
 								preparedStmtRevisions.execute();
 							}
 						}
@@ -1082,7 +1133,7 @@ public class ContractDaoImpl implements ContractDao {
 									+ "FORMAT(final_takeover,'dd-MM-yyyy') AS final_takeover,FORMAT(final_bill_release,'dd-MM-yyyy') AS final_bill_release,FORMAT(defect_liability_period,'dd-MM-yyyy') AS defect_liability_period,cast(completed_cost as decimal(18,2)) as completed_cost,"
 									+ "FORMAT(retention_money_release,'dd-MM-yyyy') AS retention_money_release,FORMAT(pbg_release,'dd-MM-yyyy') AS pbg_release,contract_status_fk,bg_required,"
 									+ "insurance_required,u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name as hod_name,us.user_name as dy_hod_name,FORMAT(target_doc,'dd-MM-yyyy') AS target_doc,"
-									+ "awarded_cost_units,estimated_cost_units,completed_cost_units,mu.unit,status,milestone_requried,revision_requried,contractors_key_requried,FORMAT(actual_date_of_commissioning,'dd-MM-yyyy') AS actual_date_of_commissioning,is_contract_closure_initiated,FORMAT(notice_inviting_tender,'dd-MM-yyyy') AS contract_notice_inviting_tender,FORMAT(planned_date_of_award,'dd-MM-yyyy') AS planned_date_of_award,c.remarks,FORMAT(planned_date_of_completion,'dd-MM-yyyy') AS planned_date_of_completion,c.contract_department,c.bank_funded,c.bank_name,c.type_of_review " + 
+									+ "awarded_cost_units,estimated_cost_units,completed_cost_units,mu.unit,status,milestone_requried,revision_requried,contractors_key_requried,FORMAT(actual_date_of_commissioning,'dd-MM-yyyy') AS actual_date_of_commissioning,is_contract_closure_initiated,FORMAT(tender_opening_date,'dd-MM-yyyy') as tender_opening_date ,FORMAT(technical_eval_submission,'dd-MM-yyyy') as technical_eval_submission,FORMAT(financial_eval_submission,'dd-MM-yyyy') as financial_eval_submission ,FORMAT(notice_inviting_tender,'dd-MM-yyyy') AS contract_notice_inviting_tender,FORMAT(planned_date_of_award,'dd-MM-yyyy') AS planned_date_of_award,c.remarks,FORMAT(planned_date_of_completion,'dd-MM-yyyy') AS planned_date_of_completion,c.contract_department,c.bank_funded,c.bank_name,c.type_of_review " + 
 									"from contract c " + 
 									"left join work w on c.work_id_fk = w.work_id  " + 
 									"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
@@ -1162,6 +1213,16 @@ public class ContractDaoImpl implements ContractDao {
 				contract.setContract_notice_inviting_tender(resultSet.getString("contract_notice_inviting_tender"));
 				
 				contract.setPlanned_date_of_completion(resultSet.getString("planned_date_of_completion"));
+				
+				
+				contract.setTender_opening_date(resultSet.getString("tender_opening_date"));
+				contract.setTechnical_eval_submission(resultSet.getString("technical_eval_submission"));
+				contract.setFinancial_eval_submission(resultSet.getString("financial_eval_submission"));
+				
+				
+				
+				
+				
 				
 				contract.setRemarks(resultSet.getString("remarks"));
 
@@ -1380,7 +1441,8 @@ public class ContractDaoImpl implements ContractDao {
 		List<Contract> contract_revisions = new ArrayList<Contract>();
 		Contract obj = null;
 		try {
-			String qry ="select revision_no as revisionnumber,revision_estimated_cost as revisionestimatedcost,revision_planned_date_of_award as revisionplanneddateofaward,revision_planned_date_of_completion as revisionplanneddateofcompletion,notice_inviting_tender as noticeinvitingtender from contract_revisions  "
+			String qry ="select revision_no as revisionnumber,revision_estimated_cost as revisionestimatedcost,revision_planned_date_of_award as revisionplanneddateofaward,revision_planned_date_of_completion as revisionplanneddateofcompletion,notice_inviting_tender as noticeinvitingtender," + 
+					"tender_bid_opening_date as tenderbidopeningdate,technical_eval_approval as technicalevalapproval,financial_eval_approval as financialevalapproval,tender_bid_remarks as tenderbidremarks from contract_revisions  "
 					+ " where contract_id_fk = ?";
 			stmt = con.prepareStatement(qry);
 			stmt.setString(1, contract_id);
@@ -1392,6 +1454,15 @@ public class ContractDaoImpl implements ContractDao {
 				obj.setRevisionplanneddateofaward(resultSet.getString("revisionplanneddateofaward"));
 				obj.setRevisionplanneddateofcompletion(resultSet.getString("revisionplanneddateofcompletion"));
 				obj.setNoticeinvitingtender(resultSet.getString("noticeinvitingtender"));
+				
+
+				obj.setTenderbidopeningdate(resultSet.getString("tenderbidopeningdate"));
+				obj.setTechnicalevalapproval(resultSet.getString("technicalevalapproval"));
+				obj.setFinancialevalapproval(resultSet.getString("financialevalapproval"));
+				obj.setTenderbidremarks(resultSet.getString("tenderbidremarks"));
+				
+				
+				
 				contract_revisions.add(obj);
 			}
 		}catch(Exception e){ 
@@ -1591,7 +1662,7 @@ public class ContractDaoImpl implements ContractDao {
 								+",actual_completion_date = ?,completed_cost = ? ,date_of_start = ?," + 
 								"estimated_cost = ?,contract_closure_date = ?,completion_certificate_release = ?,final_takeover = ?,final_bill_release = ?,defect_liability_period = ?," + 
 								"retention_money_release = ?,pbg_release = ?,contract_status_fk = ?,bg_required = ?,insurance_required = ?,target_doc = ?,estimated_cost_units = ?,"
-								+ "awarded_cost_units = ?,completed_cost_units = ?,status = ?,milestone_requried = ?,revision_requried = ?,contractors_key_requried = ?,actual_date_of_commissioning = ?,is_contract_closure_initiated = ?,planned_date_of_award = ?,remarks = ?,modified_by=?,modified_date=CURRENT_TIMESTAMP,planned_date_of_completion = ?,notice_inviting_tender=? "
+								+ "awarded_cost_units = ?,completed_cost_units = ?,status = ?,milestone_requried = ?,revision_requried = ?,contractors_key_requried = ?,actual_date_of_commissioning = ?,is_contract_closure_initiated = ?,planned_date_of_award = ?,remarks = ?,modified_by=?,modified_date=CURRENT_TIMESTAMP,planned_date_of_completion = ?,notice_inviting_tender=?,tender_opening_date=?,technical_eval_submission=?,financial_eval_submission=? "
 								+ "where contract_id = ?";
 				stmt = con.prepareStatement(contractUpdate_Qry);
 				int p = 1;
@@ -1639,9 +1710,9 @@ public class ContractDaoImpl implements ContractDao {
 				stmt.setString(p++,contract.getRemarks()); 
 				stmt.setString(p++,contract.getCreated_by_user_id_fk()); 
 				stmt.setString(p++,contract.getPlanned_date_of_completion());
+
 				
-				
-				if(!StringUtils.isEmpty(contract.getContract_notice_inviting_tender()))
+				/*if(!StringUtils.isEmpty(contract.getContract_notice_inviting_tender()))
 				{
 					SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");
 					SimpleDateFormat formatter3 = new SimpleDateFormat("MM-dd-yyyy");
@@ -1654,7 +1725,13 @@ public class ContractDaoImpl implements ContractDao {
 				else
 				{
 					stmt.setString(p++,contract.getContract_notice_inviting_tender());
-				}
+				}*/
+				
+				stmt.setString(p++,contract.getContract_notice_inviting_tender());
+				
+				stmt.setString(p++,contract.getTender_opening_date());
+				stmt.setString(p++,contract.getTechnical_eval_submission());
+				stmt.setString(p++,contract.getFinancial_eval_submission());					
 				
 				
 				stmt.setString(p++,contract.getContract_id());
@@ -2012,8 +2089,8 @@ public class ContractDaoImpl implements ContractDao {
 						
 						
 						PreparedStatement preparedStmtRevisions = null;
-						String queryTdcRevisions = " insert into contract_revisions (contract_id_fk,revision_no,revision_estimated_cost,revision_planned_date_of_award,revision_planned_date_of_completion,notice_inviting_tender)"
-					               + " values (?,?,?,?,?,?)";				
+						String queryTdcRevisions = " insert into contract_revisions (contract_id_fk,revision_no,revision_estimated_cost,revision_planned_date_of_award,revision_planned_date_of_completion,notice_inviting_tender,tender_bid_opening_date,technical_eval_approval,financial_eval_approval,tender_bid_remarks)"
+					               + " values (?,?,?,?,?,?,?,?,?,?)";				
 						
 						preparedStmtRevisions = con.prepareStatement(queryTdcRevisions);
 	
@@ -2057,7 +2134,51 @@ public class ContractDaoImpl implements ContractDao {
 									else
 									{
 										preparedStmtRevisions.setString(6,null);
-									}									
+									}
+									
+									
+
+									
+									if(contract.getTender_bid_opening_date().length>0)
+									{
+										preparedStmtRevisions.setString(7, contract.getTender_bid_opening_date()[i]==null?"0":contract.getTender_bid_opening_date()[i]);
+									}
+									else
+									{
+										preparedStmtRevisions.setString(7,null);
+									}
+									
+									
+									if(contract.getTechnical_eval_approval().length>0)
+									{
+										preparedStmtRevisions.setString(8, contract.getTechnical_eval_approval()[i]==null?"0":contract.getTechnical_eval_approval()[i]);
+									}
+									else
+									{
+										preparedStmtRevisions.setString(8,null);
+									}								
+									
+									if(contract.getFinancial_eval_approval().length>0)
+									{
+										preparedStmtRevisions.setString(9, contract.getFinancial_eval_approval()[i]==null?"0":contract.getFinancial_eval_approval()[i]);
+									}
+									else
+									{
+										preparedStmtRevisions.setString(9,null);
+									}
+									
+									
+									if(contract.getTender_bid_remarks().length>0)
+									{
+										preparedStmtRevisions.setString(10, contract.getTender_bid_remarks()[i]==null?"0":contract.getTender_bid_remarks()[i]);
+									}
+									else
+									{
+										preparedStmtRevisions.setString(10,null);
+									}	
+									
+									
+									
 									preparedStmtRevisions.execute();
 								}
 							}

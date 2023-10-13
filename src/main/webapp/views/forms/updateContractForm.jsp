@@ -1021,6 +1021,26 @@
 		                                    <button type="button" id="contract_notice_inviting_tender_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 		                                </div>			                                
 	                                </div>
+	          	                    <div class="row">
+		                                <div class="col s12 m6 l4 input-field" id="tender_opening_date_div">
+		                                    <input id="tender_opening_date" name="tender_opening_date" type="text" class="validate datepicker" value="${contractDeatils.tender_opening_date }">
+		                                    <label for="tender_opening_date">Tender Opening Date</label>
+		                                    <span id="tender_opening_dateError" class="error-msg" ></span>
+		                                    <button type="button" id="tender_opening_date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
+		                                </div>
+		                                <div class="col s12 m6 l4 input-field" id="technical_eval_submission_div">
+		                                    <input id="technical_eval_submission" name="technical_eval_submission" type="text" class="validate datepicker" value="${contractDeatils.technical_eval_submission }">
+		                                    <label for="technical_eval_submission">Technical Eval. Submission</label>
+		                                    <span id="technical_eval_submissionError" class="error-msg" ></span>
+		                                    <button type="button" id="technical_eval_submission_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
+		                                </div>
+		                                <div class="col s12 m6 l4 input-field" id="financial_eval_submission_div">
+		                                    <input id="financial_eval_submission" name="financial_eval_submission" type="text" class="validate datepicker" value="${contractDeatils.financial_eval_submission }">
+		                                    <label for="financial_eval_submission">Financial Eval. Submission</label>
+		                                    <span id="financial_eval_submissionError" class="error-msg" ></span>
+		                                    <button type="button" id="financial_eval_submission_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
+		                                </div>		                                
+	                                </div>	                      
 	                                <div class="row">
 	                                <h5 class="center-align"><span class="div-header">Tender Bid Revisions</span></h5>  
 										<input type="hidden" id="rowNoRevision" name="rowNoRevision">
@@ -1032,6 +1052,13 @@
                                                         <th class="w1em">Planned date of award</th>
                                                         <th class="w1em">Planned date of completion</th>
                                                         <th class="w1em">Notice Inviting Tender</th>
+                                                        
+                                                        <th class="w1em">Tender Opening Date</th>
+                                                        <th class="w1em">Tech. Eval. Approval</th>
+                                                        <th class="w1em">Fin. Eval. Approval</th>
+                                                        <th class="w1em">Remarks</th>   
+                                                        
+                                                                                                                
                                                         <th></th>
                                                     </tr>
                                                 </thead>
@@ -1046,6 +1073,12 @@
                                                        		<td style="width:25%"><input id="revision_planned_date_of_award0" name="revision_planned_date_of_award" type="text" class="validate datepicker" value="${revObj1.revisionplanneddateofaward }"></td>
                                                         	<td style="width:25%;"><input id="revision_planned_date_of_completion0" name="revision_planned_date_of_completion" type="text" class="validate datepicker" value="${revObj1.revisionplanneddateofcompletion }"></td>                                                        	
                                                         	<td style="width:20%;"><input id="notice_inviting_tender0" name="notice_inviting_tender" type="text" class="validate datepicker" value="${revObj1.noticeinvitingtender }"></td>
+                                                        	
+                                                            <td style="width:25%"><input id="tender_bid_opening_date0" name="tender_bid_opening_date" type="text" class="validate datepicker" value="${revObj1.tenderbidopeningdate }"></td>
+                                                        	<td style="width:25%;"><input id="technical_eval_approval0" name="technical_eval_approval" type="text" class="validate datepicker" value="${revObj1.technicalevalapproval }"></td> 
+                                                        	<td style="width:20%;"><input id="financial_eval_approval0" name="financial_eval_approval" type="text" class="validate datepicker" value="${revObj1.financialevalapproval }"></td> 
+                                                        	<td style="width:10%;"><input id="tender_bid_remarks0" name="tender_bid_remarks" type="text" value="${revObj1.tenderbidremarks }"></td>                                                        	
+                                                        	
                                                         	<td></td>
                                                         </tr>
                                          </c:forEach>
@@ -1056,7 +1089,14 @@
                                                         	<td style="width:20%"><input id="revision_estimated_cost0" name="revision_estimated_cost" type="text"></td>
                                                        		<td style="width:25%"><input id="revision_planned_date_of_award0" name="revision_planned_date_of_award" type="text" class="validate datepicker"></td>
                                                         	<td style="width:25%;"><input id="revision_planned_date_of_completion0" name="revision_planned_date_of_completion" type="text" class="validate datepicker"></td> 
-                                                        	<td style="width:20%;"><input id="notice_inviting_tender0" name="notice_inviting_tender" type="text" class="validate datepicker"></td>                                                        	
+                                                        	<td style="width:20%;"><input id="notice_inviting_tender0" name="notice_inviting_tender" type="text" class="validate datepicker"></td> 
+                                                        	
+                                                            <td style="width:25%"><input id="tender_bid_opening_date0" name="tender_bid_opening_date" type="text" class="validate datepicker"></td>
+                                                        	<td style="width:25%;"><input id="technical_eval_approval0" name="technical_eval_approval" type="text" class="validate datepicker"></td> 
+                                                        	<td style="width:20%;"><input id="financial_eval_approval0" name="financial_eval_approval" type="text" class="validate datepicker"></td> 
+                                                        	<td style="width:10%;"><input id="tender_bid_remarks0" name="tender_bid_remarks" type="text"></td>
+                                                        	
+                                                        	                                                        	                                                       	
                                                         	<td></td>
                                                         </tr>                                         
                                           </c:otherwise>
@@ -5133,6 +5173,13 @@
 	               +'<td><input id="revision_planned_date_of_award' + rNo + '" name="revision_planned_date_of_award" type="text" class="validate datepicker" value=""></td>'
 	               +'<td><input id="revision_planned_date_of_completion' + rNo + '" name="revision_planned_date_of_completion" type="text" class="validate datepicker" value=""></td>'
 	               +'<td><input id="notice_inviting_tender' + rNo + '" name="notice_inviting_tender" type="text" class="validate datepicker" value=""></td>'
+	               
+	               +'<td><input id="tender_bid_opening_date' + rNo + '" name="tender_bid_opening_date" type="text" class="validate datepicker" value=""></td>'
+	               +'<td><input id="technical_eval_approval' + rNo + '" name="technical_eval_approval" type="text" class="validate datepicker" value=""></td>'
+	               +'<td><input id="financial_eval_approval' + rNo + '" name="financial_eval_approval" type="text" class="validate datepicker" value=""></td>'
+	               +'<td><input id="tender_bid_remarks' + rNo + '" name="tender_bid_remarks" type="text" value=""></td>'
+	               
+	               
 	               +'<td class="input-field mobile_btn_close"><button type="button" onclick="removeRevisionStActions(' + rNo + ');" class="btn waves-effect waves-light red t-c remove"><i class="fa fa-close"></i></button></td>'
 	               +'</tr>';
 	        

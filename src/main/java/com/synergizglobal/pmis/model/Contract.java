@@ -18,7 +18,7 @@ public class Contract {
 	awarded_cost_units,estimated_cost_units,hod_department,message_id,update_type,tab_name,is_contract_closure_initiated,contract_details_types,created_by_user_id_fk,milestone_requried,revision_requried,contractors_key_requried,
 	actual_date_of_commissioning,existing_contract_closure_date,todate,estimated_cost_unit,awarded_cost_unit,completed_cost_unit,alerts_user_id,planned_date_of_award,modified_by,modified_date,physical_progress,planned_date_of_completion;
 	
-	private String doc_letter_status,contract_department,insurance_count,letter_status,bg_letter_status,contract_documents_id,name,attachment,contract_key_personnel_id,mobile_no,email_id,id, department_id_fk, executive_user_id_fk,bank_funded,type_of_review,searchStr;
+	private String doc_letter_status,tender_opening_date,technical_eval_submission,financial_eval_submission,contract_department,insurance_count,letter_status,bg_letter_status,contract_documents_id,name,attachment,contract_key_personnel_id,mobile_no,email_id,id, department_id_fk, executive_user_id_fk,bank_funded,type_of_review,searchStr;
 
 	private String[] bg_type_fks,issuing_banks,revision_amounts_statuss,bank_addresss,bg_numbers,bg_values,bg_valid_uptos,remarkss,bank_revisions,bankStatus,insuranceStatus,codes, bg_dates, release_dates,released_fks,
 	 insurance_type_fks, issuing_agencys, agency_addresss, insurance_numbers, insurance_values,insurence_valid_uptos,insurence_remarks,insurance_revisions,revision_statuss,
@@ -26,14 +26,18 @@ public class Contract {
 	 contract_revision_ids, revision_numbers, revision_dates, revised_amounts,hod_designations, revised_docs,revision_remarks,contract_file_type_fks,contract_file_ids,contract_file_types,
 	 approval_by_bank,
 	 
-	 revisionno,revision_estimated_cost,revision_planned_date_of_award,revision_planned_date_of_completion,notice_inviting_tender,approvalbybankstatus;
+	 revisionno,revision_estimated_cost,revision_planned_date_of_award,revision_planned_date_of_completion,notice_inviting_tender,approvalbybankstatus,
+	 tender_bid_opening_date,technical_eval_approval,financial_eval_approval,tender_bid_remarks
+
+	 
+	 ;
 	
 	private String contractor_id, contractor_specilization_fk, address,
 	primary_contact_name, phone_number, pan_number, gst_number, bank_name, account_number, ifsc_code,target_doc,structure_type_per,total,last_financial_progress,
 	original_completion_date,revised_date_of_completion,percent_progress,revised_cost,expenditure,bG_valid_Upto,insurance_valid_Upto,bg_valid_Upto,
 	revisionnumber,revisionestimatedcost,revisionplanneddateofaward,revisionplanneddateofcompletion,noticeinvitingtender,approvalbybank,contract_notice_inviting_tender,
 	
-	bg_insurance,bg_insurance_type,bg_insurance_number,amount_inr,raised_date,expiry_date;
+	bg_insurance,bg_insurance_type,bg_insurance_number,amount_inr,raised_date,expiry_date,tenderbidopeningdate,technicalevalapproval,financialevalapproval,tenderbidremarks;
 	
 	private MultipartFile contractFile;
 	
@@ -2238,6 +2242,94 @@ public class Contract {
 
 	public void setDoc_letter_status(String doc_letter_status) {
 		this.doc_letter_status = doc_letter_status;
+	}
+
+	public String getTender_opening_date() {
+		return tender_opening_date;
+	}
+
+	public void setTender_opening_date(String tender_opening_date) {
+		this.tender_opening_date = tender_opening_date;
+	}
+
+	public String getTechnical_eval_submission() {
+		return technical_eval_submission;
+	}
+
+	public void setTechnical_eval_submission(String technical_eval_submission) {
+		this.technical_eval_submission = technical_eval_submission;
+	}
+
+	public String getFinancial_eval_submission() {
+		return financial_eval_submission;
+	}
+
+	public void setFinancial_eval_submission(String financial_eval_submission) {
+		this.financial_eval_submission = financial_eval_submission;
+	}
+
+	public String[] getTender_bid_opening_date() {
+		return tender_bid_opening_date;
+	}
+
+	public void setTender_bid_opening_date(String[] tender_bid_opening_date) {
+		this.tender_bid_opening_date = tender_bid_opening_date;
+	}
+
+	public String[] getTechnical_eval_approval() {
+		return technical_eval_approval;
+	}
+
+	public void setTechnical_eval_approval(String[] technical_eval_approval) {
+		this.technical_eval_approval = technical_eval_approval;
+	}
+
+	public String[] getFinancial_eval_approval() {
+		return financial_eval_approval;
+	}
+
+	public void setFinancial_eval_approval(String[] financial_eval_approval) {
+		this.financial_eval_approval = financial_eval_approval;
+	}
+
+	public String[] getTender_bid_remarks() {
+		return tender_bid_remarks;
+	}
+
+	public void setTender_bid_remarks(String[] tender_bid_remarks) {
+		this.tender_bid_remarks = tender_bid_remarks;
+	}
+
+	public String getTenderbidopeningdate() {
+		return tenderbidopeningdate;
+	}
+
+	public void setTenderbidopeningdate(String tenderbidopeningdate) {
+		this.tenderbidopeningdate = tenderbidopeningdate;
+	}
+
+	public String getTechnicalevalapproval() {
+		return technicalevalapproval;
+	}
+
+	public void setTechnicalevalapproval(String technicalevalapproval) {
+		this.technicalevalapproval = technicalevalapproval;
+	}
+
+	public String getFinancialevalapproval() {
+		return financialevalapproval;
+	}
+
+	public void setFinancialevalapproval(String financialevalapproval) {
+		this.financialevalapproval = financialevalapproval;
+	}
+
+	public String getTenderbidremarks() {
+		return tenderbidremarks;
+	}
+
+	public void setTenderbidremarks(String tenderbidremarks) {
+		this.tenderbidremarks = tenderbidremarks;
 	}
 	
 }

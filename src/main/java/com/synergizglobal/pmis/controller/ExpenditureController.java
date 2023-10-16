@@ -1574,7 +1574,12 @@ public class ExpenditureController {
 								int TotalDate=Integer.parseInt(parts[2]);
 								if((getNumberFromMonthName(parts[1], Locale.ENGLISH))>9)
 								{
-									String Concat = TotalDate+"-"+getNumberFromMonthName(parts[1], Locale.ENGLISH)+"-"+parts[0];
+									var concatMonth=parts[0];
+									if(parts[0].length()==1)
+									{
+										concatMonth="0"+parts[0];
+									}
+									String Concat = "20"+TotalDate+"-"+getNumberFromMonthName(parts[1], Locale.ENGLISH)+"-"+concatMonth;
 									expenditure.setDate(Concat);
 									expenditure.setDate(DateParser.parse(expenditure.getDate()));									
 								}

@@ -511,7 +511,7 @@ b, strong {
 		            dataType: 'json',
 		            success: function (data){
 		            	var dashboard_url = data.dashboard_url;
-		            	//dashboard_url=dashboard_url+'&:embed=y';
+		            	dashboard_url=dashboard_url+'&:embed=y';
 		         	    $("#dashboardOpen").attr("src",dashboard_url);
 		            },error: function(xhr){
 		                alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
@@ -807,7 +807,7 @@ b, strong {
 	            	}else if($.trim(dashboard_url) == 'wbs-tree'){
 	            		dashboard_url = "<%=request.getContextPath()%>/"+dashboard_url+"/${work_id}";
 	            	}
-	            	//dashboard_url=dashboard_url+'&:embed=y';
+	            	dashboard_url=dashboard_url+'&:embed=y';
 	         	    $("#dashboardOpen").attr("src",dashboard_url);
 	         	   	show_left_menu = data.show_left_menu;
 	         	    $(".page-loader").hide();

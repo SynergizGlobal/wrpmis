@@ -115,7 +115,7 @@ public class OverviewDashboardController {
 	
 	@RequestMapping(value = "/ajax/getAIIBDashboardURL", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public OverviewDashboard getAIIBDashboardURL(@ModelAttribute OverviewDashboard dObj,HttpSession session, HttpServletRequest request){
+	public OverviewDashboard getAIIBDashboardURL(@ModelAttribute OverviewDashboard dObj,HttpSession session){
 		String user_Id = null;String userName = null;
 		String tableauUrl = "";
 		try{
@@ -132,8 +132,7 @@ public class OverviewDashboardController {
 					server_name = "MRVC";
 				}
 				TableauTrustedTicket tObj = new TableauTrustedTicket();
-				String trustedTokenId =  tObj.getTrustedTicket(server_name,request,dObj.getIpaddress());
-				
+				String trustedTokenId =  tObj.getTrustedTicket(server_name);
 				String[] url = {};
 
 					url = dashboardUrl.split(":8000/");
@@ -178,7 +177,7 @@ public class OverviewDashboardController {
 							weburl="pmis.mrvc.gov.in:8000";
 						}				
 
-						tableauUrl =mainUrl[0]+"//"+weburl +"/"+ url[1];
+						tableauUrl =mainUrl[0]+"//"+weburl +"/"+ url[1]+CommonConstants.TABLEAU_PARAMS+"&:embed=y";
 							
 					}					
 					
@@ -366,7 +365,7 @@ public class OverviewDashboardController {
 	
 	@RequestMapping(value = "/ajax/getDashboardURL", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public OverviewDashboard getDashboardURL(@ModelAttribute OverviewDashboard dObj,HttpSession session, HttpServletRequest request){
+	public OverviewDashboard getDashboardURL(@ModelAttribute OverviewDashboard dObj,HttpSession session){
 		String user_Id = null;String userName = null;
 		OverviewDashboard obj = new OverviewDashboard();
 		String tableauUrl = "";
@@ -399,7 +398,7 @@ public class OverviewDashboardController {
 					server_name = "MRVC";
 				}
 				TableauTrustedTicket tObj = new TableauTrustedTicket();
-				/*String trustedTokenId =  tObj.getTrustedTicket(server_name);
+				String trustedTokenId =  tObj.getTrustedTicket(server_name);
 				//String baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", "infoviz.syntrackpro.com");
 				//baseUrl = baseUrl.replace("{1}", trustedTokenId);
 				String[] url = {};
@@ -458,16 +457,11 @@ public class OverviewDashboardController {
 						}else {
 							tableauUrl =mainUrl[0]+"//"+weburl +"/"+ url[1]+CommonConstants.TABLEAU_PARAMS;
 						}						
-					}*/
+					}
+					
+
 				
-				String[] url = {};
-				url = dashboardUrl.split(":8000/");
-				String trustedTokenId =  tObj.getTrustedTicket(server_name,request,dObj.getIpaddress());
-				String baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", "203.153.40.44");
-				baseUrl = baseUrl.replace("{1}", trustedTokenId);
-				String tableauUrl1 = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS;
-				
-				obj.setDashboard_url(tableauUrl1.toString());	
+				obj.setDashboard_url(tableauUrl.toString());	
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

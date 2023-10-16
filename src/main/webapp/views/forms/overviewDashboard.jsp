@@ -695,23 +695,6 @@ font-size:22px ;
       	 }
 	 }
 	
-	function myIP() {
-	    if (window.XMLHttpRequest) xmlhttp = new XMLHttpRequest();
-	    else xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-
-	    xmlhttp.open("GET","http://api.hostip.info/get_html.php",false);
-	    xmlhttp.send();
-
-	    hostipInfo = xmlhttp.responseText.split("\n");
-
-	    for (i=0; hostipInfo.length >= i; i++) {
-	        ipAddress = hostipInfo[i].split(":");
-	        if ( ipAddress[0] == "IP" ) return ipAddress[1];
-	    }
-
-	    return false;
-	}
-	
 	 function getSelectedOption(filterIds,dashboardId,clm){
 		 $(".page-loader").show();	 
 		 var show_left_menu = '';	 
@@ -745,7 +728,7 @@ font-size:22px ;
 		 $.ajax({
 	      		url: "<%=request.getContextPath()%>/ajax/getDashboardURL",
 	            type: 'POST',
-	            data:{dashboard_id : dashboardId,work_id : '${work_id}',params : encodeURIComponent(params),ipaddress:myIP()},
+	            data:{dashboard_id : dashboardId,work_id : '${work_id}',params : encodeURIComponent(params)},
 	            async: false,
 	            dataType: 'json',
 	            success: function (data){
@@ -755,7 +738,7 @@ font-size:22px ;
 	            	}else if($.trim(dashboard_url) == 'wbs-tree'){
 	            		dashboard_url = "<%=request.getContextPath()%>/"+dashboard_url+"/${work_id}";
 	            	}
-	            	//dashboard_url=dashboard_url+'&:embed=y';
+	            	dashboard_url=dashboard_url+'&:embed=y';
 	         	    $("#dashboardOpen").attr("src",dashboard_url);
 	         	   	show_left_menu = data.show_left_menu;
 	         	    $(".page-loader").hide();

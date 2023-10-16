@@ -3,17 +3,9 @@ package com.synergizglobal.pmis.common;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.NetworkInterface;
-import java.net.Socket;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -23,13 +15,10 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-import java.net.InetAddress;
 
 public class TableauTrustedTicket {
 	public static Logger logger = Logger.getLogger(TableauTrustedTicket.class);
-	public String getTrustedTicket(String server_name, HttpServletRequest  request,String ipaddr) throws Exception{
+	public String getTrustedTicket(String server_name) throws Exception{
 		UrlGenerator ugObj = new UrlGenerator();
 		String getResponseString = "";
 		
@@ -39,25 +28,20 @@ public class TableauTrustedTicket {
 		String clientIp = "www.syntrackpro.com";*/
         
 		
-		String postURL = "http://"+ugObj.getIpAddress()+":8000/trusted"; 
+		/*String postURL = "http://"+ugObj.getIpAddress()+":8000/trusted"; 
 		String username = "SynTrack"; 
 		String server = ugObj.getIpAddress()+":8000";
-
-		  String ip=ipaddr;
-       
-	   String clientIp =  ip.trim();
-	   
-	   if(clientIp.compareTo("203.153.39.186")==0)
-	   {
-		   clientIp="203.153.40.44";
-	   }
-
+		String clientIp = ugObj.getIpAddress();*/
 		
-		/*String postURL = "http://pmis.mrvc.gov.in:8000/trusted";
+		String postURL = "";
+		String username = "";		
+		String server = ""; 
+		String clientIp = "";			
 		
-		String username = "SynTrack";
-		String server = "pmis.mrvc.gov.in:8000";
-        String clientIp = "203.153.40.44";*/
+		 postURL = "http://203.153.40.44:8000/trusted";
+		 username = "SynTrack";		
+		 server = "203.153.40.44:8000"; 
+		 clientIp = "203.153.40.44";
         
         String target_site = "";//Optional
 		try {
@@ -117,10 +101,8 @@ public class TableauTrustedTicket {
 	    return ipAdressDns ;
 	}
 	
-	
-	
 	public String getExternalIpAddress() throws Exception {
-	    URL whatismyip = new URL("http://myexternalip.com/raw");
+	    URL whatismyip = new URL("http://checkip.amazonaws.com");
 	    BufferedReader in = null;
 	    try {
 	        in = new BufferedReader(new InputStreamReader(

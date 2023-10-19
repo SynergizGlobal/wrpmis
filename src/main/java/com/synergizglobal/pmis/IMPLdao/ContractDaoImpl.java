@@ -409,7 +409,7 @@ public class ContractDaoImpl implements ContractDao {
 			stmt.setString(q++,contract.getBank_funded());
 			stmt.setString(q++,contract.getBank_name());
 			stmt.setString(q++,contract.getType_of_review());
-			stmt.setString(q++,contract.getContract_notice_inviting_tender());
+			
 			
 			if(!StringUtils.isEmpty(contract.getContract_notice_inviting_tender()))
 			{
@@ -472,6 +472,8 @@ public class ContractDaoImpl implements ContractDao {
 			else
 			{
 				stmt.setString(q++,contract.getFinancial_eval_submission());
+				
+				
 			}				
 			
 			

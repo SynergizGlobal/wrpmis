@@ -65,6 +65,7 @@ import com.synergizglobal.pmis.model.FileFormatModel;
 import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.Issue;
 import com.synergizglobal.pmis.model.Risk;
+import com.synergizglobal.pmis.model.Safety;
 import com.synergizglobal.pmis.model.User;
 import com.synergizglobal.pmis.model.DesignsPaginationObject;
 
@@ -135,6 +136,37 @@ public class DesignController {
 		}
 		return model;
 	}
+	
+	@RequestMapping(value="/update-design-status",method={RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView UpdateDesignStatus(@ModelAttribute Safety obj,HttpSession session){
+		ModelAndView model = new ModelAndView(PageConstants.updateDesignStatus);
+		
+		try {
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String user_role_code = (String) session.getAttribute("USER_ROLE_CODE");
+			
+			obj.setUser_id(user_Id);
+			obj.setUser_role_code(user_role_code);			
+			
+			List<Safety> projectsList = safetyService.getProjectsListForSafetyForm(obj);
+			model.addObject("projectsList", projectsList);
+			
+			List<Safety> worksList = safetyService.getWorkListForSafetyForm(obj);
+			model.addObject("worksList", worksList);
+			
+			User uObj = (User) session.getAttribute("user");
+			obj.setDepartment_fk(uObj.getDepartment_fk());			
+			
+			List<Safety> contractsList = safetyService.getContractsListForSafetyForm(obj);
+			model.addObject("contractsList", contractsList);
+
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("design : " + e.getMessage());
+		}
+		return model;
+	}	
 	
 	@RequestMapping(value = "/ajax/getHodListFilterInDesign", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody

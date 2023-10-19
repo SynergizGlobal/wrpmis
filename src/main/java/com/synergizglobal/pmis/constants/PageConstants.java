@@ -46,6 +46,8 @@ public class PageConstants {
 	public static final String addEditDesign = "forms/addEditDesign";
 	public static final String newAddEditDesign = "forms/addEditDesignNew";
 	
+	public static final String updateDesignStatus = "forms/addDesignStatusForm";
+	
 	public static final String contractorGrid = "forms/contractorGrid";
 	public static final String addEditContractor = "forms/addEditContractor";
 	

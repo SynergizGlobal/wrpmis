@@ -1,0 +1,343 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design Status Update Form - Update Forms - PMIS</title>
+	<link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
+	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">	 
+	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">	 
+	<link rel="stylesheet" href="/pmis/resources/css/rits.css">
+	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
+	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" >
+	 <style>
+        .no-mar .row {
+            margin-bottom: 0;
+        }
+         .hidden{
+        	display:none;
+        }
+         .input-field .searchable_label{
+        	font-size:0.85rem;
+        } 
+        .mti-5 p{
+        	margin-top:5px;
+        }
+        .pb-10{
+        	padding-bottom:10px;
+        }
+        .character-counter {
+		  background-color: smoke;
+		  position: absolute;
+		  top: 25%;
+		  right: 1.5em;
+		}
+        @media only screen and (max-width:364px){
+			.fs-sm-67rem {
+			    font-size: .656rem !important;
+			}
+		}
+		.error-msg label{color:red!important;}
+		/* Chrome, Safari, Edge, Opera */
+		input::-webkit-outer-spin-button,
+		input::-webkit-inner-spin-button {
+		  -webkit-appearance: none;
+		  margin: 0;
+		}
+		/* Firefox */
+		input[type=number] {
+		  -moz-appearance: textfield;
+		}
+		.center-align.m-1 button.bg-m.waves-light, 
+		.center-align.m-1 button.bg-s.waves-light{
+			width:inherit;
+		}
+		.input-field >textarea.materialize-textarea{
+			margin-bottom:2px;
+		}		
+    </style>
+</head>
+<body>
+	<!-- header included -->
+	<jsp:include page="../layout/header.jsp"></jsp:include>
+
+  <div class="row">
+        <div class="col s12 m12">
+            <div class="card ">
+                <div class="card-content">
+                    <div class="center-align">
+                        <span class="card-title headbg">
+                            <div class="center-align p-2 bg-m m-b-2">
+                                <h6>Design Status Update Form</h6>
+                            </div>
+                        </span>
+                    </div>
+                    <!-- form start-->
+                    <div class="container container-no-margin">
+                        <form action="<%=request.getContextPath() %>/update-design-status-form" id="updateDesignStatusForm" name="updateDesignStatusForm" method="post" enctype="multipart/form-data">
+                            <div class="row">
+                                <div class="col s6 m4 l4 input-field">
+                                <p class="searchable_label"> Project <span class="required">*</span></p>
+                                    <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"
+                                        onchange="getWorksList(this.value);">
+                                        <option value="">Select</option>
+                                        <c:forEach var="obj" items="${projectsList }">
+                                            <option value="${obj.project_id_fk }" >${obj.project_id_fk}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
+                                        </c:forEach>
+                                    </select>                                   
+                                    <span id="project_id_fkError" class="error-msg" ></span>
+                                </div>
+                                <div class="col s6 m4 l4 input-field">
+                                <p class="searchable_label"> Work <span class="required">*</span></p>
+                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
+                                        onchange="getContractsList(this.value);">
+                                        <option value="">Select</option>
+                                        <c:forEach var="obj" items="${worksList }">
+                                      	   <option value= "${ obj.work_id_fk}">${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
+                                         </c:forEach>
+                                    </select>
+                                    <span id="work_id_fkError" class="error-msg" ></span>
+                                </div>
+                                <div class="col s6 m4 l4 input-field ">
+                                	<p class="searchable_label"> Contract <span class="required">*</span></p>
+                                    <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="resetWorksAndProjectsDropdowns();getResponsiblePersonsList();">
+                                        <option value="">Select</option>
+                                        <c:forEach var="obj" items="${contractsList }">
+                                      	   <option workId="${obj.work_id_fk }" hod_user_id="${obj.hod_user_id_fk }" value= "${ obj.contract_id_fk}">${obj.contract_id_fk}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
+                                         </c:forEach>
+                                    </select>
+                                    <span id="contract_id_fkError" class="error-msg" ></span>
+                                </div>
+                            </div>
+							<br><br>
+							<div class="row">
+								<div class="row clearfix">
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<c:if test="${not empty success }">
+											<div class="center-align m-1 close-message">${success}</div>
+										</c:if>
+										<c:if test="${not empty error }">
+											<div class="center-align m-1 close-message">${error}</div>
+										</c:if>
+									</div>
+								</div>
+								<div class="col m12 s12">
+									<table id="designStatusTable" class="mdl-data-table">
+										<thead>
+											<tr>
+												<th class="no-sort fw-100">Structure</th>
+												<th class="no-sort fw-100">Component</th>
+												<th>Element</th>
+												<th>Activity</th>
+												<th class="fw-250"> Scope</th>
+												<th>Target Date</th>
+												<th>Actual Date</th>
+												<th class="fw-180"> Remarks </th>
+											</tr>
+										</thead>
+										<tbody>
+											
+										</tbody>
+									</table>
+							  </div>
+							</div>
+							<br><br>
+                            <div class="row">
+                                <div class="col s6 m6 l6 mt-brdr">
+                                    <div class="center-align m-1">
+                                        <button type="button" onclick="updateDesignStatusForm()"
+                                            class="btn waves-effect waves-light bg-m" style="min-width:90px">Add </button>
+                                    </div>
+                                </div>
+                                <div class="col s6 m6 l6 mt-brdr">
+                                    <div class="center-align m-1">
+                                        <a href="<%=request.getContextPath() %>/update-design-status" class="btn waves-effect waves-light bg-s">Cancel</a>
+                                    </div>
+                                </div>
+                                <div class="col m2 hide-on-small-only"></div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- form ends  -->
+                </div>
+
+            </div>
+        </div>
+    </div>
+	<!-- footer included -->
+	<jsp:include page="../layout/footer.jsp"></jsp:include>
+
+	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
+	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>	
+	<script src="/pmis/resources/js/select2.min.js"></script>
+	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+	<script>
+
+        $(document).ready(function () {
+        	$('select:not(.searchable)').formSelect();
+            $('.searchable').select2();
+        });
+            
+        function setTitle(category){
+        	var short_description = $("#category_fk").find('option:selected').attr("name");
+        	$("#title").val(short_description).focus();
+        }
+        
+      function getWorksList(projectId) {
+        	$(".page-loader").show();
+            $("#work_id_fk option:not(:first)").remove();
+            $("#contract_id_fk option:not(:first)").remove();
+
+            if ($.trim(projectId) != "") {
+                var myParams = { project_id_fk: projectId };
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getWorkListForupdateDesignStatusForm",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                                var workShortName = '';
+                                if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
+                                $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk) + $.trim(workShortName) + '</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    }
+                });
+            }else{
+            	$(".page-loader").hide();
+            }
+        }
+
+        //geting contracts list    
+        function getContractsList(work_id_fk) {
+        	$(".page-loader").show();
+            $("#contract_id_fk option:not(:first)").remove();
+            
+            if ($.trim(work_id_fk) != "") {
+                var myParams = { work_id_fk: work_id_fk };
+                $.ajax({
+                	url: "<%=request.getContextPath()%>/ajax/getContractsListForupdateDesignStatusForm",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                            	var contract_short_name = '';
+                                if ($.trim(val.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(val.contract_short_name) }
+                                $("#contract_id_fk").append('<option  workId="'+val.work_id_fk +'" hod_user_id="'+val.hod_user_id_fk +'" value="' + val.contract_id_fk + '">' + $.trim(val.contract_id_fk) + $.trim(contract_short_name) + '</option>');
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    }
+                });
+            }else{
+            	$(".page-loader").hide();
+            }
+        }
+        function resetWorksAndProjectsDropdowns(){
+        	$(".page-loader").show();        	
+        	var projectId = '';
+        	var workId = ''
+       		var contract_id_fk = $("#contract_id_fk").val();
+       		if($.trim(contract_id_fk) != ''){        			
+       			
+            	var workId = $("#contract_id_fk").find('option:selected').attr("workId");
+            	projectId = workId.substring(0, 3);    
+       			//workId = workId.substring(3, work_id.length);
+       			$("#project_id_fk").val(projectId);
+       			$("#project_id_fk").select2();
+       		}
+       		
+       		if ($.trim(projectId) != "") {
+       			$("#work_id_fk option:not(:first)").remove();
+                var myParams = { project_id_fk: projectId };
+                $.ajax({
+                    url: "<%=request.getContextPath()%>/ajax/getWorkListForupdateDesignStatusForm",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                                var workName = '';
+                                if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
+                                if ($.trim(workId) != '' && val.work_id_fk == $.trim(workId)) {
+                                    $("#work_id_fk").append('<option value="' + val.work_id_fk + '" selected>' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
+                                } else {
+                                    $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
+                                }
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    }
+                });
+                $('.searchable').select2();
+            }       		
+        }        
+        
+        $('form').on('reset', function () {
+            $(".searchable").trigger("change");
+        });
+        
+        function updateDesignStatusForm(){
+    		if(validator.form()){ // validation perform
+    			$(".page-loader").show();
+    			var compensation = $('#compensation').val();
+	  			if(compensation == ""){
+	  				$('#compensation_units').val("");
+	  			}
+    			document.getElementById("updateDesignStatusForm").submit();			
+    	 	}
+    	}
+    	
+    	
+    	   
+    	    var validator = $('#updateDesignStatusForm').validate({
+    	    	ignore: ":hidden:not(.validate-dropdown)",
+    			   rules: {
+	    				  "project_id_fk": {
+	   				 		required: true
+	   				 	  },"work_id_fk": {
+    				 		required: true
+    				 	  },"contract_id_fk": {
+    				 		required: true
+    				 	  }
+   				 				
+    			 	},
+    			   messages: {
+	    				 "project_id_fk": {
+	   			 			required: 'Required'
+	   			 	  	 },"work_id_fk": {
+    			 			required: 'Required'
+    			 	  	 },"contract_id_fk": {
+    			 			required: 'Required'
+    			 	  	 }   			 				      
+    		    }
+    		});
+
+            $('select').change(function(){
+        	    if ($(this).val() != ""){
+        	        $(this).valid();
+        	    }
+        	});
+            
+            $('input').change(function(){
+        	    if ($(this).val() != ""){
+        	        $(this).valid();
+        	    }
+        	});
+            
+            function p6ActivitiesData()
+            {
+            	
+            }
+            
+    </script>
+</body>
+</html>

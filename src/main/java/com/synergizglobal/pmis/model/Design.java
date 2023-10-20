@@ -17,10 +17,15 @@ public class Design {
 	 query_replied_to_hq,crs_sanction_fk,submitted_for_crs_sanction,query_raised_for_crs_sanction,query_replied_for_crs_sanction,crs_sanction_approved,design_seq_id,searchStr,
 	 project_id,work_id,work_code,consult_contarct,proof_consult_contarct,project_name,contract_id,required_date,revision_status,status,uploaded_by_user_id_fk,design_data_id, railway_id,uploaded_file, user_id,uploaded_on,user_role_code,user_name,modified_by,modified_date;
 	
-	private String id, design_file_id,design_id_fk,latest,submission_purpose,structure_id_fk,design_file_type,submssionpurpose,design_file_types,name,structure, stage_fk,design_status_submit, approving_railway,approval_authority_fk,submitted_by, submitted_to, submitted_date, submssion_purpose,design_file_type_fk,current;
+	private String id, design_file_id,design_id_fk,latest,submission_purpose,structure_id_fk,design_file_type,submssionpurpose,design_file_types,name,structure, stage_fk,design_status_submit, approving_railway,approval_authority_fk,submitted_by, submitted_to, submitted_date, submssion_purpose,design_file_type_fk,current,
+	
+	element,activity,target_date,actual_date,scope;
+	
 	private String []ids, design_id_fks, design_file_ids,stage_fks,designDocumentFileNames,designDocumentNames, submitted_bys, submitted_tos, submitted_dates, submssion_purposes,design_file_type_fks,currents;
 	
 	private String[] revisions,revision_dates,latests, consultant_submissions,design_file_typess, mrvc_revieweds, divisional_approvals, hq_approvals, revision_status_fks, remarkss;
+	
+	private String[]  p6activityids,structures,components,elements,activities,scopes,target_dates,actual_dates,designremarks;
 	
 	private MultipartFile designFile;
 	private MultipartFile[] designDocumentFiles;
@@ -1137,6 +1142,118 @@ public class Design {
 
 	public void setSearchStr(String searchStr) {
 		this.searchStr = searchStr;
+	}
+
+	public String getElement() {
+		return element;
+	}
+
+	public void setElement(String element) {
+		this.element = element;
+	}
+
+	public String getActivity() {
+		return activity;
+	}
+
+	public void setActivity(String activity) {
+		this.activity = activity;
+	}
+
+	public String getTarget_date() {
+		return target_date;
+	}
+
+	public void setTarget_date(String target_date) {
+		this.target_date = target_date;
+	}
+
+	public String getActual_date() {
+		return actual_date;
+	}
+
+	public void setActual_date(String actual_date) {
+		this.actual_date = actual_date;
+	}
+
+	public String getScope() {
+		return scope;
+	}
+
+	public void setScope(String scope) {
+		this.scope = scope;
+	}
+
+	public String[] getP6activityids() {
+		return p6activityids;
+	}
+
+	public void setP6activityids(String[] p6activityids) {
+		this.p6activityids = p6activityids;
+	}
+
+	public String[] getStructures() {
+		return structures;
+	}
+
+	public void setStructures(String[] structures) {
+		this.structures = structures;
+	}
+
+	public String[] getComponents() {
+		return components;
+	}
+
+	public void setComponents(String[] components) {
+		this.components = components;
+	}
+
+	public String[] getElements() {
+		return elements;
+	}
+
+	public void setElements(String[] elements) {
+		this.elements = elements;
+	}
+
+	public String[] getActivities() {
+		return activities;
+	}
+
+	public void setActivities(String[] activities) {
+		this.activities = activities;
+	}
+
+	public String[] getScopes() {
+		return scopes;
+	}
+
+	public void setScopes(String[] scopes) {
+		this.scopes = scopes;
+	}
+
+	public String[] getTarget_dates() {
+		return target_dates;
+	}
+
+	public void setTarget_dates(String[] target_dates) {
+		this.target_dates = target_dates;
+	}
+
+	public String[] getActual_dates() {
+		return actual_dates;
+	}
+
+	public void setActual_dates(String[] actual_dates) {
+		this.actual_dates = actual_dates;
+	}
+
+	public String[] getDesignremarks() {
+		return designremarks;
+	}
+
+	public void setDesignremarks(String[] designremarks) {
+		this.designremarks = designremarks;
 	}
 
 }

@@ -2,11 +2,15 @@ package com.synergizglobal.pmis.IMPLdao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -41,6 +45,7 @@ import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Design;
 import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.Messages;
+import com.synergizglobal.pmis.model.Structure;
 
 @Repository
 public class DesignDaoImpl implements DesignDao{
@@ -2372,6 +2377,85 @@ public class DesignDaoImpl implements DesignDao{
 			throw new Exception(e);
 		}
 		return objsList;
+	}
+
+	@Override
+	public List<Design> getP6ActivitiesData(Design obj) throws Exception {
+		List<Design> objsList = null;
+		try {
+			String qry ="select p6_activity_id,structure,component,component_id as element,p6_activity_name as activity,scope,finish as target_date,start as actual_date from p6_activities p " + 
+					"left join structure s on s.structure_id=p.structure_id_fk where 0=0 " ;
+					//+"and structure_type_fk = 'design'  ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and p.contract_id_fk = ? ";
+				arrSize++;
+			}
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Design>(Design.class));	
+		}catch(Exception e){ 
+		throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public boolean updateDesignStatusBulk(Design obj) throws Exception {
+		Connection con = null;
+		PreparedStatement insertStmt = null;
+		PreparedStatement updateStmt = null;
+		boolean flag = false;
+		try {
+			con = dataSource.getConnection();
+			String insertQry = "INSERT INTO designdrawingstatusremarks"
+					+ "(structure,component,element,activity,scope,target_date,actual_date,remarks)"
+					+ "VALUES"
+					+ "(?,?,?,?,?,?,?,?)";
+			insertStmt = con.prepareStatement(insertQry,Statement.RETURN_GENERATED_KEYS);
+			int	arraySize = 0;
+
+			if( !StringUtils.isEmpty(obj.getP6activityids()) && obj.getP6activityids().length > 0) 
+			  {
+				 obj.setP6activityids(CommonMethods.replaceEmptyByNullInSringArray(obj.getP6activityids())); if(arraySize < obj.getP6activityids().length) 
+				 { 
+					 arraySize= obj.getP6activityids().length; 
+				 } 
+			 }
+
+			
+			for (int i = 0; i < arraySize; i++) 
+			{				
+			    if( obj.getP6activityids().length > 0)
+			    {
+			            
+					    insertStmt.setString(1, obj.getStructures()[i]);
+					    insertStmt.setString(2, obj.getComponents()[i]);
+					    insertStmt.setString(3, obj.getElements()[i]);					    
+					    insertStmt.setString(4, obj.getActivities()[i]);
+					    insertStmt.setString(5, obj.getScopes()[i]);
+					    insertStmt.setString(6, obj.getTarget_dates()[i]);
+					    
+					    insertStmt.setString(7, obj.getActual_dates()[i]);
+					    insertStmt.setString(8, obj.getDesignremarks()[i]);
+					    
+					    insertStmt.executeUpdate();
+						  
+			    }				
+			}
+
+		}catch(Exception e){ 
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, updateStmt, null);
+		}	
+		return flag;
 	}
 	
 }

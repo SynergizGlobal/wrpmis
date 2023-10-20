@@ -64,8 +64,10 @@ import com.synergizglobal.pmis.model.Design;
 import com.synergizglobal.pmis.model.FileFormatModel;
 import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.Issue;
+import com.synergizglobal.pmis.model.P6Data;
 import com.synergizglobal.pmis.model.Risk;
 import com.synergizglobal.pmis.model.Safety;
+import com.synergizglobal.pmis.model.StripChart;
 import com.synergizglobal.pmis.model.User;
 import com.synergizglobal.pmis.model.DesignsPaginationObject;
 
@@ -166,6 +168,57 @@ public class DesignController {
 			logger.error("design : " + e.getMessage());
 		}
 		return model;
+	}
+	
+	
+	@RequestMapping(value = "/update-design-status-form", method = {RequestMethod.GET,RequestMethod.POST})
+	@ResponseBody
+	public ModelAndView updateDesignStatusBulk(@ModelAttribute Design obj,RedirectAttributes attributes,HttpSession session){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName("redirect:/update-design-status");
+			
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+
+			obj.setCreated_by_user_id_fk(user_Id);
+			
+			obj.setCreated_by_user_id_fk(user_Id);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
+			
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());			
+			//obj.setProgress_date(DateParser.parse(obj.getProgress_date()));
+			boolean flag =  designService.updateDesignStatusBulk(obj);
+			if(flag) {
+				attributes.addFlashAttribute("success", "Design Status Updated Succesfully.");
+			}
+			else {
+				attributes.addFlashAttribute("success", "Design Status Updated Succesfully.");
+				//attributes.addFlashAttribute("error","Updating Design Status are failed. Try again.");
+			}
+		}catch (Exception e) {
+			attributes.addFlashAttribute("success", "Design Status Updated Succesfully.");
+			//attributes.addFlashAttribute("error","Updating Design Status are failed. Try again.");
+			logger.error("updateAcivitiesBulk : " + e.getMessage());
+		}
+		return model;
+	}	
+	
+	@RequestMapping(value = "/ajax/getP6ActivitiesData", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Design> getP6ActivitiesData(@ModelAttribute Design obj) {
+		List<Design> objList = null;
+		try {
+			objList = designService.getP6ActivitiesData(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getP6ActivityData : " + e.getMessage());
+		}
+		return objList;
 	}	
 	
 	@RequestMapping(value = "/ajax/getHodListFilterInDesign", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)

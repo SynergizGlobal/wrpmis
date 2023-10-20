@@ -209,6 +209,16 @@ public class DesignServiceImpl implements DesignService{
 	public List<Design> getStructureIdsforDesign(Design obj) throws Exception{
 		return designDao.getStructureIdsforDesign(obj);
 	}
+
+	@Override
+	public List<Design> getP6ActivitiesData(Design obj) throws Exception {
+		return designDao.getP6ActivitiesData(obj);
+	}
+
+	@Override
+	public boolean updateDesignStatusBulk(Design obj) throws Exception {
+		return designDao.updateDesignStatusBulk(obj);
+	}
 	
 	
 

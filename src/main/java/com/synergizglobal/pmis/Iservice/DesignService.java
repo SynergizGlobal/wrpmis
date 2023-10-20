@@ -85,4 +85,8 @@ public interface DesignService {
 
 	public int uploadDesignsNew(List<Design> designsList) throws Exception;
 
+	public List<Design> getP6ActivitiesData(Design obj) throws Exception;
+
+	public boolean updateDesignStatusBulk(Design obj) throws Exception;
+
 }

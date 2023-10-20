@@ -105,7 +105,7 @@
                                 </div>
                                 <div class="col s6 m4 l4 input-field ">
                                 	<p class="searchable_label"> Contract <span class="required">*</span></p>
-                                    <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="resetWorksAndProjectsDropdowns();getResponsiblePersonsList();">
+                                    <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="resetWorksAndProjectsDropdowns();p6ActivitiesData();">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${contractsList }">
                                       	   <option workId="${obj.work_id_fk }" hod_user_id="${obj.hod_user_id_fk }" value= "${ obj.contract_id_fk}">${obj.contract_id_fk}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
@@ -127,7 +127,7 @@
 									</div>
 								</div>
 								<div class="col m12 s12">
-									<table id="designStatusTable" class="mdl-data-table">
+									<table id="designStatusTable" class="mdl-data-table" style="width:100%">
 										<thead>
 											<tr>
 												<th class="no-sort fw-100">Structure</th>
@@ -150,8 +150,8 @@
                             <div class="row">
                                 <div class="col s6 m6 l6 mt-brdr">
                                     <div class="center-align m-1">
-                                        <button type="button" onclick="updateDesignStatusForm()"
-                                            class="btn waves-effect waves-light bg-m" style="min-width:90px">Add </button>
+                                        <button type="button" onclick="updateDesignStatusFn()"
+                                            class="btn waves-effect waves-light bg-m" style="min-width:90px">Update</button>
                                     </div>
                                 </div>
                                 <div class="col s6 m6 l6 mt-brdr">
@@ -196,7 +196,7 @@
             if ($.trim(projectId) != "") {
                 var myParams = { project_id_fk: projectId };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorkListForupdateDesignStatusForm",
+                    url: "<%=request.getContextPath()%>/ajax/getWorkListForSafetyForm",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -259,7 +259,7 @@
        			$("#work_id_fk option:not(:first)").remove();
                 var myParams = { project_id_fk: projectId };
                 $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorkListForupdateDesignStatusForm",
+                    url: "<%=request.getContextPath()%>/ajax/getWorkListForSafetyForm",
                     data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
@@ -285,7 +285,7 @@
             $(".searchable").trigger("change");
         });
         
-        function updateDesignStatusForm(){
+        function updateDesignStatusFn(){
     		if(validator.form()){ // validation perform
     			$(".page-loader").show();
     			var compensation = $('#compensation').val();
@@ -335,7 +335,24 @@
             
             function p6ActivitiesData()
             {
-            	
+            	 var myParams = { contract_id_fk: $("#contract_id_fk").val() };
+                 $.ajax({
+                     url: "<%=request.getContextPath()%>/ajax/getP6ActivitiesData",
+                     data: myParams, cache: false,
+                     success: function (data) {
+                         if (data.length > 0) {
+                             $.each(data, function (i, val) {
+                            	 
+                            	 var html="<tr><td><input type='hidden' value='"+val.p6_activity_id+"' name='p6activityids' readonly> <input type='text' value='"+val.structure+"' name='structures' readonly></td><td><input type='text' name='components' value='"+val.component+"' readonly></td><td><input type='text' name='elements' value='"+val.element+"' readonly></td><td><input type='text' name='activities' value='"+val.activity+"' readonly></td><td><input type='text' name='scopes' value='"+val.scope+"' readonly></td><td><input type='text' name='target_dates' value='"+val.target_date+"' readonly></td><td><input type='text' name='actual_dates' value='"+val.actual_date+"' readonly></td><td><input maxlength='100' data-length='100' class='validate w85 pdr5em' type='text' name='designremarks' id='designremarks"+i+"'></td></tr>";
+                            	 
+                            	 $("#designStatusTable tbody").append(html);
+
+                             });
+                         }
+                         $('.searchable').select2();
+                         $(".page-loader").hide();
+                     }
+                 });            	
             }
             
     </script>

@@ -2396,9 +2396,9 @@ public class DesignDaoImpl implements DesignDao{
 	public List<Design> getP6ActivitiesData(Design obj) throws Exception {
 		List<Design> objsList = null;
 		try {
-			String qry ="select top 10 structure,component,component_id as element,p6_activity_name as activity,scope,format(finish,'dd-MMM-yy') as target_date,start as actual_date from p6_activities p " + 
-					"left join structure s on s.structure_id=p.structure_id_fk where 0=0 ";
-					//" and structure_type_fk = 'design'  ";
+			String qry ="select structure,component,component_id as element,p6_activity_name as activity,scope,format(finish,'dd-MMM-yy') as target_date,start as actual_date from p6_activities p " + 
+					"left join structure s on s.structure_id=p.structure_id_fk where 0=0 "+
+					" and structure_type_fk = 'design'  ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				qry = qry + " and p.contract_id_fk = ? ";

@@ -2378,14 +2378,27 @@ public class DesignDaoImpl implements DesignDao{
 		}
 		return objsList;
 	}
+	
+	private int getDesignP6ActivitiesData(String structure,String component,String element,String activity,String scope,String target_date,String actual_date) throws Exception
+	{
+		int cnt=0;
+		try {
+			String qry ="select distinct(count (*)) as cnt from designdrawingstatusremarks where structure=? and component=? and element=? and activity=? and scope=? and target_date=? and actual_date=?";
+			
+			cnt = (int) jdbcTemplate.queryForObject(qry, new Object[] { structure,component,element,activity,scope,target_date,actual_date }, int.class);
+		} catch (Exception e) {
+			throw new Exception(e);
+		}		
+		return cnt;
+	}	
 
 	@Override
 	public List<Design> getP6ActivitiesData(Design obj) throws Exception {
 		List<Design> objsList = null;
 		try {
-			String qry ="select p6_activity_id,structure,component,component_id as element,p6_activity_name as activity,scope,finish as target_date,start as actual_date from p6_activities p " + 
-					"left join structure s on s.structure_id=p.structure_id_fk where 0=0 " ;
-					//+"and structure_type_fk = 'design'  ";
+			String qry ="select top 10 structure,component,component_id as element,p6_activity_name as activity,scope,format(finish,'dd-MMM-yy') as target_date,start as actual_date from p6_activities p " + 
+					"left join structure s on s.structure_id=p.structure_id_fk where 0=0 ";
+					//" and structure_type_fk = 'design'  ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				qry = qry + " and p.contract_id_fk = ? ";
@@ -2416,34 +2429,60 @@ public class DesignDaoImpl implements DesignDao{
 					+ "(structure,component,element,activity,scope,target_date,actual_date,remarks)"
 					+ "VALUES"
 					+ "(?,?,?,?,?,?,?,?)";
+			
+			String updateQry = "update designdrawingstatusremarks set remarks=? where "
+					+ "structure=? and component=? and element=? and activity=? and scope=? and target_date=? and actual_date=?";
+			
+			
 			insertStmt = con.prepareStatement(insertQry,Statement.RETURN_GENERATED_KEYS);
+			updateStmt = con.prepareStatement(updateQry);
+			
 			int	arraySize = 0;
 
-			if( !StringUtils.isEmpty(obj.getP6activityids()) && obj.getP6activityids().length > 0) 
+			if( !StringUtils.isEmpty(obj.getActual_dates()) && obj.getActual_dates().length > 0 && !StringUtils.isEmpty(obj.getDesignremarks()) && obj.getDesignremarks().length > 0) 
 			  {
-				 obj.setP6activityids(CommonMethods.replaceEmptyByNullInSringArray(obj.getP6activityids())); if(arraySize < obj.getP6activityids().length) 
+				 if(arraySize < obj.getStructures().length) 
 				 { 
-					 arraySize= obj.getP6activityids().length; 
+					 arraySize= obj.getStructures().length; 
 				 } 
 			 }
 
 			
 			for (int i = 0; i < arraySize; i++) 
 			{				
-			    if( obj.getP6activityids().length > 0)
+				if( obj.getActual_dates()[i]!=" " && obj.getDesignremarks()[i]!=" " && obj.getActual_dates()[i]!="" && obj.getDesignremarks()[i]!="") 
 			    {
-			            
-					    insertStmt.setString(1, obj.getStructures()[i]);
-					    insertStmt.setString(2, obj.getComponents()[i]);
-					    insertStmt.setString(3, obj.getElements()[i]);					    
-					    insertStmt.setString(4, obj.getActivities()[i]);
-					    insertStmt.setString(5, obj.getScopes()[i]);
-					    insertStmt.setString(6, obj.getTarget_dates()[i]);
-					    
-					    insertStmt.setString(7, obj.getActual_dates()[i]);
-					    insertStmt.setString(8, obj.getDesignremarks()[i]);
-					    
-					    insertStmt.executeUpdate();
+			            if(getDesignP6ActivitiesData(obj.getStructures()[i],obj.getComponents()[i],obj.getElements()[i],obj.getActivities()[i],obj.getScopes()[i],obj.getTarget_dates()[i],obj.getActual_dates()[i])>0)
+			            {
+			            	updateStmt.setString(1, obj.getDesignremarks()[i]);
+			            	
+			            	updateStmt.setString(2, obj.getStructures()[i]);
+			            	updateStmt.setString(3, obj.getComponents()[i]);
+			            	updateStmt.setString(4, obj.getElements()[i]);					    
+			            	updateStmt.setString(5, obj.getActivities()[i]);
+			            	updateStmt.setString(6, obj.getScopes()[i]);
+			            	updateStmt.setString(7, obj.getTarget_dates()[i]);
+						    
+			            	updateStmt.setString(8, obj.getActual_dates()[i]);
+			            	
+			            	
+						    
+			            	updateStmt.executeUpdate();
+			            }
+			            else
+			            {
+						    insertStmt.setString(1, obj.getStructures()[i]);
+						    insertStmt.setString(2, obj.getComponents()[i]);
+						    insertStmt.setString(3, obj.getElements()[i]);					    
+						    insertStmt.setString(4, obj.getActivities()[i]);
+						    insertStmt.setString(5, obj.getScopes()[i]);
+						    insertStmt.setString(6, obj.getTarget_dates()[i]);
+						    
+						    insertStmt.setString(7, obj.getActual_dates()[i]);
+						    insertStmt.setString(8, obj.getDesignremarks()[i]);
+						    
+						    insertStmt.executeUpdate();			            	
+			            }
 						  
 			    }				
 			}

@@ -59,7 +59,24 @@
 		}
 		.input-field >textarea.materialize-textarea{
 			margin-bottom:2px;
-		}		
+		}
+
+.datepicker~button ,
+		 .datepicker-max-today~button{
+		    bottom: 1.5rem;
+		} 
+		
+.datepicker-max~button {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    border: 0;
+    opacity: 0.7;
+    cursor: pointer;
+    background-color: transparent;
+     bottom: 1.5rem;
+}		
+				
     </style>
 </head>
 <body>
@@ -182,6 +199,61 @@
         	$('select:not(.searchable)').formSelect();
             $('.searchable').select2();
         });
+        
+        
+    	var monthShortCode=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+	    var datePickerSelectAddClass = function () {
+	        var self = this;
+	        setTimeout(function () {
+	            var selector = self.el;
+	            if (!selector) {
+	                selector = ".datepicker"
+	            }
+	            $(selector).siblings(".datepicker-modal")
+	                .find(".select-dropdown.dropdown-trigger")
+	                .each((index, item) => {
+	                    var dateDropdownID = $(item).attr("data-target");
+	                    var dropdownUL = $('#' + dateDropdownID);
+	                    dropdownUL.children("li").on("click", () => {
+	                        datePickerSelectAddClass();
+	                    });
+	                    dropdownUL.addClass("datepicker-dropdown-year-month")
+	                });
+	        }, 500);
+	    };
+	    $(document).on('focus', '.datepicker-max', function () {        	 
+			var id = $(this).attr('id');
+				var dt = this.value.split('-');
+			    this.value = "";
+			    var options = {
+			    	//maxDate: new Date(),
+			    	format: 'dd-mmm-yy',
+			        autoClose: true,
+			        onOpen: datePickerSelectAddClass,
+			        showClearBtn: true,
+			        onClose: function () {
+			            if (!$(this.el).val()) {
+			                $(this.el).siblings('label').removeClass('active');
+			            }
+			        }
+			    };
+			    if (dt.length > 1) {			    	
+			        var year=(dt[2] < 80)?Number(dt[2])+2000:Number(dt[2])+1900;
+			        var month=monthShortCode.indexOf(dt[1]);
+			        options.setDefaultDate = true,
+			        options.defaultDate = new Date(year, month, dt[0])
+			    }
+			    M.Datepicker.init(this, options);		       
+		 });
+	    
+		 
+		 $(document).on('focus', '.datepicker-max-button', function () { 
+			 var id = $(this).attr('id').split('_i')[0];
+		     $('#'+id+'_icon').click(function () {
+		         event.stopPropagation();
+		         $('#'+id).focus().click();
+		     });
+		 });       
             
         function setTitle(category){
         	var short_description = $("#category_fk").find('option:selected').attr("name");
@@ -335,6 +407,7 @@
             
             function p6ActivitiesData()
             {
+            	$(".page-loader").show();
             	 var myParams = { contract_id_fk: $("#contract_id_fk").val() };
                  $.ajax({
                      url: "<%=request.getContextPath()%>/ajax/getP6ActivitiesData",
@@ -343,7 +416,7 @@
                          if (data.length > 0) {
                              $.each(data, function (i, val) {
                             	 
-                            	 var html="<tr><td><input type='hidden' value='"+val.p6_activity_id+"' name='p6activityids' readonly> <input type='text' value='"+val.structure+"' name='structures' readonly></td><td><input type='text' name='components' value='"+val.component+"' readonly></td><td><input type='text' name='elements' value='"+val.element+"' readonly></td><td><input type='text' name='activities' value='"+val.activity+"' readonly></td><td><input type='text' name='scopes' value='"+val.scope+"' readonly></td><td><input type='text' name='target_dates' value='"+val.target_date+"' readonly></td><td><input type='text' name='actual_dates' value='"+val.actual_date+"' readonly></td><td><input maxlength='100' data-length='100' class='validate w85 pdr5em' type='text' name='designremarks' id='designremarks"+i+"'></td></tr>";
+                            	 var html="<tr><td><input type='hidden' value='"+val.p6_activity_id+"' name='p6activityids' readonly> <input type='text' value='"+val.structure+"' name='structures' readonly></td><td><input type='text' name='components' value='"+val.component+"' readonly></td><td><input type='text' name='elements' value='"+val.element+"' readonly></td><td><input type='text' name='activities' value='"+val.activity+"' readonly></td><td><input type='text' name='scopes' value='"+val.scope+"' readonly></td><td><input type='text' name='target_dates' value='"+val.target_date+"' readonly></td><td><input type='text' class='validate datepicker-max' name='actual_dates'></td><td><input maxlength='100' data-length='100' class='validate w85 pdr5em' type='text' name='designremarks' id='designremarks"+i+"'></td></tr>";
                             	 
                             	 $("#designStatusTable tbody").append(html);
 

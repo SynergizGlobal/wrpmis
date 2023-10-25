@@ -2402,7 +2402,7 @@ public class DesignDaoImpl implements DesignDao{
 					"left join (select structure,component,element,activity,scope,target_date,actual_date,remarks from designdrawingstatusremarks where 0=0 and (actual_date!='' or remarks!='')) dr " + 
 					"on dr.structure=s.structure and dr.component=p.component and component_id=dr.element and p6_activity_name=dr.activity " + 
 					"and p.scope=dr.scope and format(finish,'dd-MMM-yy')=dr.target_date " + 
-					"where 0=0  and structure_type_fk = 'design'";
+					"where 0=0 and structure_type_fk = 'design' ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				qry = qry + " and p.contract_id_fk = ? ";
@@ -2443,23 +2443,21 @@ public class DesignDaoImpl implements DesignDao{
 			updateStmt = con.prepareStatement(updateQry);
 			
 			int	arraySize = 0;
-
-			if( !StringUtils.isEmpty(obj.getActual_dates()) && obj.getActual_dates().length > 0 && !StringUtils.isEmpty(obj.getDesignremarks()) && obj.getDesignremarks().length > 0) 
+			  if( !StringUtils.isEmpty(obj.getActual_dates()) && obj.getActual_dates().length > 0) 
 			  {
-				 if(arraySize < obj.getStructures().length) 
+				 obj.setActual_dates(CommonMethods.replaceEmptyByNullInSringArray(obj.getActual_dates())); if(arraySize < obj.getActual_dates().length) 
 				 { 
-					 arraySize= obj.getStructures().length; 
+					 arraySize= obj.getActual_dates().length; 
 				 } 
 			 }
-
 			
 			for (int i = 0; i < arraySize; i++) 
 			{				
-				if( obj.getActual_dates()[i]!=" " && obj.getDesignremarks()[i]!=" " && obj.getActual_dates()[i]!="" && obj.getDesignremarks()[i]!="") 
+				if( obj.getActual_dates()[i]!="" && obj.getActual_dates()[i]!=null && obj.getActual_dates()[i]!="" && !StringUtils.isEmpty(obj.getActual_dates()[i]))
 			    {
 			            if(getDesignP6ActivitiesData(obj.getStructures()[i],obj.getComponents()[i],obj.getElements()[i],obj.getActivities()[i],obj.getScopes()[i],obj.getTarget_dates()[i],obj.getActual_dates()[i])>0)
 			            {
-			            	updateStmt.setString(1, obj.getDesignremarks()[i]);
+			            	updateStmt.setString(1, obj.getDesignremarks().length>0 ?obj.getDesignremarks()[i]:"");
 			            	
 			            	updateStmt.setString(2, obj.getStructures()[i]);
 			            	updateStmt.setString(3, obj.getComponents()[i]);
@@ -2468,7 +2466,7 @@ public class DesignDaoImpl implements DesignDao{
 			            	updateStmt.setString(6, obj.getScopes()[i]);
 			            	updateStmt.setString(7, obj.getTarget_dates()[i]);
 						    
-			            	updateStmt.setString(8, obj.getActual_dates()[i]);
+			            	updateStmt.setString(8, obj.getActual_dates().length>0 ?obj.getActual_dates()[i]:"");
 			            	
 			            	
 						    
@@ -2483,8 +2481,8 @@ public class DesignDaoImpl implements DesignDao{
 						    insertStmt.setString(5, obj.getScopes()[i]);
 						    insertStmt.setString(6, obj.getTarget_dates()[i]);
 						    
-						    insertStmt.setString(7, obj.getActual_dates()[i]);
-						    insertStmt.setString(8, obj.getDesignremarks()[i]);
+						    insertStmt.setString(7, obj.getActual_dates().length>0 ?obj.getActual_dates()[i]:"");
+						    insertStmt.setString(8, obj.getDesignremarks().length>0 ?obj.getDesignremarks()[i]:"");
 						    
 						    insertStmt.executeUpdate();			            	
 			            }

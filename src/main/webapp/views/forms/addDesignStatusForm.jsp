@@ -407,6 +407,7 @@
             
             function p6ActivitiesData()
             {
+            	$("#designStatusTable tbody").empty();
             	$(".page-loader").show();
             	 var myParams = { contract_id_fk: $("#contract_id_fk").val() };
                  $.ajax({
@@ -415,8 +416,21 @@
                      success: function (data) {
                          if (data.length > 0) {
                              $.each(data, function (i, val) {
+                            	 var rmks=val.remarks;
                             	 
-                            	 var html="<tr><td><input type='hidden' value='"+val.p6_activity_id+"' name='p6activityids' readonly> <input type='text' value='"+val.structure+"' name='structures' readonly></td><td><input type='text' name='components' value='"+val.component+"' readonly></td><td><input type='text' name='elements' value='"+val.element+"' readonly></td><td><input type='text' name='activities' value='"+val.activity+"' readonly></td><td><input type='text' name='scopes' value='"+val.scope+"' readonly></td><td><input type='text' name='target_dates' value='"+val.target_date+"' readonly></td><td><input type='text' class='validate datepicker-max' name='actual_dates'></td><td><input maxlength='100' data-length='100' class='validate w85 pdr5em' type='text' name='designremarks' id='designremarks"+i+"'></td></tr>";
+                            	 if(val.remarks==null)
+                            		 {
+                            		 	rmks="";
+                            		 }
+                            	 
+								var trdate=val.actual_date;
+                            	 
+                            	 if(val.actual_date==null )
+                            		 {
+                            		 trdate="";
+                            		 }                           	 
+                            	 
+                            	 var html="<tr><td><input type='hidden' value='"+val.p6_activity_id+"' name='p6activityids' readonly> <input type='text' value='"+val.structure+"' name='structures' readonly></td><td><input type='text' name='components' value='"+val.component+"' readonly></td><td><input type='text' name='elements' value='"+val.element+"' readonly></td><td><input type='text' name='activities' value='"+val.activity+"' readonly></td><td><input type='text' name='scopes' value='"+val.scope+"' readonly></td><td><input type='text' name='target_dates' value='"+val.target_date+"' readonly></td><td><input type='text' class='validate datepicker-max' name='actual_dates' value='"+trdate+"'></td><td><input maxlength='100' data-length='100' value='"+rmks+"' class='validate w85 pdr5em' type='text' name='designremarks' id='designremarks"+i+"'></td></tr>";
                             	 
                             	 $("#designStatusTable tbody").append(html);
 

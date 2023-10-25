@@ -2285,7 +2285,7 @@ public class DesignDaoImpl implements DesignDao{
 	public List<Design> getDesignRevisions(Design obj) throws Exception {
 		List<Design> objsList = null;
 		try {
-			String qry ="select distinct d.design_seq_id , design_revisions_id,	design_id_fk,	revision,	revision_date,	revision_status_fk,	[current],	ds.remarks\r\n" + 
+			String qry ="select distinct d.design_seq_id , design_revisions_id,	design_id_fk,	revision,	revision_date,	revision_status_fk,	[current],	ds.remarks " + 
 					"" + 
 					"from design d  " + 
 					"LEFT OUTER JOIN contract c ON d.contract_id_fk = c.contract_id  " + 
@@ -2396,9 +2396,13 @@ public class DesignDaoImpl implements DesignDao{
 	public List<Design> getP6ActivitiesData(Design obj) throws Exception {
 		List<Design> objsList = null;
 		try {
-			String qry ="select structure,component,component_id as element,p6_activity_name as activity,scope,format(finish,'dd-MMM-yy') as target_date,start as actual_date from p6_activities p " + 
-					"left join structure s on s.structure_id=p.structure_id_fk where 0=0 "+
-					" and structure_type_fk = 'design'  ";
+			String qry ="select distinct s.structure,p.component,component_id as element,p6_activity_name as activity,p.scope,format(finish,'dd-MMM-yy') as target_date, " + 
+					"dr.actual_date,dr.remarks from p6_activities p  " + 
+					"left join structure s on s.structure_id=p.structure_id_fk  " + 
+					"left join (select structure,component,element,activity,scope,target_date,actual_date,remarks from designdrawingstatusremarks) dr " + 
+					"on dr.structure=s.structure and dr.component=p.component and component_id=dr.element and p6_activity_name=dr.activity " + 
+					"and p.scope=dr.scope and format(finish,'dd-MMM-yy')=dr.target_date " + 
+					"where 0=0 ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				qry = qry + " and p.contract_id_fk = ? ";

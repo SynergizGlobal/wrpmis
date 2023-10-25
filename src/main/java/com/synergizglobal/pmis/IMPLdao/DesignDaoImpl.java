@@ -2396,13 +2396,13 @@ public class DesignDaoImpl implements DesignDao{
 	public List<Design> getP6ActivitiesData(Design obj) throws Exception {
 		List<Design> objsList = null;
 		try {
-			String qry ="select distinct s.structure,p.component,component_id as element,p6_activity_name as activity,p.scope,format(finish,'dd-MMM-yy') as target_date, " + 
+			String qry ="select distinct p6_activity_id,s.structure,p.component,component_id as element,p6_activity_name as activity,p.scope,format(finish,'dd-MMM-yy') as target_date, " + 
 					"dr.actual_date,dr.remarks from p6_activities p  " + 
 					"left join structure s on s.structure_id=p.structure_id_fk  " + 
 					"left join (select structure,component,element,activity,scope,target_date,actual_date,remarks from designdrawingstatusremarks) dr " + 
 					"on dr.structure=s.structure and dr.component=p.component and component_id=dr.element and p6_activity_name=dr.activity " + 
 					"and p.scope=dr.scope and format(finish,'dd-MMM-yy')=dr.target_date " + 
-					"where 0=0 ";
+					"where 0=0  and structure_type_fk = 'design'";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				qry = qry + " and p.contract_id_fk = ? ";
@@ -2414,6 +2414,7 @@ public class DesignDaoImpl implements DesignDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
 			}
+			qry=qry+" order by p6_activity_id asc";
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Design>(Design.class));	
 		}catch(Exception e){ 
 		throw new Exception(e);

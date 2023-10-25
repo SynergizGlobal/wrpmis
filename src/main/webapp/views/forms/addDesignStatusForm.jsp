@@ -75,7 +75,18 @@
     cursor: pointer;
     background-color: transparent;
      bottom: 1.5rem;
-}		
+}	
+
+		.page-loader-4 {
+		    background: #332e2ec2!important;
+		    position: fixed;
+		    width: 100%;
+		    height: 100%;
+		    top: 0;
+		    left: 0;
+		    z-index: 1000;
+		}
+	
 				
     </style>
 </head>
@@ -178,6 +189,20 @@
                                 </div>
                                 <div class="col m2 hide-on-small-only"></div>
                             </div>
+                            
+			<div class="page-loader-4" style="display: none;">
+			  <div class="preloader-wrapper big active">
+			    <div class="spinner-layer spinner-blue-only">
+			      <div class="circle-clipper left">
+			        <div class="circle"></div>
+			      </div><div class="gap-patch">
+			        <div class="circle"></div>
+			      </div><div class="circle-clipper right">
+			        <div class="circle"></div>
+			      </div>
+			    </div>
+			  </div>
+	</div>                             
                         </form>
                     </div>
                     <!-- form ends  -->
@@ -261,7 +286,7 @@
         }
         
       function getWorksList(projectId) {
-        	$(".page-loader").show();
+        	$(".page-loader-4").show();
             $("#work_id_fk option:not(:first)").remove();
             $("#contract_id_fk option:not(:first)").remove();
 
@@ -279,17 +304,17 @@
                             });
                         }
                         $('.searchable').select2();
-                        $(".page-loader").hide();
+                        $(".page-loader-4").hide();
                     }
                 });
             }else{
-            	$(".page-loader").hide();
+            	$(".page-loader-4").hide();
             }
         }
 
         //geting contracts list    
         function getContractsList(work_id_fk) {
-        	$(".page-loader").show();
+        	$(".page-loader-4").show();
             $("#contract_id_fk option:not(:first)").remove();
             
             if ($.trim(work_id_fk) != "") {
@@ -306,15 +331,15 @@
                             });
                         }
                         $('.searchable').select2();
-                        $(".page-loader").hide();
+                        $(".page-loader-4").hide();
                     }
                 });
             }else{
-            	$(".page-loader").hide();
+            	$(".page-loader-4").hide();
             }
         }
         function resetWorksAndProjectsDropdowns(){
-        	$(".page-loader").show();        	
+        	$(".page-loader-4").show();        	
         	var projectId = '';
         	var workId = ''
        		var contract_id_fk = $("#contract_id_fk").val();
@@ -346,7 +371,7 @@
                             });
                         }
                         $('.searchable').select2();
-                        $(".page-loader").hide();
+                        $(".page-loader-4").hide();
                     }
                 });
                 $('.searchable').select2();
@@ -359,7 +384,7 @@
         
         function updateDesignStatusFn(){
     		if(validator.form()){ // validation perform
-    			$(".page-loader").show();
+    			$(".page-loader-4").show();
     			var compensation = $('#compensation').val();
 	  			if(compensation == ""){
 	  				$('#compensation_units').val("");
@@ -408,7 +433,7 @@
             function p6ActivitiesData()
             {
             	$("#designStatusTable tbody").empty();
-            	$(".page-loader").show();
+            	$(".page-loader-4").show();
             	 var myParams = { contract_id_fk: $("#contract_id_fk").val() };
                  $.ajax({
                      url: "<%=request.getContextPath()%>/ajax/getP6ActivitiesData",
@@ -437,7 +462,7 @@
                              });
                          }
                          $('.searchable').select2();
-                         $(".page-loader").hide();
+                         $(".page-loader-4").hide();
                      }
                  });            	
             }

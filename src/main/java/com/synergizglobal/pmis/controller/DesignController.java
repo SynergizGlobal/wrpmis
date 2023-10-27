@@ -221,6 +221,19 @@ public class DesignController {
 		return objList;
 	}	
 	
+	@RequestMapping(value = "/ajax/getDesignUpdateStructures", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Design> getDesignUpdateStructures(@ModelAttribute Design obj) {
+		List<Design> objList = null;
+		try {
+			objList = designService.getDesignUpdateStructures(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getDesignUpdateStructures : " + e.getMessage());
+		}
+		return objList;
+	}	
+	
 	@RequestMapping(value = "/ajax/getHodListFilterInDesign", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Design> getHodListFilter(@ModelAttribute Design obj) {

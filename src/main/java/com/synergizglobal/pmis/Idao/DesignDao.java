@@ -88,4 +88,6 @@ public interface DesignDao {
 
 	public boolean updateDesignStatusBulk(Design obj) throws Exception;
 
+	public List<Design> getDesignUpdateStructures(Design obj)  throws Exception;
+
 }

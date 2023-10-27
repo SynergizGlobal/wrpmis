@@ -219,6 +219,11 @@ public class DesignServiceImpl implements DesignService{
 	public boolean updateDesignStatusBulk(Design obj) throws Exception {
 		return designDao.updateDesignStatusBulk(obj);
 	}
+
+	@Override
+	public List<Design> getDesignUpdateStructures(Design obj) throws Exception {
+		return designDao.getDesignUpdateStructures(obj);
+	}
 	
 	
 

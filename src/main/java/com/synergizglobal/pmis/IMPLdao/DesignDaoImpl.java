@@ -2408,19 +2408,29 @@ public class DesignDaoImpl implements DesignDao{
 				qry = qry + " and p.contract_id_fk = ? ";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure())) {
+				qry = qry + " and s.structure = ? ";
+				arrSize++;
+			}
+			
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure())) {
+				pValues[i++] = obj.getStructure();
+			}			
 			qry=qry+" order by p6_activity_id asc";
+			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Design>(Design.class));	
 		}catch(Exception e){ 
 		throw new Exception(e);
 		}
 		return objsList;
 	}
+
 
 	@Override
 	public boolean updateDesignStatusBulk(Design obj) throws Exception {
@@ -2498,6 +2508,34 @@ public class DesignDaoImpl implements DesignDao{
 			DBConnectionHandler.closeJDBCResoucrs(con, updateStmt, null);
 		}	
 		return flag;
+	}
+
+	@Override
+	public List<Design> getDesignUpdateStructures(Design obj) throws Exception {
+		List<Design> objsList = null;
+		try {
+			String qry ="select distinct s.structure from p6_activities p  " + 
+					"left join structure s on s.structure_id=p.structure_id_fk  " + 
+					"left join (select structure,component,element,activity,scope,target_date,actual_date,remarks from designdrawingstatusremarks where 0=0 and (actual_date!='' or remarks!='')) dr " + 
+					"on dr.structure=s.structure and dr.component=p.component and component_id=dr.element and p6_activity_name=dr.activity " + 
+					"and p.scope=dr.scope and format(finish,'dd-MMM-yy')=dr.target_date " + 
+					"where 0=0  and structure_type_fk = 'design' ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and p.contract_id_fk = ? ";
+				arrSize++;
+			}
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Design>(Design.class));	
+		}catch(Exception e){ 
+		throw new Exception(e);
+		}
+		return objsList;
 	}
 	
 }

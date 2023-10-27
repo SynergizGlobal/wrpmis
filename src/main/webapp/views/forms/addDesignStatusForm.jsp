@@ -109,7 +109,7 @@
                     <div class="container container-no-margin">
                         <form action="<%=request.getContextPath() %>/update-design-status-form" id="updateDesignStatusForm" name="updateDesignStatusForm" method="post" enctype="multipart/form-data">
                             <div class="row">
-                                <div class="col s6 m4 l4 input-field">
+                                <div class="col s6 m3 l3 input-field">
                                 <p class="searchable_label"> Project <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"
                                         onchange="getWorksList(this.value);">
@@ -120,7 +120,7 @@
                                     </select>                                   
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 l4 input-field">
+                                <div class="col s6 m3 l3 input-field">
                                 <p class="searchable_label"> Work <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
                                         onchange="getContractsList(this.value);">
@@ -131,9 +131,9 @@
                                     </select>
                                     <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s6 m4 l4 input-field ">
+                                <div class="col s6 m3 l3 input-field ">
                                 	<p class="searchable_label"> Contract <span class="required">*</span></p>
-                                    <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="resetWorksAndProjectsDropdowns();p6ActivitiesData();">
+                                    <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="resetWorksAndProjectsDropdowns();getDesignUpdateStructures();">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${contractsList }">
                                       	   <option workId="${obj.work_id_fk }" hod_user_id="${obj.hod_user_id_fk }" value= "${ obj.contract_id_fk}">${obj.contract_id_fk}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
@@ -141,6 +141,14 @@
                                     </select>
                                     <span id="contract_id_fkError" class="error-msg" ></span>
                                 </div>
+                                        <div class="col s6 m3 l3 input-field" >
+                                            <p class="searchable_label">Structure <span class="required">*</span></p>
+                                           <select id="structure" name="structure" data-placeholder="Select"
+                                                class="searchable validate-dropdown" onchange="p6ActivitiesData();">
+                                                <option value=""></option>
+                                            </select>
+                                            <span id="structureError" class="error-msg" ></span>
+                                        </div>                                
                             </div>
 							<br><br>
 							<div class="row">
@@ -430,11 +438,39 @@
         	    }
         	});
             
+            
+      	  function getDesignUpdateStructures() {
+          	  $(".page-loader-4").show();
+          	  var contract_id_fk = $("#contract_id_fk").val();
+          	
+              $("#structure option:not(:first)").remove();
+              
+              	var myParams = { contract_id_fk: contract_id_fk };
+                  $.ajax({
+                      url: "<%=request.getContextPath()%>/ajax/getDesignUpdateStructures",
+                      data: myParams, cache: false,async: false,
+                      success: function (data) {
+                    	  
+                          if (data.length > 0) {
+                              $.each(data, function (i, val) {
+	                            $("#structure").append('<option value="' + val.structure + '">' + $.trim(val.structure) + '</option>');
+                              });
+                          }
+                          $('.searchable').select2();
+                          $(".page-loader-4").hide();
+                          
+
+                      }
+                  });
+
+          }           
+            
+            
             function p6ActivitiesData()
             {
             	$("#designStatusTable tbody").empty();
             	$(".page-loader-4").show();
-            	 var myParams = { contract_id_fk: $("#contract_id_fk").val() };
+            	 var myParams = { contract_id_fk: $("#contract_id_fk").val(),structure: $("#structure").val() };
                  $.ajax({
                      url: "<%=request.getContextPath()%>/ajax/getP6ActivitiesData",
                      data: myParams, cache: false,

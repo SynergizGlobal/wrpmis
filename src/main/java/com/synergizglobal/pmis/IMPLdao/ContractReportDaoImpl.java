@@ -3221,12 +3221,13 @@ public class ContractReportDaoImpl implements ContractReportDao {
 	public List<Contract> generateContractBGDetails(Contract obj) throws Exception {
 		List<Contract> objsList = null;
 		try {
-			String qry ="select  contract_id,contract_short_name,contractor_name,address,bg_type_fk,issuing_bank,bg_number,bg_value,valid_upto as bg_valid_upto,bg_letter_status " + 
+			String qry ="select  contract_id,contract_short_name,contractor_name,address,bg_type_fk,issuing_bank,bg_number,bg_value,(select case when release_date is null then valid_upto else release_date end) as bg_valid_upto,bg_letter_status " + 
 					"from contract c   " + 
 					"left join work w on c.work_id_fk = w.work_id    " + 
 					"left join contractor cr on c.contractor_id_fk = cr.contractor_id   " + 
 					"left join bank_guarantee bg on bg.contract_id_fk = c.contract_id  " + 
-					"where contract_id is not null and valid_upto>=DATEADD(M,DATEDIFF(M,0,getdate())-1,0) and valid_upto<=DATEADD(M,DATEDIFF(M,0,getdate())+2,0)";
+					"where contract_id is not null and and (select case when release_date is null then valid_upto else release_date end)>=DATEADD(M,DATEDIFF(M,0,getdate())-1,0) " + 
+					"and (select case when release_date is null then valid_upto else release_date end)<=DATEADD(M,DATEDIFF(M,0,getdate())+2,0)  ";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
@@ -3260,12 +3261,13 @@ public class ContractReportDaoImpl implements ContractReportDao {
 	public List<Contract> getTheListOfExpiringBgs(Contract obj) throws Exception {
 		List<Contract> objsList = null;
 		try {
-			String qry ="select  contract_id,contract_short_name,contractor_name,bg_type_fk,issuing_bank,bg_number,bg_value,valid_upto as bg_valid_upto,bg_letter_status " + 
+			String qry ="select  contract_id,contract_short_name,contractor_name,bg_type_fk,issuing_bank,bg_number,bg_value,(select case when release_date is null then valid_upto else release_date end) as bg_valid_upto,bg_letter_status " + 
 					"from contract c   " + 
 					"left join work w on c.work_id_fk = w.work_id    " + 
 					"left join contractor cr on c.contractor_id_fk = cr.contractor_id   " + 
 					"left join bank_guarantee bg on bg.contract_id_fk = c.contract_id  " + 
-					"where contract_id is not null and valid_upto>=DATEADD(M,DATEDIFF(M,0,getdate())-1,0) and valid_upto<=DATEADD(M,DATEDIFF(M,0,getdate())+2,0)";
+					"where contract_id is not null and (select case when release_date is null then valid_upto else release_date end)>=DATEADD(M,DATEDIFF(M,0,getdate())-1,0) " + 
+					"and (select case when release_date is null then valid_upto else release_date end)<=DATEADD(M,DATEDIFF(M,0,getdate())+2,0) ";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Contract>(Contract.class));
 		
@@ -3280,12 +3282,13 @@ public class ContractReportDaoImpl implements ContractReportDao {
 	public List<Contract> getContractDownload(Contract obj) throws Exception {
 		List<Contract> objsList = null;
 		try {
-			String qry ="select  contract_id,contract_short_name,contractor_name,bg_type_fk,issuing_bank,bg_number,bg_value,valid_upto as bg_valid_upto " + 
+			String qry ="select  contract_id,contract_short_name,contractor_name,bg_type_fk,issuing_bank,bg_number,bg_value,(select case when release_date is null then valid_upto else release_date end) as bg_valid_upto " + 
 					"from contract c   " + 
 					"left join work w on c.work_id_fk = w.work_id    " + 
 					"left join contractor cr on c.contractor_id_fk = cr.contractor_id   " + 
 					"left join bank_guarantee bg on bg.contract_id_fk = c.contract_id  " + 
-					"where contract_id is not null and valid_upto>=DATEADD(M,DATEDIFF(M,0,getdate())-1,0) and valid_upto<=DATEADD(M,DATEDIFF(M,0,getdate())+2,0)";
+					"where contract_id is not null and (select case when release_date is null then valid_upto else release_date end)>=DATEADD(M,DATEDIFF(M,0,getdate())-1,0) " + 
+					" and (select case when release_date is null then valid_upto else release_date end)<=DATEADD(M,DATEDIFF(M,0,getdate())+2,0) ";
 			
 			int arrSize = 0;
 			NumberFormat numberFormatter = new DecimalFormat("#0.00");
@@ -3345,7 +3348,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 					"left join work w on c.work_id_fk = w.work_id     " + 
 					"left join contractor cr on c.contractor_id_fk = cr.contractor_id    " + 
 					"left join insurance bg on bg.contract_id_fk = c.contract_id   " + 
-					"where contract_id is not null and valid_upto>=DATEADD(M,DATEDIFF(M,0,getdate())-1,0) and valid_upto<=GETDATE() and insurance_number is not null " + 
+					"where contract_id is not null and (released_fk is null or released_fk<>'Yes') and valid_upto>=DATEADD(M,DATEDIFF(M,0,getdate())-1,0) and valid_upto<=GETDATE() and insurance_number is not null " + 
 					"group by contract_id,contract_short_name,contractor_name,valid_upto,insurance_letter_status order by contract_id";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Contract>(Contract.class));
@@ -3367,7 +3370,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 					"					left join work w on c.work_id_fk = w.work_id      " + 
 					"					left join contractor cr on c.contractor_id_fk = cr.contractor_id     " + 
 					"					left join insurance bg on bg.contract_id_fk = c.contract_id    " + 
-					"					where contract_id is not null and valid_upto>=DATEADD(M,DATEDIFF(M,0,getdate())-1,0) and valid_upto<=GETDATE() and insurance_number is not null ";
+					"					where contract_id is not null and (released_fk is null or released_fk<>'Yes') and valid_upto>=DATEADD(M,DATEDIFF(M,0,getdate())-1,0) and valid_upto<=GETDATE() and insurance_number is not null ";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
@@ -3411,7 +3414,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 					"					left join work w on c.work_id_fk = w.work_id       " + 
 					"					left join contractor cr on c.contractor_id_fk = cr.contractor_id      " + 
 					"					left join insurance bg on bg.contract_id_fk = c.contract_id     " + 
-					"					where contract_id is not null and valid_upto>=DATEADD(M,DATEDIFF(M,0,getdate())-1,0) and valid_upto<=GETDATE() and insurance_number is not null   " + 
+					"					where contract_id is not null and (released_fk is null or released_fk<>'Yes') and valid_upto>=DATEADD(M,DATEDIFF(M,0,getdate())-1,0) and valid_upto<=GETDATE() and insurance_number is not null   " + 
 					" " + 
 					"					and contract_id=?)";
 			stmt = con.prepareStatement(updateQry);

@@ -189,7 +189,7 @@
     <td>
       <div style='mso-element:footer' id=f1>
         <p class=headerFooter>
-       <span style="font-size: 14px; line-height: 115%; font-family: 'Century Gothic',sans-serif; color: black;"><br><img style="width: 767px; height: 60.9686px;" src="/pmis/resources/images/img169346494879.png" width="767" height="60.9686"></span></p>
+       <span style="font-size: 14px; line-height: 115%; font-family: 'Century Gothic',sans-serif; color: black;"><br><img style="width: 767px; height: 60.9686px;" src="https://i.postimg.cc/0QMbtk6h/img169346494879.png" width="767" height="60.9686"></span></p>
       </div>
       &nbsp;
 </td></tr></table>

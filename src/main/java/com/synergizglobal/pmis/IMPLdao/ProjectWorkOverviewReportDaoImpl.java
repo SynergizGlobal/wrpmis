@@ -543,12 +543,12 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 		try{
 				connection = dataSource.getConnection();	
 				String qry ="select ROW_NUMBER() OVER (\r\n" + 
-						"            ORDER BY [Name Of Work]) as 'S. No',[Name Of Work],sum([Sanctioned Cost (Cr)]) as [Sanctioned Cost (Cr)], " + 
+						"            ORDER BY (select case when [Name Of Work]='Central Railway FOB' then 'desc' else 'asc' end)) as 'S. No',[Name Of Work],cast(sum([Sanctioned Cost (Cr)]) as decimal(10,2)) as [Sanctioned Cost (Cr)], " + 
 						 
-						"sum([Expenditure Up to Last FY (Cr)]) as [Expenditure Up to Last FY (Cr)],	[BG/BE this FY (Cr)],	[RG/RE this FY (Cr)],[FG/FE this FY (Cr)], " + 
+						"cast(sum([Expenditure Up to Last FY (Cr)]) as decimal(10,2)) as [Expenditure Up to Last FY (Cr)],	cast([BG/BE this FY (Cr)] as decimal(10,2)) as [BG/BE this FY (Cr)],	cast([RG/RE this FY (Cr)] as decimal(10,2)) as [RG/RE this FY (Cr)], cast([FG/FE this FY (Cr)] as decimal(10,2)) as [FG/FE this FY (Cr)], " + 
 						 
 						 
-						"sum([Expenditure this FY (Cr)]) as [Expenditure this FY (Cr)],sum([Expenditure till date (Cr)]) as [Expenditure till date (Cr)] from " + 
+						"cast(sum([Expenditure this FY (Cr)]) as decimal(10,2)) as [Expenditure this FY (Cr)],cast(sum([Expenditure till date (Cr)]) as decimal(10,2)) as [Expenditure till date (Cr)] from " + 
 						 
 						 
 						 
@@ -606,7 +606,7 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 						 
 						 
 						 
-						"";
+						" order by (select case when [Name Of Work]='Central Railway FOB' then 'desc' else 'asc' end) ";
 				statement = connection.prepareCall(qry);
 				rs=statement.executeQuery();
 
@@ -624,7 +624,7 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 		List<Contract> objsList = null;
 		try{
 				connection = dataSource.getConnection();	
-				String qry ="select project_name,[Name Of Work] as work_short_name,sum([Sanctioned Cost (Cr)]) as awarded_cost,sum([Expenditure Up to Last FY (Cr)]) as cumulative_expenditure,	[BG/BE this FY (Cr)] as bg_value,	[RG/RE this FY (Cr)] as value,[FG/FE this FY (Cr)] as insurance_value,sum([Expenditure this FY (Cr)]) as expenditure,sum([Expenditure till date (Cr)]) as estimated_cost \r\n" + 
+				String qry ="select project_name,[Name Of Work] as work_short_name,cast(sum([Sanctioned Cost (Cr)]) as decimal(10,2)) as awarded_cost,cast(sum([Expenditure Up to Last FY (Cr)]) as decimal(10,2)) as cumulative_expenditure,	cast([BG/BE this FY (Cr)] as decimal(10,2)) as bg_value,	cast([RG/RE this FY (Cr)] as decimal(10,2)) as value,cast([FG/FE this FY (Cr)] as decimal(10,2)) as insurance_value,cast(sum([Expenditure this FY (Cr)]) as decimal(10,2)) as expenditure,cast(sum([Expenditure till date (Cr)]) as decimal(10,2)) as estimated_cost " + 
 						" from " + 
 								
 								
@@ -683,7 +683,7 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 								
 								
 								
-								"";	
+								" order by (select case when [Name Of Work]='Central Railway FOB' then 'desc' else 'asc' end)";	
 				objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Contract>(Contract.class));
 
 		}catch(Exception e){ 

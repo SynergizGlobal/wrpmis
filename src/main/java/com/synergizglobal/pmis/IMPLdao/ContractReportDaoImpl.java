@@ -3266,8 +3266,8 @@ public class ContractReportDaoImpl implements ContractReportDao {
 					"left join work w on c.work_id_fk = w.work_id    " + 
 					"left join contractor cr on c.contractor_id_fk = cr.contractor_id   " + 
 					"left join bank_guarantee bg on bg.contract_id_fk = c.contract_id  " + 
-					"where contract_id is not null and (select case when release_date is null then valid_upto else release_date end)>=DATEADD(M,DATEDIFF(M,0,getdate())-1,0) " + 
-					"and (select case when release_date is null then valid_upto else release_date end)<=DATEADD(M,DATEDIFF(M,0,getdate())+2,0) ";
+					"where contract_id is not null and (select case when release_date is null then valid_upto else release_date end)>=(select case when release_date is null then DATEADD(M,DATEDIFF(M,0,getdate())-1,0) else getdate() end) " + 
+					"and (select case when release_date is null then valid_upto else release_date end)<=(select case when release_date is null then DATEADD(M,DATEDIFF(M,0,getdate())+2,0) else getdate() end) ";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Contract>(Contract.class));
 		
@@ -3287,8 +3287,8 @@ public class ContractReportDaoImpl implements ContractReportDao {
 					"left join work w on c.work_id_fk = w.work_id    " + 
 					"left join contractor cr on c.contractor_id_fk = cr.contractor_id   " + 
 					"left join bank_guarantee bg on bg.contract_id_fk = c.contract_id  " + 
-					"where contract_id is not null and (select case when release_date is null then valid_upto else release_date end)>=DATEADD(M,DATEDIFF(M,0,getdate())-1,0) " + 
-					" and (select case when release_date is null then valid_upto else release_date end)<=DATEADD(M,DATEDIFF(M,0,getdate())+2,0) ";
+					"where contract_id is not null and (select case when release_date is null then valid_upto else release_date end)>=(select case when release_date is null then DATEADD(M,DATEDIFF(M,0,getdate())-1,0) else getdate() end) " + 
+					"and (select case when release_date is null then valid_upto else release_date end)<=(select case when release_date is null then DATEADD(M,DATEDIFF(M,0,getdate())+2,0) else getdate() end) ";
 			
 			int arrSize = 0;
 			NumberFormat numberFormatter = new DecimalFormat("#0.00");

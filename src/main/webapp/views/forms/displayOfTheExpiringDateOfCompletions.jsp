@@ -196,8 +196,8 @@
       <div style='mso-element:header' id=h1>
         <p class=headerFooter>
         
-        <span style="text-align:left;"><img src="https://myfiles.space/user_files/173095_15c158b78d540b9a/173095_custom_files/img169346494752.png" width="95" height="69.774"></span>
-        <span style="text-align:right;"><img src="https://myfiles.space/user_files/173095_15c158b78d540b9a/173095_custom_files/img1693464948.png" width="235" height="69.1176"></span>
+        <span style="text-align:left;"><img src="https://i.postimg.cc/prFXBmn6/img169346494752.png" width="95" height="69.774"></span>
+        <span style="text-align:right;"><img src="https://i.postimg.cc/VNgSS0j9/img1693464948.png" width="235" height="69.1176"></span>
         </p>
 
       </div>

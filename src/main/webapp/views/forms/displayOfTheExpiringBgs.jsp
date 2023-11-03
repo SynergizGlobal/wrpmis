@@ -195,7 +195,7 @@
 </td></tr></table>
 
 <p style="margin: 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; margin-top: 7.2pt; line-height: 200%;"><strong><span style="font-size: 14px; line-height: 200%; font-family: 'Arial',sans-serif; color: black;">Letter No. MRVC/ACCTS/EXP/BG/<u id="currentyeartext">2020-21</u></span></strong><strong><span style="font-size: 14px; line-height: 200%; font-family: 'Arial',sans-serif; color: black;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span></strong><strong><span style="font-size: 14px; line-height: 200%; font-family: 'Arial',sans-serif; color: black;">Date:&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;<span id="bgdate2months"></span>&nbsp;</span></strong></p>
-<p style="margin: 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; margin-top: 7.2pt; line-height: 200%;"><strong><span style="font-size: 14px; line-height: 200%; font-family: 'Arial',sans-serif; color: black;">DY.CPM-III MRVC</span></strong></p>
+<p style="margin: 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; margin-top: 7.2pt; line-height: 200%;"><strong><span style="font-size: 14px; line-height: 200%; font-family: 'Arial',sans-serif; color: black;" id="hodContract">DY.CPM-III MRVC</span></strong></p>
 <table style="border-collapse: collapse; border: none;">
 <tbody>
 <tr>
@@ -208,18 +208,13 @@
 </tr>
 </tbody>
 </table>
-<p><span style="height:30px;">&nbsp;</span></p>
 <p style="margin: 6pt 9.7pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; text-align: justify; text-indent: 50.4pt; line-height: 115%;"><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">The validity of the subject&nbsp;</span><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">Bank Guarantee received from </span><strong><u><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;" id="bgContractorName1">VENKATA RAO INFRA PROJECTS PVT</span></u></strong><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">&nbsp;</span><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">expires on <strong><u id="bgExpiryDate">02-Sep-23</u></strong>. You are requested to arrange for extension of&nbsp;</span><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">BG before the expiry date in case the contract is not completed in all respects.&nbsp;</span><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">In case the contract has been completed satisfactorily in all respects, advice to this effect must be sent to this office before <span id="bgExpiryDate1">02-Sep-23</span>.&nbsp;</span></p>
 <p style="margin: 6pt 9.7pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; text-align: justify; text-indent: 50.4pt; line-height: 115%;"><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">If this office does not receive the extension/reply within the stipulated date before the expiry date of BG, the issuing bank should be advised by this office to deposit the amount due to MRVC under guarantee. A copy of this letter is being endorsed to the firm's bank for taking necessary action.</span><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif;">&nbsp;</span></p>
-
-<p><span style="height:30px;">&nbsp;</span></p>
-
+<br><br>
 <p style="margin: 6pt 32.4pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; text-align: right;"><strong><span style="font-size: 14px; font-family: 'Arial',sans-serif; color: black;">FACAO(MRVC)</span></strong></p>
 <p style="margin: 6pt 32.4pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif;"><strong><span style="font-size: 14px; font-family: 'Arial',sans-serif; color: black;">Copy to:</span></strong></p>
 <p style="margin: 6pt 32.4pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif;"><strong><u><span style="font-size: 14px; font-family: 'Arial',sans-serif; color: black;" id="bgContractorAddress">VENKATA RAO INFRA PROJECTS PVT LTD,&nbsp;B-212, Western Edge-II, Behind Metro Mall, Borivali(E), Mumbai- 400066</span></u></strong></p>
 <p style="margin: 6pt 32.4pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; text-align: justify; line-height: 115%;"><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">M/S MVR is advised to take speedy steps for extension of the above BG [or submit the completion report to enable this office to release the said BG].</span></p>
-<br clear=all style='mso-special-character:line-break; page-break-before:always'>
-
 <p style="margin: 6pt 32.4pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif;"><strong><span style="font-size: 14px; font-family: 'Arial',sans-serif; color: black;">Copy to:</span></strong></p>
 <p style="margin: 6pt 32.4pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif;"><strong><span style="font-size: 14px; font-family: 'Arial',sans-serif; color: black;" id="bgBankAddress">The Manager, <u>HDFC BANK LTD,1<sup>st</sup> Floor, Metropolis II, Opp. Vintage Hospital, St.Inez Panjim, GOA-403001</span></u></strong></p>
 <p style="margin: 6pt 32.4pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; text-align: justify; line-height: 115%;"><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">The above BG confirmed vide your L.N <u id="bgDateonExpiry">03-03-2021&nbsp;</u>as issued by you, expires on <u id="bgExpiryDate2">02-Sep-23</u>. If the firm fails to extend the same unconditionally before the expiry date, these offices claim for Rs. <span id="bgAmountNew">3,00,000</span> is deemed to be lodged on your bank which may please be noted.</span></p>
@@ -369,6 +364,8 @@
 					$("#bgDateonExpiry").html(val.bg_date);
 					$("#bgExpiryDate2").html(val.bg_valid_upto);
 					$("#bgAmountNew").html(val.bg_value);
+					$("#hodContract").html(val.hod_user_id_fk+' MRVC');
+					
 					
 					
 					 var html, link, blob, url, css;

@@ -2379,13 +2379,13 @@ public class DesignDaoImpl implements DesignDao{
 		return objsList;
 	}
 	
-	private int getDesignP6ActivitiesData(String structure,String component,String element,String activity,String scope,String target_date,String actual_date) throws Exception
+	private int getDesignP6ActivitiesData(String taskcode) throws Exception
 	{
 		int cnt=0;
 		try {
-			String qry ="select distinct(count (*)) as cnt from designdrawingstatusremarks where structure=? and component=? and element=? and activity=? and scope=? and target_date=? and actual_date=?";
+				String qry ="select distinct(count (*)) as cnt from designdrawingstatusremarks where task_code=?";
+				cnt = (int) jdbcTemplate.queryForObject(qry, new Object[] { taskcode }, int.class);
 			
-			cnt = (int) jdbcTemplate.queryForObject(qry, new Object[] { structure,component,element,activity,scope,target_date,actual_date }, int.class);
 		} catch (Exception e) {
 			throw new Exception(e);
 		}		
@@ -2396,7 +2396,7 @@ public class DesignDaoImpl implements DesignDao{
 	public List<Design> getP6ActivitiesData(Design obj) throws Exception {
 		List<Design> objsList = null;
 		try {
-			String qry ="select distinct p6_activity_id,s.structure,p.component,component_id as element,p6_activity_name as activity,p.scope,format(finish,'dd-MMM-yy') as target_date, " + 
+			String qry ="select distinct task_code,p6_activity_id,s.structure,p.component,component_id as element,p6_activity_name as activity,p.scope,format(finish,'dd-MMM-yy') as target_date, " + 
 					"dr.actual_date,dr.remarks from p6_activities p  " + 
 					"left join structure s on s.structure_id=p.structure_id_fk  " + 
 					"left join (select structure,component,element,activity,scope,target_date,actual_date,remarks from designdrawingstatusremarks where 0=0 and (actual_date!='' or remarks!='')) dr " + 
@@ -2441,46 +2441,44 @@ public class DesignDaoImpl implements DesignDao{
 		try {
 			con = dataSource.getConnection();
 			String insertQry = "INSERT INTO designdrawingstatusremarks"
-					+ "(structure,component,element,activity,scope,target_date,actual_date,remarks)"
+					+ "(structure,component,element,activity,scope,target_date,actual_date,remarks,task_code)"
 					+ "VALUES"
-					+ "(?,?,?,?,?,?,?,?)";
+					+ "(?,?,?,?,?,?,?,?,?)";
 			
-			String updateQry = "update designdrawingstatusremarks set remarks=? where "
-					+ "structure=? and component=? and element=? and activity=? and scope=? and target_date=? and actual_date=?";
-			
+			String updateQry = "update designdrawingstatusremarks set remarks=?,actual_date=? where task_code=?";
+	
 			
 			insertStmt = con.prepareStatement(insertQry,Statement.RETURN_GENERATED_KEYS);
 			updateStmt = con.prepareStatement(updateQry);
 			
 			int	arraySize = 0;
-			  if( !StringUtils.isEmpty(obj.getActual_dates()) && obj.getActual_dates().length > 0) 
+			  if( !StringUtils.isEmpty(obj.getActual_dates()) && obj.getActual_dates().length > 0 ||  !StringUtils.isEmpty(obj.getDesignremarks()) && obj.getDesignremarks().length > 0) 
 			  {
-				 obj.setActual_dates(CommonMethods.replaceEmptyByNullInSringArray(obj.getActual_dates())); if(arraySize < obj.getActual_dates().length) 
+				 obj.setActual_dates(CommonMethods.replaceEmptyByNullInSringArray(obj.getActual_dates())); 
+				 if(arraySize < obj.getActual_dates().length) 
 				 { 
 					 arraySize= obj.getActual_dates().length; 
 				 } 
+				 obj.setDesignremarks(CommonMethods.replaceEmptyByNullInSringArray(obj.getDesignremarks())); 
+				 if(arraySize < obj.getDesignremarks().length) 
+				 { 
+					 arraySize= obj.getDesignremarks().length; 
+				 }				 
 			 }
 			
 			for (int i = 0; i < arraySize; i++) 
 			{				
-				if( obj.getActual_dates()[i]!="" && obj.getActual_dates()[i]!=null && obj.getActual_dates()[i]!="" && !StringUtils.isEmpty(obj.getActual_dates()[i]))
+				if( (obj.getActual_dates()[i]!="" && obj.getActual_dates()[i]!=null && obj.getActual_dates()[i]!="" && !StringUtils.isEmpty(obj.getActual_dates()[i])) || (obj.getDesignremarks()[i]!="" && obj.getDesignremarks()[i]!=null && obj.getDesignremarks()[i]!="" && !StringUtils.isEmpty(obj.getDesignremarks()[i])))
 			    {
-			            if(getDesignP6ActivitiesData(obj.getStructures()[i],obj.getComponents()[i],obj.getElements()[i],obj.getActivities()[i],obj.getScopes()[i],obj.getTarget_dates()[i],obj.getActual_dates()[i])>0)
+			            if(getDesignP6ActivitiesData(obj.getTaskcodes()[i])>0)
 			            {
-			            	updateStmt.setString(1, obj.getDesignremarks().length>0 ?obj.getDesignremarks()[i]:"");
+
 			            	
-			            	updateStmt.setString(2, obj.getStructures()[i]);
-			            	updateStmt.setString(3, obj.getComponents()[i]);
-			            	updateStmt.setString(4, obj.getElements()[i]);					    
-			            	updateStmt.setString(5, obj.getActivities()[i]);
-			            	updateStmt.setString(6, obj.getScopes()[i]);
-			            	updateStmt.setString(7, obj.getTarget_dates()[i]);
-						    
-			            	updateStmt.setString(8, obj.getActual_dates().length>0 ?obj.getActual_dates()[i]:"");
+				            	updateStmt.setString(1, obj.getDesignremarks().length>0 ?obj.getDesignremarks()[i]:"");
+				            	updateStmt.setString(2, obj.getActual_dates().length>0 ?obj.getActual_dates()[i]:"");
+				            	updateStmt.setString(3, obj.getTaskcodes()[i]);
+				            	updateStmt.executeUpdate();
 			            	
-			            	
-						    
-			            	updateStmt.executeUpdate();
 			            }
 			            else
 			            {
@@ -2493,6 +2491,8 @@ public class DesignDaoImpl implements DesignDao{
 						    
 						    insertStmt.setString(7, obj.getActual_dates().length>0 ?obj.getActual_dates()[i]:"");
 						    insertStmt.setString(8, obj.getDesignremarks().length>0 ?obj.getDesignremarks()[i]:"");
+						    
+						    insertStmt.setString(9, obj.getTaskcodes()[i]);
 						    
 						    insertStmt.executeUpdate();			            	
 			            }

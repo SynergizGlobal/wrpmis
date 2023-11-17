@@ -19,9 +19,9 @@ public class Design {
 	
 	private String id, design_file_id,design_id_fk,latest,submission_purpose,structure_id_fk,design_file_type,submssionpurpose,design_file_types,name,structure, stage_fk,design_status_submit, approving_railway,approval_authority_fk,submitted_by, submitted_to, submitted_date, submssion_purpose,design_file_type_fk,current,
 	
-	element,activity,target_date,actual_date,scope;
+	element,activity,target_date,actual_date,scope,task_code;
 	
-	private String []ids, design_id_fks, design_file_ids,stage_fks,designDocumentFileNames,designDocumentNames, submitted_bys, submitted_tos, submitted_dates, submssion_purposes,design_file_type_fks,currents;
+	private String []ids,taskcodes, design_id_fks, design_file_ids,stage_fks,designDocumentFileNames,designDocumentNames, submitted_bys, submitted_tos, submitted_dates, submssion_purposes,design_file_type_fks,currents;
 	
 	private String[] revisions,revision_dates,latests, consultant_submissions,design_file_typess, mrvc_revieweds, divisional_approvals, hq_approvals, revision_status_fks, remarkss;
 	
@@ -1254,6 +1254,22 @@ public class Design {
 
 	public void setDesignremarks(String[] designremarks) {
 		this.designremarks = designremarks;
+	}
+
+	public String [] getTaskcodes() {
+		return taskcodes;
+	}
+
+	public void setTaskcodes(String [] taskcodes) {
+		this.taskcodes = taskcodes;
+	}
+
+	public String getTask_code() {
+		return task_code;
+	}
+
+	public void setTask_code(String task_code) {
+		this.task_code = task_code;
 	}
 
 }

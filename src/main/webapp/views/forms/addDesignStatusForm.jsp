@@ -166,10 +166,11 @@
 									<table id="designStatusTable" class="mdl-data-table" style="width:100%">
 										<thead>
 											<tr>
+												<th class="no-sort fw-180" style="width:150px;">Task Code</th>
 												<th class="no-sort fw-100">Structure</th>
 												<th class="no-sort fw-100">Component</th>
 												<th>Element</th>
-												<th>Activity</th>
+												<th style="width:150px;">Activity</th>
 												<th class="fw-250"> Scope</th>
 												<th>Target Date</th>
 												<th>Actual Date</th>
@@ -491,7 +492,7 @@
                             		 trdate="";
                             		 }                           	 
                             	 
-                            	 var html="<tr><td><input type='hidden' value='"+val.p6_activity_id+"' name='p6activityids' readonly> <input type='text' value='"+val.structure+"' name='structures' readonly></td><td><input type='text' name='components' value='"+val.component+"' readonly></td><td><input type='text' name='elements' value='"+val.element+"' readonly></td><td><input type='text' name='activities' value='"+val.activity+"' readonly></td><td><input type='text' name='scopes' value='"+val.scope+"' readonly></td><td><input type='text' name='target_dates' value='"+val.target_date+"' readonly></td><td><input type='text' class='validate datepicker-max' name='actual_dates' value='"+trdate+"'></td><td><input maxlength='500' data-length='500' value='"+rmks+"' class='validate w85 pdr5em' type='text' name='designremarks' id='designremarks"+i+"'></td></tr>";
+                            	 var html="<tr><td><input type='text' name='taskcodes' value='"+val.task_code+"' readonly></td><td><input type='hidden' value='"+val.p6_activity_id+"' name='p6activityids' readonly> <input type='text' value='"+val.structure+"' name='structures' readonly></td><td><input type='text' name='components' value='"+val.component+"' readonly></td><td><input type='text' name='elements' value='"+val.element+"' readonly></td><td><input type='text' name='activities' value='"+val.activity+"' readonly></td><td><input type='text' name='scopes' value='"+val.scope+"' readonly></td><td><input type='text' name='target_dates' value='"+val.target_date+"' readonly></td><td><input type='text' class='validate datepicker-max' name='actual_dates' value='"+trdate+"'></td><td><input maxlength='500' data-length='500' value='"+rmks+"' class='validate w85 pdr5em' type='text' name='designremarks' id='designremarks"+i+"'></td></tr>";
                             	 
                             	 $("#designStatusTable tbody").append(html);
 

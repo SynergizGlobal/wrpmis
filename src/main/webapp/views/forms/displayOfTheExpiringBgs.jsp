@@ -203,7 +203,7 @@
 <p style="margin: 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; margin-top: 7.2pt; line-height: 200%;"><strong><span style="font-size: 14px; line-height: 200%; font-family: 'Arial',sans-serif; color: black;">SUB:</span></strong></p>
 </td>
 <td style="width: 448.6pt; padding: 0cm 5.4pt; vertical-align: top;">
-<p style="margin: 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; margin-top: 7.2pt; line-height: 115%;"><strong><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">Extension of BG No <u id="bgNumber">IBG103814</u>&nbsp; &nbsp; &nbsp; &nbsp;Dt: <u id="bgDate">03-Mar-21</u> for Rs <u id="bgAmount">3,00,00,000.00</u> against CA/ PO. No. MRVC/W/109/CA of <u id="bgContractorName">M/S M VENKATA RAO INFRA PROJECTS PVT LTD</u></span></strong></p>
+<p style="margin: 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; margin-top: 7.2pt; line-height: 115%;"><strong><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">Extension of BG No <u id="bgNumber">IBG103814</u>&nbsp; &nbsp; &nbsp; &nbsp;Dt: <u id="bgDate">03-Mar-21</u> for Rs <u id="bgAmount">3,00,00,000.00</u> against CA/ PO. No. <u id="bgLoaNumber">MRVC/W/109/CA</u> of <u id="bgContractorName">M/S M VENKATA RAO INFRA PROJECTS PVT LTD</u></span></strong></p>
 </td>
 </tr>
 </tbody>
@@ -356,6 +356,7 @@
 					$("#bgDate").html(val.bg_date);
 					$("#bgAmount").html(val.bg_value);
 					$("#bgContractorName").html(val.contractor_name);
+					$("#bgLoaNumber").html(val.loa_letter_number);
 					$("#bgContractorName1").html(val.contractor_name);
 					$("#bgExpiryDate").html(val.bg_valid_upto);
 					$("#bgExpiryDate1").html(val.bg_valid_upto);

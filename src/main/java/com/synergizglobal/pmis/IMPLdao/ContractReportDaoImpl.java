@@ -3221,7 +3221,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 	public List<Contract> generateContractBGDetails(Contract obj) throws Exception {
 		List<Contract> objsList = null;
 		try {
-			String qry ="select  contract_id,u.designation as hod_user_id_fk,contract_short_name,contractor_name,address,bg_type_fk,issuing_bank,bg_number,bg_value,(select case when release_date is null then valid_upto else release_date end) as bg_valid_upto,bg_letter_status " + 
+			String qry ="select  contract_id,u.designation as hod_user_id_fk,loa_letter_number,contract_short_name,contractor_name,address,bg_type_fk,issuing_bank,bg_number,bg_value,(select case when release_date is null then valid_upto else release_date end) as bg_valid_upto,bg_letter_status " + 
 					"from contract c   " + 
 					"left join work w on c.work_id_fk = w.work_id    " + 
 					"left join [user] u on u.user_id = c.hod_user_id_fk    " + 

@@ -3268,8 +3268,12 @@ public class ContractReportDaoImpl implements ContractReportDao {
 					"left join contractor cr on c.contractor_id_fk = cr.contractor_id   " + 
 					"left join bank_guarantee bg on bg.contract_id_fk = c.contract_id  " + 
 					"where contract_id is not null and (select case when release_date is null then valid_upto else release_date end)>=(select case when release_date is null then DATEADD(M,DATEDIFF(M,0,getdate())-1,0) else getdate() end) " + 
-					"and (select case when release_date is null then valid_upto else release_date end)<=(select case when release_date is null then DATEADD(M,DATEDIFF(M,0,getdate())+2,0) else getdate() end) ";
+					"and (select case when release_date is null then valid_upto else release_date end)<=(select case when release_date is null then DATEADD(M,DATEDIFF(M,0,getdate())+2,0) else getdate() end)  ";
 			
+			if(!StringUtils.isEmpty(obj.getDate_of_start()) && !StringUtils.isEmpty(obj.getBg_date())) {
+				qry = qry+" and (select case when release_date is null then valid_upto else release_date end)>='"+obj.getDate_of_start()+"' and (select case when release_date is null then valid_upto else release_date end)<='"+obj.getBg_date()+"'";
+			}
+			qry = qry+" order by (select case when release_date is null then valid_upto else release_date end) asc";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Contract>(Contract.class));
 		
 		}catch(Exception e){ 

@@ -119,8 +119,15 @@
     }
     
   select {
-    display: block !important;
-}  
+     display: block !important;
+ 
+ }  
+ 
+ .datepicker-select
+ {
+     display: none !important;
+ 
+ }  
 
 @page WordSection1{
          mso-page-orientation: landscape;
@@ -224,7 +231,29 @@
 </html>
 </div></div>
 
+
+
+
+
 					<div class="row">
+					
+							<div class="col m12 l12s12">
+									<div class="col s12 m2 input-field"></div>
+							
+	                                <div class="col s12 m4 input-field">
+	                                    <input id="date_of_start" name="date_of_start" type="text" class="validate datepicker">
+	                                    <label for="date_of_start">Start Date</label>
+	                                     <span id="date_of_startError" class="error-msg" ></span>
+	                                    <button type="button" id="date_of_start_icon"><i class="fa fa-calendar"></i></button>
+	                                </div>
+	                                <div class="col s12 m4 input-field">
+	                                    <input id="date_of_end" name="date_of_end" type="text" class="validate datepicker">
+	                                    <label for="date_of_end">End Date</label>
+	                                     <span id="date_of_endError" class="error-msg" ></span>
+	                                    <button type="button" id="date_of_end_icon"><i class="fa fa-calendar"></i></button>
+	                                </div>
+	                                <div class="col s12 m2 input-field"></div>
+						</div>					
 						<div class="col m12 s12">
 						<form id="contractReportForm" name="contractReportForm" method="post">
 							<table id="datatable-contract" class="mdl-data-table">
@@ -299,6 +328,28 @@
 	<script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script> 
 	
     <script>
+    
+    $(".datepicker-select").hide();
+    
+    $(document).on('focus', '.datepicker',function(){
+        $(this).datepicker({
+        	format:'dd-mm-yyyy',
+   	    	onSelect: function () {
+   	    	   $('.confirmation-btns .datepicker-done').click();
+   	    	}
+        })
+    });  
+    
+ 
+    $('#date_of_start').change(function() {
+        var date = $(this).val();
+        getContractListWithDatesFilter(date,$('#date_of_end').val());
+    });
+    
+    $('#date_of_end').change(function() {
+        var date = $(this).val();
+        getContractListWithDatesFilter($('#date_of_start').val(),date);
+    });   
     
     function getCurrentFinancialYear() {
         var financial_year = "";
@@ -472,8 +523,10 @@
 					var iteration=1;
 	         		$.each(data,function(key,val){
 	         			var actionsDownload ="";
+	         			var color="";
 	         			if(new Date(val.bg_valid_upto)<new Date())
          				{
+	         				color="red";
          			 		actionsDownload = '<a href="javascript:void(0);"  onclick=export2Word(window.docx,'+iteration+',"'+val.contract_id+'","'+val.bg_number+'") disabled class="btn waves-effect waves-light bg-s t-c" title="Download"><i class="fa fa-download"></i></a>';    
          				}
 	         			else
@@ -519,7 +572,7 @@
 	                   	rowArray.push($.trim(val.issuing_bank));
 	                   	rowArray.push($.trim(bglink));
 	                   	rowArray.push($.trim(val.bg_value));
-	                   	rowArray.push($.trim(val.bg_valid_upto));
+	                   	rowArray.push($.trim('<span style="color:'+color+';">'+val.bg_valid_upto+'</span>'));
 	                   	rowArray.push($.trim(actionsDownload));
 	                   	rowArray.push(StatusArray);
 	                   	
@@ -537,6 +590,154 @@
 				
 			}});
     } 
+    
+    
+    function getContractListWithDatesFilter(start,end){
+    	if(start!="" && end!="")
+    		{
+		    	$(".page-loader-2").show();
+		     	table = $('#datatable-contract').DataTable();
+				 
+				table.destroy();
+				
+				$.fn.dataTable.moment('DD-MMM-YYYY');
+				table = $('#datatable-contract').DataTable({
+					"bStateSave": true,  
+		     		fixedHeader: true,
+		           
+		         	//Default: Page display length
+						"iDisplayLength" : 10,
+						"iData" : {
+							"start" : 52
+						},"iDisplayStart" : 0,
+						"drawCallback" : function() {
+							var info = table.page.info();
+							window.localStorage.setItem("contractPageNo", info.page);
+						},
+		            columnDefs: [
+		                {
+		                    targets: [0, 1, 2],
+		                    className: 'mdl-data-table__cell--non-numeric'
+		                },
+		                { targets:[3,4,5,6,7], className: 'hideCOl'},
+		                { targets:[1], className: 'cw-m'},
+		                { orderable: false, targets: [0,1,2,3,4,5,6,7,8] }
+		            ],
+		            // "ScrollX": true,
+		            //"scrollCollapse": true,
+		            "sScrollX": "100%",
+		            "sScrollXInner": "100%",
+		            "bScrollCollapse": true,
+		            "initComplete" : function() {
+							$('.dataTables_filter input[type="search"]')
+									.attr('placeholder', 'Search')
+									.css({
+										'width' : '350px ',
+										'display' : 'inline-block'
+									});
+							var input = $('.dataTables_filter input')
+									.unbind()
+									.bind('keyup',function(e){
+								    if (e.which == 13){
+								    	self.search(input.val()).draw();
+								    }
+								}), self = this.api(), $searchButton = $('<i class="fa fa-search" title="Go" >')
+							.click(function() {
+								self.search(input.val()).draw();
+							}), 
+							$clearButton = $('<i class="fa fa-close" title="Reset">')
+							.click(function() {
+								input.val('');
+								$searchButton.click();
+							})
+							$('.dataTables_filter').append( '<div class="right-btns"></div>');
+							$('.dataTables_filter div').append( $searchButton, $clearButton); 					
+						}
+		        }).rows().remove().draw();
+				
+				
+				table.state.clear();	
+				
+				
+				start=start.split("-").reverse().join("-");
+				end=end.split("-").reverse().join("-");
+			 	var myParams = {date_of_start : start,bg_date:end};
+		        
+			 
+				$.ajax({url : "<%=request.getContextPath()%>/ajax/generate-bg-contractual-letters",type:"POST",data: myParams, cache: false,async: false,success : function(data){  
+						if(data != null && data != '' && data.length > 0){
+							var iteration=1;
+			         		$.each(data,function(key,val){
+			         			var actionsDownload ="";
+			         			var color="";
+			         			if(new Date(val.bg_valid_upto)<new Date())
+		         				{
+			         				color="red";
+		         			 		actionsDownload = '<a href="javascript:void(0);"  onclick=export2Word(window.docx,'+iteration+',"'+val.contract_id+'","'+val.bg_number+'") disabled class="btn waves-effect waves-light bg-s t-c" title="Download"><i class="fa fa-download"></i></a>';    
+		         				}
+			         			else
+		         				{
+		         			 		actionsDownload = '<a href="javascript:void(0);"  onclick=export2Word(window.docx,'+iteration+',"'+val.contract_id+'","'+val.bg_number+'") class="btn waves-effect waves-light bg-s t-c" title="Download"><i class="fa fa-download"></i></a>';    
+		         				}
+		
+			                   	var rowArray = []; 
+			                   	
+			                   	var StatusArray="";
+		                   		if(val.bg_letter_status=="Submitted")
+		                   		{
+		                   			StatusArray='<select class="searchable" disabled name="letter_status" id="letter_status'+iteration+'" onChange=updateLetterStatus("'+val.contract_id+'",this.value,"'+val.bg_number+'");>';
+		                   		}
+		                   		else
+		               			{
+		                   			StatusArray='<select class="searchable" name="letter_status" id="letter_status'+iteration+'" onChange=updateLetterStatus("'+val.contract_id+'",this.value,"'+val.bg_number+'");>';
+		               			}
+			                   	
+			                   	
+			                   	if(val.bg_letter_status=="Not Submitted")
+		                   		{
+			                   		StatusArray=StatusArray+'<option value="Not Submitted" selected>Not Submitted</option><option value="Submitted">Submitted</option>';
+		                   		}
+			                   	else if(val.bg_letter_status=="Submitted")
+		                   		{
+			                   		StatusArray=StatusArray+'<option value="Not Submitted">Not Submitted</option><option value="Submitted" selected>Submitted</option>';
+		                   		}
+			                   	else
+		                   		{
+			                   		StatusArray=StatusArray+'<option value="Not Submitted">Not Submitted</option><option value="Submitted">Submitted</option>';
+		                   		}
+			                   	
+			                   	var bglink="<a href='/pmis/get-contract/"+val.contract_id+"'>"+val.bg_number+"</a>";
+			                   	
+			                   	StatusArray=StatusArray+'</select>';
+		                        var table11="<tr><td>"+iteration+"</td><td>"+val.contract_id+"</td><td>"+val.contract_short_name+"</td><td>"+val.contractor_name+"</td><td>"+val.bg_type_fk+"</td><td>"+val.issuing_bank+"</td><td>"+val.bg_number+"</td><td>"+val.bg_value+"</td><td>"+val.valid_upto+"</td><td>"+val.valid_upto+"</td><td>"+val.valid_upto+"</td><td>"+StatusArray+"</td></tr>";
+			                   	rowArray.push($.trim(iteration));
+			                   	rowArray.push($.trim(val.contract_id));
+			                   	rowArray.push($.trim(val.contract_short_name));
+			                   	rowArray.push($.trim(val.contractor_name));
+			                   	rowArray.push($.trim(val.bg_type_fk));
+			                   	rowArray.push($.trim(val.issuing_bank));
+			                   	rowArray.push($.trim(bglink));
+			                   	rowArray.push($.trim(val.bg_value));
+			                   	rowArray.push($.trim('<span style="color:'+color+';">'+val.bg_valid_upto+'</span>'));
+			                   	rowArray.push($.trim(actionsDownload));
+			                   	rowArray.push(StatusArray);
+			                   	
+			                    table.row.add(rowArray).draw( true );
+			                    
+			                    iteration++;
+							});
+			         		if(pageNo == null){pageNo = 0;}else{pageNo = Number(pageNo);}
+			                var oTable = $('#datatable-contract').dataTable();
+			                oTable.fnPageChange( pageNo );
+			         		$(".page-loader-2").hide();
+						}else{
+							$(".page-loader-2").hide();
+						}
+						
+					}});
+    		}
+    }   
+    
     
     function updateLetterStatus(contractid,letter_status,bg_number)
     {

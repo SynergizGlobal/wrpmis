@@ -64,6 +64,7 @@ import org.springframework.util.StringUtils;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Contract;
 import com.synergizglobal.pmis.model.Contractor;
+import com.synergizglobal.pmis.model.StripChart;
 
 public class DocxTableCreationForContractReport {
 
@@ -4393,6 +4394,130 @@ public class DocxTableCreationForContractReport {
 		}
 
 	}
+	
+	
+	public static void createTableForTPCStatusReport(WordprocessingMLPackage wordMLPackage, MainDocumentPart mp,
+			ObjectFactory factory, List<StripChart> contractsData,String report_created_date) throws Exception {
+
+		try {
+
+			RPr titleRpr = getRPr(factory, "Calibri", "000000", "12", STHint.EAST_ASIA, true, false, false,
+					false);
+
+			RPr contentRpr = getRPr(factory, "Calibri", "000000", "12", STHint.EAST_ASIA, false, false, false,
+					false);
+
+			RPr contentRprParent = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA, true, false,
+					false, false);
+
+			RPr titleRPr = getRPr(factory, "Calibri", "000000", "28", STHint.EAST_ASIA, true, true, false, false);
+			RPr boldRPr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA, true, false, false, false);
+			RPr fontRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA, false, false, false,
+					false);
+			
+			RPr calibriBoldRPr = getRPr(factory, "Calibri", "000000", "24", STHint.EAST_ASIA,
+					true, false, false, false);		
+			RPr calibriBoldDateRPr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA,
+					true, false, false, false);	
+			
+			RPr garamondBoldRPr = getRPr(factory, "Garamond", "000000", "20", STHint.EAST_ASIA,
+					true, false, false, false);
+			RPr garamondRPr = getRPr(factory, "Garamond", "000000", "22", STHint.EAST_ASIA,
+					false, false, false, false);
+
+			int temp = 1;
+
+
+				Tbl tableHead = factory.createTbl();
+				setLandscapeTableAlign(factory, tableHead, JcEnumeration.CENTER);
+				//addBorders(tableHead, "0");
+				
+				/**************************************************************************/
+
+
+				
+				
+				String date = "";
+				if(temp == 1) {
+					date = report_created_date;
+				}else {
+					addParagraph(mp, factory);
+				}
+				temp++;
+				
+				
+
+				mp.addObject(tableHead);
+				
+				/***************************************************************/
+
+				Tbl table = factory.createTbl();
+				addBorders(table, "2");
+				
+				/************************************************************************/
+				Tr titleRow0 = factory.createTr();
+				List<String> tableHeader0 = new ArrayList<String>();
+				tableHeader0.add("Contract Short Name");
+				tableHeader0.add("TPC Structure");
+				tableHeader0.add("% Progress");
+				tableHeader0.add("Status");
+				tableHeader0.add("TDC/DOC");
+				int columnNo = 1;
+				for (String headerValue : tableHeader0) {
+					int width = 0;
+					if(1 == columnNo) {
+						width = 1500;
+					}else if(2 == columnNo) {
+						width = 500;
+					}else if(3 == columnNo) {
+						width = 500;
+					}else if(4 == columnNo) {
+						width = 500;
+					}
+					else if(5 == columnNo) {
+						width = 500;
+					}					
+					columnNo++;
+					addTableCellAndWidth(factory, wordMLPackage, titleRow0, headerValue, garamondBoldRPr, JcEnumeration.CENTER, true,
+							"ecf2ff",width);
+				}
+				table.getContent().add(titleRow0);
+
+			
+				/*******************************************************************************/
+
+				int sNo = 1;
+				for (StripChart cObj1 : contractsData) 
+				{
+					boolean hasBgColor = false;
+					String backgroundColor = null;
+					Tr contentRow = factory.createTr();
+					
+					addTableCell(factory, wordMLPackage, contentRow, cObj1.getContract_short_name(), garamondRPr, JcEnumeration.CENTER,
+							hasBgColor, backgroundColor);
+					
+					addTableCell(factory, wordMLPackage, contentRow,cObj1.getStructure(),
+							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);	
+					
+					addTableCell(factory, wordMLPackage, contentRow,cObj1.getProgress(),
+							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);				
+					
+					addTableCell(factory, wordMLPackage, contentRow,cObj1.getStatus(),
+							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+					
+					addTableCell(factory, wordMLPackage, contentRow,cObj1.getProgress_date(),
+							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);								
+				
+					table.getContent().add(contentRow);
+				}
+				setTableAlign(factory, table, JcEnumeration.CENTER);
+				mp.addObject(table);
+
+		} catch (Exception e) {
+			throw new Exception(e);
+		}
+
+	}	
 	
 	public static void createTableForListofContractsClosertoBGExpiryDateReport(WordprocessingMLPackage wordMLPackage, MainDocumentPart mp,
 			ObjectFactory factory, List<Contract> list,String report_created_date) throws Exception {

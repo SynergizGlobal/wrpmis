@@ -30,5 +30,9 @@ public class ActivitiesExportServiceImpl implements ActivitiesExportService{
 	public StripChart generateActivitiesExportReport(StripChart obj) throws Exception {
 		return dao.generateActivitiesExportReport(obj);
 	}
+	@Override
+	public List<StripChart> generateTPCStatusReport(StripChart obj) throws Exception {
+		return dao.generateTPCStatusReport(obj);
+	}
 
 }

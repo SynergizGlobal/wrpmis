@@ -14,4 +14,6 @@ public interface ActivitiesExportReportDao {
 
 	StripChart generateActivitiesExportReport(StripChart obj) throws Exception;
 
+	List<StripChart> generateTPCStatusReport(StripChart obj) throws Exception;
+
 }

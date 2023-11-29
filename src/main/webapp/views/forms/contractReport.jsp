@@ -59,7 +59,17 @@ html:not(.browser-android) select {
                         <div class="row no-mar">
                             <div class="col m8 s12 offset-m2">
                             	<form id="contractReportForm" name="contractReportForm" method="post">
-	                                <div class="row no-mar">	
+	                                <div class="row no-mar">
+	                                
+	   									<div class="col s12 m12 l3  input-field">
+										<p class="searchable_label">Project</p>
+										<select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk" onchange="getWorks();">
+											<option value="">Select</option>										
+	                                         <c:forEach var="obj" items="${projectsList }">
+	                                             <option value="${obj.project_id }">${obj.project_name }</option>
+	                                         </c:forEach>
+                                         </select>
+									</div>                             	
 	                                    <div class="col s12 m12 l3 input-field" id="hodDiv">
 	                                        <p class="searchable_label" style="text-align:left">HOD</p>
 	                                        <select id="hod_designation" class="searchable validate-dropdown" name="hod_designations" onchange="addInQueHOD();getResetFiltersList();"  multiple="multiple" >
@@ -359,6 +369,28 @@ html:not(.browser-android) select {
        	   }
         }
         
+        
+        
+    	function getWorks()
+    	{
+    		$("#work_id_fk option:not(:first)").remove();
+    	        var myParams = { work_id_fk: $("#work_id_fk").val(),project_id_fk: $("#project_id_fk").val() };
+    	        $.ajax({
+    	            url: "<%=request.getContextPath()%>/ajax/getPORWorksFilterList",
+    	            data: myParams, cache: false,async: false,
+    	            success: function (data) 
+    	            {
+    	                if (data.length > 0) 
+    	                {
+    	                    $.each(data, function (i, val) {
+    	                            $("#work_id_fk").append('<option value="' + val.work_id_fk + '">'+$.trim(val.work_id_fk)+'-' +  $.trim(val.work_short_name) + '</option>');
+    	                    });
+    	                }
+    	                $('.searchable').select2();
+    	            }
+    	        });
+    	        $('.searchable').select2();
+    	}         
         
         function clearFilters(){
         	$("#contractor_id_fk").val('');

@@ -166,22 +166,22 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 	public StripChart generateActivitiesExportReport(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "SELECT a.p6_activity_id as activity_id, FORMAT(a.baseline_start,'dd-MM-yyyy') as baseline_start, FORMAT(a.baseline_finish,'dd-MM-yyyy') as baseline_finish,\r\n" + 
-					"					 FORMAT(a.start,'dd-MM-yyyy') as start, FORMAT(a.finish,'dd-MM-yyyy') as finish, a.contract_id_fk,contract_short_name, a.from_structure_id,\r\n" + 
-					"					 a.to_structure_id, s11.structure_type_fk, a.section, a.line, s11.structure, a.component, a.component_id, a.order_x, a.order_y, \r\n" + 
-					"					a.p6_activity_name as activity_name, FORMAT(a.baseline_start,'dd-MM-yyyy') as planned_start, FORMAT(a.baseline_finish,'dd-MM-yyyy') as planned_finish, \r\n" + 
-					"					case  \r\n" + 
-					"					 when (ISNULL(completed, 0)=0 or completed is null) then ''  \r\n" + 
-					"					 when ISNULL(completed, 0)>=ISNULL(scope, 0) then (select FORMAT(min(progress_date),'dd-MM-yyyy') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id)  \r\n" + 
-					"					 else (select FORMAT(min(progress_date),'dd-MM-yyyy') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id) end as actual_start,case   \r\n" + 
-					"					 when (ISNULL(completed, 0)=0 or completed is null) then '' \r\n" + 
-					"					 when ISNULL(completed, 0)>=ISNULL(scope, 0) then (select FORMAT(max(progress_date),'dd-MM-yyyy') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id)  \r\n" + 
-					"					 else '' end as actual_finish, a.unit, a.scope, a.completed, CAST(a.weightage AS DECIMAL(10,2)) as weightage, a.component_details, a.remarks, \r\n" + 
-					"					a.created_date, a.created_by_user_id_fk, a.modified_date, a.modified_by_user_id_fk, a.task_code as p6_task_code  \r\n" + 
-					"					from p6_activities a left join structure s11 on s11.structure_id = a.structure_id_fk \r\n" + 
-					"					LEFT JOIN contract c ON a.contract_id_fk = c.contract_id \r\n" + 
-					"					left join work w on c.work_id_fk = w.work_id \r\n" + 
-					"					left join project p on w.project_id_fk = p.project_id \r\n" + 
+			String qry = "SELECT a.p6_activity_id as activity_id, FORMAT(a.baseline_start,'dd-MM-yyyy') as baseline_start, FORMAT(a.baseline_finish,'dd-MM-yyyy') as baseline_finish," + 
+					"					 FORMAT(a.start,'dd-MM-yyyy') as start, FORMAT(a.finish,'dd-MM-yyyy') as finish, a.contract_id_fk,contract_short_name, a.from_structure_id," + 
+					"					 a.to_structure_id, s11.structure_type_fk, a.section, a.line, s11.structure, a.component, a.component_id, a.order_x, a.order_y, " + 
+					"					a.p6_activity_name as activity_name, FORMAT(a.baseline_start,'dd-MM-yyyy') as planned_start, FORMAT(a.baseline_finish,'dd-MM-yyyy') as planned_finish, " + 
+					"					case  " + 
+					"					 when (ISNULL(completed, 0)=0 or completed is null) then ''  " + 
+					"					 when ISNULL(completed, 0)>=ISNULL(scope, 0) then (select FORMAT(min(progress_date),'dd-MM-yyyy') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id)  " + 
+					"					 else (select FORMAT(min(progress_date),'dd-MM-yyyy') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id) end as actual_start,case   " + 
+					"					 when (ISNULL(completed, 0)=0 or completed is null) then '' " + 
+					"					 when ISNULL(completed, 0)>=ISNULL(scope, 0) then (select FORMAT(max(progress_date),'dd-MM-yyyy') from p6_activity_progress where p6_activity_id_fk=a.p6_activity_id)  " + 
+					"					 else '' end as actual_finish, a.unit, a.scope, a.completed, CAST(a.weightage AS DECIMAL(10,2)) as weightage, a.component_details, a.remarks, " + 
+					"					a.created_date, a.created_by_user_id_fk, a.modified_date, a.modified_by_user_id_fk, a.task_code as p6_task_code  " + 
+					"					from p6_activities a left join structure s11 on s11.structure_id = a.structure_id_fk " + 
+					"					LEFT JOIN contract c ON a.contract_id_fk = c.contract_id " + 
+					"					left join work w on c.work_id_fk = w.work_id " + 
+					"					left join project p on w.project_id_fk = p.project_id " + 
 					"					 where a.p6_activity_id is not null and a.p6_activity_id <> '' ";
 			
 			int arrSize = 0;
@@ -218,6 +218,26 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 			throw new Exception(e);
 		}
 		return obj;
+	}
+
+	@Override
+	public List<StripChart> generateTPCStatusReport(StripChart obj) throws Exception {
+		List<StripChart> objsList = null;
+		try {
+			String qry = "SELECT c.contract_short_name,structure,round(cast((isnull(SUM((completed * weightage)*100 / scope) / SUM(weightage),0)) as decimal(10,2)),2) AS progress, " + 
+					"case when SUM((completed * weightage)*100 / scope) / SUM(weightage)=100 then 'Completed' when SUM((completed * weightage)*100 / scope) / SUM(weightage)<100 and SUM((completed * weightage)*100 / scope) / SUM(weightage)*100>0 then 'In Progress' else 'Not Started' end as Status, " + 
+					"case when SUM((completed * weightage)*100 / scope) / SUM(weightage)=100 then Max(actual_finish) else Max(expected_finish) end as progress_date " + 
+					"FROM activities_view a " + 
+					"LEFT join contract c on c.contract_id=a.contract_id " + 
+					"where a.contract_id like 'P04W04EN%' GROUP BY c.contract_short_name,structure order by status ";
+			
+
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<StripChart>(StripChart.class));
+			
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
 	}
 	
 	

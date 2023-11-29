@@ -115,6 +115,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synergizglobal.pmis.Iservice.ContractReportService;
+import com.synergizglobal.pmis.Iservice.ContractService;
 import com.synergizglobal.pmis.common.DateParser;
 import com.synergizglobal.pmis.common.DocxTableCreation;
 import com.synergizglobal.pmis.common.DocxTableCreationForContractReport;
@@ -139,6 +140,9 @@ public class ContractReportController {
 	
 	@Autowired
 	ContractReportService service;
+
+	@Autowired
+	ContractService contractService;
 	
 	@Value("${common.error.message}")
 	public String commonError;
@@ -174,6 +178,10 @@ public class ContractReportController {
 	public ModelAndView contractReports(@PathVariable("report_no")String report_no,RedirectAttributes attributes){
 		ModelAndView model = new ModelAndView(PageConstants2.contractReport);
 		try{
+			Contract obj = new Contract();
+			List<Contract> projectsList = contractService.getProjectsListForContractForm(obj);
+			model.addObject("projectsList", projectsList);
+			
 			model.addObject("report_no", report_no);
 		}catch (Exception e) {
 			e.printStackTrace();

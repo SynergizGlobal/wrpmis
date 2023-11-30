@@ -2770,6 +2770,12 @@ public class ContractReportDaoImpl implements ContractReportDao {
 					int arrSize = 0;
 					NumberFormat numberFormatter = new DecimalFormat("#0.00");
 					
+					if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+						hodQry = hodQry + " and cd.project_id = ? ";
+						arrSize++;
+					}					
+					
+					
 					if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
 						hodQry = hodQry + " and c.contract_id = ? ";
 						arrSize++;
@@ -2798,6 +2804,10 @@ public class ContractReportDaoImpl implements ContractReportDao {
 					
 					Object[] pValues = new Object[arrSize];
 					int i = 0;
+					
+					if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
+						pValues[i++] = obj.getProject_id_fk();
+					}
 					if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
 						pValues[i++] = obj.getContract_id();
 					}

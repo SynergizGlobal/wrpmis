@@ -4397,7 +4397,7 @@ public class DocxTableCreationForContractReport {
 	
 	
 	public static void createTableForTPCStatusReport(WordprocessingMLPackage wordMLPackage, MainDocumentPart mp,
-			ObjectFactory factory, List<StripChart> contractsData,String report_created_date) throws Exception {
+			ObjectFactory factory, List<StripChart> contractsData,List<StripChart> divisionData,String report_created_date) throws Exception {
 
 		try {
 
@@ -4457,6 +4457,7 @@ public class DocxTableCreationForContractReport {
 				/************************************************************************/
 				Tr titleRow0 = factory.createTr();
 				List<String> tableHeader0 = new ArrayList<String>();
+				tableHeader0.add("S. No.");
 				tableHeader0.add("Contract Short Name");
 				tableHeader0.add("TPC Structure");
 				tableHeader0.add("% Progress");
@@ -4466,15 +4467,18 @@ public class DocxTableCreationForContractReport {
 				for (String headerValue : tableHeader0) {
 					int width = 0;
 					if(1 == columnNo) {
-						width = 1500;
+						width = 200;
 					}else if(2 == columnNo) {
-						width = 500;
+						width = 1000;
 					}else if(3 == columnNo) {
 						width = 500;
 					}else if(4 == columnNo) {
 						width = 500;
 					}
 					else if(5 == columnNo) {
+						width = 500;
+					}
+					else if(6 == columnNo) {
 						width = 500;
 					}					
 					columnNo++;
@@ -4493,6 +4497,9 @@ public class DocxTableCreationForContractReport {
 					String backgroundColor = null;
 					Tr contentRow = factory.createTr();
 					
+					addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo), garamondRPr, JcEnumeration.CENTER,
+							hasBgColor, backgroundColor);					
+					
 					addTableCell(factory, wordMLPackage, contentRow, cObj1.getContract_short_name(), garamondRPr, JcEnumeration.CENTER,
 							hasBgColor, backgroundColor);
 					
@@ -4509,9 +4516,83 @@ public class DocxTableCreationForContractReport {
 							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);								
 				
 					table.getContent().add(contentRow);
+					sNo++;
 				}
 				setTableAlign(factory, table, JcEnumeration.CENTER);
+				
+				Tbl table2 = factory.createTbl();
+				addBorders(table2, "2");
+				
+
+				
+				/************************************************************************/
+				Tr titleRow1 = factory.createTr();
+				List<String> tableHeader1 = new ArrayList<String>();
+				tableHeader1.add("S. No.");
+				tableHeader1.add("Division");
+				tableHeader1.add("WorkScope");
+				tableHeader1.add("Completed");
+				tableHeader1.add("Balance");
+				int columnNo1 = 1;
+				for (String headerValue : tableHeader1) {
+					int width = 0;
+					if(1 == columnNo1) {
+						width = 200;
+					}else if(2 == columnNo1) {
+						width = 1000;
+					}else if(3 == columnNo1) {
+						width = 500;
+					}else if(4 == columnNo1) {
+						width = 500;
+					}else if(5 == columnNo1) {
+						width = 500;
+					}
+					columnNo++;
+					addTableCellAndWidth(factory, wordMLPackage, titleRow1, headerValue, garamondBoldRPr, JcEnumeration.CENTER, true,
+							"ecf2ff",width);
+				}
+				table2.getContent().add(titleRow1);
+
+			
+				/*******************************************************************************/
+
+				int sNo1 = 1;
+				for (StripChart cObj1 : divisionData) 
+				{
+					boolean hasBgColor = false;
+					String backgroundColor = null;
+					Tr contentRow = factory.createTr();
+					
+					addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo1), garamondRPr, JcEnumeration.CENTER,
+							hasBgColor, backgroundColor);					
+					
+					addTableCell(factory, wordMLPackage, contentRow, cObj1.getDivision(), garamondRPr, JcEnumeration.CENTER,
+							hasBgColor, backgroundColor);
+					
+					addTableCell(factory, wordMLPackage, contentRow,cObj1.getWorkScope(),
+							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);	
+					
+					addTableCell(factory, wordMLPackage, contentRow,cObj1.getCompleted(),
+							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+					
+					addTableCell(factory, wordMLPackage, contentRow,cObj1.getBalance(),
+							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);					
+					
+				
+					table2.getContent().add(contentRow);
+					sNo1++;
+				}
+				setTableAlign(factory, table2, JcEnumeration.CENTER);				
+				
 				mp.addObject(table);
+				
+				addParagraph(mp, factory);
+				addHeading(wordMLPackage, mp, factory, JcEnumeration.CENTER, boldRPr, "Summary");				
+				
+				addParagraph(mp, factory);				
+				
+				mp.addObject(table2);
+
 
 		} catch (Exception e) {
 			throw new Exception(e);

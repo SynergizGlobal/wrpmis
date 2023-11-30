@@ -394,7 +394,7 @@
                                     <span id="utility_type_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m3 l3 input-field">
-                                     <input id="utility_description" maxlength="50" data-length="50" name="utility_description" type="text" class="validate w85 pdr3em" value="${utilityShifting.utility_description }">                                     
+                                     <input id="utility_description" maxlength="100" data-length="100" name="utility_description" type="text" class="validate w85 pdr3em" value="${utilityShifting.utility_description }">                                     
                                      <label for="utility_description">Utility Description<span class="required">*</span></label>
 	                                 <span id="utility_descriptionError" class="error-msg" ></span>
                                 </div>

@@ -229,9 +229,34 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 					"case when SUM((completed * weightage)*100 / scope) / SUM(weightage)=100 then Max(actual_finish) else Max(expected_finish) end as progress_date " + 
 					"FROM activities_view a " + 
 					"LEFT join contract c on c.contract_id=a.contract_id " + 
-					"where a.contract_id like 'P04W04EN%' GROUP BY c.contract_short_name,structure order by status ";
+					"where a.contract_id like 'P04W04EN%' GROUP BY c.contract_short_name,structure order by c.contract_short_name,status ";
 			
 
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<StripChart>(StripChart.class));
+			
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<StripChart> getDivisionList(StripChart obj) throws Exception {
+		List<StripChart> objsList = null;
+		try {
+			String qry = "select Division,sum(StructureCount) as 'WorkScope',sum(CompletedCount) as Completed,sum(StructureCount)-sum(CompletedCount) as 'Balance' from( " + 
+					"SELECT DISTINCT SUBSTRING(contract_short_name, CHARINDEX('(', contract_short_name), 5) as 'Division', " + 
+					"count(structure) as StructureCount,case when Status='Completed' then count(Status) else 0 end AS 'CompletedCount' " + 
+					"from( " + 
+					"SELECT c.contract_short_name,structure,round(cast((isnull(SUM((completed * weightage)*100 / scope) / SUM(weightage),0)) as decimal(10,2)),2) AS progress,   " + 
+					"case when SUM((completed * weightage)*100 / scope) / SUM(weightage)=100 then 'Completed' when SUM((completed * weightage)*100 / scope) / SUM(weightage)<100 and SUM((completed * weightage)*100 / scope) / SUM(weightage)*100>0 then 'In Progress' else 'Not Started' end as Status,   " + 
+					"case when SUM((completed * weightage)*100 / scope) / SUM(weightage)=100 then Max(actual_finish) else Max(expected_finish) end as progress_date   " + 
+					"FROM activities_view a   " + 
+					"LEFT join contract c on c.contract_id=a.contract_id   " + 
+					"where a.contract_id like 'P04W04EN%' GROUP BY c.contract_short_name,structure) as a " + 
+					"group by SUBSTRING(contract_short_name, CHARINDEX('(', contract_short_name), 5),Status) as b " + 
+					"group by b.Division ";
+			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<StripChart>(StripChart.class));
 			
 		}catch(Exception e){ 

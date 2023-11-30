@@ -21,7 +21,7 @@ public class StripChart {
 	
 	private String [] actualScopes,strip_chart_ids,ids,completedScopes,totalScopes,actual_starts,actual_finishs,activity_ids,p6_task_codes;
 	
-	private String reported_by_email_id,zonal_railway_fk,other_organization,department_fk,department_name;
+	private String reported_by_email_id,zonal_railway_fk,other_organization,department_fk,department_name,Division,WorkScope,Balance;
 	
 	private List<MultipartFile> issueFiles;
 	private List<StripChart> report1List;
@@ -941,6 +941,30 @@ public class StripChart {
 
 	public void setSearchStr(String searchStr) {
 		this.searchStr = searchStr;
+	}
+
+	public String getDivision() {
+		return Division;
+	}
+
+	public void setDivision(String division) {
+		Division = division;
+	}
+
+	public String getWorkScope() {
+		return WorkScope;
+	}
+
+	public void setWorkScope(String workScope) {
+		WorkScope = workScope;
+	}
+
+	public String getBalance() {
+		return Balance;
+	}
+
+	public void setBalance(String balance) {
+		Balance = balance;
 	}
 
 }

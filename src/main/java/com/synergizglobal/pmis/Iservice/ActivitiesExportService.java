@@ -16,4 +16,6 @@ public interface ActivitiesExportService {
 
 	List<StripChart> generateTPCStatusReport(StripChart obj) throws Exception;
 
+	List<StripChart> getDivisionList(StripChart obj) throws Exception;
+
 }

@@ -164,7 +164,7 @@
 <head>
     <style type="text/css">
     @page Section1 {
-        margin:0.75in 0.75in 0.75in 0.75in;
+        margin:0.15in 0.25in 0.25in 0.35in;
         size:670.95pt 595.35pt;
         mso-page-orientation:Portrait;
         mso-header-margin:0.5in;
@@ -218,6 +218,8 @@
 <p style="margin: 6pt 9.7pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; text-align: justify; text-indent: 50.4pt; line-height: 115%;"><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">The validity of the subject&nbsp;</span><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">Bank Guarantee received from </span><strong><u><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;" id="bgContractorName1">VENKATA RAO INFRA PROJECTS PVT</span></u></strong><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">&nbsp;</span><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">expires on <strong><u id="bgExpiryDate">02-Sep-23</u></strong>. You are requested to arrange for extension of&nbsp;</span><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">BG before the expiry date in case the contract is not completed in all respects.&nbsp;</span><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">In case the contract has been completed satisfactorily in all respects, advice to this effect must be sent to this office before <span id="bgExpiryDate1">02-Sep-23</span>.&nbsp;</span></p>
 <p style="margin: 6pt 9.7pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; text-align: justify; text-indent: 50.4pt; line-height: 115%;"><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">If this office does not receive the extension/reply within the stipulated date before the expiry date of BG, the issuing bank should be advised by this office to deposit the amount due to MRVC under guarantee. A copy of this letter is being endorsed to the firm's bank for taking necessary action.</span><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif;">&nbsp;</span></p>
 <br><br>
+<p><span style="height:30px;">&nbsp;</span></p>
+
 <p style="margin: 6pt 32.4pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; text-align: right;"><strong><span style="font-size: 14px; font-family: 'Arial',sans-serif; color: black;">FACAO(MRVC)</span></strong></p>
 <p style="margin: 6pt 32.4pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif;"><strong><span style="font-size: 14px; font-family: 'Arial',sans-serif; color: black;">Copy to:</span></strong></p>
 <p style="margin: 6pt 32.4pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif;"><strong><u><span style="font-size: 14px; font-family: 'Arial',sans-serif; color: black;" id="bgContractorAddress">VENKATA RAO INFRA PROJECTS PVT LTD,&nbsp;B-212, Western Edge-II, Behind Metro Mall, Borivali(E), Mumbai- 400066</span></u></strong></p>

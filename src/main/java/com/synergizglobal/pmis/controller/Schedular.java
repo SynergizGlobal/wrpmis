@@ -73,7 +73,7 @@ public class Schedular {
 	}
 	/**********************************************************************************/	
 	
-	@Scheduled(cron = "${cron.expression.generate.alerts}")
+	/*@Scheduled(cron = "${cron.expression.generate.alerts}")
 	public void generateAlertsByCronJob(){	
 		if(is_cron_jobs_enabled || is_cron_jobs_enabled_in_qa) {
 		     logger.error("generateAlertsByCronJob : Method executed every day. Current time is :"+ new Date());	    
@@ -97,7 +97,7 @@ public class Schedular {
 				logger.error("generateAlertsByCronJob() : "+e.getMessage());
 			 }
 		}
-	}
+	}*/
 	
 	@Scheduled(cron = "${cron.expression.run.procedures}")
 	public void callingProceduresByCronJob(){	
@@ -115,7 +115,7 @@ public class Schedular {
 	}
 	
 	
-	@Scheduled(cron = "${cron.expression.generate.assign.responsibility}")
+	/*@Scheduled(cron = "${cron.expression.generate.assign.responsibility}")
 	public void generateAutoResponsibilityByCronJob(){	
 		if(is_cron_jobs_enabled || is_cron_jobs_enabled_in_qa) {
 		     logger.error("generateAutoResponsibilityByCronJob : Method executed every day. Current time is :"+ new Date());	    
@@ -128,9 +128,9 @@ public class Schedular {
 				logger.error("generateAutoResponsibilityByCronJob() : "+e.getMessage());
 			 }
 		}
-	}	
+	}*/	
 	
-	@Scheduled(cron = "${cron.expression.sending.alert.mails.by.alert.type}")
+	/*@Scheduled(cron = "${cron.expression.sending.alert.mails.by.alert.type}")
 	public void sendNotificationAlertMailsToAllByCronJob(){		
 		if(is_cron_jobs_enabled) {
 		     logger.error("sendNotificationAlertMailsToAllByCronJob : Current time is :"+ new Date());	    
@@ -167,23 +167,14 @@ public class Schedular {
 						}
 					}
 		           
-					/*String alert_type = null;
-					if(dayOfWeekText.equals("WEDNESDAY")) {
-					   alert_type = CommonConstants2.ALERT_TYPE_CONTRACT;
-					   boolean flag = alertService.sendEMailNotificationWithContractAlerts(alert_type);
-					   logger.error("sendEMailNotificationWithContractAlertsByCronJob >> Sent mails : "+ flag);
-					}else if(dayOfWeekText.equals("FRIDAY")) {
-					   alert_type = CommonConstants2.ALERT_TYPE_ISSUE;
-					   boolean flag = alertService.sendEMailNotificationWithIssueAlerts(alert_type);
-					   logger.error("sendEMailNotificationWithIssueAlertsByCronJob >> Sent mails : "+ flag);
-					}*/
+
 				   
 			 } catch (Exception e) {
 				 e.printStackTrace();
 				logger.error("sendNotificationAlertMailsToAllByCronJob() : "+e.getMessage());
 			 }
 		}
-	}
+	}*/
 	
 	/******************************************************************************************/
 	

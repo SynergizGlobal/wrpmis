@@ -4517,6 +4517,7 @@ public class DocxTableCreationForContractReport {
 				
 					table.getContent().add(contentRow);
 					sNo++;
+					
 				}
 				setTableAlign(factory, table, JcEnumeration.CENTER);
 				
@@ -4557,6 +4558,9 @@ public class DocxTableCreationForContractReport {
 				/*******************************************************************************/
 
 				int sNo1 = 1;
+				int a1=0;
+				int a2=0;
+				int a3=0;
 				for (StripChart cObj1 : divisionData) 
 				{
 					boolean hasBgColor = false;
@@ -4580,9 +4584,36 @@ public class DocxTableCreationForContractReport {
 					
 				
 					table2.getContent().add(contentRow);
+					a1=a1+Integer.parseInt(cObj1.getWorkScope());
+					a2=a2+Integer.parseInt(cObj1.getCompleted());
+					a3=a3+Integer.parseInt(cObj1.getBalance());
+					
 					sNo1++;
 				}
-				setTableAlign(factory, table2, JcEnumeration.CENTER);				
+				Tr contentRow1 = factory.createTr();
+				boolean hasBgColor = false;
+				String backgroundColor = null;				
+				
+				addTableCell(factory, wordMLPackage, contentRow1, "Total", garamondRPr, JcEnumeration.CENTER,
+						hasBgColor, backgroundColor);					
+				
+				addTableCell(factory, wordMLPackage, contentRow1, "", garamondRPr, JcEnumeration.CENTER,
+						hasBgColor, backgroundColor);
+				
+				addTableCell(factory, wordMLPackage, contentRow1,String.valueOf(a1),
+						garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);	
+				
+				addTableCell(factory, wordMLPackage, contentRow1,String.valueOf(a2),
+						garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+				
+				addTableCell(factory, wordMLPackage, contentRow1,String.valueOf(a3),
+						garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);	
+				
+				table2.getContent().add(contentRow1);
+				
+				setTableAlign(factory, table2, JcEnumeration.CENTER);		
+				
+				mergeCellsHorizontal(table2, sNo1, 0, 1);
 				
 				mp.addObject(table);
 				

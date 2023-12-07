@@ -4617,8 +4617,7 @@ public class DocxTableCreationForContractReport {
 				
 				mp.addObject(table);
 				
-				addParagraph(mp, factory);
-				addParagraph(mp, factory);
+				addPageBreak(mp);
 				addHeading(wordMLPackage, mp, factory, JcEnumeration.CENTER, boldRPr, "TPC Progress Report");				
 				
 				addParagraph(mp, factory);				

@@ -1344,7 +1344,7 @@ margin-right: 0rem;
 	            	<div class="row">
 	            		<div class="col s2 m1 l1 m-pd0">
 		            		<div class="heading">
-		            			<br><br><br><br><img src="/pmis/resources/images/mrvclogo.png" alt="Logo">
+		            			<br><br><br><br><br><img src="/pmis/resources/images/mrvclogo.png" alt="Logo">
 		            		</div>
 	            		</div>
 	                <div class="col l10 m10 s8">

@@ -1344,18 +1344,18 @@ margin-right: 0rem;
 	            	<div class="row">
 	            		<div class="col s2 m1 l1 m-pd0">
 		            		<div class="heading">
-		            			<br><br><br><img src="/pmis/resources/images/mrvclogo.png" alt="Logo">
+		            			<br><br><br><br><img src="/pmis/resources/images/mrvclogo.png" alt="Logo">
 		            		</div>
 	            		</div>
 	                <div class="col l10 m10 s8">
 	                	<div class="heading color-change-2x">
 	                    <center>
 	                    
-	                    <br><br><br><h3 class="tracking-in-expand-fwd">Mumbai Railway Vikas Corporation</h3></center>
+	                    <br><br><br><br><br><h3 class="tracking-in-expand-fwd">Mumbai Railway Vikas Corporation</h3></center>
 	                </div>
 	                </div>
 	                <div class="col l1 m1 s2">
-	                <div class="map-btn-holder"><br><br><br>
+	                <div class="map-btn-holder"><br><br><br><br><br>
 	                        <a target="_new" class="waves-effect waves-light btn modal-trigger" href="/pmis/resources/images/final_map.png" title="click to see map">
 	                            <!-- <span class="material-icons">map</span> -->
 	                            <i class="fa fa-globe"></i>

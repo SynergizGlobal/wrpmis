@@ -4532,7 +4532,7 @@ public class DocxTableCreationForContractReport {
 				List<String> tableHeader1 = new ArrayList<String>();
 				tableHeader1.add("S. No.");
 				tableHeader1.add("Railway");
-				tableHeader1.add("WorkScope");
+				tableHeader1.add("Work Scope");
 				tableHeader1.add("Completed");
 				tableHeader1.add("Balance");
 				int columnNo1 = 1;
@@ -4619,7 +4619,7 @@ public class DocxTableCreationForContractReport {
 				mp.addObject(table);
 				
 				addPageBreak(mp);
-				addHeading(wordMLPackage, mp, factory, JcEnumeration.LEFT, fontRPr, "Summary");				
+				addHeading(wordMLPackage, mp, factory, JcEnumeration.LEFT, boldRPr, "Summary");				
 				
 				
 				mp.addObject(table2);

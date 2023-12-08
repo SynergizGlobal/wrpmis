@@ -4530,7 +4530,7 @@ public class DocxTableCreationForContractReport {
 				Tr titleRow1 = factory.createTr();
 				List<String> tableHeader1 = new ArrayList<String>();
 				tableHeader1.add("S. No.");
-				tableHeader1.add("Division");
+				tableHeader1.add("Railway");
 				tableHeader1.add("WorkScope");
 				tableHeader1.add("Completed");
 				tableHeader1.add("Balance");
@@ -4618,7 +4618,7 @@ public class DocxTableCreationForContractReport {
 				mp.addObject(table);
 				
 				addPageBreak(mp);
-				addHeading(wordMLPackage, mp, factory, JcEnumeration.CENTER, boldRPr, "TPC Progress Report");				
+				addHeading(wordMLPackage, mp, factory, JcEnumeration.LEFT, boldRPr, "Summary");				
 				
 				addParagraph(mp, factory);				
 				

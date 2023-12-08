@@ -659,7 +659,7 @@ public class ActivitiesExportController {
 			JcEnumeration imageAlignment = JcEnumeration.CENTER;
 			
 			//String headerTextMiddle = "Summary of Risk Assessment of Projects";
-			String headerTextMiddle = list.get(0).getContract_name();
+			String headerTextMiddle = "TPC Progress Report";
 
 			String headerTextRight = report_created_date;
 			

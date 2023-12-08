@@ -4446,6 +4446,7 @@ public class DocxTableCreationForContractReport {
 				temp++;
 				
 				
+				addParagraph(mp, factory);
 
 				mp.addObject(tableHead);
 				
@@ -4618,9 +4619,8 @@ public class DocxTableCreationForContractReport {
 				mp.addObject(table);
 				
 				addPageBreak(mp);
-				addHeading(wordMLPackage, mp, factory, JcEnumeration.LEFT, boldRPr, "Summary");				
+				addHeading(wordMLPackage, mp, factory, JcEnumeration.LEFT, fontRPr, "Summary");				
 				
-				addParagraph(mp, factory);				
 				
 				mp.addObject(table2);
 

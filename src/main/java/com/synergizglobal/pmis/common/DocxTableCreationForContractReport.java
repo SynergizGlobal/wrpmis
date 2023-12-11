@@ -4606,6 +4606,7 @@ public class DocxTableCreationForContractReport {
 				}
 				Tr contentRow1 = factory.createTr();
 				boolean hasBgColor = false;
+				
 				String backgroundColor = null;				
 				
 				addTableCell(factory, wordMLPackage, contentRow1, "Total", garamondRPr, JcEnumeration.CENTER,

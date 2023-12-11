@@ -4523,7 +4523,7 @@ public class DocxTableCreationForContractReport {
 				
 					table.getContent().add(contentRow);
 					
-					if(String.valueOf(sNo).compareTo("18")==0)
+					if(String.valueOf(sNo).compareTo("17")==0)
 					{
 						table.getContent().add(titleRow0);
 					}					
@@ -4633,7 +4633,7 @@ public class DocxTableCreationForContractReport {
 				mp.addObject(table);
 				
 				addPageBreak(mp);
-				addHeading(wordMLPackage, mp, factory, JcEnumeration.LEFT, boldRPr1, "Summary");				
+				addHeading(wordMLPackage, mp, factory, JcEnumeration.LEFT, boldRPr1, "Summary:");				
 				
 				
 				mp.addObject(table2);

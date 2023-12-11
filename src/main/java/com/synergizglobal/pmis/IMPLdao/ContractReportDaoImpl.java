@@ -3272,13 +3272,20 @@ public class ContractReportDaoImpl implements ContractReportDao {
 	public List<Contract> getTheListOfExpiringBgs(Contract obj) throws Exception {
 		List<Contract> objsList = null;
 		try {
-			String qry ="select  contract_id,contract_short_name,contractor_name,bg_type_fk,issuing_bank,bg_number,bg_value,(select case when release_date is null then valid_upto else release_date end) as bg_valid_upto,bg_letter_status " + 
+			/*String qry ="select  contract_id,contract_short_name,contractor_name,bg_type_fk,issuing_bank,bg_number,bg_value,(select case when release_date is null then valid_upto else release_date end) as bg_valid_upto,bg_letter_status " + 
 					"from contract c   " + 
 					"left join work w on c.work_id_fk = w.work_id    " + 
 					"left join contractor cr on c.contractor_id_fk = cr.contractor_id   " + 
 					"left join bank_guarantee bg on bg.contract_id_fk = c.contract_id  " + 
 					"where contract_id is not null and (select case when release_date is null then valid_upto else release_date end)>=(select case when release_date is null then DATEADD(M,DATEDIFF(M,0,getdate())-1,0) else getdate() end) " + 
-					"and (select case when release_date is null then valid_upto else release_date end)<=(select case when release_date is null then DATEADD(M,DATEDIFF(M,0,getdate())+2,0) else getdate() end)  ";
+					"and (select case when release_date is null then valid_upto else release_date end)<=(select case when release_date is null then DATEADD(M,DATEDIFF(M,0,getdate())+2,0) else getdate() end)  ";*/
+			
+			String qry="select  contract_id,contract_short_name,contractor_name,bg_type_fk,issuing_bank,bg_number,bg_value,(select case when release_date is null then valid_upto else release_date end) as bg_valid_upto,bg_letter_status   " + 
+					"					from contract c     " + 
+					"					left join work w on c.work_id_fk = w.work_id      " + 
+					"					left join contractor cr on c.contractor_id_fk = cr.contractor_id     " + 
+					"					left join bank_guarantee bg on bg.contract_id_fk = c.contract_id    " + 
+					"					where contract_id is not null  and release_date is null and valid_upto<=getdate() ";
 			
 			if(!StringUtils.isEmpty(obj.getDate_of_start()) && !StringUtils.isEmpty(obj.getBg_date())) {
 				qry = qry+" and (select case when release_date is null then valid_upto else release_date end)>='"+obj.getDate_of_start()+"' and (select case when release_date is null then valid_upto else release_date end)<='"+obj.getBg_date()+"'";
@@ -3481,7 +3488,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 					"left join work w on c.work_id_fk = w.work_id      " + 
 					"left join contractor cr on c.contractor_id_fk = cr.contractor_id     " + 
 					"left join contract_revision bg on bg.contract_id_fk = c.contract_id    " + 
-					"where contract_id is not null and (case when revised_doc is null then doc else revised_doc end)>=DATEADD(M,DATEDIFF(M,0,getdate())-1,0) and (case when revised_doc is null then doc else revised_doc end)<=DATEADD(M,DATEDIFF(M,0,getdate())+3,0)";
+					"where contract_id is not null and c.contract_status_fk<>'Completed' and (case when revised_doc is null then doc else revised_doc end)>=DATEADD(M,DATEDIFF(M,0,getdate())-1,0) and (case when revised_doc is null then doc else revised_doc end)<=DATEADD(M,DATEDIFF(M,0,getdate())+3,0)";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {

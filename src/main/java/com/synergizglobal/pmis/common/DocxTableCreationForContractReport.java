@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 import javax.xml.bind.JAXBElement;
 
+import org.apache.poi.sl.usermodel.TextRun.FieldType;
 import org.docx4j.XmlUtils;
 import org.docx4j.dml.wordprocessingDrawing.Anchor;
 import org.docx4j.dml.wordprocessingDrawing.Inline;
@@ -4412,6 +4413,10 @@ public class DocxTableCreationForContractReport {
 
 			RPr titleRPr = getRPr(factory, "Calibri", "000000", "28", STHint.EAST_ASIA, true, true, false, false);
 			RPr boldRPr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA, true, false, false, false);
+			
+			RPr boldRPr1 = getRPr(factory, "Calibri", "000000", "24", STHint.EAST_ASIA, true, false, false, false);
+			
+			
 			RPr fontRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA, false, false, false,
 					false);
 			
@@ -4517,6 +4522,12 @@ public class DocxTableCreationForContractReport {
 							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);								
 				
 					table.getContent().add(contentRow);
+					
+					if(String.valueOf(sNo).compareTo("18")==0)
+					{
+						table.getContent().add(titleRow0);
+					}					
+					
 					sNo++;
 					
 				}
@@ -4524,6 +4535,8 @@ public class DocxTableCreationForContractReport {
 				
 				Tbl table2 = factory.createTbl();
 				addBorders(table2, "2");
+				
+
 				
 
 				
@@ -4619,7 +4632,7 @@ public class DocxTableCreationForContractReport {
 				mp.addObject(table);
 				
 				addPageBreak(mp);
-				addHeading(wordMLPackage, mp, factory, JcEnumeration.LEFT, boldRPr, "Summary");				
+				addHeading(wordMLPackage, mp, factory, JcEnumeration.LEFT, boldRPr1, "Summary");				
 				
 				
 				mp.addObject(table2);

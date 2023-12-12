@@ -513,9 +513,12 @@ public class IssueDaoImpl implements IssueDao {
 		boolean flag = false;
 		try {
 			
-			if(!obj.getCorrective_measure().equals(obj.getComment()) && StringUtils.isEmpty(obj.getExisting_status_fk())) {			
-				obj.setComment(obj.getCorrective_measure());
-			}
+			if(!StringUtils.isEmpty(obj.getCorrective_measure()))
+					{
+						if(!obj.getCorrective_measure().equals(obj.getComment()) && StringUtils.isEmpty(obj.getExisting_status_fk())) {			
+							obj.setComment(obj.getCorrective_measure());
+						}
+					}
 			if(!StringUtils.isEmpty(obj.getRemarks_new()) && "Escalated".equalsIgnoreCase(obj.getExisting_status_fk())) {
 				obj.setComment(obj.getRemarks_new());
 			}

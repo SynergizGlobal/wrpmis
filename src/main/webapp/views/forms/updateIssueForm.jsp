@@ -239,7 +239,7 @@
                             <div class="row">                                 
                                 <div class="col s12 m8 l12 input-field offset-m2">
                                     <textarea id="corrective_measure" name="corrective_measure"   class="pmis-textarea pdr5em" maxlength="1000" data-length="1000">${issue.corrective_measure }</textarea>
-                                    <label for="corrective_measure">Action Taken<span class="required">*</span></label>
+                                    <label for="corrective_measure">Action Taken</label>
                                     <span id="corrective_measureError" class="error-msg" ></span>
                                     <input type="hidden" name="comment" id="comment" />
                                     <input type="hidden"  id="value_old"  value="${issue.corrective_measure }"/>
@@ -249,7 +249,7 @@
                             <div class="row ">                                 
                                 <div class="col s6 m4 l4 input-field offset-m2">
                                     <input id="date" name="date" type="text" class="datepicker" value="${issue.date }" readonly>
-                                    <label for="date">Issue pending since <span class="required">*</span></label>
+                                    <label for="date">Issue pending since </label>
                                     <button type="button" id="date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     <span id="dateError" class="error-msg" ></span>
                                 </div>

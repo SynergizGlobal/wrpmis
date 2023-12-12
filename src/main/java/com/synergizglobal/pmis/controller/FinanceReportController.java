@@ -199,7 +199,10 @@ public class FinanceReportController {
 	            XSSFWorkbook  workBook = new XSSFWorkbook ();
 	            XSSFSheet executionOverviewReportSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("FinanceSummaryReport"));
 	            
+	            XSSFSheet executionOverviewSummaryReportSheet = workBook.createSheet(WorkbookUtil.createSafeSheetName("Financial Summary"));
+	            
 		        workBook.setSheetOrder(executionOverviewReportSheet.getSheetName(), 0);
+		        workBook.setSheetOrder(executionOverviewSummaryReportSheet.getSheetName(), 1);
 		        
 		        byte[] blueRGB = new byte[]{(byte)0, (byte)176, (byte)240};
 		        byte[] yellowRGB = new byte[]{(byte)255, (byte)255, (byte)0};
@@ -210,6 +213,8 @@ public class FinanceReportController {
 		        
 		        
 		        boolean isWrapText = true;boolean isBoldText = false;boolean isItalicText = false; int fontSize = 11;String fontName = "Times New Roman";
+		        CellStyle blueStyleNew = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,false,isItalicText,fontSize,fontName);
+
 		        CellStyle blueStyle = cellFormating(workBook,whiteRGB,HorizontalAlignment.LEFT,VerticalAlignment.CENTER,isWrapText,true,isItalicText,fontSize,fontName);
 		        CellStyle yellowStyle = cellFormating(workBook,yellowRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,isBoldText,isItalicText,fontSize,fontName);
 		        CellStyle greenStyle = cellFormating(workBook,greenRGB,HorizontalAlignment.CENTER,VerticalAlignment.CENTER,isWrapText,true,isItalicText,12,fontName);
@@ -240,10 +245,20 @@ public class FinanceReportController {
 	                newpath.setCellStyle(greenStyle);
 	                newpath.setCellValue(rsmd.getColumnLabel(col+1));
 	            }
+	            XSSFRow row2 = executionOverviewSummaryReportSheet.createRow(0);
+	            for(int col=0 ;col < columnsNumber;col++) {
+	                Cell newpath = row2.createCell(col);
+	                newpath.setCellStyle(greenStyle);
+	                newpath.setCellValue(rsmd.getColumnLabel(col+1));
+	            }	            
 	            
 	            int RowNum=1;
+	            int RowNumSecond=1;
+	            
 	            while(rs.next()) {
 	                XSSFRow row = executionOverviewReportSheet.createRow(RowNum);
+	                
+	                XSSFRow rowSecond = executionOverviewSummaryReportSheet.createRow(RowNumSecond);
 	                
 	                
 	                for(int col=0 ;col < columnsNumber;col++) {
@@ -268,6 +283,31 @@ public class FinanceReportController {
 	                    	newpath.setCellValue(rs.getString(col+1)); 
 	                    }
 	                }
+	                
+	                for(int col=0 ;col < columnsNumber;col++) {
+	                    Cell newpath = rowSecond.createCell(col);
+	                    newpath.setCellStyle(blueStyleNew);
+	                    if(col>1)
+	                    {
+	                    	if(!StringUtils.isEmpty(rs.getString(col+1)) && rs.getString(col+1)!="")
+	                    	{
+		                    	if(Float.parseFloat(rs.getString(col+1))>0)
+		                    	{
+		                    		newpath.setCellValue(rs.getString(col+1)); 
+		                    	}
+		                    	else
+		                    	{
+		                    		newpath.setCellValue(""); 
+		                    	}
+	                    	}
+	                    }
+	                    else
+	                    {
+	                    	newpath.setCellValue(rs.getString(col+1)); 
+	                    }
+	                }	                
+	                
+	                
 	                int loop=0;
 	                for (Contract cObj : rsChild) 
 	                {
@@ -401,13 +441,24 @@ public class FinanceReportController {
 		                    	}	    						
 	                	}
 	                }
-	                RowNum++;   
+	                RowNum++;
+	                RowNumSecond++;
+	                
                 
 	            }
 	            
 	            for(int columnIndex = 0; columnIndex < columnsNumber; columnIndex++) {
 	            	executionOverviewReportSheet.setColumnWidth(columnIndex, 25 * 300);
 				}	
+	            
+	            
+	            for(int columnIndex = 0; columnIndex < columnsNumber; columnIndex++) {
+	            	executionOverviewSummaryReportSheet.setColumnWidth(columnIndex, 25 * 300);
+				}	
+	            
+	            executionOverviewSummaryReportSheet.setColumnWidth(0, 5 * 300);
+	            
+	            
 	            executionOverviewReportSheet.setColumnWidth(0, 5 * 300);
 	            executionOverviewReportSheet.setColumnWidth(1, 35 * 300);
 	            /*******************************************************************************************/

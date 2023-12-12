@@ -568,7 +568,7 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 						 
 						"as 'BG/BE this FY (Cr)', " + 
 						 
-						"(select case when sum(isnull(revised_grant,0)) is null then sum(isnull(revised_estimate,0)) else sum(isnull(revised_grant,0)) end as revised_grant " + 
+						"(select case when sum(isnull(revised_grant,0))=0 then sum(isnull(revised_estimate,0)) else sum(isnull(revised_grant,0)) end as revised_grant " + 
 						"from budget b3 left join work w3 on w3.work_id=b3.work_id_fk " + 
 						"where w3.project_id_fk=p.project_id and financial_year_fk= " + 
 						"(select concat(Year(GETDATE()),'-',Right(Year(GETDATE())+1,2))) " + 
@@ -645,7 +645,7 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 								
 								"as 'BG/BE this FY (Cr)', " + 
 								
-								"(select case when sum(isnull(revised_grant,0)) is null then sum(isnull(revised_estimate,0)) else sum(isnull(revised_grant,0)) end as revised_grant " + 
+								"(select case when sum(isnull(revised_grant,0))=0 then sum(isnull(revised_estimate,0)) else sum(isnull(revised_grant,0)) end as revised_grant " + 
 								"from budget b3 left join work w3 on w3.work_id=b3.work_id_fk " + 
 								"where w3.project_id_fk=p.project_id and w3.work_id=w.work_id and financial_year_fk= " + 
 								"(select concat(Year(GETDATE()),'-',Right(Year(GETDATE())+1,2))) " + 

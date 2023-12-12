@@ -3478,12 +3478,16 @@ public class ContractReportDaoImpl implements ContractReportDao {
 	public List<Contract> generatContractDOCDetails(Contract obj) throws Exception {
 		List<Contract> objsList = null;
 		try {
-			String qry ="select  distinct contract_id,contract_short_name,contractor_name,address,case when revised_doc is null then doc else revised_doc end as doc,doc_letter_status  " + 
-					"from contract c     " + 
-					"left join work w on c.work_id_fk = w.work_id      " + 
-					"left join contractor cr on c.contractor_id_fk = cr.contractor_id     " + 
-					"left join contract_revision bg on bg.contract_id_fk = c.contract_id    " + 
-					"where contract_id is not null and c.contract_status_fk<>'Completed' and (case when revised_doc is null then doc else revised_doc end)>=DATEADD(M,DATEDIFF(M,0,getdate())-1,0) and (case when revised_doc is null then doc else revised_doc end)<=DATEADD(M,DATEDIFF(M,0,getdate())+3,0)";
+			String qry ="select  distinct contract_id,contract_short_name,contractor_name,address,case when revised_doc is null then doc else revised_doc end as doc,doc_letter_status   " + 
+					"from contract c      " + 
+					"left join work w on c.work_id_fk = w.work_id       " + 
+					"left join contractor cr on c.contractor_id_fk = cr.contractor_id      " + 
+					"left join contract_revision bg on bg.contract_id_fk = c.contract_id     " + 
+					"where contract_id is not null and c.contract_status_fk='In Progress'  " + 
+					"					 " + 
+					"and contract_status_fk='In Progress' and action=(case when (select count(*) from contract_revision where contract_id_fk=c.contract_id)>0 then 'Yes' else 'No' end) " + 
+					"				 " + 
+					"and (case when revised_doc is null then doc else revised_doc end)<=DATEADD(M,DATEDIFF(M,0,getdate())+3,0)  ";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
@@ -3512,12 +3516,17 @@ public class ContractReportDaoImpl implements ContractReportDao {
 	public List<Contract> getTheListOfExpiringDocs(Contract obj) throws Exception {
 		List<Contract> objsList = null;
 		try {
-			String qry ="select  distinct contract_id,contract_short_name,contractor_name,case when revised_doc is null then doc else revised_doc end as doc,doc_letter_status  " + 
-					"from contract c     " + 
-					"left join work w on c.work_id_fk = w.work_id      " + 
-					"left join contractor cr on c.contractor_id_fk = cr.contractor_id     " + 
-					"left join contract_revision bg on bg.contract_id_fk = c.contract_id    " + 
-					"where contract_id is not null and (case when revised_doc is null then doc else revised_doc end)>=DATEADD(M,DATEDIFF(M,0,getdate())-1,0) and (case when revised_doc is null then doc else revised_doc end)<=DATEADD(M,DATEDIFF(M,0,getdate())+3,0) order by doc_letter_status,(case when revised_doc is null then doc else revised_doc end)";
+			String qry ="select  distinct contract_id,contract_short_name,contractor_name,case when revised_doc is null then doc else revised_doc end as doc,doc_letter_status   " + 
+					"from contract c      " + 
+					"left join work w on c.work_id_fk = w.work_id       " + 
+					"left join contractor cr on c.contractor_id_fk = cr.contractor_id      " + 
+					"left join contract_revision bg on bg.contract_id_fk = c.contract_id     " + 
+					"where contract_id is not null   " + 
+					"and (case when revised_doc is null then doc else revised_doc end)<=DATEADD(M,DATEDIFF(M,0,getdate())+3,0)  " + 
+					" " + 
+					"and contract_status_fk='In Progress' and action=(case when (select count(*) from contract_revision where contract_id_fk=c.contract_id)>0 then 'Yes' else 'No' end) " + 
+					" " + 
+					"order by doc_letter_status,(case when revised_doc is null then doc else revised_doc end) ";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Contract>(Contract.class));
 		

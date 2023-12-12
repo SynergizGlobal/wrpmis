@@ -66,5 +66,9 @@ public interface IssueService {
 
 	List<Issue> getComponents(Issue obj) throws Exception;
 
+	List<Issue> getStructureListForIssue(Issue obj) throws Exception;
+
+	List<Issue> getComponentListForIssue(Issue obj) throws Exception;
+
 
 }

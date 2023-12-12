@@ -116,7 +116,7 @@
                                 </div>
                                 <div class="col s12 m8 l4 input-field offset-m2">
                                  <p class="searchable_label"> Contract <span class="required">*</span></p> 
-                                    <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="resetWorksAndProjectsDropdowns();getIssueCategoryList();getIssueTitlesList();">
+                                    <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="resetWorksAndProjectsDropdowns();getIssueCategoryList();getIssueTitlesList();getStructureListForIssue();">
                                         <option value="">Select</option>
                                          <c:forEach var="obj" items="${contractsList }">
                                       	    <option contract_type="${obj.contract_type_fk}"  hod="${obj.hod_user_id_fk}" dyhod="${obj.dy_hod_user_id_fk}" workId="${obj.work_id_fk }" value= "${ obj.contract_id_fk}" 
@@ -132,7 +132,7 @@
                                 <div class="col s6 offset-m2 m4 l4 input-field">
                                     <p class="searchable_label"> Structure</p>                                    
                                     <select class="searchable validate-dropdown" id="structure" name="structure"
-                                        onchange="getWorksList(this.value);">
+                                        onchange="getComponentListForIssue();">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${structures }">
                                             <option value="${obj.structure }" <c:if test="${iObj.structure eq obj.structure}">selected</c:if>>${obj.structure }</option>
@@ -142,8 +142,7 @@
                                 </div>
                                 <div class="col s6 offset-m2 m4 l4 input-field">
                                     <p class="searchable_label"> Component</p>                                    
-                                    <select class="searchable validate-dropdown" id="component" name="component"
-                                        onchange="getWorksList(this.value);">
+                                    <select class="searchable validate-dropdown" id="component" name="component" >
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${components }">
                                             <option value="${obj.component }" <c:if test="${iObj.component eq obj.component}">selected</c:if>>${obj.component }</option>
@@ -217,7 +216,7 @@
                                  
                                 <div class="col s12 offset-m2 m8 l12 input-field">
                                     <textarea id="corrective_measure" name="corrective_measure" class="pmis-textarea" data-length="1000"></textarea>
-                                    <label for="corrective_measure">Action Taken<span class="required">*</span></label>
+                                    <label for="corrective_measure">Action Taken</label>
                                     <span id="corrective_measureError" class="error-msg" ></span>
                                 </div>
                             </div>
@@ -227,7 +226,7 @@
                                  
                                 <div class="col s6 offset-m2 m4 l4 input-field">
                                     <input id="date" name="date" type="text" class="validate datepicker">
-                                    <label for="date">Issue pending since <span class="required">*</span></label>
+                                    <label for="date">Issue pending since </label>
                                     <button type="button" id="date_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="dateError" class="error-msg" ></span>
                                 </div>
@@ -765,6 +764,53 @@
               $('.searchable').select2();
          }
          
+         function getComponentListForIssue()
+         {
+      	  	  $(".page-loader").show(); 
+     		  $("#component option:not(:first)").remove();
+     		  
+             var myParams = { contract_id_fk : $("#contract_id_fk").val(),structure : $("#structure").val() };
+             $.ajax({
+                   url: "<%=request.getContextPath()%>/ajax/getComponentListForIssue",
+                   data: myParams, cache: false,async:true,
+                   success: function (data) {
+                       if (data.length > 0) {
+                           $.each(data, function (i, val) {
+                              $("#component").append('<option value="' + val.component + '">' + $.trim(val.component)+ '</option>');
+                           });
+                       }
+                       $('.searchable').select2();
+                       $(".page-loader").hide();
+                   }
+             });
+             $('.searchable').select2();       	 
+         }
+         
+         
+         
+         function getStructureListForIssue(){
+        	 
+       	 
+       	  	  $(".page-loader").show(); 
+     		  $("#structure option:not(:first)").remove();
+     		  
+             var myParams = { contract_id_fk : $("#contract_id_fk").val() };
+             $.ajax({
+                   url: "<%=request.getContextPath()%>/ajax/getStructureListForIssue",
+                   data: myParams, cache: false,async:true,
+                   success: function (data) {
+                       if (data.length > 0) {
+                           $.each(data, function (i, val) {
+                              $("#structure").append('<option value="' + val.structure + '">' + $.trim(val.structure)+ '</option>');
+                           });
+                       }
+                       $('.searchable').select2();
+                       $(".page-loader").hide();
+                   }
+             });
+             $('.searchable').select2();
+        }        
+         
          function getIssueTitlesList(){
         	 var category_fk = $("#category_fk").val();
 	       	 $(".page-loader").show(); 
@@ -888,9 +934,9 @@
     				 	  },"description": {
     			 		    required: false
     			 	   	  },"corrective_measure":{
-      			 	  		required: true
+      			 	  		required: false
      			 	  	 },"date": {
-    				 		required: true,
+    				 		required: false,
        				 	 	dateBeforeToday1:"#date"
     				 	  },"location": {
     				 		required: false

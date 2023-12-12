@@ -2241,4 +2241,60 @@ public class IssueDaoImpl implements IssueDao {
 		return objsList;
 	}
 
+	@Override
+	public List<Issue> getStructureListForIssue(Issue obj) throws Exception {
+		List<Issue> objsList = null;
+		try {
+			String qry = "select distinct structure from p6_activities a " + 
+					"left join structure s on s.structure_id=a.structure_id_fk  ";
+			int arraSize = 0;
+			if (!StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + "where a.contract_id_fk = ? ";
+				arraSize++;
+			}
+			Object[] pValues = new Object[arraSize];
+			int i = 0;
+			if (!StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));
+		} catch (Exception e) {
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Issue> getComponentListForIssue(Issue obj) throws Exception {
+		List<Issue> objsList = null;
+		try {
+			String qry = "select distinct component from p6_activities a " + 
+					"left join structure s on s.structure_id=a.structure_id_fk  where 0=0 ";
+			int arraSize = 0;
+			if (!StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + "and a.contract_id_fk = ? ";
+				arraSize++;
+			}
+			if (!StringUtils.isEmpty(obj.getStructure())) {
+				qry = qry + "and structure = ? ";
+				arraSize++;
+			}
+			
+			Object[] pValues = new Object[arraSize];
+			int i = 0;
+			if (!StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+
+			if (!StringUtils.isEmpty(obj.getStructure())) {
+				pValues[i++] = obj.getStructure();
+			}
+			
+			objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));
+		} catch (Exception e) {
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
 }

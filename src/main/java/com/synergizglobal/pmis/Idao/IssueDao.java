@@ -65,6 +65,10 @@ public interface IssueDao {
 	
 	List<Issue> getStructures(Issue obj) throws Exception;
 
-	List<Issue> getComponents(Issue obj) throws Exception;	
+	List<Issue> getComponents(Issue obj) throws Exception;
+
+	List<Issue> getStructureListForIssue(Issue obj) throws Exception;
+
+	List<Issue> getComponentListForIssue(Issue obj) throws Exception;
 
 }

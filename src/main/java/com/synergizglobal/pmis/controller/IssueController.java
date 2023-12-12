@@ -317,6 +317,33 @@ public class IssueController {
 		return objsList;
 	}
 	
+	@RequestMapping(value = "/ajax/getStructureListForIssue", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Issue> getStructureListForIssue(@ModelAttribute Issue obj) {
+		List<Issue> objsList = null;
+		try {
+			objsList = issueService.getStructureListForIssue(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getStructureListForIssue : " + e.getMessage());
+		}
+		return objsList;
+	}	
+	
+	
+	@RequestMapping(value = "/ajax/getComponentListForIssue", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Issue> getComponentListForIssue(@ModelAttribute Issue obj) {
+		List<Issue> objsList = null;
+		try {
+			objsList = issueService.getComponentListForIssue(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getComponentListForIssue : " + e.getMessage());
+		}
+		return objsList;
+	}	
+	
 	@RequestMapping(value = "/ajax/getIssueCategoryListForIssuesForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Issue> getIssueCategoryListForIssuesForm(@ModelAttribute Issue obj) {

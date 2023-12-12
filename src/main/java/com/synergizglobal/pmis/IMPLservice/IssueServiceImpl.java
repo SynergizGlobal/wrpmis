@@ -162,5 +162,15 @@ public class IssueServiceImpl implements IssueService {
 	@Override
 	public List<Issue> getComponents(Issue obj) throws Exception {
 		return issueDao.getComponents(obj);
+	}
+
+	@Override
+	public List<Issue> getStructureListForIssue(Issue obj) throws Exception {
+		return issueDao.getStructureListForIssue(obj);
+	}
+
+	@Override
+	public List<Issue> getComponentListForIssue(Issue obj) throws Exception {
+		return issueDao.getComponentListForIssue(obj);
 	}	
 }

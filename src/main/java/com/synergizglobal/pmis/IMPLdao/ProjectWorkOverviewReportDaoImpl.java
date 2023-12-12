@@ -558,7 +558,7 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 						"(select distinct project_name as 'Name Of Work',sum(isnull(sanctioned_completion_cost,0))/count(*) as 'Sanctioned Cost (Cr)',sum(isnull(e.[Exp till Last FY],0))/10000000/count(distinct isnull(financial_year_fk,1)) as 'Expenditure Up to Last FY (Cr)', " + 
 						 
 						 
-						"( select case when sum(isnull(budget_grant,0)) is null then sum(isnull(budget_estimate,0)) else sum(isnull(budget_grant,0)) end as budget_grant " + 
+						"( select case when sum(isnull(budget_grant,0))=0 then sum(isnull(budget_estimate,0)) else sum(isnull(budget_grant,0)) end as budget_grant " + 
 						"from budget b2 left join work w2 on w2.work_id=b2.work_id_fk " + 
 						"where w2.project_id_fk=p.project_id and financial_year_fk= " + 
 						"(select concat(Year(GETDATE()),'-',Right(Year(GETDATE())+1,2))) " + 
@@ -577,7 +577,7 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 						 
 						") " + 
 						 
-						"as 'RG/RE this FY (Cr)',(select case when sum(isnull(final_grant,0)) is null then sum(isnull(final_estimate,0)) else sum(isnull(final_grant,0)) end as final_grant " + 
+						"as 'RG/RE this FY (Cr)',(select case when sum(isnull(final_grant,0))=0 then sum(isnull(final_estimate,0)) else sum(isnull(final_grant,0)) end as final_grant " + 
 						"from budget b4 left join work w4 on w4.work_id=b4.work_id_fk " + 
 						"where w4.project_id_fk=p.project_id and financial_year_fk= " + 
 						"(select concat(Year(GETDATE()),'-',Right(Year(GETDATE())+1,2))) " + 
@@ -635,7 +635,7 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 								"(select distinct work_short_name as 'Name Of Work',project_name,sum(isnull(sanctioned_completion_cost,0))/count(*) as 'Sanctioned Cost (Cr)',sum(isnull(e.[Exp till Last FY],0))/10000000/count(distinct isnull(financial_year_fk,1)) as 'Expenditure Up to Last FY (Cr)', " + 
 								
 								
-								"( select case when sum(isnull(budget_grant,0)) is null then sum(isnull(budget_estimate,0)) else sum(isnull(budget_grant,0)) end as budget_grant " + 
+								"( select case when sum(isnull(budget_grant,0))=0 then sum(isnull(budget_estimate,0)) else sum(isnull(budget_grant,0)) end as budget_grant " + 
 								"from budget b2 left join work w2 on w2.work_id=b2.work_id_fk " + 
 								"where w2.project_id_fk=p.project_id and w2.work_id=w.work_id and financial_year_fk= " + 
 								"(select concat(Year(GETDATE()),'-',Right(Year(GETDATE())+1,2))) " + 
@@ -654,7 +654,7 @@ public class ProjectWorkOverviewReportDaoImpl implements ProjectWorkOverviewRepo
 								
 								") " + 
 								
-								"as 'RG/RE this FY (Cr)',(select case when sum(isnull(final_grant,0)) is null then sum(isnull(final_estimate,0)) else sum(isnull(final_grant,0)) end as final_grant " + 
+								"as 'RG/RE this FY (Cr)',(select case when sum(isnull(final_grant,0))=0 then sum(isnull(final_estimate,0)) else sum(isnull(final_grant,0)) end as final_grant " + 
 								"from budget b4 left join work w4 on w4.work_id=b4.work_id_fk " + 
 								"where w4.project_id_fk=p.project_id and w4.work_id=w.work_id and financial_year_fk= " + 
 								"(select concat(Year(GETDATE()),'-',Right(Year(GETDATE())+1,2))) " +  

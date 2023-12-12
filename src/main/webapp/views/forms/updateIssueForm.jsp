@@ -1496,7 +1496,7 @@
     				 	  },"description": {
     			 		    required: false
     			 	   	  },"date": {
-    				 		required: true,
+    				 		required: false,
        				 	 	dateBeforeToday1:"#date"
     				 	  },"assigned_date":{
     				 		 required: true,
@@ -1513,7 +1513,7 @@
     				 	  },"responsible_person":{
     				 		 required: true
     				 	  },"corrective_measure": {
-    			 		    required: true,
+    			 		    required: false,
     			 	   	  },"resolved_date": {
     				 		required: true,
        				 	 	dateBeforeToday4:"#resolved_date",

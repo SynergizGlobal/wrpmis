@@ -324,7 +324,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 	public List<Contract> getStatusofWorkItems(Contract obj) throws Exception {
 		List<Contract> objsList = null;
 		try {
-			String qry ="select contract_status_fk "
+			String qry ="select distinct contract_status_fk "
 					+ "from contract c "
 					+ "LEFT JOIN contractor ctr ON contractor_id_fk = contractor_id "
 					+ "left join [user] u ON hod_user_id_fk = user_id "
@@ -366,13 +366,8 @@ public class ContractReportDaoImpl implements ContractReportDao {
 				qry = qry + " and c.contract_id = ?";
 				arrSize++;
 			}
-			qry = qry + " group by c.contract_status_fk "
-					+ "   ORDER BY case when contract_status_fk='Commissioned' then 1 " + 
-					"   when contract_status_fk='Completed' then 2 " + 
-					"   when contract_status_fk='In Progress' then 3 " + 
-					"   when contract_status_fk='On Hold' then 4 " + 
-					"   when contract_status_fk='Dropped' then 5 " + 
-					"   when contract_status_fk='Not Started' then 6 end asc ";
+			qry = qry + " group by c.contract_status_fk ";
+			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod_designations())) {

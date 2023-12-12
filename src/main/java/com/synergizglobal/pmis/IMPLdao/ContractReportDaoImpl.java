@@ -324,7 +324,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 	public List<Contract> getStatusofWorkItems(Contract obj) throws Exception {
 		List<Contract> objsList = null;
 		try {
-			String qry ="select distinct contract_status_fk "
+			String qry ="select contract_status_fk "
 					+ "from contract c "
 					+ "LEFT JOIN contractor ctr ON contractor_id_fk = contractor_id "
 					+ "left join [user] u ON hod_user_id_fk = user_id "

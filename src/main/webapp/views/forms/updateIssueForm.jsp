@@ -666,6 +666,10 @@
             	this.style.height = (this.scrollHeight < 50) ? '50px' : this.scrollHeight + 'px';
             });
             
+            
+            getStructureListForIssue();
+            getComponentListForIssue();
+            
             let date_pickers = document.querySelectorAll('#date,#resolved_date');
     	    $.each(date_pickers, function(){
     	    	var dt = this.value.split(/[^0-9]/);

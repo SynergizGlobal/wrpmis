@@ -622,7 +622,17 @@
               success: function (data) {
                   if (data.length > 0) {
                       $.each(data, function (i, val) {
-                         $("#component").append('<option value="' + val.component + '">' + $.trim(val.component)+ '</option>');
+                    	  
+                      	if(val.component=="${issue.component}")
+                   	 	{
+                      		 $("#component").append('<option value="' + val.component + '" selected>' + $.trim(val.component)+ '</option>');
+                   	 	}
+                   		else
+                   		{
+                   	 		$("#component").append('<option value="' + val.component + '">' + $.trim(val.component)+ '</option>');
+                   		}                 	  
+                    	  
+                        
                       });
                   }
                   $('.searchable').select2();
@@ -647,7 +657,16 @@
               success: function (data) {
                   if (data.length > 0) {
                       $.each(data, function (i, val) {
-                         $("#structure").append('<option value="' + val.structure + '">' + $.trim(val.structure)+ '</option>');
+                         	
+                        	if(val.structure=="${issue.structure}")
+                        	 {
+                        		$("#structure").append('<option value="' + val.structure + '" selected>' + $.trim(val.structure)+ '</option>');
+                        		 getComponentListForIssue();
+                        	 }
+                        	else
+                        		{
+                        			$("#structure").append('<option value="' + val.structure + '">' + $.trim(val.structure)+ '</option>');
+                        		}
                       });
                   }
                   $('.searchable').select2();

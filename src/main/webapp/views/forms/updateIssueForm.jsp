@@ -182,16 +182,27 @@
                             </div>
 
                             <div class="row ">
-                                 <div class="col s6 m4 l4 input-field offset-m2">     
-                                    <input type="text" class="" value="${issue.structure }" readonly>
-                                    <label for="structure"> Structure</label>
-                                    <span id="structureError" class="error-msg" ></span>
+                                <div class="col s6 offset-m2 m4 l4 input-field">
+                                    <p class="searchable_label"> Structure</p>                                    
+                                    <select class="searchable validate-dropdown" id="structure" name="structure"
+                                        onchange="getComponentListForIssue();">
+                                        <option value="">Select</option>
+                                        <c:forEach var="obj" items="${structures }">
+                                            <option value="${obj.structure }" <c:if test="${iObj.structure eq obj.structure}">selected</c:if>>${obj.structure }</option>
+                                        </c:forEach>
+                                    </select>
+                                    <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
-                                  <div class="col s6 m4 l4 input-field offset-m2">     
-                                    <input type="text" class="" value="${issue.component }" readonly>
-                                    <label for="component"> Component</label>
-                                    <span id="componentError" class="error-msg" ></span>
-                                </div>                                                            
+                                <div class="col s6 offset-m2 m4 l4 input-field">
+                                    <p class="searchable_label"> Component</p>                                    
+                                    <select class="searchable validate-dropdown" id="component" name="component" >
+                                        <option value="">Select</option>
+                                        <c:forEach var="obj" items="${components }">
+                                            <option value="${obj.component }" <c:if test="${iObj.component eq obj.component}">selected</c:if>>${obj.component }</option>
+                                        </c:forEach>
+                                    </select>
+                                    <span id="project_id_fkError" class="error-msg" ></span>
+                                </div>                                                           
                             </div>
                             
                             <div class="row">

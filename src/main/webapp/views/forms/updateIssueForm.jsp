@@ -181,6 +181,18 @@
                                  
                             </div>
 
+                            <div class="row ">
+                                 <div class="col s6 m4 l4 input-field offset-m2">     
+                                    <input type="text" class="" value="${issue.structure }" readonly>
+                                    <label for="structure"> Structure</label>
+                                    <span id="structureError" class="error-msg" ></span>
+                                </div>
+                                  <div class="col s6 m4 l4 input-field offset-m2">     
+                                    <input type="text" class="" value="${issue.component }" readonly>
+                                    <label for="component"> Component</label>
+                                    <span id="componentError" class="error-msg" ></span>
+                                </div>                                                            
+                            </div>
                             
                             <div class="row">
                                  

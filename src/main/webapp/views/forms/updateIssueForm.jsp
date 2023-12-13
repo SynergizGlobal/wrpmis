@@ -610,6 +610,7 @@
 	<script>
 	
 	
+	
     function getComponentListForIssue()
     {
  	  	  $(".page-loader").show(); 

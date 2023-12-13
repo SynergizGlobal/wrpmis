@@ -608,6 +608,57 @@
 	
 	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" crossorigin="anonymous"></script> -->
 	<script>
+	
+	
+    function getComponentListForIssue()
+    {
+ 	  	  $(".page-loader").show(); 
+		  $("#component option:not(:first)").remove();
+		  
+        var myParams = { contract_id_fk : $("#contract_id_fk").val(),structure : $("#structure").val() };
+        $.ajax({
+              url: "<%=request.getContextPath()%>/ajax/getComponentListForIssue",
+              data: myParams, cache: false,async:true,
+              success: function (data) {
+                  if (data.length > 0) {
+                      $.each(data, function (i, val) {
+                         $("#component").append('<option value="' + val.component + '">' + $.trim(val.component)+ '</option>');
+                      });
+                  }
+                  $('.searchable').select2();
+                  $(".page-loader").hide();
+              }
+        });
+        $('.searchable').select2();       	 
+    }
+    
+    
+    
+    function getStructureListForIssue(){
+   	 
+  	 
+  	  	  $(".page-loader").show(); 
+		  $("#structure option:not(:first)").remove();
+		  
+        var myParams = { contract_id_fk : $("#contract_id_fk").val() };
+        $.ajax({
+              url: "<%=request.getContextPath()%>/ajax/getStructureListForIssue",
+              data: myParams, cache: false,async:true,
+              success: function (data) {
+                  if (data.length > 0) {
+                      $.each(data, function (i, val) {
+                         $("#structure").append('<option value="' + val.structure + '">' + $.trim(val.structure)+ '</option>');
+                      });
+                  }
+                  $('.searchable').select2();
+                  $(".page-loader").hide();
+              }
+        });
+        $('.searchable').select2();
+   } 	
+	
+	
+	
 	$(document).ready(function() {
         $(".num").keypress(function() {
             if ($(this).val().length == $(this).attr("maxlength")) {

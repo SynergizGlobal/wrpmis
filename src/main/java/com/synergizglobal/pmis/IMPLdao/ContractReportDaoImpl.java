@@ -3280,7 +3280,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 					"					left join work w on c.work_id_fk = w.work_id      " + 
 					"					left join contractor cr on c.contractor_id_fk = cr.contractor_id     " + 
 					"					left join bank_guarantee bg on bg.contract_id_fk = c.contract_id    " + 
-					"					where contract_id is not null  and release_date is null and valid_upto<=getdate() ";
+					"					where contract_id is not null  and release_date is null and valid_upto<=DATEADD(M,DATEDIFF(M,0,getdate())+2,0) ";
 			
 			if(!StringUtils.isEmpty(obj.getDate_of_start()) && !StringUtils.isEmpty(obj.getBg_date())) {
 				qry = qry+" and (select case when release_date is null then valid_upto else release_date end)>='"+obj.getDate_of_start()+"' and (select case when release_date is null then valid_upto else release_date end)<='"+obj.getBg_date()+"'";

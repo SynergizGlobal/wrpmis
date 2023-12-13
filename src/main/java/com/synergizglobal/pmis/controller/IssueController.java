@@ -516,6 +516,14 @@ public class IssueController {
 			List<Issue> issueFileTypes = issueService.getIssueFileTypes();
 			model.addObject("issueFileTypes", issueFileTypes);
 			
+			List<Issue> structures = issueService.getStructures(obj);
+			model.addObject("structures", structures);
+			
+			
+			List<Issue> components = issueService.getComponents(obj);
+			model.addObject("components", components);				
+			
+			
 			Issue issue = issueService.getIssue(obj);
 			model.addObject("issue", issue);
 		} catch (Exception e) {
@@ -591,6 +599,13 @@ public class IssueController {
 			
 			List<Issue> issueFileTypes = issueService.getIssueFileTypes();
 			model.addObject("issueFileTypes", issueFileTypes);
+			
+			List<Issue> structures = issueService.getStructures(obj);
+			model.addObject("structures", structures);
+			
+			
+			List<Issue> components = issueService.getComponents(obj);
+			model.addObject("components", components);				
 			
 			Issue issue = issueService.getIssue(obj);
 			model.addObject("issue", issue);

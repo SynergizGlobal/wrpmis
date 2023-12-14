@@ -640,6 +640,8 @@ font-size:22px ;
 						         				filters = filters + '<option value="" selected style="font-weight: bold;">All</option>';
 					         			    }
 						         			var optionArray=new Array();
+						         			var sValueCheck="";
+						         			var sValueCheckValue=new Array();
 					         			  	$.each( value.filter, function( index2, value2 ){
 						         			  	var filter_option_id = value2.filter_option_value;
 						         				if($.trim(value2.filter_option_id) != ''){
@@ -653,6 +655,11 @@ font-size:22px ;
 					         					if(optionArray.indexOf(filter_option_id)==-1)
 					         					{
 						         					optionArray.push(filter_option_id);
+						         					sValueCheck=filter_option_id;
+						         						if(sValueCheckValue.indexOf(value2.filter_option_value)==-1 && value2.filter_option_value!="")
+						         						{
+						         							sValueCheckValue=value2.filter_option_value;
+						         						}
 							         				filters = filters + '<option value="'+filter_option_id+'" '+selectedFlag+' style="font-weight: bold;">'+value2.filter_option_value+'</option>';
 					         					}
 					         					
@@ -660,7 +667,13 @@ font-size:22px ;
 					                     	});
 						         			
 						         			filters = filters + '</select>'
-						         			+ '</div>';	
+						         			
+						         			
+						         			
+						         			+ '</div>';
+						         			//$('#select2-'+filter_column+'-container').html(sValueCheckValue[0]);
+						         			//$("#"+filter_column).val(sValueCheck).trigger('Change');
+
 	         		   });
 	         		   
 	         		  filters = filters + '<div class="clearHolder">'
@@ -671,7 +684,7 @@ font-size:22px ;
 	         								
 						if(subworkid!="")
 						{
-								$("#work_id").val(subworkid).trigger('change');
+								//$("#work_id").val(subworkid).trigger('change');
 						}        								
 						if(assessmentdate!="")
 						{
@@ -722,7 +735,7 @@ font-size:22px ;
 		 }
 			if(subworkid!="")
 			{
-					$("#work_id").val(subworkid);
+					//$("#work_id").val(subworkid);
 			}  
 
 		 $.ajax({

@@ -4475,9 +4475,9 @@ public class DocxTableCreationForContractReport {
 					if(1 == columnNo) {
 						width = 150;
 					}else if(2 == columnNo) {
-						width = 800;
+						width = 700;
 					}else if(3 == columnNo) {
-						width = 800;
+						width = 1000;
 					}else if(4 == columnNo) {
 						width = 300;
 					}
@@ -4523,9 +4523,9 @@ public class DocxTableCreationForContractReport {
 					
 						table.getContent().add(contentRow);
 						
-						if(String.valueOf(sNo).compareTo("18")==0)
+						if(String.valueOf(sNo).compareTo("29")==0)
 						{
-							//table.getContent().add(titleRow0);
+							table.getContent().add(titleRow0);
 						}					
 						
 						sNo++;

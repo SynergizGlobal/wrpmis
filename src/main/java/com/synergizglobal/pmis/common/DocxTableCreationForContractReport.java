@@ -4499,38 +4499,66 @@ public class DocxTableCreationForContractReport {
 				int sNo = 1;
 				for (StripChart cObj1 : contractsData) 
 				{
-					boolean hasBgColor = false;
-					String backgroundColor = null;
-					Tr contentRow = factory.createTr();
-					
-					addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo), garamondRPr, JcEnumeration.CENTER,
-							hasBgColor, backgroundColor);					
-					
-					addTableCell(factory, wordMLPackage, contentRow, cObj1.getContract_short_name(), garamondRPr, JcEnumeration.CENTER,
-							hasBgColor, backgroundColor);
-					
-					addTableCell(factory, wordMLPackage, contentRow,cObj1.getStructure(),
-							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);	
-					
-					addTableCell(factory, wordMLPackage, contentRow,cObj1.getProgress(),
-							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);				
-					
-					addTableCell(factory, wordMLPackage, contentRow,cObj1.getStatus(),
-							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
-					
-					addTableCell(factory, wordMLPackage, contentRow,cObj1.getProgress_date(),
-							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);								
-				
-					table.getContent().add(contentRow);
-					
-					if(String.valueOf(sNo).compareTo("17")==0)
+					if(cObj1.getStructure()!="Badlapur (Deck)" && cObj1.getStructure()!="Khar Road (New FOB)")
 					{
-						table.getContent().add(titleRow0);
-					}					
+						boolean hasBgColor = false;
+						String backgroundColor = null;
+						Tr contentRow = factory.createTr();
+						
+						addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo), garamondRPr, JcEnumeration.CENTER,
+								hasBgColor, backgroundColor);					
+						
+						addTableCell(factory, wordMLPackage, contentRow, cObj1.getContract_short_name(), garamondRPr, JcEnumeration.CENTER,
+								hasBgColor, backgroundColor);
+						
+						addTableCell(factory, wordMLPackage, contentRow,cObj1.getStructure(),
+								garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);	
+						
+						addTableCell(factory, wordMLPackage, contentRow,cObj1.getProgress(),
+								garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);				
+						
+						addTableCell(factory, wordMLPackage, contentRow,cObj1.getStatus(),
+								garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+						
+						addTableCell(factory, wordMLPackage, contentRow,cObj1.getProgress_date(),
+								garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);								
 					
-					sNo++;
+						table.getContent().add(contentRow);
+						
+						if(String.valueOf(sNo).compareTo("17")==0)
+						{
+							table.getContent().add(titleRow0);
+						}					
+						
+						sNo++;
+					}
 					
 				}
+				
+				boolean hasBgColor1 = false;
+				String backgroundColor1 = null;
+				Tr contentRow11 = factory.createTr();
+				
+				addTableCell(factory, wordMLPackage, contentRow11, String.valueOf(sNo), garamondRPr, JcEnumeration.CENTER,
+						hasBgColor1, backgroundColor1);					
+				
+				addTableCell(factory, wordMLPackage, contentRow11, "Miscellaneous – TPC", garamondRPr, JcEnumeration.CENTER,
+						hasBgColor1, backgroundColor1);
+				
+				addTableCell(factory, wordMLPackage, contentRow11,"Boundary Wall (CR)",
+						garamondRPr, JcEnumeration.CENTER, hasBgColor1, backgroundColor1);	
+				
+				addTableCell(factory, wordMLPackage, contentRow11,"100",
+						garamondRPr, JcEnumeration.CENTER, hasBgColor1, backgroundColor1);				
+				
+				addTableCell(factory, wordMLPackage, contentRow11,"Completed",
+						garamondRPr, JcEnumeration.CENTER, hasBgColor1, backgroundColor1);
+				
+				addTableCell(factory, wordMLPackage, contentRow11,"15-06-2022",
+						garamondRPr, JcEnumeration.CENTER, hasBgColor1, backgroundColor1);								
+			
+				table.getContent().add(contentRow11);			
+				
 				setTableAlign(factory, table, JcEnumeration.CENTER);
 				
 				Tbl table2 = factory.createTbl();

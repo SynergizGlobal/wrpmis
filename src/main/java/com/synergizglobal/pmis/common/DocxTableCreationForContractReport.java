@@ -4473,13 +4473,13 @@ public class DocxTableCreationForContractReport {
 				for (String headerValue : tableHeader0) {
 					int width = 0;
 					if(1 == columnNo) {
-						width = 200;
+						width = 150;
 					}else if(2 == columnNo) {
-						width = 1000;
+						width = 800;
 					}else if(3 == columnNo) {
-						width = 500;
+						width = 800;
 					}else if(4 == columnNo) {
-						width = 500;
+						width = 300;
 					}
 					else if(5 == columnNo) {
 						width = 500;
@@ -4525,7 +4525,7 @@ public class DocxTableCreationForContractReport {
 						
 						if(String.valueOf(sNo).compareTo("18")==0)
 						{
-							table.getContent().add(titleRow0);
+							//table.getContent().add(titleRow0);
 						}					
 						
 						sNo++;

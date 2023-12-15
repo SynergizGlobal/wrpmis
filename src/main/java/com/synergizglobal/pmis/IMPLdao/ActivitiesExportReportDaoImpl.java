@@ -229,7 +229,7 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 					"case when SUM((completed * weightage)*100 / scope) / SUM(weightage)=100 then Max(format( actual_finish,'dd-MM-yyyy')) else Max(format( expected_finish,'dd-MM-yyyy')) end as progress_date " + 
 					"FROM activities_view a " + 
 					"LEFT join contract c on c.contract_id=a.contract_id " + 
-					"where a.contract_id like 'P04W04EN%' GROUP BY c.contract_short_name,structure order by c.contract_short_name,status ";
+					"where a.contract_id like 'P04W04EN%' and structure not in('Badlapur (Deck)') and structure not in('Khar Road (New FOB)') GROUP BY c.contract_short_name,structure order by c.contract_short_name,status ";
 			
 
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<StripChart>(StripChart.class));

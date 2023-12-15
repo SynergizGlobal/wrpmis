@@ -4499,8 +4499,6 @@ public class DocxTableCreationForContractReport {
 				int sNo = 1;
 				for (StripChart cObj1 : contractsData) 
 				{
-					if(cObj1.getStructure()!="Badlapur (Deck)" && cObj1.getStructure()!="Khar Road (New FOB)")
-					{
 						boolean hasBgColor = false;
 						String backgroundColor = null;
 						Tr contentRow = factory.createTr();
@@ -4525,7 +4523,7 @@ public class DocxTableCreationForContractReport {
 					
 						table.getContent().add(contentRow);
 						
-						if(String.valueOf(sNo).compareTo("17")==0)
+						if(String.valueOf(sNo).compareTo("18")==0)
 						{
 							table.getContent().add(titleRow0);
 						}					
@@ -4533,7 +4531,7 @@ public class DocxTableCreationForContractReport {
 						sNo++;
 					}
 					
-				}
+				
 				
 				boolean hasBgColor1 = false;
 				String backgroundColor1 = null;

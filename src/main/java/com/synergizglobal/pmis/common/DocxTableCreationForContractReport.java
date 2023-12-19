@@ -4543,7 +4543,7 @@ public class DocxTableCreationForContractReport {
 				addTableCell(factory, wordMLPackage, contentRow11, "Miscellaneous – TPC", garamondRPr, JcEnumeration.CENTER,
 						hasBgColor1, backgroundColor1);
 				
-				addTableCell(factory, wordMLPackage, contentRow11,"Boundary Wall (CR)",
+				addTableCell(factory, wordMLPackage, contentRow11,"9/7 and 10/7 Wadala and GTBN (Boundary wall)",
 						garamondRPr, JcEnumeration.CENTER, hasBgColor1, backgroundColor1);	
 				
 				addTableCell(factory, wordMLPackage, contentRow11,"100",
@@ -4552,7 +4552,7 @@ public class DocxTableCreationForContractReport {
 				addTableCell(factory, wordMLPackage, contentRow11,"Completed",
 						garamondRPr, JcEnumeration.CENTER, hasBgColor1, backgroundColor1);
 				
-				addTableCell(factory, wordMLPackage, contentRow11,"15-06-2022",
+				addTableCell(factory, wordMLPackage, contentRow11,"31-10-2018",
 						garamondRPr, JcEnumeration.CENTER, hasBgColor1, backgroundColor1);								
 			
 				table.getContent().add(contentRow11);			

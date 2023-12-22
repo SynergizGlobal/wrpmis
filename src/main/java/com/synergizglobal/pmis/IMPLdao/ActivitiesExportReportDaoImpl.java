@@ -224,19 +224,18 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 	public List<StripChart> generateTPCStatusReport(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "\r\n" + 
-					"select contract_short_name,structure,progress,Status,Max(progress_date) as progress_date from(\r\n" + 
+			String qry = "select contract_short_name,structure,progress,Status,progress_date as progress_date from(\r\n" + 
 					"SELECT c.contract_short_name,structure,cast((round(cast((isnull(SUM((completed * weightage)*100 / scope) / SUM(weightage),0)) as decimal(10,2)),0)) as int) AS progress, \r\n" + 
-					"					case when SUM((completed * weightage)*100 / scope) / SUM(weightage)=100 then 'Completed' when SUM((completed * weightage)*100 / scope) / SUM(weightage)<100 and SUM((completed * weightage)*100 / scope) / SUM(weightage)*100>0 then 'In Progress' else 'Not Started' end as Status,  \r\n" + 
-					"					 a.expected_finish as progress_date  \r\n" + 
+					"					case when SUM((completed*weightage)*100 / scope) / SUM(weightage)=100 then 'Completed' when SUM((completed * weightage)*100 / scope) / SUM(weightage)<100 and SUM((completed *  weightage)*100 / scope) / SUM(weightage)*100>0 then 'In Progress' else 'Not Started' end as Status,  \r\n" + 
+					"					case when SUM((completed*weightage)*100 / scope) / SUM(weightage)=100 then max(a.actual_finish) else max(a.expected_finish) end as progress_date  \r\n" + 
 					"					FROM activities_view a  \r\n" + 
 					"					LEFT join contract c on c.contract_id=a.contract_id  \r\n" + 
 					"					where a.contract_id like 'P04W04EN%' and structure not in('Badlapur (Deck)') and structure not in('Khar Road (New FOB)') \r\n" + 
 					"					\r\n" + 
-					"					GROUP BY c.contract_short_name,structure,expected_finish) as a \r\n" + 
+					"					GROUP BY c.contract_short_name,structure) as a \r\n" + 
 					"					\r\n" + 
-					"					GROUP BY contract_short_name,structure,progress,Status\r\n" + 
-					"					order by contract_short_name,structure,status ";
+					"					GROUP BY contract_short_name,structure,progress,Status,progress_date\r\n" + 
+					"					order by contract_short_name,status ";
 			
 
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<StripChart>(StripChart.class));

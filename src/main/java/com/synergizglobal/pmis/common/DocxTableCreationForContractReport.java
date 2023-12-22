@@ -5421,7 +5421,7 @@ public class DocxTableCreationForContractReport {
 						
 						addTableCell(factory, wordMLPackage, contentRow,cObj1.getBalance(),
 								garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);				
-						table.getContent().add(contentRow);
+						table2.getContent().add(contentRow);
 						sNo++;
 				}
 				mp.addObject(table2);			

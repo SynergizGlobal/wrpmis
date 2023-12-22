@@ -259,7 +259,7 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 					"case when SUM((completed * weightage)*100 / scope) / SUM(weightage)=100 then Max(actual_finish) else Max(expected_finish) end as progress_date   " + 
 					"FROM activities_view a   " + 
 					"LEFT join contract c on c.contract_id=a.contract_id   " + 
-					"where a.contract_id like 'P04W04EN%' GROUP BY c.contract_short_name,structure) as a " + 
+					"where a.contract_id like 'P04W04EN%' and structure not in('Badlapur (Deck)') and structure not in('Khar Road (New FOB)') GROUP BY c.contract_short_name,structure) as a " + 
 					"group by SUBSTRING(contract_short_name, CHARINDEX('(', contract_short_name), 8),Status) as b " + 
 					"group by b.Division ";
 			
@@ -281,10 +281,10 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 					"\r\n" + 
 					"and works in('Earthwork Filling (Cum)','Rock cutting (Cum)','Blanketing (Cum)','Drain (Rm)','TSS Formation (Cum)','Flyover (Nos)','Major Bridge (Nos)','Minor Bridge (Nos)','ROB (Nos)','RUB (Nos)','Approach Cutting (Cum)','Heading (Rm)','Benching (Rm)','Final Lining  (Rm)','Railway Earth Filling (Cum)')\r\n" + 
 					"\r\n" + 
-					"order by (case when works='Earthwork Filling (Cum)' then 1 when works='Rock cutting (Cum)' then 2 when works='Blanketing (Cum)' then 3 when works='Drain (Rm)' then 4 when works='TSS Formation (Cum)' then 5\r\n" + 
+					"order by (case when works='Earthwork Filling (Cum)' then 1 when works='Railway Earth Filling (Cum)' then 2 when works='Rock cutting (Cum)' then 3 when works='Blanketing (Cum)' then 4 when works='Drain (Rm)' then 5 when works='TSS Formation (Cum)' then 6\r\n" + 
 					"\r\n" + 
-					" when works='Flyover (Nos)' then 6 when works='Major Bridge (Nos)' then 7 when works='Minor Bridge (Nos)' then 8 when works='ROB (Nos)' then 9 when works='RUB (Nos)' then 10 \r\n" + 
-					" when works='Approach Cutting (Cum)' then 11 when works='Heading (Rm)' then 12 when works='Benching (Rm)' then 13 when works='Final Lining  (Rm)' then 14 when works='Railway Earth Filling (Cum)' then 15 else 0 end) ";
+					" when works='Flyover (Nos)' then 7 when works='Major Bridge (Nos)' then 8 when works='Minor Bridge (Nos)' then 9 when works='ROB (Nos)' then 10 when works='RUB (Nos)' then 11 \r\n" + 
+					" when works='Approach Cutting (Cum)' then 12 when works='Heading (Rm)' then 13 when works='Benching (Rm)' then 14 when works='Final Lining  (Rm)' then 15  else 0 end) ";
 			
 
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<StripChart>(StripChart.class));
@@ -303,9 +303,9 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 					"select distinct works+' ('+unit+')' as works,cast(during_month as int) as during_month,cast(cumulative as int) as cumulative,cast(balance as int) as balance from  vw_mcdo_virar\r\n" + 
 					") as a where works is not null \r\n" + 
 					"\r\n" + 
-					"and works in('Earthwork Filling (Cum)','Rock cutting (Cum)','Blanketing (Cum)','Construction of Drain (Rm)','Major Bridge (Nos)','Minor Bridge (Nos)','ROB (Nos)','RUB (Nos)')\r\n" + 
+					"and works in('Earthwork Filling (Cum)','Earthwork Cutting (Cum)','Rock cutting (Cum)','Blanketing (Cum)','Construction of Drain (Rm)','Major Bridge (Nos)','Minor Bridge (Nos)','ROB (Nos)','RUB (Nos)')\r\n" + 
 					"\r\n" + 
-					"order by (case when works='Earthwork Filling (Cum)' then 1 when works='Rock cutting (Cum)' then 2 when works='Blanketing (Cum)' then 3 when works='Construction of Drain (Rm)' then 4  when works='Major Bridge (Nos)' then 5 when works='Minor Bridge (Nos)' then 6 when works='ROB (Nos)' then 9 when works='RUB (Nos)' then 10 \r\n" + 
+					"order by (case when works='Earthwork Filling (Cum)' then 1 when works='Earthwork Cutting (Cum)' then 2 when works='Blanketing (Cum)' then 3 when works='Construction of Drain (Rm)' then 4  when works='Major Bridge (Nos)' then 5 when works='Minor Bridge (Nos)' then 6 when works='ROB (Nos)' then 7 when works='RUB (Nos)' then 8 \r\n" + 
 					"else 0 end) ";
 			
 

@@ -226,7 +226,7 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 		try {
 			String qry = "SELECT c.contract_short_name,structure,cast((round(cast((isnull(SUM((completed * weightage)*100 / scope) / SUM(weightage),0)) as decimal(10,2)),0)) as int) AS progress, " + 
 					"case when SUM((completed * weightage)*100 / scope) / SUM(weightage)=100 then 'Completed' when SUM((completed * weightage)*100 / scope) / SUM(weightage)<100 and SUM((completed * weightage)*100 / scope) / SUM(weightage)*100>0 then 'In Progress' else 'Not Started' end as Status, " + 
-					"a.expected_finish end as progress_date " + 
+					"a.expected_finish as progress_date " + 
 					"FROM activities_view a " + 
 					"LEFT join contract c on c.contract_id=a.contract_id " + 
 					"where a.contract_id like 'P04W04EN%' and structure not in('Badlapur (Deck)') and structure not in('Khar Road (New FOB)') GROUP BY c.contract_short_name,structure,expected_finish order by c.contract_short_name,status ";

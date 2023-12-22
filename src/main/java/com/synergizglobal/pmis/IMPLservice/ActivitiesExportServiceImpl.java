@@ -42,5 +42,9 @@ public class ActivitiesExportServiceImpl implements ActivitiesExportService{
 	public List<StripChart> generateMCDOProgressReport(StripChart obj) throws Exception {
 		return dao.generateMCDOProgressReport(obj);
 	}
+	@Override
+	public List<StripChart> generateMCDOProgressReport1(StripChart obj) throws Exception {
+		return dao.generateMCDOProgressReport1(obj);
+	}
 
 }

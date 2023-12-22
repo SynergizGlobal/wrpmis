@@ -712,6 +712,7 @@ public class ActivitiesExportController {
             String currentDate = sqlDate.format(date);
 						
 			List<StripChart> list = service.generateMCDOProgressReport(obj);
+			List<StripChart> list1 = service.generateMCDOProgressReport1(obj);
 
 			boolean landscape = false;
 			WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
@@ -739,7 +740,7 @@ public class ActivitiesExportController {
 			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
 			createFooterReference(wordMLPackage, mp, factory, relationship);
 			 			  
-			DocxTableCreationForContractReport.createTableForMCDOProgressReport(wordMLPackage, mp, factory, list, report_created_date);
+			DocxTableCreationForContractReport.createTableForMCDOProgressReport(wordMLPackage, mp, factory, list,list1, report_created_date);
 	    	  
 						
 			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){	

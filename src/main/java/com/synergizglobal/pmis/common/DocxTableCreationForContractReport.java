@@ -5281,35 +5281,35 @@ public class DocxTableCreationForContractReport {
 		}
 	}
 	public static void createTableForMCDOProgressReport(WordprocessingMLPackage wordMLPackage, MainDocumentPart mp,
-			ObjectFactory factory, List<StripChart> contractsData, String report_created_date) throws Exception {
+			ObjectFactory factory, List<StripChart> contractsData,List<StripChart> contractsData1, String report_created_date) throws Exception {
 		try {	
 
-			RPr titleRpr = getRPr(factory, "Calibri", "000000", "12", STHint.EAST_ASIA, true, false, false,
+			RPr titleRpr = getRPr(factory, "Verdana", "000000", "10", STHint.EAST_ASIA, true, false, false,
 					false);
 
-			RPr contentRpr = getRPr(factory, "Calibri", "000000", "12", STHint.EAST_ASIA, false, false, false,
+			RPr contentRpr = getRPr(factory, "Verdana", "000000", "10", STHint.EAST_ASIA, false, false, false,
 					false);
 
-			RPr contentRprParent = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA, true, false,
+			RPr contentRprParent = getRPr(factory, "Verdana", "000000", "18", STHint.EAST_ASIA, true, false,
 					false, false);
 
-			RPr titleRPr = getRPr(factory, "Calibri", "000000", "32", STHint.EAST_ASIA, true, true, false, false);
-			RPr boldRPr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA, true, false, false, false);
+			RPr titleRPr = getRPr(factory, "Verdana", "000000", "30", STHint.EAST_ASIA, true, true, false, false);
+			RPr boldRPr = getRPr(factory, "Verdana", "000000", "20", STHint.EAST_ASIA, true, false, false, false);
 			
-			RPr boldRPr1 = getRPr(factory, "Calibri", "000000", "24", STHint.EAST_ASIA, true, false, false, false);
+			RPr boldRPr1 = getRPr(factory, "Verdana", "000000", "22", STHint.EAST_ASIA, true, false, false, false);
 			
 			
-			RPr fontRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA, false, false, false,
+			RPr fontRPr = getRPr(factory, "Verdana", "000000", "18", STHint.EAST_ASIA, false, false, false,
 					false);
 			
-			RPr calibriBoldRPr = getRPr(factory, "Calibri", "000000", "24", STHint.EAST_ASIA,
+			RPr calibriBoldRPr = getRPr(factory, "Verdana", "000000", "22", STHint.EAST_ASIA,
 					true, false, false, false);		
-			RPr calibriBoldDateRPr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA,
+			RPr calibriBoldDateRPr = getRPr(factory, "Verdana", "000000", "20", STHint.EAST_ASIA,
 					true, false, false, false);	
 			
-			RPr garamondBoldRPr = getRPr(factory, "Garamond", "000000", "20", STHint.EAST_ASIA,
+			RPr garamondBoldRPr = getRPr(factory, "Verdana", "000000", "18", STHint.EAST_ASIA,
 					true, false, false, false);
-			RPr garamondRPr = getRPr(factory, "Garamond", "000000", "22", STHint.EAST_ASIA,
+			RPr garamondRPr = getRPr(factory, "Verdana", "000000", "20", STHint.EAST_ASIA,
 					false, false, false, false);
 
 			int temp = 1;
@@ -5331,9 +5331,9 @@ public class DocxTableCreationForContractReport {
 
 				mp.addObject(tableHead);
 				
-				addHeading(wordMLPackage, mp, factory, JcEnumeration.CENTER, titleRPr, "New Suburban Railway Corridor between \r\n" + 
-						"Panvel-Karjat on Central Railway (Double line)\r\n" + 
-						"");
+				addHeading(wordMLPackage, mp, factory, JcEnumeration.CENTER, titleRPr, "New Suburban Railway Corridor between");
+				
+				addHeading(wordMLPackage, mp, factory, JcEnumeration.CENTER, titleRPr, "Panvel-Karjat on Central Railway (Double line)");				
 				
 				addHeading(wordMLPackage, mp, factory, JcEnumeration.LEFT, calibriBoldRPr, "Works Completed");				
 				
@@ -5354,13 +5354,13 @@ public class DocxTableCreationForContractReport {
 				{
 					int width = 0;
 					if(1 == columnNo) {
-						width = 1200;
+						width = 2800;
 					}else if(2 == columnNo) {
-						width = 500;
+						width = 2000;
 					}else if(3 == columnNo) {
-						width = 500;
+						width = 2000;
 					}else if(4 == columnNo) {
-						width = 500;
+						width = 2000;
 					}					
 					columnNo++;
 					addTableCellAndWidth(factory, wordMLPackage, titleRow0, headerValue, garamondBoldRPr, JcEnumeration.CENTER, true,
@@ -5375,16 +5375,16 @@ public class DocxTableCreationForContractReport {
 						String backgroundColor = null;
 						Tr contentRow = factory.createTr();
 						
-						addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo), garamondRPr, JcEnumeration.CENTER,
+						addTableCell(factory, wordMLPackage, contentRow, cObj1.getWorks(), garamondRPr, JcEnumeration.CENTER,
 								hasBgColor, backgroundColor);					
 						
-						addTableCell(factory, wordMLPackage, contentRow, cObj1.getContract_short_name(), garamondRPr, JcEnumeration.CENTER,
+						addTableCell(factory, wordMLPackage, contentRow, cObj1.getDuring_month(), garamondRPr, JcEnumeration.CENTER,
 								hasBgColor, backgroundColor);
 						
-						addTableCell(factory, wordMLPackage, contentRow,cObj1.getStructure(),
+						addTableCell(factory, wordMLPackage, contentRow,cObj1.getCumulative(),
 								garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);	
 						
-						addTableCell(factory, wordMLPackage, contentRow,cObj1.getProgress(),
+						addTableCell(factory, wordMLPackage, contentRow,cObj1.getBalance(),
 								garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);				
 						table.getContent().add(contentRow);
 						sNo++;
@@ -5404,27 +5404,27 @@ public class DocxTableCreationForContractReport {
 				table2.getContent().add(titleRow0);
 
 				int sNo1 = 1;
-				for (StripChart cObj1 : contractsData) 
+				for (StripChart cObj1 : contractsData1) 
 				{
 						boolean hasBgColor = false;
 						String backgroundColor = null;
 						Tr contentRow = factory.createTr();
 						
-						addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo1), garamondRPr, JcEnumeration.CENTER,
+						addTableCell(factory, wordMLPackage, contentRow, cObj1.getWorks(), garamondRPr, JcEnumeration.CENTER,
 								hasBgColor, backgroundColor);					
 						
-						addTableCell(factory, wordMLPackage, contentRow, cObj1.getContract_short_name(), garamondRPr, JcEnumeration.CENTER,
+						addTableCell(factory, wordMLPackage, contentRow, cObj1.getDuring_month(), garamondRPr, JcEnumeration.CENTER,
 								hasBgColor, backgroundColor);
 						
-						addTableCell(factory, wordMLPackage, contentRow,cObj1.getStructure(),
+						addTableCell(factory, wordMLPackage, contentRow,cObj1.getCumulative(),
 								garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);	
 						
-						addTableCell(factory, wordMLPackage, contentRow,cObj1.getProgress(),
+						addTableCell(factory, wordMLPackage, contentRow,cObj1.getBalance(),
 								garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);				
 						table.getContent().add(contentRow);
-						sNo1++;
+						sNo++;
 				}
-				mp.addObject(table2);				
+				mp.addObject(table2);			
 			
 				
 		} catch (Exception e) {

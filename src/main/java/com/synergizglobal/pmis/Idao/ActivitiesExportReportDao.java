@@ -20,4 +20,6 @@ public interface ActivitiesExportReportDao {
 
 	List<StripChart> generateMCDOProgressReport(StripChart obj)  throws Exception;
 
+	List<StripChart> generateMCDOProgressReport1(StripChart obj) throws Exception;
+
 }

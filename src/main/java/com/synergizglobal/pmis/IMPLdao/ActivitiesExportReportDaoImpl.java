@@ -224,12 +224,19 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 	public List<StripChart> generateTPCStatusReport(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "SELECT c.contract_short_name,structure,cast((round(cast((isnull(SUM((completed * weightage)*100 / scope) / SUM(weightage),0)) as decimal(10,2)),0)) as int) AS progress, " + 
-					"case when SUM((completed * weightage)*100 / scope) / SUM(weightage)=100 then 'Completed' when SUM((completed * weightage)*100 / scope) / SUM(weightage)<100 and SUM((completed * weightage)*100 / scope) / SUM(weightage)*100>0 then 'In Progress' else 'Not Started' end as Status, " + 
-					"a.expected_finish as progress_date " + 
-					"FROM activities_view a " + 
-					"LEFT join contract c on c.contract_id=a.contract_id " + 
-					"where a.contract_id like 'P04W04EN%' and structure not in('Badlapur (Deck)') and structure not in('Khar Road (New FOB)') GROUP BY c.contract_short_name,structure,expected_finish order by c.contract_short_name,status ";
+			String qry = "\r\n" + 
+					"select contract_short_name,structure,progress,Status,Max(progress_date) as progress_date from(\r\n" + 
+					"SELECT c.contract_short_name,structure,cast((round(cast((isnull(SUM((completed * weightage)*100 / scope) / SUM(weightage),0)) as decimal(10,2)),0)) as int) AS progress, \r\n" + 
+					"					case when SUM((completed * weightage)*100 / scope) / SUM(weightage)=100 then 'Completed' when SUM((completed * weightage)*100 / scope) / SUM(weightage)<100 and SUM((completed * weightage)*100 / scope) / SUM(weightage)*100>0 then 'In Progress' else 'Not Started' end as Status,  \r\n" + 
+					"					 a.expected_finish as progress_date  \r\n" + 
+					"					FROM activities_view a  \r\n" + 
+					"					LEFT join contract c on c.contract_id=a.contract_id  \r\n" + 
+					"					where a.contract_id like 'P04W04EN%' and structure not in('Badlapur (Deck)') and structure not in('Khar Road (New FOB)') \r\n" + 
+					"					\r\n" + 
+					"					GROUP BY c.contract_short_name,structure,expected_finish) as a \r\n" + 
+					"					\r\n" + 
+					"					GROUP BY contract_short_name,structure,progress,Status\r\n" + 
+					"					order by contract_short_name,structure,status ";
 			
 
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<StripChart>(StripChart.class));
@@ -269,12 +276,38 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 	public List<StripChart> generateMCDOProgressReport(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "SELECT c.contract_short_name,structure,cast((round(cast((isnull(SUM((completed * weightage)*100 / scope) / SUM(weightage),0)) as decimal(10,2)),0)) as int) AS progress, " + 
-					"case when SUM((completed * weightage)*100 / scope) / SUM(weightage)=100 then 'Completed' when SUM((completed * weightage)*100 / scope) / SUM(weightage)<100 and SUM((completed * weightage)*100 / scope) / SUM(weightage)*100>0 then 'In Progress' else 'Not Started' end as Status, " + 
-					"case when SUM((completed * weightage)*100 / scope) / SUM(weightage)=100 then Max(format( actual_finish,'dd-MM-yyyy')) else Max(format( expected_finish,'dd-MM-yyyy')) end as progress_date " + 
-					"FROM activities_view a " + 
-					"LEFT join contract c on c.contract_id=a.contract_id " + 
-					"where a.contract_id like 'P04W04EN%' and structure not in('Badlapur (Deck)') and structure not in('Khar Road (New FOB)') GROUP BY c.contract_short_name,structure order by c.contract_short_name,status ";
+			String qry = "select * from(\r\n" + 
+					"select distinct works+' ('+unit+')' as works,cast(during_month as int) as during_month,cast(cumulative as int) as cumulative,cast(balance as int) as balance from  vw_mcdo_pk\r\n" + 
+					") as a where works is not null \r\n" + 
+					"\r\n" + 
+					"and works in('Earthwork Filling (Cum)','Rock cutting (Cum)','Blanketing (Cum)','Drain (Rm)','TSS Formation (Cum)','Flyover (Nos)','Major Bridge (Nos)','Minor Bridge (Nos)','ROB (Nos)','RUB (Nos)','Approach Cutting (Cum)','Heading (Rm)','Benching (Rm)','Final Lining  (Rm)','Railway Earth Filling (Cum)')\r\n" + 
+					"\r\n" + 
+					"order by (case when works='Earthwork Filling (Cum)' then 1 when works='Rock cutting (Cum)' then 2 when works='Blanketing (Cum)' then 3 when works='Drain (Rm)' then 4 when works='TSS Formation (Cum)' then 5\r\n" + 
+					"\r\n" + 
+					" when works='Flyover (Nos)' then 6 when works='Major Bridge (Nos)' then 7 when works='Minor Bridge (Nos)' then 8 when works='ROB (Nos)' then 9 when works='RUB (Nos)' then 10 \r\n" + 
+					" when works='Approach Cutting (Cum)' then 11 when works='Heading (Rm)' then 12 when works='Benching (Rm)' then 13 when works='Final Lining  (Rm)' then 14 when works='Railway Earth Filling (Cum)' then 15 else 0 end) ";
+			
+
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<StripChart>(StripChart.class));
+			
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<StripChart> generateMCDOProgressReport1(StripChart obj) throws Exception {
+		List<StripChart> objsList = null;
+		try {
+			String qry = "select * from(\r\n" + 
+					"select distinct works+' ('+unit+')' as works,cast(during_month as int) as during_month,cast(cumulative as int) as cumulative,cast(balance as int) as balance from  vw_mcdo_virar\r\n" + 
+					") as a where works is not null \r\n" + 
+					"\r\n" + 
+					"and works in('Earthwork Filling (Cum)','Rock cutting (Cum)','Blanketing (Cum)','Construction of Drain (Rm)','Major Bridge (Nos)','Minor Bridge (Nos)','ROB (Nos)','RUB (Nos)')\r\n" + 
+					"\r\n" + 
+					"order by (case when works='Earthwork Filling (Cum)' then 1 when works='Rock cutting (Cum)' then 2 when works='Blanketing (Cum)' then 3 when works='Construction of Drain (Rm)' then 4  when works='Major Bridge (Nos)' then 5 when works='Minor Bridge (Nos)' then 6 when works='ROB (Nos)' then 9 when works='RUB (Nos)' then 10 \r\n" + 
+					"else 0 end) ";
 			
 
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<StripChart>(StripChart.class));

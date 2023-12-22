@@ -22,6 +22,7 @@ public class StripChart {
 	private String [] actualScopes,strip_chart_ids,ids,completedScopes,totalScopes,actual_starts,actual_finishs,activity_ids,p6_task_codes;
 	
 	private String reported_by_email_id,zonal_railway_fk,other_organization,department_fk,department_name,Division,WorkScope,Balance;
+	private String works,during_month,cumulative;
 	
 	private List<MultipartFile> issueFiles;
 	private List<StripChart> report1List;
@@ -965,6 +966,30 @@ public class StripChart {
 
 	public void setBalance(String balance) {
 		Balance = balance;
+	}
+
+	public String getWorks() {
+		return works;
+	}
+
+	public void setWorks(String works) {
+		this.works = works;
+	}
+
+	public String getDuring_month() {
+		return during_month;
+	}
+
+	public void setDuring_month(String during_month) {
+		this.during_month = during_month;
+	}
+
+	public String getCumulative() {
+		return cumulative;
+	}
+
+	public void setCumulative(String cumulative) {
+		this.cumulative = cumulative;
 	}
 
 }

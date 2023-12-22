@@ -697,8 +697,78 @@ public class ActivitiesExportController {
 			e.printStackTrace();
 			logger.error("TPCStatusReport >> " + e.getMessage());
 		}		
-
     }
+	
+
+	@RequestMapping(value = "/mcdo-progress-report", method = {RequestMethod.GET,RequestMethod.POST})
+	public void MCDOProgressReport(HttpServletResponse response,StripChart obj, HttpSession session,RedirectAttributes attributes) {
+		
+		
+		ModelAndView model = new ModelAndView("redirect:/mcdo-progress-report");
+		byte[] byteArray;        
+		try{
+			SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = new Date();
+            String currentDate = sqlDate.format(date);
+						
+			List<StripChart> list = service.generateMCDOProgressReport(obj);
+
+			boolean landscape = false;
+			WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
+			
+			MainDocumentPart mp = wordMLPackage.getMainDocumentPart();
+			ObjectFactory factory = Context.getWmlObjectFactory();
+			
+			DateFormat df = new SimpleDateFormat("dd-MM-YYYY hh:mm aa");
+			String report_created_date = df.format(new Date()); 
+			
+			
+			String imagePath = CommonConstants2.DOCX_LOGO+"/"+"report_logo_mrvc.png";
+			
+			JcEnumeration imageAlignment = JcEnumeration.CENTER;
+			
+			//String headerTextMiddle = "Summary of Risk Assessment of Projects";
+			String headerTextMiddle = "MCDO Progress Report";
+
+			String headerTextRight = report_created_date;
+			
+			RPr titleRpr = getRPr(factory, "Calibri", "000000", "26", STHint.EAST_ASIA, true, false, false, false);
+			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,imagePath,imageAlignment,headerTextMiddle,headerTextRight,titleRpr);		
+			//Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,headerTextRight);
+			createHeaderReference(wordMLPackage, mp, factory, relationship);
+			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
+			createFooterReference(wordMLPackage, mp, factory, relationship);
+			 			  
+			DocxTableCreationForContractReport.createTableForMCDOProgressReport(wordMLPackage, mp, factory, list, report_created_date);
+	    	  
+						
+			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){	
+				wordMLPackage.save(bos);
+				byteArray = bos.toByteArray();
+				InputStream targetStream = new ByteArrayInputStream(byteArray);
+				String FILE_EXTENSION = ".docx";
+				String fileName = "MCDO Progress Report-" + currentDate + FILE_EXTENSION;
+				
+				response.setContentType("application/msword");
+				response.setContentType("application/vnd.ms-word");
+				// add response header
+				response.addHeader("Content-Disposition", "attachment; filename=" + fileName);
+				//copies all bytes from a file to an output stream
+				IOUtils.copy(targetStream, response.getOutputStream());
+				//flushes output stream
+				response.getOutputStream().flush();
+		    }catch (Exception e) {
+				e.printStackTrace();
+				logger.error("MCDOProgressReport >> FileNotFoundException occurs.." + e.getMessage());
+		    }	
+		 	
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("MCDOProgressReport >> " + e.getMessage());
+		}		
+
+    }	
+	
 		
 	
 

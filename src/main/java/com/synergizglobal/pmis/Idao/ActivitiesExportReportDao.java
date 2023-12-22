@@ -18,4 +18,6 @@ public interface ActivitiesExportReportDao {
 
 	List<StripChart> getDivisionList(StripChart obj) throws Exception;
 
+	List<StripChart> generateMCDOProgressReport(StripChart obj)  throws Exception;
+
 }

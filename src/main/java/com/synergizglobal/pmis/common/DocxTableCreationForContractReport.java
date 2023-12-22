@@ -5280,4 +5280,156 @@ public class DocxTableCreationForContractReport {
 			}
 		}
 	}
+	public static void createTableForMCDOProgressReport(WordprocessingMLPackage wordMLPackage, MainDocumentPart mp,
+			ObjectFactory factory, List<StripChart> contractsData, String report_created_date) throws Exception {
+		try {	
+
+			RPr titleRpr = getRPr(factory, "Calibri", "000000", "12", STHint.EAST_ASIA, true, false, false,
+					false);
+
+			RPr contentRpr = getRPr(factory, "Calibri", "000000", "12", STHint.EAST_ASIA, false, false, false,
+					false);
+
+			RPr contentRprParent = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA, true, false,
+					false, false);
+
+			RPr titleRPr = getRPr(factory, "Calibri", "000000", "32", STHint.EAST_ASIA, true, true, false, false);
+			RPr boldRPr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA, true, false, false, false);
+			
+			RPr boldRPr1 = getRPr(factory, "Calibri", "000000", "24", STHint.EAST_ASIA, true, false, false, false);
+			
+			
+			RPr fontRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA, false, false, false,
+					false);
+			
+			RPr calibriBoldRPr = getRPr(factory, "Calibri", "000000", "24", STHint.EAST_ASIA,
+					true, false, false, false);		
+			RPr calibriBoldDateRPr = getRPr(factory, "Calibri", "000000", "22", STHint.EAST_ASIA,
+					true, false, false, false);	
+			
+			RPr garamondBoldRPr = getRPr(factory, "Garamond", "000000", "20", STHint.EAST_ASIA,
+					true, false, false, false);
+			RPr garamondRPr = getRPr(factory, "Garamond", "000000", "22", STHint.EAST_ASIA,
+					false, false, false, false);
+
+			int temp = 1;
+
+
+				Tbl tableHead = factory.createTbl();
+				setLandscapeTableAlign(factory, tableHead, JcEnumeration.CENTER);
+				
+				String date = "";
+				if(temp == 1) {
+					date = report_created_date;
+				}else {
+					addParagraph(mp, factory);
+				}
+				temp++;
+				
+				
+				addParagraph(mp, factory);
+
+				mp.addObject(tableHead);
+				
+				addHeading(wordMLPackage, mp, factory, JcEnumeration.CENTER, titleRPr, "New Suburban Railway Corridor between \r\n" + 
+						"Panvel-Karjat on Central Railway (Double line)\r\n" + 
+						"");
+				
+				addHeading(wordMLPackage, mp, factory, JcEnumeration.LEFT, calibriBoldRPr, "Works Completed");				
+				
+				/***************************************************************/
+
+				Tbl table = factory.createTbl();
+				addBorders(table, "2");
+				
+				/************************************************************************/
+				Tr titleRow0 = factory.createTr();
+				List<String> tableHeader0 = new ArrayList<String>();
+				tableHeader0.add("Works");
+				tableHeader0.add("During the month");
+				tableHeader0.add("Cumulative");
+				tableHeader0.add("Balance");
+				int columnNo = 1;
+				for (String headerValue : tableHeader0) 
+				{
+					int width = 0;
+					if(1 == columnNo) {
+						width = 1200;
+					}else if(2 == columnNo) {
+						width = 500;
+					}else if(3 == columnNo) {
+						width = 500;
+					}else if(4 == columnNo) {
+						width = 500;
+					}					
+					columnNo++;
+					addTableCellAndWidth(factory, wordMLPackage, titleRow0, headerValue, garamondBoldRPr, JcEnumeration.CENTER, true,
+							"ecf2ff",width);
+				}
+				table.getContent().add(titleRow0);
+
+				int sNo = 1;
+				for (StripChart cObj1 : contractsData) 
+				{
+						boolean hasBgColor = false;
+						String backgroundColor = null;
+						Tr contentRow = factory.createTr();
+						
+						addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo), garamondRPr, JcEnumeration.CENTER,
+								hasBgColor, backgroundColor);					
+						
+						addTableCell(factory, wordMLPackage, contentRow, cObj1.getContract_short_name(), garamondRPr, JcEnumeration.CENTER,
+								hasBgColor, backgroundColor);
+						
+						addTableCell(factory, wordMLPackage, contentRow,cObj1.getStructure(),
+								garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);	
+						
+						addTableCell(factory, wordMLPackage, contentRow,cObj1.getProgress(),
+								garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);				
+						table.getContent().add(contentRow);
+						sNo++;
+				}
+				mp.addObject(table);
+				
+				addParagraph(mp, factory);
+				
+				addHeading(wordMLPackage, mp, factory, JcEnumeration.CENTER, titleRPr, "Quadrupling of Virar-Dahanu Road on Western Railway");
+				
+				addHeading(wordMLPackage, mp, factory, JcEnumeration.LEFT, calibriBoldRPr, "Works Completed");				
+
+				
+				Tbl table2 = factory.createTbl();
+				addBorders(table2, "2");
+
+				table2.getContent().add(titleRow0);
+
+				int sNo1 = 1;
+				for (StripChart cObj1 : contractsData) 
+				{
+						boolean hasBgColor = false;
+						String backgroundColor = null;
+						Tr contentRow = factory.createTr();
+						
+						addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo1), garamondRPr, JcEnumeration.CENTER,
+								hasBgColor, backgroundColor);					
+						
+						addTableCell(factory, wordMLPackage, contentRow, cObj1.getContract_short_name(), garamondRPr, JcEnumeration.CENTER,
+								hasBgColor, backgroundColor);
+						
+						addTableCell(factory, wordMLPackage, contentRow,cObj1.getStructure(),
+								garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);	
+						
+						addTableCell(factory, wordMLPackage, contentRow,cObj1.getProgress(),
+								garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);				
+						table.getContent().add(contentRow);
+						sNo1++;
+				}
+				mp.addObject(table2);				
+			
+				
+		} catch (Exception e) {
+			throw new Exception(e);
+		}
+		
+	}
 }

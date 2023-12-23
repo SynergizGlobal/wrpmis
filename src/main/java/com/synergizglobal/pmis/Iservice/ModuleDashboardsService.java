@@ -17,4 +17,6 @@ public interface ModuleDashboardsService {
 	public List<OverviewDashboard> getFilteredOptions(OverviewDashboard dObj) throws Exception;
 	
 	public boolean getDashboardLeftMenuAccess(OverviewDashboard dObj) throws Exception;
+
+	public List<OverviewDashboard> getRollingStockLeftNavNodes(OverviewDashboard obj) throws Exception;
 }

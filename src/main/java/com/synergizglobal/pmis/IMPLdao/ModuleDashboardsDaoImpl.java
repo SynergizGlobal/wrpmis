@@ -778,4 +778,65 @@ public class ModuleDashboardsDaoImpl implements ModuleDashboardsDao{
 		}
 		return flag;
 	}
+
+
+	@Override
+	public List<OverviewDashboard> getRollingStockLeftNavNodes(OverviewDashboard dObj) throws Exception {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		List<OverviewDashboard> objsList = new ArrayList<OverviewDashboard>();
+		try {
+			connection = dataSource.getConnection();
+			String qry = "SELECT dashboard_id,dashboard_name,dashboard_icon,dashboard_url,parent_id,source_table_name,source_field_name,source_field_value,show_left_menu "
+					+ "FROM left_menu "
+					+ "WHERE status = ? and parent_id = ? AND show_left_menu = ? AND dashboard_type_fk = ? and work_type='RollingStock'";
+			qry = qry + " ORDER BY [order]";
+			statement = connection.prepareStatement(qry);
+			statement.setString(1, CommonConstants.ACTIVE);
+			statement.setString(2, dObj.getParent_id());
+			statement.setString(3, "Yes");
+			if(!StringUtils.isEmpty(dObj.getDashboard_type()) && dObj.getDashboard_type().equals("Modules")) 
+			{
+				String dType=getDashboardType(dObj.getDashboard_id(),connection);
+				statement.setString(4, dType);
+			}
+			else
+			{
+				statement.setString(4, dObj.getDashboard_type());
+			}
+			resultSet = statement.executeQuery();  
+			
+			String work_id = dObj.getWork_id();
+			while(resultSet.next()) {
+				OverviewDashboard obj = new OverviewDashboard();
+				String childParentId = resultSet.getString("dashboard_id");
+				List<OverviewDashboard> subList = getTADashboardsSubList(childParentId,connection);
+				obj.setFormsSubMenu(subList);
+				
+				obj.setDashboard_id(resultSet.getString("dashboard_id"));
+				obj.setDashboard_name(resultSet.getString("dashboard_name"));
+				obj.setDashboard_icon(resultSet.getString("dashboard_icon"));
+				obj.setDashboard_url(resultSet.getString("dashboard_url"));
+				obj.setSource_table_name(resultSet.getString("source_table_name"));
+				obj.setSource_field_name(resultSet.getString("source_field_name"));
+				obj.setSource_field_value(resultSet.getString("source_field_value"));				
+				if(!StringUtils.isEmpty(work_id)) {
+					obj.setSource_field_value(work_id);
+				}
+				
+				if(!StringUtils.isEmpty(obj.getSource_table_name()) && !StringUtils.isEmpty(obj.getSource_field_name()) && !StringUtils.isEmpty(obj.getSource_field_value())) {
+					//obj.setWork_exists_or_not(getWorkExistsOrNot(obj,connection));
+				}
+				
+				objsList.add(obj);
+			}
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(connection, statement, resultSet);
+		}
+		return objsList;
+	}
 }

@@ -47,4 +47,9 @@ public class ModuleDashboardsServiceImpl implements ModuleDashboardsService{
 	public List<OverviewDashboard> getRollingStockLeftNavNodes(OverviewDashboard obj) throws Exception {
 		return dao.getRollingStockLeftNavNodes(obj);
 	}
+
+	@Override
+	public boolean getRollingDashboardLeftMenuAccess(OverviewDashboard obj) throws Exception {
+		return dao.getRollingDashboardLeftMenuAccess(obj);
+	}
 }

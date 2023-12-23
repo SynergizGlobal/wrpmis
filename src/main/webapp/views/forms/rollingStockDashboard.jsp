@@ -422,7 +422,7 @@ b, strong {
     	alert(dashboard_id,level);
     	var bool = false;
        	 $.ajax({
-             url: "<%=request.getContextPath()%>/ajax/getDashboardLeftMenuAccess",
+             url: "<%=request.getContextPath()%>/ajax/getRollingDashboardLeftMenuAccess",
              data: {dashboard_id:dashboard_id,level:level},type: 'POST',
              async: false,
              dataType: 'json',

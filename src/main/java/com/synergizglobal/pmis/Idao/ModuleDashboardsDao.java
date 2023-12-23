@@ -19,4 +19,6 @@ public interface ModuleDashboardsDao {
 	public List<OverviewDashboard> getTALeftNavNodes(OverviewDashboard obj) throws Exception;
 
 	public List<OverviewDashboard> getRollingStockLeftNavNodes(OverviewDashboard obj) throws Exception;
+
+	public boolean getRollingDashboardLeftMenuAccess(OverviewDashboard obj) throws Exception;
 }

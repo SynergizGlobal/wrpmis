@@ -131,7 +131,28 @@ public class ModuleDashboardsController {
 			}
 			return flag;			
 	
-	}	
+	}
+	
+	@RequestMapping(value = "/ajax/getRollingDashboardLeftMenuAccess", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public boolean getRollingDashboardLeftMenuAccess(String dashboard_id,String level,HttpSession session) throws Exception {
+			boolean flag=false;
+			OverviewDashboard obj = new OverviewDashboard();
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_name_fk(uObj.getUser_role_name_fk());
+			obj.setUser_id(uObj.getUser_id());
+			obj.setDashboard_id(dashboard_id);
+			obj.setLevel(level);
+			try {
+				flag=moduleDashboardsService.getRollingDashboardLeftMenuAccess(obj);
+
+			} catch (SQLException e) {
+				logger.error("getRollingDashboardLeftMenuAccess : " + e.getMessage());
+			}
+			return flag;			
+	
+	}
 	
 	@RequestMapping(value = "/ajax/getDashboardURL", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody

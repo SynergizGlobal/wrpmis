@@ -193,6 +193,45 @@ public class ModuleDashboardsDaoImpl implements ModuleDashboardsDao{
 		return objsList;
 	}
 	
+	private List<OverviewDashboard> getRollingStockDashboardsSubList(String parentId, Connection connection) throws Exception {
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		List<OverviewDashboard> objsList = new ArrayList<OverviewDashboard>();
+		OverviewDashboard obj = null;
+		try {
+			String qry = "select dashboard_id,dashboard_name,dashboard_icon,dashboard_url,source_table_name,source_field_name,source_field_value,show_left_menu,parent_id "
+					+ "FROM left_menu "
+					+ "WHERE status = ? AND parent_id <> dashboard_id AND parent_id = ? AND show_left_menu = ? and work_type='RollingStock' ORDER BY [order]";
+			statement = connection.prepareStatement(qry);
+			statement.setString(1, CommonConstants.ACTIVE);
+			statement.setString(2, parentId);
+			statement.setString(3, "Yes");
+			resultSet = statement.executeQuery();  
+			while(resultSet.next()) {
+				obj = new OverviewDashboard();
+		
+				
+				obj.setDashboard_id(resultSet.getString("dashboard_id"));
+				obj.setDashboard_name(resultSet.getString("dashboard_name"));
+				obj.setDashboard_icon(resultSet.getString("dashboard_icon"));
+				obj.setDashboard_url(resultSet.getString("dashboard_url"));
+				obj.setSource_table_name(resultSet.getString("source_table_name"));
+				obj.setSource_field_name(resultSet.getString("source_field_name"));
+				obj.setSource_field_value(resultSet.getString("source_field_value"));
+			
+				objsList.add(obj);				
+			}
+		
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		finally {
+			DBConnectionHandler.closeJDBCResoucrs(null, statement, resultSet);
+		}
+		return objsList;
+	}	
+	
+	
 	private String getDashboardType(String dashboard_id,Connection con) throws Exception {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -811,7 +850,7 @@ public class ModuleDashboardsDaoImpl implements ModuleDashboardsDao{
 			while(resultSet.next()) {
 				OverviewDashboard obj = new OverviewDashboard();
 				String childParentId = resultSet.getString("dashboard_id");
-				List<OverviewDashboard> subList = getTADashboardsSubList(childParentId,connection);
+				List<OverviewDashboard> subList = getRollingStockDashboardsSubList(childParentId,connection);
 				obj.setFormsSubMenu(subList);
 				
 				obj.setDashboard_id(resultSet.getString("dashboard_id"));
@@ -838,5 +877,66 @@ public class ModuleDashboardsDaoImpl implements ModuleDashboardsDao{
 			DBConnectionHandler.closeJDBCResoucrs(connection, statement, resultSet);
 		}
 		return objsList;
+	}
+
+
+	@Override
+	public boolean getRollingDashboardLeftMenuAccess(OverviewDashboard dObj) throws Exception {
+		boolean flag=false;
+		List<User> objsList = null;
+		try {
+			String qry="";
+
+			if(dObj.getLevel().compareTo("3")==0)
+			{
+			    qry = "select  count(distinct dashboard_name) as count from left_menu l "
+				+ "left join left_menu_access ls on ls.dashboard_id=l.dashboard_id "
+				+ "where l.dashboard_id=? and (ls.access_value = ? or ls.access_value = ? or ls.access_value = ?) having count(distinct dashboard_name) >0 ";
+				
+	
+				int arrSize = 4;
+				Object[] pValues = new Object[arrSize];				
+				int i = 0;
+	
+				pValues[i++] = dObj.getDashboard_id();
+	
+				pValues[i++] = dObj.getUser_type_fk();
+				pValues[i++] = dObj.getUser_role_name_fk();
+				pValues[i++] = dObj.getUser_id();
+				objsList = jdbcTemplate.query( qry,pValues,new BeanPropertyRowMapper<User>(User.class));
+			}
+			
+			if(dObj.getLevel().compareTo("2")==0)
+			{
+				qry = "select  count(distinct dashboard_name) as count from left_menu l "
+						+ "left join left_menu_access ls on ls.dashboard_id=l.dashboard_id "
+						+ "left join left_menu_access ls1 on ls1.dashboard_id=l.parent_id "
+						+ "where (l.dashboard_id=? or l.parent_id=?) and ((ls.access_value = ? or ls.access_value = ? or ls.access_value = ?) or (ls1.access_value = ? or ls1.access_value = ? or ls1.access_value = ?) ) having count(distinct dashboard_name) >0 ";
+					
+				int arrSize = 8;
+				Object[] pValues = new Object[arrSize];				
+				int i = 0;
+				
+				pValues[i++] = dObj.getDashboard_id();
+				pValues[i++] = dObj.getDashboard_id();
+
+				pValues[i++] = dObj.getUser_type_fk();
+				pValues[i++] = dObj.getUser_role_name_fk();
+				pValues[i++] = dObj.getUser_id();
+				pValues[i++] = dObj.getUser_type_fk();
+				pValues[i++] = dObj.getUser_role_name_fk();
+				pValues[i++] = dObj.getUser_id();
+				objsList = jdbcTemplate.query( qry,pValues,new BeanPropertyRowMapper<User>(User.class));
+
+			}			
+	
+			if(objsList.size()>0)
+			{
+				flag=true;
+			}
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return flag;
 	}
 }

@@ -43,7 +43,7 @@ public class OverviewDashboardDaoImpl implements OverviewDashboardDao {
 					+ "source_field_name,source_field_value,show_left_menu,"
 					+ "(SELECT (CASE WHEN COUNT(*)>0 THEN 'true' ELSE 'false' END) FROM left_menu_access lma WHERE lma.dashboard_id = lm.dashboard_id AND (access_value = ? or access_value = ? or access_value = ?)) AS accessibility "
 					+ "FROM left_menu lm "
-					+ "WHERE lm.status = ? and lm.parent_id = ? AND lm.show_left_menu = ? AND lm.dashboard_type_fk = ? and isnull(work_type,'')<>'TA' ";
+					+ "WHERE lm.status = ? and lm.parent_id = ? AND lm.show_left_menu = ? AND lm.dashboard_type_fk = ? and isnull(work_type,'')<>'TA' and isnull(work_type,'')<>'RollingStock' ";
 			if(!StringUtils.isEmpty(dObj.getDashboard_id()) && "Modules".equals(dObj.getDashboard_type())) {
 				qry = qry + " AND lm.dashboard_id = ?";
 			}
@@ -160,7 +160,7 @@ public class OverviewDashboardDaoImpl implements OverviewDashboardDao {
 					+ "source_field_name,source_field_value,show_left_menu, "
 					+ "(SELECT (CASE WHEN COUNT(*)>0 THEN 'true' ELSE 'false' END) FROM left_menu_access lma WHERE lma.dashboard_id = lm.dashboard_id AND (access_value = ? or access_value = ? or access_value = ?)) AS accessibility "
 					+ "FROM left_menu lm "
-					+ "WHERE status = ? AND parent_id <> dashboard_id AND parent_id = ? AND show_left_menu = ? and isnull(work_type,'')<>'TA' ORDER BY [order]";
+					+ "WHERE status = ? AND parent_id <> dashboard_id AND parent_id = ? AND show_left_menu = ? and isnull(work_type,'')<>'TA' and isnull(work_type,'')<>'RollingStock' ORDER BY [order]";
 			statement = connection.prepareStatement(qry);
 			int p = 1;
 			statement.setString(p++, dObj.getUser_type_fk());

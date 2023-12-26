@@ -40,7 +40,7 @@ public class ModuleDashboardsDaoImpl implements ModuleDashboardsDao{
 			connection = dataSource.getConnection();
 			String qry = "SELECT dashboard_id,dashboard_name,dashboard_icon,dashboard_url,parent_id,source_table_name,source_field_name,source_field_value,show_left_menu "
 					+ "FROM left_menu "
-					+ "WHERE status = ? and parent_id = ? AND show_left_menu = ? AND dashboard_type_fk = ? and isnull(work_type,'')<>'TA' ";
+					+ "WHERE status = ? and parent_id = ? AND show_left_menu = ? AND dashboard_type_fk = ? and isnull(work_type,'')<>'TA' and isnull(work_type,'')<>'RollingStock' ";
 			if(!StringUtils.isEmpty(dObj.getDashboard_type()) && dObj.getDashboard_type().equals("Modules")) {
 				qry = qry + " AND dashboard_id = ?";
 			}
@@ -286,7 +286,7 @@ public class ModuleDashboardsDaoImpl implements ModuleDashboardsDao{
 		try {
 			String qry = "select dashboard_id,dashboard_name,dashboard_icon,dashboard_url,source_table_name,source_field_name,source_field_value,show_left_menu "
 					+ "FROM left_menu "
-					+ "WHERE status = ? AND parent_id <> dashboard_id AND parent_id = ? AND show_left_menu = ? and isnull(work_type,'')<>'TA' ORDER BY [order]";
+					+ "WHERE status = ? AND parent_id <> dashboard_id AND parent_id = ? AND show_left_menu = ? and isnull(work_type,'')<>'TA' and isnull(work_type,'')<>'RollingStock' ORDER BY [order]";
 			statement = connection.prepareStatement(qry);
 			statement.setString(1, CommonConstants.ACTIVE);
 			statement.setString(2, parentId);

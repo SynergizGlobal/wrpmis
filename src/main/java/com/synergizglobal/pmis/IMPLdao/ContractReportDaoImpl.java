@@ -3283,9 +3283,9 @@ public class ContractReportDaoImpl implements ContractReportDao {
 					"					where contract_id is not null  and release_date is null and valid_upto<=DATEADD(M,DATEDIFF(M,0,getdate())+2,0) ";
 			
 			if(!StringUtils.isEmpty(obj.getDate_of_start()) && !StringUtils.isEmpty(obj.getBg_date())) {
-				qry = qry+" and (select case when release_date is null then valid_upto else release_date end)>='"+obj.getDate_of_start()+"' and (select case when release_date is null then valid_upto else release_date end)<='"+obj.getBg_date()+"'";
+				qry = qry+" and valid_upto>='"+obj.getDate_of_start()+"' and valid_upto<='"+obj.getBg_date()+"'";
 			}
-			qry = qry+" order by (select case when release_date is null then valid_upto else release_date end) asc";
+			qry = qry+" order by valid_upto asc";
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Contract>(Contract.class));
 		
 		}catch(Exception e){ 

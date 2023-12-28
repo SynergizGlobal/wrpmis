@@ -224,7 +224,7 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 	public List<StripChart> generateTPCStatusReport(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "select contract_short_name,structure,progress,Status,progress_date as progress_date from(\r\n" + 
+			String qry = "select contract_short_name,structure,progress,Status,FORMAT(progress_date,'dd-MM-yyyy') as progress_date from(\r\n" + 
 					"SELECT c.contract_short_name,structure,cast((round(cast((isnull(SUM((completed * weightage)*100 / scope) / SUM(weightage),0)) as decimal(10,2)),0)) as int) AS progress, \r\n" + 
 					"					case when SUM((completed*weightage)*100 / scope) / SUM(weightage)=100 then 'Completed' when SUM((completed * weightage)*100 / scope) / SUM(weightage)<100 and SUM((completed *  weightage)*100 / scope) / SUM(weightage)*100>0 then 'In Progress' else 'Not Started' end as Status,  \r\n" + 
 					"					case when SUM((completed*weightage)*100 / scope) / SUM(weightage)=100 then max(a.actual_finish) else max(a.expected_finish) end as progress_date  \r\n" + 

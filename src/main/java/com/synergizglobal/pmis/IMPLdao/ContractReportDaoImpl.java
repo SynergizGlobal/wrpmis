@@ -3233,7 +3233,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 					"left join contractor cr on c.contractor_id_fk = cr.contractor_id   " + 
 					"left join bank_guarantee bg on bg.contract_id_fk = c.contract_id  " + 
 					"where contract_id is not null and (select case when release_date is null then valid_upto else release_date end)>=DATEADD(M,DATEDIFF(M,0,getdate())-1,0) " + 
-					"and (select case when release_date is null then valid_upto else release_date end)<=DATEADD(M,DATEDIFF(M,0,getdate())+2,0)  ";
+					"and valid_upto<=DATEADD(month, +2, GETDATE())  ";
 			
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id())) {
@@ -3280,7 +3280,7 @@ public class ContractReportDaoImpl implements ContractReportDao {
 					"					left join work w on c.work_id_fk = w.work_id      " + 
 					"					left join contractor cr on c.contractor_id_fk = cr.contractor_id     " + 
 					"					left join bank_guarantee bg on bg.contract_id_fk = c.contract_id    " + 
-					"					where contract_id is not null  and release_date is null and valid_upto<=DATEADD(M,DATEDIFF(M,0,getdate())+2,0) ";
+					"					where contract_id is not null  and release_date is null and valid_upto<=DATEADD(month, +2, GETDATE()) ";
 			
 			if(!StringUtils.isEmpty(obj.getDate_of_start()) && !StringUtils.isEmpty(obj.getBg_date())) {
 				qry = qry+" and valid_upto>='"+obj.getDate_of_start()+"' and valid_upto<='"+obj.getBg_date()+"'";

@@ -348,7 +348,7 @@ public class SourceOfFundDaoImpl implements SourceOfFundDao{
 				qry = qry + " and sub_category_railway_id_fk = ? ";
 				arrSize++;
 			}
-			qry = qry + " GROUP BY sub_category_railway_id_fk ";
+			qry = qry + " GROUP BY sub_category_railway_id_fk,r.railway_name ";
 			
 			Object[] pValues = new Object[arrSize];
 			

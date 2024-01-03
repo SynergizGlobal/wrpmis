@@ -1388,6 +1388,8 @@ margin-right: 0rem;
 			                        </li></a>     
                         			</c:when>
                         			<c:otherwise>
+                        			<c:choose>
+                                     <c:when test="${project.project_id eq 'P01' || project.project_id eq 'P02' || project.project_id eq 'P03' || project.project_id eq 'P04' || project.project_id eq 'P05'}">
 			                        <a href="javascript:getProjectOverview('${project.project_id }');">
 			                        	<li class="col s6 m4 l4 text-align-left">
 			                            <div id="diamond">
@@ -1395,7 +1397,9 @@ margin-right: 0rem;
 										         <span>${project.project_name }</span>
 										    </div>
 										</div>
-			                        </li></a>     
+			                        </li></a> 
+			                         </c:when> 
+			                         	</c:choose>                          
                         			</c:otherwise>
                         		</c:choose>                      	
 	                    	

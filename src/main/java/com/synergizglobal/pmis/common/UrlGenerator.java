@@ -57,7 +57,7 @@ public class UrlGenerator {
 			        .getRequestAttributes()).getRequest();
 		    context_path = request.getContextPath().toString();
 		    if(!StringUtils.isEmpty(context_path)) {
-		    	context_path = context_path.replaceAll("/", "");
+		    	//context_path = context_path.replaceAll("/", "");
 		    }
 		} catch (Exception e) {
 			logger.error("getContextPath : " + e.getMessage());
@@ -76,11 +76,11 @@ public class UrlGenerator {
 			}*/
 		    
 		    if("10.203.10.158".equals(ip_address) || "203.153.40.44".equals(ip_address) || "pmis.mrvc.gov.in".equals(ip_address)) {
-		    	base_path = "C:/Development/nginx-1.9.9/html/"+getContextPath();
+		    	base_path = "D:/Development/nginx-1.9.9/html/"+getContextPath();
 		    }else if("13.235.73.61".equals(ip_address)) {
 		    	base_path = "usr/share/nginx/html/"+getContextPath();
 		    }else if("127.0.0.1".equals(ip_address) || "localhost:90".equals(ip_address)) {
-		    	base_path = "C:/Development/nginx-1.9.9/html/"+getContextPath();
+		    	base_path = "D:/Development/nginx-1.9.9/html/"+getContextPath();
 		    }
 		} catch (Exception e) {
 			logger.error("getNGINXFilesBasePath : " + e.getMessage());

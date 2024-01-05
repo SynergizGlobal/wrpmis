@@ -57,7 +57,7 @@ public class UrlGenerator {
 			        .getRequestAttributes()).getRequest();
 		    context_path = request.getContextPath().toString();
 		    if(!StringUtils.isEmpty(context_path)) {
-		    	//context_path = context_path.replaceAll("/", "");
+		    	context_path = context_path.replaceAll("/", "");
 		    }
 		} catch (Exception e) {
 			logger.error("getContextPath : " + e.getMessage());

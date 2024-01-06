@@ -309,7 +309,7 @@ b, strong {
   <script src="/pmis/resources/js/dataTables.material.min.js"></script>
   <script src="/pmis/resources/js/select2.min.js"></script>
   <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
-  <script type="text/javascript" src="https://203.153.40.44/javascripts/api/tableau-2.min.js"></script>
+  <script type="text/javascript" src="https://pmis.mrvc.gov.in/javascripts/api/tableau-2.min.js"></script>
   <!-- <script src="https://code.jquery.com/jquery-3.6.0.js"></script> -->
   <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
   

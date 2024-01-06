@@ -11,7 +11,7 @@ public class CommonConstants {
 	//public final static String BASE_URL_SYNTRACK = "https://infoviz.syntrackpro.com/trusted/{0}/";  //{1} is the placeholder for tableau trusted token
 	//public final static String BASE_URL_MRVC = "http://"+ugObj.getIpAddress()+":8000/trusted/{0}/";  //{0} is the placeholder for tableau trusted token
 	public final static String BASE_URL_SYNTRACK = "https://{0}/trusted/{1}/";  //{0} is the placeholder for IP Address And {1} is the placeholder for tableau trusted token
-	public final static String BASE_URL_MRVC = "http://{0}/trusted/{1}/";  //{0} is the placeholder for IP Address And {1} is the placeholder for tableau trusted token
+	public final static String BASE_URL_MRVC = "http://{0}:8000/trusted/{1}/";  //{0} is the placeholder for IP Address And {1} is the placeholder for tableau trusted token
 	
 	public final static String TABLEAU_PARAMS = "";
 	

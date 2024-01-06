@@ -281,7 +281,7 @@ b, strong {
   <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
   <script>
   $(".page-loader").show();
-  var url="http://203.153.40.44:8000/views/AIIBDisbursement/Dashboard1INR?:showAppBanner=false&:origin=viz_share_link&:display_count=n&:showVizHome=n";
+  var url="https://203.153.40.44/views/AIIBDisbursement/Dashboard1INR?:showAppBanner=false&:origin=viz_share_link&:display_count=n&:showVizHome=n";
 	 $.ajax({
    		url: "<%=request.getContextPath()%>/ajax/getAIIBDashboardURL",
          type: 'POST',

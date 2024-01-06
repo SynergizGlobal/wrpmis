@@ -148,7 +148,7 @@ public class OverviewDashboardController {
 				String trustedTokenId =  tObj.getTrustedTicket(server_name);
 				String[] url = {};
 
-					url = dashboardUrl.split(":8000/");
+					url = dashboardUrl.split("/");
 					UrlGenerator ugObj = new UrlGenerator();
 					String baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", "203.153.40.44");
 					baseUrl = baseUrl.replace("{1}", trustedTokenId);
@@ -181,13 +181,13 @@ public class OverviewDashboardController {
 					{
 						String mainUrl[]=baseUrl.split("/");
 						String weburl=mainUrl[2];
-						if(weburl.compareTo("203.153.40.44:8000")==0)
+						if(weburl.compareTo("203.153.40.44")==0)
 						{
-							weburl="203.153.40.44:8000";
+							weburl="203.153.40.44";
 						}
-						else if(weburl.compareTo("pmis.mrvc.gov.in:8000")==0)
+						else if(weburl.compareTo("pmis.mrvc.gov.in")==0)
 						{
-							weburl="pmis.mrvc.gov.in:8000";
+							weburl="pmis.mrvc.gov.in";
 						}				
 
 						tableauUrl =mainUrl[0]+"//"+weburl +"/"+ url[1]+CommonConstants.TABLEAU_PARAMS+"&:embed=y";
@@ -443,7 +443,7 @@ public class OverviewDashboardController {
 				//	baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", "infoviz.syntrackpro.com");
 				//	baseUrl = baseUrl.replace("{1}", trustedTokenId);
 				//}else {
-					url = dashboardUrl.split(":8000/");
+					url = dashboardUrl.split("/");
 					//baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", trustedTokenId);
 					UrlGenerator ugObj = new UrlGenerator();
 					String baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", "203.153.40.44");
@@ -479,13 +479,13 @@ public class OverviewDashboardController {
 					{
 						String mainUrl[]=baseUrl.split("/");
 						String weburl=mainUrl[2];
-						if(weburl.compareTo("203.153.40.44:8000")==0)
+						if(weburl.compareTo("203.153.40.44")==0)
 						{
-							weburl="203.153.40.44:8000";
+							weburl="203.153.40.44";
 						}
-						else if(weburl.compareTo("pmis.mrvc.gov.in:8000")==0)
+						else if(weburl.compareTo("pmis.mrvc.gov.in")==0)
 						{
-							weburl="pmis.mrvc.gov.in:8000";
+							weburl="pmis.mrvc.gov.in";
 						}				
 						if(!StringUtils.isEmpty(params)) {
 							tableauUrl =  mainUrl[0]+"//"+weburl +"/"+ url[1]+CommonConstants.TABLEAU_PARAMS+"&"+params;

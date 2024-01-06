@@ -125,7 +125,7 @@ public class TableauDashboardController {
 					baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", "infoviz.syntrackpro.com");
 					baseUrl = baseUrl.replace("{1}", trustedTokenId);
 				}else {*/
-					url = vo.getTableauUrl().split(":8000/");
+					url = vo.getTableauUrl().split("/");
 					//baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", trustedTokenId);
 					UrlGenerator ugObj = new UrlGenerator();
 					String baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", "203.153.40.44");
@@ -159,13 +159,13 @@ String clientIpMap=tObj.getExternalIpAddress();
 					{
 						String mainUrl[]=baseUrl.split("/");
 						String weburl=mainUrl[2];
-						if(weburl.compareTo("203.153.40.44:8000")==0)
+						if(weburl.compareTo("203.153.40.44")==0)
 						{
-							weburl="203.153.40.44:8000";
+							weburl="203.153.40.44";
 						}
-						else if(weburl.compareTo("pmis.mrvc.gov.in:8000")==0)
+						else if(weburl.compareTo("pmis.mrvc.gov.in")==0)
 						{
-							weburl="pmis.mrvc.gov.in:8000";
+							weburl="pmis.mrvc.gov.in";
 						}				
 
 						tableauUrl =mainUrl[0]+"//"+weburl +"/"+ url[1]+CommonConstants.TABLEAU_PARAMS+"&:embed=y";
@@ -248,7 +248,7 @@ String clientIpMap=tObj.getExternalIpAddress();
 					baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", "infoviz.syntrackpro.com");
 					baseUrl = baseUrl.replace("{1}", trustedTokenId);
 				}else {*/
-					url = vo.getTableauUrl().split(":8000/");
+					url = vo.getTableauUrl().split("/");
 					//baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", trustedTokenId);
 					UrlGenerator ugObj = new UrlGenerator();
 					String baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", "203.153.40.44");
@@ -282,13 +282,13 @@ String clientIpMap=tObj.getExternalIpAddress();
 					{
 						String mainUrl[]=baseUrl.split("/");
 						String weburl=mainUrl[2];
-						if(weburl.compareTo("203.153.40.44:8000")==0)
+						if(weburl.compareTo("203.153.40.44")==0)
 						{
-							weburl="203.153.40.44:8000";
+							weburl="203.153.40.44";
 						}
-						else if(weburl.compareTo("pmis.mrvc.gov.in:8000")==0)
+						else if(weburl.compareTo("pmis.mrvc.gov.in")==0)
 						{
-							weburl="pmis.mrvc.gov.in:8000";
+							weburl="pmis.mrvc.gov.in";
 						}				
 
 						tableauUrl =mainUrl[0]+"//"+weburl +"/"+ url[1]+CommonConstants.TABLEAU_PARAMS+"&:embed=y";
@@ -352,7 +352,7 @@ String clientIpMap=tObj.getExternalIpAddress();
 				//	baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", "infoviz.syntrackpro.com");
 					//baseUrl = baseUrl.replace("{1}", trustedTokenId);
 				//}else {
-					url = vo.getTableauUrl().split(":8000/");
+					url = vo.getTableauUrl().split("/");
 					//baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", trustedTokenId);
 					UrlGenerator ugObj = new UrlGenerator();
 					String baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", "203.153.40.44");
@@ -417,7 +417,7 @@ String clientIpMap=tObj.getExternalIpAddress();
 					baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", "infoviz.syntrackpro.com");
 					baseUrl = baseUrl.replace("{1}", trustedTokenId);
 				}else {*/
-					url = vo.getTableauUrl().split(":8000/");
+					url = vo.getTableauUrl().split("/");
 					//baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", trustedTokenId);
 					UrlGenerator ugObj = new UrlGenerator();
 					String baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", "203.153.40.44");
@@ -482,7 +482,7 @@ String clientIpMap=tObj.getExternalIpAddress();
 					baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", "infoviz.syntrackpro.com");
 					baseUrl = baseUrl.replace("{1}", trustedTokenId);
 				}else {*/
-					url = vo.getTableauUrl().split(":8000/");
+					url = vo.getTableauUrl().split("/");
 					//baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", trustedTokenId);
 					UrlGenerator ugObj = new UrlGenerator();
 					String baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", "203.153.40.44");

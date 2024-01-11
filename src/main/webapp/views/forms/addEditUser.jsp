@@ -431,6 +431,7 @@
 						                                        </c:forEach>
                                                             </select>
                                                             <span id="access_value0Error" class="error-msg"></span>
+                                                            <input type="checkbox" name="select-all" id="select-all" class="checkCss"  style="position: fixed;"/>Select All
                                                         </td>
                                                     </tr>
                                                     <!-- <tr>
@@ -834,6 +835,8 @@
   	    vals = vals.join(',');
   	   $('#structure'+Rno).val(vals);
     }   
+    
+
     	
     
     $(function(){
@@ -923,6 +926,19 @@
            	 //$('#pmis_key_fk').rules('add',  { required: true });
            	 $('#pmis_key_req').text('*');
             }
+            
+            $('#select-all').change(function(event) {   
+                if(this.checked) 
+                {
+                    $("#contract_permission").find('option').not(':first').prop("selected","selected");
+                    $("#contract_permission").trigger("change");
+
+                } else
+                {
+
+                	$("#select2-contract_permission-container").empty();
+                }
+            });          
         });
         
         function getReportingToPersonsList(){

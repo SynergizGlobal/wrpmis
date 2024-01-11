@@ -285,11 +285,11 @@ b, strong {
   var url="";
   	  if(str=="pmis")
 	  {
-  		url="http://203.153.40.44:8000/views/OtherworksExpenditure/Dashboard1?:showAppBanner=false&:display_count=n&:showVizHome=n&:origin=viz_share_link";
+  		url="http://203.153.40.44:8000/views/OtherworksExpenditure4/Dashboard1?:showAppBanner=false&:origin=viz_share_link&:display_count=n&:showVizHome=n";
 	  }
   	  else if(str=="pmis_qa")
 	  {
-    		url="http://203.153.40.44:8000/views/OtherworksExpenditureqa/Dashboard1?:showAppBanner=false&:display_count=n&:showVizHome=n&:origin=viz_share_link";
+    		url="http://203.153.40.44:8000/views/OtherworksExpenditure4/Dashboard1?:showAppBanner=false&:origin=viz_share_link&:display_count=n&:showVizHome=n";
   	  }
 	 $.ajax({
    		url: "<%=request.getContextPath()%>/ajax/getAIIBDashboardURL",

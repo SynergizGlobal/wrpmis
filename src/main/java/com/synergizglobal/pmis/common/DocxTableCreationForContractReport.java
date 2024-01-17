@@ -4574,6 +4574,7 @@ public class DocxTableCreationForContractReport {
 				tableHeader1.add("Work Scope");
 				tableHeader1.add("Completed");
 				tableHeader1.add("Balance");
+				tableHeader1.add("WIP");
 				int columnNo1 = 1;
 				for (String headerValue : tableHeader1) {
 					int width = 0;
@@ -4586,6 +4587,8 @@ public class DocxTableCreationForContractReport {
 					}else if(4 == columnNo1) {
 						width = 500;
 					}else if(5 == columnNo1) {
+						width = 500;
+					}else if(6 == columnNo1) {
 						width = 500;
 					}
 					columnNo++;
@@ -4601,6 +4604,7 @@ public class DocxTableCreationForContractReport {
 				int a1=0;
 				int a2=0;
 				int a3=0;
+				int a4=0;
 				for (StripChart cObj1 : divisionData) 
 				{
 					boolean hasBgColor = false;
@@ -4620,13 +4624,17 @@ public class DocxTableCreationForContractReport {
 							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 					
 					addTableCell(factory, wordMLPackage, contentRow,cObj1.getBalance(),
-							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);					
+							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+					
+					addTableCell(factory, wordMLPackage, contentRow,cObj1.getWip(),
+							garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);						
 					
 				
 					table2.getContent().add(contentRow);
 					a1=a1+Integer.parseInt(cObj1.getWorkScope());
 					a2=a2+Integer.parseInt(cObj1.getCompleted());
 					a3=a3+Integer.parseInt(cObj1.getBalance());
+					a4=a4+Integer.parseInt(cObj1.getWip());
 					
 					sNo1++;
 				}
@@ -4648,7 +4656,10 @@ public class DocxTableCreationForContractReport {
 						garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
 				
 				addTableCell(factory, wordMLPackage, contentRow1,String.valueOf(a3),
-						garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);	
+						garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+				
+				addTableCell(factory, wordMLPackage, contentRow1,String.valueOf(a4),
+						garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);					
 				
 				table2.getContent().add(contentRow1);
 				

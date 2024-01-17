@@ -250,18 +250,18 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 	public List<StripChart> getDivisionList(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "select Division,sum(StructureCount) as 'WorkScope',sum(CompletedCount) as Completed,sum(StructureCount)-sum(CompletedCount) as 'Balance' from(   " + 
-					"					SELECT  contract_short_name  as 'Division',   " + 
-					"					count(structure) as StructureCount,case when Status='Completed' then count(Status) else 0 end AS 'CompletedCount'   " + 
-					"					from(   " + 
-					"					SELECT substring(c.contract_short_name,CHARINDEX('(',c.contract_short_name),CHARINDEX(')',c.contract_short_name)-CHARINDEX('(',c.contract_short_name)+1) as contract_short_name,structure,round(cast((isnull(SUM((completed * weightage)*100 / scope) / SUM(weightage),0)) as decimal(10,2)),2) AS progress,     " + 
-					"					case when SUM((completed * weightage)*100 / scope) / SUM(weightage)=100 then 'Completed' when SUM((completed * weightage)*100 / scope) / SUM(weightage)<100 and SUM((completed * weightage)*100 / scope) / SUM(weightage)*100>0 then 'In Progress' else 'Not Started' end as Status,     " + 
-					"					case when SUM((completed * weightage)*100 / scope) / SUM(weightage)=100 then Max(actual_finish) else Max(expected_finish) end as progress_date     " + 
-					"					FROM activities_view a     " + 
-					"					LEFT join contract c on c.contract_id=a.contract_id     " + 
-					"					where a.contract_id like 'P04W04EN%' and structure not in('Badlapur (Deck)') and structure not in('Khar Road (New FOB)') GROUP BY c.contract_short_name,structure) as a   " + 
-					"					group by contract_short_name,Status) as b   " + 
-					"					group by b.Division ";
+			String qry = "				select Division,sum(StructureCount) as 'WorkScope',sum(CompletedCount) as Completed,sum(StructureCount)-sum(CompletedCount) as 'Balance',wip from(    " + 
+					"				SELECT  contract_short_name  as 'Division',    " + 
+					"				count(structure) as StructureCount,case when Status='Completed' then count(Status) else 0 end AS 'CompletedCount',case when Status='In Progress' then count(Status) else 0 end AS wip    " + 
+					"				from(    " + 
+					"				SELECT substring(c.contract_short_name,CHARINDEX('(',c.contract_short_name),CHARINDEX(')',c.contract_short_name)-CHARINDEX('(',c.contract_short_name)+1) as contract_short_name,structure,round(cast((isnull(SUM((completed * weightage)*100 / scope) / SUM(weightage),0)) as decimal(10,2)),2) AS progress,      " + 
+					"				case when SUM((completed * weightage)*100 / scope) / SUM(weightage)=100 then 'Completed' when SUM((completed * weightage)*100 / scope) / SUM(weightage)<100 and SUM((completed * weightage)*100 / scope) / SUM(weightage)*100>0 then 'In Progress' else 'Not Started' end as Status,      " + 
+					"				case when SUM((completed * weightage)*100 / scope) / SUM(weightage)=100 then Max(actual_finish) else Max(expected_finish) end as progress_date " + 
+					"				FROM activities_view a      " + 
+					"				LEFT join contract c on c.contract_id=a.contract_id      " + 
+					"				where a.contract_id like 'P04W04EN%' and structure not in('Badlapur (Deck)') and structure not in('Khar Road (New FOB)') GROUP BY c.contract_short_name,structure) as a    " + 
+					"				group by contract_short_name,Status) as b    " + 
+					"				group by b.Division,b.wip ";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<StripChart>(StripChart.class));
 			

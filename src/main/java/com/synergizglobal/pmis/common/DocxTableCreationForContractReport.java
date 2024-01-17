@@ -4540,7 +4540,7 @@ public class DocxTableCreationForContractReport {
 				addTableCell(factory, wordMLPackage, contentRow11, String.valueOf(sNo), garamondRPr, JcEnumeration.CENTER,
 						hasBgColor1, backgroundColor1);					
 				
-				addTableCell(factory, wordMLPackage, contentRow11, "Miscellaneous – TPC", garamondRPr, JcEnumeration.CENTER,
+				addTableCell(factory, wordMLPackage, contentRow11, "CR Boundary Wall Works", garamondRPr, JcEnumeration.CENTER,
 						hasBgColor1, backgroundColor1);
 				
 				addTableCell(factory, wordMLPackage, contentRow11,"9/7 and 10/7 Wadala and GTBN (Boundary wall)",

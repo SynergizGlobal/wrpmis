@@ -250,7 +250,7 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 	public List<StripChart> getDivisionList(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "				select Division,sum(StructureCount) as 'WorkScope',sum(CompletedCount) as Completed,sum(StructureCount)-sum(CompletedCount) as 'Balance',wip from(    " + 
+			String qry = "				select Division,sum(StructureCount) as 'WorkScope',sum(CompletedCount) as Completed,sum(StructureCount)-sum(CompletedCount) as 'Balance',sum(wip) as wip from(    " + 
 					"				SELECT  contract_short_name  as 'Division',    " + 
 					"				count(structure) as StructureCount,case when Status='Completed' then count(Status) else 0 end AS 'CompletedCount',case when Status='In Progress' then count(Status) else 0 end AS wip    " + 
 					"				from(    " + 
@@ -261,7 +261,7 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 					"				LEFT join contract c on c.contract_id=a.contract_id      " + 
 					"				where a.contract_id like 'P04W04EN%' and structure not in('Badlapur (Deck)') and structure not in('Khar Road (New FOB)') GROUP BY c.contract_short_name,structure) as a    " + 
 					"				group by contract_short_name,Status) as b    " + 
-					"				group by b.Division,b.wip ";
+					"				group by b.Division ";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<StripChart>(StripChart.class));
 			

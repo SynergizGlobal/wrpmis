@@ -239,16 +239,18 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 			{
 				if(obj.getApproval_status_fk().equals("Approved"))
 				{
-					qry = qry + " order by activity_id_fk";
+					qry = qry + " and convert(datetime,approved_on,105) >= DATEADD(day,-30,GETDATE()) " + 
+							"and   convert(datetime,approved_on,105) <= getdate() order by activity_id_fk ";
 					 
 				}
 				else if(obj.getApproval_status_fk().equals("Rejected"))
 				{
-					qry = qry + " order by activity_id_fk";
+					qry = qry + " and convert(datetime,approved_on,105) >= DATEADD(day,-30,GETDATE()) " + 
+							"and   convert(datetime,approved_on,105) <= getdate() order by activity_id_fk ";
 				}	
 				else if(obj.getApproval_status_fk().equals("Pending"))
 				{
-					qry = qry + " order by activity_id_fk,DATENAME(dw, created_date)+','+convert(varchar, created_date, 106) desc";
+					qry = qry + " order by activity_id_fk,DATENAME(dw, created_date)+','+convert(varchar, created_date, 106) desc ";
 
 				}					
 			}			

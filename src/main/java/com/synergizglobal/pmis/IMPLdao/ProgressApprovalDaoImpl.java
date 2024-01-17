@@ -26,6 +26,8 @@ import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.Activity;
 import com.synergizglobal.pmis.model.FormHistory;
+import java.math.BigDecimal;
+
 @Repository
 public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 	@Autowired
@@ -739,25 +741,23 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 			}
 			
 			if(!StringUtils.isEmpty(aObj)) {
-				float scope = Float.parseFloat(aObj.getScope());
-				float completed = Float.parseFloat(aObj.getCompleted());
-				float remaining = Float.parseFloat(aObj.getRemaining_scope());
-				float actual_for_the_day = Float.parseFloat(aObj.getActual_for_the_day()==null?"0":aObj.getActual_for_the_day());
-				
-				
-				
-				if((completed+actual_for_the_day) <= scope) {
+				BigDecimal scope = new BigDecimal(aObj.getScope());
+				BigDecimal completed = new BigDecimal(getCompletedValue(aObj.getActivity_id()));
+				BigDecimal remaining = new BigDecimal(aObj.getRemaining_scope());
+				BigDecimal actual_for_the_day = new BigDecimal(aObj.getActual_for_the_day()==null?"0":aObj.getActual_for_the_day());
+
+				if ((completed.add(actual_for_the_day)).compareTo(scope) <= 0) {
 					String updateQry = "UPDATE p6_activities SET completed = cast(? as decimal(10,2)) + cast(? as decimal(10,2))";	
 					int arrSize = 3;
 					
-					if(completed == 0) {
+					if (completed.compareTo(BigDecimal.ZERO) == 0) {
 						updateQry = updateQry + ", start = ?";
 						arrSize++;
 					}
 					
 	
 					
-					if(scope == (completed+actual_for_the_day)) 
+					if (scope.compareTo(completed.add(actual_for_the_day)) == 0) 
 					{
 						updateQry = updateQry + ", finish = ?";
 						arrSize++;
@@ -812,7 +812,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 					{
 						pValues[i++] = 0;
 					}
-					if(completed == 0) 
+					if (completed.compareTo(BigDecimal.ZERO) == 0) 
 					{
 						if(aObj.getUpdated_scope()==null)
 						{
@@ -833,7 +833,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 					}
 			
 					
-					if(scope==completed+actual_for_the_day)
+					if (scope.compareTo(completed.add(actual_for_the_day)) == 0) 
 					{
 						
 						if(aObj.getUpdated_scope()==null)
@@ -1035,11 +1035,13 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 			
 			if(!StringUtils.isEmpty(approvableList) && approvableList.size() > 0) {
 				for (Activity activity : approvableList) {
-					float scope = Float.parseFloat(activity.getScope());
-					float completed = Float.parseFloat(getCompletedValue(activity.getActivity_id()));
-					float remaining = Float.parseFloat(activity.getRemaining_scope());
-					float actual_for_the_day = Float.parseFloat(activity.getActual_for_the_day()==null?"0":activity.getActual_for_the_day());
-					if((completed+actual_for_the_day) <= scope) {
+					BigDecimal scope = new BigDecimal(activity.getScope());
+					BigDecimal completed = new BigDecimal(getCompletedValue(activity.getActivity_id()));
+					BigDecimal remaining = new BigDecimal(activity.getRemaining_scope());
+					BigDecimal actual_for_the_day = new BigDecimal(activity.getActual_for_the_day()==null?"0":activity.getActual_for_the_day());
+
+					if ((completed.add(actual_for_the_day)).compareTo(scope) <= 0) {
+						
 						String updateQry = "UPDATE p6_activities SET completed = cast(? as decimal(10,2)) + cast(? as decimal(10,2))";	
 						int arrSize = 3;
 						

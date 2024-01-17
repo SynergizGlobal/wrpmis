@@ -56,7 +56,7 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 			}
 			
 			
-			String qry = "select * from(select distinct a.task_code as p6_task_code,progress_id,v.created_date,u1.department_fk,progress_date,a.p6_activity_id as activity_id_fk,a.scope as total_scope,a.completed as cumulative_completed,v.completed_scope as actual_for_the_day, " + 
+			/*String qry = "select * from(select distinct a.task_code as p6_task_code,progress_id,v.created_date,u1.department_fk,progress_date,a.p6_activity_id as activity_id_fk,a.scope as total_scope,a.completed as cumulative_completed,v.completed_scope as actual_for_the_day, " + 
 					"(ISNULL(a.scope,0) - ISNULL(a.completed,0)) as remaining_scope,attachment_url,v.remarks,FORMAT(v.created_date,'dd-MM-yyyy') as updated_on,v.created_by_user_id_fk, " + 
 					"u.user_name as updated_by,c.hod_user_id_fk,approved_or_rejected_by,FORMAT(approved_on,'dd-MM-yyyy') as approved_on,FORMAT(rejected_on,'dd-MM-yyyy') as rejected_on, " + 
 					"approval_status_fk,c.work_id_fk,w.work_short_name,a.contract_id_fk,c.contract_short_name,a.component,a.component_id,s.structure,p6_activity_name as activity_name, " + 
@@ -85,7 +85,125 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 					" group by a.task_code,progress_id,v.created_date,u1.department_fk,v.progress_date,a.p6_activity_id,a.scope,a.completed,v.completed_scope,v.attachment_url, " + 
 					"v.remarks,v.created_by_user_id_fk,aph.dyhod_user_id_fk,c.hod_user_id_fk,u.user_name,v.approved_or_rejected_by,v.approved_on,v.rejected_on,v.approval_status_fk, " + 
 					"c.work_id_fk,w.work_short_name,a.contract_id_fk,c.contract_short_name,a.component,a.component_id,s.structure,a.p6_activity_name,v.updated_scope,a.unit " + 
-					" ) as qc where 0=0 " ;
+					" ) as qc where 0=0 " ;*/
+			
+			
+			String qry="SELECT " + 
+					"    * " + 
+					"FROM " + 
+					"    ( " + 
+					"        SELECT " + 
+					"            distinct a.task_code AS p6_task_code, " + 
+					"            progress_id, " + 
+					"            v.created_date, " + 
+					"            u1.department_fk, " + 
+					"            progress_date, " + 
+					"            a.p6_activity_id AS activity_id_fk, " + 
+					"            a.scope AS total_scope, " + 
+					"            a.completed AS cumulative_completed, " + 
+					"            v.completed_scope AS actual_for_the_day, " + 
+					"            (ISNULL(a.scope, 0) - ISNULL(a.completed, 0)) AS remaining_scope, " + 
+					"            attachment_url, " + 
+					"            v.remarks, " + 
+					"            FORMAT(v.created_date, 'dd-MM-yyyy') AS updated_on, " + 
+					"            v.created_by_user_id_fk, " + 
+					"            u.user_name AS updated_by, " + 
+					"            c.hod_user_id_fk, " + 
+					"            approved_or_rejected_by, " + 
+					"            FORMAT(approved_on, 'dd-MM-yyyy') AS approved_on, " + 
+					"            FORMAT(rejected_on, 'dd-MM-yyyy') AS rejected_on, " + 
+					"            approval_status_fk, " + 
+					"            c.work_id_fk, " + 
+					"            w.work_short_name, " + 
+					"            a.contract_id_fk, " + 
+					"            c.contract_short_name, " + 
+					"            a.component, " + 
+					"            a.component_id, " + 
+					"            s.structure, " + 
+					"            p6_activity_name AS activity_name, " + 
+					"            updated_scope, " + 
+					"            unit, " + 
+					"            ROUND( " + 
+					"                (SUM(a.weightage * (a.completed) / a.scope) / SUM(d.baseline_weight)) * 100, " + 
+					"                1 " + 
+					"            ) AS component_per_prior, " + 
+					"            ROUND( " + 
+					"                (SUM(a.weightage * (a.completed) / a.scope) / SUM(d1.baseline_weight)) * 100, " + 
+					"                1 " + 
+					"            ) AS structure_per_prior, " + 
+					"            ROUND( " + 
+					"                (SUM(a.weightage * (a.completed + actual_to_be_approved) / a.scope) / " + 
+					"                    SUM(d.baseline_weight)) * 100, " + 
+					"                1 " + 
+					"            ) AS component_per_post, " + 
+					"            ROUND( " + 
+					"                (SUM(a.weightage * (a.completed + actual_to_be_approved) / a.scope) / " + 
+					"                    SUM(d1.baseline_weight)) * 100, " + 
+					"                1 " + 
+					"            ) AS structure_per_post " + 
+					"        FROM " + 
+					"            p6_validation v " + 
+					"            LEFT JOIN p6_validation_dyhod aph ON aph.progress_id_fk = v.progress_id " + 
+					"            LEFT JOIN p6_activities a ON p6_activity_id_fk = p6_activity_id " + 
+					"            LEFT JOIN structure s ON structure_id_fk = structure_id " + 
+					"            LEFT JOIN activities_component_weight d ON " + 
+					"                a.contract_id_fk = d.contract_id_fk AND " + 
+					"                s.structure_type_fk = d.structure_type AND " + 
+					"                s.structure = d.structure AND " + 
+					"                a.component = d.component " + 
+					"            LEFT JOIN activities_component_weight d1 ON " + 
+					"                a.contract_id_fk = d1.contract_id_fk AND " + 
+					"                s.structure_type_fk = d1.structure_type AND " + 
+					"                s.structure = d1.structure " + 
+					"            LEFT JOIN [user] u ON v.created_by_user_id_fk = u.user_id " + 
+					"            LEFT JOIN contract c ON a.contract_id_fk = c.contract_id " + 
+					"            LEFT JOIN [user] u1 ON u1.user_id = c.hod_user_id_fk " + 
+					"            LEFT JOIN work w ON c.work_id_fk = w.work_id " + 
+					"            LEFT JOIN ( " + 
+					"                SELECT " + 
+					"                    SUM(ISNULL(completed_scope, 0)) AS actual_to_be_approved, " + 
+					"                    p6_activity_id_fk " + 
+					"                FROM " + 
+					"                    p6_validation pv " + 
+					"                WHERE " + 
+					"                    pv.approval_status_fk = '"+obj.getApproval_status_fk()+"' " + 
+					"                GROUP BY " + 
+					"                    p6_activity_id_fk " + 
+					"            ) m ON m.p6_activity_id_fk = a.p6_activity_id " + 
+					"           where approval_status_fk = '"+obj.getApproval_status_fk()+"' "+qry1+"" + 
+					"        GROUP BY " + 
+					"            a.task_code, " + 
+					"            progress_id, " + 
+					"            v.created_date, " + 
+					"            u1.department_fk, " + 
+					"            v.progress_date, " + 
+					"            a.p6_activity_id, " + 
+					"            a.scope, " + 
+					"            a.completed, " + 
+					"            v.completed_scope, " + 
+					"            v.attachment_url, " + 
+					"            v.remarks, " + 
+					"            v.created_by_user_id_fk, " + 
+					"            aph.dyhod_user_id_fk, " + 
+					"            c.hod_user_id_fk, " + 
+					"            u.user_name, " + 
+					"            v.approved_or_rejected_by, " + 
+					"            v.approved_on, " + 
+					"            v.rejected_on, " + 
+					"            v.approval_status_fk, " + 
+					"            c.work_id_fk, " + 
+					"            w.work_short_name, " + 
+					"            a.contract_id_fk, " + 
+					"            c.contract_short_name, " + 
+					"            a.component, " + 
+					"            a.component_id, " + 
+					"            s.structure, " + 
+					"            a.p6_activity_name, " + 
+					"            v.updated_scope, " + 
+					"            a.unit " + 
+					"    ) AS qc " + 
+					"WHERE " + 
+					"    0 = 0  ";
 			
 			
 
@@ -577,19 +695,39 @@ public class ProgressApprovalDaoImpl implements ProgressApprovalDao{
 		//TransactionStatus status = transactionManager.getTransaction(def);
 		try {
 			
-			String qry = "select progress_id,progress_date,ap.p6_activity_id_fk as activity_id,ISNULL(a.scope,0) as scope,ISNULL(a.completed,0) as completed,"
-					+ "ap.completed_scope as actual_for_the_day,(ISNULL(a.scope,0) - ISNULL(a.completed,0)) as remaining_scope,"
-					+ "attachment_url,ap.remarks,FORMAT(ap.created_date,'dd-MM-yyyy') as updated_on,"
-					+ "ap.created_by_user_id_fk,approved_or_rejected_by,u.user_name as updated_by,"
-					+ "FORMAT(approved_on,'dd-MM-yyyy') as approved_on,FORMAT(rejected_on,'dd-MM-yyyy') as rejected_on,approval_status_fk,"
-					+ "c.work_id_fk,w.work_short_name,a.contract_id_fk,c.contract_short_name,a.component,a.component_id,structure,p6_activity_name as activity_name,updated_scope "
-					+ "from p6_validation ap "
-					+ "LEFT JOIN [user] u ON ap.created_by_user_id_fk = u.user_id "
-					+ "LEFT JOIN p6_activities a ON ap.p6_activity_id_fk = a.p6_activity_id "
-					+ "left join structure s on s.structure_id = a.structure_id_fk "
-					+ "LEFT JOIN contract c ON a.contract_id_fk = c.contract_id "
-					+ "LEFT JOIN work w ON c.work_id_fk = w.work_id "
-					+ "where progress_id  = ?";			
+			String qry = "SELECT  " + 
+					"    ap.progress_id, " + 
+					"    ap.progress_date, " + 
+					"    ap.p6_activity_id_fk AS activity_id, " + 
+					"    COALESCE(a.scope, 0) AS scope, " + 
+					"    COALESCE(a.completed, 0) AS completed, " + 
+					"    ap.completed_scope AS actual_for_the_day, " + 
+					"    (COALESCE(a.scope, 0) - COALESCE(a.completed, 0)) AS remaining_scope, " + 
+					"    ap.attachment_url, " + 
+					"    ap.remarks, " + 
+					"    FORMAT(ap.created_date, 'dd-MM-yyyy') AS updated_on, " + 
+					"    ap.created_by_user_id_fk, " + 
+					"    approved_or_rejected_by, " + 
+					"    u.user_name AS updated_by, " + 
+					"    FORMAT(approved_on, 'dd-MM-yyyy') AS approved_on, " + 
+					"    FORMAT(rejected_on, 'dd-MM-yyyy') AS rejected_on, " + 
+					"    ap.approval_status_fk, " + 
+					"    c.work_id_fk, " + 
+					"    w.work_short_name, " + 
+					"    a.contract_id_fk, " + 
+					"    c.contract_short_name, " + 
+					"    a.component, " + 
+					"    a.component_id, " + 
+					"    s.structure, " + 
+					"    a.p6_activity_name AS activity_name, " + 
+					"    updated_scope " + 
+					"FROM p6_validation ap " + 
+					"LEFT JOIN [user] u ON ap.created_by_user_id_fk = u.user_id " + 
+					"LEFT JOIN p6_activities a ON ap.p6_activity_id_fk = a.p6_activity_id " + 
+					"LEFT JOIN structure s ON s.structure_id = a.structure_id_fk " + 
+					"LEFT JOIN contract c ON a.contract_id_fk = c.contract_id " + 
+					"LEFT JOIN work w ON c.work_id_fk = w.work_id  "
+					+ "where progress_id  = ? ";			
 			
 			Object[] pValues = new Object[] {obj.getProgress_id()};	
 			

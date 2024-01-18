@@ -22,4 +22,8 @@ public interface ActivitiesExportReportDao {
 
 	List<StripChart> generateMCDOProgressReport1(StripChart obj) throws Exception;
 
+	List<StripChart> generateTPCStructureList(StripChart obj) throws Exception;
+
+	List<StripChart> generateTPCStructureCumList(StripChart obj) throws Exception;
+
 }

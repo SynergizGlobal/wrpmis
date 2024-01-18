@@ -643,6 +643,11 @@ public class ActivitiesExportController {
 			List<StripChart> divisionlist = service.getDivisionList(obj);
 			
 			
+			List<StripChart> strlist = service.generateTPCStructureList(obj);
+			
+			List<StripChart> strcumlist = service.generateTPCStructureCumList(obj);			
+			
+			
 			boolean landscape = false;
 			WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
 			
@@ -670,7 +675,7 @@ public class ActivitiesExportController {
 			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
 			createFooterReference(wordMLPackage, mp, factory, relationship);
 			 			  
-			DocxTableCreationForContractReport.createTableForTPCStatusReport(wordMLPackage, mp, factory, list,divisionlist, report_created_date);
+			DocxTableCreationForContractReport.createTableForTPCStatusReport(wordMLPackage, mp, factory, list,divisionlist,strlist,strcumlist, report_created_date);
 	    	  
 						
 			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){	

@@ -46,5 +46,13 @@ public class ActivitiesExportServiceImpl implements ActivitiesExportService{
 	public List<StripChart> generateMCDOProgressReport1(StripChart obj) throws Exception {
 		return dao.generateMCDOProgressReport1(obj);
 	}
+	@Override
+	public List<StripChart> generateTPCStructureList(StripChart obj) throws Exception {
+		return dao.generateTPCStructureList(obj);
+	}
+	@Override
+	public List<StripChart> generateTPCStructureCumList(StripChart obj) throws Exception {
+		return dao.generateTPCStructureCumList(obj);
+	}
 
 }

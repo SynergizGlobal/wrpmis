@@ -24,6 +24,8 @@ public class StripChart {
 	private String reported_by_email_id,zonal_railway_fk,other_organization,department_fk,department_name,Division,WorkScope,Balance;
 	private String works,during_month,cumulative,wip;
 	
+	private String cScope,	cCompleted,	cBalance,	cWIP,	wScope,	wCompleted,	wBalance,	wWIP;
+	
 	private List<MultipartFile> issueFiles;
 	private List<StripChart> report1List;
 	private MultipartFile[] structureFileNames;
@@ -998,6 +1000,70 @@ public class StripChart {
 
 	public void setWip(String wip) {
 		this.wip = wip;
+	}
+
+	public String getcScope() {
+		return cScope;
+	}
+
+	public void setcScope(String cScope) {
+		this.cScope = cScope;
+	}
+
+	public String getcCompleted() {
+		return cCompleted;
+	}
+
+	public void setcCompleted(String cCompleted) {
+		this.cCompleted = cCompleted;
+	}
+
+	public String getcBalance() {
+		return cBalance;
+	}
+
+	public void setcBalance(String cBalance) {
+		this.cBalance = cBalance;
+	}
+
+	public String getcWIP() {
+		return cWIP;
+	}
+
+	public void setcWIP(String cWIP) {
+		this.cWIP = cWIP;
+	}
+
+	public String getwScope() {
+		return wScope;
+	}
+
+	public void setwScope(String wScope) {
+		this.wScope = wScope;
+	}
+
+	public String getwCompleted() {
+		return wCompleted;
+	}
+
+	public void setwCompleted(String wCompleted) {
+		this.wCompleted = wCompleted;
+	}
+
+	public String getwBalance() {
+		return wBalance;
+	}
+
+	public void setwBalance(String wBalance) {
+		this.wBalance = wBalance;
+	}
+
+	public String getwWIP() {
+		return wWIP;
+	}
+
+	public void setwWIP(String wWIP) {
+		this.wWIP = wWIP;
 	}
 
 }

@@ -2436,6 +2436,7 @@ public class DesignDaoImpl implements DesignDao{
 		Connection con = null;
 		PreparedStatement insertStmt = null;
 		PreparedStatement updateStmt = null;
+		PreparedStatement updateRemarksActualDateQryStmt = null;
 		boolean flag = false;
 		try {
 			con = dataSource.getConnection();
@@ -2445,10 +2446,13 @@ public class DesignDaoImpl implements DesignDao{
 					+ "(?,?,?,?,?,?,?,?,?)";
 			
 			String updateQry = "update designdrawingstatusremarks set remarks=?,actual_date=? where task_code=?";
+			String updateRemarksActualDateQry = "update designdrawingstatusremarks set remarks='',actual_date='' where task_code=?";
 	
 			
 			insertStmt = con.prepareStatement(insertQry,Statement.RETURN_GENERATED_KEYS);
 			updateStmt = con.prepareStatement(updateQry);
+			
+			 updateRemarksActualDateQryStmt = con.prepareStatement(updateRemarksActualDateQry);
 			
 			int	arraySize = 0;
 			  if( !StringUtils.isEmpty(obj.getActual_dates()) && obj.getActual_dates().length > 0 ||  !StringUtils.isEmpty(obj.getDesignremarks()) && obj.getDesignremarks().length > 0) 
@@ -2496,7 +2500,17 @@ public class DesignDaoImpl implements DesignDao{
 						    insertStmt.executeUpdate();			            	
 			            }
 						  
-			    }				
+			    }
+				else
+				{
+		            if(getDesignP6ActivitiesData(obj.getTaskcodes()[i])>0)
+		            {
+
+		            	updateRemarksActualDateQryStmt.setString(1, obj.getTaskcodes()[i]);
+		            	updateRemarksActualDateQryStmt.executeUpdate();
+		            	
+		            }					
+				}
 			}
 
 		}catch(Exception e){ 

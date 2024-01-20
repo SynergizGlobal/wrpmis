@@ -676,9 +676,9 @@ font-size:22px ;
 
 	         		   });
 	         		   
-	         		  filters = filters + '<div class="clearHolder">'
+/* 	         		  filters = filters + '<div class="clearHolder">'
 	         		 						+ '<button class="btn waves-effect waves-light t-c" onclick="clearFilter('+filterIds+','+dashboardIdTemp+');">Clear Filters</button>'
-	         								+ '</div>'
+	         								+ '</div>' */
 	         		   
 	         		   $("#filter-item-holder").html(filters);
 	         								

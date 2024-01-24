@@ -259,14 +259,8 @@
 			}
 		}
 		.w90{
-/* 			width: 95% !important;
- */		}
-		
-.mdl-data-table {
-     white-space: wrap !important;
-     font-size: 13px; 
-    background-color: #fff;
-}		
+			width: 95% !important;
+		}
 		
     </style>
 </head> 
@@ -634,10 +628,7 @@
 		                                    <span id="financial_eval_submissionError" class="error-msg" ></span>
 		                                    <button type="button" id="financial_eval_submission_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
 		                                </div>		                                
-	                                </div>
-	                             </div>
-	                             </div>
-	                             <div class="container container-no-margin" style="width: 100%;margin: 0 auto !important;max-width: 100% !important;padding-right:0px;">	 	                                
+	                                </div>	                                
 	                                <div class="row">
 	                                <h5 class="center-align"><span class="div-header">Tender Bid Revisions</span></h5>  
 										<input type="hidden" id="rowNoRevision" name="rowNoRevision">
@@ -661,22 +652,18 @@
                                                 <tbody id="stTDCBody">
                                                 <input type="hidden" id="sNoRevision" value="1">
                                                        <tr>
-                                                       		<td style="width:3%;"><input id="revisionno0" name="revisionno" type="text" value="R1"></td>
-                                                        	<td style="width:10%"><input id="revision_estimated_cost0" name="revision_estimated_cost" type="text"></td>
-                                                       		<td style="width:10%"><input id="revision_planned_date_of_award0" name="revision_planned_date_of_award" type="text" class="validate datepicker"></td>
-                                                        	<td style="width:10%;"><input id="revision_planned_date_of_completion0" name="revision_planned_date_of_completion" type="text" class="validate datepicker"></td> 
-                                                        	<td style="width:10%;"><input id="notice_inviting_tender0" name="notice_inviting_tender" type="text" class="validate datepicker"></td> 
+                                                       		<td style="width:10%;"><input id="revisionno0" name="revisionno" type="text" value="R1"></td>
+                                                        	<td style="width:20%"><input id="revision_estimated_cost0" name="revision_estimated_cost" type="text"></td>
+                                                       		<td style="width:25%"><input id="revision_planned_date_of_award0" name="revision_planned_date_of_award" type="text" class="validate datepicker"></td>
+                                                        	<td style="width:25%;"><input id="revision_planned_date_of_completion0" name="revision_planned_date_of_completion" type="text" class="validate datepicker"></td> 
+                                                        	<td style="width:20%;"><input id="notice_inviting_tender0" name="notice_inviting_tender" type="text" class="validate datepicker"></td> 
                                                         	
-                                                            <td style="width:10%"><input id="tender_bid_opening_date0" name="tender_bid_opening_date" type="text" class="validate datepicker"></td>
-                                                        	<td style="width:10%;"><input id="technical_eval_approval0" name="technical_eval_approval" type="text" class="validate datepicker"></td> 
-                                                        	<td style="width:10%;"><input id="financial_eval_approval0" name="financial_eval_approval" type="text" class="validate datepicker"></td> 
+                                                            <td style="width:25%"><input id="tender_bid_opening_date0" name="tender_bid_opening_date" type="text" class="validate datepicker"></td>
+                                                        	<td style="width:25%;"><input id="technical_eval_approval0" name="technical_eval_approval" type="text" class="validate datepicker"></td> 
+                                                        	<td style="width:20%;"><input id="financial_eval_approval0" name="financial_eval_approval" type="text" class="validate datepicker"></td> 
                                                         	
-                                                        	<td style="width:100%;">
-                                                        	
-                                                        	<textarea name="tender_bid_remarks0" maxlength="1000" data-length="1000" id="tender_bid_remarks" class="validate pmis-textarea w90 pdr4em" style="height: 59px;"></textarea>
-                                                        	
-                                                        	</td>               	                                                      	
-                                                        	
+                                                        	<td style="width:10%;"><input id="tender_bid_remarks0" name="tender_bid_remarks" type="text"></td>               	                                                      	
+                                                        	<td></td>
                                                         </tr>
                                             
                                                 </tbody>
@@ -692,7 +679,7 @@
                                          
 	                                </div>
 		                            
-		                            <div class="row" style="max-width:1280px;margin-left: 200px;">
+		                            <div class="row">
 		                                <div class="col s12 m12 l12 input-field w95 pdr5em ">
 		                                    <textarea id="remarks" name ="remarks"  maxlength="100"  class="pmis-textarea" data-length="1000" ></textarea>
 		                                    <label for="remarks">Remarks</label>
@@ -700,7 +687,7 @@
 		                                </div>
 		                            </div>               
 	                        
- 									<div class="table-div" style="max-width:1280px;margin-left: 200px;">
+ 									<div class="table-div">
 			                    		<div class="">
 			                    		<div class=" col m12 s12 l12" style="margin-bottom:30px; padding:0;">
 			                                <div class="row fixed-width">
@@ -784,7 +771,7 @@
                 </div>
 
             </div>
-     
+        </div>
 
 
 
@@ -1023,8 +1010,10 @@
                +'<td><input id="tender_bid_opening_date' + rNo + '" name="tender_bid_opening_date" type="text" class="validate datepicker" value=""></td>'
                +'<td><input id="technical_eval_approval' + rNo + '" name="technical_eval_approval" type="text" class="validate datepicker" value=""></td>'
                +'<td><input id="financial_eval_approval' + rNo + '" name="financial_eval_approval" type="text" class="validate datepicker" value=""></td>'
-               +'<td><textarea id="tender_bid_remarks' + rNo + '" name="tender_bid_remarks" class="validate pmis-textarea w90 pdr4em" style="height: 59px;"></textarea></td>'
-              
+               +'<td><input id="tender_bid_remarks' + rNo + '" name="tender_bid_remarks" type="text" value=""></td>'
+               
+               
+               
                +'<td class="input-field mobile_btn_close"><button type="button" onclick="removeRevisionStActions(' + rNo + ');" class="btn waves-effect waves-light red t-c remove"><i class="fa fa-close"></i></button></td>'
                +'</tr>';
         
@@ -1033,10 +1022,6 @@
             var rowCount = $("#app_com_tableRevision tbody tr").length;
             $("#sNoRevision").val(rowCount);    
             $('.searchable').select2();
-            
-			$("input[name=tender_bid_remarks]").each(function(){
-	       		$('#tender_bid_remarks'+rNo).characterCounter();
-	 		});	           
         	
         }        
   

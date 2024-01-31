@@ -2178,7 +2178,7 @@ public class ContractDaoImpl implements ContractDao {
 							(!StringUtils.isEmpty(contract.getRevision_planned_date_of_award()) && contract.getRevision_planned_date_of_award().length>0 && contract.getRevision_planned_date_of_award()!=null)
 							
 							|| (!StringUtils.isEmpty(contract.getRevision_planned_date_of_completion()) && contract.getRevision_planned_date_of_completion().length>0 && contract.getRevision_planned_date_of_completion()!=null)
-
+							|| !StringUtils.isEmpty(contract.getRevisionno())
 							)
 					{
 					

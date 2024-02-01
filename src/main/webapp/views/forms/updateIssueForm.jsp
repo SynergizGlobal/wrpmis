@@ -809,6 +809,8 @@
 				  }
            	}); */
            	$('#corrective_measure').on('keypress, keydown', function(event) {
+           		
+           		if($.trim(issueStatusFk) != 'Raised'){
            		var $field = $(this)
            		 if ((event.which != 37 && (event.which != 39)) &&
 					    ((this.selectionStart < readOnlyLength) ||
@@ -819,6 +821,7 @@
            			}
 				    return false;
 				  }
+           		}
            	});
            	
             $('#corrective_measure').focus(function(){

@@ -104,7 +104,7 @@
 	                                        <span id="category_fkError" class="error-msg" ></span>
 	                                    </div> 
 	                                     <div class="col s12 m12 l6 input-field">
-	                                        <p class="searchable_label" style="text-align:left">Location & Description <span class="required">*</span></p>
+	                                        <p class="searchable_label" style="text-align:left">Location & Description </p>
 	                                        <select class="searchable validate-dropdown" id="issue_id" name="issue_id" onchange="addInQueTitles(this.value);getIssueDetailsReport();">
 	                                            <option value="">Select </option>
 	                                             <c:forEach var="obj" items="${titlesList }">
@@ -542,7 +542,7 @@
 	  			 	  },"category_fk":{
 	  			 		required: false
 	  			 	  },"issue_id": {
-	  			 		required: true
+	  			 		required: false
 	  			 	  }
 	  		 	},
 	  		    messages: {

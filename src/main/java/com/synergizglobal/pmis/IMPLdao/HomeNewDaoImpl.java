@@ -51,7 +51,7 @@ public class HomeNewDaoImpl implements HomeNewDao{
 		Project projectOverview = new Project();
 		NumberFormat numberFormatter = new DecimalFormat("#0.00");
 		try {
-			String projectQry = "select project_id,pink_book_item_number,project_name,plan_head_number,remarks,project_status,attachment,benefits,round((cumulative_expenditure/sanctioned_cost)*100,2) as financial_progress,round((actual_progress/sanctioned_cost)*100,2)  as physical_progress from project_view where project_id = ?";
+			String projectQry = "select project_id,pink_book_item_number,project_name,plan_head_number,remarks,project_status,attachment,benefits,round((cumulative_expenditure/sanctioned_cost)*100,2) as financial_progress,case when project_id='P04' then round((actual_progress/7387)*100,2) else  round((actual_progress/sanctioned_cost)*100,2) end as physical_progress from project_view where project_id = ?";
 			
 			String projectDetailsQry = "select sum(wr.sanctioned_estimated_cost) as sanctioned_estimated_cost,max(wr.sanctioned_year_fk) as sanctioned_year_fk,"
 					+ "sum(wr.completion_cost) as completion_cost,max(wr.year_of_completion) as year_of_completion, "

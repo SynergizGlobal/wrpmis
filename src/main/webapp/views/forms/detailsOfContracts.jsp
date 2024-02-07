@@ -360,8 +360,8 @@
 }
 
 .textalignment22{
-   	width:180px !important;
-   	min-width:180px !important;
+   	width:200px !important;
+   	min-width:200px !important;
 	text-align: center  !important;
 }
 
@@ -406,6 +406,11 @@ width: 90%;
 
 .mdl-data-table td:nth-child(7) {
      text-align: center !important
+     white-space: nowrap;
+}
+
+.mdl-data-table td:nth-child(9) {
+     text-align: left !important
      white-space: nowrap;
 }
 

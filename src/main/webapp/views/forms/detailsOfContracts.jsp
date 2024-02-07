@@ -360,8 +360,8 @@
 }
 
 .textalignment22{
-   	width:200px !important;
-   	min-width:200px !important;
+   	width:220px !important;
+   	min-width:220px !important;
 	text-align: center  !important;
 }
 

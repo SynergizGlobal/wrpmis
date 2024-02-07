@@ -393,8 +393,8 @@ width: 90%;
 
 .mdl-data-table td:nth-child(4) {
      text-align: center !important;
-     white-space: nowrap;
-}
+	/*white-space: nowrap;*/
+ }
 .mdl-data-table td:nth-child(5) {
      text-align: center !important
      white-space: nowrap;
@@ -483,16 +483,6 @@ width: 90%;
 											style="margin-top: 6px;" onclick="clearFilter();">Clear
 											Filters</button>
 									</div>									
-									<div class="col s12 m2 l2 input-field">
-										<p class="searchable_label fs16rem" style="color:#000000;"></p><br>
-										L.A.C=Latest Anticipated Cost
-										<br>
-										OCD=Original Completion Date
-										<br>
-										RCD=Revised Completion Date										
-									</div>									
-								
-
 							</div>
 						</div>
 					</div>
@@ -523,27 +513,25 @@ width: 90%;
 										<th class="fs16rem" style="background-color: #162D6E;width:5%;white-space:nowrap;">S.No</th>
 										<th class="fs16rem" style="background-color: #162D6E;">Contract Status</th>
 										<th class="fs16rem" style="background-color: #162D6E;width:15%;white-space:nowrap;">Contract</th>
-										<th class="fs16rem" style="background-color: #162D6E;width:15%;white-space:nowrap;">L.A.C (Cr)</th>
+										<th class="fs16rem" style="background-color: #162D6E;width:15%;white-space:nowrap;">Contractor Name</th>
+										<th class="fs16rem" style="background-color: #162D6E;width:15%;white-space:nowrap;">C.V. (Cr)</th>
 										<th class="fs16rem" style="background-color: #162D6E;width:15%;white-space:nowrap;">Exp. (Cr)</th>
 										<th class="fs16rem" style="background-color: #162D6E;width:10%;white-space:nowrap;">% Progress</th>
 										<th class="fs16rem" style="background-color: #162D6E;width:10%;white-space:nowrap;">LOA Date</th>
-										<th class="fs16rem" style="background-color: #162D6E;width:10%;white-space:nowrap;">OCD</th>
-										<th class="fs16rem" style="background-color: #162D6E;width:10%;white-space:nowrap;">RCD</th>
-										<th class="fs16rem" style="background-color: #162D6E;width:10%;white-space:nowrap;">Remarks</th>
+										<th class="fs16rem" style="background-color: #162D6E;width:10%;white-space:nowrap;">DOC</th>
 									</tr>
 								</thead>
 								<tbody class="fs16rem" style="background-color: #162D6E;">
 									<tr>
 										<td></td>
-										<td></td>	
+										<td></td>
+										<td></td>		
 										<td></td>
 										<td></td>
 										<td></td>
 										<td></td>
 										<td></td>
 										<td></td>
-										<td></td>
-										<td></td>										
 									</tr>
 								</tbody>
 							</table>
@@ -742,7 +730,8 @@ width: 90%;
                 //{targets: [6],className: 'fw-200'},
                 {targets: [3,5,6],className: 'fw-155'},
                 {targets: [2],className: 'textalignment'},
-                {targets: [6,9],className: 'textalignment2'},
+                {targets: [3],className: 'wrapstyle'},
+                {targets: [6],className: 'textalignment2'},
                 {targets: [7,8],className: 'textalignment22'},
                 { orderable: false, 'aTargets': ['nosort'] }
             ],
@@ -816,6 +805,7 @@ width: 90%;
 			                        	conractName = $.trim(val.contract_short_name) 
 			                        }
 			                        var loa_date = val.loa_date;
+
 			                        var awarded_cost = val.awarded_cost;
 			                        if ($.trim(val.contract_status_fk) == 'Not Awarded'){
 			                        	loa_date = '<span style="color:red;">'+val.planned_date_of_award+'</span>'
@@ -824,6 +814,7 @@ width: 90%;
 				                   	rowArray.push($.trim(lp));
 				                   	rowArray.push($.trim(val.contract_status_fk));
 				                   	rowArray.push($.trim(conractName));
+				                	rowArray.push($.trim(val.contractor_name));
 				                   	var concat=$.trim(awarded_cost);
 				                   	if(val.revisionnumber!=null && val.revisionnumber!="")
 				                   		{
@@ -832,12 +823,40 @@ width: 90%;
 				                   		}
 				                   	rowArray.push(concat);
 				                   	rowArray.push($.trim(val.cumulative_expenditure));
-				                   	rowArray.push($.trim(val.physical_progress));
+				                   		var pyval="";
+				                   		var pvalData="";
+				                   		if(val.physical_progress!="")
+				                   		{
+				                   			pyval=parseFloat(val.physical_progress);
+				                   			pvalData=pyval.toFixed(2);
+				                   		}
+				                   		if(val.physical_progress=="" && val.awarded_cost!="")
+				                   		{
+				                   			pyval=parseFloat(val.cumulative_expenditure)/parseFloat(val.awarded_cost);
+				                   			pvalData=pyval.toFixed(2);
+				                   		}
+				                   		if(val.physical_progress==0 && val.awarded_cost==0)
+				                   		{
+				                   			pvalData="";
+				                   		}
+			                        	if(loa_date=='<span style="color:red;">null</span>')
+			                        	{
+			                        		loa_date="";
+			                        	}
+			                        	var fval=val.doc;
+			                        	if(fval==null)
+		                        		{
+			                        		fval="";
+		                        		}
+			                        	var rval=val.revision;
+			                        	if(rval==null)
+		                        		{
+			                        		rval="";
+		                        		}			                        	
+				                   		var concatStr=fval+'<br><br><span style="color:red;">'+rval+'</span>';
+				                   	rowArray.push(pvalData);
 				                   	rowArray.push($.trim(loa_date));
-				                   	rowArray.push($.trim(val.doc));
-				                   	rowArray.push($.trim(val.revised_doc));
-				                   	rowArray.push($.trim(val.remarks));   	                   	
-				                   	
+				                   	rowArray.push($.trim(concatStr));
 				                    table.row.add(rowArray).draw( true );
 				                    lp++;
 								}

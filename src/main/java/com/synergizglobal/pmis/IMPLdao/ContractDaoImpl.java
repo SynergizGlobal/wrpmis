@@ -4642,11 +4642,7 @@ public class ContractDaoImpl implements ContractDao {
 				qry = qry + " and contract_status_fk = ?";
 				arrSize++;
 			}
-			qry = qry + "    ORDER BY case when department_fk='Engg' then 1" + 
-					"   when department_fk='Elec' then 2" + 
-					"   when department_fk='S&T' then 3 end asc ," + 
-					"   " + 
-					"   case when contract_status_fk='In Progress' then 1" + 
+			qry = qry + "    ORDER BY case when contract_status_fk='In Progress' then 1" + 
 					"   when contract_status_fk='Not Awarded' then 2" + 
 					"   when contract_status_fk='Completed' then 3 end asc";
 			Object[] pValues = new Object[arrSize];

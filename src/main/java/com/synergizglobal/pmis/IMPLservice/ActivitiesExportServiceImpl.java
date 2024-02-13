@@ -54,5 +54,9 @@ public class ActivitiesExportServiceImpl implements ActivitiesExportService{
 	public List<StripChart> generateTPCStructureCumList(StripChart obj) throws Exception {
 		return dao.generateTPCStructureCumList(obj);
 	}
+	@Override
+	public List<StripChart> getWorksListForSelectedProject(StripChart obj) throws Exception {
+		return dao.getWorksListForSelectedProject(obj);
+	}
 
 }

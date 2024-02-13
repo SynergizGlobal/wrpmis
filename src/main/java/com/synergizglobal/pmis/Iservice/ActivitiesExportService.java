@@ -26,4 +26,6 @@ public interface ActivitiesExportService {
 
 	List<StripChart> generateTPCStructureCumList(StripChart obj)  throws Exception;
 
+	List<StripChart> getWorksListForSelectedProject(StripChart obj) throws Exception;
+
 }

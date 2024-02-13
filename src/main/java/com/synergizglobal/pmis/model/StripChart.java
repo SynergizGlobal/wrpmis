@@ -19,12 +19,12 @@ public class StripChart {
 
 	private MultipartFile stripChartFile,uploadFile;
 	
-	private String [] actualScopes,strip_chart_ids,ids,completedScopes,totalScopes,actual_starts,actual_finishs,activity_ids,p6_task_codes;
+	private String [] actualScopes,projects,strip_chart_ids,ids,completedScopes,totalScopes,actual_starts,actual_finishs,activity_ids,p6_task_codes;
 	
 	private String reported_by_email_id,zonal_railway_fk,other_organization,department_fk,department_name,Division,WorkScope,Balance;
 	private String works,during_month,cumulative,wip;
 	
-	private String cScope,	cCompleted,	cBalance,	cWIP,	wScope,	wCompleted,	wBalance,	wWIP;
+	private String cScope,	cCompleted,	cBalance,	cWIP,	wScope,	wCompleted,	wBalance,	wWIP, from_date, to_date;
 	
 	private List<MultipartFile> issueFiles;
 	private List<StripChart> report1List;
@@ -1064,6 +1064,30 @@ public class StripChart {
 
 	public void setwWIP(String wWIP) {
 		this.wWIP = wWIP;
+	}
+
+	public String [] getProjects() {
+		return projects;
+	}
+
+	public void setProjects(String [] projects) {
+		this.projects = projects;
+	}
+
+	public String getFrom_date() {
+		return from_date;
+	}
+
+	public void setFrom_date(String from_date) {
+		this.from_date = from_date;
+	}
+
+	public String getTo_date() {
+		return to_date;
+	}
+
+	public void setTo_date(String to_date) {
+		this.to_date = to_date;
 	}
 
 }

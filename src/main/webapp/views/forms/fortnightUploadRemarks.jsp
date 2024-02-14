@@ -211,7 +211,7 @@
             	    	}
             	    	else
            	    		{
-            	    		errorText=errorText+"data date > today date in row "+(i+1)+"<br><br>";
+            	    		errorText=errorText+'"data date > today date" in row '+(i+1)+'<br><br>';
            	    		}
             }
 	    	$("#errorResult").html(errorText);

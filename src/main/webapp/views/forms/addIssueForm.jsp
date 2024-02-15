@@ -226,7 +226,7 @@
                                  
                                 <div class="col s6 offset-m2 m4 l4 input-field">
                                     <input id="date" name="date" type="text" class="validate datepicker">
-                                    <label for="date">Issue pending since </label>
+                                    <label for="date">Target date of completion </label>
                                     <button type="button" id="date_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="dateError" class="error-msg" ></span>
                                 </div>

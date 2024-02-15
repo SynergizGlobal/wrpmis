@@ -272,7 +272,7 @@
                             <div class="row ">                                 
                                 <div class="col s6 m4 l4 input-field offset-m2">
                                     <input id="date" name="date" type="text" class="datepicker" value="${issue.date }" readonly>
-                                    <label for="date">Issue pending since </label>
+                                    <label for="date">Target date of completion </label>
                                     <button type="button" id="date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     <span id="dateError" class="error-msg" ></span>
                                 </div>

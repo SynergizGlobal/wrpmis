@@ -219,7 +219,7 @@
     		
 	         if($("#errorResult").html().trim()=="")
 	       	 {
-	        		//document.getElementById('frmUpload').submit();
+	        		document.getElementById('frmUpload').submit();
 	       	 }	
 	         
 

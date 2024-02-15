@@ -624,7 +624,26 @@
 		        $('#'+id+'_icon').click(function () {
 	                event.stopPropagation();
 	                $('#'+id).click();
-	            });
+	            });	
+		        
+				$('#date').datepicker({
+		        	format:'dd-mm-yyyy',
+		        	onOpen:datePickerSelectAddClass,
+		        	autoClose: true,
+		        	showClearBtn: true,
+		            onClose: function () {
+		            	if(!$(this.el).val()){
+			                $(this.el).siblings('label').removeClass('active');	            		
+		            	}
+		            }
+		        }).datepicker("setDate", new Date());
+				
+	
+		        
+		        $('#date_icon').click(function () {
+	                event.stopPropagation();
+	                $('#'+id).click();
+	            });		        
            	});
         });
         

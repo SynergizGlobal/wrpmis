@@ -956,7 +956,7 @@
       			 	  		required: false
      			 	  	 },"date": {
     				 		required: false,
-       				 	 	dateBeforeToday1:"#date"
+       				 	 	//dateBeforeToday1:"#date"
     				 	  },"location": {
     				 		required: false
     				 	  },"latitude": {

@@ -1416,25 +1416,7 @@ public class UserDaoImpl implements UserDao{
 	public List<User> getModuleSList(User obj) throws Exception {
 		List<User> objsList = null;
 		try {
-			String qry = "select module_name from module m "
-					+ " where module_name in ('Contracts','Design','Execution &  Monitoring','Finance',"
-					+ "'Issues','Land Acquisition','R & R','Risk','Safety','Training','Unmanned Aerial Vehicle','Utility Shifting','Works')"
-					+ " and soft_delete_status_fk = 'Active' group by module_name  "
-					+ "order by case when module_name='Contracts' then 1 " + 
-					"when module_name='Risk' then 2 " + 
-					"when module_name='Land Acquisition' then 3 " + 
-					"when module_name='R & R' then 4 " + 
-					"when module_name='Utility Shifting' then 5 " + 
-					"when module_name='Works' then 6 " + 
-					"when module_name='Safety' then 7 " + 
-					"when module_name='Design' then 8 " + 
-					"when module_name='Execution &  Monitoring' then 9  " + 
-					"when module_name='Finance' then 10  " + 
-					"when module_name='Issues' then 11  " + 
-					"when module_name='Training' then 12  " + 
-					"when module_name='Unmanned Aerial Vehicle' then 13  " + 
-					" " + 
-					"end asc";
+			String qry = "select distinct module_name from module";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<User>(User.class));			
 		}catch(Exception e){ 

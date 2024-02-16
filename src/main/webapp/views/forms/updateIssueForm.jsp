@@ -741,7 +741,7 @@
             getStructureListForIssue();
             getComponentListForIssue();
             
-            let date_pickers = document.querySelectorAll('#date,#resolved_date');
+            let date_pickers = document.querySelectorAll('#resolved_date');
     	    $.each(date_pickers, function(){
     	    	var dt = this.value.split(/[^0-9]/);
     	    	this.value = ""; 
@@ -759,6 +759,25 @@
     	    	}
     	    	M.Datepicker.init(this, options);
     	    });
+    	    
+            let date_pickers1 = document.querySelectorAll('#date');
+    	    $.each(date_pickers1, function(){
+    	    	var dt = this.value.split(/[^0-9]/);
+    	    	this.value = ""; 
+    	    	var options = {format: 'dd-mm-yyyy',autoClose:true ,
+    	    			onOpen:datePickerSelectAddClass,showClearBtn: true,
+    	    	        onClose: function () {
+    	    	            if (!$(this.el).val()) {
+    	    	                $(this.el).siblings('label').removeClass('active');
+    	    	            }
+    	    	        }
+    	    	};
+    	    	if(dt.length > 1){
+    	    		options.setDefaultDate = true,
+    	    		options.defaultDate = new Date(dt[2], dt[1] - 1, dt[0])
+    	    	}
+    	    	M.Datepicker.init(this, options);
+    	    });    	    
            	/* var txt = $("textarea#corrective_measure");
            	txt.val( txt.val() + "\n");*/
           
@@ -1598,7 +1617,7 @@
     			 		    required: false
     			 	   	  },"date": {
     				 		required: false,
-       				 	 	dateBeforeToday1:"#date"
+       				 	 	//dateBeforeToday1:"#date"
     				 	  },"assigned_date":{
     				 		 required: true,
         				 	 dateBeforeToday2:"#assigned_date",

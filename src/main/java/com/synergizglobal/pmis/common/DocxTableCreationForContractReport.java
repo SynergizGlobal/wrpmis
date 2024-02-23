@@ -5674,7 +5674,7 @@ public class DocxTableCreationForContractReport {
 		}
 	}
 	public static void createTableForMCDOProgressReport(WordprocessingMLPackage wordMLPackage, MainDocumentPart mp,
-			ObjectFactory factory, List<StripChart> contractsData,List<StripChart> contractsData1, String report_created_date) throws Exception {
+			ObjectFactory factory, List<StripChart> contractsData,List<StripChart> contractsData1, String report_created_date, String fDate, String tDate) throws Exception {
 		try {	
 
 			RPr titleRpr = getRPr(factory, "Verdana", "000000", "10", STHint.EAST_ASIA, true, false, false,
@@ -5719,10 +5719,11 @@ public class DocxTableCreationForContractReport {
 				}
 				temp++;
 				
-				
-				addParagraph(mp, factory);
-
 				mp.addObject(tableHead);
+				
+				addHeading(wordMLPackage, mp, factory, JcEnumeration.CENTER, titleRPr, "MCDO Progress Report");
+				
+				addHeading(wordMLPackage, mp, factory, JcEnumeration.CENTER, calibriBoldRPr, "for the Period "+fDate+" to "+tDate+"");
 				
 				addHeading(wordMLPackage, mp, factory, JcEnumeration.CENTER, titleRPr, "New Suburban Railway Corridor between");
 				
@@ -5739,7 +5740,7 @@ public class DocxTableCreationForContractReport {
 				Tr titleRow0 = factory.createTr();
 				List<String> tableHeader0 = new ArrayList<String>();
 				tableHeader0.add("Works");
-				tableHeader0.add("During the month");
+				tableHeader0.add("During the period");
 				tableHeader0.add("Cumulative");
 				tableHeader0.add("Balance");
 				int columnNo = 1;
@@ -5768,7 +5769,7 @@ public class DocxTableCreationForContractReport {
 						String backgroundColor = null;
 						Tr contentRow = factory.createTr();
 						
-						addTableCell(factory, wordMLPackage, contentRow, cObj1.getWorks(), garamondRPr, JcEnumeration.CENTER,
+						addTableCell(factory, wordMLPackage, contentRow, cObj1.getWorks()+"("+cObj1.getUnit()+")", garamondRPr, JcEnumeration.CENTER,
 								hasBgColor, backgroundColor);					
 						
 						addTableCell(factory, wordMLPackage, contentRow, cObj1.getDuring_month(), garamondRPr, JcEnumeration.CENTER,
@@ -5803,7 +5804,7 @@ public class DocxTableCreationForContractReport {
 						String backgroundColor = null;
 						Tr contentRow = factory.createTr();
 						
-						addTableCell(factory, wordMLPackage, contentRow, cObj1.getWorks(), garamondRPr, JcEnumeration.CENTER,
+						addTableCell(factory, wordMLPackage, contentRow, cObj1.getWorks()+"("+cObj1.getUnit()+")", garamondRPr, JcEnumeration.CENTER,
 								hasBgColor, backgroundColor);					
 						
 						addTableCell(factory, wordMLPackage, contentRow, cObj1.getDuring_month(), garamondRPr, JcEnumeration.CENTER,

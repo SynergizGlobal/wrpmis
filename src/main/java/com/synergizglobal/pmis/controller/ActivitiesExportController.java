@@ -158,6 +158,23 @@ public class ActivitiesExportController {
 		}
 		return model;
 	}
+	
+	@RequestMapping(value = "/mcdo-progress-report", method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView mcdoReport(@ModelAttribute StripChart obj, RedirectAttributes attributes) {
+		ModelAndView model = new ModelAndView(PageConstants.mcdoProgressReport);
+		try {
+			List<StripChart> projectsList = service.getProjectsFilterListInActivitiesExportReport(obj);
+			model.addObject("projectsList", projectsList);
+
+			List<StripChart> worksList = service.getWorksFilterListInActivitiesExportReport(obj);
+			model.addObject("worksList", worksList);
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("ActivitiesExportReport : " + e.getMessage());
+		}
+		return model;
+	}	
 
 	public RPr getRPr(ObjectFactory factory, String fontFamily,
 			String colorVal, String fontSize, STHint sTHint, boolean isBlod,
@@ -705,7 +722,7 @@ public class ActivitiesExportController {
     }
 	
 
-	@RequestMapping(value = "/mcdo-progress-report", method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value = "/generate-mcdo-progress-report", method = {RequestMethod.GET,RequestMethod.POST})
 	public void MCDOProgressReport(HttpServletResponse response,StripChart obj, HttpSession session,RedirectAttributes attributes) {
 		
 		
@@ -715,9 +732,30 @@ public class ActivitiesExportController {
 			SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
 			Date date = new Date();
             String currentDate = sqlDate.format(date);
-						
-			List<StripChart> list = service.generateMCDOProgressReport(obj);
-			List<StripChart> list1 = service.generateMCDOProgressReport1(obj);
+            
+			String SplitStr=obj.getFrom_date().toString();
+			String[] StrVar=SplitStr.split("-");
+			
+
+			
+			String SplitStr1=obj.getTo_date().toString();
+			String[] StrVar1=SplitStr1.split("-");	
+			
+			String fDate=StrVar[2]+"-"+StrVar[1]+"-"+StrVar[0];
+			String tDate=StrVar1[2]+"-"+StrVar1[1]+"-"+StrVar1[0];
+			obj.setFrom_date(fDate);
+			obj.setTo_date(tDate);
+			List<StripChart> list =null;
+			List<StripChart> list1=null;
+			
+			if(obj.getWork_id_fk().toString().indexOf("P04W02")!=-1)
+			{
+				list = service.generateMCDOProgressReport(obj);
+			}
+			if(obj.getWork_id_fk().toString().indexOf("P04W01")!=-1)
+			{			
+				list1 = service.generateMCDOProgressReport1(obj);
+			}
 
 			boolean landscape = false;
 			WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
@@ -739,13 +777,13 @@ public class ActivitiesExportController {
 			String headerTextRight = report_created_date;
 			
 			RPr titleRpr = getRPr(factory, "Calibri", "000000", "26", STHint.EAST_ASIA, true, false, false, false);
-			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,imagePath,imageAlignment,headerTextMiddle,headerTextRight,titleRpr);		
+			Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,imagePath,imageAlignment,"","",titleRpr);		
 			//Relationship relationship = createHeaderPart(wordMLPackage, mp, factory,headerTextRight);
 			createHeaderReference(wordMLPackage, mp, factory, relationship);
 			relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
 			createFooterReference(wordMLPackage, mp, factory, relationship);
 			 			  
-			DocxTableCreationForContractReport.createTableForMCDOProgressReport(wordMLPackage, mp, factory, list,list1, report_created_date);
+			DocxTableCreationForContractReport.createTableForMCDOProgressReport(wordMLPackage, mp, factory, list,list1, report_created_date,fDate,tDate);
 	    	  
 						
 			try (ByteArrayOutputStream bos = new ByteArrayOutputStream()){	
@@ -774,8 +812,18 @@ public class ActivitiesExportController {
 		}		
 
     }	
-	
-		
+	@RequestMapping(value = "/ajax/getWorksListForMCDOProgressReport", method = {RequestMethod.GET,RequestMethod.POST}, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<StripChart> getWorksListForMCDOProgressreporttReportForm(@ModelAttribute StripChart obj) {
+		List<StripChart> objList = null;
+		try {
+			objList = service.getWorksListForSelectedProject(obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getWorksListForMCDOProgressreporttReportForm : " + e.getMessage());
+		}
+		return objList;
+	}		
 	
 
 	@RequestMapping(value = "/ajax/getProjectListForActivitiesExportReportForm", method = { RequestMethod.GET,

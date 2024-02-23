@@ -5763,26 +5763,29 @@ public class DocxTableCreationForContractReport {
 				table.getContent().add(titleRow0);
 
 				int sNo = 1;
-				for (StripChart cObj1 : contractsData) 
-				{
-						boolean hasBgColor = false;
-						String backgroundColor = null;
-						Tr contentRow = factory.createTr();
-						
-						addTableCell(factory, wordMLPackage, contentRow, cObj1.getWorks()+"("+cObj1.getUnit()+")", garamondRPr, JcEnumeration.CENTER,
-								hasBgColor, backgroundColor);					
-						
-						addTableCell(factory, wordMLPackage, contentRow, cObj1.getDuring_month(), garamondRPr, JcEnumeration.CENTER,
-								hasBgColor, backgroundColor);
-						
-						addTableCell(factory, wordMLPackage, contentRow,cObj1.getCumulative(),
-								garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);	
-						
-						addTableCell(factory, wordMLPackage, contentRow,cObj1.getBalance(),
-								garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);				
-						table.getContent().add(contentRow);
-						sNo++;
-				}
+				if (!StringUtils.isEmpty(contractsData))
+						{
+								for (StripChart cObj1 : contractsData) 
+								{
+										boolean hasBgColor = false;
+										String backgroundColor = null;
+										Tr contentRow = factory.createTr();
+										
+										addTableCell(factory, wordMLPackage, contentRow, cObj1.getWorks()+"("+cObj1.getUnit()+")", garamondRPr, JcEnumeration.CENTER,
+												hasBgColor, backgroundColor);					
+										
+										addTableCell(factory, wordMLPackage, contentRow, cObj1.getDuring_month(), garamondRPr, JcEnumeration.CENTER,
+												hasBgColor, backgroundColor);
+										
+										addTableCell(factory, wordMLPackage, contentRow,cObj1.getCumulative(),
+												garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);	
+										
+										addTableCell(factory, wordMLPackage, contentRow,cObj1.getBalance(),
+												garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);				
+										table.getContent().add(contentRow);
+										sNo++;
+								}
+						}
 				mp.addObject(table);
 				
 				addParagraph(mp, factory);
@@ -5798,6 +5801,8 @@ public class DocxTableCreationForContractReport {
 				table2.getContent().add(titleRow0);
 
 				int sNo1 = 1;
+				if (!StringUtils.isEmpty(contractsData1))
+				{
 				for (StripChart cObj1 : contractsData1) 
 				{
 						boolean hasBgColor = false;
@@ -5817,6 +5822,7 @@ public class DocxTableCreationForContractReport {
 								garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);				
 						table2.getContent().add(contentRow);
 						sNo++;
+				}
 				}
 				mp.addObject(table2);			
 			

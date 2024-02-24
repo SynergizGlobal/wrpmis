@@ -748,12 +748,20 @@ public class ActivitiesExportController {
 			List<StripChart> list =null;
 			List<StripChart> list1=null;
 			
-			if(obj.getWork_id_fk().toString().indexOf("P04W02")!=-1)
+			if(obj.getWork_id_fk().compareTo("P04W02")==0)
 			{
 				list = service.generateMCDOProgressReport(obj);
 			}
-			if(obj.getWork_id_fk().toString().indexOf("P04W01")!=-1)
-			{			
+			if(obj.getWork_id_fk().compareTo("P04W01")==0)
+			{	
+				list1 = service.generateMCDOProgressReport1(obj);
+			}			
+			
+			if(obj.getWork_id_fk().toString().indexOf("P04W02,P04W01")!=-1 || obj.getWork_id_fk().toString().indexOf("P04W01,P04W02")!=-1)
+			{
+				obj.setWork_id_fk("P04W02");
+				list = service.generateMCDOProgressReport(obj);
+				obj.setWork_id_fk("P04W01");
 				list1 = service.generateMCDOProgressReport1(obj);
 			}
 

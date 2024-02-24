@@ -396,7 +396,7 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 					"select works,case when works in ( 'Final lining','heading','rock cutting','approach cutting','drain','benching', 'earthwork filling','railway earth filling',  \r\n" + 
 					"'Blanketing', 'Retaining Wall', 'TSS Formation', 'Ballast') then case when works='Approach Cutting' then 'Cum'  when works='Heading' then 'Rm' when works='Benching' then 'Rm'  when works='Final Lining' then 'Rm'    else 'Cum' end else 'Nos' end as unit,\r\n" + 
 					"case when a.works in ('Final lining','heading','rock cutting','approach cutting','drain','benching', 'earthwork filling','railway earth filling',\r\n" + 
-					"'Blanketing', 'Retaining Wall', 'TSS Formation', 'Ballast') then a.during_the_month else b.during_the_month end as During_month,\r\n" + 
+					"'Blanketing', 'Retaining Wall', 'TSS Formation', 'Ballast') then round(a.during_the_month,2) else round(b.during_the_month,2) end as During_month,\r\n" + 
 					"case when a.works in ('Final lining','heading','rock cutting','approach cutting','drain','benching', 'earthwork filling','railway earth filling',\r\n" + 
 					"'Blanketing', 'Retaining Wall', 'TSS Formation', 'Ballast') then a.cummulative else b.cummulative end as Cumulative,\r\n" + 
 					"case when a.works in ('Final lining','heading','rock cutting','approach cutting','drain','benching', 'earthwork filling','railway earth filling',\r\n" + 
@@ -526,7 +526,7 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 			 		"select distinct a.works as works, case when a.works in ( 'construction of drain','earthwork cutting', 'earthwork filling',  \r\n" + 
 			 		"'Blanketing') then c.unit else 'Nos' end as unit,  \r\n" + 
 			 		"case when a.works in ('construction of drain','earthwork cutting', 'earthwork filling',  \r\n" + 
-			 		"'Blanketing') then a.during_the_month else b.during_the_month end as during_month,  \r\n" + 
+			 		"'Blanketing') then round(a.during_the_month,2) else round(b.during_the_month,2) end as during_month,  \r\n" + 
 			 		"case when a.works in ('construction of drain','earthwork cutting', 'earthwork filling',  \r\n" + 
 			 		"'Blanketing') then a.cummulative else b.cummulative end as cummulative,  \r\n" + 
 			 		"case when a.works in ('construction of drain','earthwork cutting', 'earthwork filling',  \r\n" + 

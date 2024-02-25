@@ -196,23 +196,6 @@
             		{
             	    	errorText=errorText+"Contract Short Name not matched in row "+(i+1)+"<br><br>";
             		}
-            	    
-            	    var checkDateCondistion=excelRows[i]["Date"].toString();
-            	    var splitStr=checkDateCondistion.split(" to ");
-            	    
-            	    var currentDate = new Date();
-            	    currentDate.setDate(currentDate.getDate() + 1);
-            	    currentDate.setHours(0,0,0,0);
-            	    
-            	    
-            	    	if(new Date(splitStr[1])<currentDate)
-            	    	{
-            	    	
-            	    	}
-            	    	else
-           	    		{
-            	    		errorText=errorText+'"data date > today date" in row '+(i+1)+'<br><br>';
-           	    		}
             }
 	    	$("#errorResult").html(errorText);
 	    	

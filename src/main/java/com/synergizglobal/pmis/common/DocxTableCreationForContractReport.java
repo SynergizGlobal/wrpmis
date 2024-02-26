@@ -5721,12 +5721,15 @@ public class DocxTableCreationForContractReport {
 				
 				mp.addObject(tableHead);
 				
-				if (!StringUtils.isEmpty(contractsData))
-				{
+				//if (!StringUtils.isEmpty(contractsData))
+				//{
 				
 				addHeading(wordMLPackage, mp, factory, JcEnumeration.CENTER, titleRPr, "MCDO Progress Report");
 				
 				addHeading(wordMLPackage, mp, factory, JcEnumeration.CENTER, calibriBoldRPr, "for the Period "+fDate+" to "+tDate+"");
+				
+				if (!StringUtils.isEmpty(contractsData))
+				{
 				
 				addHeading(wordMLPackage, mp, factory, JcEnumeration.CENTER, titleRPr, "New Suburban Railway Corridor between");
 				
@@ -5734,6 +5737,7 @@ public class DocxTableCreationForContractReport {
 				
 				addHeading(wordMLPackage, mp, factory, JcEnumeration.LEFT, calibriBoldRPr, "Works Completed");	
 				}
+				//}
 				
 				/***************************************************************/
 
@@ -5743,8 +5747,8 @@ public class DocxTableCreationForContractReport {
 				/************************************************************************/
 				Tr titleRow0 = factory.createTr();
 				List<String> tableHeader0 = new ArrayList<String>();
-				if (!StringUtils.isEmpty(contractsData))
-				{
+				//if (!StringUtils.isEmpty(contractsData))
+				//{
 				tableHeader0.add("Works");
 				tableHeader0.add("During the period");
 				tableHeader0.add("Cumulative");
@@ -5767,7 +5771,7 @@ public class DocxTableCreationForContractReport {
 							"ecf2ff",width);
 				}
 				table.getContent().add(titleRow0);
-				}
+				//}
 
 				int sNo = 1;
 				if (!StringUtils.isEmpty(contractsData))
@@ -5792,13 +5796,14 @@ public class DocxTableCreationForContractReport {
 										table.getContent().add(contentRow);
 										sNo++;
 								}
+								mp.addObject(table);
 						}
-				mp.addObject(table);
 				
-				addParagraph(mp, factory);
+				
+				
 				if (!StringUtils.isEmpty(contractsData1))
 				{
-				
+				addParagraph(mp, factory);
 				addHeading(wordMLPackage, mp, factory, JcEnumeration.CENTER, titleRPr, "Quadrupling of Virar-Dahanu Road on Western Railway");
 				
 				addHeading(wordMLPackage, mp, factory, JcEnumeration.LEFT, calibriBoldRPr, "Works Completed");		
@@ -5833,8 +5838,9 @@ public class DocxTableCreationForContractReport {
 						table2.getContent().add(contentRow);
 						sNo++;
 				}
+				mp.addObject(table2);	
 				}
-				mp.addObject(table2);			
+						
 			
 				
 		} catch (Exception e) {

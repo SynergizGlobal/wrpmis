@@ -5778,7 +5778,7 @@ public class DocxTableCreationForContractReport {
 										String backgroundColor = null;
 										Tr contentRow = factory.createTr();
 										
-										addTableCell(factory, wordMLPackage, contentRow, cObj1.getWorks()+"("+cObj1.getUnit()+")", garamondRPr, JcEnumeration.CENTER,
+										addTableCell(factory, wordMLPackage, contentRow, cObj1.getWorks(), garamondRPr, JcEnumeration.CENTER,
 												hasBgColor, backgroundColor);					
 										
 										addTableCell(factory, wordMLPackage, contentRow, cObj1.getDuring_month(), garamondRPr, JcEnumeration.CENTER,
@@ -5819,7 +5819,7 @@ public class DocxTableCreationForContractReport {
 						String backgroundColor = null;
 						Tr contentRow = factory.createTr();
 						
-						addTableCell(factory, wordMLPackage, contentRow, cObj1.getWorks()+"("+cObj1.getUnit()+")", garamondRPr, JcEnumeration.CENTER,
+						addTableCell(factory, wordMLPackage, contentRow, cObj1.getWorks(), garamondRPr, JcEnumeration.CENTER,
 								hasBgColor, backgroundColor);					
 						
 						addTableCell(factory, wordMLPackage, contentRow, cObj1.getDuring_month(), garamondRPr, JcEnumeration.CENTER,

@@ -275,134 +275,18 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 	public List<StripChart> generateMCDOProgressReport(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
+			String qry = "select * from( " + 
+					"select distinct works+' ('+unit+')' as works,cast(during_month as int) as during_month,cast(cumulative as int) as cumulative,cast(balance as int) as balance from  vf_mcdo_pk('"+obj.getWork_id_fk()+"','"+obj.getFrom_date()+"','"+obj.getTo_date()+"') " + 
+					") as a where works is not null  " + 
+					" " + 
+					"and works in('Earthwork Filling (Cum)','Rock cutting (Cum)','Blanketing (Cum)','Drain (Rm)','TSS Formation (Cum)','Flyover (Nos)','Major Bridge (Nos)','Minor Bridge (Nos)','ROB (Nos)','RUB (Nos)','Approach Cutting (Cum)','Heading (Rm)','Benching (Rm)','Final Lining  (Rm)','Railway Earth Filling (Cum)') " + 
+					" " + 
+					"order by (case when works='Earthwork Filling (Cum)' then 1 when works='Railway Earth Filling (Cum)' then 2 when works='Rock cutting (Cum)' then 3 when works='Blanketing (Cum)' then 4 when works='Drain (Rm)' then 5 when works='TSS Formation (Cum)' then 6 " + 
+					" " + 
+					" when works='Flyover (Nos)' then 7 when works='Major Bridge (Nos)' then 8 when works='Minor Bridge (Nos)' then 9 when works='ROB (Nos)' then 10 when works='RUB (Nos)' then 11  " + 
+					" when works='Approach Cutting (Cum)' then 12 when works='Heading (Rm)' then 13 when works='Benching (Rm)' then 14 when works='Final Lining  (Rm)' then 15  else 0 end) ";
 			
-			String qry = "";
-			if(obj.getWork_id_fk().compareTo("P04W02")==0)
-			{			
-			 qry = "      \r\n" + 
-					"    \r\n" + 
-					"WITH bridges_progress AS (    \r\n" + 
-					"    SELECT    \r\n" + 
-					"        structure_type,    \r\n" + 
-					"        structure,    \r\n" + 
-					"        MAX(actual) AS actual_finish,    \r\n" + 
-					"        SUM(result) AS bridge_progress    \r\n" + 
-					"    FROM    \r\n" + 
-					"        (    \r\n" + 
-					"            SELECT    \r\n" + 
-					"                structure_type,    \r\n" + 
-					"                structure,    \r\n" + 
-					"                MAX(actual_finish) AS actual,    \r\n" + 
-					"                SUM([Weightage] * [Completed] * 100) /    \r\n" + 
-					"                (    \r\n" + 
-					"                    [Scope] *    \r\n" + 
-					"                    (    \r\n" + 
-					"                        SELECT    \r\n" + 
-					"                            SUM([Weightage])    \r\n" + 
-					"                        FROM    \r\n" + 
-					"                            activities_view    \r\n" + 
-					"                        WHERE    \r\n" + 
-					"                            [Work_Id] = T.[Work_Id] AND    \r\n" + 
-					"                            [Contract_Id] = T.[Contract_Id] AND    \r\n" + 
-					"                            [Structure_Type] = T.[Structure_Type] AND    \r\n" + 
-					"                            [Structure] = T.[Structure]    \r\n" + 
-					"                    )    \r\n" + 
-					"                ) AS result    \r\n" + 
-					"            FROM    \r\n" + 
-					"                activities_view t    \r\n" + 
-					"            WHERE    \r\n" + 
-					"                work_id = 'P04W02'    \r\n" + 
-					"            GROUP BY    \r\n" + 
-					"                structure_type, weightage, completed, scope, work_id, contract_id, structure    \r\n" + 
-					"        ) a    \r\n" + 
-					"    GROUP BY    \r\n" + 
-					"        structure_type, structure    \r\n" + 
-					")    \r\n" + 
-					"    \r\n" + 
-					", structure_count AS (    \r\n" + 
-					"    SELECT    \r\n" + 
-					"        structure_type,    \r\n" + 
-					"        during_the_month,    \r\n" + 
-					"        cum AS cummulative,    \r\n" + 
-					"        (scope - cum) AS balance    \r\n" + 
-					"    FROM    \r\n" + 
-					"        (    \r\n" + 
-					"            SELECT    \r\n" + 
-					"                structure_type,    \r\n" + 
-					"                SUM(scope) AS scope,    \r\n" + 
-					"                SUM(cumm) AS cum,    \r\n" + 
-					"                SUM(during_month) AS during_the_month    \r\n" + 
-					"            FROM    \r\n" + 
-					"                (    \r\n" + 
-					"                    SELECT    \r\n" + 
-					"                        structure_type,    \r\n" + 
-					"                        structure,    \r\n" + 
-					"                        COUNT(DISTINCT structure) AS scope,    \r\n" + 
-					"                        CASE WHEN MIN(bridge_progress) > 95 THEN COUNT(DISTINCT structure) ELSE 0 END AS cumm,    \r\n" + 
-					"                        CASE WHEN MIN(bridge_progress) > 95 AND     \r\n" + 
-					"                        actual_finish >=  '"+obj.getFrom_date()+"'              -- comment :to change the date put in format of 'yyyy - mm- dd'    \r\n" + 
-					"      AND (actual_finish) <  '"+obj.getTo_date()+"'           \r\n" + 
-					"                        THEN COUNT(DISTINCT structure) ELSE 0 END AS during_month    \r\n" + 
-					"                    FROM    \r\n" + 
-					"                        bridges_progress    \r\n" + 
-					"                    GROUP BY    \r\n" + 
-					"                        structure_type, structure, actual_finish    \r\n" + 
-					"                ) a    \r\n" + 
-					"            GROUP BY    \r\n" + 
-					"                structure_type    \r\n" + 
-					"        ) a    \r\n" + 
-					")    \r\n" + 
-					",formation_count as (    \r\n" + 
-					"  select works, sum(during_the_month) as during_the_month , round(sum(cum),2) as cummulative , round(sum(balance),2) as balance from    \r\n" + 
-					"    \r\n" + 
-					"(select case when structure_type = 'Formation' then [structure] when [Component] = 'Approach Cutting' OR [Component] = 'Heading' OR    \r\n" + 
-					"[Component] = 'Final Lining' OR [Component] = 'Benching'     \r\n" + 
-					"then a.[component] else [structure_type] end  as works , (during_the_month) , cum  , balance from    \r\n" + 
-					"(select b.work_id ,b.structure_type , b.structure, b.component, b.during_the_month, b.cum,( a.scope-isnull(b.cum,0)) as balance from    \r\n" + 
-					"(SELECT work_id , structure_type, structure,component,    \r\n" + 
-					"    SUM(CASE     \r\n" + 
-					"            WHEN structure_type = 'Formation'     \r\n" + 
-					"                OR [Component] = 'Approach Cutting' OR [Component] = 'Heading'OR [Component] = 'Final Lining' OR [Component] = 'Benching'     \r\n" + 
-					"            THEN scope ELSE 0 END ) AS scope    \r\n" + 
-					"FROM activities_view    \r\n" + 
-					"WHERE WORK_ID = 'P04W02'    \r\n" + 
-					"GROUP BY  WORK_ID ,structure_type, structure,component) a    \r\n" + 
-					"join    \r\n" + 
-					"    \r\n" + 
-					"(select work_id ,structure_type , structure, component,sum(during_the_month) as during_the_month, sum(completed_scope) as cum from    \r\n" + 
-					"    \r\n" + 
-					"(select a.work_id ,a.structure_type,a.structure,component, case when [Structure_type] = 'Formation' or [Component] = 'Approach Cutting' or [Component] = 'Heading'    \r\n" + 
-					"or [Component] = 'Final Lining' or [Component] = 'Benching' then b.Result else 0 end as during_the_month ,CASE     \r\n" + 
-					"            WHEN structure_type = 'Formation'  OR [Component] = 'Approach Cutting' OR [Component] = 'Heading'OR [Component] = 'Final Lining' OR [Component] = 'Benching' then    \r\n" + 
-					"b.completed_scope else 0 end as completed_scope    \r\n" + 
-					"from activities_view a    \r\n" + 
-					" left join    \r\n" + 
-					"(SELECT p6_activity_id_fk , completed_scope,    \r\n" + 
-					"    CASE     \r\n" + 
-					"        WHEN [progress_date] >= '"+obj.getFrom_date()+"'        -- comment : to change the date put in format of 'yyyy-mm-dd'     \r\n" + 
-					"             AND [progress_date] < '"+obj.getTo_date()+"'             \r\n" + 
-					"        THEN [completed_scope]     \r\n" + 
-					"        ELSE 0     \r\n" + 
-					"    END AS Result    \r\n" + 
-					"FROM p6_activity_progress) b on a.activity_id = b.p6_activity_id_fk) a WHERE    \r\n" + 
-					"work_id = 'P04W02'    \r\n" + 
-					"group by work_id,structure_type , structure,component) b    \r\n" + 
-					"    \r\n" + 
-					"on a.structure_type = b.structure_type and a.structure=b.structure and a.work_id = b.work_id    \r\n" + 
-					"and a.component=b.component) a ) b    \r\n" + 
-					"group by works    \r\n" + 
-					")    \r\n" + 
-					"    \r\n" + 
-					"select works,case when works in ( 'Final lining','heading','rock cutting','approach cutting','drain','benching', 'earthwork filling','railway earth filling',  \r\n" + 
-					"'Blanketing', 'Retaining Wall', 'TSS Formation', 'Ballast') then case when works='Approach Cutting' then 'Cum'  when works='Heading' then 'Rm' when works='Benching' then 'Rm'  when works='Final Lining' then 'Rm'    else 'Cum' end else 'Nos' end as unit,\r\n" + 
-					"case when a.works in ('Final lining','heading','rock cutting','approach cutting','drain','benching', 'earthwork filling','railway earth filling',\r\n" + 
-					"'Blanketing', 'Retaining Wall', 'TSS Formation', 'Ballast') then round(a.during_the_month,2) else round(b.during_the_month,2) end as During_month,\r\n" + 
-					"case when a.works in ('Final lining','heading','rock cutting','approach cutting','drain','benching', 'earthwork filling','railway earth filling',\r\n" + 
-					"'Blanketing', 'Retaining Wall', 'TSS Formation', 'Ballast') then a.cummulative else b.cummulative end as Cumulative,\r\n" + 
-					"case when a.works in ('Final lining','heading','rock cutting','approach cutting','drain','benching', 'earthwork filling','railway earth filling',\r\n" + 
-					"'Blanketing', 'Retaining Wall', 'TSS Formation', 'Ballast') then a.balance else b.balance end as Balance\r\n" + 
-					"from formation_count a left join structure_count b on b.structure_type = a.works";
-			}
+
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<StripChart>(StripChart.class));
 			
 		}catch(Exception e){ 
@@ -415,126 +299,15 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 	public List<StripChart> generateMCDOProgressReport1(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "";
-			if(obj.getWork_id_fk().compareTo("P04W01")==0)
-			{
+			String qry = "select * from( " + 
+					"select distinct works+' ('+unit+')' as works,cast(during_month as int) as during_month,cast(cumulative as int) as cumulative,cast(balance as int) as balance  from  vf_mcdo_virar('"+obj.getWork_id_fk()+"','"+obj.getFrom_date()+"','"+obj.getTo_date()+"') " +
+					") as a where works is not null  " + 
+					" " + 
+					"and works in('Earthwork Filling (Cum)','Earthwork Cutting (Cum)','Rock cutting (Cum)','Blanketing (Cum)','Construction of Drain (Rm)','Major Bridge (Nos)','Minor Bridge (Nos)','ROB (Nos)','RUB (Nos)') " + 
+					" " + 
+					"order by (case when works='Earthwork Filling (Cum)' then 1 when works='Earthwork Cutting (Cum)' then 2 when works='Blanketing (Cum)' then 3 when works='Construction of Drain (Rm)' then 4  when works='Major Bridge (Nos)' then 5 when works='Minor Bridge (Nos)' then 6 when works='ROB (Nos)' then 7 when works='RUB (Nos)' then 8  " + 
+					"else 0 end) ";
 			
-			 qry = "WITH bridges_progress AS (  \r\n" + 
-			 		"    SELECT  \r\n" + 
-			 		"        structure_type,  \r\n" + 
-			 		"        structure,  \r\n" + 
-			 		"        MAX(actual) AS actual_finish,  \r\n" + 
-			 		"        SUM(result) AS bridge_progress  \r\n" + 
-			 		"    FROM  \r\n" + 
-			 		"        (  \r\n" + 
-			 		"            SELECT  \r\n" + 
-			 		"                structure_type,  \r\n" + 
-			 		"                structure,  \r\n" + 
-			 		"                MAX(actual_finish) AS actual,  \r\n" + 
-			 		"                SUM([Weightage]  * [Completed] * 100) /  \r\n" + 
-			 		"                (  \r\n" + 
-			 		"                    [Scope] *  \r\n" + 
-			 		"                    (  \r\n" + 
-			 		"                        SELECT  \r\n" + 
-			 		"                            SUM([Weightage])  \r\n" + 
-			 		"                        FROM  \r\n" + 
-			 		"                            activities_view  \r\n" + 
-			 		"                        WHERE  \r\n" + 
-			 		"                            [Work_Id] = T.[Work_Id] AND  \r\n" + 
-			 		"                            [Contract_Id] = T.[Contract_Id] AND  \r\n" + 
-			 		"                            [Structure_Type] = T.[Structure_Type] AND  \r\n" + 
-			 		"                            [Structure] = T.[Structure]  \r\n" + 
-			 		"                    )  \r\n" + 
-			 		"                ) AS result  \r\n" + 
-			 		"            FROM  \r\n" + 
-			 		"                activities_view t  \r\n" + 
-			 		"            WHERE  \r\n" + 
-			 		"                work_id = 'P04W01'  \r\n" + 
-			 		"            GROUP BY  \r\n" + 
-			 		"                structure_type, weightage, completed, scope, work_id, contract_id, structure  \r\n" + 
-			 		"        ) a  \r\n" + 
-			 		"    GROUP BY  \r\n" + 
-			 		"        structure_type, structure  \r\n" + 
-			 		")  \r\n" + 
-			 		"  \r\n" + 
-			 		", structure_count AS (  \r\n" + 
-			 		"    SELECT  \r\n" + 
-			 		"        structure_type,  \r\n" + 
-			 		"        during_the_month,  \r\n" + 
-			 		"        cum AS cummulative,  \r\n" + 
-			 		"        (scope - cum) AS balance  \r\n" + 
-			 		"    FROM  \r\n" + 
-			 		"        (  \r\n" + 
-			 		"            SELECT  \r\n" + 
-			 		"                structure_type,  \r\n" + 
-			 		"                SUM(scope) AS scope,  \r\n" + 
-			 		"                SUM(cumm) AS cum,  \r\n" + 
-			 		"                SUM(during_month) AS during_the_month  \r\n" + 
-			 		"            FROM  \r\n" + 
-			 		"                (  \r\n" + 
-			 		"                    SELECT  \r\n" + 
-			 		"                        structure_type,  \r\n" + 
-			 		"                        structure,  \r\n" + 
-			 		"                        COUNT(DISTINCT structure) AS scope,  \r\n" + 
-			 		"                        CASE WHEN MIN(bridge_progress) >= 93 THEN COUNT(DISTINCT structure) ELSE 0 END AS cumm,  \r\n" + 
-			 		"                        CASE WHEN MIN(bridge_progress) >= 93 AND \r\n" + 
-			 		"						actual_finish >= '"+obj.getFrom_date()+"'                                      -- comment :to change the date put in format of 'yyyy - mm- dd(it will change during period value)'\r\n" + 
-			 		"						AND (actual_finish) <  '"+obj.getTo_date()+"'  \r\n" + 
-			 		"                        \r\n" + 
-			 		"                             THEN COUNT(DISTINCT structure) ELSE 0 END AS during_month  \r\n" + 
-			 		"                    FROM  \r\n" + 
-			 		"                        bridges_progress  \r\n" + 
-			 		"                    GROUP BY  \r\n" + 
-			 		"                        structure_type, structure, actual_finish  \r\n" + 
-			 		"                ) a  \r\n" + 
-			 		"            GROUP BY  \r\n" + 
-			 		"                structure_type  \r\n" + 
-			 		"        ) a  \r\n" + 
-			 		")  \r\n" + 
-			 		",formation_count as (  \r\n" + 
-			 		"  select works, sum(during_the_month) as during_the_month , round(sum(cum),2) as cummulative , round(sum(balance),2) as balance from  \r\n" + 
-			 		"(select case when structure_type = 'Formation' then [structure] else [structure_type] end  as works , (during_the_month) , cum  , balance from  \r\n" + 
-			 		"(select b.work_id ,b.structure_type , b.structure, b.during_the_month, b.cum,( a.scope-isnull(b.cum,0)) as balance from  \r\n" + 
-			 		"(SELECT work_id , structure_type, structure,  \r\n" + 
-			 		"    SUM(CASE   \r\n" + 
-			 		"            WHEN structure_type = 'Formation'   \r\n" + 
-			 		"            THEN scope ELSE 0 END ) AS scope  \r\n" + 
-			 		"FROM activities_view  \r\n" + 
-			 		"WHERE WORK_ID = 'P04W01'  \r\n" + 
-			 		"GROUP BY  WORK_ID ,structure_type, structure) a  \r\n" + 
-			 		"join  \r\n" + 
-			 		"(select work_id ,structure_type , structure,sum(during_the_month) as during_the_month, sum(completed_scope) as cum from  \r\n" + 
-			 		"(select a.work_id ,a.structure_type,a.structure, case when [Structure_type] = 'Formation' then b.Result else 0 end as during_the_month ,CASE   \r\n" + 
-			 		"            WHEN structure_type = 'Formation' then  \r\n" + 
-			 		"b.completed_scope else 0 end as completed_scope  \r\n" + 
-			 		"from activities_view a  \r\n" + 
-			 		" left join  \r\n" + 
-			 		"(SELECT p6_activity_id_fk , completed_scope,  \r\n" + 
-			 		"    CASE   \r\n" + 
-			 		"        WHEN [progress_date] >= '"+obj.getFrom_date()+"'                                                       -- comment :to change the date put in format of 'yyyy - mm- dd'  \r\n" + 
-			 		"             AND [progress_date] < '"+obj.getTo_date()+"'   \r\n" + 
-			 		"        THEN [completed_scope]   \r\n" + 
-			 		"        ELSE 0   \r\n" + 
-			 		"    END AS Result  \r\n" + 
-			 		"FROM p6_activity_progress) b on a.activity_id = b.p6_activity_id_fk) a WHERE  \r\n" + 
-			 		"work_id = 'P04W01'  \r\n" + 
-			 		"group by work_id,structure_type , structure) b  \r\n" + 
-			 		"on a.structure_type = b.structure_type and a.structure=b.structure and a.work_id = b.work_id) a ) b  \r\n" + 
-			 		"group by works  \r\n" + 
-			 		")  \r\n" + 
-			 		"  \r\n" + 
-			 		"select distinct a.works as works, case when a.works in ( 'construction of drain','earthwork cutting', 'earthwork filling',  \r\n" + 
-			 		"'Blanketing') then c.unit else 'Nos' end as unit,  \r\n" + 
-			 		"case when a.works in ('construction of drain','earthwork cutting', 'earthwork filling',  \r\n" + 
-			 		"'Blanketing') then round(a.during_the_month,2) else round(b.during_the_month,2) end as during_month,  \r\n" + 
-			 		"case when a.works in ('construction of drain','earthwork cutting', 'earthwork filling',  \r\n" + 
-			 		"'Blanketing') then a.cummulative else b.cummulative end as cummulative,  \r\n" + 
-			 		"case when a.works in ('construction of drain','earthwork cutting', 'earthwork filling',  \r\n" + 
-			 		"'Blanketing') then a.balance else b.balance end as balance  \r\n" + 
-			 		"from formation_count a left join structure_count b on b.structure_type = a.works  \r\n" + 
-			 		"left join activities_view c on c.structure = a.works    ";
-			
-			}
 
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<StripChart>(StripChart.class));
 			

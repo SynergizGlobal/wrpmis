@@ -959,7 +959,7 @@
             </div>
             <!-- form start-->
             <div class="container">
-               <form action="<%=request.getContextPath() %>/upload-new-activities" method="post" enctype="multipart/form-data">
+               <form action="<%=request.getContextPath() %>/upload-new-activities" method="post" enctype="multipart/form-data" id="frmUpload">
                     <div class="row no-mar">
                         <div class="col s12 m12 input-field center-align">
                             <div class="row">
@@ -982,7 +982,7 @@
                     <div class="row no-mar">
                         <div class="col s12 m6 mt-brdr">
                             <div class="center-align m-1">
-                                <button type="submit" class="btn waves-effect waves-light bg-m">Update</button>
+                                <button type="button" class="btn waves-effect waves-light bg-m" onClick="dateValidation();">Update</button>
                             </div>
                         </div>
                         <div class="col s12 m6 mt-brdr">
@@ -991,6 +991,7 @@
                             </div>
                         </div>
                     </div>
+                    <span id="errorResult" style="color:red;"></span>
                 </form>
             </div>
         </div>
@@ -1087,9 +1088,90 @@
     <script src="/pmis/resources/js/select2.min.js"></script>
     <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.7/xlsx.core.min.js"></script>  
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/xls/0.7.4-a/xls.core.min.js"></script>  
     
     <script>
     
+    function dateValidation()
+    {
+    	var fileUpload = document.getElementById("stripChartFile");
+	     
+        var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xls|.xlsx)$/;
+            if (typeof (FileReader) != "undefined") {
+                var reader = new FileReader();
+ 
+                if (reader.readAsBinaryString) {
+                    reader.onload = function (e) {
+                        GetTableFromExcel(e.target.result);
+                    };
+                    reader.readAsBinaryString(fileUpload.files[0]);
+                } else {
+                    reader.onload = function (e) {
+                        var data = "";
+                        var bytes = new Uint8Array(e.target.result);
+                        for (var i = 0; i < bytes.byteLength; i++) {
+                            data += String.fromCharCode(bytes[i]);
+                        }
+                        GetTableFromExcel(data);
+                    };
+                    reader.readAsArrayBuffer(fileUpload.files[0]);
+                }
+            } else {
+                alert("This browser does not support HTML5.");
+            }
+           	
+    }
+    
+    
+    function GetTableFromExcel(data) {
+        var workbook = XLSX.read(data, {
+            type: 'binary'
+        });
+        var firstSheetName = workbook.SheetNames[0];
+        var worksheet = workbook.Sheets[firstSheetName];
+        var columnNames = [];
+        var Sheet = workbook.SheetNames[0];
+        var excelRows = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[Sheet]);
+        var columnNames = Object.keys(excelRows[0]);
+        var numberOfColumns = columnNames.length; 
+        var errorText="";
+        for (var i = 0; i < excelRows.length; i++) 
+        {
+	        for(var j=10;j<numberOfColumns;j++)
+			{
+	    	    var checkDateCondistion=excelRows[i][columnNames[j]];
+	    	    var date = columnNames[j].toString();
+	    	    var splitStr=date.split("-");
+	    	    var fDate=splitStr[1]+'-'+splitStr[0]+'-'+splitStr[2];
+	    	    
+	    	    var currentDate = new Date();
+	    	    currentDate.setDate(currentDate.getDate() + 1);
+	    	    currentDate.setHours(0,0,0,0);
+	    	    
+			    	    if(new Date(fDate)<currentDate)
+				    	{
+				    		
+				    	}
+				    	else
+				    		{
+				    	    	if(checkDateCondistion>0)
+				    	    	{
+					    			errorText=errorText+'"activity date > today date" in row '+(i+1)+' on date '+columnNames[j]+' <br><br>';
+				    	    	}
+				    		} 
+	    	    	
+			}
+        }
+    	
+    	$("#errorResult").html(errorText);
+    	
+		
+         if($("#errorResult").html().trim()=="")
+       	 {
+        		document.getElementById('frmUpload').submit();
+       	 }	
+    };   
     
     
     function  openUploadNewActivitiesModal() {

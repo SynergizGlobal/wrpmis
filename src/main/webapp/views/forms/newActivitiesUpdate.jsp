@@ -1142,15 +1142,14 @@
 			{
 	    	    var checkDateCondistion=excelRows[i][columnNames[j]];
 	    	    var date = columnNames[j].toString();
-	    	    date=date.replaceAll("/","-");
+	    	    //date=date.replaceAll("/","-");
 	    	    var splitStr=date.split("-");
 	    	    var fDate=splitStr[1]+'-'+splitStr[0]+'-'+splitStr[2];
 	    	    var currentDate = new Date();
 	    	    currentDate.setDate(currentDate.getDate() + 1);
 	    	    currentDate.setHours(0,0,0,0);
 	    	    
-	    	    
-			    	    if(new Date(fDate)<currentDate)
+			    	    if(new Date(columnNames[j])<currentDate)
 				    	{
 				    		
 				    	}

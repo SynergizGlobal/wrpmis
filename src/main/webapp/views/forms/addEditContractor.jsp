@@ -566,7 +566,8 @@
     	   		
     	   		var value = document.getElementById('pan_number').value;
     	   	 	if (value.length < 10) {
-    	   	 		$('#pan_numberError').html("PAN Number should be 10 characters length");
+    	   	 		$('#pan_numberError').html("&nbsp;&nbsp;PAN Number should be 10 characters length");
+    	   	 		return false;
     	   	 	}
     	   	 	
     	   		

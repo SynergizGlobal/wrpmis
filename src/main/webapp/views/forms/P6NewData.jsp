@@ -197,6 +197,7 @@
 				                                            <input class="file-path validate" type="text">
 				                                        </div>
 				                                         <span id="uploadFileError" class="error-msg"></span>
+				                                         <span id="errorResult" style="color:red;"></span>
 				                                    </div>
 				                                </div>
 				                            </div>
@@ -510,6 +511,8 @@
 	<script src="/pmis/resources/js/moment-v2.8.4.min.js"></script> 
 	<script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script> 	
 	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.7/xlsx.core.min.js"></script>  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xls/0.7.4-a/xls.core.min.js"></script>  	
 		
     <script>
     var datePickerSelectAddClass = function () {
@@ -665,11 +668,124 @@
         
 
 	    function uploadP6Baseline() {
-	    	if(validatorUpload.form()){ // validation perform
-				$(".page-loader").show();	    		
-				document.getElementById("p6UploadFrom").submit();
+	    	if(validatorUpload.form())
+	    	{ 
+				$(".page-loader").show();
+	    	
+ 				var fileUpload = document.getElementById("p6dataFileUpload");
+        	     
+                 //Validate whether File is valid Excel file.
+                 var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xls|.xlsx)$/;
+                 //if (regex.test(fileUpload.value.toLowerCase())) {
+                     if (typeof (FileReader) != "undefined") {
+                         var reader = new FileReader();
+          
+                         //For Browsers other than IE.
+                         if (reader.readAsBinaryString) {
+                             reader.onload = function (e) {
+                                 GetTableFromExcel(e.target.result);
+                             };
+                             reader.readAsBinaryString(fileUpload.files[0]);
+                         } else {
+                             //For IE Browser.
+                             reader.onload = function (e) {
+                                 var data = "";
+                                 var bytes = new Uint8Array(e.target.result);
+                                 for (var i = 0; i < bytes.byteLength; i++) {
+                                     data += String.fromCharCode(bytes[i]);
+                                 }
+                                 GetTableFromExcel(data);
+                             };
+                             reader.readAsArrayBuffer(fileUpload.files[0]);
+                         }
+                     } else {
+                         alert("This browser does not support HTML5.");
+                     }	    	
+	    	
+	    	
+				//document.getElementById("p6UploadFrom").submit();
 	    	}
 		}
+	    
+	    	
+	    	
+		function isValidDate(s) {
+			  // Assumes s is "mm/dd/yyyy"
+			  if (!/^\d\d\/\d\d\/\d\d\d\d$/.test(s)) {
+			    return false;
+			  }
+			  const parts = s.split('-').map((p) => parseInt(p, 10));
+			  parts[0] -= 1;
+			  const d = new Date(parts[2], parts[0], parts[1]);
+			  return d.getDate === parts[0] && d.getMonth() === parts[1] && d.getFullYear() === parts[2];
+			}	    	
+	    
+	    
+	    
+	       function GetTableFromExcel(data) {
+	            //Read the Excel File data in binary
+	            var workbook = XLSX.read(data, {
+	                type: 'binary'
+	            });
+	     
+	            //get the name of First Sheet.
+	            var Sheet = workbook.SheetNames[0];
+	     
+	            //Read all rows from First Sheet into an JSON array.
+	            var excelRows = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[Sheet]);
+	     
+	            //Create a HTML Table element.
+	           
+	     
+	     		var errorText="";
+	            //Add the data rows from Excel file.
+	            for (var i = 1; i < excelRows.length; i++) 
+	            {
+	            	    var ProjectStart=excelRows[i]["base_start_date"];
+	            	    var ProjectFinish=excelRows[i]["base_end_date"];
+	            	    var Start=excelRows[i]["start_date"];
+	            	    var Finish=excelRows[i]["end_date"];
+	            	    
+	            	    
+	            	  
+	            	    if(testValidDate(ProjectStart)==false)
+            	    	{
+	            	    	errorText=errorText+"Row"+(i+1)+":Base Line Start Date should be dd-mm-yyyy format";
+	            	    	$(".page-loader").hide();
+            	    	}
+	            	    if(testValidDate(ProjectFinish)==false)
+            	    	{
+	            	    	errorText=errorText+"Row"+(i+1)+":Base Line Finish Date should be dd-mm-yyyy format";
+	            	    	$(".page-loader").hide();
+            	    	}
+	            	    if(testValidDate(Start)==false)
+            	    	{
+	            	    	errorText=errorText+"Row"+(i+1)+":Start Date should be dd-mm-yyyy format";
+	            	    	$(".page-loader").hide();
+            	    	}
+	            	    if(testValidDate(Finish)==false)
+            	    	{
+	            	    	errorText=errorText+"Row"+(i+1)+":Finish Date should be dd-mm-yyyy format";
+	            	    	$(".page-loader").hide();
+            	    	}	            	    
+
+	            }
+		    	$("#errorResult").html(errorText);
+		    	
+	    		
+		         if($("#errorResult").html().trim()=="")
+		       	 {
+		        		document.getElementById('p6UploadFrom').submit();
+		       	 }	
+		         
+
+
+	        };	    
+	    
+	    
+	        function testValidDate(s) {
+	        	  console.log(s, isValidDate(s));
+	        	}    
 	    
 	    function  RevisedP6Update() {
 	    	if(validatorRevised.form()){ // validation perform

@@ -564,6 +564,12 @@
     	   		$("#phone_numberError").html("");
     	   		$("#gst_numberError").html(""); 
     	   		
+    	   		var value = document.getElementById('pan_number').value;
+    	   	 	if (value.length < 10) {
+    	   	 		$('#pan_numberError').html("PAN Number should be 10 characters length");
+    	   	 	}
+    	   	 	
+    	   		
     		   
 	    	   if($('#pan_numberError').html()==""){
 		  		   $(".page-loader").show();	  

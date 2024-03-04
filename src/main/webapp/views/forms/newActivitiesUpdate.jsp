@@ -1138,6 +1138,15 @@
         var errorText="";
         for (var i = 0; i < excelRows.length; i++) 
         {
+  	  	  if(excelRows[i]["scope"]==0)
+  		  {
+  	  		errorText=errorText+'Row '+(i+1)+': Scope should not be 0 <br><br>';
+  		  }
+  	  	  if(excelRows[i]["scope"]==undefined)
+  		  {
+  	  		errorText=errorText+'Row '+(i+1)+': Scope should not be empty <br><br>';
+  		  }   	  	  
+        	
 	        for(var j=10;j<numberOfColumns;j++)
 			{
 	    	    var checkDateCondistion=excelRows[i][columnNames[j]];
@@ -1146,6 +1155,7 @@
 	    	    var splitStr=date.split("-");
 	    	    var fDate=splitStr[1]+'-'+splitStr[0]+'-'+splitStr[2];
 	    	    var currentDate = new Date();
+	    	    
 	    	    currentDate.setDate(currentDate.getDate() + 1);
 	    	    currentDate.setHours(0,0,0,0);
 	    	    
@@ -1159,7 +1169,8 @@
 				    	    	{
 					    			errorText=errorText+'"activity date > today date" in row '+(i+1)+' on date '+columnNames[j]+' <br><br>';
 				    	    	}
-				    		} 
+				    		}
+
 	    	    	
 			}
         }

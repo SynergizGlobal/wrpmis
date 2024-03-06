@@ -1159,7 +1159,7 @@
 	    	    currentDate.setDate(currentDate.getDate() + 1);
 	    	    currentDate.setHours(0,0,0,0);
 	    	    
-			    	    if(new Date(columnNames[j])<currentDate)
+			    	    if(new Date(fDate)<currentDate)
 				    	{
 				    		
 				    	}

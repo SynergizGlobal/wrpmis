@@ -928,17 +928,15 @@
             }
             
             $('#select-all').change(function(event) {   
-                if(this.checked) 
-                {
-                    $("#contract_permission").find('option').not(':first').prop("selected","selected");
+                if (this.checked) {
+                    $("#contract_permission").find('option').not(':first').prop("selected", "selected");
                     $("#contract_permission").trigger("change");
-
-                } else
-                {
-
-                	$("#select2-contract_permission-container").empty();
-                }
-            });          
+                } else {
+                    // Deselect all options
+                    $("#contract_permission").find('option').prop("selected", false);
+                    $("#contract_permission").trigger("change");
+                } 
+            });         
         });
         
         function getReportingToPersonsList(){

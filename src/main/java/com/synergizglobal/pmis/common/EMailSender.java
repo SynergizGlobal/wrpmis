@@ -50,7 +50,7 @@ public class EMailSender {
 	
 	/************** ZIMBRA Mail Server Credentials**************************************/
 	private static String mailId = "support_pmis@mrvc.gov.in";
-	private static String pass = "Mrvc#pmis1";
+	private static String pass = "Mrvc#pmis2";
 	
 	public static Session getSession() {
 		Properties props = new Properties();

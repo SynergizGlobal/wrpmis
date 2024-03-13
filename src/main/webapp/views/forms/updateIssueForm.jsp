@@ -277,7 +277,7 @@
                                     <span id="dateError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 l4 input-field">
-                                    <input id="location" name="location" type="text" class="" value="${issue.location }" readonly>
+                                    <input id="location" name="location" type="text" class="" value="${issue.location }">
                                     <label for="location">Location/Station/KM<!-- <span class="required">*</span> --></label>
                                     <span id="locationError" class="error-msg" ></span>
                                 </div>

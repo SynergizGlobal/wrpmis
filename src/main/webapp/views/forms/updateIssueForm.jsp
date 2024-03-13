@@ -155,18 +155,18 @@
                         	<input id="dy_hod_user_id_fk" name="dy_hod_user_id_fk" type="hidden" value="${issue.dy_hod_user_id_fk }" />
                         	<div class="row">
                                 <div class="col s6 m4 l4 input-field offset-m2">     
-                                    <input type="text" class="" value="${issue.project_name }" readonly>
+                                    <input type="text" class="" value="${issue.project_name }">
                                     <label for="project_id_fk"> Project</label>
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div> 
                                 <div class="col s6 m4 l4 input-field">
-                                    <input type="text" class="" value="${issue.work_short_name }" readonly>
+                                    <input type="text" class="" value="${issue.work_short_name }">
                                     <label for="work_id_fk"> Work</label>
                                     <span id="work_id_fkError" class="error-msg" ></span>
                                     <input id="work_id_fk" name="work_id_fk" type="hidden" class="" value="${issue.work_id_fk }">
                                 </div>
                                 <div class="col s12 m8 l4 input-field offset-m2">           
-                                    <input id="contract_short_name" name="contract_short_name" type="text" class="" value="${issue.contract_short_name }" readonly>
+                                    <input id="contract_short_name" name="contract_short_name" type="text" class="" value="${issue.contract_short_name }">
                                     <label for="contract_short_name"> Contract <span class="required">*</span></label>
                                     <span id="contract_short_nameError" class="error-msg" ></span>
                                     <input id="contract_id_fk" name="contract_id_fk" type="hidden" class="" value="${issue.contract_id_fk }">
@@ -215,12 +215,12 @@
                                             <option value="${obj.category }" <c:if test="${issue.category_fk eq obj.category}">selected</c:if>>${obj.category}</option>
                                         </c:forEach>
                                     </select> -->
-                                     <input id="category_fk" name="category_fk" type="text" class="" value="${issue.category_fk }" readonly>
+                                     <input id="category_fk" name="category_fk" type="text" class="" value="${issue.category_fk }">
                                     <label for="category_fk"> Issue Category <span class="required">*</span></label>
                                     <span id="category_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 l4 input-field offset-m2">
-                                     <textarea id="title" name="title" class="pmis-textarea textarea-no-height" data-length="1000" readonly>${issue.title }</textarea>
+                                     <textarea id="title" name="title" class="pmis-textarea textarea-no-height" data-length="1000">${issue.title }</textarea>
                                      <label for="title">Short Description <span class="required">*</span></label>
                                     <span id="titleError" class="error-msg" ></span>
                                 </div>
@@ -253,7 +253,7 @@
                                  </c:when>
 				                 <c:otherwise>
 				                  <div class="col s12 offset-m2 m8 input-field">
-				                   <input id="description" name="description" type="text"  value=" ${issue.description }" readonly>
+				                   <input id="description" name="description" type="text"  value=" ${issue.description }">
                                     <label for="description">Description of Issue</label>
                                 </div>
 				                 </c:otherwise>
@@ -271,7 +271,7 @@
                             
                             <div class="row ">                                 
                                 <div class="col s6 m4 l4 input-field offset-m2">
-                                    <input id="date" name="date" type="text" class="datepicker" value="${issue.date }" readonly>
+                                    <input id="date" name="date" type="text" class="datepicker" value="${issue.date }">
                                     <label for="date">Target date of completion </label>
                                     <button type="button" id="date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     <span id="dateError" class="error-msg" ></span>
@@ -364,7 +364,7 @@
                             
                             <div class="row">
 							  <div class="col s6 offset-m2 m4 l6 input-field">
-                                    <input id="reported_by" name="reported_by" type="text" class="" value="${issue.reported_by }" readonly>
+                                    <input id="reported_by" name="reported_by" type="text" class="" value="${issue.reported_by }">
                                     <label for="reported_by">Reported by </label>
                                     <span id="reported_byError" class="error-msg" ></span>
                                 </div>

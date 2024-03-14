@@ -44,6 +44,7 @@ public class PageConstants {
 	
 	public static final String designGrid = "forms/designGrid";
 	public static final String addEditDesign = "forms/addEditDesign";
+	public static final String drawingRepository = "forms/drawingRepository";
 	public static final String newAddEditDesign = "forms/addEditDesignNew";
 	
 	public static final String updateDesignStatus = "forms/addDesignStatusForm";

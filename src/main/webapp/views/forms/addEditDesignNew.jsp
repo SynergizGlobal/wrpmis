@@ -361,7 +361,7 @@
                                 <div class="col s6 m4 l4 input-field">
                                     <p class="searchable_label"> Work <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
-                                        onchange="getContractsList(this.value);">
+                                        onchange="getStructureTypes();getContractsList(this.value);resetProjectsDropdowns(this.value);">
                                         <option value="" >Select</option>
                                         <c:forEach var="obj" items="${worksList }">
                                       	   <option value= "${ obj.work_id}">${obj.work_id}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
@@ -396,7 +396,7 @@
                                 </div>
 							</div>
 							<div class="row">
-                                <div class="col s12 m4 l4 input-field">
+<%--                                 <div class="col s12 m4 l4 input-field">
                                     <p class="searchable_label"> Department <span class="required">*</span></p>
                                      <select name="department_id_fk" id="department_id_fk" class="searchable validate-dropdown">
                                         <option value="" >Select</option>
@@ -405,9 +405,9 @@
                                           </c:forEach>
                                     </select>
                                      <span id="department_id_fkError" class="error-msg" ></span>
-                                </div>
+                                </div> --%>
                            
-                                <div class="col s6 m4 l4 input-field">
+<!--                                 <div class="col s6 m4 l4 input-field">
                                 	<p class="searchable_label">Dy HOD <span class="required">*</span></p>
                                 	<select name="dy_hod" id="dy_hod" class="validate-dropdown searchable"> 
                          		  			<option value="">Select</option> 
@@ -420,11 +420,11 @@
                          		  			<option value="">Select</option> 
                                 	</select>
                                 	<span id="hodError" class="error-msg" ></span>
-                                </div>
+                                </div> -->
                                  </div>
                                  <div class="row">                       
                                  <div class="col s6 m4 l4 input-field " id="structureRow">
-                                    <p class="searchable_label">Structure <span class="required">*</span></p>
+                                    <p class="searchable_label">Structure Type<span class="required">*</span></p>
                                     <select id="structure_type_fk" name="structure_type_fk" class="searchable validate-dropdown" onChange="getStructureIds();">
                                         <option value="" selected>Select</option>
                                  		<c:forEach var="obj" items="${structureTypeList}">
@@ -434,8 +434,8 @@
                                     <span id="structure_type_fkError" class="error-msg" ></span>
                                 </div>
                                  <div class="col s6 m4 l4 input-field " id="structureIdRow">
-                                    <p class="searchable_label">Structure Id<span class="required">*</span></p>
-                                    <select id="structure_id_fk" name="structure_id_fk" class="searchable validate-dropdown" onChange="getComponents();">
+                                    <p class="searchable_label">Structure<span class="required">*</span></p>
+                                    <select id="structure_id_fk" name="structure_id_fk" class="searchable validate-dropdown" >
                                         <option value="" selected>Select</option> 
                                         <c:forEach var="obj" items="${structureId }">
                              				<option value="${obj.structure }" <c:if test="${designDetails.structure_id_fk eq obj.structure }">selected</c:if>>${obj.structure }</option>
@@ -444,7 +444,7 @@
                                     <span id="structure_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 l4 input-field " >
-                                    <p class="searchable_label">Component <span class="required">*</span></p>
+                                    <p class="searchable_label">Component</p>
                                     <select class="searchable validate-dropdown" name="component" id="component">
                                         <option value="" selected>Select</option>
                                          <c:forEach var="obj" items="${componentList }">
@@ -457,7 +457,7 @@
                             
                             <div class="row optionalFileds">      
                             <%--  <c:if test="${action eq 'add'}">   --%>                         
-                                <div class="col s12 m3 l3 input-field">
+                                <div class="col s12 m4 l4 input-field">
                                     <p class="searchable_label">Contract </p>
                                     <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" 
                                      	<c:if test="${action eq 'add'}"> onchange="resetWorksAndProjectsDropdowns();"</c:if> >
@@ -468,35 +468,7 @@
                                     </select>
                                     <span id="contract_id_fkError" class="error-msg" ></span>
                                 </div>
-                               <%--  </c:if> --%>
-                              <%--    <c:if test="${action eq 'edit'}">
-                                	<div class="col s6 m4 l4 input-field"> 
-	                                    <input type="text" value="${designDetails.contract_id_fk}- ${designDetails.contract_short_name}" readonly />
-									    <label for="contract_id_fk"> Contract <span class="required">*</span></label>
-									    <input type="hidden" name="contract_id_fk" id="contract_id_fk" value="${designDetails.contract_id_fk}" readonly />
-	                                </div>
-                                </c:if> --%>
-                                <div class="col s6 m3 l3 input-field min4">
-                                    <p class="searchable_label">Consultant</p>
-                                    <select name="consultant_contract_id_fk" id="consultant_contract_id_fk" class="searchable validate-dropdown">
-                                        <option value="" >Select</option>
-                                        <c:forEach var="obj" items="${contractList }">
-                                      	   <option value= "${ obj.contract_id_fk}" <c:if test="${designDetails.consultant_contract_id_fk eq obj.contract_id_fk}">selected</c:if>>${obj.contract_id_fk}<c:if test="${not empty obj.contract_name}"> - </c:if> ${obj.contract_name }</option>
-                                         </c:forEach>
-                                    </select>
-                                     <span id="consultant_contract_id_fkError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s6 m3 l3 input-field min4">
-                                    <p class="searchable_label fs-sm-67rem">Proof Consultant </p>
-                                    <select id="proof_consultant_contract_id_fk" name="proof_consultant_contract_id_fk" class="searchable validate-dropdown">
-                                        <option value="" >Select</option>
-                                      	   <c:forEach var="obj" items="${contractList }">
-                                      	    <option value= "${ obj.contract_id_fk}" <c:if test="${designDetails.proof_consultant_contract_id_fk eq obj.contract_id_fk}">selected</c:if>>${obj.contract_id_fk}<c:if test="${not empty obj.contract_name}"> - </c:if> ${obj.contract_name }</option>
-                                           </c:forEach>
-                                    </select>
-                                    <span id="proof_consultant_contract_id_fkError" class="error-msg" ></span>
-                                </div>
-                                 <div class="col s6 m3 l3 input-field optionalFileds" >
+                                  <div class="col s12 m4 l4 input-field optionalFileds" >
                                     <p class="searchable_label">Prepared By <span class="required"></span></p>
                                     <select class="searchable validate-dropdown" name="prepared_by_id_fk" id="prepared_by_id_fk">
                                         <option value="" selected>Select</option>
@@ -505,7 +477,25 @@
                                           </c:forEach>
                                     </select>
                                     <span id="prepared_by_id_fkError" class="error-msg" ></span>
-                                </div>                               
+                                </div>                                
+							</div>
+							<div class="row optionalFileds">     
+                                <div class="col s12 m4 l4 input-field min4">
+                                    <p class="searchable_label">Consultant</p>
+                                    <input type="text" name="consultant_contract_id_fk" id="consultant_contract_id_fk" maxlength="100" data-length="100" value="${designDetails.consultant_contract_id_fk}">
+                                     <span id="consultant_contract_id_fkError" class="error-msg" ></span>
+                                </div>
+                                <div class="col s12 m4 l4 input-field min4">
+                                    <p class="searchable_label fs-sm-67rem">Proof Consultant </p>
+                                    <input type="text" id="proof_consultant_contract_id_fk" name="proof_consultant_contract_id_fk" maxlength="100" data-length="100" value="${designDetails.proof_consultant_contract_id_fk}">
+                                    <span id="proof_consultant_contract_id_fkError" class="error-msg" ></span>
+                                </div>
+                                <div class="col s12 m4 l4 input-field min4">
+                                    <p class="searchable_label fs-sm-67rem">3PVC </p>
+                                    <input type="text" id="threepvc" name="threepvc" maxlength="100" data-length="100" value="${designDetails.threepvc}">
+                                    <span id="proof_consultant_contract_id_fkError" class="error-msg" ></span>
+                                </div>                                
+                             
                                 </div>
                                 <div class="row">
                                 <div class="col s6 m4 l4 input-field" id="drawingType">
@@ -570,7 +560,7 @@
                                 </div>
                                 <div class="col s6 m3 input-field" id="hideResponsive1">
                                      <input id="mrvc_drawing_no" maxlength="100" data-length="100" name="mrvc_drawing_no" type="text" class="validate num w70 pdr4em" value="${designDetails.mrvc_drawing_no }">
-                                     <label for="mrvc_drawing_no">MRVC Drawing No <span class="required">*</span></label>
+                                     <label for="mrvc_drawing_no">MRVC Drawing No </label>
                                      <span id="mrvc_drawing_noError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m3 input-field optionalFileds">
@@ -757,7 +747,7 @@
                             </div>
                            </div>
                           </div>  
-                            <div class="container container-no-margin optionalFileds"> 
+                            <div style="width:90%;padding-left:10%;"> 
                              <div class="row fixed-width section scrollspy" id="revisionDetails">
                                 <h5 class="center-align pos-rel">Revision Details 
                                 <c:if test="${not empty designDetails.designRevisions && fn:length(designDetails.designRevisions) gt 0 }">
@@ -775,12 +765,15 @@
                                     <table id="revTable" class="mdl-data-table mobile_responsible_table">
                                         <thead>
                                             <tr>
-                                                <th>Revision </th>
-                                                <th>Revision Date </th>                                               
-                                                <th>Revision Status</th>
+                                                <th>Revision No. </th>
+                                                <th>Drawing No.<span class="required">*</span> </th>                                               
+                                                <th>Correspondence Letter No.<span class="required">*</span></th>
+                                                <th>Revision Date<span class="required">*</span></th>
+                                                <th>Revision Status<span class="required">*</span></th>
                                                 <th>Remarks</th>
-                                                <th>Current</th>
-                                                <th class="no-sort">Action</th>
+                                                <th>Upload File<span class="required">*</span></th>
+                                                <th class="no-sort">Current</th>
+                                                 <th class="no-sort">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody id="revisionsTableBody">
@@ -791,8 +784,16 @@
 		                                            <tr id="revisionRow${index.count }" class="revision-rows">                                                
 		                                                <td data-head="Revision" class="input-field">
 		                                                    <input id="revisions${index.count }" maxlength="25" data-length="25" name="revisions" type="text" class="validate"
-		                                                        placeholder="Revision" value="${revObj.revision }">                                                        
+		                                                        placeholder="Revision" value="${revObj.revision }" readonly>                                                        
 		                                                </td>
+		                                                <td data-head="Revision" class="input-field">
+		                                                    <input id="drawing_no${index.count }" maxlength="25" data-length="25" name="drawing_nos" type="text" class="validate"
+		                                                        placeholder="drawing no" value="${revObj.drawing_no }" readonly>                                                        
+		                                                </td>
+		                                                <td data-head="Revision" class="input-field">
+		                                                    <input id="correspondence_letter_no${index.count }" maxlength="25" data-length="25" name="correspondence_letter_nos" type="text" class="validate"
+		                                                        placeholder="correspondence letter no" value="${revObj.correspondence_letter_no }" readonly>                                                        
+		                                                </td>			                                                		                                                
 		                                                <td data-head="Revision Date" class="input-field">
 		                                                    <input id="revision_date${index.count }" name="revision_dates" type="text" class="validate datepicker"
 		                                                        placeholder="Revision Date" value="${revObj.revision_date }">
@@ -812,6 +813,10 @@
 		                                                    <input id="remarkss${index.count }" maxlength="100" data-length="100" name="remarkss" type="text" class="validate num pdr4em w70"
 		                                                        placeholder="Remarks" value="${revObj.remarks }">
 		                                                </td>
+		                                                <td data-head="Remarks" class="input-field">
+		                                                    <input id="upload_file${index.count }" maxlength="100" data-length="100" name="upload_files" type="text" class="validate num pdr4em w70"
+		                                                        placeholder="Upload File" value="${revObj.upload_file }">
+		                                                </td>		                                                
 		                                                <td data-head="Status" class="input-field center-align">
 			                                                <p>
 			                                                 	<label> 
@@ -833,28 +838,38 @@
 	                                       <c:otherwise>
 	                                        	<tr id="revisionRow0" class="revision-rows">                                                
 	                                                <td data-head="Revision" class="input-field">
-	                                                    <input id="revisions0" maxlength="25" data-length="25" name="revisions" type="text" class="validate num w70 pdr4em"
-	                                                        placeholder="Revision">                                                        
+	                                                    <input id="revisions0" maxlength="25" data-length="25" readonly name="revisions" type="text" class="validate num w70 pdr4em"
+	                                                        placeholder="Revision" value="R1">                                                        
+	                                                </td>
+	                                                <td data-head="Revision Date" class="input-field">
+	                                                    <input id="drawing_no0" name="drawing_nos" type="text">
+	                                                </td>
+	                                               
+	                                                <td data-head="Revision Status" class="input-field">
+	                                                    <input id="correspondence_letter_no0" name="correspondence_letter_nos" type="text">
 	                                                </td>
 	                                                <td data-head="Revision Date" class="input-field">
 	                                                    <input id="revision_date0" name="revision_dates" type="text" class="validate datepicker"
 	                                                        placeholder="Revision Date">
 	                                                    <button type="button" id="revision_date0_icon" class="datepicker-button"><i
-	                                                            class="fa fa-calendar"></i></button>
+	                                                            class="fa fa-calendar"></i></button>	                                                
 	                                                </td>
-	                                               
-	                                                <td data-head="Revision Status" class="input-field">
+	                                                <td data-head="Revision Date" class="input-field">
 	                                                    <select class="searchable" id="revision_status_fks0" name="revision_status_fks">
 	                                                        <option value="" selected>Select </option>
 	                                                          <c:forEach var="obj" items="${revisionStatuses }">
 			                                    				<option value="${obj.revision_status }">${obj.revision_status }</option>
 			                                  				  </c:forEach>
-	                                                    </select>
-	                                                </td>
+	                                                    </select>	                                                
+	                                                </td>	
+                                                                                               
 	                                                <td data-head="Remarks" class="input-field">
 	                                                    <input id="remarkss0" maxlength="100" data-length="100" name="remarkss" type="text" class="validate num w70 pdr4em"
 	                                                        placeholder="Remarks">
 	                                                </td>
+	                                                <td data-head="Upload File" class="input-field">
+	                                                    <input type="file" name="uploadFiles" id="uploadFile0">                                                
+	                                                </td>		                                                
 	                                                <td data-head="Status" class="input-field center-align">
 		                                                <p>
 		                                                 	<label> 
@@ -868,7 +883,7 @@
 	                                                <td class="mobile_btn_close">
 	                                                    <a  class="btn waves-effect waves-light red t-c " onclick="removeRevision('0');"> <i
 	                                                            class="fa fa-close"></i></a>
-	                                                </td>
+	                                                </td>	                                                
 	                                            </tr>
 	                                       </c:otherwise>
                                         </c:choose>                                          
@@ -895,189 +910,15 @@
                                         </c:otherwise>
                                     </c:choose> 
                                 </div>
+                            
+                               <div id="errorText" style="color:red;"></div>
+                            
                             </div>  
                                   
-							<div class="row section scrollspy optionalFileds" id="documentDetails">
-	                            <div class="col l12 m8 s12 offset-m2"  >
-	                                <div class="row fixed-width">
-	                                     <h5 class="center-align"><span class="div-header">Attachments</span></h5> 
-	                                    <div class="table-inside">
-	                                        <table class="mdl-data-table mobile_responsible_table">
-	                                            <thead>
-	                                                <tr>
-	                                                	<th>File Type </th>
-	                                                    <th>Name </th>
-	                                                    <th style="text-align:center;">Attachment</th>
-	                                                    <th> </th>
-	                                                    <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin'}"> 
-	                                                    	<th style="width:8%">Action</th>
-	                                                    </c:if>
-	                                                </tr>
-	                                            </thead>
-	                                            <tbody id="designDocumentTableBody" >
-	                                             <c:choose>
-			                                        <c:when test="${not empty designDetails.designFilesList && fn:length(designDetails.designFilesList) gt 0 }">			                                          
-				                                        <c:forEach var="docObj" items="${designDetails.designFilesList }" varStatus="index">  
-			                                                <tr id="designDocumentRow${index.count }">
-			                                                	<td data-head="File Type" class="input-field">
-																	<select  name="design_file_typess"  id="design_file_types${index.count }"  class="validate-dropdown searchable">
-					                                   					 <option value="" >Select</option>
-					                                   					  <c:forEach var="obj" items="${designFileType }">
-						                                    				<option value="${obj.design_file_type }"<c:if test="${docObj.design_file_type_fk eq obj.design_file_type}">selected</c:if>>${obj.design_file_type }</option>
-						                                  				  </c:forEach>
-					                               					  </select>
-					                               					  <span id="design_file_typess${index.count }Error" class="error-msg" ></span>
-															    </td>
-			                                                    <td data-head="Name" class="input-field"> <input id="designDocumentNames${index.count }" maxlength="25" data-length="25" name="designDocumentNames" type="text" class="validate"
-			                                                            placeholder="Name" value="${docObj.name }">
-			                                                            <span id="designDocumentNames${index.count }Error" class="error-msg" ></span>
-			                                                    </td>
-			                                                    <td data-head="Attachment" class="input-field center-align">
-			                                                        <span class="normal-btn">
-			                                                            <input type="file" id="designDocumentFiles${index.count }" name="designDocumentFiles"
-			                                                                style="display:none" onchange="getFileName('${index.count }')"/>
-			                                                               
-			                                                            <label for="designDocumentFiles${index.count }" class="btn bg-m"><i
-			                                                                    class="fa fa-paperclip"></i></label>
-			                                                            <input type="hidden" id="designDocumentFileNames${index.count }" name="designDocumentFileNames" value="${docObj.attachment }">
-			                                                             <span id="designDocumentFileName${index.count }" class="filevalue"></span>
-			                                                          </span>
-			                                                           <span id="designDocumentFiles${index.count }Error" class="error-msg" ></span>
-			                                                    </td>
-			                                                    <td>
-			                                                     		<input type="hidden" id="design_file_ids${index.count }" name="design_file_ids" value="${docObj.design_file_id }"/>
-			                                                      		<a href="<%=CommonConstants2.DESIGN_FILES%>${docObj.attachment } " class="filevalue" download><i class="fa fa-arrow-down"></i></a>
-			                                                        
-			                                                    </td>
-			                                                    <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin'}"> 
-				                                                    <td class="mobile_btn_close">
-				                                                        <a href="javascript:void(0);" onclick="removeDesignDocument('${index.count }');" class="btn waves-effect waves-light red t-c "> <i
-				                                                                class="fa fa-close"></i></a>
-				                                                    </td>
-			                                                    </c:if>
-			                                                </tr> 
-	                                                	</c:forEach>
-	                                           		</c:when>
-	                                             	<c:otherwise>
-	                                             		<tr id="designDocumentRow0">
-	                                             			<td data-head="File Type " class="input-field">																		
-																<select  name="design_file_typess"  id="design_file_types0"  class="validate-dropdown searchable">
-				                                   					 <option value="" >Select</option>
-				                                         			  <c:forEach var="obj" items="${designFileType }">
-						                                    				<option value="${obj.design_file_type }">${obj.design_file_type }</option>
-						                                  			  </c:forEach>
-				                               					  </select>
-				                               					   <span id="design_file_typess0Error" class="error-msg" ></span>
-															    </td>
-		                                                    <td data-head="Name " class="input-field"> <input id="designDocumentNames0" maxlength="25" data-length="25" name="designDocumentNames" type="text" class="validate num pdr4em w85"
-		                                                            placeholder="Name">
-		                                                            <span id="designDocumentNames0Error" class="error-msg" ></span>
-		                                                    </td>
-		                                                    <td data-head="Attachment" class="input-field center-align">
-		                                                        <span class="normal-btn">
-		                                                            <input type="file" id="designDocumentFiles0" name="designDocumentFiles"
-		                                                                style="display:none" onchange="getFileName('0')"/>
-		                                                              
-		                                                            <label for="designDocumentFiles0" class="btn bg-m"><i
-		                                                                    class="fa fa-paperclip"></i></label>
-		                                                            <input type="hidden" id="designDocumentFileNames0" name="designDocumentFileNames" value="">
-		                                                            <span id="designDocumentFileName0" class="filevalue"></span>
-		                                                        </span>
-		                                                          <span id="designDocumentFiles0Error" class="error-msg" ></span>
-		                                                    </td>
-		                                                    <td><input type="hidden" id="design_file_ids0" name="design_file_ids" value= ""/>
-		                                                    </td>
-		                                                    
-		                                                    <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin'}"> 
-			                                                    <td class="mobile_btn_close">
-			                                                        <a href="javascript:void(0);" onclick="removeDesignDocument('0');" class="btn waves-effect waves-light red t-c "> <i
-			                                                                class="fa fa-close"></i></a>
-			                                                    </td>
-		                                                    </c:if>
-		                                                </tr>
-	                                             	</c:otherwise>
-                                            	</c:choose> 
-	                                            </tbody>
-	                                        </table>
-	                                        
-	                                        <table class="mdl-data-table">
-		                                        <tbody>                                          
-		                                            <tr>
-														<td colspan="3" >	<a type="button"  class="btn waves-effect waves-light bg-m t-c "  onclick="addDesignDocumentRow()"> <i
-		                                                            class="fa fa-plus"></i></a></td>
-		                                              </tr>
-		                                        </tbody>
-		                                     </table>
-		                                   	 <c:choose>
-		                                        <c:when test="${not empty designDetails.designFilesList && fn:length(designDetails.designFilesList) gt 0 }">
-		                                    		<input type="hidden" id="documentRowNo"  name="documentRowNo" value="${fn:length(designDetails.designFilesList) }" />
-		                                    	</c:when>
-		                                     	<c:otherwise>
-		                                     		<input type="hidden" id="documentRowNo"  name="documentRowNo" value="0" />
-		                                     	</c:otherwise>
-		                                     </c:choose> 
-	                                    </div>
-	                                </div>
-	                            </div>
-							</div>
 						</div>	  
 						 </c:if>        
  						<div class="container container-no-margin">
-                           <%--  <div class="row" style="margin-top: 20px;">
-                                <div class="col m2 hide-on-small-only"></div>
-                                <div class="col l12 m8 s12">
-                                    <div class="row">
-                                    
-		                           <div class="col s12 m6">
-									  <c:if test="${action eq 'add'}">
-			                            <div id="selectedFilesInput">
-	                                    	<div class="file-field input-field" id="designFilesDiv1" >
-		                                        <div class="btn bg-m t-c">
-		                                            <span>Attach Files</span>
-		                                            <input type="file" id="designFiles1" name="designFiles"  onchange="selectFile('1')">
-		                                        </div>
-		                                        <div class="file-path-wrapper">
-		                                            <input class="file-path validate" type="text">
-		                                        </div>                                       
-		                                    </div>
-										</div>
-	                                    <div id="selectedFiles">
-										</div>
-									  </c:if>	
-									  <c:if test="${action eq 'edit'}">
-													<c:set var="existingDesignFilesLength" value="${fn:length(designDetails.designFilesList )}"></c:set>
-													<c:if test="${fn:length(designDetails.designFilesList ) gt 0}">
-														<c:set var="existingDesignFilesLength" value="${fn:length(designDetails.designFilesList )+1}"></c:set>
-													</c:if>
-													<div id="selectedFilesInput">
-				                                    	<div class="file-field input-field" id="designFilesDiv${existingDesignFilesLength }" >
-					                                        <div class="btn bg-m t-c">
-					                                            <span>Attach Files</span>
-					                                            <input type="file" id="designFiles${existingDesignFilesLength }" name="designFiles"  onchange="selectFile('${existingDesignFilesLength }')">
-					                                        </div>
-					                                        <div class="file-path-wrapper">
-					                                            <input class="file-path validate" type="text">
-					                                        </div>                                       
-					                                    </div>
-													</div>
-				                                    
-				                                    <div id="selectedFiles">
-				                                    	<c:forEach var="obj" items="${designDetails.designFilesList }" varStatus="index">
-															 <div id="designFileNames${index.count }">
-																<a href="<%=CommonConstants2.DESIGN_FILES %>${obj.attachment }" class="filevalue" download>${obj.attachment }</a>
-																<span onclick="removeFile(${index.count })" class="attachment-remove-btn">X</span>
-																<input type="hidden" name="designFileNames" value="${obj.attachment }">
-														     </div>
-														     <div style="clear:both" ></div>
-														</c:forEach>
-													</div>
-				                             </c:if>	
-									</div>
-									
-                                    </div>
-                                </div>
-                            </div>
- --%>
+ 
 
                             <div class="row optionalFileds">
                                 <div class="col s12 m12 input-field">
@@ -1152,13 +993,13 @@
         
         if("${designDetails.structure_type_fk}"!="")
        	{
-        	getStructureIds();
+        	//getStructureIds();
         	$('#structure_id_fk').val("${designDetails.structure_id_fk}");
        	}        
         
         if("${designDetails.structure_type_fk}"!="" && "${designDetails.structure_id_fk}"!="")
        	{
-        	getComponents();
+        	//getComponents();
         	$('#component').val("${designDetails.component}");
        	}
     	      
@@ -1426,6 +1267,16 @@
    		$('.hideAuthority').hide();
    		
         });
+        
+        function resetProjectsDropdowns(workId){
+        	var projectId = '';
+        	if($.trim(workId) != ''){  
+            	projectId = workId.substring(0, 3); 
+       			$("#project_id_fk").val(projectId);
+       			$("#project_id_fk").select2();
+       		}
+       		
+        }       
 
       
     
@@ -1486,6 +1337,33 @@
                 });
            
         }
+        
+        function getStructureTypes()
+        {
+        	$(".page-loader").show();
+            var work_id_fk = $("#work_id_fk").val();
+            $("#structure_type_fk option:not(:first)").remove();
+                var myParams = { work_id_fk: work_id_fk};
+                $.ajax({
+                	url: "<%=request.getContextPath()%>/ajax/getStructureTypesforDesign",
+                    data: myParams, cache: false,
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $.each(data, function (i, val) {
+                                var structure_type_fk = "${designDetails.structure_type_fk }";
+                                if ($.trim(structure_type_fk) != '' && val.structure_type_fk == $.trim(structure_type_fk)) {
+                                	$("#structure_type_fk").append('<option value="' + val.structure_type_fk + '" selected>' + val.structure_type_fk + '</option>');
+                                } else {
+                                	$("#structure_type_fk").append('<option value="' + val.structure_type_fk + '">' + val.structure_type_fk + '</option>');
+                                }
+                            });
+                        }
+                        $('.searchable').select2();
+                        $(".page-loader").hide();
+                    }
+                });          	
+        }       
+        
         function getStructureIds()
         {
         	$(".page-loader").show();
@@ -1500,9 +1378,9 @@
                             $.each(data, function (i, val) {
                                 var structure_id_fk = "${designDetails.structure_id_fk }";
                                 if ($.trim(structure_id_fk) != '' && val.structure_id_fk == $.trim(structure_id_fk)) {
-                                	$("#structure_id_fk").append('<option value="' + val.structure_id_fk + '" selected>' + val.structure_id_fk + '</option>');
+                                	$("#structure_id_fk").append('<option value="' + val.structure_id_fk + '" selected>' + val.structure_name + '</option>');
                                 } else {
-                                	$("#structure_id_fk").append('<option value="' + val.structure_id_fk + '">' + val.structure_id_fk + '</option>');
+                                	$("#structure_id_fk").append('<option value="' + val.structure_id_fk + '">' + val.structure_name + '</option>');
                                 }
                             });
                         }
@@ -1511,6 +1389,8 @@
                     }
                 });          	
         }
+        
+        
         function getComponents()
         {
         	$(".page-loader").show();
@@ -1578,6 +1458,31 @@
         }
         
         function addDesign(){
+  			$("#errorText").html("");
+  			var rowCount = $('#revTable tbody tr').length;
+  			for(var i = 0; i < rowCount; i++) {
+  			    if ($("#drawing_no" + i).val() == "") {
+  			        $("#errorText").html("Please Enter Drawing No. in row "+(i+1));
+  			        return false;
+  			    }
+  			    if ($("#correspondence_letter_no" + i).val() == "") {
+  			        $("#errorText").html("Please Enter Correspondence Letter No. in row "+(i+1));
+  			        return false;
+  			    }
+  			    if ($("#revision_date" + i).val() == "") {
+  			        $("#errorText").html("Please Enter Revision Date in row "+(i+1));
+  			        return false;
+  			    }
+  			    if ($("#revision_status_fks" + i).val() == "") {
+  			        $("#errorText").html("Please Enter Revision Status in row "+(i+1));
+  			        return false;
+  			    }
+  			    if ($("#uploadFile" + i).val() == "") {
+  			        $("#errorText").html("Please Upload File in row "+(i+1));
+  			        return false;
+  			    }
+  			}       	
+        	
         	if(validator.form()){ // validation perform
 	   			$(".page-loader").show();
 	   			$('form input[name=revisions]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
@@ -1599,6 +1504,32 @@
     	}
     
     	function updateDesign(){	
+    		
+  			$("#errorText").html("");
+  			var rowCount = $('#revTable tbody tr').length;
+  			for(var i = 0; i < rowCount; i++) {
+  			    if ($("#drawing_no" + i).val() == "") {
+  			        $("#errorText").html("Please Enter Drawing No. in row "+(i+1));
+  			        return false;
+  			    }
+  			    if ($("#correspondence_letter_no" + i).val() == "") {
+  			        $("#errorText").html("Please Enter Correspondence Letter No. in row "+(i+1));
+  			        return false;
+  			    }
+  			    if ($("#revision_date" + i).val() == "") {
+  			        $("#errorText").html("Please Enter Revision Date in row "+(i+1));
+  			        return false;
+  			    }
+  			    if ($("#revision_status_fks" + i).val() == "") {
+  			        $("#errorText").html("Please Enter Revision Status in row "+(i+1));
+  			        return false;
+  			    }
+  			    if ($("#uploadFile" + i).val() == "") {
+  			        $("#errorText").html("Please Upload File in row "+(i+1));
+  			        return false;
+  			    }
+  			}  		
+    		
     		
     		$("#drawing_status_error").html("");
     		var rowCount = $("#statusTableBody tr").length;
@@ -1714,11 +1645,11 @@
     				 	  },"structure_id_fk": {
     				 		required: true
     				 	  },"component": {
-    				 		required: true
+    				 		required: false
     				 	  },"approving_railway": {
     				 		required: true
     				 	  },"mrvc_drawing_no": {
-    				 		required: true
+    				 		required: false
     				 	  }
     				 	 		
     			 	},
@@ -2019,12 +1950,41 @@
         	    }
         	});
             
-	  		function addRevisionRow(){
+	  		function addRevisionRow()
+	  		{
+	  			$("#errorText").html("");
+	  			var rowCount = $('#revTable tbody tr').length;
+	  			for(var i = 0; i < rowCount; i++) {
+	  			    if ($("#drawing_no" + i).val() == "") {
+	  			        $("#errorText").html("Please Enter Drawing No. in row "+(i+1));
+	  			        return false;
+	  			    }
+	  			    if ($("#correspondence_letter_no" + i).val() == "") {
+	  			        $("#errorText").html("Please Enter Correspondence Letter No. in row "+(i+1));
+	  			        return false;
+	  			    }
+	  			    if ($("#revision_date" + i).val() == "") {
+	  			        $("#errorText").html("Please Enter Revision Date in row "+(i+1));
+	  			        return false;
+	  			    }
+	  			    if ($("#revision_status_fks" + i).val() == "") {
+	  			        $("#errorText").html("Please Enter Revision Status in row "+(i+1));
+	  			        return false;
+	  			    }
+	  			    if ($("#uploadFile" + i).val() == "") {
+	  			        $("#errorText").html("Please Upload File in row "+(i+1));
+	  			        return false;
+	  			    }
+	  			}
 		
 		      var rowNo = $("#rowNo").val();
 		      var rNo = Number(rowNo)+1;
+		      var rowLr=Number(rNo)+1;
+		      
 		      var html ='<tr id="revisionRow'+rNo+'" class="revision-rows"> '
-				      +'<td data-head="Revision" class="input-field"> <input id="revisions'+rNo+'" maxlength="25" data-length="25" name="revisions" type="text" class="validate num w70 pdr4em" placeholder="Revision"></td>'
+				      +'<td data-head="Revision No." class="input-field"> <input id="revisions'+rNo+'" maxlength="25" data-length="25" name="revisions" type="text" value="R'+ rowLr + '" class="validate num w70 pdr4em" placeholder="Revision" readonly></td>'
+				      +'<td data-head="Drawing No." class="input-field"><input id="drawing_no'+rNo+'" name="drawing_nos" type="text" </td>'
+				      +'<td data-head="Correspondence Letter No." class="input-field"><input id="correspondence_letter_no'+rNo+'" name="correspondence_letter_nos" type="text"></td>'
 				      +'<td data-head="Revision Date" class="input-field"><input id="revision_date'+rNo+'" name="revision_dates" type="text" class="validate datepicker" placeholder="Revision Date"><button type="button" id="revision_date'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> </td>'
 				     // +'<td data-head="MRVC Reviewed" class="input-field"><input id="mrvc_revieweds'+rNo+'" name="mrvc_revieweds" type="text" class="validate datepicker" placeholder="MRVC Reviewed"><button type="button" id="mrvc_revieweds'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></td>'
 				     // +'<td data-head="Divisional Approval" class="input-field"><input id="divisional_approvals'+rNo+'" name="divisional_approvals" type="text" class="validate datepicker" placeholder="Divisional Approval"> <button type="button" id="divisional_approvals'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></td>'
@@ -2037,6 +1997,7 @@
 						</c:forEach>
 					  +'</select></td>'
 					  +'<td data-head="Remarks" class="input-field"> <input id="remarkss'+rNo+'" maxlength="100" data-length="100" name="remarkss" type="text" class="validate num pdr4em w70" placeholder="Remarks"></td>'
+					  +'<td data-head="Upload File" class="input-field"> <input id="uploadFile'+rNo+'" name="uploadFiles" type="file" class="validate num pdr4em w70" placeholder="uploadFile"></td>'
 					  +'<td data-head="Status" class="input-field center-align"><p>	<label> <input type="checkbox" id="revision_status_checkbox'+rNo+'" class="revision_status_checkbox" name="current"/><span></span> </label> </p>  <input type="hidden" id="revision_status_checkbox'+rNo+'s"  name="currents" value="No" class="revision_status_checkbox" /></td>'
 					  +'<td class="mobile_btn_close"><a class="btn waves-effect waves-light red t-c " onclick="removeRevision('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
 						

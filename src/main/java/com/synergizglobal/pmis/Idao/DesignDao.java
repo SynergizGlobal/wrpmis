@@ -90,4 +90,10 @@ public interface DesignDao {
 
 	public List<Design> getDesignUpdateStructures(Design obj)  throws Exception;
 
+	public List<Design> getStructureTypesforDesign(Design obj) throws Exception;
+
+	public List<Design> getStructureTypeListFilter(Design obj)  throws Exception;
+
+	public List<Design> getStructureIdsListFilter(Design obj)  throws Exception;
+
 }

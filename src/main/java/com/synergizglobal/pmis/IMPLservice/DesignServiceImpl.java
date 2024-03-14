@@ -224,6 +224,23 @@ public class DesignServiceImpl implements DesignService{
 	public List<Design> getDesignUpdateStructures(Design obj) throws Exception {
 		return designDao.getDesignUpdateStructures(obj);
 	}
+
+	@Override
+	public List<Design> getStructureTypesforDesign(Design obj) throws Exception {
+		return designDao.getStructureTypesforDesign(obj);
+	}
+
+	@Override
+	public List<Design> getStructureTypeListFilter(Design obj) throws Exception {
+		return designDao.getStructureTypeListFilter(obj);
+	}
+
+	@Override
+	public List<Design> getStructureIdsListFilter(Design obj) throws Exception {
+		return designDao.getStructureIdsListFilter(obj);
+	}
+	
+	
 	
 	
 

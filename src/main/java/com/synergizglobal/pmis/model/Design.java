@@ -1,6 +1,7 @@
 package com.synergizglobal.pmis.model;
 
 import java.lang.reflect.Field;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.util.StringUtils;
@@ -17,13 +18,13 @@ public class Design {
 	 query_replied_to_hq,crs_sanction_fk,submitted_for_crs_sanction,query_raised_for_crs_sanction,query_replied_for_crs_sanction,crs_sanction_approved,design_seq_id,searchStr,
 	 project_id,work_id,work_code,consult_contarct,proof_consult_contarct,project_name,contract_id,required_date,revision_status,status,uploaded_by_user_id_fk,design_data_id, railway_id,uploaded_file, user_id,uploaded_on,user_role_code,user_name,modified_by,modified_date;
 	
-	private String id, design_file_id,design_id_fk,latest,submission_purpose,structure_id_fk,design_file_type,submssionpurpose,design_file_types,name,structure, stage_fk,design_status_submit, approving_railway,approval_authority_fk,submitted_by, submitted_to, submitted_date, submssion_purpose,design_file_type_fk,current,
+	private String id, threepvc,drawing_no,structure_name,correspondence_letter_no,upload_file,design_file_id,design_id_fk,latest,submission_purpose,structure_id_fk,design_file_type,submssionpurpose,design_file_types,name,structure, stage_fk,design_status_submit, approving_railway,approval_authority_fk,submitted_by, submitted_to, submitted_date, submssion_purpose,design_file_type_fk,current,
 	
 	element,activity,target_date,actual_date,scope,task_code;
 	
 	private String []ids,taskcodes, design_id_fks, design_file_ids,stage_fks,designDocumentFileNames,designDocumentNames, submitted_bys, submitted_tos, submitted_dates, submssion_purposes,design_file_type_fks,currents;
 	
-	private String[] revisions,revision_dates,latests, consultant_submissions,design_file_typess, mrvc_revieweds, divisional_approvals, hq_approvals, revision_status_fks, remarkss;
+	private String[] revisions,revision_dates,drawing_nos,correspondence_letter_nos,upload_files,uploadFiles,latests, consultant_submissions,design_file_typess, mrvc_revieweds, divisional_approvals, hq_approvals, revision_status_fks, remarkss;
 	
 	private String[]  p6activityids,structures,components,elements,activities,scopes,target_dates,actual_dates,designremarks;
 	
@@ -1270,6 +1271,78 @@ public class Design {
 
 	public void setTask_code(String task_code) {
 		this.task_code = task_code;
+	}
+
+	public String getThreepvc() {
+		return threepvc;
+	}
+
+	public void setThreepvc(String threepvc) {
+		this.threepvc = threepvc;
+	}
+
+	public String getDrawing_no() {
+		return drawing_no;
+	}
+
+	public void setDrawing_no(String drawing_no) {
+		this.drawing_no = drawing_no;
+	}
+
+	public String getCorrespondence_letter_no() {
+		return correspondence_letter_no;
+	}
+
+	public void setCorrespondence_letter_no(String correspondence_letter_no) {
+		this.correspondence_letter_no = correspondence_letter_no;
+	}
+
+	public String getUpload_file() {
+		return upload_file;
+	}
+
+	public void setUpload_file(String upload_file) {
+		this.upload_file = upload_file;
+	}
+
+	public String[] getDrawing_nos() {
+		return drawing_nos;
+	}
+
+	public void setDrawing_nos(String[] drawing_nos) {
+		this.drawing_nos = drawing_nos;
+	}
+
+	public String[] getCorrespondence_letter_nos() {
+		return correspondence_letter_nos;
+	}
+
+	public void setCorrespondence_letter_nos(String[] correspondence_letter_nos) {
+		this.correspondence_letter_nos = correspondence_letter_nos;
+	}
+
+	public String[] getUpload_files() {
+		return upload_files;
+	}
+
+	public void setUpload_files(String[] upload_files) {
+		this.upload_files = upload_files;
+	}
+
+	public String getStructure_name() {
+		return structure_name;
+	}
+
+	public void setStructure_name(String structure_name) {
+		this.structure_name = structure_name;
+	}
+
+	public String[] getUploadFiles() {
+		return uploadFiles;
+	}
+
+	public void setUploadFiles(String[] uploadFiles) {
+		this.uploadFiles = uploadFiles;
 	}
 
 }

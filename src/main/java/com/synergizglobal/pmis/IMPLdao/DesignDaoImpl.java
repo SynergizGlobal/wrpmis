@@ -80,7 +80,7 @@ public class DesignDaoImpl implements DesignDao{
 					"(SELECT submitted_to FROM design_status dss where max(ds.id) = dss.id) else (SELECT submitted_to FROM design_status dss  " + 
 					"where dss.submitted_date = max(ds.submitted_date)) end) as submitted_to ,FORMAT(max(ds.submitted_date) ,'dd-MM-yyyy') AS submitted_date,  " + 
 					"FORMAT(required_date ,'dd-MM-yyyy') AS required_date ,u.user_name,u.designation as hod_designation,u1.user_name,u1.designation as dy_hod_designation, " + 
-					"dt.department_name ,isnull(c1.contract_short_name,'') as consult_contarct, isnull(c2.contract_short_name,'') as proof_consult_contarct,component,design_seq_id   " + 
+					"dt.department_name ,isnull(c1.contract_short_name,'') as consult_contarct, isnull(c2.contract_short_name,'') as proof_consult_contarct,component,design_seq_id,[3pvc] as threepvc   " + 
 					" " + 
 					"from design d  " + 
 					"LEFT OUTER JOIN contract c ON d.contract_id_fk = c.contract_id  " + 
@@ -136,7 +136,7 @@ public class DesignDaoImpl implements DesignDao{
 			qry = qry + " group by design_id,d.work_id_fk,w.project_id_fk,d.structure_type_fk,d.structure_id_fk,w.work_short_name, " + 
 					"d.approving_railway,d.approval_authority_fk,w.work_name,c.contract_name,c.contract_short_name,d.contract_id_fk,d.department_id_fk,d.consultant_contract_id_fk,d.proof_consultant_contract_id_fk,d.hod,d.dy_hod,d.prepared_by_id_fk,d.structure_type_fk, " + 
 					"d.drawing_type_fk,d.contractor_drawing_no,d.mrvc_drawing_no,d.division_drawing_no,d.hq_drawing_no,d.drawing_title,FORMAT(d.required_date,'dd-MM-yyyy'),FORMAT(d.gfc_released,'dd-MM-yyyy'),d.remarks, " + 
-					"u.user_name,u.designation,u1.user_name,u1.designation,dt.department_name,c1.contract_short_name,c2.contract_short_name,component,design_seq_id ";
+					"u.user_name,u.designation,u1.user_name,u1.designation,dt.department_name,c1.contract_short_name,c2.contract_short_name,component,design_seq_id,[3pvc] ";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
@@ -185,7 +185,7 @@ public class DesignDaoImpl implements DesignDao{
 			String qry ="select design_id,d.work_id_fk,w.project_id_fk,w.work_name,d.structure_id_fk,c.contract_name,c.contract_short_name,d.contract_id_fk,d.department_id_fk,d.consultant_contract_id_fk,d.proof_consultant_contract_id_fk,d.hod,d.dy_hod," + 
 					"d.prepared_by_id_fk,d.structure_type_fk,d.drawing_type_fk,d.contractor_drawing_no,d.mrvc_drawing_no,d.division_drawing_no" + 
 					",d.hq_drawing_no,d.drawing_title"
-					+",FORMAT(d.gfc_released,'dd-MM-yyyy') AS gfc_released,d.remarks,d.modified_by,FORMAT(d.modified_date,'dd-MM-yyyy') as modified_date,d.design_seq_id   "
+					+",FORMAT(d.gfc_released,'dd-MM-yyyy') AS gfc_released,d.remarks,d.modified_by,FORMAT(d.modified_date,'dd-MM-yyyy') as modified_date,d.design_seq_id,[3pvc] as threepvc   "
 					+ "from design d "  
 					+"LEFT OUTER JOIN contract c ON d.contract_id_fk = c.contract_id "
 					+"LEFT OUTER JOIN work w  ON d.work_id_fk  =  w.work_id " 
@@ -468,7 +468,7 @@ public class DesignDaoImpl implements DesignDao{
 					"d.prepared_by_id_fk,d.structure_type_fk,d.drawing_type_fk,d.contractor_drawing_no,d.mrvc_drawing_no,d.division_drawing_no" + 
 					",d.hq_drawing_no,d.drawing_title"+
 					",FORMAT(d.gfc_released,'dd-MM-yyyy') AS gfc_released,"
-					+ "d.remarks,d.component,d.design_seq_id "
+					+ "d.remarks,d.component,d.design_seq_id,[3pvc] as threepvc "
 					+ "from design d "  
 					+"LEFT OUTER JOIN contract c ON d.contract_id_fk = c.contract_id "
 					+"LEFT OUTER JOIN work w  ON d.work_id_fk  =  w.work_id " + 
@@ -518,11 +518,11 @@ public class DesignDaoImpl implements DesignDao{
 			String qry = "INSERT INTO design (work_id_fk,contract_id_fk,department_id_fk,hod,dy_hod,prepared_by_id_fk,consultant_contract_id_fk,proof_consultant_contract_id_fk,"
 					+ "structure_type_fk,drawing_type_fk,contractor_drawing_no,mrvc_drawing_no,division_drawing_no,hq_drawing_no,drawing_title,"
 					+ "gfc_released,remarks," + 
-					"approving_railway,approval_authority_fk,structure_id_fk,required_date,component,design_seq_id) "
+					"approving_railway,approval_authority_fk,structure_id_fk,required_date,component,design_seq_id,[3pvc]) "
 					+ "VALUES(:work_id_fk,:contract_id_fk,:department_id_fk,:hod,:dy_hod,:prepared_by_id_fk,:consultant_contract_id_fk,:proof_consultant_contract_id_fk,:structure_type_fk"
 					+ ",:drawing_type_fk,:contractor_drawing_no,:mrvc_drawing_no,:division_drawing_no,:hq_drawing_no,:drawing_title,"
 					+ ":gfc_released,:remarks"
-					+ ",:approving_railway,:approval_authority_fk,:structure_id_fk,:required_date,:component,:design_seq_id)";
+					+ ",:approving_railway,:approval_authority_fk,:structure_id_fk,:required_date,:component,:design_seq_id,:threepvc)";
 			
 			SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
 		    KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -864,7 +864,7 @@ public class DesignDaoImpl implements DesignDao{
 			String qry = "UPDATE design SET contract_id_fk= :contract_id_fk,department_id_fk=:department_id_fk,hod=:hod,dy_hod=:dy_hod,prepared_by_id_fk=:prepared_by_id_fk,consultant_contract_id_fk=:consultant_contract_id_fk,proof_consultant_contract_id_fk=:proof_consultant_contract_id_fk,structure_type_fk=:structure_type_fk"
 					+ ",drawing_type_fk=:drawing_type_fk,contractor_drawing_no=:contractor_drawing_no,mrvc_drawing_no=:mrvc_drawing_no,division_drawing_no=:division_drawing_no,hq_drawing_no=:hq_drawing_no,drawing_title=:drawing_title,"
 					+ "gfc_released=:gfc_released,remarks=:remarks,design_seq_id=:design_seq_id,"
-					+ "approving_railway=:approving_railway,approval_authority_fk=:approval_authority_fk,required_date=:required_date,structure_id_fk=:structure_id_fk,modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP,component=:component   "
+					+ "approving_railway=:approving_railway,approval_authority_fk=:approval_authority_fk,required_date=:required_date,structure_id_fk=:structure_id_fk,modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP,component=:component,[3pvc]=:threepvc   "
 					+ "WHERE design_id = :design_id";
 			BeanPropertySqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);		 
 			int count = namedParamJdbcTemplate.update(qry, paramSource);			
@@ -943,8 +943,8 @@ public class DesignDaoImpl implements DesignDao{
 				paramSource = new BeanPropertySqlParameterSource(obj);		 
 				count = namedParamJdbcTemplate.update(deleteQry, paramSource);
 			
-				String qryDesignRevision = "INSERT INTO design_revisions (design_id_fk,revision,revision_date,"
-						+ "revision_status_fk,[current],remarks) VALUES(?,?,?,?,?,?)";
+				String qryDesignRevision = "INSERT INTO design_revisions (design_id_fk,revision,drawing_no,correspondence_letter_no,revision_date,"
+						+ "revision_status_fk,[current],remarks,upload_file) VALUES(?,?,?,?,?,?,?,?,?)";
 				
 				int[] counts = jdbcTemplate.batchUpdate(qryDesignRevision,
 			            new BatchPreparedStatementSetter() {
@@ -953,11 +953,17 @@ public class DesignDaoImpl implements DesignDao{
 								try {
 									int k = 1;
 									ps.setString(k++, obj.getDesign_id());
-									ps.setString(k++,(obj.getRevisions().length > 0)?obj.getRevisions()[i]:null);									
+									ps.setString(k++,(obj.getRevisions().length > 0)?obj.getRevisions()[i]:null);
+									
+									ps.setString(k++,(obj.getDrawing_nos().length > 0)?obj.getDrawing_nos()[i]:null);
+									ps.setString(k++,(obj.getCorrespondence_letter_nos().length > 0)?obj.getCorrespondence_letter_nos()[i]:null);	
+									
+									
 									ps.setString(k++,DateParser.parse((obj.getRevision_dates().length > 0)?obj.getRevision_dates()[i]:null));
 									ps.setString(k++,(obj.getRevision_status_fks().length > 0)?obj.getRevision_status_fks()[i]:null);
 									ps.setString(k++,(obj.getCurrents().length > 0)?obj.getCurrents()[i]:null);
 									ps.setString(k++,(obj.getRemarkss().length > 0)?obj.getRemarkss()[i]:null);
+									ps.setString(k++,(obj.getUploadFiles().length > 0)?obj.getUploadFiles()[i]:null);
 								
 								} catch (Exception e) {
 									
@@ -972,28 +978,23 @@ public class DesignDaoImpl implements DesignDao{
 										arraySize = obj.getRevisions().length;
 									}
 								}
-								if(!StringUtils.isEmpty(obj.getConsultant_submissions()) && obj.getConsultant_submissions().length > 0) {
-									obj.setConsultant_submissions(CommonMethods.replaceEmptyByNullInSringArray(obj.getConsultant_submissions()));
-									if(arraySize < obj.getConsultant_submissions().length) {
-										arraySize = obj.getConsultant_submissions().length;
+								if(!StringUtils.isEmpty(obj.getDrawing_nos()) && obj.getDrawing_nos().length > 0) {
+									obj.setDrawing_nos(CommonMethods.replaceEmptyByNullInSringArray(obj.getDrawing_nos()));
+									if(arraySize < obj.getDrawing_nos().length) {
+										arraySize = obj.getDrawing_nos().length;
 									}
-								}
-								if(!StringUtils.isEmpty(obj.getMrvc_revieweds()) && obj.getMrvc_revieweds().length > 0) {
-									obj.setMrvc_revieweds(CommonMethods.replaceEmptyByNullInSringArray(obj.getMrvc_revieweds()));
-									if(arraySize < obj.getMrvc_revieweds().length) {
-										arraySize = obj.getMrvc_revieweds().length;
+								}									
+								if(!StringUtils.isEmpty(obj.getCorrespondence_letter_nos()) && obj.getCorrespondence_letter_nos().length > 0) {
+									obj.setCorrespondence_letter_nos(CommonMethods.replaceEmptyByNullInSringArray(obj.getCorrespondence_letter_nos()));
+									if(arraySize < obj.getCorrespondence_letter_nos().length) {
+										arraySize = obj.getCorrespondence_letter_nos().length;
 									}
-								}
-								if(!StringUtils.isEmpty(obj.getDivisional_approvals()) && obj.getDivisional_approvals().length > 0) {
-									obj.setDivisional_approvals(CommonMethods.replaceEmptyByNullInSringArray(obj.getDivisional_approvals()));
-									if(arraySize < obj.getDivisional_approvals().length) {
-										arraySize = obj.getDivisional_approvals().length;
-									}
-								}
-								if(!StringUtils.isEmpty(obj.getHq_approvals()) && obj.getHq_approvals().length > 0) {
-									obj.setHq_approvals(CommonMethods.replaceEmptyByNullInSringArray(obj.getHq_approvals()));
-									if(arraySize < obj.getHq_approvals().length) {
-										arraySize = obj.getHq_approvals().length;
+								}	
+							
+								if(!StringUtils.isEmpty(obj.getRevision_dates()) && obj.getRevision_dates().length > 0) {
+									obj.setRevision_dates(CommonMethods.replaceEmptyByNullInSringArray(obj.getRevision_dates()));
+									if(arraySize < obj.getRevision_dates().length) {
+										arraySize = obj.getRevision_dates().length;
 									}
 								}
 								if(!StringUtils.isEmpty(obj.getRevision_status_fks()) && obj.getRevision_status_fks().length > 0) {
@@ -1008,6 +1009,12 @@ public class DesignDaoImpl implements DesignDao{
 										arraySize = obj.getRemarkss().length;
 									}
 								}
+								if(!StringUtils.isEmpty(obj.getUploadFiles()) && obj.getUploadFiles().length > 0) {
+									obj.setUploadFiles(CommonMethods.replaceEmptyByNullInSringArray(obj.getUploadFiles()));
+									if(arraySize < obj.getUploadFiles().length) {
+										arraySize = obj.getUploadFiles().length;
+									}
+								}								
 								return arraySize;
 						}
 				  });
@@ -1827,7 +1834,7 @@ public class DesignDaoImpl implements DesignDao{
 	public List<Design> getDesignUploadsList(Design obj) throws Exception {
 		List<Design> objsList = null;
 		try {
-			String qry = "SELECT design_data_id, uploaded_file, dd.status, dd.remarks, uploaded_by_user_id_fk, FORMAT(uploaded_on,'%d-%b-%Y  %h:%i %p') as uploaded_on "
+			String qry = "SELECT design_data_id, uploaded_file, dd.status, dd.remarks, uploaded_by_user_id_fk, FORMAT(uploaded_on,'dd-MM-yyyy  hh:mm ss') as uploaded_on "
 					+ ",uploaded_on as date from design_data dd " 
 					+ "left join [user] u ON dd.uploaded_by_user_id_fk = u.user_id "
 					+ "where design_data_id is not null order by FORMAT(uploaded_on,'%y-%m-%d %H : %i : %s') desc ";
@@ -2054,17 +2061,17 @@ public class DesignDaoImpl implements DesignDao{
 			String qry = "INSERT INTO design (work_id_fk,contract_id_fk,department_id_fk,hod,dy_hod,prepared_by_id_fk,consultant_contract_id_fk,proof_consultant_contract_id_fk,"
 					+ "structure_type_fk,drawing_type_fk,contractor_drawing_no,mrvc_drawing_no,division_drawing_no,hq_drawing_no,drawing_title,"
 					+ "gfc_released,remarks," + 
-					"approving_railway,approval_authority_fk,structure_id_fk,required_date,component,design_seq_id) "
+					"approving_railway,approval_authority_fk,structure_id_fk,required_date,component,design_seq_id,[3pvc]) "
 					+ "VALUES(:work_id_fk,:contract_id_fk,:department_id_fk,:hod,:dy_hod,:prepared_by_id_fk,:consultant_contract_id_fk,:proof_consultant_contract_id_fk,:structure_type_fk"
 					+ ",:drawing_type_fk,:mrvc_drawing_no,:mrvc_drawing_no,:division_drawing_no,:hq_drawing_no,:drawing_title,"
 					+ ":gfc_released,:remarks,"
-					+ ":approving_railway,:approval_authority_fk,:structure_id_fk,:required_date,:component,:design_seq_id)";
+					+ ":approving_railway,:approval_authority_fk,:structure_id_fk,:required_date,:component,:design_seq_id,:threepvc)";
 			
 			String updateQry = "UPDATE design set contract_id_fk= :contract_id_fk, approving_railway= :approving_railway, department_id_fk= :department_id_fk,hod= :hod,"
 					+ "dy_hod= :dy_hod,structure_type_fk= :structure_type_fk,structure_id_fk= :structure_id_fk,prepared_by_id_fk= :prepared_by_id_fk ,consultant_contract_id_fk= :consultant_contract_id_fk,"
 					+ "proof_consultant_contract_id_fk= :proof_consultant_contract_id_fk,drawing_type_fk= :drawing_type_fk,drawing_title= :drawing_title,approval_authority_fk= :approval_authority_fk,"
 					+ "required_date=:required_date,contractor_drawing_no= :contractor_drawing_no,mrvc_drawing_no= :mrvc_drawing_no,division_drawing_no= :division_drawing_no,"
-					+ "hq_drawing_no= :hq_drawing_no,gfc_released= :gfc_released,remarks=:remarks,modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP where design_seq_id= :design_seq_id ";
+					+ "hq_drawing_no= :hq_drawing_no,gfc_released= :gfc_released,remarks=:remarks,modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP,[3pvc]=:Threepvc where design_seq_id= :design_seq_id ";
 			for (Design obj : designsList) {
 				
 				if(!StringUtils.isEmpty(obj.getConsultant_contract_id_fk())) {
@@ -2085,9 +2092,9 @@ public class DesignDaoImpl implements DesignDao{
 				  department = (String)jdbcTemplate.queryForObject( deptqry,new Object[]{obj.getDepartment_id_fk()} ,String.class); 
 				}
 				obj.setDepartment_id_fk(department);*/
-				String hod = getHod(obj.getHod());
-				String dyHod = getDyHod(obj.getDy_hod());
-				obj.setHod(hod);obj.setDy_hod(dyHod);
+				//String hod = getHod(obj.getHod());
+				//String dyHod = getDyHod(obj.getDy_hod());
+				//obj.setHod(hod);obj.setDy_hod(dyHod);
 				if(!StringUtils.isEmpty(obj.getPrepared_by_id_fk())) {
 					String preparedByQry = "INSERT INTO design_prepared_by (prepared_by) SELECT * FROM (SELECT ? AS tmp " + 
 							"WHERE NOT EXISTS ( SELECT prepared_by FROM design_prepared_by WHERE prepared_by = ?  )) as tmp";
@@ -2262,18 +2269,25 @@ public class DesignDaoImpl implements DesignDao{
 	public List<Design> getStructureIdsforDesign(Design obj) throws Exception {
 		List<Design> objsList = null;
 		try {
-			String qry ="select distinct structure as structure_id_fk from p6_activities a left join structure s on s.structure_id=a.structure_id_fk where 0=0  ";
+			String qry ="select distinct structure_id as structure_id_fk,structure_name from structure where 0=0  ";
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type_fk())) {
-				qry = qry + " and s.structure_type_fk = ? ";
+				qry = qry + " and structure_type_fk = ? ";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ? ";
+				arrSize++;
+			}			
 			Object[] pValues = new Object[arrSize];
 			
 			int i = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type_fk())) {
 				pValues[i++] = obj.getStructure_type_fk();
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Design>(Design.class));	
 		}catch(Exception e){ 
 		throw new Exception(e);
@@ -2547,6 +2561,115 @@ public class DesignDaoImpl implements DesignDao{
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Design>(Design.class));	
 		}catch(Exception e){ 
 		throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Design> getStructureTypesforDesign(Design obj) throws Exception {
+		List<Design> objsList = null;
+		try {
+			String qry ="select distinct structure_type_fk from structure where 0=0 ";
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and work_id_fk = ? ";
+				arrSize++;
+			}
+			Object[] pValues = new Object[arrSize];
+			
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Design>(Design.class));	
+		}catch(Exception e){ 
+		throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Design> getStructureTypeListFilter(Design obj) throws Exception {
+		List<Design> objsList = null;
+		try {
+			String qry ="select distinct d.structure_type_fk "
+					+ "from design d "  
+					+"LEFT OUTER JOIN contract c ON d.contract_id_fk = c.contract_id "
+					+ " where d.structure_type_fk is not null and d.structure_type_fk <> '' ";
+				
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and d.work_id_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and d.contract_id_fk = ? ";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_id_fk())) {
+				qry = qry + " and structure_id_fk = ? ";
+				arrSize++;
+			}
+			
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_id_fk())) {
+				pValues[i++] = obj.getStructure_id_fk();
+			}
+			
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Design>(Design.class));
+			
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
+	}
+
+	@Override
+	public List<Design> getStructureIdsListFilter(Design obj) throws Exception {
+		List<Design> objsList = null;
+		try {
+			String qry ="select distinct d.structure_id_fk "
+					+ "from design d "  
+					+"LEFT OUTER JOIN contract c ON d.contract_id_fk = c.contract_id "
+					+ " where d.structure_type_fk is not null and d.structure_type_fk <> '' ";
+				
+			int arrSize = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				qry = qry + " and d.work_id_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				qry = qry + " and d.contract_id_fk = ? ";
+				arrSize++;
+			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type_fk())) {
+				qry = qry + " and structure_type_fk = ? ";
+				arrSize++;
+			}
+			
+			Object[] pValues = new Object[arrSize];
+			int i = 0;
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
+				pValues[i++] = obj.getWork_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
+				pValues[i++] = obj.getContract_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type_fk())) {
+				pValues[i++] = obj.getStructure_type_fk();
+			}
+			
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Design>(Design.class));
+			
+		}catch(Exception e){ 
+			throw new Exception(e);
 		}
 		return objsList;
 	}

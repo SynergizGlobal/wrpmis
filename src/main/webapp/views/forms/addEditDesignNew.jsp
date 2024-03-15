@@ -334,14 +334,13 @@
 							      <ul class="tabs tab-flex" id="menu-center">
 							        <li class="tab" ><a class="t-c" href="#workDetails">Work Details</a></li>
 							        <li class="tab" ><a class="t-c" href="#drawingDetails">Drawing Details</a></li>
-							        <li class="tab" ><a class="t-c" href="#statusDetails">Drawing Status</a></li>							        
-							        <li class="tab hideTab" ><a class="t-c" href="#revisionDetails">Revisions</a></li>
-							        <li class="tab hideTab"><a class="t-c" href="#documentDetails">Attachment</a></li>
+							        <li class="tab hideTab" ><a class="t-c" href="#statusDetails">Drawing Status</a></li>							        
+							        <li class="tab" ><a class="t-c" href="#revisionDetails">Revisions</a></li>
 							        <li class="tab"><a class="t-c"><label><input type="checkbox" id="box" value="hidden"><span style="color: darkcyan;">Show Optional Fields</span></label></a></li> 
 							      </ul>
 							    </div>							    
 						   </div>
-						  </c:if> 
+						  </c:if>
 						    <div class="container container-no-margin">
                             <div class="section scrollspy" id="workDetails">
                             <div class="row">
@@ -445,12 +444,7 @@
                                 </div>
                                 <div class="col s6 m4 l4 input-field " >
                                     <p class="searchable_label">Component</p>
-                                    <select class="searchable validate-dropdown" name="component" id="component">
-                                        <option value="" selected>Select</option>
-                                         <c:forEach var="obj" items="${componentList }">
-                                      	    <option value= "${ obj.component}" <c:if test="${designDetails.component eq obj.component}">selected</c:if>>${obj.component}</option>
-                                          </c:forEach>
-                                    </select>
+                                    <input type="text" name="component" id="component" value="${designDetails.component}">
                                     <span id="componentError" class="error-msg" ></span>
                                 </div>
                               </div>
@@ -746,7 +740,10 @@
                                 </div>
                             </div>
                            </div>
-                          </div>  
+                          </div> 
+                          </c:if>  
+                          
+                           
                             <div style="width:90%;padding-left:10%;"> 
                              <div class="row fixed-width section scrollspy" id="revisionDetails">
                                 <h5 class="center-align pos-rel">Revision Details 
@@ -788,11 +785,11 @@
 		                                                </td>
 		                                                <td data-head="Revision" class="input-field">
 		                                                    <input id="drawing_no${index.count }" maxlength="25" data-length="25" name="drawing_nos" type="text" class="validate"
-		                                                        placeholder="drawing no" value="${revObj.drawing_no }" readonly>                                                        
+		                                                        placeholder="drawing no" value="${revObj.drawing_no }" >                                                        
 		                                                </td>
 		                                                <td data-head="Revision" class="input-field">
 		                                                    <input id="correspondence_letter_no${index.count }" maxlength="25" data-length="25" name="correspondence_letter_nos" type="text" class="validate"
-		                                                        placeholder="correspondence letter no" value="${revObj.correspondence_letter_no }" readonly>                                                        
+		                                                        placeholder="correspondence letter no" value="${revObj.correspondence_letter_no }" >                                                        
 		                                                </td>			                                                		                                                
 		                                                <td data-head="Revision Date" class="input-field">
 		                                                    <input id="revision_date${index.count }" name="revision_dates" type="text" class="validate datepicker"
@@ -813,10 +810,20 @@
 		                                                    <input id="remarkss${index.count }" maxlength="100" data-length="100" name="remarkss" type="text" class="validate num pdr4em w70"
 		                                                        placeholder="Remarks" value="${revObj.remarks }">
 		                                                </td>
-		                                                <td data-head="Remarks" class="input-field">
-		                                                    <input id="uploadFiles${index.count }"  name="uploadFiles" type="text" class="validate num pdr4em w70" placeholder="Upload File" style="display:none" onchange="getUploadFileName('${index.count }')" value="${revObj.upload_file }">
-		                                                    <input type="hidden" id="uploadFileNames${index.count }" name="uploadFileNames">
-		                                                </td>		                                                
+		                                                
+	                                                    <td data-head="Attachment" class="input-field">
+	                                                        <span class="normal-btn">
+	                                                            <input type="file" id="uploadFiles${index.count }" name="uploadFiles"
+	                                                                style="display:none" onchange="getUploadFileName('${index.count }')"/>
+	                                                            <label for="uploadFiles${index.count }" class="btn bg-m"><i
+	                                                                    class="fa fa-paperclip"></i></label>
+	                                                            <input type="hidden" id="uploadFileNames${index.count }" name="uploadFileNames" value="${revObj.upload_file }">
+	                                                             <span id="uploadFileName${index.count }" class="filevalue"></span>
+	                                                          </span>
+	                                                    </td>		                                                
+		                                                
+		                                                
+		                                                		                                                
 		                                                <td data-head="Status" class="input-field center-align">
 			                                                <p>
 			                                                 	<label> 
@@ -867,10 +874,17 @@
 	                                                    <input id="remarkss0" maxlength="100" data-length="100" name="remarkss" type="text" class="validate num w70 pdr4em"
 	                                                        placeholder="Remarks">
 	                                                </td>
-	                                                <td data-head="Upload File" class="input-field">
-	                                                    <input type="file" name="uploadFiles" id="uploadFiles0" onchange="getUploadFileName(0);">  
-	                                                    <input type="hidden" id="uploadFileNames0" name="uploadFileNames">                                              
-	                                                </td>		                                                
+                                                    <td data-head="Attachment" class="input-field">
+                                                        <span class="normal-btn">
+                                                            <input type="file" id="uploadFiles0" name="uploadFiles"
+                                                                style="display:none" onchange="getUploadFileName('0')"/>
+                                                            <label for="uploadFiles0" class="btn bg-m"><i
+                                                                    class="fa fa-paperclip"></i></label>
+                                                            <input type="hidden" id="uploadFileNames0" name="uploadFileNames" value="">
+                                                            <span id="uploadFileName0" class="filevalue"></span>
+                                                        </span>
+                                                    </td>	                                                
+	                                                		                                                
 	                                                <td data-head="Status" class="input-field center-align">
 		                                                <p>
 		                                                 	<label> 
@@ -917,7 +931,6 @@
                             </div>  
                                   
 						</div>	  
-						 </c:if>        
  						<div class="container container-no-margin">
  
 
@@ -1456,30 +1469,7 @@
         }
         
         function addDesign(){
-  			$("#errorText").html("");
-  			var rowCount = $('#revTable tbody tr').length;
-  			for(var i = 0; i < rowCount; i++) {
-  			    if ($("#drawing_no" + i).val() == "") {
-  			        $("#errorText").html("Please Enter Drawing No. in row "+(i+1));
-  			        return false;
-  			    }
-  			    if ($("#correspondence_letter_no" + i).val() == "") {
-  			        $("#errorText").html("Please Enter Correspondence Letter No. in row "+(i+1));
-  			        return false;
-  			    }
-  			    if ($("#revision_date" + i).val() == "") {
-  			        $("#errorText").html("Please Enter Revision Date in row "+(i+1));
-  			        return false;
-  			    }
-  			    if ($("#revision_status_fks" + i).val() == "") {
-  			        $("#errorText").html("Please Enter Revision Status in row "+(i+1));
-  			        return false;
-  			    }
-  			    if ($("#uploadFile" + i).val() == "") {
-  			        $("#errorText").html("Please Upload File in row "+(i+1));
-  			        return false;
-  			    }
-  			}       	
+     	
         	
         	if(validator.form()){ // validation perform
 	   			$(".page-loader").show();
@@ -1492,41 +1482,50 @@
 	  			$('form input[name=revision_status_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=remarkss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			
+	  			$('form input[name=drawing_nos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=correspondence_letter_nos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			
+	  			$('form input[name=uploadFileNames]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });	  			
+	  			
+	  			
+	  			
 	  			$('form input[name=stage_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=submitted_bys]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=submitted_tos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=submitted_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=submssion_purposes]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			
+	  			$("#errorText").html("");
+	  			var rowCount = $('#revTable tbody tr').length;
+	  			for(var i = 0; i < rowCount; i++) {
+	  			    if ($("#drawing_no" + i).val() == "") {
+	  			        $("#errorText").html("Please Enter Drawing No. in row "+(i+1));
+	  			        return false;
+	  			    }
+	  			    if ($("#correspondence_letter_no" + i).val() == "") {
+	  			        $("#errorText").html("Please Enter Correspondence Letter No. in row "+(i+1));
+	  			        return false;
+	  			    }
+	  			    if ($("#revision_date" + i).val() == "") {
+	  			        $("#errorText").html("Please Enter Revision Date in row "+(i+1));
+	  			        return false;
+	  			    }
+	  			    if ($("#revision_status_fks" + i).val() == "") {
+	  			        $("#errorText").html("Please Enter Revision Status in row "+(i+1));
+	  			        return false;
+	  			    }
+	  			    if ($("#uploadFile" + i).val() == "") {
+	  			        $("#errorText").html("Please Upload File in row "+(i+1));
+	  			        return false;
+	  			    }
+	  			}    			
+	  			
 	  			document.getElementById("designForm").submit();	
         	}
     	}
     
     	function updateDesign(){	
     		
-  			$("#errorText").html("");
-  			var rowCount = $('#revTable tbody tr').length;
-  			for(var i = 0; i < rowCount; i++) {
-  			    if ($("#drawing_no" + i).val() == "") {
-  			        $("#errorText").html("Please Enter Drawing No. in row "+(i+1));
-  			        return false;
-  			    }
-  			    if ($("#correspondence_letter_no" + i).val() == "") {
-  			        $("#errorText").html("Please Enter Correspondence Letter No. in row "+(i+1));
-  			        return false;
-  			    }
-  			    if ($("#revision_date" + i).val() == "") {
-  			        $("#errorText").html("Please Enter Revision Date in row "+(i+1));
-  			        return false;
-  			    }
-  			    if ($("#revision_status_fks" + i).val() == "") {
-  			        $("#errorText").html("Please Enter Revision Status in row "+(i+1));
-  			        return false;
-  			    }
-  			    if ($("#uploadFile" + i).val() == "") {
-  			        $("#errorText").html("Please Upload File in row "+(i+1));
-  			        return false;
-  			    }
-  			}  
   			
     		$("#drawing_status_error").html("");
     		var rowCount = $("#statusTableBody tr").length;
@@ -1575,7 +1574,8 @@
 	  			
 	  			$('form input[name=drawing_nos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=correspondence_letter_nos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			$('form input[name=uploadFiles]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			
+	  			$('form input[name=uploadFileNames]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			
 	  			
 	  			$('form input[name=stage_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
@@ -1583,6 +1583,36 @@
 	  			$('form input[name=submitted_tos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=submitted_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=submssion_purposes]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			
+	  			
+	  			$("#errorText").html("");
+	  			var rowCount = $('#revTable tbody tr').length;
+	  			for(var i = 0; i < rowCount; i++) {
+	  			    if ($("#drawing_no" + i).val() == "") {
+	  			        $("#errorText").html("Please Enter Drawing No. in row "+(i+1));
+	  			        return false;
+	  			    }
+	  			    if ($("#correspondence_letter_no" + i).val() == "") {
+	  			        $("#errorText").html("Please Enter Correspondence Letter No. in row "+(i+1));
+	  			        return false;
+	  			    }
+	  			    if ($("#revision_date" + i).val() == "") {
+	  			        $("#errorText").html("Please Enter Revision Date in row "+(i+1));
+	  			        return false;
+	  			    }
+	  			    if ($("#revision_status_fks" + i).val() == "") {
+	  			        $("#errorText").html("Please Enter Revision Status in row "+(i+1));
+	  			        return false;
+	  			    }
+	  			    if ($("#uploadFile" + i).val() == "") {
+	  			        $("#errorText").html("Please Upload File in row "+(i+1));
+	  			        return false;
+	  			    }
+	  			}  	  			
+	  			
+	  			
+	  			
+	  			
 	  			document.getElementById("designForm").submit();	
         	}
 		}
@@ -1990,8 +2020,14 @@
 						</c:forEach>
 					  +'</select></td>'
 					  +'<td data-head="Remarks" class="input-field"> <input id="remarkss'+rNo+'" maxlength="100" data-length="100" name="remarkss" type="text" class="validate num pdr4em w70" placeholder="Remarks"></td>'
-					  +'<td data-head="Upload File" class="input-field"> <input id="uploadFiles'+rNo+'" name="uploadFiles" type="file" class="validate num pdr4em w70" placeholder="uploadFile" onchange="getUploadFileName('+rNo+')"></td>'
-					  +'<input type="hidden" id="uploadFileNames'+rNo+'" name="uploadFileNames">'
+						 +'<td data-head="Attachment" class="input-field">'
+						 +'<span class="normal-btn">'
+						 +'<input type="file" id="uploadFiles'+rNo+'" name="uploadFiles" style="display:none" onchange="getUploadFileName('+rNo+')" />'
+						 +'<label for="uploadFiles'+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label>'
+						 +'<input type="hidden" id="uploadFileNames'+rNo+'" name="uploadFileNames">'
+						 +'<span id="uploadFileName'+rNo+'" class="filevalue"></span>'
+						 +'</span>'
+						 +'</td>'
 					  +'<td data-head="Status" class="input-field center-align"><p>	<label> <input type="checkbox" id="revision_status_checkbox'+rNo+'" class="revision_status_checkbox" name="current"/><span></span> </label> </p>  <input type="hidden" id="revision_status_checkbox'+rNo+'s"  name="currents" value="No" class="revision_status_checkbox" /></td>'
 					  +'<td class="mobile_btn_close"><a class="btn waves-effect waves-light red t-c " onclick="removeRevision('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
 						
@@ -2008,14 +2044,9 @@
 			  }
 			  
 			  function getUploadFileName(rowNo) {
-				    var fileInput = $('#uploadFiles'+rowNo)[0];
-				    console.log(fileInput); // Log the file input element
-				    if (fileInput && fileInput.files && fileInput.files.length > 0) {
-				        var filename = fileInput.files[0].name;
-				        $('#uploadFileNames'+rowNo).html(filename);
-				    } else {
-				        alert("No file selected.");
-				    }
+					var filename = $('#uploadFiles'+rowNo)[0].files[0].name;
+				    $('#uploadFileName'+rowNo).html(filename);
+				    $('#uploadFileNames'+rowNo).val(filename);
 				}
 			  
 			  function addStatusRow(){

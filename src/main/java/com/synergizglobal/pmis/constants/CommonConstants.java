@@ -70,6 +70,7 @@ public class CommonConstants {
 	public final static String STRIPCHART_FILE_SAVING_PATH = base_path+"/STRIPCHART_FILES/";
 	public final static String WORK_FILE_SAVING_PATH = base_path+"/WORK_FILES/";
 	public final static String CONTRACT_FILE_SAVING_PATH = base_path+"/CONTRACT_FILES/";
+	public final static String DESIGN_REVISION_FILES = base_path+"/DESIGN_REVISION_FILES/";
 	public final static String DESIGN_FILE_SAVING_PATH = base_path+"/DESIGN_FILES/";
 	public final static String SAFETYEQUIPMENT_FILE_SAVING_PATH = base_path+"/SAFETY_EQUIPMENT_FILES/";
 	public final static String BUDGET_FILE_SAVING_PATH = base_path+"/BUDGET_FILES/";

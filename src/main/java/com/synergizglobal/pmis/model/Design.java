@@ -24,12 +24,12 @@ public class Design {
 	
 	private String []ids,taskcodes, design_id_fks, design_file_ids,stage_fks,designDocumentFileNames,designDocumentNames, submitted_bys, submitted_tos, submitted_dates, submssion_purposes,design_file_type_fks,currents;
 	
-	private String[] revisions,revision_dates,drawing_nos,correspondence_letter_nos,upload_files,uploadFiles,latests, consultant_submissions,design_file_typess, mrvc_revieweds, divisional_approvals, hq_approvals, revision_status_fks, remarkss;
+	private String[] revisions,revision_dates,UploadFileNames,drawing_nos,correspondence_letter_nos,upload_files,latests, consultant_submissions,design_file_typess, mrvc_revieweds, divisional_approvals, hq_approvals, revision_status_fks, remarkss;
 	
 	private String[]  p6activityids,structures,components,elements,activities,scopes,target_dates,actual_dates,designremarks;
 	
 	private MultipartFile designFile;
-	private MultipartFile[] designDocumentFiles;
+	private MultipartFile[] designDocumentFiles,uploadFiles;
 	
 	private List<Design> designRevisions;
 	private List<Design> designStatusList;
@@ -1337,12 +1337,20 @@ public class Design {
 		this.structure_name = structure_name;
 	}
 
-	public String[] getUploadFiles() {
+	public MultipartFile[] getUploadFiles() {
 		return uploadFiles;
 	}
 
-	public void setUploadFiles(String[] uploadFiles) {
+	public void setUploadFiles(MultipartFile[] uploadFiles) {
 		this.uploadFiles = uploadFiles;
+	}
+
+	public String[] getUploadFileNames() {
+		return UploadFileNames;
+	}
+
+	public void setUploadFileNames(String[] uploadFileNames) {
+		UploadFileNames = uploadFileNames;
 	}
 
 }

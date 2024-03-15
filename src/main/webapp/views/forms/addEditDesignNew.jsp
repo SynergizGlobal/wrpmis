@@ -814,8 +814,8 @@
 		                                                        placeholder="Remarks" value="${revObj.remarks }">
 		                                                </td>
 		                                                <td data-head="Remarks" class="input-field">
-		                                                    <input id="upload_file${index.count }" maxlength="100" data-length="100" name="upload_files" type="text" class="validate num pdr4em w70"
-		                                                        placeholder="Upload File" value="${revObj.upload_file }">
+		                                                    <input id="uploadFiles${index.count }"  name="uploadFiles" type="text" class="validate num pdr4em w70" placeholder="Upload File" style="display:none" onchange="getUploadFileName('${index.count }')" value="${revObj.upload_file }">
+		                                                    <input type="hidden" id="uploadFileNames${index.count }" name="uploadFileNames">
 		                                                </td>		                                                
 		                                                <td data-head="Status" class="input-field center-align">
 			                                                <p>
@@ -868,7 +868,8 @@
 	                                                        placeholder="Remarks">
 	                                                </td>
 	                                                <td data-head="Upload File" class="input-field">
-	                                                    <input type="file" name="uploadFiles" id="uploadFile0">                                                
+	                                                    <input type="file" name="uploadFiles" id="uploadFiles0" onchange="getUploadFileName(0);">  
+	                                                    <input type="hidden" id="uploadFileNames0" name="uploadFileNames">                                              
 	                                                </td>		                                                
 	                                                <td data-head="Status" class="input-field center-align">
 		                                                <p>
@@ -1088,9 +1089,6 @@
             	$('#approval_authority_fks').prop('disabled', true);
         		$('.hideAuthority').hide();
             }
-          
-            getHodList();
-            getDyHodList();
 			
             //revision detail rows show hide based on show current 
             $("#rev_show_current").click(function(){
@@ -1528,9 +1526,8 @@
   			        $("#errorText").html("Please Upload File in row "+(i+1));
   			        return false;
   			    }
-  			}  		
-    		
-    		
+  			}  
+  			
     		$("#drawing_status_error").html("");
     		var rowCount = $("#statusTableBody tr").length;
     		if(rowCount>0)
@@ -1563,35 +1560,31 @@
    								}
 					
 					}
-   			}
-    		
-    		
-    		
-    		
-    		if(validator.form()){ // validation perform
-				$(".page-loader").show();
-				$('form input[name=revisions]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+   			} 			
+        	
+        	if(validator.form()){ // validation perform
+	   			$(".page-loader").show();
+	   			$('form input[name=revisions]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=revision_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			/* $('form input[name=mrvc_revieweds]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  		/* 	$('form input[name=mrvc_revieweds]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=divisional_approvals]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=hq_approvals]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } }); */
 	  			$('form input[name=currents]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=revision_status_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=remarkss]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			
+	  			$('form input[name=drawing_nos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=correspondence_letter_nos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			$('form input[name=uploadFiles]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
+	  			
+	  			
 	  			$('form input[name=stage_fks]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=submitted_bys]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=submitted_tos]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=submitted_dates]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
 	  			$('form input[name=submssion_purposes]').each(function(){ if($.trim(this.value) != ''){ $(this).val(this.value.split(",").join("~$~")); } });
-	  			var flag = validateDesign();
-	        	if(flag){
-	        		document.getElementById("designForm").submit();		
-    	 		}else{
-    	        	$(".page-loader").hide();
-    	 		}
-	  			
-    		}
+	  			document.getElementById("designForm").submit();	
+        	}
 		}
     	   
     	var validator = $('#designForm').validate({
@@ -1997,7 +1990,8 @@
 						</c:forEach>
 					  +'</select></td>'
 					  +'<td data-head="Remarks" class="input-field"> <input id="remarkss'+rNo+'" maxlength="100" data-length="100" name="remarkss" type="text" class="validate num pdr4em w70" placeholder="Remarks"></td>'
-					  +'<td data-head="Upload File" class="input-field"> <input id="uploadFile'+rNo+'" name="uploadFiles" type="file" class="validate num pdr4em w70" placeholder="uploadFile"></td>'
+					  +'<td data-head="Upload File" class="input-field"> <input id="uploadFiles'+rNo+'" name="uploadFiles" type="file" class="validate num pdr4em w70" placeholder="uploadFile" onchange="getUploadFileName('+rNo+')"></td>'
+					  +'<input type="hidden" id="uploadFileNames'+rNo+'" name="uploadFileNames">'
 					  +'<td data-head="Status" class="input-field center-align"><p>	<label> <input type="checkbox" id="revision_status_checkbox'+rNo+'" class="revision_status_checkbox" name="current"/><span></span> </label> </p>  <input type="hidden" id="revision_status_checkbox'+rNo+'s"  name="currents" value="No" class="revision_status_checkbox" /></td>'
 					  +'<td class="mobile_btn_close"><a class="btn waves-effect waves-light red t-c " onclick="removeRevision('+rNo+');"> <i class="fa fa-close"></i></a></td></tr>';
 						
@@ -2012,6 +2006,17 @@
 			  function removeRevision(rowNo){
 			    	$("#revisionRow"+rowNo).remove();
 			  }
+			  
+			  function getUploadFileName(rowNo) {
+				    var fileInput = $('#uploadFiles'+rowNo)[0];
+				    console.log(fileInput); // Log the file input element
+				    if (fileInput && fileInput.files && fileInput.files.length > 0) {
+				        var filename = fileInput.files[0].name;
+				        $('#uploadFileNames'+rowNo).html(filename);
+				    } else {
+				        alert("No file selected.");
+				    }
+				}
 			  
 			  function addStatusRow(){
 					
@@ -2074,6 +2079,7 @@
 								 +'<input type="file" id="designDocumentFiles'+rNo+'" name="designDocumentFiles" style="display:none" onchange="getFileName('+rNo+')" />'
 								 +'<label for="designDocumentFiles'+rNo+'" class="btn bg-m"><i class="fa fa-paperclip"></i></label>'
 								 +'<input type="hidden" id="designDocumentFileNames'+rNo+'" name="designDocumentFileNames">'
+								
 								 +'<span id="designDocumentFileName'+rNo+'" class="filevalue"></span>'
 								 +'</span> <span id="designDocumentFiles'+rNo+'Error" class="error-msg" ></span>'
 								 +'</td>'
@@ -2134,63 +2140,9 @@
 			   	  $(link).css('display','none');
 			  }  
 			  
-			  function getHodList() {
-		        	$(".page-loader").show();
-		        	var myParams = {};
-	                $.ajax({
-	                    url: "<%=request.getContextPath()%>/ajax/getHodListForDesignForm",
-	                    data: myParams, cache: false,async:false,
-	                    success: function (data) {
-	                        if (data.length > 0) {
-	                            $.each(data, function (i, val) {
-	                            	var userName = '';
-	 	                        	if($.trim(val.user_name) != ''){userName = " - "+ $.trim(val.user_name)}
-	 	                        	var hod = "${designDetails.hod }";
-	 	                        	if(val.hod == hod ){
-	                            		$("#hod").append('<option value="' + val.hod + '" selected>' + $.trim(val.designation) + userName + '</option>');
-	 	                        	}else{
-	 	                        		$("#hod").append('<option value="' + val.hod + '">' + $.trim(val.designation) + userName + '</option>');
-	 	                        	}
-	                            });
-	                        }
-	                        $('.searchable').select2();
-	                        $(".page-loader").hide();
-	                    },error: function (jqXHR, exception) {
-	     	   			      $(".page-loader").hide();
-	    	   	          	  getErrorMessage(jqXHR, exception);
-	    	   	     	  }
-	                });
-		        }
+
 		        
-		        function getDyHodList() {
-		        	$(".page-loader").show();
-		        	$("#dy_hod option:not(:first)").remove();
-		        	var hod = $("#hod").val();
-		            var myParams = { hod: hod};
-		            $.ajax({
-		                url: "<%=request.getContextPath()%>/ajax/getDyHodListForDesignForm",
-		                data: myParams, cache: false,async:false,
-		                success: function (data) {
-		                    if (data.length > 0) {
-		                        $.each(data, function (i, val) {
-		                        	var userName = '';
-	 	                        	if($.trim(val.user_name) != ''){userName = " - "+ $.trim(val.user_name)}
-	 	                        	var hy_hod = "${designDetails.dy_hod }";
-	 	                        	if(val.dy_hod == hy_hod ){
-	 	                        		$("#dy_hod").append('<option value="' + val.dy_hod + '" selected>' + $.trim(val.designation) + userName + '</option>');
-	 	                        	}else{
-			                        	$("#dy_hod").append('<option value="' + val.dy_hod + '">' + $.trim(val.designation) + userName + '</option>');
-	 	                        	}
-		                        });
-		                    }
-		                    $('.searchable').select2();
-		                    $(".page-loader").hide();
-		                },error: function (jqXHR, exception) {
-		 	   			      $(".page-loader").hide();
-			   	          	  getErrorMessage(jqXHR, exception);
-			   	     	  }
-		            });
-		        }
+
 
 		        function getFileName(rowNo){
 		    		var filename = $('#designDocumentFiles'+rowNo)[0].files[0].name;
@@ -2205,6 +2157,7 @@
 						var name = $("#designDocumentNames"+idNo).val();
 						var file = $("#designDocumentFiles"+idNo).val();
 						var doc = $('#designDocumentFileNames'+idNo).val();
+						
 			       		if($.trim(design_file_type) == "" &&  name == "" &&  file == ""){
 			       			flag = true;
 						}else{
@@ -2251,6 +2204,19 @@
 		            });
 					
 				});
+		       /* $('[name=uploadFiles]').change(function(key, element){
+					$("[name=uploadFiles]").each(function(){
+						var idNo = (this.id).replace('uploadFiles',''); 
+						var doc = $('#uploadFileNames'+idNo).val();
+						if($.trim(doc) != ""){  
+		        			$('#uploadFiles'+idNo+'Error').text('');
+						}else if($.trim(doc) == "" && $('#uploadFiles'+idNo).val() != ""){
+			 				$('#uploadFiles'+idNo+'Error').text('');
+			 			}
+		            });
+					
+				});	*/	        
+		        
 		        $('[name=designDocumentFiles]').change(function(key, element){
 					$("[name=designDocumentFiles]").each(function(){
 						var idNo = (this.id).replace('designDocumentFiles',''); 

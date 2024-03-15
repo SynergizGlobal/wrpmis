@@ -946,6 +946,34 @@ public class DesignController {
 		}
 		return model;
 	}
+	
+	@RequestMapping(value = "/update-design-latest", method = {RequestMethod.GET,RequestMethod.POST})
+	@ResponseBody	
+	public ModelAndView updateDesignLatest(@ModelAttribute Design obj,RedirectAttributes attributes,HttpSession session)
+	{
+		ModelAndView model = new ModelAndView();
+		try
+		{			
+			String user_Id = (String) session.getAttribute("USER_ID");
+			String userName = (String) session.getAttribute("USER_NAME");
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+			obj.setCreated_by_user_id_fk(user_Id);
+			obj.setUser_id(user_Id);
+			obj.setUser_name(userName);
+			obj.setDesignation(userDesignation);
+			model.setViewName("redirect:/design");
+			
+			
+		}catch (Exception e) 
+		{
+			e.printStackTrace();
+			attributes.addFlashAttribute("error","Updating Design is failed. Try again.");
+			logger.error("updateDesign : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	
 
 	@RequestMapping(value = "/update-design", method = {RequestMethod.GET,RequestMethod.POST})
 	@ResponseBody

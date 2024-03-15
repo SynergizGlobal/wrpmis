@@ -142,27 +142,9 @@
 					<div class="card-content">
 						<span class="card-title headbg">
 							<div class="center-align bg-m p-2 m-b-5">
-								<h6 class="hide-on-med-and-down">Update Design & Drawing</h6>
+								<h6 class="hide-on-med-and-down">Drawing Repository</h6>
 								
-								<h6 class="hide-on-large-only left-align mob-mar">Design & Drawing</h6>
-								<div class="col s12 m12 right-align exportButton" >
-								
-								<div class="m-n1">
-									<a href="/pmis/Designs_Drawings.xlsx" download class="template-btn" title="Download Template">
-										<i class="material-icons-outlined">download_for_offline</i>
-									</a>
-									<a href="javascript:void(0);"
-										onclick="openUploadDesignsModal();"
-										class="btn waves-effect waves-light bg-s t-c"> <strong><i
-											class="fa fa-arrow-circle-up"></i> Upload</strong></a>
-									<a href="<%=request.getContextPath()%>/add-design-form"
-										class="btn waves-effect waves-light bg-s t-c"> <strong><i
-											class="fa fa-plus-circle"></i> Add</strong></a>
-									<a href="javascript:void(0);" onclick="exportDesign();"
-										class="btn waves-effect waves-light bg-s t-c"> <strong><i
-											class="fa fa-cloud-download"></i> Export</strong></a>
-								</div>
-							</div>
+
 							</div>
 						</span>
 						<c:if test="${not empty success }">
@@ -213,7 +195,7 @@
 									</div>
                                  <div class="col s6 m4 l2 input-field">
                                     <p class="searchable_label">Structure </p>
-                                    <select class="searchable validate-dropdown" name="structure_id_fk" id="structure_id_fk">
+                                    <select class="searchable validate-dropdown" name="structure_id_fk" id="structure_id_fk" onchange="getDesignList();">
                                         <option value="" >Select</option>
                                         <c:forEach var="obj" items="${structureId }">
 		                                     <option value="${obj.structure_id_fk }" >${obj.structure_id_fk}</option>
@@ -237,7 +219,6 @@
 									<table id="datatable-design" class="mdl-data-table">
 										<thead>
 											<tr>
-												<th>#</th>
 												<th class="no-sort fw-150">Structure Type</th>
 												<th class="no-sort fw-250">Structure</th>
 												<th class="no-sort fw-250">Component</th>
@@ -668,44 +649,35 @@
 												}
 											},
 											"bDestroy" : true,
-											"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/getDesignsList?"+myParams,
+											"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/getDrawingRepositoryList?"+myParams,
 													
 						        "aoColumns": [
-						        	{ "mData": function(data,type,row){
-				                     	if($.trim(data.design_seq_id) == ''){ return '-'; }else{ return data.design_seq_id; }
-						            } },
-						        	
+						        					        	
 						            { "mData": function(data,type,row){
 						            	if($.trim(data.structure_type_fk) == ''){ return '-'; }else{ return data.structure_type_fk; }
 			            			} },    	
 			            			 { "mData": function(data,type,row){
 							            	if($.trim(data.structure_id_fk) == ''){ return '-'; }else{ return data.structure_id_fk; }
-							            } },
+							            } },    	
+				            			 { "mData": function(data,type,row){
+								            	if($.trim(data.component) == ''){ return '-'; }else{ return data.component; }
+								            } },
 						            { "mData": function(data,type,row){
 						            	if($.trim(data.drawing_title) == ''){ return '-'; }else{ return data.drawing_title; }
 						            } },
 						         	
 						            { "mData": function(data,type,row){
-						            	if($.trim(data.drawing_type_fk) == ''){ return '-'; }else{ return data.drawing_type_fk; }
+						            	if($.trim(data.revisions) == ''){ return '-'; }else{ return data.revisions; }
 						            } },
-						         	/* { "mData": function(data,type,row){
-						            	if($.trim(data.contractor_drawing_no) == ''){ return '-'; }else{ return data.contractor_drawing_no; }
-						            } }, */
 						            { "mData": function(data,type,row){
 						            	if($.trim(data.mrvc_drawing_no) == ''){ return '-'; }else{ return data.mrvc_drawing_no; }
 						            } },
 						         	{ "mData": function(data,type,row){
-						            	if($.trim(data.division_drawing_no) == ''){ return '-'; }else{ return data.division_drawing_no; }
-						            } },
-						            { "mData": function(data,type,row){
-						            	if($.trim(data.hq_drawing_no) == ''){ return '-'; }else{ return data.hq_drawing_no; }
-						            } },
-						            { "mData": function(data,type,row){
-						            	if($.trim(data.modified_date) == ''){ return '-'; }else{ return data.modified_date; }
+						            	if($.trim(data.correspondence_letter_no) == ''){ return '-'; }else{ return data.correspondence_letter_no; }
 						            } },
 						         	{ "mData": function(data,type,row){
-						         		var design_id = "'"+data.design_id+"'";
-					                    var actions = '<a href="javascript:void(0);"  onclick="getDesign('+design_id+');" class="btn waves-effect waves-light bg-m t-c mob-btn" ><i class="fa fa-pencil"></i></a>';
+						         		var design_id = "'"+data.upload_file+"'";
+					                    var actions = '<a href="/pmis/DESIGN_REVISION_FILES/'+data.upload_file+'" class="btn waves-effect waves-light bg-m t-c mob-btn" ><i class="fa fa-download"></i></a>';
 						            	return actions;
 						            } }
 						            

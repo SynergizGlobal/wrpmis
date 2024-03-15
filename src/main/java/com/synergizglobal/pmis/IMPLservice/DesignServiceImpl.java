@@ -239,6 +239,17 @@ public class DesignServiceImpl implements DesignService{
 	public List<Design> getStructureIdsListFilter(Design obj) throws Exception {
 		return designDao.getStructureIdsListFilter(obj);
 	}
+
+	@Override
+	public int getTotalDrawingRepositoryRecords(Design obj, String searchParameter) throws Exception {
+		return designDao.getTotalDrawingRepositoryRecords(obj,searchParameter);
+	}
+
+	@Override
+	public List<Design> getDrawingRepositoryDesignsList(Design obj, int startIndex, int offset, String searchParameter)
+			throws Exception {
+		return designDao.getDrawingRepositoryDesignsList(obj,startIndex,offset,searchParameter);
+	}
 	
 	
 	

@@ -97,4 +97,9 @@ public interface DesignService {
 
 	public List<Design> getStructureIdsListFilter(Design obj) throws Exception;
 
+	public int getTotalDrawingRepositoryRecords(Design obj, String searchParameter) throws Exception;
+
+
+	public List<Design> getDrawingRepositoryDesignsList(Design obj, int startIndex, int offset, String searchParameter) throws Exception;
+
 }

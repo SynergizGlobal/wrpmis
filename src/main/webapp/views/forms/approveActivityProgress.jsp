@@ -451,7 +451,7 @@ table tr td:nth-child(15) {
                                                 <th style="text-align:center;background-color:#fdcdac;color:#000000;">Structure Level</th>
                                                                                                 
                                                 <th class="fw-125">Reporting</th>
-                                                <th>Actual Progress Updated</th>
+                                                <th>Actual Progress Updated / Updated Scope</th>
                                                 <th style="text-align:center;background-color:#68bb59;color:#000000;">Activity Level</th>
                                                 <th style="text-align:center;background-color:#68bb59;color:#000000;">Component Level</th>
                                                 <th style="text-align:center;background-color:#68bb59;color:#000000;">Structure Level</th>
@@ -988,6 +988,11 @@ table tr td:nth-child(15) {
 	        	                   	actions = '<a href="javascript:void(0);"  onclick="approveActivityProgress('+structure+','+progress_id+','+work_id_fk+','+contract_id_fk+');" class="btn mob-btn bg-m" '+disabledval+'><i class="fa fa-check"></i> </a>'
         	                   				+'<a href="javascript:void(0);"  onclick="rejectActivityProgress('+structure+','+progress_id+','+work_id_fk+','+contract_id_fk+');" class="btn mob-btn bg-s" id="pending_reject_1"><i class="fa fa-close"></i></a>'+concat;
         	                   	}
+        	                    	var mtr="";
+        	                    	if(val.updated_scope!=null)
+        	                    	{
+        	                    		mtr=' / '+val.updated_scope;
+        	                    	}
         	                    
 	        	         		rowArray.push(checkbox);
         	                   	//rowArray.push(val.work_short_name);
@@ -1003,7 +1008,7 @@ table tr td:nth-child(15) {
         	                   	rowArray.push($.trim(val.component_per_prior));
         	                   	rowArray.push($.trim(val.structure_per_prior));
         	                   	rowArray.push($.trim(val.created_by_user_id_fk+' '+val.progress_date));
-        	                   	rowArray.push($.trim(val.actual_for_the_day));
+        	                   	rowArray.push($.trim(val.actual_for_the_day+''+mtr));
         	                   	var m1=0;
         	                   	if(val.cumulative_completed==null || val.cumulative_completed==undefined)
         	                   		{

@@ -1007,7 +1007,7 @@ table tr td:nth-child(15) {
         	                   	rowArray.push($.trim(val.cumulative_completed));
         	                   	rowArray.push($.trim(val.component_per_prior));
         	                   	rowArray.push($.trim(val.structure_per_prior));
-        	                   	rowArray.push($.trim(val.created_by_user_id_fk+' '+val.progress_date));
+        	                   	rowArray.push($.trim(val.updated_by+' '+val.progress_date));
         	                   	rowArray.push($.trim(val.actual_for_the_day+''+mtr));
         	                   	var m1=0;
         	                   	if(val.cumulative_completed==null || val.cumulative_completed==undefined)

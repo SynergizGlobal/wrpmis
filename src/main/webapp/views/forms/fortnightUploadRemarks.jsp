@@ -196,12 +196,22 @@
             		{
             	    	errorText=errorText+"Contract Short Name not matched in row "+(i+1)+"<br><br>";
             		}
-            	    var remarksLength=excelRows[i]["Remark"];
+            	    /*var remarksLength=excelRows[i]["Remark"];
             	    remarksLength=remarksLength.toString();
            	    	if(Number(remarksLength.length)>300)
            	    	{
            	    		errorText=errorText+"Row"+(i+1)+":Remarks should be less than 300 characters<br><br>";
-           	    	}
+           	    	}*/
+           	    	
+           	    	var remarksLength = excelRows[i]["Remark"];
+           	    	if (remarksLength != null && remarksLength != undefined) {
+           	    	    remarksLength = remarksLength.toString();
+           	    	    if (remarksLength.length > 300) {
+           	    	        errorText = errorText + "Row" + (i + 1) + ": Remarks should be less than 300 characters<br><br>";
+           	    	    }
+           	    	}           	    	
+           	    	
+           	    	
             }
 	    	$("#errorResult").html(errorText);
 	    	

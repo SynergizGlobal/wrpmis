@@ -818,7 +818,7 @@
 	                                                            <label for="uploadFiles${index.count }" class="btn bg-m"><i
 	                                                                    class="fa fa-paperclip"></i></label>
 	                                                            <input type="hidden" id="uploadFileNames${index.count }" name="uploadFileNames" value="${revObj.upload_file }">
-	                                                             <span id="uploadFileName${index.count }" class="filevalue"></span>
+	                                                             <span id="uploadFileName${index.count }" class="filevalue">${revObj.upload_file}</span>
 	                                                          </span>
 	                                                    </td>		                                                
 		                                                

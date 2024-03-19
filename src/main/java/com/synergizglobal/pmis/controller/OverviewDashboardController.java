@@ -87,6 +87,59 @@ public class OverviewDashboardController {
 		return model;
 	}	
 	
+	@RequestMapping(value="/bid-process",method= {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView bidProcess(HttpSession session) {
+		ModelAndView model = new ModelAndView();
+		try {
+		    model.setViewName(PageConstants.bidProcess);
+		    model.addObject("dashboard_type", "Works");
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("bidProcess : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value="/design-prototype-delivery",method= {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView designPrototypeDelivery(HttpSession session) {
+		ModelAndView model = new ModelAndView();
+		try {
+		    model.setViewName(PageConstants.designPrototypeDelivery);
+		    model.addObject("dashboard_type", "Works");
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("designPrototypeDelivery : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value="/prototype-approval",method= {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView prototypeApproval(HttpSession session) {
+		ModelAndView model = new ModelAndView();
+		try {
+		    model.setViewName(PageConstants.prototypeApproval);
+		    model.addObject("dashboard_type", "Works");
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("prototypeApproval : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	
+	@RequestMapping(value="/series-deliveryof-rakes",method= {RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView seriesDeliveryofRakes(HttpSession session) {
+		ModelAndView model = new ModelAndView();
+		try {
+		    model.setViewName(PageConstants.seriesDeliveryofRakes);
+		    model.addObject("dashboard_type", "Works");
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("seriesDeliveryofRakes : " + e.getMessage());
+		}
+		return model;
+	}
+	
 	
 	@RequestMapping(value="/ta-dashboard",method= {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView taDashboard(HttpSession session) {

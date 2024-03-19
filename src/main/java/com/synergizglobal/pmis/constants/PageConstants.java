@@ -188,6 +188,10 @@ public class PageConstants {
 	public static final String overviewDashboard = "forms/overviewDashboard";
 	public static final String taDashboard = "forms/taDashboard";
 	public static final String rollingStockDashboard = "forms/rollingStockDashboard";
+	public static final String bidProcess = "forms/bidProcess";
+	public static final String designPrototypeDelivery = "forms/designPrototypeDelivery";
+	public static final String prototypeApproval = "forms/prototypeApproval";
+	public static final String seriesDeliveryofRakes = "forms/seriesDeliveryofRakes";
 	public static final String aIIBDisbursement = "forms/aIIBDisbursement";
 	public static final String otherWorks = "forms/otherWorks";
 	public static final String archiveOverviewDashboard = "forms/archiveOverviewDashboard";

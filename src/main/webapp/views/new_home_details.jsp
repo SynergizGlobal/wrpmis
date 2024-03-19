@@ -1204,7 +1204,12 @@
            		
            	        	
             if ($.trim(work_id) != '') {
-                var myParams = { work_id: work_id };
+                var work_his=work_id;
+                	if(work_id=='P05W09')
+                	{
+                		work_id='P04W06';
+                	}
+                    var myParams = { work_id: work_id };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getDashBoradName",
                     data: myParams, cache: false,
@@ -1216,10 +1221,14 @@
                                     var name = $.trim(val.dashboard_name).toLowerCase();
                                     var link = name.replaceAll(" ", "-");
                                     if ($.trim(val.dashboard_id) == $.trim(val.parent_dashboard_id_sr_fk)) {
-                                    		if(work_id=='P04W06')
+                                    		if(work_id=='P04W06' && work_his=='P04W06')
                                     		{
-                                    			window.location.href = "<%=request.getContextPath()%>/ta-dashboard";
+                                    			window.location.href = "<%=request.getContextPath()%>/ta-dashboard?work_id=P04W06";
                                        			
+                                    		}
+                                    		else  if(work_id=='P05W09' || work_his=='P05W09')
+                                    		{ 
+                                    			window.location.href = "<%=request.getContextPath()%>/ta-dashboard?work_id="+work_his;
                                     		}
                                     		else if(work_id=='P05W06')
                                     		{ 

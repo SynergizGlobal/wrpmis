@@ -478,7 +478,7 @@ public class DesignDaoImpl implements DesignDao{
 			dObj = (Design)jdbcTemplate.queryForObject(qry, new Object[] {obj.getDesign_id()}, new BeanPropertyRowMapper<Design>(Design.class));
 			//FORMAT(consultant_submission,'dd-MM-yyyy') AS consultant_submission,
 			if(!StringUtils.isEmpty(dObj)) {
-				String qry2 ="select revision,[current],FORMAT(revision_date,'dd-MM-yyyy') AS revision_date,remarks,revision_status_fk,drawing_no,correspondence_letter_no,upload_file from design_revisions where design_id_fk = ?";
+				String qry2 ="select distinct revision,[current],FORMAT(revision_date,'dd-MM-yyyy') AS revision_date,remarks,revision_status_fk,drawing_no,correspondence_letter_no,upload_file from design_revisions where design_id_fk = ?";
 				List<Design> objList = jdbcTemplate.query( qry2,new Object[] {obj.getDesign_id()}, new BeanPropertyRowMapper<Design>(Design.class));
 				dObj.setDesignRevisions(objList);
 			}

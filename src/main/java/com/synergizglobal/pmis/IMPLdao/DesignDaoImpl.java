@@ -2296,14 +2296,17 @@ public class DesignDaoImpl implements DesignDao{
 										String revision_status_fk = obj.getDesignRevisions().get(i).getRevision_status_fk();
 										String remarks = obj.getDesignRevisions().get(i).getRemarks();
 										String current = obj.getDesignRevisions().get(i).getCurrent();
+										String pmisdrawingno = obj.getDesignRevisions().get(i).getMrvc_drawing_no();
+										
 										
 										int k = 1;
-										ps.setString(k++, obj.getDesign_id());
+										//ps.setString(k++, obj.getDesign_id());
+										ps.setString(k++,getDesignIdByNo(pmisdrawingno));
 										ps.setString(k++,!StringUtils.isEmpty(revision)?revision:null);
-										ps.setString(k++,DateParser.parse(!StringUtils.isEmpty(revision_date)?revision_date:null));
-										ps.setString(k++,DateParser.parse(!StringUtils.isEmpty(drawing_no)?drawing_no:null));
-										ps.setString(k++,DateParser.parse(!StringUtils.isEmpty(correspondence_letter_no)?correspondence_letter_no:null));
-										ps.setString(k++,DateParser.parse(!StringUtils.isEmpty(upload_file)?upload_file:null));
+										ps.setString(k++,!StringUtils.isEmpty(revision_date)?revision_date:null);
+										ps.setString(k++,!StringUtils.isEmpty(drawing_no)?drawing_no:null);
+										ps.setString(k++,!StringUtils.isEmpty(correspondence_letter_no)?correspondence_letter_no:null);
+										ps.setString(k++,!StringUtils.isEmpty(upload_file)?upload_file:null);
 										ps.setString(k++,!StringUtils.isEmpty(revision_status_fk)?revision_status_fk:null);
 										ps.setString(k++,!StringUtils.isEmpty(current)?current:null);
 										ps.setString(k++,!StringUtils.isEmpty(remarks)?remarks:null);
@@ -2560,6 +2563,20 @@ public class DesignDaoImpl implements DesignDao{
 			throw new Exception(e);
 		}		
 		return cnt;
+	}
+	
+	
+	private String getDesignIdByNo(String pmisdrawingno) throws Exception
+	{
+		String design_id=null;
+		try {
+				String qry ="select design_id from design where design_seq_id=?";
+				design_id = (String) jdbcTemplate.queryForObject(qry, new Object[] { pmisdrawingno }, String.class);
+			
+		} catch (Exception e) {
+			throw new Exception(e);
+		}		
+		return design_id;
 	}	
 
 	@Override

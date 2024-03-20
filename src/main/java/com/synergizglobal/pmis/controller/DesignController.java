@@ -1944,6 +1944,7 @@ public class DesignController {
 				int sheetsCount = workbook.getNumberOfSheets();
 				if(sheetsCount > 0) {
 					XSSFSheet designsDrawingsSheet = workbook.getSheetAt(0);
+					XSSFSheet designsRevisionSheet = workbook.getSheetAt(1);
 						
 					DataFormatter formatter = new DataFormatter(); //creating formatter using the default locale
 					for(int i = 2; i <= designsDrawingsSheet.getLastRowNum();i++){
@@ -2046,11 +2047,51 @@ public class DesignController {
 							design.setRequired_date(DateParser.parse(design.getRequired_date()));
 							
 						}
+						Design designRevision = null;
+						
 						List<Design> pObjList = new ArrayList<Design>();
 						
-						if(!StringUtils.isEmpty(design.getMrvc_drawing_no())) {
-							design.setDesignRevisions(pObjList);
+						for(int i1 = 1; i <= designsRevisionSheet.getLastRowNum();i++)
+						{
+							int v1 = designsRevisionSheet.getLastRowNum();
+							XSSFRow row1 = designsRevisionSheet.getRow(i1);
+
+							designRevision = new Design();
+							String val1 = null;
+							if(!StringUtils.isEmpty(row1)) {
+							
+								val1 = formatter.formatCellValue(row.getCell(1)).trim();
+								if(!StringUtils.isEmpty(val)) { designRevision.setRevision(val1);}
+								
+								val1 = formatter.formatCellValue(row.getCell(2)).trim();
+								if(!StringUtils.isEmpty(val)) { designRevision.setDrawing_no(val1);}
+								
+								val1 = formatter.formatCellValue(row.getCell(3)).trim();
+								if(!StringUtils.isEmpty(val)) { designRevision.setCorrespondence_letter_no(val1);}
+								
+								val1 = formatter.formatCellValue(row.getCell(4)).trim();
+								if(!StringUtils.isEmpty(val)) { designRevision.setRevision_date(val1);}
+								
+								val1 = formatter.formatCellValue(row.getCell(5)).trim();
+								if(!StringUtils.isEmpty(val)) { designRevision.setRevision_status(val1);}
+								
+								
+								val1 = formatter.formatCellValue(row.getCell(6)).trim();
+								if(!StringUtils.isEmpty(val)) { designRevision.setRemarks(val1);}		
+								
+								val1 = formatter.formatCellValue(row.getCell(7)).trim();
+								if(!StringUtils.isEmpty(val)) { designRevision.setUpload_file(val1);}
+								
+								pObjList.add(designRevision);
+
+								
+							}
 						}
+						
+						//if(!StringUtils.isEmpty(design.getMrvc_drawing_no())) 
+						//{
+	
+							design.setDesignRevisions(pObjList);
 						
 						boolean flag = design.checkNullOrEmpty();
 						

@@ -2279,51 +2279,34 @@ public class DesignDaoImpl implements DesignDao{
 					DBConnectionHandler.closeJDBCResoucrs(con, stmt, null);
 				}
 				
-				SqlParameterSource paramSource = new BeanPropertySqlParameterSource(obj);
-				
-		    	 
-					String deleteQry = "DELETE from design_revisions where design_id_fk = :design_id";		 
-					paramSource = new BeanPropertySqlParameterSource(obj);		 
-					count = namedParamJdbcTemplate.update(deleteQry, paramSource);
-				
-					String qryDesignRevision = "INSERT INTO design_revisions (design_id_fk,revision,drawing_no,correspondence_letter_no,revision_date,"
-							+ "revision_status_fk,[current],remarks,upload_file) VALUES(?,?,?,?,?,?,?,?,?)";
+				if(!StringUtils.isEmpty(obj.getDesignRevisions())) {
+					String qryDesignRevision = "INSERT INTO design_revisions (design_id_fk,revision,revision_date,drawing_no,correspondence_letter_no,upload_file,"
+							+ "revision_status_fk,[current],remarks) VALUES(?,?,?,?,?,?,?,?,?)";
 					
 					int[] counts = jdbcTemplate.batchUpdate(qryDesignRevision,
 				            new BatchPreparedStatementSetter() {
 								@Override
 								public void setValues(PreparedStatement ps, int i) throws SQLException {
-									try {
+									try {										
+										String revision = obj.getDesignRevisions().get(i).getRevision();
+										String revision_date = obj.getDesignRevisions().get(i).getRevision_date();
+										String drawing_no = obj.getDesignRevisions().get(i).getDrawing_no();
+										String correspondence_letter_no = obj.getDesignRevisions().get(i).getCorrespondence_letter_no();
+										String upload_file = obj.getDesignRevisions().get(i).getUpload_file();
+										String revision_status_fk = obj.getDesignRevisions().get(i).getRevision_status_fk();
+										String remarks = obj.getDesignRevisions().get(i).getRemarks();
+										String current = obj.getDesignRevisions().get(i).getCurrent();
+										
 										int k = 1;
 										ps.setString(k++, obj.getDesign_id());
-										ps.setString(k++,(obj.getRevisions().length > 0)?obj.getRevisions()[i]:null);
-										
-										ps.setString(k++,(obj.getDrawing_nos().length > 0)?obj.getDrawing_nos()[i]:null);
-										ps.setString(k++,(obj.getCorrespondence_letter_nos().length > 0)?obj.getCorrespondence_letter_nos()[i]:null);	
-										
-										
-										ps.setString(k++,DateParser.parse((obj.getRevision_dates().length > 0)?obj.getRevision_dates()[i]:null));
-										ps.setString(k++,(obj.getRevision_status_fks().length > 0)?obj.getRevision_status_fks()[i]:null);
-										ps.setString(k++,(obj.getCurrents().length > 0)?obj.getCurrents()[i]:null);
-										ps.setString(k++,(obj.getRemarkss().length > 0)?obj.getRemarkss()[i]:null);
-										
-										
-										String docFileName = null;
-										MultipartFile multipartFile = obj.getUploadFiles()[i];
-										if ((null != multipartFile && !multipartFile.isEmpty() && multipartFile.getSize() > 0)
-												|| (!StringUtils.isEmpty(obj.getUploadFileNames()) && obj.getUploadFileNames().length > 0 && !StringUtils.isEmpty(obj.getUploadFileNames()[i]) && !StringUtils.isEmpty(obj.getUploadFileNames()[i].trim()) )) {
-											String saveDirectory = CommonConstants.DESIGN_REVISION_FILES ;
-											String fileName = obj.getUploadFileNames()[i];
-											DateFormat df = new SimpleDateFormat("ddMMYY-HHmm-ssSSSSSSS"); 
-											String fileName_new = "Design-Revision-"+ df.format(new Date()) +"."+ fileName.split("\\.")[1];
-											docFileName = fileName_new;
-											if (null != multipartFile && !multipartFile.isEmpty()) {
-												FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
-											}
-										  ps.setString(k++,fileName);
-											  
-										}									
-										
+										ps.setString(k++,!StringUtils.isEmpty(revision)?revision:null);
+										ps.setString(k++,DateParser.parse(!StringUtils.isEmpty(revision_date)?revision_date:null));
+										ps.setString(k++,DateParser.parse(!StringUtils.isEmpty(drawing_no)?drawing_no:null));
+										ps.setString(k++,DateParser.parse(!StringUtils.isEmpty(correspondence_letter_no)?correspondence_letter_no:null));
+										ps.setString(k++,DateParser.parse(!StringUtils.isEmpty(upload_file)?upload_file:null));
+										ps.setString(k++,!StringUtils.isEmpty(revision_status_fk)?revision_status_fk:null);
+										ps.setString(k++,!StringUtils.isEmpty(current)?current:null);
+										ps.setString(k++,!StringUtils.isEmpty(remarks)?remarks:null);
 									
 									} catch (Exception e) {
 										
@@ -2331,52 +2314,10 @@ public class DesignDaoImpl implements DesignDao{
 								}
 								@Override
 								public int getBatchSize() {
-									int arraySize = 0;
-									if(!StringUtils.isEmpty(obj.getRevisions()) && obj.getRevisions().length > 0) {
-										obj.setRevisions(CommonMethods.replaceEmptyByNullInSringArray(obj.getRevisions()));
-										if(arraySize < obj.getRevisions().length) {
-											arraySize = obj.getRevisions().length;
-										}
-									}
-									if(!StringUtils.isEmpty(obj.getDrawing_nos()) && obj.getDrawing_nos().length > 0) {
-										obj.setDrawing_nos(CommonMethods.replaceEmptyByNullInSringArray(obj.getDrawing_nos()));
-										if(arraySize < obj.getDrawing_nos().length) {
-											arraySize = obj.getDrawing_nos().length;
-										}
-									}									
-									if(!StringUtils.isEmpty(obj.getCorrespondence_letter_nos()) && obj.getCorrespondence_letter_nos().length > 0) {
-										obj.setCorrespondence_letter_nos(CommonMethods.replaceEmptyByNullInSringArray(obj.getCorrespondence_letter_nos()));
-										if(arraySize < obj.getCorrespondence_letter_nos().length) {
-											arraySize = obj.getCorrespondence_letter_nos().length;
-										}
-									}	
-								
-									if(!StringUtils.isEmpty(obj.getRevision_dates()) && obj.getRevision_dates().length > 0) {
-										obj.setRevision_dates(CommonMethods.replaceEmptyByNullInSringArray(obj.getRevision_dates()));
-										if(arraySize < obj.getRevision_dates().length) {
-											arraySize = obj.getRevision_dates().length;
-										}
-									}
-									if(!StringUtils.isEmpty(obj.getRevision_status_fks()) && obj.getRevision_status_fks().length > 0) {
-										obj.setRevision_status_fks(CommonMethods.replaceEmptyByNullInSringArray(obj.getRevision_status_fks()));
-										if(arraySize < obj.getRevision_status_fks().length) {
-											arraySize = obj.getRevision_status_fks().length;
-										}
-									}			
-									if(!StringUtils.isEmpty(obj.getRemarkss()) && obj.getRemarkss().length > 0) {
-										obj.setRemarkss(CommonMethods.replaceEmptyByNullInSringArray(obj.getRemarkss()));
-										if(arraySize < obj.getRemarkss().length) {
-											arraySize = obj.getRemarkss().length;
-										}
-									}
-									if(!StringUtils.isEmpty(obj.getUploadFiles()) && obj.getUploadFiles().length > 0) {
-										if(arraySize < obj.getUploadFiles().length) {
-											arraySize = obj.getUploadFiles().length;
-										}
-									}								
-									return arraySize;
+									return obj.getDesignRevisions().size();
 							}
-					  });					
+					  });
+				}					
 				
 				
 			

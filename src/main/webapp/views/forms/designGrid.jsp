@@ -317,9 +317,7 @@
 												<th class="fw-300">Title</th>
 												<th>Drawing <br>Type</th>
 <!-- 												<th>Contractor <br>Drawing No </th>
- -->												<th>MRVC <br>Drawing No	</th>
-												<th>Division <br>Drawing No	</th>
-												<th>HQ Drawing No</th>
+ -->												<th>Drawing No	</th>
 												<th>Last Update</th>
 												<th class="no-sort">Action</th>
 											</tr>
@@ -864,12 +862,6 @@
 						            } }, */
 						            { "mData": function(data,type,row){
 						            	if($.trim(data.mrvc_drawing_no) == ''){ return '-'; }else{ return data.mrvc_drawing_no; }
-						            } },
-						         	{ "mData": function(data,type,row){
-						            	if($.trim(data.division_drawing_no) == ''){ return '-'; }else{ return data.division_drawing_no; }
-						            } },
-						            { "mData": function(data,type,row){
-						            	if($.trim(data.hq_drawing_no) == ''){ return '-'; }else{ return data.hq_drawing_no; }
 						            } },
 						            { "mData": function(data,type,row){
 						            	if($.trim(data.modified_date) == ''){ return '-'; }else{ return data.modified_date; }

@@ -2041,6 +2041,9 @@
 			  
 			  function removeRevision(rowNo){
 			    	$("#revisionRow"+rowNo).remove();
+			    	var rm=$("#rowNo").val();
+			    	$("#rowNo").val(Number(rm)-1);
+			    	
 			  }
 			  
 			  function getUploadFileName(rowNo) {

@@ -1389,9 +1389,9 @@
                             $.each(data, function (i, val) {
                                 var structure_id_fk = "${designDetails.structure_id_fk }";
                                 if ($.trim(structure_id_fk) != '' && val.structure_id_fk == $.trim(structure_id_fk)) {
-                                	$("#structure_id_fk").append('<option value="' + val.structure_id_fk + '" selected>' + val.structure_name + '</option>');
+                                	$("#structure_id_fk").append('<option value="' + val.structure_name + '" selected>' + val.structure_name + '</option>');
                                 } else {
-                                	$("#structure_id_fk").append('<option value="' + val.structure_id_fk + '">' + val.structure_name + '</option>');
+                                	$("#structure_id_fk").append('<option value="' + val.structure_name + '">' + val.structure_name + '</option>');
                                 }
                             });
                         }

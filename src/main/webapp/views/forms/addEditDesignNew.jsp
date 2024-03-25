@@ -818,7 +818,10 @@
 	                                                            <label for="uploadFiles${index.count }" class="btn bg-m"><i
 	                                                                    class="fa fa-paperclip"></i></label>
 	                                                            <input type="hidden" id="uploadFileNames${index.count }" name="uploadFileNames" value="${revObj.upload_file }">
-	                                                             <span id="uploadFileName${index.count }" class="filevalue">${revObj.upload_file}</span>
+	                                                             <span id="uploadFileName${index.count }" class="filevalue">
+	                                                             ${revObj.upload_file}
+	                                                             <a href="/pmis/DESIGN_REVISION_FILES/${revObj.upload_file}" class="btn waves-effect waves-light bg-m t-c mob-btn"><i class="fa fa-download"></i></a>
+	                                                             </span>
 	                                                          </span>
 	                                                    </td>		                                                
 		                                                

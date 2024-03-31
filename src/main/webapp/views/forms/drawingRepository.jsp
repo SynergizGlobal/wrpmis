@@ -185,7 +185,7 @@
 									<div class="col s6 m4 l2 input-field">
 										<p class="searchable_label">Structure Type</p>
 										<select id="structure_type_fk" name="structure_type_fk"
-											onchange="addInQueStructure(this.value);getDesignList();" class="searchable">
+											onchange="addInQueStructure(this.value);getDesignList();getStructures();" class="searchable">
 											<option value="">Select</option>
 											<c:forEach var="obj" items="${structureTypeList}">
 												<option value="${obj.structure_type_fk }"
@@ -381,7 +381,7 @@
 		        	  }else if($.trim(temp2[0]) == 'structure_id_fk'){
 		        		  getStructureIdListFilter(temp2[1]);
 		        	  }
-	        	  }
+	        	  }	
 	          }
             }
             
@@ -848,7 +848,39 @@
              }else{
              	   $(".page-loader").hide();
              }
-        }       
+        }  
+        
+        
+        function getStructures() {
+        	var work_id_fk = $("#work_id_fk").val();
+	    	var contract_id_fk = $("#contract_id_fk").val();
+	    	var structure_type_fk = $("#structure_type_fk").val();
+  	       
+         	$(".page-loader").show();
+         	
+            if ($.trim(structure_type_fk) != "") {
+                 $("#structure_id_fk option:not(:first)").remove();
+     		 	 var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, structure_type_fk : structure_type_fk};
+                 $.ajax({
+                     url: "<%=request.getContextPath()%>/ajax/getStructureIdListFilter",
+                     data: myParams, cache: false,async: false,
+                     success: function (data) {
+                         if (data.length > 0) {
+                             $.each(data, function (i, val) {
+                           	 	$("#structure_id_fk").append('<option value="' + val.structure_id_fk + '">' + $.trim(val.structure_id_fk) +'</option>');
+                             });
+                         }
+                         $('.searchable').select2();
+                         $(".page-loader").hide();
+                     },error: function (jqXHR, exception) {
+  	      	   		   $(".page-loader").hide();
+  	    	   	       getErrorMessage(jqXHR, exception);
+      	   	       }
+                 });
+             }else{
+             	   $(".page-loader").hide();
+             }
+        }        
         
         
         

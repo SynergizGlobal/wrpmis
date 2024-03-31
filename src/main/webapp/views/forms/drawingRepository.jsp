@@ -378,8 +378,8 @@
 		        		  getWorksListFilter(temp2[1]);
 		        	  }else if($.trim(temp2[0]) == 'contract_id_fk'){
 		        		  getContractListFilter(temp2[1]);
-		        	  }else if($.trim(temp2[0]) == 'structure'){
-		        		  getContractListFilter(temp2[1]);
+		        	  }else if($.trim(temp2[0]) == 'structure_id_fk'){
+		        		  getStructureIdListFilter(temp2[1]);
 		        	  }
 	        	  }
 	          }
@@ -417,7 +417,7 @@
 			$("#structure_id_fk").val('');
 			$('.searchable').select2();
 			window.localStorage.setItem("designFilters",'');
-			window.location.href = "<%=request.getContextPath()%>/design";
+			window.location.href = "<%=request.getContextPath()%>/drawing-repository";
 			//getDesignList();
 			var table = $('#datatable-design').DataTable();
     	table.draw( true );
@@ -532,6 +532,7 @@
 			getWorksListFilter('');
 			getContractListFilter('');
 			getStructureListFilter('');
+			getStructureIdListFilter('');
 			
 			var work_id_fk = $("#work_id_fk").val();
 			var contract_id_fk = $("#contract_id_fk").val();
@@ -816,6 +817,41 @@
              }
         }
         
+        function getStructureIdListFilter(structure) {
+        	var work_id_fk = $("#work_id_fk").val();
+	    	var contract_id_fk = $("#contract_id_fk").val();
+	    	var structure_type_fk = $("#structure_type_fk").val();
+	    	var structure_id_fk = $("#structure_id_fk").val();
+  	       
+         	$(".page-loader").show();
+
+            if ($.trim(structure_type_fk) == "") {
+                 $("#structure_id_fk option:not(:first)").remove();
+     		 	 var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, structure_type_fk : structure_type_fk,structure_id_fk:structure_id_fk};
+                 $.ajax({
+                     url: "<%=request.getContextPath()%>/ajax/getStructureIdListFilter",
+                     data: myParams, cache: false,async: false,
+                     success: function (data) {
+                         if (data.length > 0) {
+                             $.each(data, function (i, val) {
+                            	var selectedFlag = (structure == val.structure_id_fk)?'selected':'';
+                           	 	$("#structure_id_fk").append('<option value="' + val.structure_id_fk + '"'+selectedFlag+'>' + $.trim(val.structure_id_fk) +'</option>');
+                             });
+                         }
+                         $('.searchable').select2();
+                         $(".page-loader").hide();
+                     },error: function (jqXHR, exception) {
+  	      	   		   $(".page-loader").hide();
+  	    	   	       getErrorMessage(jqXHR, exception);
+      	   	       }
+                 });
+             }else{
+             	   $(".page-loader").hide();
+             }
+        }       
+        
+        
+        
 
         
         
@@ -828,11 +864,13 @@
 	    	var work_id_fk = $("#work_id_fk").val();
 	    	var contract_id_fk = $("#contract_id_fk").val();
 	    	var structure_type_fk = $("#structure_type_fk").val();
+	    	var structure_id_fk = $("#structure_id_fk").val();
 	    	var searchStrValue = $('[type=search]').val();
 	     	 
 	    	 $("#exportWork_id_fk").val(work_id_fk);
 	     	 $("#exportContract_id_fk").val(contract_id_fk);
 	     	 $("#exportStructure_type_fk").val(structure_type_fk);
+	     	$("#exportStructure_id_fk").val(structure_id_fk);
 	     	$("#exportsearchStr").val(searchStrValue);
 	     	 $("#exportDesignForm ").submit();
 	  	}

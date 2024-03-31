@@ -300,6 +300,19 @@ public class DesignController {
 		return design;
 	}
 	
+	@RequestMapping(value = "/ajax/getStructureIdListFilter", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Design> getStructureIdListFilter(@ModelAttribute Design obj) {
+		List<Design> design = null;
+		try {
+			design = designService.getStructureIdsListFilter(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getStructureIdsListFilter : " + e.getMessage());
+		}
+		return design;
+	}	
+	
 	@RequestMapping(value = "/ajax/getDrawingTypeListFilterInDesign", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Design> getDrawingTypeListFilter(@ModelAttribute Design obj) {

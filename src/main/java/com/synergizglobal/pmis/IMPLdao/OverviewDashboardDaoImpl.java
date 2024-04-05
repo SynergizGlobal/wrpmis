@@ -19,6 +19,7 @@ import com.synergizglobal.pmis.Idao.OverviewDashboardDao;
 import com.synergizglobal.pmis.common.DBConnectionHandler;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.model.OverviewDashboard;
+import com.synergizglobal.pmis.model.RiskReport;
 import com.synergizglobal.pmis.model.User;
 
 @Repository
@@ -738,5 +739,23 @@ public class OverviewDashboardDaoImpl implements OverviewDashboardDao {
 			throw new Exception(e);
 		}		
 		return count;
+	}
+
+	@Override
+	public List<OverviewDashboard> getContractorRoleWorks(String user_name) throws Exception {
+		List<OverviewDashboard> objsList = null;
+		try {
+			String qry = "select distinct work_id from work w " + 
+					"inner join contract c on c.work_id_fk=w.work_id " + 
+					"inner join contractor c1 on c1.contractor_id=c.contractor_id_fk " + 
+					"where contractor_name=?";
+			Object[] pValues = new Object[] {user_name};
+			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<OverviewDashboard>(OverviewDashboard.class));
+			
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;		
+		
 	}	
 }

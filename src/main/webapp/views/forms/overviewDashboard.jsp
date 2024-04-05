@@ -289,10 +289,18 @@ font-size:22px ;
 	 	var subworkid="";
 		var assessmentdate="";
 		var safetyid=""; 
+		var contractorroleworkid="";
 		
 	    $(document).ready(function(){
  		 	subworkid = getUrlVars()["sub_work"];
  		 	safetyid = getUrlVars()["safety_id"];
+ 		 	
+		    var userrole="${sessionScope.USER_ROLE_NAME}";
+		    if(userrole=="Contractor")
+		    {
+ 		 	
+		    	contractorroleworkid=getContractorRoleWorks();
+		    }
 		   			
     		if(subworkid!="" && subworkid!=undefined && subworkid!=" ")
     		{
@@ -397,6 +405,27 @@ font-size:22px ;
                 }
             });
           	return trueOrFalse(bool);
+   }
+	 
+	 
+	 function getContractorRoleWorks()
+	 {
+			var rworkid="";
+		   	 $.ajax({
+		      		url: "<%=request.getContextPath()%>/ajax/getContractorRoleWorks",
+		            type: 'POST',
+		            async: false,
+		            dataType: 'json',
+		            success: function (data)
+		            {
+		            	 	 $.each( data, function( index, value ){
+		            	 		rworkid=value.work_id
+		            	 	});
+		            }
+		            
+		   	 });
+	   		return rworkid;		 
+		 
    }
    
    
@@ -605,6 +634,7 @@ font-size:22px ;
 	            async: false,
 	            dataType: 'json',
 	            success: function (data){
+
 	         	   if(data.length){
 	         		   $("#filter-item-holder").show();
 	         		   
@@ -651,6 +681,8 @@ font-size:22px ;
 						         				if((value.is_first_option_selected == 'YES') && (index2 == 0)){
 						         					selectedFlag = 'selected';
 						         				}
+
+
 						         				
 					         					if(optionArray.indexOf(filter_option_id)==-1)
 					         					{
@@ -662,6 +694,7 @@ font-size:22px ;
 						         						}
 							         				filters = filters + '<option value="'+filter_option_id+'" '+selectedFlag+' style="font-weight: bold;">'+value2.filter_option_value+'</option>';
 					         					}
+				         					
 					         					
 												
 					                     	});
@@ -681,6 +714,17 @@ font-size:22px ;
 	         								+ '</div>' */
 	         		   
 	         		   $("#filter-item-holder").html(filters);
+	         								
+					    				    var userrole="${sessionScope.USER_ROLE_NAME}";
+					    				    if(userrole=="Contractor")
+					    				    	{
+						    				    	var valueToCheck = contractorroleworkid;
+						    				    	var selectElement = document.getElementById('work_id');
+	
+						    				    	if (!hasOptionWithValue(selectElement, valueToCheck)) {
+						    				    		  $("#filter-item-holder").hide();
+						    				    	}
+					    				    	}		         								
 	         								
 						if(subworkid!="")
 						{
@@ -708,7 +752,18 @@ font-size:22px ;
       	 }
 	 }
 	
+	function hasOptionWithValue(selectElement, value) {
+	    var options = selectElement.options;
+	    for (var i = 0; i < options.length; i++) {
+	        if (options[i].value === value) {
+	            return true;
+	        }
+	    }
+	    return false;
+	}	
+	
 	 function getSelectedOption(filterIds,dashboardId,clm){
+		 
 		 $(".page-loader").show();	 
 		 var show_left_menu = '';	 
 		 var params = "";
@@ -717,6 +772,7 @@ font-size:22px ;
 			 filterIds = filterIds.replace(/['"]+/g, '');
 	      	 ids = filterIds.split(",");
 		 }
+
 		 
 	     getFilteredOptions(filterIds,dashboardId,clm);
 	     $(".page-loader").show();
@@ -733,6 +789,7 @@ font-size:22px ;
 			     }
 			 }
 		 }
+
 			if(subworkid!="")
 			{
 					//$("#work_id").val(subworkid);
@@ -818,7 +875,8 @@ font-size:22px ;
 		 if($.trim(filterIds) != ''){
 			 ids = filterIds.split(",");
 		 }
-		 
+		 var fk=0;
+		 var fk1=0;
 		 for(var  i=0;i<ids.length;i++){
 			 var params = "";
 			 for(var  j=0;j<ids.length;j++){
@@ -852,7 +910,17 @@ font-size:22px ;
 						 	$("#"+getItemArray[k]).val("");
 			 			}
 				 }
-			 
+			 	
+				 var contractorroleArray=new Array();
+				 
+				    if(contractorroleArray.indexOf(id)==-1)
+					 {
+				 		contractorroleArray.push(id);
+					 }
+			 	
+				    var userrole="${sessionScope.USER_ROLE_NAME}";
+				    if(userrole!="Contractor")
+				    {			 	
 			 if($.trim(val) == ''){
 				 //$("#"+id+" option:not(:first)").remove();
 				 $("#"+id+" option").remove();
@@ -868,6 +936,7 @@ font-size:22px ;
 			         			  {
 			         				getItemArray.push(id);
 			         			  }
+
 			         		  
 			         		   $.each( data, function( index, value ){
 			         			  var filterOptions = value.filter;
@@ -887,12 +956,19 @@ font-size:22px ;
 				         					selectedFlag = 'selected';	
 				         				}
 				         				
-			         					if(optionArray.indexOf(filter_option_id)==-1)
-			         					{
-				         					optionArray.push(filter_option_id);
-					         				$("#"+id).append('<option value="'+filter_option_id+'" '+selectedFlag+'>'+value2.filter_option_value+'</option>');
+				         				
+   
+					         					if(optionArray.indexOf(filter_option_id)==-1)
+					         					{
+						         					optionArray.push(filter_option_id);
+							         				$("#"+id).append('<option value="'+filter_option_id+'" '+selectedFlag+'>'+value2.filter_option_value+'</option>');
+		
+					         					}				         					 
+				         					 
+				         					 
+				         					 
+			         					
 
-			         					}
 			         					
 			                      });
 			         		  });
@@ -904,9 +980,110 @@ font-size:22px ;
 			            }
 			     });
 			 }
+			 $(".page-loader").hide();
 		 }
-		 $(".page-loader").hide();
+			 else
+				 { 
+			   		if(id=="work_id" && fk==0)
+					   {  
+			   		 		var selectElement = document.getElementById('work_id');
+
+			   				var selectedValue = contractorroleworkid; // Example value you want to find the text for
+			   				var optionText = getOptionTextByValue(selectElement, selectedValue);			   			
+					   
+			   		 		 $("#"+id+" option").remove();
+			   		 		 addOption(selectElement, selectedValue,optionText);
+					  		 $("#"+id).val(contractorroleworkid);
+					  		 fk++;
+						   	 $(".page-loader").hide();
+					   }
+			   			if(id=="contract_id" && fk1==0)
+			   			{
+							 $("#"+id+" option").remove();
+							 $.ajax({
+						      		url: "<%=request.getContextPath()%>/ajax/getFilteredOptions",
+						            type: 'POST',
+						            data:{dashboard_id : dashboardId,work_id : selectedValue,filter_id : filter_id_temp,params : encodeURIComponent(params)},
+						            async: false,
+						            dataType: 'json',
+						            success: function (data){
+						         	   if(data.length){   
+						         		  if(getItemArray.indexOf(id)==-1)
+						         			  {
+						         				getItemArray.push(id);
+						         			  }
+
+						         		  
+						         		   $.each( data, function( index, value ){
+						         			  var filterOptions = value.filter;
+						         			  var length = filterOptions.length;
+						         			  /* if((value.is_first_option_selected != 'YES') && length > 1){ */
+						         			  if((value.is_first_option_selected != 'YES')){
+						         				$("#"+id).append('<option value="" selected>All</option>');
+						         			  }
+						         			  var optionArray=new Array();
+						         			  $.each( value.filter, function( index2, value2 ){
+							         			  	var filter_option_id = value2.filter_option_value;
+							         				if($.trim(value2.filter_option_id) != ''){
+							         					filter_option_id = value2.filter_option_id;
+							         				}
+							         				var selectedFlag = "";
+							         				if(((value.is_first_option_selected == 'YES') && (index2 == 0))){
+							         					selectedFlag = 'selected';	
+							         				}
+							         				
+							         				
+			   
+								         					if(optionArray.indexOf(filter_option_id)==-1)
+								         					{
+									         					optionArray.push(filter_option_id);
+										         				$("#"+id).append('<option value="'+filter_option_id+'" '+selectedFlag+'>'+value2.filter_option_value+'</option>');
+					
+								         					}				         					 
+							         					 
+							         					 
+							         					 
+						         					
+
+						         					
+						                      });
+						         		  });
+						         		   $('.searchable').select2();
+						         	   }
+						         	   $(".page-loader").hide();
+						            },error: function(xhr){
+						            	$(".page-loader").hide();
+						            }
+						     });		   				
+			   				
+			   			
+			   				fk1++;
+			   			}
+				 }
+				   
+		}
+
+		
 	 }
+		 
+	 function addOption(selectElement, value, text) {
+		    var option = document.createElement("option"); // Create a new option element
+		    option.value = value; // Set the value attribute of the option
+		    option.text = text; // Set the text content of the option
+		    selectElement.appendChild(option); // Append the option to the select element
+		}
+
+	// Function to get option text by value
+	function getOptionTextByValue(selectElement, value) {
+	    var options = selectElement.options;
+	    for (var i = 0; i < options.length; i++) {
+	        if (options[i].value === value) {
+	            return options[i].text;
+	        }
+	    }
+	    // Return null if the value is not found
+	    return null;
+	}		 
 		
 	
      function clearFilter(filterIds,dashboardId){

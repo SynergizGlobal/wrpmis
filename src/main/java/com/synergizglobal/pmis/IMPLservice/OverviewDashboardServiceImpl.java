@@ -47,4 +47,9 @@ public class OverviewDashboardServiceImpl implements OverviewDashboardService {
 	public int getWorkDroneSurveyCount(String work_id) throws Exception {
 		return dao.getWorkDroneSurveyCount(work_id);
 	}
+
+	@Override
+	public List<OverviewDashboard> getContractorRoleWorks(String user_name) throws Exception {
+		return dao.getContractorRoleWorks(user_name);
+	}
 }

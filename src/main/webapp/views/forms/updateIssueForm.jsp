@@ -383,7 +383,7 @@
                                                                  
                                 <div class="col s12 m4 l6 input-field offset-m2">
 						             <input id="assigned_date" name="assigned_date" type="text" class="validate datepicker" value="${issue.assigned_date }" >
-	                                    <label for="assigned_date""> Assigned Date<span class="required">*</span></label>
+	                                    <label for="assigned_date""> Assigned Date</label>
 	                                    <button type="button" id="assigned_date_icon"><i
 	                                            class="fa fa-calendar"></i></button>
 	                                    <span id="assigned_dateError" class="error-msg" ></span>

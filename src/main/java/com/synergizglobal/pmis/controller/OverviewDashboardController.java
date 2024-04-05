@@ -62,6 +62,19 @@ public class OverviewDashboardController {
 		return model;
 	}
 	
+	@RequestMapping(value = "/ajax/getContractorRoleWorks", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<OverviewDashboard>getContractorRoleWorks(HttpSession session) throws Exception {
+		List<OverviewDashboard> overviewDashboard = null;
+
+		try {
+			String user_name = (String) session.getAttribute("USER_NAME");
+			overviewDashboard = overviewDashboardService.getContractorRoleWorks(user_name);
+		} catch (SQLException e) {
+			logger.error("getContractorRoleWorks : " + e.getMessage());
+		}
+		return overviewDashboard;
+	}	
 	@RequestMapping(value = "/ajax/getWorkDroneSurveyCount", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public int getWorkDroneSurveyCount(String work_id) throws Exception {

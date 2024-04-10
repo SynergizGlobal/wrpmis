@@ -703,7 +703,7 @@
 						</ul></li>
 				<%-- </c:if> --%>
 
-				<c:if test="${sessionScope.USER_ROLE_NAME ne 'Super User' }">
+				<c:if test="${sessionScope.USER_ROLE_NAME ne 'Super User' && sessionScope.USER_ROLE_NAME ne 'Contractor' }">
 					<li class="blue dropdown">
 						<a href="#" class='head-img'> <span class="material-icons-outlined">post_add</span> Update Forms</a>
 
@@ -802,6 +802,7 @@
 							<!-- 1st level Dropdown ends -->
 						</ul></li>
 				</c:if>
+				<c:if test="${sessionScope.USER_ROLE_NAME ne 'Contractor' }">
 				<li class="blue darken-2"><a href="javascript:void(0);"
 					class='head-img'> <span class="material-icons-outlined">description</span>
 						Documents
@@ -820,6 +821,7 @@
 							</a></li>
 						</c:forEach>
 					</ul></li>
+				
 				<%--<li class="blue"><a href="<%=request.getContextPath()%>/web-links"
                                                 class='head-img'>
                                                 <span class="material-icons-outlined">link</span> Quick Links</a>
@@ -835,6 +837,7 @@
 							</a></li>
 						</c:forEach>
 					</ul></li>
+				</c:if>
 				<c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' }">
 					<li class="blue"><a href="javascript:void(0);"
 						class='head-img'> <span class="material-icons-outlined">list_alt</span> Admin

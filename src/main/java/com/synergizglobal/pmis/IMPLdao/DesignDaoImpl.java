@@ -1580,12 +1580,19 @@ public class DesignDaoImpl implements DesignDao{
 	public List<Design> getContractListFilter(Design obj) throws Exception {
 		List<Design> objsList = null;
 		try {
-			String qry ="select d.contract_id_fk,contract_name,contract_short_name "
+			String qry ="select distinct d.contract_id_fk,contract_name,contract_short_name "
 					+ "from design d "  
 					+"LEFT OUTER JOIN contract c ON d.contract_id_fk = c.contract_id "
+					+"left join contractor c1 on c1.contractor_id=c.contractor_id_fk "
 					+ " where d.contract_id_fk is not null and d.contract_id_fk <> '' ";
 				
 			int arrSize = 0;
+			
+			if("Contractor".compareTo(obj.getUser_role_code())==0 && !StringUtils.isEmpty(obj.getUser_role_code())) {
+				qry = qry + " and contractor_name=? "; 
+				arrSize++;
+			}
+			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and d.work_id_fk = ? ";
 				arrSize++;
@@ -1614,6 +1621,11 @@ public class DesignDaoImpl implements DesignDao{
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
+			
+			if("Contractor".compareTo(obj.getUser_role_code())==0 && !StringUtils.isEmpty(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_name();
+			}
+			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
 			}
@@ -1769,13 +1781,21 @@ public class DesignDaoImpl implements DesignDao{
 	public List<Design> getWorksListFilter(Design obj) throws Exception {
 		List<Design> objsList = null;
 		try {
-			String qry ="select work_id as work_id_fk,w.work_short_name from design d "
+			String qry ="select distinct work_id as work_id_fk,w.work_short_name from design d "
 					+ "LEFT JOIN work w on d.work_id_fk = w.work_id "
-					+ "where work_id_fk is not null and work_id_fk <> '' ";
+					+ "LEFT JOIN contract c ON w.work_id = c.work_id_fk "
+					+ "left join contractor c1 on c1.contractor_id=c.contractor_id_fk "				
+					+ "where d.work_id_fk is not null and d.work_id_fk <> '' ";
 				
 			int arrSize = 0;
+			
+			if("Contractor".compareTo(obj.getUser_role_code())==0 && !StringUtils.isEmpty(obj.getUser_role_code())) {
+				qry = qry + " and contractor_name=? "; 
+				arrSize++;
+			}
+			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id_fk = ?";
+				qry = qry + " and d.work_id_fk = ?";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
@@ -1802,6 +1822,11 @@ public class DesignDaoImpl implements DesignDao{
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
+			
+			if("Contractor".compareTo(obj.getUser_role_code())==0 && !StringUtils.isEmpty(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_name();
+			}
+			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
 			}
@@ -2279,10 +2304,16 @@ public class DesignDaoImpl implements DesignDao{
 					DBConnectionHandler.closeJDBCResoucrs(con, stmt, null);
 				}
 				
+				SqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(obj);
+				String deleteQry = "DELETE from design_revisions where design_id_fk = :design_id";		 
+				paramSource1 = new BeanPropertySqlParameterSource(obj);		 
+				count = namedParamJdbcTemplate.update(deleteQry, paramSource1);				
+				
 				if(!StringUtils.isEmpty(obj.getDesignRevisions())) {
 					String qryDesignRevision = "INSERT INTO design_revisions (design_id_fk,revision,revision_date,drawing_no,correspondence_letter_no,upload_file,"
 							+ "revision_status_fk,[current],remarks) VALUES(?,?,?,?,?,?,?,?,?)";
 					
+
 					int[] counts = jdbcTemplate.batchUpdate(qryDesignRevision,
 				            new BatchPreparedStatementSetter() {
 								@Override
@@ -2320,6 +2351,8 @@ public class DesignDaoImpl implements DesignDao{
 									return obj.getDesignRevisions().size();
 							}
 					  });
+					
+					
 				}					
 				
 				

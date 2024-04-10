@@ -262,9 +262,14 @@ public class DesignController {
 	
 	@RequestMapping(value = "/ajax/getWorksListFilterInDesign", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Design> getWorksListFilter(@ModelAttribute Design obj) {
+	public List<Design> getWorksListFilter(@ModelAttribute Design obj, HttpSession session) {
 		List<Design> design = null;
 		try {
+			
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_role_code(uObj.getUser_role_name_fk());
+			obj.setUser_name(uObj.getUser_name());	
+			
 			design = designService.getWorksListFilter(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -276,9 +281,14 @@ public class DesignController {
 	
 	@RequestMapping(value = "/ajax/getContractListFilterInDesign", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Design> getContractListFilter(@ModelAttribute Design obj) {
+	public List<Design> getContractListFilter(@ModelAttribute Design obj, HttpSession session) {
 		List<Design> design = null;
 		try {
+			
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_role_code(uObj.getUser_role_name_fk());
+			obj.setUser_name(uObj.getUser_name());	
+			
 			design = designService.getContractListFilter(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -722,11 +732,15 @@ public class DesignController {
 	
 
 	@RequestMapping(value = "/drawing-repository", method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView DrawingRepository(@ModelAttribute Design obj){
+	public ModelAndView DrawingRepository(@ModelAttribute Design obj,HttpSession session){
 		ModelAndView model = new ModelAndView();
 		try{
 			model.setViewName(PageConstants.drawingRepository);	
 			model.addObject("action", "add");
+			
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_role_code(uObj.getUser_role_name_fk());
+			obj.setUser_name(uObj.getUser_name());			
 			
 			List<Design> worksList = designService.getWorksListFilter(obj);
 			model.addObject("worksList", worksList);

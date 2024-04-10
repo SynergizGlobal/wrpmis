@@ -140,14 +140,26 @@ public class ActivitiesExportController {
 	public String dataExportNoData;
 	
 	@RequestMapping(value = "/activities-export-report", method = { RequestMethod.GET, RequestMethod.POST })
-	public ModelAndView activitiesExportReport(@ModelAttribute StripChart obj, RedirectAttributes attributes) {
+	public ModelAndView activitiesExportReport(@ModelAttribute StripChart obj, RedirectAttributes attributes,HttpSession session) {
 		ModelAndView model = new ModelAndView(PageConstants.activitiesExportReport);
 		try {
+			
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_name_fk());
+			obj.setUser_name(uObj.getUser_name());
+			
 			List<StripChart> projectsList = service.getProjectsFilterListInActivitiesExportReport(obj);
 			model.addObject("projectsList", projectsList);
+			
+			obj.setUser_role_code(uObj.getUser_role_name_fk());
+			obj.setUser_name(uObj.getUser_name());			
 
 			List<StripChart> worksList = service.getWorksFilterListInActivitiesExportReport(obj);
 			model.addObject("worksList", worksList);
+			
+			obj.setUser_role_code(uObj.getUser_role_name_fk());
+			obj.setUser_name(uObj.getUser_name());			
 
 			List<StripChart> contractList = service.getContractListInActivitiesExportReport(obj);
 			model.addObject("contractList", contractList);
@@ -837,9 +849,13 @@ public class ActivitiesExportController {
 	@RequestMapping(value = "/ajax/getProjectListForActivitiesExportReportForm", method = { RequestMethod.GET,
 			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<StripChart> getProjectListForActivitiesExportReportForm(@ModelAttribute StripChart obj) {
+	public List<StripChart> getProjectListForActivitiesExportReportForm(@ModelAttribute StripChart obj,HttpSession session) {
 		List<StripChart> objList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_name_fk());
+			obj.setUser_name(uObj.getUser_name());			
 			objList = service.getProjectsFilterListInActivitiesExportReport(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -850,9 +866,13 @@ public class ActivitiesExportController {
 	@RequestMapping(value = "/ajax/getWorksListForActivitiesExportReportForm", method = { RequestMethod.GET,
 			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<StripChart> getWorksListForActivitiesExportReportForm(@ModelAttribute StripChart obj) {
+	public List<StripChart> getWorksListForActivitiesExportReportForm(@ModelAttribute StripChart obj,HttpSession session) {
 		List<StripChart> objList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_name_fk());
+			obj.setUser_name(uObj.getUser_name());			
 			objList = service.getWorksFilterListInActivitiesExportReport(obj);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -864,9 +884,13 @@ public class ActivitiesExportController {
 	@RequestMapping(value = "/ajax/getContractListInActivitiesExportReport", method = { RequestMethod.GET,
 			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<StripChart> getLocationsListForActivitiesExportReportForm(@ModelAttribute StripChart obj) {
+	public List<StripChart> getLocationsListForActivitiesExportReportForm(@ModelAttribute StripChart obj,HttpSession session) {
 		List<StripChart> objList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type_fk(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_name_fk());
+			obj.setUser_name(uObj.getUser_name());			
 			objList = service.getContractListInActivitiesExportReport(obj);
 		} catch (Exception e) {
 			e.printStackTrace();

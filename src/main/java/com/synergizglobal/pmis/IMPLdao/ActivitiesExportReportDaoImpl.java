@@ -25,13 +25,19 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 	public List<StripChart> getProjectsFilterListInActivitiesExportReport(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "SELECT project_id,project_name from p6_activities a "
+			String qry = "SELECT distinct project_id,project_name from p6_activities a "
 					+ "LEFT JOIN contract c ON a.contract_id_fk = c.contract_id "
 					+ "left join work w on work_id = c.work_id_fk "
 					+ "left join project p on w.project_id_fk = p.project_id "
+					+ "left join contractor c1 on c1.contractor_id=c.contractor_id_fk "
 					+ " where project_id is not null and project_id <> '' ";
 			
 			int arrSize = 0;
+			
+			if("Contractor".compareTo(obj.getUser_role_code())==0 && !StringUtils.isEmpty(obj.getUser_role_code())) {
+				qry = qry + " and contractor_name=? "; 
+				arrSize++;
+			}			
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				qry = qry + " and contract_id_fk = ?";
@@ -50,6 +56,10 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 			qry = qry + " GROUP BY project_id,project_name";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
+			
+			if("Contractor".compareTo(obj.getUser_role_code())==0 && !StringUtils.isEmpty(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_name();
+			}			
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
@@ -72,13 +82,19 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 	public List<StripChart> getWorksFilterListInActivitiesExportReport(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "SELECT  work_id as work_id_fk,work_short_name from p6_activities a "
+			String qry = "SELECT  distinct work_id as work_id_fk,work_short_name from p6_activities a "
 					+ "LEFT JOIN contract c ON a.contract_id_fk = c.contract_id "
+					+ "left join contractor c1 on c1.contractor_id=c.contractor_id_fk "
 					+ "left join work w on work_id = c.work_id_fk "
 					+ "left join project p on w.project_id_fk = p.project_id "
 					+ " where c.work_id_fk is not null and c.work_id_fk <> '' ";
 			
 			int arrSize = 0;
+			
+			if("Contractor".compareTo(obj.getUser_role_code())==0 && !StringUtils.isEmpty(obj.getUser_role_code())) {
+				qry = qry + " and contractor_name=? "; 
+				arrSize++;
+			}			
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				qry = qry + " and contract_id_fk = ?";
@@ -97,6 +113,10 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 			qry = qry + " GROUP BY work_id,work_short_name";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
+			
+			if("Contractor".compareTo(obj.getUser_role_code())==0 && !StringUtils.isEmpty(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_name();
+			}
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
@@ -121,11 +141,17 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 		try {
 			String qry = "SELECT distinct work_id as work_id_fk,work_short_name,contract_id_fk,contract_short_name from p6_activities a "
 					+ "LEFT JOIN contract c ON a.contract_id_fk = c.contract_id "
+					+ "left join contractor c1 on c1.contractor_id=c.contractor_id_fk "
 					+ "left join work w on work_id = c.work_id_fk "
 					+ "left join project p on w.project_id_fk = p.project_id "
 					+ " where contract_id_fk is not null and contract_id_fk <> '' ";
 			
 			int arrSize = 0;
+			
+			if("Contractor".compareTo(obj.getUser_role_code())==0 && !StringUtils.isEmpty(obj.getUser_role_code())) {
+				qry = qry + " and contractor_name=? "; 
+				arrSize++;
+			}			
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				qry = qry + " and contract_id_fk = ?";
@@ -144,6 +170,10 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 			//qry = qry + " GROUP BY contract_id_fk";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
+			
+			if("Contractor".compareTo(obj.getUser_role_code())==0 && !StringUtils.isEmpty(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_name();
+			}
 			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();

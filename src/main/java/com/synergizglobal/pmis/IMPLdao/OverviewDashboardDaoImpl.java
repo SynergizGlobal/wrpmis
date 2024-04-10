@@ -745,10 +745,12 @@ public class OverviewDashboardDaoImpl implements OverviewDashboardDao {
 	public List<OverviewDashboard> getContractorRoleWorks(String user_name) throws Exception {
 		List<OverviewDashboard> objsList = null;
 		try {
-			String qry = "select distinct work_id from work w " + 
-					"inner join contract c on c.work_id_fk=w.work_id " + 
-					"inner join contractor c1 on c1.contractor_id=c.contractor_id_fk " + 
-					"where contractor_name=?";
+			String qry = "SELECT distinct work_id from p6_activities a  " + 
+					"LEFT JOIN contract c ON a.contract_id_fk = c.contract_id  " + 
+					"left join work w on work_id = c.work_id_fk  " + 
+					"left join project p on w.project_id_fk = p.project_id  " + 
+					"left join contractor c1 on c1.contractor_id=c.contractor_id_fk " + 
+					"where contract_id_fk is not null and contract_id_fk <> ''  and contractor_name=?";
 			Object[] pValues = new Object[] {user_name};
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<OverviewDashboard>(OverviewDashboard.class));
 			

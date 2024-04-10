@@ -21,4 +21,6 @@ public interface OverviewDashboardDao {
 	public int getWorkDroneSurveyCount(String work_id) throws Exception;
 
 	public List<OverviewDashboard> getContractorRoleWorks(String user_name) throws Exception;
+
+	public List<OverviewDashboard> getContractorRoleWorkContracts(String user_name)  throws Exception;
 }

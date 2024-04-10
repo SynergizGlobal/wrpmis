@@ -52,4 +52,9 @@ public class OverviewDashboardServiceImpl implements OverviewDashboardService {
 	public List<OverviewDashboard> getContractorRoleWorks(String user_name) throws Exception {
 		return dao.getContractorRoleWorks(user_name);
 	}
+
+	@Override
+	public List<OverviewDashboard> getContractorRoleWorkContracts(String user_name) throws Exception {
+		return dao.getContractorRoleWorkContracts(user_name);
+	}
 }

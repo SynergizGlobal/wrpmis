@@ -21,4 +21,7 @@ public interface OverviewDashboardService {
 	int getWorkDroneSurveyCount(String work_id) throws Exception;
 
 	public List<OverviewDashboard> getContractorRoleWorks(String user_role_name) throws Exception;
+
+	public List<OverviewDashboard> getContractorRoleWorkContracts(String user_name)  throws Exception;
+
 }

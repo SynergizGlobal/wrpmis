@@ -427,6 +427,26 @@ font-size:22px ;
 	   		return rworkid;		 
 		 
    }
+	 
+	 function getContractorRoleWorkContracts()
+	 {
+			var rContractid="";
+		   	 $.ajax({
+		      		url: "<%=request.getContextPath()%>/ajax/getContractorRoleWorkContracts",
+		            type: 'POST',
+		            async: false,
+		            dataType: 'json',
+		            success: function (data)
+		            {
+		            	 	 $.each( data, function( index, value ){
+		            	 		rContractid=value.contract_id_fk
+		            	 	});
+		            }
+		            
+		   	 });
+	   		return rContractid;		 
+		 
+   }	 
    
    
    function trueOrFalse(bool){
@@ -984,8 +1004,11 @@ font-size:22px ;
 		 }
 			 else
 				 { 
+				 
 			   		if(id=="work_id" && fk==0)
 					   {  
+			   			
+
 			   		 		var selectElement = document.getElementById('work_id');
 
 			   				var selectedValue = contractorroleworkid; // Example value you want to find the text for
@@ -999,65 +1022,52 @@ font-size:22px ;
 					   }
 			   			if(id=="contract_id" && fk1==0)
 			   			{
+			   				
+			   				
+							 var conid=document.getElementById('contract_id').value;
+							 var selectedFlag="";
+							  if(conid!=null && conid!="" && conid!=undefined)
+								 {
+								 	 selectedFlag = 'selected';	
+								 }
+
 							 $("#"+id+" option").remove();
+							 
+
+							 $("#"+id).append('<option value="" selected>All</option>');
 							 $.ajax({
-						      		url: "<%=request.getContextPath()%>/ajax/getFilteredOptions",
+						      		url: "<%=request.getContextPath()%>/ajax/getContractorRoleWorkContracts",
 						            type: 'POST',
-						            data:{dashboard_id : dashboardId,work_id : selectedValue,filter_id : filter_id_temp,params : encodeURIComponent(params)},
 						            async: false,
 						            dataType: 'json',
 						            success: function (data){
 						         	   if(data.length){   
-						         		  if(getItemArray.indexOf(id)==-1)
-						         			  {
-						         				getItemArray.push(id);
-						         			  }
-
-						         		  
-						         		   $.each( data, function( index, value ){
-						         			  var filterOptions = value.filter;
-						         			  var length = filterOptions.length;
-						         			  /* if((value.is_first_option_selected != 'YES') && length > 1){ */
-						         			  if((value.is_first_option_selected != 'YES')){
-						         				$("#"+id).append('<option value="" selected>All</option>');
-						         			  }
-						         			  var optionArray=new Array();
-						         			  $.each( value.filter, function( index2, value2 ){
-							         			  	var filter_option_id = value2.filter_option_value;
-							         				if($.trim(value2.filter_option_id) != ''){
-							         					filter_option_id = value2.filter_option_id;
-							         				}
-							         				var selectedFlag = "";
-							         				if(((value.is_first_option_selected == 'YES') && (index2 == 0))){
-							         					selectedFlag = 'selected';	
-							         				}
-							         				
-							         				
-			   
-								         					if(optionArray.indexOf(filter_option_id)==-1)
-								         					{
-									         					optionArray.push(filter_option_id);
-										         				$("#"+id).append('<option value="'+filter_option_id+'" '+selectedFlag+'>'+value2.filter_option_value+'</option>');
-					
-								         					}				         					 
-							         					 
-							         					 
-							         					 
-						         					
-
-						         					
-						                      });
+						         		 
+						         		  $.each( data, function( index, value ){
+						         			  
+						         		     if(value.filter_id==conid)
+						         		    	 {
+											 		$("#"+id).append('<option value="'+value.filter_id+'" '+selectedFlag+'>'+value.filter_label_name+'</option>');
+						         		    	 }
+						         		     else
+						         		    	 {
+											 		$("#"+id).append('<option value="'+value.filter_id+'">'+value.filter_label_name+'</option>');
+						         		    	 }
+											 
 						         		  });
-						         		   $('.searchable').select2();
+
+						         		   
 						         	   }
-						         	   $(".page-loader").hide();
-						            },error: function(xhr){
-						            	$(".page-loader").hide();
+						         	   
 						            }
-						     });		   				
-			   				
-			   			
-			   				fk1++;
+						            
+							 });
+							 
+							 
+							 
+							 
+							 
+			   				 fk1++;
 			   			}
 				 }
 				   

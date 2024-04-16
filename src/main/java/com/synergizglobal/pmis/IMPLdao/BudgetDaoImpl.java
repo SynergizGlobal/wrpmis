@@ -768,10 +768,7 @@ public class BudgetDaoImpl implements BudgetDao {
 					+ "LEFT JOIN financial_year f on b.financial_year_fk = f.financial_year " 
 					+ "LEFT JOIN project p on  w.project_id_fk = p.project_id "
 					+ "WHERE "
-					+ "b.financial_year_fk = (SELECT (CASE WHEN MONTH(CONVERT(date, getdate())) >= 4 THEN concat(YEAR(CONVERT(date, getdate())), '-',SUBSTRING(cast(YEAR(CONVERT(date, getdate()))+1 as varchar),3,2)) ELSE concat(cast(YEAR(CONVERT(date, getdate()))-1 as varchar),'-', \r\n" + 
-					"SUBSTRING(cast(YEAR(CONVERT(date, getdate())) as varchar),3,2)) END) AS financial_year) " 
-					+ "AND "
-					+ "budget_id is not null and status = ? ";
+					+ " budget_id is not null and status = ? ";
 			
 			int arrSize = 1;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {

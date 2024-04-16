@@ -1845,6 +1845,8 @@
 	    	
 	    	$.validator.addMethod("dateBefore3", function(value, element) {
 	    		var fromDateString = $('#assigned_date').val(); 
+	    		if(fromDateString!="")
+	    			{
 	    		/* var fromDateString = $('#escalation_date').val(); //
 	            var status = $('#status_fk').val();
 	            if($.trim(status) != '' && $.trim(status) == 'Escalated'){
@@ -1868,6 +1870,7 @@
 	            }else{
 	            	return true;
 	            }
+	    			}
 	        }, "Resolved Date must be after Assigned Date");
 	    	
 	    	

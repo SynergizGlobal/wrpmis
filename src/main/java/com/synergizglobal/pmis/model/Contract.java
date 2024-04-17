@@ -19,7 +19,7 @@ public class Contract {
 	actual_date_of_commissioning,existing_contract_closure_date,todate,estimated_cost_unit,awarded_cost_unit,completed_cost_unit,alerts_user_id,planned_date_of_award,modified_by,modified_date,physical_progress,planned_date_of_completion;
 	
 	
-	private String doc_letter_status,tender_opening_date,technical_eval_submission,financial_eval_submission,contract_department,insurance_count,letter_status,bg_letter_status,contract_documents_id,name,attachment,contract_key_personnel_id,mobile_no,email_id,id, department_id_fk, executive_user_id_fk,bank_funded,type_of_review,searchStr;
+	private String contract_ifas_code,doc_letter_status,tender_opening_date,technical_eval_submission,financial_eval_submission,contract_department,insurance_count,letter_status,bg_letter_status,contract_documents_id,name,attachment,contract_key_personnel_id,mobile_no,email_id,id, department_id_fk, executive_user_id_fk,bank_funded,type_of_review,searchStr;
 
 	private String[] bg_type_fks,issuing_banks,revision_amounts_statuss,bank_addresss,bg_numbers,bg_values,bg_valid_uptos,remarkss,bank_revisions,bankStatus,insuranceStatus,codes, bg_dates, release_dates,released_fks,
 	 insurance_type_fks, issuing_agencys, agency_addresss, insurance_numbers, insurance_values,insurence_valid_uptos,insurence_remarks,insurance_revisions,revision_statuss,
@@ -2331,6 +2331,14 @@ public class Contract {
 
 	public void setTenderbidremarks(String tenderbidremarks) {
 		this.tenderbidremarks = tenderbidremarks;
+	}
+
+	public String getContract_ifas_code() {
+		return contract_ifas_code;
+	}
+
+	public void setContract_ifas_code(String contract_ifas_code) {
+		this.contract_ifas_code = contract_ifas_code;
 	}
 	
 }

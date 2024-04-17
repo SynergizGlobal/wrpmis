@@ -823,7 +823,7 @@
 							<div class="row" id="contract_type_fk_div">
 								  <c:choose>
 						         	<c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">
-							         	<div class="col s6 m6 l6 input-field ">
+							         	<div class="col s5 m5 l5 input-field ">
 		                                 <p class="searchable_label">Contract Type <span class="required" id="contract_type_fk_req">*</span></p>
 		                                    <select name="contract_type_fk" id="contract_type_fk" class="validate-dropdown searchable" >
 		                                        <option value="" selected>Select</option>
@@ -833,16 +833,20 @@
 		                                    </select>                                   
 		                                     <span id="contract_type_fkError" class="error-msg" ></span>
 		                                </div>
-		                                <div class="col s6 m6 l6 input-field" id="contractor_id_fk_div">
+		                                <div class="col s5 m5 l5 input-field" id="contractor_id_fk_div">
 		                                    <p class="searchable_label">Contractor Name <span class="required" id="contractor_req">*</span></p>
-		                                    <select name="contractor_id_fk" id="contractor_id_fk" class="validate-dropdown searchable" >
+		                                    <select name="contractor_id_fk" id="contractor_id_fk" class="validate-dropdown searchable"  onChange="getContract_ifas_code_div(this.value);">
 		                                        <option value="" selected>Select</option>
 		                                       	    <c:forEach var="obj" items="${contractor }">
 				                                      <option value="${obj.contractor_id_fk }" <c:if test="${contractDeatils.contractor_id_fk eq obj.contractor_id_fk}">selected</c:if>>${obj.contractor_name }</option>
 				                                    </c:forEach>
 		                                    </select>
 		                            		<span id="contractor_id_fkError" class="error-msg" ></span>                                    
-		                                </div>  
+		                                </div> 
+		                                <div class="col s2 m2 l2 input-field" id="contract_ifas_code_div" style="display:none;">
+		                                    <p class="searchable_label">Contract (IFAS Code)</p>
+		                                    <input type="text" name="contract_ifas_code" id="contract_ifas_code" value="${contractDeatils.contract_ifas_code}">                                   
+		                                </div>		                                 
 		                              </c:when>
 						           <c:otherwise>
 						         	 <div class="col s6 m6 l6 input-field ">
@@ -2807,6 +2811,24 @@
 	       }
 	   });	        
     });
+    
+    getContract_ifas_code_div("${contractDeatils.contractor_id_fk}");
+    
+    
+    function getContract_ifas_code_div(value)
+    {
+    		if(value!="")
+    		{
+    		   $("#contract_ifas_code_div").show();
+    		}
+    		else
+    		{
+    			$("#contract_ifas_code_div").hide();
+    		}
+    }
+    
+    
+    
 	 $("[data-length]").each(function(i,val){
      	$('#'+val.id).characterCounter();;
      });

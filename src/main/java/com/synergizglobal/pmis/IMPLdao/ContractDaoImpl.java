@@ -360,8 +360,8 @@ public class ContractDaoImpl implements ContractDao {
 							+ "dy_hod_user_id_fk,doc,awarded_cost,loa_letter_number,loa_date,ca_no,ca_date,actual_completion_date,completed_cost,date_of_start,"
 							+ "estimated_cost,contract_closure_date,completion_certificate_release,final_takeover,final_bill_release,defect_liability_period,"
 							+ "retention_money_release,pbg_release,contract_status_fk,bg_required,insurance_required,estimated_cost_units,awarded_cost_units,"
-							+ "status,milestone_requried,revision_requried,contractors_key_requried,is_contract_closure_initiated,planned_date_of_award,remarks,planned_date_of_completion,contract_department,bank_funded,bank_name,type_of_review,notice_inviting_tender,tender_opening_date,technical_eval_submission,financial_eval_submission)"
-							+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+							+ "status,milestone_requried,revision_requried,contractors_key_requried,is_contract_closure_initiated,planned_date_of_award,remarks,planned_date_of_completion,contract_department,bank_funded,bank_name,type_of_review,notice_inviting_tender,tender_opening_date,technical_eval_submission,financial_eval_submission,contract_ifas_code)"
+							+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			stmt = con.prepareStatement(ContractQry);
 			int q = 1;
 		    int r =0;
@@ -476,6 +476,7 @@ public class ContractDaoImpl implements ContractDao {
 				
 			}				
 			
+			stmt.setString(q++,contract.getContract_ifas_code());
 			
 			count = stmt.executeUpdate();
 			
@@ -1194,7 +1195,7 @@ public class ContractDaoImpl implements ContractDao {
 									+ "FORMAT(final_takeover,'dd-MM-yyyy') AS final_takeover,FORMAT(final_bill_release,'dd-MM-yyyy') AS final_bill_release,FORMAT(defect_liability_period,'dd-MM-yyyy') AS defect_liability_period,cast(completed_cost as decimal(18,2)) as completed_cost,"
 									+ "FORMAT(retention_money_release,'dd-MM-yyyy') AS retention_money_release,FORMAT(pbg_release,'dd-MM-yyyy') AS pbg_release,contract_status_fk,bg_required,"
 									+ "insurance_required,u.designation as hod_designation,us.designation as dy_hod_designation,u.user_name as hod_name,us.user_name as dy_hod_name,FORMAT(target_doc,'dd-MM-yyyy') AS target_doc,"
-									+ "awarded_cost_units,estimated_cost_units,completed_cost_units,mu.unit,status,milestone_requried,revision_requried,contractors_key_requried,FORMAT(actual_date_of_commissioning,'dd-MM-yyyy') AS actual_date_of_commissioning,is_contract_closure_initiated,FORMAT(tender_opening_date,'dd-MM-yyyy') as tender_opening_date ,FORMAT(technical_eval_submission,'dd-MM-yyyy') as technical_eval_submission,FORMAT(financial_eval_submission,'dd-MM-yyyy') as financial_eval_submission ,FORMAT(notice_inviting_tender,'dd-MM-yyyy') AS contract_notice_inviting_tender,FORMAT(planned_date_of_award,'dd-MM-yyyy') AS planned_date_of_award,c.remarks,FORMAT(planned_date_of_completion,'dd-MM-yyyy') AS planned_date_of_completion,c.contract_department,c.bank_funded,c.bank_name,c.type_of_review " + 
+									+ "awarded_cost_units,contract_ifas_code,estimated_cost_units,completed_cost_units,mu.unit,status,milestone_requried,revision_requried,contractors_key_requried,FORMAT(actual_date_of_commissioning,'dd-MM-yyyy') AS actual_date_of_commissioning,is_contract_closure_initiated,FORMAT(tender_opening_date,'dd-MM-yyyy') as tender_opening_date ,FORMAT(technical_eval_submission,'dd-MM-yyyy') as technical_eval_submission,FORMAT(financial_eval_submission,'dd-MM-yyyy') as financial_eval_submission ,FORMAT(notice_inviting_tender,'dd-MM-yyyy') AS contract_notice_inviting_tender,FORMAT(planned_date_of_award,'dd-MM-yyyy') AS planned_date_of_award,c.remarks,FORMAT(planned_date_of_completion,'dd-MM-yyyy') AS planned_date_of_completion,c.contract_department,c.bank_funded,c.bank_name,c.type_of_review " + 
 									"from contract c " + 
 									"left join work w on c.work_id_fk = w.work_id  " + 
 									"left join contractor cr on c.contractor_id_fk = cr.contractor_id " + 
@@ -1260,6 +1261,7 @@ public class ContractDaoImpl implements ContractDao {
 				contract.setInsurance_required(resultSet.getString("insurance_required"));
 				contract.setTarget_doc(resultSet.getString("target_doc"));
 				contract.setAwarded_cost_units(resultSet.getString("awarded_cost_units"));
+				contract.setContract_ifas_code(resultSet.getString("contract_ifas_code"));
 				contract.setEstimated_cost_units(resultSet.getString("estimated_cost_units"));
 				contract.setCompleted_cost_units(resultSet.getString("completed_cost_units"));
 				contract.setUnit(resultSet.getString("unit"));
@@ -1723,7 +1725,7 @@ public class ContractDaoImpl implements ContractDao {
 								+",actual_completion_date = ?,completed_cost = ? ,date_of_start = ?," + 
 								"estimated_cost = ?,contract_closure_date = ?,completion_certificate_release = ?,final_takeover = ?,final_bill_release = ?,defect_liability_period = ?," + 
 								"retention_money_release = ?,pbg_release = ?,contract_status_fk = ?,bg_required = ?,insurance_required = ?,target_doc = ?,estimated_cost_units = ?,"
-								+ "awarded_cost_units = ?,completed_cost_units = ?,status = ?,milestone_requried = ?,revision_requried = ?,contractors_key_requried = ?,actual_date_of_commissioning = ?,is_contract_closure_initiated = ?,planned_date_of_award = ?,remarks = ?,modified_by=?,modified_date=CURRENT_TIMESTAMP,planned_date_of_completion = ?,notice_inviting_tender=?,tender_opening_date=?,technical_eval_submission=?,financial_eval_submission=? "
+								+ "awarded_cost_units = ?,contract_ifas_code=?,completed_cost_units = ?,status = ?,milestone_requried = ?,revision_requried = ?,contractors_key_requried = ?,actual_date_of_commissioning = ?,is_contract_closure_initiated = ?,planned_date_of_award = ?,remarks = ?,modified_by=?,modified_date=CURRENT_TIMESTAMP,planned_date_of_completion = ?,notice_inviting_tender=?,tender_opening_date=?,technical_eval_submission=?,financial_eval_submission=? "
 								+ "where contract_id = ?";
 				stmt = con.prepareStatement(contractUpdate_Qry);
 				int p = 1;
@@ -1760,6 +1762,8 @@ public class ContractDaoImpl implements ContractDao {
 				stmt.setString(p++,contract.getTarget_doc());
 				stmt.setString(p++,contract.getEstimated_cost_units()); 
 				stmt.setString(p++,contract.getAwarded_cost_units());
+				stmt.setString(p++,contract.getContract_ifas_code());
+				
 				stmt.setString(p++,contract.getCompleted_cost_units());
 				stmt.setString(p++,contract.getContract_status());
 				stmt.setString(p++,contract.getMilestone_requried());

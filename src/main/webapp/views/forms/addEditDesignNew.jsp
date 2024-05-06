@@ -553,7 +553,7 @@
 		                             <span id="contractor_drawing_noError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m3 input-field" id="hideResponsive1">
-                                     <input id="mrvc_drawing_no" maxlength="100" data-length="100" name="mrvc_drawing_no" type="text" class="validate num w70 pdr4em" value="${designDetails.mrvc_drawing_no }">
+                                     <input id="mrvc_drawing_no" maxlength="200" data-length="200" name="mrvc_drawing_no" type="text" class="validate num w70 pdr4em" value="${designDetails.mrvc_drawing_no }">
                                      <label for="mrvc_drawing_no">MRVC Drawing No </label>
                                      <span id="mrvc_drawing_noError" class="error-msg" ></span>
                                 </div>
@@ -784,7 +784,7 @@
 		                                                        placeholder="Revision" value="${revObj.revision }" readonly>                                                        
 		                                                </td>
 		                                                <td data-head="Revision" class="input-field">
-		                                                    <input id="drawing_no${index.count }" maxlength="25" data-length="25" name="drawing_nos" type="text" class="validate"
+		                                                    <input id="drawing_no${index.count }" maxlength="200" data-length="200" name="drawing_nos" type="text" class="validate"
 		                                                        placeholder="drawing no" value="${revObj.drawing_no }" >                                                        
 		                                                </td>
 		                                                <td data-head="Revision" class="input-field">
@@ -852,7 +852,7 @@
 	                                                        placeholder="Revision" value="R1">                                                        
 	                                                </td>
 	                                                <td data-head="Revision Date" class="input-field">
-	                                                    <input id="drawing_no0" name="drawing_nos" type="text">
+	                                                    <input id="drawing_no0" name="drawing_nos" type="text" maxlength="200" data-length="200">
 	                                                </td>
 	                                               
 	                                                <td data-head="Revision Status" class="input-field">
@@ -2009,7 +2009,7 @@
 		      
 		      var html ='<tr id="revisionRow'+rNo+'" class="revision-rows"> '
 				      +'<td data-head="Revision No." class="input-field"> <input id="revisions'+rNo+'" maxlength="25" data-length="25" name="revisions" type="text" value="R'+ rowLr + '" class="validate num w70 pdr4em" placeholder="Revision" readonly></td>'
-				      +'<td data-head="Drawing No." class="input-field"><input id="drawing_no'+rNo+'" name="drawing_nos" type="text" </td>'
+				      +'<td data-head="Drawing No." class="input-field"><input id="drawing_no'+rNo+'" name="drawing_nos" type="text" maxlength="200" data-length="200"></td>'
 				      +'<td data-head="Correspondence Letter No." class="input-field"><input id="correspondence_letter_no'+rNo+'" name="correspondence_letter_nos" type="text"></td>'
 				      +'<td data-head="Revision Date" class="input-field"><input id="revision_date'+rNo+'" name="revision_dates" type="text" class="validate datepicker" placeholder="Revision Date"><button type="button" id="revision_date'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button> </td>'
 				     // +'<td data-head="MRVC Reviewed" class="input-field"><input id="mrvc_revieweds'+rNo+'" name="mrvc_revieweds" type="text" class="validate datepicker" placeholder="MRVC Reviewed"><button type="button" id="mrvc_revieweds'+rNo+'_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button></td>'

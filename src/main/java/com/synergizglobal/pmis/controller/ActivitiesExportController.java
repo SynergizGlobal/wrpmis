@@ -668,6 +668,8 @@ public class ActivitiesExportController {
 	        String currentDate = sqlDate.format(date);
 
 	        List<StripChart> stationList = service.generateStationImprovementsReport(obj);
+	        
+	        List<StripChart> divisionlist = service.getStationImprovementDivisionList(obj);
 
 
 	        boolean landscape = false;
@@ -692,7 +694,7 @@ public class ActivitiesExportController {
 	        createFooterReference(wordMLPackage, mp, factory, relationship);
 
 	        // Create table for Station Improvements Report
-	        DocxTableCreationForContractReport.createTableForStationImprovementsReport(wordMLPackage, mp, factory, stationList, report_created_date);
+	        DocxTableCreationForContractReport.createTableForStationImprovementsReport(wordMLPackage, mp, factory, stationList, report_created_date,divisionlist);
 	        
 	        try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {    
 	            wordMLPackage.save(bos);

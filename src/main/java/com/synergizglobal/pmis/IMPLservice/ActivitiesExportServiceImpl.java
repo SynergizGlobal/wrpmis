@@ -62,4 +62,8 @@ public class ActivitiesExportServiceImpl implements ActivitiesExportService{
 	public List<StripChart> generateStationImprovementsReport(StripChart obj) throws Exception {
 		return dao.generateStationImprovementsReport(obj);
 	}
+	@Override
+	public List<StripChart> getStationImprovementDivisionList(StripChart obj) throws Exception {
+		return dao.getStationImprovementDivisionList(obj);
+	}
 }

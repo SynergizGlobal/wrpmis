@@ -5849,7 +5849,7 @@ public class DocxTableCreationForContractReport {
 		
 	}
 	public static void createTableForStationImprovementsReport(WordprocessingMLPackage wordMLPackage,
-			MainDocumentPart mp, ObjectFactory factory, List<StripChart> stationList, String report_created_date) {
+			MainDocumentPart mp, ObjectFactory factory, List<StripChart> stationList, String report_created_date,List<StripChart> divisionData) {
 		
 		try {
 	        RPr boldRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA, true, false, false, false);
@@ -5858,6 +5858,14 @@ public class DocxTableCreationForContractReport {
 	        // Create the table
 	        Tbl table = factory.createTbl();
 	        addBorders(table, "2");
+	        
+			RPr garamondRPr = getRPr(factory, "Garamond", "000000", "22", STHint.EAST_ASIA,
+					false, false, false, false);
+			
+			RPr garamondBoldRPr = getRPr(factory, "Garamond", "000000", "20", STHint.EAST_ASIA,
+					true, false, false, false);
+			
+			RPr boldRPr1 = getRPr(factory, "Calibri", "000000", "24", STHint.EAST_ASIA, true, false, false, false);			
 
 	        // Create table headers
 	        Tr headerRow = factory.createTr();
@@ -5883,9 +5891,122 @@ public class DocxTableCreationForContractReport {
 
 	            table.getContent().add(row);
 	        }
+	        
+	        int columnNo = 1;
+			Tbl table2 = factory.createTbl();
+			addBorders(table2, "2");	        
+			/************************************************************************/
+			Tr titleRow1 = factory.createTr();
+			List<String> tableHeader1 = new ArrayList<String>();
+			tableHeader1.add("S. No.");
+			tableHeader1.add("Railway");
+			tableHeader1.add("Work Scope");
+			tableHeader1.add("Completed");
+			tableHeader1.add("Balance");
+			tableHeader1.add("WIP");
+			int columnNo1 = 1;
+			for (String headerValue : tableHeader1) {
+				int width = 0;
+				if(1 == columnNo1) {
+					width = 200;
+				}else if(2 == columnNo1) {
+					width = 1000;
+				}else if(3 == columnNo1) {
+					width = 500;
+				}else if(4 == columnNo1) {
+					width = 500;
+				}else if(5 == columnNo1) {
+					width = 500;
+				}else if(6 == columnNo1) {
+					width = 500;
+				}
+				columnNo++;
+				addTableCellAndWidth(factory, wordMLPackage, titleRow1, headerValue, garamondBoldRPr, JcEnumeration.CENTER, true,
+						"ecf2ff",width);
+			}
+			table2.getContent().add(titleRow1);
+			
+			
+			/*******************************************************************************/				
 
-	        // Add the table to the document
-	        mp.addObject(table);
+
+			int sNo1 = 1;
+			int a1=0;
+			int a2=0;
+			int a3=0;
+			int a4=0;
+			for (StripChart cObj1 : divisionData) 
+			{
+				boolean hasBgColor = false;
+				String backgroundColor = null;
+				Tr contentRow = factory.createTr();
+				
+				addTableCell(factory, wordMLPackage, contentRow, String.valueOf(sNo1), garamondRPr, JcEnumeration.CENTER,
+						hasBgColor, backgroundColor);					
+				
+				addTableCell(factory, wordMLPackage, contentRow, cObj1.getDivision(), garamondRPr, JcEnumeration.CENTER,
+						hasBgColor, backgroundColor);
+				
+				addTableCell(factory, wordMLPackage, contentRow,cObj1.getWorkScope(),
+						garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);	
+				
+				addTableCell(factory, wordMLPackage, contentRow,cObj1.getCompleted(),
+						garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+				
+				addTableCell(factory, wordMLPackage, contentRow,cObj1.getBalance(),
+						garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+				
+				addTableCell(factory, wordMLPackage, contentRow,cObj1.getWip(),
+						garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);						
+				
+			
+				table2.getContent().add(contentRow);
+				a1=a1+Integer.parseInt(cObj1.getWorkScope());
+				a2=a2+Integer.parseInt(cObj1.getCompleted());
+				a3=a3+Integer.parseInt(cObj1.getBalance());
+				a4=a4+Integer.parseInt(cObj1.getWip());
+				
+				sNo1++;
+			}
+			Tr contentRow1 = factory.createTr();
+			boolean hasBgColor = false;
+			
+			String backgroundColor = null;				
+			
+			addTableCell(factory, wordMLPackage, contentRow1, "Total", garamondRPr, JcEnumeration.CENTER,
+					hasBgColor, backgroundColor);					
+			
+			addTableCell(factory, wordMLPackage, contentRow1, "", garamondRPr, JcEnumeration.CENTER,
+					hasBgColor, backgroundColor);
+			
+			addTableCell(factory, wordMLPackage, contentRow1,String.valueOf(a1),
+					garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);	
+			
+			addTableCell(factory, wordMLPackage, contentRow1,String.valueOf(a2),
+					garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+			
+			addTableCell(factory, wordMLPackage, contentRow1,String.valueOf(a3),
+					garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);
+			
+			addTableCell(factory, wordMLPackage, contentRow1,String.valueOf(a4),
+					garamondRPr, JcEnumeration.CENTER, hasBgColor, backgroundColor);					
+			
+			table2.getContent().add(contentRow1);
+			
+			setTableAlign(factory, table2, JcEnumeration.CENTER);		
+			
+			mergeCellsHorizontal(table2, sNo1, 0, 1);
+			
+			
+			
+			addPageBreak(mp);
+			addHeading(wordMLPackage, mp, factory, JcEnumeration.LEFT, boldRPr1, "Railway-wise Summary:");				
+			
+			
+			mp.addObject(table2);					        
+	        
+
+	       
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }

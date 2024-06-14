@@ -493,15 +493,14 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 	    List<StripChart> objsList = null;
 	    try {
 	        String qry = "SELECT  " + 
-	        		" " + 
 	        		"	CASE " + 
-	        		"      WHEN c.contract_short_name LIKE '% CR %' THEN 'CR' " + 
-	        		"      WHEN c.contract_short_name LIKE '% WR %' THEN 'WR' " + 
-	        		"      WHEN c.contract_short_name LIKE '% HBR %' THEN 'HBR' " + 
+	        		"      WHEN c.contract_short_name LIKE '%(CR)%' THEN 'CR' " + 
+	        		"      WHEN c.contract_short_name LIKE '%(WR)%' THEN 'WR' " + 
+	        		"      WHEN c.contract_short_name LIKE '%(HBR)%' THEN 'HBR' " + 
 	        		"      ELSE c.contract_short_name " + 
 	        		"     END AS contract_short_name, " + 
 	        		"    a.structure_type AS structure, " + 
-	        		"	round(cast((isnull(SUM((completed * weightage)*100 / scope) / SUM(weightage),0)) as decimal(10,2)),2) as progress, " + 
+	        		"	round(cast((isnull(SUM((completed * weightage)*100 / scope) / SUM(weightage),0)) as decimal(10,2)),2) progress, " + 
 	        		"    CASE  " + 
 	        		"        WHEN SUM(a.completed * a.weightage) * 100.0 / NULLIF(SUM(a.scope * a.weightage), 0) = 100 THEN 'Completed' " + 
 	        		"        WHEN SUM(a.completed * a.weightage) * 100.0 / NULLIF(SUM(a.scope * a.weightage), 0) > 0 THEN 'In Progress' " + 
@@ -516,23 +515,27 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 	        		"FROM  " + 
 	        		"    activities_view a " + 
 	        		"LEFT JOIN  " + 
-	        		"    contract c ON c.work_id_fk = a.work_id " + 
+	        		"    contract c ON c.contract_id = a.contract_id  " + 
 	        		"WHERE  " + 
 	        		"    a.work_id = 'P05W06' and a.contract_id like '%P05W06EN%' " + 
-	        		"    AND (c.contract_short_name LIKE '% CR %'  " + 
-	        		"         OR c.contract_short_name LIKE '% WR %'  " + 
-	        		"         OR c.contract_short_name LIKE '% HBR %')  and a.contract_id in('P05W06EN03','P05W06EN05','P05W06EN10','P05W06EN02','P05W06EN07','P05W06EN08','P05W06EN09') " + 
+	        		"    AND (c.contract_short_name LIKE '%(CR)%'  " + 
+	        		"         OR c.contract_short_name LIKE '%(WR)%'  " + 
+	        		"         OR c.contract_short_name LIKE '%(HBR)%')  and a.contract_id in('P05W06EN03','P05W06EN05','P05W06EN10','P05W06EN02','P05W06EN07','P05W06EN08','P05W06EN09') " + 
 	        		"GROUP BY  " + 
 	        		"    CASE " + 
-	        		"        WHEN c.contract_short_name LIKE '% CR %' THEN 'CR' " + 
-	        		"        WHEN c.contract_short_name LIKE '% WR %' THEN 'WR' " + 
-	        		"        WHEN c.contract_short_name LIKE '% HBR %' THEN 'HBR' " + 
+	        		"        WHEN c.contract_short_name LIKE '%(CR)%' THEN 'CR' " + 
+	        		"        WHEN c.contract_short_name LIKE '%(WR)%' THEN 'WR' " + 
+	        		"        WHEN c.contract_short_name LIKE '%(HBR)%' THEN 'HBR' " + 
 	        		"        ELSE c.contract_short_name " + 
 	        		"    END, " + 
 	        		"    a.structure_type " + 
 	        		"ORDER BY  " + 
-	        		"    contract_short_name,  " + 
-	        		"    status";
+	        		"    CASE " + 
+	        		"      WHEN c.contract_short_name LIKE '%(CR)%' THEN 'CR' " + 
+	        		"      WHEN c.contract_short_name LIKE '%(WR)%' THEN 'WR' " + 
+	        		"      WHEN c.contract_short_name LIKE '%(HBR)%' THEN 'HBR' " + 
+	        		"      ELSE c.contract_short_name " + 
+	        		"     END,status";
 
 	        objsList = jdbcTemplate.query(qry, new BeanPropertyRowMapper<>(StripChart.class));
 
@@ -540,6 +543,65 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 	        throw new Exception(e);
 	    }
 	    return objsList;
+	}
+
+	@Override
+	public List<StripChart> getStationImprovementDivisionList(StripChart obj) throws Exception {
+		List<StripChart> objsList = null;
+		try {
+			String qry = "SELECT  " + 
+					"    CASE  " + 
+					"        WHEN Division = '(CR)' THEN 'Station-CR' " + 
+					"        WHEN Division = '(HBR)' THEN 'Station-HBR' " + 
+					"        WHEN Division = '(WR)' THEN 'Station-WR' " + 
+					"        ELSE Division " + 
+					"    END AS 'Division', " + 
+					"    SUM(StructureCount) AS 'WorkScope', " + 
+					"    SUM(CompletedCount) AS Completed, " + 
+					"    SUM(StructureCount) - SUM(CompletedCount) AS 'Balance', " + 
+					"    SUM(wip) AS wip  " + 
+					"FROM ( " + 
+					"    SELECT   " + 
+					"        contract_short_name AS 'Division',      " + 
+					"        COUNT(structure) AS StructureCount, " + 
+					"        CASE WHEN Status = 'Completed' THEN COUNT(Status) ELSE 0 END AS 'CompletedCount', " + 
+					"        CASE WHEN Status = 'In Progress' THEN COUNT(Status) ELSE 0 END AS wip      " + 
+					"    FROM (      " + 
+					"        SELECT  " + 
+					"            substring(c.contract_short_name, CHARINDEX('(', c.contract_short_name), CHARINDEX(')', c.contract_short_name) - CHARINDEX('(', c.contract_short_name) + 1) AS contract_short_name, " + 
+					"            structure, " + 
+					"            round(cast((isnull(SUM((completed * weightage) * 100 / scope) / SUM(weightage), 0)) AS decimal(10, 2)), 2) AS progress,       " + 
+					"            CASE  " + 
+					"                WHEN SUM((completed * weightage) * 100 / scope) / SUM(weightage) = 100 THEN 'Completed'  " + 
+					"                WHEN SUM((completed * weightage) * 100 / scope) / SUM(weightage) < 100 AND SUM((completed * weightage) * 100 / scope) / SUM(weightage) * 100 > 0 THEN 'In Progress'  " + 
+					"                ELSE 'Not Started'  " + 
+					"            END AS Status,        " + 
+					"            CASE  " + 
+					"                WHEN SUM((completed * weightage) * 100 / scope) / SUM(weightage) = 100 THEN MAX(actual_finish)  " + 
+					"                ELSE MAX(expected_finish)  " + 
+					"            END AS progress_date   " + 
+					"        FROM activities_view a        " + 
+					"        LEFT JOIN contract c ON c.contract_id = a.contract_id       " + 
+					"        WHERE a.contract_id LIKE 'P05W06EN%'  " + 
+					"          AND structure NOT IN ('Badlapur (Deck)', 'Khar Road (New FOB)')  " + 
+					"        GROUP BY c.contract_short_name, structure " + 
+					"    ) AS a      " + 
+					"    GROUP BY contract_short_name, Status " + 
+					") AS b      " + 
+					"GROUP BY  " + 
+					"    CASE  " + 
+					"        WHEN Division = '(CR)' THEN 'Station-CR' " + 
+					"        WHEN Division = '(HBR)' THEN 'Station-HBR' " + 
+					"        WHEN Division = '(WR)' THEN 'Station-WR' " + 
+					"        ELSE Division " + 
+					"    END";
+			
+			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<StripChart>(StripChart.class));
+			
+		}catch(Exception e){ 
+			throw new Exception(e);
+		}
+		return objsList;
 	}	
 	
 	

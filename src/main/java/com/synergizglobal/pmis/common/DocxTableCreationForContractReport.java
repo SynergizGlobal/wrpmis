@@ -5892,6 +5892,8 @@ public class DocxTableCreationForContractReport {
 	            table.getContent().add(row);
 	        }
 	        
+	        mp.addObject(table);
+	        
 	        int columnNo = 1;
 			Tbl table2 = factory.createTbl();
 			addBorders(table2, "2");	        
@@ -6005,8 +6007,7 @@ public class DocxTableCreationForContractReport {
 			
 			mp.addObject(table2);					        
 	        
-
-	       
+	        
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }

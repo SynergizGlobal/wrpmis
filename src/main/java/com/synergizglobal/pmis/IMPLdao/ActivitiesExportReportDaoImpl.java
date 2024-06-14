@@ -501,8 +501,7 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 	        		"      ELSE c.contract_short_name " + 
 	        		"     END AS contract_short_name, " + 
 	        		"    a.structure_type AS structure, " + 
-	        		"	round(cast((isnull(SUM((completed * weightage)*100 / scope) / SUM(weightage),0)) as decimal(10,2)),2) progress, " + 
-	        		"    --CAST(ROUND(CAST(ISNULL(SUM(a.completed  a.weightage)  100.0 / NULLIF(SUM(a.scope * a.weightage), 0), 0) AS DECIMAL(10, 2)), 0) AS INT) AS progress, " + 
+	        		"	round(cast((isnull(SUM((completed * weightage)*100 / scope) / SUM(weightage),0)) as decimal(10,2)),2) as progress, " + 
 	        		"    CASE  " + 
 	        		"        WHEN SUM(a.completed * a.weightage) * 100.0 / NULLIF(SUM(a.scope * a.weightage), 0) = 100 THEN 'Completed' " + 
 	        		"        WHEN SUM(a.completed * a.weightage) * 100.0 / NULLIF(SUM(a.scope * a.weightage), 0) > 0 THEN 'In Progress' " + 

@@ -493,14 +493,16 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 	    List<StripChart> objsList = null;
 	    try {
 	        String qry = "SELECT  " + 
-	        		"    CASE " + 
-	        		"        WHEN c.contract_short_name LIKE '% CR %' THEN 'CR' " + 
-	        		"        WHEN c.contract_short_name LIKE '% WR %' THEN 'WR' " + 
-	        		"        WHEN c.contract_short_name LIKE '% HBR %' THEN 'HBR' " + 
-	        		"        ELSE c.contract_short_name " + 
-	        		"    END AS contract_short_name, " + 
-	        		"    s.structure_type_fk AS structure, " + 
-	        		"    CAST(ROUND(CAST(ISNULL(SUM(a.completed * a.weightage) * 100.0 / NULLIF(SUM(a.scope * a.weightage), 0), 0) AS DECIMAL(10, 2)), 0) AS INT) AS progress, " + 
+	        		" " + 
+	        		"	CASE " + 
+	        		"      WHEN c.contract_short_name LIKE '% CR %' THEN 'CR' " + 
+	        		"      WHEN c.contract_short_name LIKE '% WR %' THEN 'WR' " + 
+	        		"      WHEN c.contract_short_name LIKE '% HBR %' THEN 'HBR' " + 
+	        		"      ELSE c.contract_short_name " + 
+	        		"     END AS contract_short_name, " + 
+	        		"    a.structure_type AS structure, " + 
+	        		"	round(cast((isnull(SUM((completed * weightage)*100 / scope) / SUM(weightage),0)) as decimal(10,2)),2) progress, " + 
+	        		"    --CAST(ROUND(CAST(ISNULL(SUM(a.completed  a.weightage)  100.0 / NULLIF(SUM(a.scope * a.weightage), 0), 0) AS DECIMAL(10, 2)), 0) AS INT) AS progress, " + 
 	        		"    CASE  " + 
 	        		"        WHEN SUM(a.completed * a.weightage) * 100.0 / NULLIF(SUM(a.scope * a.weightage), 0) = 100 THEN 'Completed' " + 
 	        		"        WHEN SUM(a.completed * a.weightage) * 100.0 / NULLIF(SUM(a.scope * a.weightage), 0) > 0 THEN 'In Progress' " + 
@@ -516,13 +518,11 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 	        		"    activities_view a " + 
 	        		"LEFT JOIN  " + 
 	        		"    contract c ON c.work_id_fk = a.work_id " + 
-	        		"LEFT JOIN  " + 
-	        		"    structure s ON s.work_id_fk = a.work_id " + 
 	        		"WHERE  " + 
-	        		"    a.work_id = 'P05W06' " + 
+	        		"    a.work_id = 'P05W06' and a.contract_id like '%P05W06EN%' " + 
 	        		"    AND (c.contract_short_name LIKE '% CR %'  " + 
 	        		"         OR c.contract_short_name LIKE '% WR %'  " + 
-	        		"         OR c.contract_short_name LIKE '% HBR %') " + 
+	        		"         OR c.contract_short_name LIKE '% HBR %')  and a.contract_id in('P05W06EN03','P05W06EN05','P05W06EN10','P05W06EN02','P05W06EN07','P05W06EN08','P05W06EN09') " + 
 	        		"GROUP BY  " + 
 	        		"    CASE " + 
 	        		"        WHEN c.contract_short_name LIKE '% CR %' THEN 'CR' " + 
@@ -530,7 +530,7 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 	        		"        WHEN c.contract_short_name LIKE '% HBR %' THEN 'HBR' " + 
 	        		"        ELSE c.contract_short_name " + 
 	        		"    END, " + 
-	        		"    s.structure_type_fk " + 
+	        		"    a.structure_type " + 
 	        		"ORDER BY  " + 
 	        		"    contract_short_name,  " + 
 	        		"    status";

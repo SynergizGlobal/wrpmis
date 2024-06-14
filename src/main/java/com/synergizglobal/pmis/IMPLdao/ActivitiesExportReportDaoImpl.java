@@ -569,7 +569,7 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 					"    FROM (      " + 
 					"        SELECT  " + 
 					"            substring(c.contract_short_name, CHARINDEX('(', c.contract_short_name), CHARINDEX(')', c.contract_short_name) - CHARINDEX('(', c.contract_short_name) + 1) AS contract_short_name, " + 
-					"            structure, " + 
+					"           structure_type as structure, " + 
 					"            round(cast((isnull(SUM((completed * weightage) * 100 / scope) / SUM(weightage), 0)) AS decimal(10, 2)), 2) AS progress,       " + 
 					"            CASE  " + 
 					"                WHEN SUM((completed * weightage) * 100 / scope) / SUM(weightage) = 100 THEN 'Completed'  " + 
@@ -584,7 +584,7 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 					"        LEFT JOIN contract c ON c.contract_id = a.contract_id       " + 
 					"        WHERE a.contract_id LIKE 'P05W06EN%'  " + 
 					"          AND structure NOT IN ('Badlapur (Deck)', 'Khar Road (New FOB)')  " + 
-					"        GROUP BY c.contract_short_name, structure " + 
+					"        GROUP BY c.contract_short_name, structure_type " + 
 					"    ) AS a      " + 
 					"    GROUP BY contract_short_name, Status " + 
 					") AS b      " + 

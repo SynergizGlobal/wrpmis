@@ -5848,4 +5848,46 @@ public class DocxTableCreationForContractReport {
 		}
 		
 	}
+	public static void createTableForStationImprovementsReport(WordprocessingMLPackage wordMLPackage,
+			MainDocumentPart mp, ObjectFactory factory, List<StripChart> stationList, String report_created_date) {
+		
+		try {
+	        RPr boldRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA, true, false, false, false);
+	        RPr regularRPr = getRPr(factory, "Calibri", "000000", "20", STHint.EAST_ASIA, false, false, false, false);
+
+	        // Create the table
+	        Tbl table = factory.createTbl();
+	        addBorders(table, "2");
+
+	        // Create table headers
+	        Tr headerRow = factory.createTr();
+	        List<String> headers = Arrays.asList("S. No.", "Railway", "Station", "% Progress", "Status", "TDC/DOC");
+	        List<Integer> widths = Arrays.asList(500, 1000, 2000, 1000, 1000, 1000);
+
+	        for (int i = 0; i < headers.size(); i++) {
+	            addTableCellAndWidth(factory, wordMLPackage, headerRow, headers.get(i), boldRPr, JcEnumeration.CENTER, true, "ecf2ff", widths.get(i));
+	        }
+	        table.getContent().add(headerRow);
+
+	        // Fill table rows with station data
+	        int index = 1;
+	        for (StripChart station : stationList) {
+	            Tr row = factory.createTr();
+
+	            addTableCell(factory, wordMLPackage, row, String.valueOf(index++), regularRPr, JcEnumeration.CENTER, false, "ffffff");
+	            addTableCell(factory, wordMLPackage, row, station.getContract_short_name(), regularRPr, JcEnumeration.CENTER, false, "ffffff");
+	            addTableCell(factory, wordMLPackage, row, station.getStructure(), regularRPr, JcEnumeration.CENTER, false, "ffffff");
+	            addTableCell(factory, wordMLPackage, row, station.getProgress(), regularRPr, JcEnumeration.CENTER, false, "ffffff");
+	            addTableCell(factory, wordMLPackage, row, station.getStatus(), regularRPr, JcEnumeration.CENTER, false, "ffffff");
+	            addTableCell(factory, wordMLPackage, row, station.getProgress_date(), regularRPr, JcEnumeration.CENTER, false, "ffffff");
+
+	            table.getContent().add(row);
+	        }
+
+	        // Add the table to the document
+	        mp.addObject(table);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	}
 }

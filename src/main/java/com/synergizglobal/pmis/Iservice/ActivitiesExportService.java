@@ -28,4 +28,5 @@ public interface ActivitiesExportService {
 
 	List<StripChart> getWorksListForSelectedProject(StripChart obj) throws Exception;
 
+	List<StripChart> generateStationImprovementsReport(StripChart obj) throws Exception;
 }

@@ -27,5 +27,5 @@ public interface ActivitiesExportReportDao {
 	List<StripChart> generateTPCStructureCumList(StripChart obj) throws Exception;
 
 	List<StripChart> getWorksListForSelectedProject(StripChart obj) throws Exception;
-
+	List<StripChart> generateStationImprovementsReport(StripChart obj) throws Exception;
 }

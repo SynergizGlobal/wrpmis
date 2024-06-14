@@ -487,7 +487,50 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 		return objsList;
 	}
 	
-	
+
+	@Override
+	public List<StripChart> generateStationImprovementsReport(StripChart obj) throws Exception {
+	    List<StripChart> objsList = null;
+	    try {
+	    	obj.setWork_id("P05W06");
+	        String qry = "SELECT " +
+	                     "    c.contract_short_name, " +
+	                     "    s.structure_type_fk AS structure, " +
+	                     "    CAST(ROUND(CAST(ISNULL(SUM(a.completed * a.weightage) * 100.0 / NULLIF(SUM(a.scope * a.weightage), 0), 0) AS DECIMAL(10, 2)), 0) AS INT) AS progress, " +
+	                     "    CASE " +
+	                     "        WHEN SUM(a.completed * a.weightage) * 100.0 / NULLIF(SUM(a.scope * a.weightage), 0) = 100 THEN 'Completed' " +
+	                     "        WHEN SUM(a.completed * a.weightage) * 100.0 / NULLIF(SUM(a.scope * a.weightage), 0) > 0 THEN 'In Progress' " +
+	                     "        ELSE 'Not Started' " +
+	                     "    END AS status, " +
+	                     "    FORMAT( " +
+	                     "        CASE " +
+	                     "            WHEN SUM(a.completed * a.weightage) * 100.0 / NULLIF(SUM(a.scope * a.weightage), 0) = 100 THEN MAX(a.actual_finish) " +
+	                     "            ELSE MAX(a.expected_finish) " +
+	                     "        END, 'dd-MM-yyyy' " +
+	                     "    ) AS progress_date " +
+	                     "FROM " +
+	                     "    activities_view a " +
+	                     "LEFT JOIN " +
+	                     "    contract c ON c.work_id_fk = a.work_id " +
+	                     "LEFT JOIN " +
+	                     "    structure s ON s.work_id_fk = a.work_id " +
+	                     "WHERE " +
+	                     "    a.work_id = ? " +
+	                     "    AND (c.contract_short_name LIKE '% CR %' OR c.contract_short_name LIKE '% WR %' OR c.contract_short_name LIKE '% HBR %') " +
+	                     "GROUP BY " +
+	                     "    c.contract_short_name, " +
+	                     "    s.structure_type_fk " +
+	                     "ORDER BY " +
+	                     "    c.contract_short_name, " +
+	                     "    status";
+
+	        objsList = jdbcTemplate.query(qry, new Object[]{obj.getWork_id()}, new BeanPropertyRowMapper<>(StripChart.class));
+
+	    } catch (Exception e) {
+	        throw new Exception(e);
+	    }
+	    return objsList;
+	}	
 	
 	
 }

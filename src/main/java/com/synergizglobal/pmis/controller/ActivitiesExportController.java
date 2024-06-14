@@ -654,6 +654,67 @@ public class ActivitiesExportController {
 		footerReference.setId(relationship.getId());
 		footerReference.setType(HdrFtrRef.DEFAULT);
 		sectPr.getEGHdrFtrReferences().add(footerReference);
+	}
+	
+	
+	@RequestMapping(value = "/station-improvements-report", method = {RequestMethod.GET,RequestMethod.POST})
+	public void stationImprovementsReport(HttpServletResponse response, StripChart obj, HttpSession session, RedirectAttributes attributes) {
+	    
+	    ModelAndView model = new ModelAndView("redirect:/station-improvements-report");
+	    byte[] byteArray;        
+	    try {
+	        SimpleDateFormat sqlDate = new SimpleDateFormat("yyyy-MM-dd");
+	        Date date = new Date();
+	        String currentDate = sqlDate.format(date);
+
+	        List<StripChart> stationList = service.generateStationImprovementsReport(obj);
+
+
+	        boolean landscape = false;
+	        WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.createPackage(PageSizePaper.A4, landscape);
+	        
+	        MainDocumentPart mp = wordMLPackage.getMainDocumentPart();
+	        ObjectFactory factory = Context.getWmlObjectFactory();
+	        
+	        DateFormat df = new SimpleDateFormat("dd-MM-YYYY hh:mm aa");
+	        String report_created_date = df.format(new Date()); 
+	        
+	        String imagePath = CommonConstants2.DOCX_LOGO + "/" + "report_logo.png";
+	        JcEnumeration imageAlignment = JcEnumeration.CENTER;
+	        
+	        String headerTextMiddle = "Station Improvements Progress Report";
+	        String headerTextRight = report_created_date;
+	        
+	        RPr titleRpr = getRPr(factory, "Calibri", "000000", "26", STHint.EAST_ASIA, true, false, false, false);
+	        Relationship relationship = createHeaderPart(wordMLPackage, mp, factory, imagePath, imageAlignment, headerTextMiddle, headerTextRight, titleRpr);
+	        createHeaderReference(wordMLPackage, mp, factory, relationship);
+	        relationship = createFooterPageNumPart(wordMLPackage, mp, factory);
+	        createFooterReference(wordMLPackage, mp, factory, relationship);
+
+	        // Create table for Station Improvements Report
+	        DocxTableCreationForContractReport.createTableForStationImprovementsReport(wordMLPackage, mp, factory, stationList, report_created_date);
+	        
+	        try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {    
+	            wordMLPackage.save(bos);
+	            byteArray = bos.toByteArray();
+	            InputStream targetStream = new ByteArrayInputStream(byteArray);
+	            String FILE_EXTENSION = ".docx";
+	            String fileName = "Station Improvements Progress Report-" + currentDate + FILE_EXTENSION;
+
+	            response.setContentType("application/msword");
+	            response.setContentType("application/vnd.ms-word");
+	            response.addHeader("Content-Disposition", "attachment; filename=" + fileName);
+	            IOUtils.copy(targetStream, response.getOutputStream());
+	            response.getOutputStream().flush();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            logger.error("stationImprovementsReport >> FileNotFoundException occurs.." + e.getMessage());
+	        }    
+	        
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        logger.error("stationImprovementsReport >> " + e.getMessage());
+	    }        
 	}	
 	
 	@RequestMapping(value = "/tpc-status-report", method = {RequestMethod.GET,RequestMethod.POST})

@@ -351,35 +351,35 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 	public List<StripChart> generateTPCStructureList(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "select structure,sum(CStructureCount) as 'CScope',sum(CCompletedCount) as CCompleted,sum(CStructureCount)-sum(CCompletedCount) as 'CBalance',sum(CWIP) as CWIP,\r\n" + 
-					"sum(WStructureCount) as 'WScope',sum(WCompletedCount) as 'WCompleted',sum(WStructureCount)-sum(WCompletedCount) as 'WBalance',sum(WWIP) as WWIP from(\r\n" + 
-					"select replace(replace(contract_short_name,'(',''),')','') as contract_short_name,replace(replace(structure,'(',''),')','') as structure,cprogress,wprogress,CStatus,WStatus,\r\n" + 
-					"\r\n" + 
-					"case when contract_short_name like '%CR%' and CStatus='Completed' then count(CStatus) else 0 end AS 'CCompletedCount',case when contract_short_name like '%CR%' and CStatus='In Progress' then count(CStatus) else 0 end AS 'CWIP', \r\n" + 
-					"case when contract_short_name like '%WR%' and WStatus='Completed' then count(WStatus) else 0 end AS 'WCompletedCount',case when contract_short_name like '%WR%' and WStatus='In Progress' then count(WStatus) else 0 end AS 'WWIP' \r\n" + 
-					",case when contract_short_name like '%CR%' THEN count(Cstructure) else 0 end as CStructureCount\r\n" + 
-					",case when contract_short_name like '%WR%' THEN count(Wstructure) else 0 end as WStructureCount\r\n" + 
-					"\r\n" + 
-					"\r\n" + 
-					"from(\r\n" + 
-					"\r\n" + 
-					"select  substring(c.contract_short_name,CHARINDEX('(',c.contract_short_name),CHARINDEX(')',c.contract_short_name)-CHARINDEX('(',c.contract_short_name)+1) as contract_short_name,substring(structure,LEN(structure) - CHARINDEX('(',REVERSE(structure)), LEN(structure) - CHARINDEX(')',REVERSE(structure)))   as structure,\r\n" + 
-					"\r\n" + 
-					"case when c.contract_short_name like '%CR%' then round(cast((isnull(SUM((completed * weightage)*100 / scope) / SUM(weightage),0)) as decimal(10,2)),2) else 0 end AS cprogress,\r\n" + 
-					"case when c.contract_short_name like '%WR%' then round(cast((isnull(SUM((completed * weightage)*100 / scope) / SUM(weightage),0)) as decimal(10,2)),2) else 0 end AS wprogress,\r\n" + 
-					"case when c.contract_short_name like '%CR%' and SUM((completed * weightage)*100 / scope) / SUM(weightage)=100 then 'Completed' when SUM((completed * weightage)*100 / scope) / SUM(weightage)<100 and SUM((completed * weightage)*100 / scope) / SUM(weightage)*100>0 then 'In Progress' else 'Not Started' end as CStatus,\r\n" + 
-					"case when c.contract_short_name like '%WR%' and SUM((completed * weightage)*100 / scope) / SUM(weightage)=100 then 'Completed' when SUM((completed * weightage)*100 / scope) / SUM(weightage)<100 and SUM((completed * weightage)*100 / scope) / SUM(weightage)*100>0 then 'In Progress' else 'Not Started' end as WStatus\r\n" + 
-					",case when c.contract_short_name like '%CR%' then count(structure) else 0 end as Cstructure\r\n" + 
-					",case when c.contract_short_name like '%WR%' then count(structure) else 0 end as Wstructure\r\n" + 
-					"\r\n" + 
-					"FROM activities_view a    \r\n" + 
-					"LEFT join contract c on c.contract_id=a.contract_id    \r\n" + 
-					"where a.contract_id like 'P04W04EN%' and structure not in('Badlapur (Deck)') and structure not in('Khar Road (New FOB)') \r\n" + 
-					"and substring(structure,CHARINDEX('(',structure),CHARINDEX(')',structure)-CHARINDEX('(',structure)+1)!=''  group by contract_short_name,structure) as m\r\n" + 
-					"\r\n" + 
-					"\r\n" + 
-					"group by m.contract_short_name,m.structure,m.cprogress,m.wprogress,m.CStatus,m.WStatus,M.Cstructure,M.Wstructure) AS l\r\n" + 
-					"\r\n" + 
+			String qry = "select structure,sum(CStructureCount) as 'CScope',sum(CCompletedCount) as CCompleted,sum(CStructureCount)-sum(CCompletedCount) as 'CBalance',sum(CWIP) as CWIP, " + 
+					"sum(WStructureCount) as 'WScope',sum(WCompletedCount) as 'WCompleted',sum(WStructureCount)-sum(WCompletedCount) as 'WBalance',sum(WWIP) as WWIP from( " + 
+					"select replace(replace(contract_short_name,'(',''),')','') as contract_short_name,replace(replace(structure,'(',''),')','') as structure,cprogress,wprogress,CStatus,WStatus, " + 
+					" " + 
+					"case when contract_short_name like '%CR%' and CStatus='Completed' then count(CStatus) else 0 end AS 'CCompletedCount',case when contract_short_name like '%CR%' and CStatus='In Progress' then count(CStatus) else 0 end AS 'CWIP',  " + 
+					"case when contract_short_name like '%WR%' and WStatus='Completed' then count(WStatus) else 0 end AS 'WCompletedCount',case when contract_short_name like '%WR%' and WStatus='In Progress' then count(WStatus) else 0 end AS 'WWIP'  " + 
+					",case when contract_short_name like '%CR%' THEN count(Cstructure) else 0 end as CStructureCount " + 
+					",case when contract_short_name like '%WR%' THEN count(Wstructure) else 0 end as WStructureCount " + 
+					" " + 
+					" " + 
+					"from( " + 
+					" " + 
+					"select  substring(c.contract_short_name,CHARINDEX('(',c.contract_short_name),CHARINDEX(')',c.contract_short_name)-CHARINDEX('(',c.contract_short_name)+1) as contract_short_name,substring(structure,LEN(structure) - CHARINDEX('(',REVERSE(structure)), LEN(structure) - CHARINDEX(')',REVERSE(structure)))   as structure, " + 
+					" " + 
+					"case when c.contract_short_name like '%CR%' then round(cast((isnull(SUM((completed * weightage)*100 / scope) / SUM(weightage),0)) as decimal(10,2)),2) else 0 end AS cprogress, " + 
+					"case when c.contract_short_name like '%WR%' then round(cast((isnull(SUM((completed * weightage)*100 / scope) / SUM(weightage),0)) as decimal(10,2)),2) else 0 end AS wprogress, " + 
+					"case when c.contract_short_name like '%CR%' and SUM((completed * weightage)*100 / scope) / SUM(weightage)=100 then 'Completed' when SUM((completed * weightage)*100 / scope) / SUM(weightage)<100 and SUM((completed * weightage)*100 / scope) / SUM(weightage)*100>0 then 'In Progress' else 'Not Started' end as CStatus, " + 
+					"case when c.contract_short_name like '%WR%' and SUM((completed * weightage)*100 / scope) / SUM(weightage)=100 then 'Completed' when SUM((completed * weightage)*100 / scope) / SUM(weightage)<100 and SUM((completed * weightage)*100 / scope) / SUM(weightage)*100>0 then 'In Progress' else 'Not Started' end as WStatus " + 
+					",case when c.contract_short_name like '%CR%' then count(structure) else 0 end as Cstructure " + 
+					",case when c.contract_short_name like '%WR%' then count(structure) else 0 end as Wstructure " + 
+					" " + 
+					"FROM activities_view a     " + 
+					"LEFT join contract c on c.contract_id=a.contract_id     " + 
+					"where a.contract_id like 'P04W04EN%' and structure not in('Badlapur (Deck)') and structure not in('Khar Road (New FOB)')  " + 
+					"and substring(structure,CHARINDEX('(',structure),CHARINDEX(')',structure)-CHARINDEX('(',structure)+1)!=''  group by contract_short_name,structure) as m " + 
+					" " + 
+					" " + 
+					"group by m.contract_short_name,m.structure,m.cprogress,m.wprogress,m.CStatus,m.WStatus,M.Cstructure,M.Wstructure) AS l " + 
+					" " + 
 					"group by structure ";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<StripChart>(StripChart.class));
@@ -394,34 +394,34 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 	public List<StripChart> generateTPCStructureCumList(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "select structure,sum(CStructureCount+WStructureCount) as 'Scope',sum(CCompletedCount+WCompletedCount) as Completed,sum(CStructureCount+WStructureCount)-sum(CCompletedCount+WCompletedCount) as 'Balance',sum(CWIP+WWIP) as WIP from(\r\n" + 
-					"select replace(replace(contract_short_name,'(',''),')','') as contract_short_name,replace(replace(structure,'(',''),')','') as structure,cprogress,wprogress,CStatus,WStatus,\r\n" + 
-					"\r\n" + 
-					"case when contract_short_name like '%CR%' and CStatus='Completed' then count(CStatus) else 0 end AS 'CCompletedCount',case when contract_short_name like '%CR%' and CStatus='In Progress' then count(CStatus) else 0 end AS 'CWIP', \r\n" + 
-					"case when contract_short_name like '%WR%' and WStatus='Completed' then count(WStatus) else 0 end AS 'WCompletedCount',case when contract_short_name like '%WR%' and WStatus='In Progress' then count(WStatus) else 0 end AS 'WWIP' \r\n" + 
-					",case when contract_short_name like '%CR%' THEN count(Cstructure) else 0 end as CStructureCount\r\n" + 
-					",case when contract_short_name like '%WR%' THEN count(Wstructure) else 0 end as WStructureCount\r\n" + 
-					"\r\n" + 
-					"\r\n" + 
-					"from(\r\n" + 
-					"\r\n" + 
-					"select  substring(c.contract_short_name,CHARINDEX('(',c.contract_short_name),CHARINDEX(')',c.contract_short_name)-CHARINDEX('(',c.contract_short_name)+1) as contract_short_name,substring(structure,LEN(structure) - CHARINDEX('(',REVERSE(structure)), LEN(structure) - CHARINDEX(')',REVERSE(structure)))   as structure,\r\n" + 
-					"\r\n" + 
-					"case when c.contract_short_name like '%CR%' then round(cast((isnull(SUM((completed * weightage)*100 / scope) / SUM(weightage),0)) as decimal(10,2)),2) else 0 end AS cprogress,\r\n" + 
-					"case when c.contract_short_name like '%WR%' then round(cast((isnull(SUM((completed * weightage)*100 / scope) / SUM(weightage),0)) as decimal(10,2)),2) else 0 end AS wprogress,\r\n" + 
-					"case when c.contract_short_name like '%CR%' and SUM((completed * weightage)*100 / scope) / SUM(weightage)=100 then 'Completed' when SUM((completed * weightage)*100 / scope) / SUM(weightage)<100 and SUM((completed * weightage)*100 / scope) / SUM(weightage)*100>0 then 'In Progress' else 'Not Started' end as CStatus,\r\n" + 
-					"case when c.contract_short_name like '%WR%' and SUM((completed * weightage)*100 / scope) / SUM(weightage)=100 then 'Completed' when SUM((completed * weightage)*100 / scope) / SUM(weightage)<100 and SUM((completed * weightage)*100 / scope) / SUM(weightage)*100>0 then 'In Progress' else 'Not Started' end as WStatus\r\n" + 
-					",case when c.contract_short_name like '%CR%' then count(structure) else 0 end as Cstructure\r\n" + 
-					",case when c.contract_short_name like '%WR%' then count(structure) else 0 end as Wstructure\r\n" + 
-					"\r\n" + 
-					"FROM activities_view a    \r\n" + 
-					"LEFT join contract c on c.contract_id=a.contract_id    \r\n" + 
-					"where a.contract_id like 'P04W04EN%' and structure not in('Badlapur (Deck)') and structure not in('Khar Road (New FOB)') \r\n" + 
-					"and substring(structure,CHARINDEX('(',structure),CHARINDEX(')',structure)-CHARINDEX('(',structure)+1)!=''  group by contract_short_name,structure) as m\r\n" + 
-					"\r\n" + 
-					"\r\n" + 
-					"group by m.contract_short_name,m.structure,m.cprogress,m.wprogress,m.CStatus,m.WStatus,M.Cstructure,M.Wstructure) as l\r\n" + 
-					"\r\n" + 
+			String qry = "select structure,sum(CStructureCount+WStructureCount) as 'Scope',sum(CCompletedCount+WCompletedCount) as Completed,sum(CStructureCount+WStructureCount)-sum(CCompletedCount+WCompletedCount) as 'Balance',sum(CWIP+WWIP) as WIP from( " + 
+					"select replace(replace(contract_short_name,'(',''),')','') as contract_short_name,replace(replace(structure,'(',''),')','') as structure,cprogress,wprogress,CStatus,WStatus, " + 
+					" " + 
+					"case when contract_short_name like '%CR%' and CStatus='Completed' then count(CStatus) else 0 end AS 'CCompletedCount',case when contract_short_name like '%CR%' and CStatus='In Progress' then count(CStatus) else 0 end AS 'CWIP',  " + 
+					"case when contract_short_name like '%WR%' and WStatus='Completed' then count(WStatus) else 0 end AS 'WCompletedCount',case when contract_short_name like '%WR%' and WStatus='In Progress' then count(WStatus) else 0 end AS 'WWIP'  " + 
+					",case when contract_short_name like '%CR%' THEN count(Cstructure) else 0 end as CStructureCount " + 
+					",case when contract_short_name like '%WR%' THEN count(Wstructure) else 0 end as WStructureCount " + 
+					" " + 
+					" " + 
+					"from( " + 
+					" " + 
+					"select  substring(c.contract_short_name,CHARINDEX('(',c.contract_short_name),CHARINDEX(')',c.contract_short_name)-CHARINDEX('(',c.contract_short_name)+1) as contract_short_name,substring(structure,LEN(structure) - CHARINDEX('(',REVERSE(structure)), LEN(structure) - CHARINDEX(')',REVERSE(structure)))   as structure, " + 
+					" " + 
+					"case when c.contract_short_name like '%CR%' then round(cast((isnull(SUM((completed * weightage)*100 / scope) / SUM(weightage),0)) as decimal(10,2)),2) else 0 end AS cprogress, " + 
+					"case when c.contract_short_name like '%WR%' then round(cast((isnull(SUM((completed * weightage)*100 / scope) / SUM(weightage),0)) as decimal(10,2)),2) else 0 end AS wprogress, " + 
+					"case when c.contract_short_name like '%CR%' and SUM((completed * weightage)*100 / scope) / SUM(weightage)=100 then 'Completed' when SUM((completed * weightage)*100 / scope) / SUM(weightage)<100 and SUM((completed * weightage)*100 / scope) / SUM(weightage)*100>0 then 'In Progress' else 'Not Started' end as CStatus, " + 
+					"case when c.contract_short_name like '%WR%' and SUM((completed * weightage)*100 / scope) / SUM(weightage)=100 then 'Completed' when SUM((completed * weightage)*100 / scope) / SUM(weightage)<100 and SUM((completed * weightage)*100 / scope) / SUM(weightage)*100>0 then 'In Progress' else 'Not Started' end as WStatus " + 
+					",case when c.contract_short_name like '%CR%' then count(structure) else 0 end as Cstructure " + 
+					",case when c.contract_short_name like '%WR%' then count(structure) else 0 end as Wstructure " + 
+					" " + 
+					"FROM activities_view a     " + 
+					"LEFT join contract c on c.contract_id=a.contract_id     " + 
+					"where a.contract_id like 'P04W04EN%' and structure not in('Badlapur (Deck)') and structure not in('Khar Road (New FOB)')  " + 
+					"and substring(structure,CHARINDEX('(',structure),CHARINDEX(')',structure)-CHARINDEX('(',structure)+1)!=''  group by contract_short_name,structure) as m " + 
+					" " + 
+					" " + 
+					"group by m.contract_short_name,m.structure,m.cprogress,m.wprogress,m.CStatus,m.WStatus,M.Cstructure,M.Wstructure) as l " + 
+					" " + 
 					"group by structure ";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<StripChart>(StripChart.class));
@@ -492,39 +492,50 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 	public List<StripChart> generateStationImprovementsReport(StripChart obj) throws Exception {
 	    List<StripChart> objsList = null;
 	    try {
-	    	obj.setWork_id("P05W06");
-	        String qry = "SELECT " +
-	                     "    c.contract_short_name, " +
-	                     "    s.structure_type_fk AS structure, " +
-	                     "    CAST(ROUND(CAST(ISNULL(SUM(a.completed * a.weightage) * 100.0 / NULLIF(SUM(a.scope * a.weightage), 0), 0) AS DECIMAL(10, 2)), 0) AS INT) AS progress, " +
-	                     "    CASE " +
-	                     "        WHEN SUM(a.completed * a.weightage) * 100.0 / NULLIF(SUM(a.scope * a.weightage), 0) = 100 THEN 'Completed' " +
-	                     "        WHEN SUM(a.completed * a.weightage) * 100.0 / NULLIF(SUM(a.scope * a.weightage), 0) > 0 THEN 'In Progress' " +
-	                     "        ELSE 'Not Started' " +
-	                     "    END AS status, " +
-	                     "    FORMAT( " +
-	                     "        CASE " +
-	                     "            WHEN SUM(a.completed * a.weightage) * 100.0 / NULLIF(SUM(a.scope * a.weightage), 0) = 100 THEN MAX(a.actual_finish) " +
-	                     "            ELSE MAX(a.expected_finish) " +
-	                     "        END, 'dd-MM-yyyy' " +
-	                     "    ) AS progress_date " +
-	                     "FROM " +
-	                     "    activities_view a " +
-	                     "LEFT JOIN " +
-	                     "    contract c ON c.work_id_fk = a.work_id " +
-	                     "LEFT JOIN " +
-	                     "    structure s ON s.work_id_fk = a.work_id " +
-	                     "WHERE " +
-	                     "    a.work_id = ? " +
-	                     "    AND (c.contract_short_name LIKE '% CR %' OR c.contract_short_name LIKE '% WR %' OR c.contract_short_name LIKE '% HBR %') " +
-	                     "GROUP BY " +
-	                     "    c.contract_short_name, " +
-	                     "    s.structure_type_fk " +
-	                     "ORDER BY " +
-	                     "    c.contract_short_name, " +
-	                     "    status";
+	        String qry = "SELECT  " + 
+	        		"    CASE " + 
+	        		"        WHEN c.contract_short_name LIKE '% CR %' THEN 'CR' " + 
+	        		"        WHEN c.contract_short_name LIKE '% WR %' THEN 'WR' " + 
+	        		"        WHEN c.contract_short_name LIKE '% HBR %' THEN 'HBR' " + 
+	        		"        ELSE c.contract_short_name " + 
+	        		"    END AS contract_short_name, " + 
+	        		"    s.structure_type_fk AS structure, " + 
+	        		"    CAST(ROUND(CAST(ISNULL(SUM(a.completed * a.weightage) * 100.0 / NULLIF(SUM(a.scope * a.weightage), 0), 0) AS DECIMAL(10, 2)), 0) AS INT) AS progress, " + 
+	        		"    CASE  " + 
+	        		"        WHEN SUM(a.completed * a.weightage) * 100.0 / NULLIF(SUM(a.scope * a.weightage), 0) = 100 THEN 'Completed' " + 
+	        		"        WHEN SUM(a.completed * a.weightage) * 100.0 / NULLIF(SUM(a.scope * a.weightage), 0) > 0 THEN 'In Progress' " + 
+	        		"        ELSE 'Not Started' " + 
+	        		"    END AS status, " + 
+	        		"    FORMAT( " + 
+	        		"        CASE  " + 
+	        		"            WHEN SUM(a.completed * a.weightage) * 100.0 / NULLIF(SUM(a.scope * a.weightage), 0) = 100 THEN MAX(a.actual_finish) " + 
+	        		"            ELSE MAX(a.expected_finish) " + 
+	        		"        END, 'dd-MM-yyyy' " + 
+	        		"    ) AS progress_date " + 
+	        		"FROM  " + 
+	        		"    activities_view a " + 
+	        		"LEFT JOIN  " + 
+	        		"    contract c ON c.work_id_fk = a.work_id " + 
+	        		"LEFT JOIN  " + 
+	        		"    structure s ON s.work_id_fk = a.work_id " + 
+	        		"WHERE  " + 
+	        		"    a.work_id = 'P05W06' " + 
+	        		"    AND (c.contract_short_name LIKE '% CR %'  " + 
+	        		"         OR c.contract_short_name LIKE '% WR %'  " + 
+	        		"         OR c.contract_short_name LIKE '% HBR %') " + 
+	        		"GROUP BY  " + 
+	        		"    CASE " + 
+	        		"        WHEN c.contract_short_name LIKE '% CR %' THEN 'CR' " + 
+	        		"        WHEN c.contract_short_name LIKE '% WR %' THEN 'WR' " + 
+	        		"        WHEN c.contract_short_name LIKE '% HBR %' THEN 'HBR' " + 
+	        		"        ELSE c.contract_short_name " + 
+	        		"    END, " + 
+	        		"    s.structure_type_fk " + 
+	        		"ORDER BY  " + 
+	        		"    contract_short_name,  " + 
+	        		"    status";
 
-	        objsList = jdbcTemplate.query(qry, new Object[]{obj.getWork_id()}, new BeanPropertyRowMapper<>(StripChart.class));
+	        objsList = jdbcTemplate.query(qry, new BeanPropertyRowMapper<>(StripChart.class));
 
 	    } catch (Exception e) {
 	        throw new Exception(e);

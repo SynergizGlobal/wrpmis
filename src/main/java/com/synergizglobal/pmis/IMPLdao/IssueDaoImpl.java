@@ -375,12 +375,12 @@ public class IssueDaoImpl implements IssueDao {
 				qry = "select contract_id as contract_id_fk,contract_name,contract_short_name,work_id_fk,"
 						+ "hod_user_id_fk,dy_hod_user_id_fk,contract_type_fk " 
 						+ "from contract c "
-						+ "where contract_status_fk IN('In Progress','Not Started') ";
+						+ "where contract_status_fk IN('In Progress','Not Started','Not Awarded') ";
 			} else {
 				qry = "SELECT contract_id as contract_id_fk,contract_name,contract_short_name,work_id_fk,"
 						+ "hod_user_id_fk,dy_hod_user_id_fk,contract_type_fk "
 						+ "FROM contract c "
-						+ "where contract_status_fk IN('In Progress','Not Started') ";
+						+ "where contract_status_fk IN('In Progress','Not Started','Not Awarded') ";
 			}
 			int arrSize = 0;
 			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {

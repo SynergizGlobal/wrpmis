@@ -1882,45 +1882,60 @@ public class DesignController {
 												
 						List<Design> pObjList = new ArrayList<Design>();
 						
-						for(int i1 = 1; i1 <= designsRevisionSheet.getLastRowNum();i1++)
-						{
+
 							int v1 = designsRevisionSheet.getLastRowNum();
-							XSSFRow row1 = designsRevisionSheet.getRow(i1);
+							XSSFRow row1 = designsRevisionSheet.getRow(i-1);
+							String check1="";
+							String check2="";
+							
+							
+							if(!StringUtils.isEmpty(row.getCell(0)))
+							{
+							
+							 check1=row.getCell(0).toString();
+							}
+							if (row1 != null && row1.getCell(0) != null && !StringUtils.isEmpty(row1.getCell(0).toString())) {
+							    check2 = row1.getCell(0).toString();
+							}
+							
+							if(check1.compareTo(check2)==0)
+							{
 
 							designRevision = new Design();
 							String val1 = null;
-							if(!StringUtils.isEmpty(row1)) {
+								if(!StringUtils.isEmpty(row1)) 
+								{
+									
+									val1 = formatter.formatCellValue(row1.getCell(0)).trim();
+									if(!StringUtils.isEmpty(val1)) { designRevision.setMrvc_drawing_no(val1);designRevision.setDesign_seq_id(val1);}								
 								
-								val1 = formatter.formatCellValue(row1.getCell(0)).trim();
-								if(!StringUtils.isEmpty(val1)) { designRevision.setMrvc_drawing_no(val1);}								
-							
-								val1 = formatter.formatCellValue(row1.getCell(1)).trim();
-								if(!StringUtils.isEmpty(val1)) { designRevision.setRevision(val1);}
-								
-								val1 = formatter.formatCellValue(row1.getCell(2)).trim();
-								if(!StringUtils.isEmpty(val1)) { designRevision.setDrawing_no(val1);}
-								
-								val1 = formatter.formatCellValue(row1.getCell(3)).trim();
-								if(!StringUtils.isEmpty(val1)) { designRevision.setCorrespondence_letter_no(val1);}
-								
-								val1 = formatter.formatCellValue(row1.getCell(4)).trim();
-								if(!StringUtils.isEmpty(val1)) { designRevision.setRevision_date(val1);}
-								
-								val1 = formatter.formatCellValue(row1.getCell(5)).trim();
-								if(!StringUtils.isEmpty(val1)) { designRevision.setRevision_status(val1);}
-								
-								
-								val1 = formatter.formatCellValue(row1.getCell(6)).trim();
-								if(!StringUtils.isEmpty(val1)) { designRevision.setRemarks(val1);}		
-								
-								val1 = formatter.formatCellValue(row1.getCell(7)).trim();
-								if(!StringUtils.isEmpty(val1)) { designRevision.setUpload_file(val1);}
-								
-								pObjList.add(designRevision);
-
-								
+									val1 = formatter.formatCellValue(row1.getCell(1)).trim();
+									if(!StringUtils.isEmpty(val1)) { designRevision.setRevision(val1);}
+									
+									val1 = formatter.formatCellValue(row1.getCell(2)).trim();
+									if(!StringUtils.isEmpty(val1)) { designRevision.setDrawing_no(val1);}
+									
+									val1 = formatter.formatCellValue(row1.getCell(3)).trim();
+									if(!StringUtils.isEmpty(val1)) { designRevision.setCorrespondence_letter_no(val1);}
+									
+									val1 = formatter.formatCellValue(row1.getCell(4)).trim();
+									if(!StringUtils.isEmpty(val1)) { designRevision.setRevision_date(val1);}
+									
+									val1 = formatter.formatCellValue(row1.getCell(5)).trim();
+									if(!StringUtils.isEmpty(val1)) { designRevision.setRevision_status(val1);}
+									
+									
+									val1 = formatter.formatCellValue(row1.getCell(6)).trim();
+									if(!StringUtils.isEmpty(val1)) { designRevision.setRemarks(val1);}		
+									
+									val1 = formatter.formatCellValue(row1.getCell(7)).trim();
+									if(!StringUtils.isEmpty(val1)) { designRevision.setUpload_file(val1);}
+									
+									pObjList.add(designRevision);
+									
+								}
 							}
-						}
+						
 						
 						//if(!StringUtils.isEmpty(design.getMrvc_drawing_no())) 
 						//{

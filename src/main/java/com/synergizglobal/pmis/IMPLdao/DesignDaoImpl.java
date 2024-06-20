@@ -1378,50 +1378,7 @@ public class DesignDaoImpl implements DesignDao{
 								}
 								@Override
 								public int getBatchSize() {
-									int arraySize = 0;
-									if(!StringUtils.isEmpty(obj.getRevisions()) && obj.getRevisions().length > 0) {
-										obj.setRevisions(CommonMethods.replaceEmptyByNullInSringArray(obj.getRevisions()));
-										if(arraySize < obj.getRevisions().length) {
-											arraySize = obj.getRevisions().length;
-										}
-									}
-									if(!StringUtils.isEmpty(obj.getDrawing_nos()) && obj.getDrawing_nos().length > 0) {
-										obj.setDrawing_nos(CommonMethods.replaceEmptyByNullInSringArray(obj.getDrawing_nos()));
-										if(arraySize < obj.getDrawing_nos().length) {
-											arraySize = obj.getDrawing_nos().length;
-										}
-									}									
-									if(!StringUtils.isEmpty(obj.getCorrespondence_letter_nos()) && obj.getCorrespondence_letter_nos().length > 0) {
-										obj.setCorrespondence_letter_nos(CommonMethods.replaceEmptyByNullInSringArray(obj.getCorrespondence_letter_nos()));
-										if(arraySize < obj.getCorrespondence_letter_nos().length) {
-											arraySize = obj.getCorrespondence_letter_nos().length;
-										}
-									}	
-								
-									if(!StringUtils.isEmpty(obj.getRevision_dates()) && obj.getRevision_dates().length > 0) {
-										obj.setRevision_dates(CommonMethods.replaceEmptyByNullInSringArray(obj.getRevision_dates()));
-										if(arraySize < obj.getRevision_dates().length) {
-											arraySize = obj.getRevision_dates().length;
-										}
-									}
-									if(!StringUtils.isEmpty(obj.getRevision_status_fks()) && obj.getRevision_status_fks().length > 0) {
-										obj.setRevision_status_fks(CommonMethods.replaceEmptyByNullInSringArray(obj.getRevision_status_fks()));
-										if(arraySize < obj.getRevision_status_fks().length) {
-											arraySize = obj.getRevision_status_fks().length;
-										}
-									}			
-									if(!StringUtils.isEmpty(obj.getRemarkss()) && obj.getRemarkss().length > 0) {
-										obj.setRemarkss(CommonMethods.replaceEmptyByNullInSringArray(obj.getRemarkss()));
-										if(arraySize < obj.getRemarkss().length) {
-											arraySize = obj.getRemarkss().length;
-										}
-									}
-									if(!StringUtils.isEmpty(obj.getUploadFiles()) && obj.getUploadFiles().length > 0) {
-										if(arraySize < obj.getUploadFiles().length) {
-											arraySize = obj.getUploadFiles().length;
-										}
-									}								
-									return arraySize;
+									return obj.getDesignRevisions().size();
 							}
 					  });
 				}
@@ -2253,7 +2210,7 @@ public class DesignDaoImpl implements DesignDao{
 					+ "dy_hod= :dy_hod,structure_type_fk= :structure_type_fk,structure_id_fk= :structure_id_fk,prepared_by_id_fk= :prepared_by_id_fk ,consultant_contract_id_fk= :consultant_contract_id_fk,"
 					+ "proof_consultant_contract_id_fk= :proof_consultant_contract_id_fk,drawing_type_fk= :drawing_type_fk,drawing_title= :drawing_title,approval_authority_fk= :approval_authority_fk,"
 					+ "required_date=:required_date,contractor_drawing_no= :contractor_drawing_no,mrvc_drawing_no= :mrvc_drawing_no,division_drawing_no= :division_drawing_no,"
-					+ "hq_drawing_no= :hq_drawing_no,gfc_released= :gfc_released,remarks=:remarks,modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP,[3pvc]=:Threepvc where design_id= :design_id ";
+					+ "hq_drawing_no= :hq_drawing_no,gfc_released= :gfc_released,remarks=:remarks,modified_by=:created_by_user_id_fk,modified_date=CURRENT_TIMESTAMP,[3pvc]=:Threepvc where design_seq_id= :design_seq_id ";
 			for (Design obj : designsList) {
 				
 				if(!StringUtils.isEmpty(obj.getConsultant_contract_id_fk())) {
@@ -2352,40 +2309,51 @@ public class DesignDaoImpl implements DesignDao{
 				paramSource1 = new BeanPropertySqlParameterSource(obj);		 
 				count = namedParamJdbcTemplate.update(deleteQry, paramSource1);				
 				
-				if (obj.getDesignRevisions() != null && !obj.getDesignRevisions().isEmpty()) {
-				    con = dataSource.getConnection();
-				    String qryDesignRevision = "INSERT INTO design_revisions (design_id_fk,revision,revision_date,drawing_no,correspondence_letter_no,upload_file,"
-				            + "revision_status_fk,[current],remarks) VALUES(?,?,?,?,?,?,?,?,?)";
-				    stmt = con.prepareStatement(qryDesignRevision);
+				if(!StringUtils.isEmpty(obj.getDesignRevisions())) {
+					String qryDesignRevision = "INSERT INTO design_revisions (design_id_fk,revision,revision_date,drawing_no,correspondence_letter_no,upload_file,"
+							+ "revision_status_fk,[current],remarks) VALUES(?,?,?,?,?,?,?,?,?)";
+					
 
-				    for (int i = 0; i < obj.getDesignRevisions().size(); i++) {
-				        if (!StringUtils.isEmpty(obj.getDesignRevisions().get(i).getRevision())) {
-				            String revision = obj.getDesignRevisions().get(i).getRevision();
-				            String revision_date = obj.getDesignRevisions().get(i).getRevision_date();
-				            String drawing_no = obj.getDesignRevisions().get(i).getDrawing_no();
-				            String correspondence_letter_no = obj.getDesignRevisions().get(i).getCorrespondence_letter_no();
-				            String upload_file = obj.getDesignRevisions().get(i).getUpload_file();
-				            String revision_status_fk = obj.getDesignRevisions().get(i).getRevision_status_fk();
-				            String remarks = obj.getDesignRevisions().get(i).getRemarks();
-				            String current = obj.getDesignRevisions().get(i).getCurrent();
-				            String pmisdrawingno = obj.getDesignRevisions().get(i).getMrvc_drawing_no();
-
-				            stmt.setString(1, obj.getDesign_id());
-				            stmt.setString(2, revision);
-				            stmt.setString(3, revision_date);
-				            stmt.setString(4, drawing_no);
-				            stmt.setString(5, correspondence_letter_no);
-				            stmt.setString(6, upload_file);
-				            stmt.setString(7, revision_status_fk);
-				            stmt.setString(8, current);
-				            stmt.setString(9, remarks);
-				            stmt.addBatch();
-				        }
-				    }
-
-				    stmt.executeBatch();
-				    DBConnectionHandler.closeJDBCResoucrs(con, stmt, null);
-				}			
+					int[] counts = jdbcTemplate.batchUpdate(qryDesignRevision,
+				            new BatchPreparedStatementSetter() {
+								@Override
+								public void setValues(PreparedStatement ps, int i) throws SQLException {
+									try {										
+										String revision = obj.getDesignRevisions().get(i).getRevision();
+										String revision_date = obj.getDesignRevisions().get(i).getRevision_date();
+										String drawing_no = obj.getDesignRevisions().get(i).getDrawing_no();
+										String correspondence_letter_no = obj.getDesignRevisions().get(i).getCorrespondence_letter_no();
+										String upload_file = obj.getDesignRevisions().get(i).getUpload_file();
+										String revision_status_fk = obj.getDesignRevisions().get(i).getRevision_status_fk();
+										String remarks = obj.getDesignRevisions().get(i).getRemarks();
+										String current = obj.getDesignRevisions().get(i).getCurrent();
+										String pmisdrawingno = obj.getDesignRevisions().get(i).getMrvc_drawing_no();
+										
+										
+										int k = 1;
+										//ps.setString(k++, obj.getDesign_id());
+										ps.setString(k++,getDesignIdByNo(pmisdrawingno));
+										ps.setString(k++,!StringUtils.isEmpty(revision)?revision:null);
+										ps.setString(k++,!StringUtils.isEmpty(revision_date)?revision_date:null);
+										ps.setString(k++,!StringUtils.isEmpty(drawing_no)?drawing_no:null);
+										ps.setString(k++,!StringUtils.isEmpty(correspondence_letter_no)?correspondence_letter_no:null);
+										ps.setString(k++,!StringUtils.isEmpty(upload_file)?upload_file:null);
+										ps.setString(k++,!StringUtils.isEmpty(revision_status_fk)?revision_status_fk:null);
+										ps.setString(k++,!StringUtils.isEmpty(current)?current:null);
+										ps.setString(k++,!StringUtils.isEmpty(remarks)?remarks:null);
+									
+									} catch (Exception e) {
+										
+									}
+								}
+								@Override
+								public int getBatchSize() {
+									return obj.getDesignRevisions().size();
+							}
+					  });
+					
+					
+				}					
 				
 				
 			

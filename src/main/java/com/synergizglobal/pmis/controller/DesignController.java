@@ -1768,7 +1768,7 @@ public class DesignController {
 					XSSFSheet designsRevisionSheet = workbook.getSheetAt(1);
 						
 					DataFormatter formatter = new DataFormatter(); //creating formatter using the default locale
-					for(int i = 2; i <= designsDrawingsSheet.getLastRowNum();i++){
+					for(int i = 2; i < designsDrawingsSheet.getLastRowNum();i++){
 						int v = designsDrawingsSheet.getLastRowNum();
 						XSSFRow row = designsDrawingsSheet.getRow(i);
 
@@ -1877,7 +1877,7 @@ public class DesignController {
 							
 						}
 						
-						
+					}
 						Design designRevision = null;
 												
 						List<Design> pObjList = new ArrayList<Design>();
@@ -1933,7 +1933,7 @@ public class DesignController {
 						if(!flag) {
 							designsList.add(design);
 						}
-					}
+					
 					
 					if(!designsList.isEmpty() && designsList != null){
 						count  = designService.uploadDesignsNew(designsList);
@@ -1977,7 +1977,7 @@ public class DesignController {
 					XSSFSheet designsRevisionSheet = workbook.getSheetAt(1);
 						
 					DataFormatter formatter = new DataFormatter(); //creating formatter using the default locale
-					for(int i = 2; i <= designsDrawingsSheet.getLastRowNum();i++){
+					for(int i = 2; i < designsDrawingsSheet.getLastRowNum();i++){
 						int v = designsDrawingsSheet.getLastRowNum();
 						XSSFRow row = designsDrawingsSheet.getRow(i);
 						design = new Design();
@@ -2077,6 +2077,7 @@ public class DesignController {
 							design.setRequired_date(DateParser.parse(design.getRequired_date()));
 							
 						}
+					}
 						Design designRevision = null;
 						
 						List<Design> pObjList = new ArrayList<Design>();
@@ -2131,7 +2132,7 @@ public class DesignController {
 						if(!flag) {
 							designsList.add(design);
 						}
-					}
+					
 					
 					if(!designsList.isEmpty() && designsList != null){
 						count  = designService.uploadDesignsNew(designsList);

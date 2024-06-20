@@ -2304,10 +2304,7 @@ public class DesignDaoImpl implements DesignDao{
 					DBConnectionHandler.closeJDBCResoucrs(con, stmt, null);
 				}
 				
-				SqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(obj);
-				String deleteQry = "DELETE from design_revisions where design_id_fk = :design_id";		 
-				paramSource1 = new BeanPropertySqlParameterSource(obj);		 
-				count = namedParamJdbcTemplate.update(deleteQry, paramSource1);				
+			
 				
 				if(!StringUtils.isEmpty(obj.getDesignRevisions())) {
 					String qryDesignRevision = "INSERT INTO design_revisions (design_id_fk,revision,revision_date,drawing_no,correspondence_letter_no,upload_file,"
@@ -2318,7 +2315,13 @@ public class DesignDaoImpl implements DesignDao{
 				            new BatchPreparedStatementSetter() {
 								@Override
 								public void setValues(PreparedStatement ps, int i) throws SQLException {
-									try {										
+									try {	
+										obj.setDesign_id(getDesignIdByNo(obj.getDesignRevisions().get(i).getMrvc_drawing_no()));
+										SqlParameterSource paramSource1 = new BeanPropertySqlParameterSource(obj);
+										String deleteQry = "DELETE from design_revisions where design_id_fk = :design_id";		 
+										paramSource1 = new BeanPropertySqlParameterSource(obj);		 
+										int count = namedParamJdbcTemplate.update(deleteQry, paramSource1);											
+										
 										String revision = obj.getDesignRevisions().get(i).getRevision();
 										String revision_date = obj.getDesignRevisions().get(i).getRevision_date();
 										String drawing_no = obj.getDesignRevisions().get(i).getDrawing_no();

@@ -1874,6 +1874,7 @@ public class DesignController {
 							design.setGfc_released(DateParser.parse(design.getGfc_released()));
 							design.setSubmitted_date(DateParser.parse(design.getSubmitted_date()));
 							design.setRequired_date(DateParser.parse(design.getRequired_date()));
+							designsList.add(design);
 							
 						}
 						

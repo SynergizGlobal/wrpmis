@@ -543,7 +543,7 @@
                             <div class="row section scrollspy" id="drawingDetails">
                             	<h5 class="center-align">Drawing Details</h5>
                                 <div class="col s6 m12 input-field" id="hideResponsive">
-                                    <textarea id="drawing_title" maxlength="100" data-length="100" name="drawing_title" class="pmis-textarea num pdr5em">${designDetails.drawing_title }</textarea>
+                                    <textarea id="drawing_title" maxlength="200" data-length="200" name="drawing_title" class="pmis-textarea num pdr5em">${designDetails.drawing_title }</textarea>
                                     <label for="drawing_title">Drawing Title<span class="required">*</span></label>
                                      <span id="drawing_titleError" class="error-msg" ></span>
                                 </div>

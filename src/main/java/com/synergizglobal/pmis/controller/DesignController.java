@@ -1768,7 +1768,7 @@ public class DesignController {
 					XSSFSheet designsRevisionSheet = workbook.getSheetAt(1);
 						
 					DataFormatter formatter = new DataFormatter(); //creating formatter using the default locale
-					for(int i = 2; i < designsDrawingsSheet.getLastRowNum();i++){
+					for(int i = 2; i <= designsDrawingsSheet.getLastRowNum();i++){
 						int v = designsDrawingsSheet.getLastRowNum();
 						XSSFRow row = designsDrawingsSheet.getRow(i);
 

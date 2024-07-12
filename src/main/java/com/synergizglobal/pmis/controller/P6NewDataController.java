@@ -1,13 +1,21 @@
 package com.synergizglobal.pmis.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.math3.geometry.spherical.oned.ArcsSet.Split;
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -191,155 +199,300 @@ public class P6NewDataController {
 		return objList;
 	}
 	
+//	@RequestMapping(value = "/upload-p6-new-data", method = {RequestMethod.POST})
+//	public ModelAndView uploadP6Baseline(@ModelAttribute P6Data p6data,RedirectAttributes attributes,HttpSession session){
+//		ModelAndView model = new ModelAndView();
+//		XSSFWorkbook workbook = null;
+//		//XSSFSheet uploadFilesSheet = null;
+//		XSSFSheet uploadFilesSheet1 = null;
+//		String fob_mismatch = null;
+//		List<P6Data> wbsList = new ArrayList<P6Data>();
+//		List<P6Data> activitiesList = new ArrayList<P6Data>();
+//		try {
+//			model.setViewName("redirect:/p6-new-data");
+//			
+//			String userId = (String) session.getAttribute("USER_ID");
+//			String userName = (String) session.getAttribute("USER_NAME");
+//			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+//			
+//			p6data.setCreated_by_user_id_fk(userId);
+//			p6data.setUser_name(userName);
+//			p6data.setDesignation(userDesignation);
+//			
+//			MultipartFile multipartFile = p6data.getP6dataFile();
+//			// Creates a workbook object from the uploaded excelfile
+//			if (null != multipartFile && multipartFile.getSize() > 0){
+//				String fileName = multipartFile.getOriginalFilename();
+//				
+//				workbook = new XSSFWorkbook(multipartFile.getInputStream());
+//				// Creates a worksheet object representing the first sheet
+//				if(workbook != null) {
+//					int sheetsCount = workbook.getNumberOfSheets();
+//					if(sheetsCount > 0) {
+//						/*		uploadFilesSheet = workbook.getSheetAt(0);
+//								//System.out.println(uploadFilesSheet.getSheetName());
+//								//header row
+//								XSSFRow headerRow = uploadFilesSheet.getRow(1);
+//								//checking given file format
+//								if(headerRow != null){
+//									List<String> fileFormat = FileFormatModel.getP6WbsFileFormat();;
+//									int noOfColumns = headerRow.getLastCellNum();
+//									if(noOfColumns == fileFormat.size()){
+//										for (int i = 0; i < fileFormat.size();i++) {
+//						        	//System.out.println(headerRow.getCell(i).getStringCellValue().trim());
+//						        	//if(!fileFormat.get(i).trim().equals(headerRow.getCell(i).getStringCellValue().trim())){
+//											String columnName = headerRow.getCell(i).getStringCellValue().trim();
+//											if(!columnName.equals(fileFormat.get(i).trim()) && !columnName.contains(fileFormat.get(i).trim())){
+//						        		attributes.addFlashAttribute("error",uploadformatError);
+//						        		return model;
+//						        	}
+//										}
+//									}else{
+//										attributes.addFlashAttribute("error",uploadformatError);
+//								return model;
+//									}
+//								}*/
+//						uploadFilesSheet1 = workbook.getSheetAt(0);
+//						XSSFRow headerRow1 = uploadFilesSheet1.getRow(1);
+//						if(headerRow1 != null){
+//							List<String> fileFormat1 = FileFormatModel.getP6ActivitiesFileFormat();	
+//							int noOfColumns1 = headerRow1.getLastCellNum();
+//							if(noOfColumns1 == fileFormat1.size()){
+//								for (int i = 0; i < fileFormat1.size();i++) {
+//									String columnName1 = headerRow1.getCell(i).getStringCellValue().trim();
+//									if(!columnName1.equals(fileFormat1.get(i).trim()) && !columnName1.contains(fileFormat1.get(i).trim())){
+//				                		attributes.addFlashAttribute("error",uploadformatError);
+//				                		return model;
+//				                	}
+//								}
+//							}else{
+//								attributes.addFlashAttribute("error",uploadformatError);
+//		                		return model;
+//							}
+//						}else{
+//							attributes.addFlashAttribute("error",uploadformatError);
+//	                		return model;
+//						}
+//						
+//						p6data.setP6_file_path(fileName);
+//						int i= 2;
+//						//wbsList = baselineWBSUpload(p6data,workbook,fob_mismatch);
+//						activitiesList = baselineActivitiesUpload(p6data,workbook);
+//					
+//						if(activitiesList.size() == 0){
+//							fob_mismatch = "Sheet is empty.";
+//						}
+//						/*	if(!StringUtils.isEmpty(p6data.getFob_id_fk()))
+//							{
+//								for(P6Data list : wbsList) {
+//									
+//									if(!StringUtils.isEmpty(list.getFob_id_fk()) && !list.getFob_id_fk().equals(p6data.getFob_id_fk()) && !StringUtils.isEmpty(list.getP6_wbs_code())) {
+//										fob_mismatch = " FOB selected from the dropdown and on the P6 File do not match. at Row no(s) " + (i+1);
+//										break;
+//									}
+//									i++;
+//								}
+//							}*/
+//					}
+//					
+//					workbook.close();
+//					
+//					
+//					String saveDirectory = CommonConstants2.P6_FILE_SAVING_PATH ;
+//					FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
+//				}
+//				
+//			}
+//			
+//			p6data.setUploaded_by_user_id_fk(userId);
+//			p6data.setCreated_by_user_id_fk(userId);
+//			p6data.setModified_by_user_id_fk(userId);
+//			p6data.setData_date(DateParser.parse(p6data.getData_date()));
+//			p6data.setUpload_type("Baseline");
+//			if(StringUtils.isEmpty(fob_mismatch)){
+//				try {
+//					String counts = p6newdataService.uploadP6WBSActivities(wbsList,activitiesList,p6data);
+//					attributes.addFlashAttribute("error", counts);	 
+//				}catch(Exception e) {
+//					String lineErr = e.getMessage();
+//					String [] err = lineErr.split("column");
+//					String [] err2 = err[1].split(" ");
+//					String column = err2[1];
+//					String rNo = err2[4]; 
+//					int row = Integer.parseInt(rNo) +2;
+//					column = column.replace("_", " "); column = StringUtils.capitalize(column);
+//					if(lineErr.contains("Cannot add or update a child row")) {
+//						fob_mismatch = "Incorrect  Value identified, Please check and try again.  ";
+//						attributes.addFlashAttribute("error", "<br><span style='color:red;'>" + fob_mismatch + "</span> ");
+//					}else if(lineErr.contains("Incorrect integer value") || lineErr.contains("Data truncated for column")|| lineErr.contains("Incorrect decimal value")){
+//						fob_mismatch = "Incorrect Format for column <b>"+column+"</b>, Please check and try again.  ";
+//						attributes.addFlashAttribute("error", "<br><span style='color:red;'>" + fob_mismatch + "</span> ");
+//					}else if(lineErr.contains("Incorrect date value")) {
+//						fob_mismatch = "Incorrect Date for column <b>"+column+"</b>, Please check and try again.  ";
+//						attributes.addFlashAttribute("error", "<br><span style='color:red;'>" + fob_mismatch + "</span> ");
+//					}else if(lineErr.contains("Data too long for column")) {
+//						fob_mismatch = "Data too long for column <b>"+column+"</b>, Please check and try again.  ";
+//						attributes.addFlashAttribute("error", "<br><span style='color:red;'>" + fob_mismatch + "</span> ");
+//					}
+//					
+//				}
+//			}else {
+//				attributes.addFlashAttribute("error", "<br><span style='color:red;'>" + fob_mismatch + "</span> ");
+//			}
+//			
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
+//			logger.fatal("uploadP6Baseline() : "+e.getMessage());
+//		}
+//		return model;
+//	}
+
+	
+	
 	@RequestMapping(value = "/upload-p6-new-data", method = {RequestMethod.POST})
-	public ModelAndView uploadP6Baseline(@ModelAttribute P6Data p6data,RedirectAttributes attributes,HttpSession session){
-		ModelAndView model = new ModelAndView();
-		XSSFWorkbook workbook = null;
-		//XSSFSheet uploadFilesSheet = null;
-		XSSFSheet uploadFilesSheet1 = null;
-		String fob_mismatch = null;
-		List<P6Data> wbsList = new ArrayList<P6Data>();
-		List<P6Data> activitiesList = new ArrayList<P6Data>();
-		try {
-			model.setViewName("redirect:/p6-new-data");
-			
-			String userId = (String) session.getAttribute("USER_ID");
-			String userName = (String) session.getAttribute("USER_NAME");
-			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
-			
-			p6data.setCreated_by_user_id_fk(userId);
-			p6data.setUser_name(userName);
-			p6data.setDesignation(userDesignation);
-			
-			MultipartFile multipartFile = p6data.getP6dataFile();
-			// Creates a workbook object from the uploaded excelfile
-			if (null != multipartFile && multipartFile.getSize() > 0){
-				String fileName = multipartFile.getOriginalFilename();
-				
-				workbook = new XSSFWorkbook(multipartFile.getInputStream());
-				// Creates a worksheet object representing the first sheet
-				if(workbook != null) {
-					int sheetsCount = workbook.getNumberOfSheets();
-					if(sheetsCount > 0) {
-						/*		uploadFilesSheet = workbook.getSheetAt(0);
-								//System.out.println(uploadFilesSheet.getSheetName());
-								//header row
-								XSSFRow headerRow = uploadFilesSheet.getRow(1);
-								//checking given file format
-								if(headerRow != null){
-									List<String> fileFormat = FileFormatModel.getP6WbsFileFormat();;
-									int noOfColumns = headerRow.getLastCellNum();
-									if(noOfColumns == fileFormat.size()){
-										for (int i = 0; i < fileFormat.size();i++) {
-						        	//System.out.println(headerRow.getCell(i).getStringCellValue().trim());
-						        	//if(!fileFormat.get(i).trim().equals(headerRow.getCell(i).getStringCellValue().trim())){
-											String columnName = headerRow.getCell(i).getStringCellValue().trim();
-											if(!columnName.equals(fileFormat.get(i).trim()) && !columnName.contains(fileFormat.get(i).trim())){
-						        		attributes.addFlashAttribute("error",uploadformatError);
-						        		return model;
-						        	}
-										}
-									}else{
-										attributes.addFlashAttribute("error",uploadformatError);
-								return model;
-									}
-								}*/
-						uploadFilesSheet1 = workbook.getSheetAt(0);
-						XSSFRow headerRow1 = uploadFilesSheet1.getRow(1);
-						if(headerRow1 != null){
-							List<String> fileFormat1 = FileFormatModel.getP6ActivitiesFileFormat();	
-							int noOfColumns1 = headerRow1.getLastCellNum();
-							if(noOfColumns1 == fileFormat1.size()){
-								for (int i = 0; i < fileFormat1.size();i++) {
-									String columnName1 = headerRow1.getCell(i).getStringCellValue().trim();
-									if(!columnName1.equals(fileFormat1.get(i).trim()) && !columnName1.contains(fileFormat1.get(i).trim())){
-				                		attributes.addFlashAttribute("error",uploadformatError);
-				                		return model;
-				                	}
-								}
-							}else{
-								attributes.addFlashAttribute("error",uploadformatError);
-		                		return model;
-							}
-						}else{
-							attributes.addFlashAttribute("error",uploadformatError);
-	                		return model;
-						}
-						
-						p6data.setP6_file_path(fileName);
-						int i= 2;
-						//wbsList = baselineWBSUpload(p6data,workbook,fob_mismatch);
-						activitiesList = baselineActivitiesUpload(p6data,workbook);
-					
-						if(activitiesList.size() == 0){
-							fob_mismatch = "Sheet is empty.";
-						}
-						/*	if(!StringUtils.isEmpty(p6data.getFob_id_fk()))
-							{
-								for(P6Data list : wbsList) {
-									
-									if(!StringUtils.isEmpty(list.getFob_id_fk()) && !list.getFob_id_fk().equals(p6data.getFob_id_fk()) && !StringUtils.isEmpty(list.getP6_wbs_code())) {
-										fob_mismatch = " FOB selected from the dropdown and on the P6 File do not match. at Row no(s) " + (i+1);
-										break;
-									}
-									i++;
-								}
-							}*/
-					}
-					
-					workbook.close();
-					
-					
-					String saveDirectory = CommonConstants2.P6_FILE_SAVING_PATH ;
-					FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
-				}
-				
-			}
-			
-			p6data.setUploaded_by_user_id_fk(userId);
-			p6data.setCreated_by_user_id_fk(userId);
-			p6data.setModified_by_user_id_fk(userId);
-			p6data.setData_date(DateParser.parse(p6data.getData_date()));
-			p6data.setUpload_type("Baseline");
-			if(StringUtils.isEmpty(fob_mismatch)){
-				try {
-					String counts = p6newdataService.uploadP6WBSActivities(wbsList,activitiesList,p6data);
-					attributes.addFlashAttribute("error", counts);	 
-				}catch(Exception e) {
-					String lineErr = e.getMessage();
-					String [] err = lineErr.split("column");
-					String [] err2 = err[1].split(" ");
-					String column = err2[1];
-					String rNo = err2[4]; 
-					int row = Integer.parseInt(rNo) +2;
-					column = column.replace("_", " "); column = StringUtils.capitalize(column);
-					if(lineErr.contains("Cannot add or update a child row")) {
-						fob_mismatch = "Incorrect  Value identified, Please check and try again.  ";
-						attributes.addFlashAttribute("error", "<br><span style='color:red;'>" + fob_mismatch + "</span> ");
-					}else if(lineErr.contains("Incorrect integer value") || lineErr.contains("Data truncated for column")|| lineErr.contains("Incorrect decimal value")){
-						fob_mismatch = "Incorrect Format for column <b>"+column+"</b>, Please check and try again.  ";
-						attributes.addFlashAttribute("error", "<br><span style='color:red;'>" + fob_mismatch + "</span> ");
-					}else if(lineErr.contains("Incorrect date value")) {
-						fob_mismatch = "Incorrect Date for column <b>"+column+"</b>, Please check and try again.  ";
-						attributes.addFlashAttribute("error", "<br><span style='color:red;'>" + fob_mismatch + "</span> ");
-					}else if(lineErr.contains("Data too long for column")) {
-						fob_mismatch = "Data too long for column <b>"+column+"</b>, Please check and try again.  ";
-						attributes.addFlashAttribute("error", "<br><span style='color:red;'>" + fob_mismatch + "</span> ");
-					}
-					
-				}
-			}else {
-				attributes.addFlashAttribute("error", "<br><span style='color:red;'>" + fob_mismatch + "</span> ");
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
-			logger.fatal("uploadP6Baseline() : "+e.getMessage());
-		}
-		return model;
+	public ModelAndView uploadP6Baseline(@ModelAttribute P6Data p6data, RedirectAttributes attributes, HttpSession session) {
+	    ModelAndView model = new ModelAndView();
+	    model.setViewName("redirect:/p6-new-data");
+
+	    XSSFWorkbook workbook = null;
+	    XSSFSheet sheet = null;
+	    String fob_mismatch = null;
+	    List<P6Data> wbsList = new ArrayList<>();
+	    List<P6Data> activitiesList = new ArrayList<>();
+
+	    try {
+	        String userId = (String) session.getAttribute("USER_ID");
+	        String userName = (String) session.getAttribute("USER_NAME");
+	        String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+
+	        p6data.setCreated_by_user_id_fk(userId);
+	        p6data.setUser_name(userName);
+	        p6data.setDesignation(userDesignation);
+
+	        MultipartFile multipartFile = p6data.getP6dataFile();
+	        if (multipartFile != null && multipartFile.getSize() > 0) {
+	            String fileName = multipartFile.getOriginalFilename();
+	            workbook = new XSSFWorkbook(multipartFile.getInputStream());
+	            sheet = workbook.getSheetAt(0);
+
+	            if (sheet != null) {
+	                // Define date columns dynamically, e.g., by header names
+	                List<String> dateColumnHeaders = Arrays.asList("base_start_date", "base_end_date", "start_date", "end_date");
+	                Map<Integer, String> dateColumns = new HashMap<>();
+
+	                // Identify date columns by header names
+	                XSSFRow headerRow = sheet.getRow(0);
+	                for (Cell cell : headerRow) {
+	                    if (dateColumnHeaders.contains(cell.getStringCellValue().trim())) {
+	                        dateColumns.put(cell.getColumnIndex(), cell.getStringCellValue().trim());
+	                    }
+	                }
+
+	                List<String> modifiedCells = new ArrayList<>();
+	                for (int rowIndex = 2; rowIndex <= sheet.getLastRowNum(); rowIndex++) { // Skip header row
+	                    XSSFRow row = sheet.getRow(rowIndex);
+	                    if (row != null) {
+	                        for (Map.Entry<Integer, String> entry : dateColumns.entrySet()) {
+	                            XSSFCell cell = row.getCell(entry.getKey());
+	                            if (cell != null && cell.getCellType() == CellType.STRING) {
+	                                String cellValue = cell.getStringCellValue().trim();
+	                                if (!isValidDate(cellValue)) {
+	                                    modifiedCells.add(cell.getAddress().formatAsString());
+	                                }
+	                            } else if (cell != null && cell.getCellType() == CellType.FORMULA) {
+	                                try {
+	                                    cell.getDateCellValue();
+	                                } catch (Exception e) {
+	                                    modifiedCells.add(cell.getAddress().formatAsString());
+	                                }
+	                            }
+	                        }
+	                    }
+	                }
+
+	                if (!modifiedCells.isEmpty()) {
+	                    String errorMessage = "Mismatch found in the cell(s): " + String.join(", ", modifiedCells);
+	                    attributes.addFlashAttribute("error", errorMessage);
+	                    workbook.close();
+	                    return model;
+	                }
+
+	                p6data.setP6_file_path(fileName);
+	                activitiesList = baselineActivitiesUpload(p6data, workbook);
+
+	                if (activitiesList.size() == 0) {
+	                    fob_mismatch = "Sheet is empty.";
+	                }
+
+	                workbook.close();
+	                String saveDirectory = CommonConstants2.P6_FILE_SAVING_PATH;
+	                FileUploads.singleFileSaving(multipartFile, saveDirectory, fileName);
+	            }
+	        }
+
+	        p6data.setUploaded_by_user_id_fk(userId);
+	        p6data.setCreated_by_user_id_fk(userId);
+	        p6data.setModified_by_user_id_fk(userId);
+	        p6data.setData_date(DateParser.parse(p6data.getData_date()));
+	        p6data.setUpload_type("Baseline");
+
+	        if (StringUtils.isEmpty(fob_mismatch)) {
+	            try {
+	                String counts = p6newdataService.uploadP6WBSActivities(wbsList, activitiesList, p6data);
+	                attributes.addFlashAttribute("error", counts);
+	            } catch (Exception e) {
+	                handleException(e, attributes);
+	            }
+	        } else {
+	            attributes.addFlashAttribute("error", "<br><span style='color:red;'>" + fob_mismatch + "</span> ");
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
+	        logger.fatal("uploadP6Baseline() : " + e.getMessage());
+	    }
+	    return model;
 	}
 
+	private boolean isValidDate(String date) {
+	    try {
+	        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+	        sdf.setLenient(false);
+	        sdf.parse(date);
+	        return true;
+	    } catch (ParseException e) {
+	        return false;
+	    }
+	}
+
+	private void handleException(Exception e, RedirectAttributes attributes) {
+	    String lineErr = e.getMessage();
+	    String[] err = lineErr.split("column");
+	    String[] err2 = err[1].split(" ");
+	    String column = err2[1];
+	    String rNo = err2[4];
+	    int row = Integer.parseInt(rNo) + 2;
+	    column = column.replace("_", " ");
+	    column = StringUtils.capitalize(column);
+	    String fob_mismatch = null;
+
+	    if (lineErr.contains("Cannot add or update a child row")) {
+	        fob_mismatch = "Incorrect  Value identified, Please check and try again.  ";
+	    } else if (lineErr.contains("Incorrect integer value") || lineErr.contains("Data truncated for column") || lineErr.contains("Incorrect decimal value")) {
+	        fob_mismatch = "Incorrect Format for column <b>" + column + "</b>, Please check and try again.  ";
+	    } else if (lineErr.contains("Incorrect date value")) {
+	        fob_mismatch = "Incorrect Date for column <b>" + column + "</b>, Please check and try again.  ";
+	    } else if (lineErr.contains("Data too long for column")) {
+	        fob_mismatch = "Data too long for column <b>" + column + "</b>, Please check and try again.  ";
+	    }
+
+	    attributes.addFlashAttribute("error", "<br><span style='color:red;'>" + fob_mismatch + "</span> ");
+	}
+
+	
+	
+	
 	
 	private List<P6Data> baselineWBSUpload(P6Data obj,XSSFWorkbook workbook, String fob_mismatch) throws Exception {
 		P6Data p6data = null;

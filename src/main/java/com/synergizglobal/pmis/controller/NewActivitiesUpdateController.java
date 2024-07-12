@@ -24,12 +24,14 @@ import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.WorkbookUtil;
+import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -837,86 +839,164 @@ public class NewActivitiesUpdateController {
 	}
 	
 	
+//	@RequestMapping(value = "/upload-new-activities", method = {RequestMethod.POST})
+//	public ModelAndView uploadRisk(@ModelAttribute StripChart obj,RedirectAttributes attributes,HttpSession session){
+//		ModelAndView model = new ModelAndView();
+//		try {
+//			String user_Id = (String) session.getAttribute("USER_ID");
+//			String userName = (String) session.getAttribute("USER_NAME");
+//			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+//			
+//			obj.setCreated_by_user_id_fk(user_Id);
+//			obj.setUser_id(user_Id);
+//			obj.setUser_name(userName);
+//			obj.setDesignation(userDesignation);
+//			model.setViewName("redirect:/new-activities-update");
+//			
+//			if(!StringUtils.isEmpty(obj.getStripChartFile())){
+//				MultipartFile multipartFile = obj.getStripChartFile();
+//				// Creates a workbook object from the uploaded excelfile
+//				if (multipartFile.getSize() > 0){					
+//					XSSFWorkbook workbook = new XSSFWorkbook(multipartFile.getInputStream());
+//					// Creates a worksheet object representing the first sheet
+//					int sheetsCount = workbook.getNumberOfSheets();
+//					if(sheetsCount > 0) {
+//						XSSFSheet risksDrawingsSheet = workbook.getSheetAt(0);
+//						//System.out.println(uploadFilesSheet.getSheetName());
+//						//header row
+//						XSSFRow headerRow = risksDrawingsSheet.getRow(1);
+//						//checking given file format
+//						/*if(headerRow != null){
+//							List<String> fileFormat = FileFormatModel.getStripChartFileFormat();	
+//							int noOfColumns = headerRow.getLastCellNum();
+//							if(9 == fileFormat.size()){
+//								for (int i = 0; i < fileFormat.size();i++) {
+//				                	//System.out.println(headerRow.getCell(i).getStringCellValue().trim());
+//				                	//if(!fileFormat.get(i).trim().equals(headerRow.getCell(i).getStringCellValue().trim())){
+//									String columnName = headerRow.getCell(i).getStringCellValue().trim();
+//									if(!columnName.equals(fileFormat.get(i).trim()) && !columnName.contains(fileFormat.get(i).trim())){
+//				                		attributes.addFlashAttribute("error",uploadformatError);
+//				                		return model;
+//				                	}
+//								}
+//							}else{
+//								attributes.addFlashAttribute("error",uploadformatError);
+//		                		return model;
+//							}
+//						}else{
+//							attributes.addFlashAttribute("error",uploadformatError);
+//	                		return model;
+//						}*/
+//						
+//						boolean flagValue = uploadNewActivities(obj,user_Id,userName);
+//						if(flagValue ==true) {
+//							attributes.addFlashAttribute("success", " Activities Inserted/Updated successfully.");
+//							FormHistory formHistory = new FormHistory();
+//							formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
+//							formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
+//							formHistory.setModule_name_fk("Execution");
+//							formHistory.setForm_name("Upload Activities");
+//							formHistory.setForm_action_type("Upload");
+//							formHistory.setForm_details("Activities Inserted/Updated successfully.");
+//							formHistory.setWork(obj.getWork_id_fk());
+//							formHistory.setContract(obj.getContract_id_fk());
+//							
+//							boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+//							/********************************************************************************/
+//							
+//						}
+//						
+//					}
+//					workbook.close();
+//				}
+//			} else {
+//				attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
+//			}
+//			
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
+//			logger.fatal("updateDataDate() : "+e.getMessage());
+//		}
+//		return model;
+//	}
+	
+	
 	@RequestMapping(value = "/upload-new-activities", method = {RequestMethod.POST})
-	public ModelAndView uploadRisk(@ModelAttribute StripChart obj,RedirectAttributes attributes,HttpSession session){
-		ModelAndView model = new ModelAndView();
-		try {
-			String user_Id = (String) session.getAttribute("USER_ID");
-			String userName = (String) session.getAttribute("USER_NAME");
-			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
-			
-			obj.setCreated_by_user_id_fk(user_Id);
-			obj.setUser_id(user_Id);
-			obj.setUser_name(userName);
-			obj.setDesignation(userDesignation);
-			model.setViewName("redirect:/new-activities-update");
-			
-			if(!StringUtils.isEmpty(obj.getStripChartFile())){
-				MultipartFile multipartFile = obj.getStripChartFile();
-				// Creates a workbook object from the uploaded excelfile
-				if (multipartFile.getSize() > 0){					
-					XSSFWorkbook workbook = new XSSFWorkbook(multipartFile.getInputStream());
-					// Creates a worksheet object representing the first sheet
-					int sheetsCount = workbook.getNumberOfSheets();
-					if(sheetsCount > 0) {
-						XSSFSheet risksDrawingsSheet = workbook.getSheetAt(0);
-						//System.out.println(uploadFilesSheet.getSheetName());
-						//header row
-						XSSFRow headerRow = risksDrawingsSheet.getRow(1);
-						//checking given file format
-						/*if(headerRow != null){
-							List<String> fileFormat = FileFormatModel.getStripChartFileFormat();	
-							int noOfColumns = headerRow.getLastCellNum();
-							if(9 == fileFormat.size()){
-								for (int i = 0; i < fileFormat.size();i++) {
-				                	//System.out.println(headerRow.getCell(i).getStringCellValue().trim());
-				                	//if(!fileFormat.get(i).trim().equals(headerRow.getCell(i).getStringCellValue().trim())){
-									String columnName = headerRow.getCell(i).getStringCellValue().trim();
-									if(!columnName.equals(fileFormat.get(i).trim()) && !columnName.contains(fileFormat.get(i).trim())){
-				                		attributes.addFlashAttribute("error",uploadformatError);
-				                		return model;
-				                	}
-								}
-							}else{
-								attributes.addFlashAttribute("error",uploadformatError);
-		                		return model;
-							}
-						}else{
-							attributes.addFlashAttribute("error",uploadformatError);
-	                		return model;
-						}*/
-						
-						boolean flagValue = uploadNewActivities(obj,user_Id,userName);
-						if(flagValue ==true) {
-							attributes.addFlashAttribute("success", " Activities Inserted/Updated successfully.");
-							FormHistory formHistory = new FormHistory();
-							formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
-							formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
-							formHistory.setModule_name_fk("Execution");
-							formHistory.setForm_name("Upload Activities");
-							formHistory.setForm_action_type("Upload");
-							formHistory.setForm_details("Activities Inserted/Updated successfully.");
-							formHistory.setWork(obj.getWork_id_fk());
-							formHistory.setContract(obj.getContract_id_fk());
-							
-							boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
-							/********************************************************************************/
-							
-						}
-						
-					}
-					workbook.close();
-				}
-			} else {
-				attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
-			logger.fatal("updateDataDate() : "+e.getMessage());
-		}
-		return model;
+	public ModelAndView uploadRisk(@ModelAttribute StripChart obj, RedirectAttributes attributes, HttpSession session) {
+	    ModelAndView model = new ModelAndView();
+	    try {
+	        String user_Id = (String) session.getAttribute("USER_ID");
+	        String userName = (String) session.getAttribute("USER_NAME");
+	        String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
+
+	        obj.setCreated_by_user_id_fk(user_Id);
+	        obj.setUser_id(user_Id);
+	        obj.setUser_name(userName);
+	        obj.setDesignation(userDesignation);
+	        model.setViewName("redirect:/new-activities-update");
+
+	        if (!StringUtils.isEmpty(obj.getStripChartFile())) {
+	            MultipartFile multipartFile = obj.getStripChartFile();
+	            if (multipartFile.getSize() > 0) {
+	                XSSFWorkbook workbook = new XSSFWorkbook(multipartFile.getInputStream());
+	                int sheetsCount = workbook.getNumberOfSheets();
+	                if (sheetsCount > 0) {
+	                    XSSFSheet risksDrawingsSheet = workbook.getSheetAt(0);
+	                    XSSFRow headerRow = risksDrawingsSheet.getRow(1);
+
+	                    // Add your file format validation code here if needed
+
+	                    // Add logic to check for modified cells
+	                    List<String> modifiedCells = new ArrayList<>();
+	                    for (int rowNum = 1; rowNum <= risksDrawingsSheet.getLastRowNum(); rowNum++) {
+	                        XSSFRow row = risksDrawingsSheet.getRow(rowNum);
+	                        if (row != null) {
+	                            for (int cellNum = 0; cellNum < row.getLastCellNum(); cellNum++) {
+	                                XSSFCell cell = row.getCell(cellNum);
+	                                if (cell != null && cell.getCellType() == CellType.FORMULA) {
+	                                    // Capture the address of the modified cell
+	                                    modifiedCells.add(cell.getAddress().formatAsString());
+	                                }
+	                            }
+	                        }
+	                    }
+
+	                    if (!modifiedCells.isEmpty()) {
+	                        String errorMessage = " Mismatch found in the cell " + String.join(", ", modifiedCells);
+	                        attributes.addFlashAttribute("error", errorMessage);
+	                        workbook.close();
+	                        return model;
+	                    }
+
+	                    boolean flagValue = uploadNewActivities(obj, user_Id, userName);
+	                    if (flagValue == true) {
+	                        attributes.addFlashAttribute("success", " Activities Inserted/Updated successfully.");
+	                        FormHistory formHistory = new FormHistory();
+	                        formHistory.setCreated_by_user_id_fk(obj.getCreated_by_user_id_fk());
+	                        formHistory.setUser(obj.getDesignation() + " - " + obj.getUser_name());
+	                        formHistory.setModule_name_fk("Execution");
+	                        formHistory.setForm_name("Upload Activities");
+	                        formHistory.setForm_action_type("Upload");
+	                        formHistory.setForm_details("Activities Inserted/Updated successfully.");
+	                        formHistory.setWork(obj.getWork_id_fk());
+	                        formHistory.setContract(obj.getContract_id_fk());
+
+	                        boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+	                    }
+	                }
+	                workbook.close();
+	            }
+	        } else {
+	            attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
+	        }
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        attributes.addFlashAttribute("error", "Something went wrong. Please try after some time");
+	        logger.fatal("updateDataDate() : " + e.getMessage());
+	    }
+	    return model;
 	}
 
 	private boolean uploadNewActivities(StripChart obj, String userId,String userName) throws Exception {

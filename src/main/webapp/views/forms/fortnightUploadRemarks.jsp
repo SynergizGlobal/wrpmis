@@ -203,7 +203,7 @@
            	    		errorText=errorText+"Row"+(i+1)+":Remarks should be less than 300 characters<br><br>";
            	    	}*/
            	    	
-           	    	var remarksLength = excelRows[i]["Remark"];
+           	    	var remarksLength = excelRows[i]["Remarks"];
            	    	if (remarksLength != null && remarksLength != undefined) {
            	    	    remarksLength = remarksLength.toString();
            	    	    if (remarksLength.length > 300) {
@@ -211,7 +211,12 @@
            	    	    }
            	    	}           	    	
            	    	
-           	    	
+           	    
+           	    	var criticalValue = excelRows[i]["Critical (Y/N)"];
+                    if (criticalValue && (criticalValue.trim() !== "N")) {
+                        errorText += "Row " + (i + 2) + ": Mismatch found in the 'Critical column' <br><br>";
+                    }
+
             }
 	    	$("#errorResult").html(errorText);
 	    	

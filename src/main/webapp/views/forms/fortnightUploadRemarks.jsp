@@ -194,7 +194,7 @@
             {
             	    if($("#contract_short_name").val()!=excelRows[i]["Contract Name"])
             		{
-            	    	errorText=errorText+"Contract Short Name not matched in row "+(i+1)+"<br><br>";
+            	    	errorText=errorText+"Contract Short Name not matched in row "+(i+2)+"<br><br>";
             		}
             	    /*var remarksLength=excelRows[i]["Remark"];
             	    remarksLength=remarksLength.toString();
@@ -207,7 +207,7 @@
            	    	if (remarksLength != null && remarksLength != undefined) {
            	    	    remarksLength = remarksLength.toString();
            	    	    if (remarksLength.length > 300) {
-           	    	        errorText = errorText + "Row" + (i + 1) + ": Remarks should be less than 300 characters<br><br>";
+           	    	        errorText = errorText + "Row" + (i + 2) + ": Remarks should be less than 300 characters<br><br>";
            	    	    }
            	    	}           	    	
            	    	

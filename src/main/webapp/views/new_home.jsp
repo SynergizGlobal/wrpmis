@@ -46,7 +46,7 @@
 				  background: #fff;
 				  margin: 30px auto;
 				  /* position: relative; */
-				  height: 80px;
+				  height: 70px;
 				  width: 250px;
 				  border-radius: 20px;
 				}
@@ -245,14 +245,14 @@
             padding: 10px 0.75rem !important;
         }
 		 
-		@media(max-width: 1560px){
+		@media(min-width: 1561px){
 			.heading h3 {
                 font-size: 40px;
             }
 		} 
-        @media(max-width: 1366px) {
+        @media(max-width: 1560px) {
             .heading h3 {
-                font-size: 40px;
+                font-size: 36px;
             }
             .map-btn-holder .fa {
             font-size: 3.3rem;
@@ -400,9 +400,9 @@
         }
 
         @media(max-width: 1366px) {
-            .heading h3 {
+            /* .heading h3 {
                 font-size: 40px;
-            }
+            } */
             .map-btn-holder .btn{height: 4rem;padding: 8px;}
         }
 
@@ -1249,6 +1249,131 @@ margin-right: 0rem;
     	    height: auto !important;
     }
 }
+
+/* baloons css */
+.frame {
+  position: relative; }
+
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0; }
+.baloon-container {
+  height: 88%;
+  overflow: hidden; 
+  margin-left: 200px;
+}
+  .baloon-container .balloon {
+    display: inline-block;
+    width: 80px;
+    height: 105px;
+    background: #85d6ff;
+    border-radius: 80%;
+    position: relative;
+    opacity: 0.8;
+/*     -webkit-box-shadow: inset -10px -10px 0 rgba(0, 0, 0, 0.07);
+    box-shadow: inset -10px -10px 0 rgba(0, 0, 0, 0.07); */
+    margin: 20px 30px;
+    -webkit-transition: -webkit-transform 0.5s ease;
+    transition: -webkit-transform 0.5s ease;
+    -o-transition: transform 0.5s ease;
+    transition: transform 0.5s ease;
+    transition: transform 0.5s ease, -webkit-transform 0.5s ease;
+    z-index: 10;
+    -webkit-animation: balloons 5s ease-in-out infinite normal;
+    animation: balloons 5s ease-in-out infinite normal;
+    -webkit-transform-origin: bottom center;
+    -ms-transform-origin: bottom center;
+    transform-origin: bottom center; animation-iteration-count: 1; animation-fill-mode: forwards;}
+    .baloon-container .balloon:before {
+      content: "▲";
+      font-size: 20px;
+      color: #85d6ff;
+      display: block;
+      text-align: center;
+      width: 100%;
+      position: absolute;
+      bottom: -12px;
+      z-index: -100; }
+    .baloon-container .balloon:after {
+      display: inline-block;
+      top: 115px;
+      position: absolute;
+      height: 250px;
+      width: 1px;
+      margin: 0 auto;
+      content: "";
+      background: rgba(0, 0, 0, 0.2);
+      margin-left: 40px;
+}
+    .baloon-container .balloon:nth-child(2) {
+      background: #deb3ff;
+      -webkit-animation-duration: 5.5s;
+      animation-duration: 5.5s; 
+}
+   .baloon-container .balloon:nth-child(2):before {
+      color: #d8b8ff; 
+}
+    .baloon-container .balloon:nth-child(3) {
+      background: #4dff52;
+      -webkit-animation-duration: 6s;
+      animation-duration: 6s; 
+}
+  .baloon-container .balloon:nth-child(3):before {
+      color: #4dff52; }
+    .baloon-container .balloon:nth-child(4) {
+      background: #42f2ff;
+      -webkit-animation-duration: 8.5s;
+      animation-duration: 8.5s; 
+}
+  .baloon-container .balloon:nth-child(4):before {
+      color: #42f2ff; 
+}
+    .baloon-container .balloon:nth-child(5) {
+      background: #ce8355;
+      -webkit-animation-duration: 8s;
+      animation-duration: 8s; }
+    .baloon-container .balloon:nth-child(5):before {
+      color: #a96942; }
+    .baloon-container .balloon:nth-child(6) {
+      background: #ffd6e7;
+      -webkit-animation-duration: 8.5s;
+      animation-duration: 8.5s; }
+    .baloon-container .balloon:nth-child(6):before {
+      color: #ffd6e7; 
+}
+    .baloon-container .balloon:nth-child(7) {
+      background: #ffa352;
+      -webkit-animation-duration: 4.9s;
+      animation-duration: 4.9s; }
+    .baloon-container .balloon:nth-child(7):before {
+      color: #ffa352; }
+    .baloon-container .balloon:nth-child(8) {
+      background: #ffff47;
+      -webkit-animation-duration: 7s;
+      animation-duration: 7s; }
+    .baloon-container .balloon:nth-child(8):before {
+      color: #ffff47; }
+
+@-webkit-keyframes balloons {
+  0% {
+    top: 100%;
+    -webkit-transform: rotate(-4deg);
+    transform: rotate(-4deg); }
+  100% {
+    top: -100%;
+    -webkit-transform: rotate(4deg);
+    transform: rotate(4deg); } }
+
+@keyframes balloons {
+  0% {
+    top: 100%;
+    -webkit-transform: rotate(-4deg);
+    transform: rotate(-4deg); }
+  100% {
+    top: -100%;
+    -webkit-transform: rotate(4deg);
+    transform: rotate(4deg); display: none;visibility: hidden;} }
     </style>
 </head>
 
@@ -1344,18 +1469,18 @@ margin-right: 0rem;
 	            	<div class="row">
 	            		<div class="col s2 m1 l1 m-pd0">
 		            		<div class="heading">
-		            			<br><br><br><br><br><img src="/pmis/resources/images/mrvclogo.png" alt="Logo">
+		            			<br><img src="/pmis/resources/images/mrvclogo.png" alt="Logo">
 		            		</div>
 	            		</div>
 	                <div class="col l10 m10 s8">
 	                	<div class="heading color-change-2x">
 	                    <center>
 	                    
-	                    <br><br><br><br><br><h3 class="tracking-in-expand-fwd">Mumbai Railway Vikas Corporation</h3></center>
+	                    <br><h3 class="tracking-in-expand-fwd">Mumbai Railway Vikas Corporation</h3></center>
 	                </div>
 	                </div>
 	                <div class="col l1 m1 s2">
-	                <div class="map-btn-holder"><br><br><br><br><br>
+	                <div class="map-btn-holder"><br>
 	                        <a target="_new" class="waves-effect waves-light btn modal-trigger" href="/pmis/resources/images/final_map.png" title="click to see map">
 	                            <!-- <span class="material-icons">map</span> -->
 	                            <i class="fa fa-globe"></i>
@@ -1424,7 +1549,18 @@ margin-right: 0rem;
     <form action="<%=request.getContextPath()%>/project-overview" id="projectOverviewForm" method="post">
     	<input type="hidden" id="project_id_overview" name="project_id">
     </form>
-
+ <!-- baloons html -->
+    
+     <div class="baloon-container">
+        <div class="balloon"></div>
+        <div class="balloon"></div>
+        <div class="balloon"></div>
+        <div class="balloon"></div>
+        <div class="balloon"></div>
+        <div class="balloon"></div>
+        <div class="balloon"></div>
+        <div class="balloon"></div>
+    </div>
 <!-- footer starts here  -->
   <jsp:include page="./layout/footer.jsp"></jsp:include>
 <!-- footer ends here  -->

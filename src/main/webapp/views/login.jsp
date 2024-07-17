@@ -121,7 +121,277 @@
     			font-weight: 500;
 		}
 		
-		
+		.confetti {
+    /*display: flex;
+    justify-content: center;
+    align-items: center;*/
+    position: absolute;
+    width: 90%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+  top: 0;
+  left: 100px;
+}
+.confetti-piece {
+    position: absolute;
+    width: 10px;
+    height: 20px;
+    background: #ffd300;
+    top: 0;
+    opacity: 0;
+    border: 1px solid #000;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.confetti-piece:nth-child(1) {
+    left: 5%;
+    -webkit-transform: rotate(-40deg);
+    -webkit-animation: makeItRain 1000ms 20s ease-out;
+    -webkit-animation-delay: 182ms;
+    -webkit-animation-duration: 1116ms;
+}
+.confetti-piece:nth-child(2) {
+    left: 10%;
+    -webkit-transform: rotate(4deg);
+    -webkit-animation: makeItRain 1000ms 20s ease-out;
+    -webkit-animation-delay: 161ms;
+    -webkit-animation-duration: 1076ms;
+}
+.confetti-piece:nth-child(3) {
+    left: 15%;
+    -webkit-transform: rotate(-51deg);
+    -webkit-animation: makeItRain 1000ms 20s ease-out;
+    -webkit-animation-delay: 481ms;
+    -webkit-animation-duration: 1103ms;
+}
+.confetti-piece:nth-child(4) {
+    left: 20%;
+    -webkit-transform: rotate(61deg);
+    -webkit-animation: makeItRain 1000ms 20s ease-out;
+    -webkit-animation-delay: 334ms;
+    -webkit-animation-duration: 708ms;
+}
+.confetti-piece:nth-child(5) {
+    left: 25%;
+    -webkit-transform: rotate(-52deg);
+    -webkit-animation: makeItRain 1000ms 20s ease-out;
+    -webkit-animation-delay: 302ms;
+    -webkit-animation-duration: 776ms;
+}
+.confetti-piece:nth-child(6) {
+    left: 30%;
+    -webkit-transform: rotate(38deg);
+    -webkit-animation: makeItRain 1000ms 20s ease-out;
+    -webkit-animation-delay: 180ms;
+    -webkit-animation-duration: 1168ms;
+}
+.confetti-piece:nth-child(7) {
+    left: 35%;
+    -webkit-transform: rotate(11deg);
+    -webkit-animation: makeItRain 1000ms 20s ease-out;
+    -webkit-animation-delay: 395ms;
+    -webkit-animation-duration: 1200ms;
+}
+.confetti-piece:nth-child(8) {
+    left: 40%;
+    -webkit-transform: rotate(49deg);
+    -webkit-animation: makeItRain 1000ms 20s ease-out;
+    -webkit-animation-delay: 14ms;
+    -webkit-animation-duration: 887ms;
+}
+.confetti-piece:nth-child(9) {
+    left: 45%;
+    -webkit-transform: rotate(-72deg);
+    -webkit-animation: makeItRain 1000ms 20s ease-out;
+    -webkit-animation-delay: 149ms;
+    -webkit-animation-duration: 805ms;
+}
+.confetti-piece:nth-child(10) {
+    left: 50%;
+    -webkit-transform: rotate(10deg);
+    -webkit-animation: makeItRain 1000ms 20s ease-out;
+    -webkit-animation-delay: 351ms;
+    -webkit-animation-duration: 1059ms;
+}
+.confetti-piece:nth-child(11) {
+    left: 55%;
+    -webkit-transform: rotate(4deg);
+    -webkit-animation: makeItRain 1000ms 20s ease-out;
+    -webkit-animation-delay: 307ms;
+    -webkit-animation-duration: 1132ms;
+}
+.confetti-piece:nth-child(12) {
+    left: 60%;
+    -webkit-transform: rotate(42deg);
+    -webkit-animation: makeItRain 1000ms 20s ease-out;
+    -webkit-animation-delay: 464ms;
+    -webkit-animation-duration: 776ms;
+}
+.confetti-piece:nth-child(13) {
+    left: 65%;
+    -webkit-transform: rotate(-72deg);
+    -webkit-animation: makeItRain 1000ms 20s ease-out;
+    -webkit-animation-delay: 429ms;
+    -webkit-animation-duration: 818ms;
+}
+.confetti-piece:nth-child(odd) {
+    background: #7431e8;
+}
+.confetti-piece:nth-child(even) {
+    z-index: 1;
+}
+.confetti-piece:nth-child(4n) {
+    width: 3px;
+    height: 8px;
+    -webkit-animation-duration: 2000ms;
+}
+.confetti-piece:nth-child(3n) {
+    width: 3px;
+    height: 8px;
+    -webkit-animation-duration: 2500ms;
+    -webkit-animation-delay: 1000ms;
+}
+.confetti-piece:nth-child(4n-7) {
+  background: red;
+}
+@-webkit-keyframes makeItRain {
+    from {opacity: 0;}
+    100% {opacity: 1;}
+    to {-webkit-transform: translateY(550px);visibility: hidden;}
+}
+
+
+.blast{
+	display: flex;
+	justify-content: space-evenly;
+	position: absolute;
+	width: 48%;
+}
+.blast-box:nth-child(1){
+	top: 50px;
+    position: relative;
+}
+.blast-box:nth-child(3){
+	top: 100px;
+    position: relative;
+}
+:root{
+    --fc1: #f20;
+    --fc2: #ff0;
+    --fc3: #04f;
+    --fc4: #0f4;
+    --fc5: #f0f;
+    --fc: var(--fc1);
+}
+
+.fireworks:before, .fireworks:after{
+    position: absolute;
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    box-shadow: -120px 0 var(--fc),
+                120px 0 var(--fc),
+                0 120px var(--fc),
+                0 -120px var(--fc),
+                45px 45px var(--fc),
+                -45px 45px var(--fc),
+                85px 85px var(--fc),
+                -85px 85px var(--fc),
+                45px -45px var(--fc),
+                -45px -45px var(--fc),
+                85px -85px var(--fc),
+                -85px -85px var(--fc),
+                65px 0 var(--fc),
+                -65px 0 var(--fc),
+                0 65px var(--fc),
+                0 -65px var(--fc),
+                100px 45px var(--fc),
+                -100px 45px var(--fc),
+                -50px 100px var(--fc),
+                50px 100px var(--fc),
+                100px -45px var(--fc),
+                -100px -45px var(--fc),
+                -50px -100px var(--fc),
+                50px -100px var(--fc),
+                5px 10px var(--fc);
+    animation: 1s bang ease-out infinite backwards, 
+                1s gravity ease-in infinite backwards, 
+                5s position linear infinite backwards;
+}
+.fireworks:after{
+    animation-delay: 1.25s, 1.25s, 1.25s;
+    animation-duration: 1.25s, 1.25s, 6.25s;
+}
+@keyframes bang {
+    from {
+        box-shadow: 0 0 #fff, 
+                    0 0 #fff, 
+                    0 0 #fff, 
+                    0 0 #fff, 
+                    0 0 #fff, 
+                    0 0 #fff, 
+                    0 0 #fff, 
+                    0 0 #fff,
+                    0 0 #fff, 
+                    0 0 #fff, 
+                    0 0 #fff, 
+                    0 0 #fff, 
+                    0 0 #fff, 
+                    0 0 #fff, 
+                    0 0 #fff, 
+                    0 0 #fff,
+                    0 0 #fff, 
+                    0 0 #fff, 
+                    0 0 #fff, 
+                    0 0 #fff, 
+                    0 0 #fff, 
+                    0 0 #fff, 
+                    0 0 #fff, 
+                    0 0 #fff,
+                    0 0 #fff; 
+    }
+}
+
+@keyframes gravity {
+    to {
+        transform: translate(-10px, 150px);
+        height: 6px;
+        width: 4px;
+        opacity: 0; 
+    }
+}
+@keyframes position {
+    0%, 19.9% {
+        margin-top: 0%;
+        margin-left: -300px;
+        --fc: var(--fc1);
+    }
+
+    20%, 39.9% {
+        margin-top: 0%;
+        margin-left: 70%; 
+        --fc: var(--fc2);
+    }
+
+    40%, 59.9% {
+        margin-top: 5%;
+        margin-left: 20%; 
+        --fc: var(--fc3);
+    }
+
+    60%, 79.9% {
+        margin-top: 10%;
+        margin-left: 70%;
+        --fc: var(--fc4);
+    }
+
+    80%, 99.9% {
+        margin-top: 10%;
+        margin-left: 100%; 
+        --fc: var(--fc5);
+    } 
+}
     </style>
 </head>
 
@@ -129,7 +399,8 @@
  	       <!-- header starts -->
  	  	  <nav>
 	        <div class="nav-wrapper bg">
-	          <h3 style="margin:0" class="text">Welcome to MRVC PMIS </h3>  
+	          <!-- <h3 style="margin:0" class="text">Welcome to MRVC PMIS </h3> -->
+	          <h3 style="margin:0" class="text">MRVC Celebrates its 25th Anniversary </h3>  
 	        </div>
 	      </nav>
       <!-- header ends -->
@@ -191,6 +462,10 @@
 		    </div>
         
     		<div class="row mar-top">
+    		<div class="blast">
+		    			
+		    			<div class="fireworks"></div>
+		    		</div>
      			<div id="support" class="col"></div>
      			
      			<!-- <h3 style="color: #fff;">System IP Address : <span id="systemIPA">Loading...</span></h3>
@@ -229,6 +504,21 @@
 			        </div>
 		        
 		         </form>
+		         <div class="confetti">
+					    <div class="confetti-piece"></div>
+					    <div class="confetti-piece"></div>
+					    <div class="confetti-piece"></div>
+					    <div class="confetti-piece"></div>
+					    <div class="confetti-piece"></div>
+					    <div class="confetti-piece"></div>
+					    <div class="confetti-piece"></div>
+					    <div class="confetti-piece"></div>
+					    <div class="confetti-piece"></div>
+					    <div class="confetti-piece"></div>
+					    <div class="confetti-piece"></div>
+					    <div class="confetti-piece"></div>
+					    <div class="confetti-piece"></div>
+					</div>
 	      	</div>
     	</div>
     	
@@ -524,6 +814,12 @@
 		    	  }
 
 		    	});
+		    
+		    
+		 // firework scripts
+		    setTimeout(function(){
+			    document.querySelector('.fireworks').style.display = 'none';
+			}, 3200);
 		    
 </script>
 

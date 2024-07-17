@@ -214,7 +214,7 @@
            	    
            	    	var criticalValue = excelRows[i]["Critical (Y/N)"];
                     if (criticalValue && (criticalValue.trim() !== "N")) {
-                        errorText += "Row " + (i + 2) + ": Mismatch found in the 'Critical column' <br><br>";
+                        errorText += "Row " + (i + 2) + ": Mismatch found in column name 'Critical' <br><br>";
                     }
 
             }

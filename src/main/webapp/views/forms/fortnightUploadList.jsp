@@ -64,13 +64,18 @@
 	                                    <thead>
 	                                        <tr>
 	                                            <th>Uploaded File</th>
+	                                            <th>Contract Short Name</th>
 	                                            <th>Uploaded By</th>
 	                                            <th>Uploaded Date</th>
+	                                            <th>Download</th>
 	                                        </tr>
 	                                    </thead>
 	                                    <tbody>
                                             <c:forEach var="obj" items="${FortnightUploadList}">
-                                            	<tr><td>${obj.filename }</td><td>${obj.uploaded_by }</td><td>${obj.uploaded_date }</td></tr>
+                                            	<tr><td>${obj.filename }</td><td>${obj.contract_short_name }</td><td>${obj.uploaded_by }</td><td>${obj.uploaded_date }</td>
+                                            	
+                                            	<td><a href="/pmis/FORTNIGHT_PLAN_UPLOAD_REMARKS_PATH/${obj.filename }" class="btn waves-effect waves-light bg-m t-c mob-btn"><i class="fa fa-download"></i></a></td>
+                                            	</tr>
                                              </c:forEach>	                                    
 	                                    </tbody>
 	                                </table>

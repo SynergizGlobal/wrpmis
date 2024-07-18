@@ -1631,8 +1631,8 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 		List<FortnightPlan> objsList = null;
 		try {
 			String qry ="select distinct filename,case when modified_by is null then created_by else modified_by end as uploaded_by," + 
-					"max(case when modified_date is null then created_date else  created_date end ) as uploaded_date from fortnight_monthly_plan_upload " + 
-					"group by filename,modified_by,created_by";
+					"max(case when modified_date is null then created_date else  created_date end ) as uploaded_date,contract_short_name from fortnight_monthly_plan_upload " + 
+					"group by filename,modified_by,created_by,contract_short_name order by max(case when modified_date is null then created_date else  created_date end ) desc";
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<FortnightPlan>(FortnightPlan.class));	
 		}catch(Exception e){ 

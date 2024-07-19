@@ -687,7 +687,10 @@ font-size:22px ;
 						         			//+ '<option value="">All</option>'
 	
 						         			if((value.is_first_option_selected != 'YES')){
-						         				filters = filters + '<option value="" selected style="font-weight: bold;">All</option>';
+						         				if(index==0)
+						         					{
+						         						filters = filters + '<option value="" selected style="font-weight: bold;">All</option>';
+						         					}
 					         			    }
 						         			var optionArray=new Array();
 						         			var sValueCheck="";
@@ -887,6 +890,36 @@ font-size:22px ;
 	   	 }
 	 }
 	 var getItemArray=new Array();
+	 var mArray=new Array();
+	 
+	 function getSelectBoxOrderNumber(selectBoxId) {
+		    // Get all elements with class 'filterHolder'
+		    const filterHolders = document.querySelectorAll('.filterHolder');
+		    
+		    // Initialize a counter for the select elements
+		    let selectCounter = 0;
+
+		    // Loop through each filterHolder
+		    for (let i = 0; i < filterHolders.length; i++) {
+		        // Get the select elements within the current filterHolder
+		        const selectElements = filterHolders[i].querySelectorAll('select');
+
+		        // Loop through each select element within the current filterHolder
+		        for (let j = 0; j < selectElements.length; j++) {
+		            // Increment the counter
+		            selectCounter++;
+
+		            // Check if the current select element has the specified ID
+		            if (selectElements[j].id === selectBoxId) {
+		                // Return the global 1-based order number of the select element
+		                return selectCounter;
+		            }
+		        }
+		    }
+
+		    // If the select box with the specified ID is not found, return -1
+		    return -1;
+		}
 	 
 	 function getFilteredOptions(filterIds,dashboardId,clm){
 		 $(".page-loader").show();
@@ -952,19 +985,29 @@ font-size:22px ;
 			            dataType: 'json',
 			            success: function (data){
 			         	   if(data.length){   
-			         		  if(getItemArray.indexOf(id)==-1)
-			         			  {
-			         				getItemArray.push(id);
-			         			  }
-
+			         		  if(getItemArray.indexOf(id)==-1){getItemArray.push(id);}
 			         		  
+			         		 $.each( data, function( im, vm ){
+			         			 
+			         			if(mArray.indexOf(id)==-1){mArray.push(vm.filter_id);}
+			         		 });
+			         		 
+		         		  
 			         		   $.each( data, function( index, value ){
+		         		   
 			         			  var filterOptions = value.filter;
 			         			  var length = filterOptions.length;
-			         			  /* if((value.is_first_option_selected != 'YES') && length > 1){ */
-			         			  if((value.is_first_option_selected != 'YES')){
-			         				$("#"+id).append('<option value="" selected>All</option>');
-			         			  }
+			         			  
+			         			  if(($("#"+data[0].filter_column_id).val()=="" ||  $("#"+data[0].filter_column_id).val()==null) && value.filter_id==mArray[0] && (value.is_first_option_selected != 'YES') && getSelectBoxOrderNumber(data[0].filter_column_id)==1)
+		         				  {
+			         				  
+			         				 $("#"+id).append('<option value="" selected>All</option>');
+		         				  }
+			         			  
+
+			         			  if((value.is_first_option_selected != 'YES') && value.filter_id==mArray[1]){
+				         				$("#"+id).append('<option value="" selected>All</option>');
+				         		   }			         			  
 			         			  var optionArray=new Array();
 			         			  $.each( value.filter, function( index2, value2 ){
 				         			  	var filter_option_id = value2.filter_option_value;
@@ -975,21 +1018,12 @@ font-size:22px ;
 				         				if(((value.is_first_option_selected == 'YES') && (index2 == 0))){
 				         					selectedFlag = 'selected';	
 				         				}
-				         				
-				         				
-   
-					         					if(optionArray.indexOf(filter_option_id)==-1)
-					         					{
-						         					optionArray.push(filter_option_id);
-							         				$("#"+id).append('<option value="'+filter_option_id+'" '+selectedFlag+'>'+value2.filter_option_value+'</option>');
-		
-					         					}				         					 
-				         					 
-				         					 
-				         					 
-			         					
+			         					if(optionArray.indexOf(filter_option_id)==-1)
+			         					{
+				         					optionArray.push(filter_option_id);
+					         				$("#"+id).append('<option value="'+filter_option_id+'" '+selectedFlag+'>'+value2.filter_option_value+'</option>');
 
-			         					
+			         					}				         					 
 			                      });
 			         		  });
 			         		   $('.searchable').select2();

@@ -583,6 +583,8 @@
 			    </c:forEach> --%>
 			    <li class="divider" tabindex="-1"></li>
 			    <li class="support-link"> Contact us : <a href="mailto:mailto:helpdesk_pmis@mrvc.gov.in" style="display: inline;">helpdesk_pmis@mrvc.gov.in</a></li>
+			    <li class="divider" tabindex="-1"></li>
+			    <li><a href="#">Unable to login? </a></li>
 			  </ul>
         </div>
       </footer>

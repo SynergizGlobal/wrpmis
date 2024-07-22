@@ -1049,6 +1049,7 @@
 						<li><a href="<%=request.getContextPath()%>/profile">Profile</a></li>
 						<li><a href="<%=request.getContextPath()%>/reset-password">Reset
 								password</a></li>
+						<li><a href="#" title="Form Error">Help</a></li>
 						<li><a href="<%=request.getContextPath()%>/logout">Logout</a></li>
 					</ul></li>
 			</ul>			
@@ -1228,6 +1229,7 @@
 				<li><a href="<%=request.getContextPath()%>/profile">Profile</a></li>
 				<li><a href="<%=request.getContextPath()%>/reset-password">Reset
 						password</a></li>
+				<li><a href="#">Help</a></li>
 				<li><a href="<%=request.getContextPath()%>/logout">Logout</a></li>
 			</ul></li>
 

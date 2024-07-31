@@ -2729,6 +2729,78 @@
 	                            </div>
 							</div>
 						</div>					
+						<div class="container container-no-margin">
+							<div class="row  " id="documentDetails">
+	                            <div class="col l12 m12 s12 "  >
+	                                <div class="row fixed-width">
+	                                     <h5 class="center-align"><span class="div-header">GST Rate</span></h5> 
+	                                    <div class="table-inside">
+										    <div class="container">
+										            <h5>Contract Details</h5>
+										            <div class="item col s6 m6 l6">
+										                <label for="contract-value-gst">Contract Value inclusive of GST:</label>
+										                <select id="contract-value-gst" name="contract-value-gst">
+										                    <option value="yes">Yes</option>
+										                    <option value="no">No</option>
+										                </select>
+										            </div>
+										            <div class="item col s6 m6 l6">
+										                <label for="gst-rate">GST Rate:</label>
+										                <input type="text" id="gst-rate" name="gst-rate" placeholder="e.g., 18%" />
+										            </div>
+										            <div class="item col s6 m6 l6">
+										                <label for="composite-contract">Composite Contract:</label>
+										                <select id="composite-contract" name="composite-contract">
+										                    <option value="yes">Yes</option>
+										                    <option value="no">No</option>
+										                </select>
+										            </div>
+										            <div class="item col s6 m6 l6">
+										                <label for="price-variation">Price Variation Clause Applicable:</label>
+										                <select id="price-variation" name="price-variation">
+										                    <option value="yes">Yes</option>
+										                    <option value="no">No</option>
+										                </select>
+										            </div>
+										            <div class="item col s6 m6 l6">
+										                <label for="base-month">Base Month for PVC:</label>
+										                <input type="text" id="base-month" name="base-month" placeholder="e.g., July 2024" />
+										            </div>
+								            
+										        
+										            <h5>Retention Details</h5>
+										            <div class="item col s6 m6 l6">
+										                <label for="retention-amount">Retention Amount (Rs):</label>
+										                <input type="number" id="retention-amount" name="retention-amount" placeholder="e.g., 500,000" />
+										            </div>
+										            <div class="item col s6 m6 l6">
+										                <label for="rate-of-deduction-retention">Rate of Deduction:</label>
+										                <input type="text" id="rate-of-deduction-retention" name="rate-of-deduction-retention" placeholder="e.g., 5%" />
+										            </div>
+										            <div class="item col s6 m6 l6">
+										                <label for="retention-validity">Retention Money Validity:</label>
+										                <input type="text" id="retention-validity" name="retention-validity" placeholder="e.g., 12 Months" />
+										            </div>
+										        
+										            <h5>Mobilisation Advance</h5>
+										            <div class="item col s6 m6 l6">
+										                <label for="mobilisation-advance">Mobilisation Advance (Rs):</label>
+										                <input type="number" id="mobilisation-advance" name="mobilisation-advance" placeholder="e.g., 200,000" />
+										            </div>
+										            <div class="item col s6 m6 l6">
+										                <label for="rate-of-deduction-advance">Rate of Deduction:</label>
+										                <input type="text" id="rate-of-deduction-advance" name="rate-of-deduction-advance" placeholder="e.g., 2%" />
+										            </div>
+										            <div class="item col s6 m6 l6">
+										                <label for="applicable-till">Applicable till:</label>
+										                <input type="text" id="applicable-till" name="applicable-till" placeholder="e.g., December 2024" />
+										            </div>
+										    </div>	                                    
+										    </div>
+	                                </div>
+	                            </div>
+							</div>
+						</div>					
 						                 
                     </div>
                 </div>

@@ -18,6 +18,8 @@ public class Contract {
 	awarded_cost_units,estimated_cost_units,hod_department,message_id,update_type,tab_name,is_contract_closure_initiated,contract_details_types,created_by_user_id_fk,milestone_requried,revision_requried,contractors_key_requried,
 	actual_date_of_commissioning,existing_contract_closure_date,todate,estimated_cost_unit,awarded_cost_unit,completed_cost_unit,alerts_user_id,planned_date_of_award,modified_by,modified_date,physical_progress,planned_date_of_completion;
 	
+	private String contract_value_gst,gst_rate,composite_contract,price_variation,base_month,retention_amount,rate_of_deduction_retention,retention_validity,
+	mobilisation_advance,rate_of_deduction_advance,applicable_till;
 	
 	private String contract_ifas_code,doc_letter_status,tender_opening_date,technical_eval_submission,financial_eval_submission,contract_department,insurance_count,letter_status,bg_letter_status,contract_documents_id,name,attachment,contract_key_personnel_id,mobile_no,email_id,id, department_id_fk, executive_user_id_fk,bank_funded,type_of_review,searchStr;
 
@@ -2339,6 +2341,94 @@ public class Contract {
 
 	public void setContract_ifas_code(String contract_ifas_code) {
 		this.contract_ifas_code = contract_ifas_code;
+	}
+
+	public String getContract_value_gst() {
+		return contract_value_gst;
+	}
+
+	public void setContract_value_gst(String contract_value_gst) {
+		this.contract_value_gst = contract_value_gst;
+	}
+
+	public String getGst_rate() {
+		return gst_rate;
+	}
+
+	public void setGst_rate(String gst_rate) {
+		this.gst_rate = gst_rate;
+	}
+
+	public String getComposite_contract() {
+		return composite_contract;
+	}
+
+	public void setComposite_contract(String composite_contract) {
+		this.composite_contract = composite_contract;
+	}
+
+	public String getPrice_variation() {
+		return price_variation;
+	}
+
+	public void setPrice_variation(String price_variation) {
+		this.price_variation = price_variation;
+	}
+
+	public String getBase_month() {
+		return base_month;
+	}
+
+	public void setBase_month(String base_month) {
+		this.base_month = base_month;
+	}
+
+	public String getRetention_amount() {
+		return retention_amount;
+	}
+
+	public void setRetention_amount(String retention_amount) {
+		this.retention_amount = retention_amount;
+	}
+
+	public String getRate_of_deduction_retention() {
+		return rate_of_deduction_retention;
+	}
+
+	public void setRate_of_deduction_retention(String rate_of_deduction_retention) {
+		this.rate_of_deduction_retention = rate_of_deduction_retention;
+	}
+
+	public String getRetention_validity() {
+		return retention_validity;
+	}
+
+	public void setRetention_validity(String retention_validity) {
+		this.retention_validity = retention_validity;
+	}
+
+	public String getMobilisation_advance() {
+		return mobilisation_advance;
+	}
+
+	public void setMobilisation_advance(String mobilisation_advance) {
+		this.mobilisation_advance = mobilisation_advance;
+	}
+
+	public String getRate_of_deduction_advance() {
+		return rate_of_deduction_advance;
+	}
+
+	public void setRate_of_deduction_advance(String rate_of_deduction_advance) {
+		this.rate_of_deduction_advance = rate_of_deduction_advance;
+	}
+
+	public String getApplicable_till() {
+		return applicable_till;
+	}
+
+	public void setApplicable_till(String applicable_till) {
+		this.applicable_till = applicable_till;
 	}
 	
 }

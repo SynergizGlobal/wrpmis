@@ -1,20 +1,25 @@
 package com.synergizglobal.pmis.IMPLdao;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.sql.DataSource;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -38,6 +43,7 @@ import com.synergizglobal.pmis.model.FormHistory;
 import com.synergizglobal.pmis.model.Insurence;
 import com.synergizglobal.pmis.model.Messages;
 import com.synergizglobal.pmis.model.User;
+
 
 @Repository
 public class ContractDaoImpl implements ContractDao {
@@ -2554,6 +2560,55 @@ public class ContractDaoImpl implements ContractDao {
 					
 					DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
 					
+				     String INSERT_CONTRACT_SQL = "INSERT INTO [contract_gst_details] ([includes_gst] ,[gst_rate],[is_composite],[is_varying_price],[base_month],[retention_amount],[retention_deduction_rate],[retention_validity],[mobilization_advance],[mob_deduction_rate] ,[applicable_date],[created_at],[contract_id_fk]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,GETDATE(),?);";
+
+				     PreparedStatement preparedStatement = con.prepareStatement(INSERT_CONTRACT_SQL) ;
+					 
+				     try {
+				    	    // Example input strings
+				    	    String baseMonthStr = contract.getBase_month(); // "July 2024"
+				    	    String retentionValidityStr = contract.getRetention_validity(); // "December 2024"
+				    	    String applicableTillStr = contract.getApplicable_till(); // "August 2024"
+
+				    	    // Convert month-year strings to "yyyy-MM-dd"
+				    	    SimpleDateFormat inputFormat = new SimpleDateFormat("MMMM yyyy", Locale.ENGLISH);
+				    	    SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+				    	    // Parse and format the dates
+				    	    String baseMonthFormatted = outputFormat.format(inputFormat.parse(baseMonthStr));
+				    	    String retentionValidityFormatted = outputFormat.format(inputFormat.parse(retentionValidityStr));
+				    	    String applicableTillFormatted = outputFormat.format(inputFormat.parse(applicableTillStr));
+
+				    	    // Convert to java.sql.Date
+				    	    java.sql.Date baseMonth = java.sql.Date.valueOf(baseMonthFormatted);
+				    	    java.sql.Date retentionValidity = java.sql.Date.valueOf(retentionValidityFormatted);
+				    	    java.sql.Date applicableTill = java.sql.Date.valueOf(applicableTillFormatted);
+
+				    	    // Set values in the PreparedStatement
+				    	    preparedStatement.setBoolean(1, "yes".equalsIgnoreCase(contract.getContract_value_gst()));
+				    	    preparedStatement.setBigDecimal(2, new BigDecimal(contract.getGst_rate()));
+				    	    preparedStatement.setBoolean(3, "yes".equalsIgnoreCase(contract.getComposite_contract()));
+				    	    preparedStatement.setBoolean(4, "yes".equalsIgnoreCase(contract.getPrice_variation()));
+				    	    preparedStatement.setDate(5, baseMonth);
+				    	    preparedStatement.setBigDecimal(6, new BigDecimal(contract.getRetention_amount()));
+				    	    preparedStatement.setBigDecimal(7, new BigDecimal(contract.getRate_of_deduction_retention()));
+				    	    preparedStatement.setDate(8, retentionValidity);
+				    	    preparedStatement.setBigDecimal(9, new BigDecimal(contract.getMobilisation_advance()));
+				    	    preparedStatement.setBigDecimal(10, new BigDecimal(contract.getRate_of_deduction_advance()));
+				    	    preparedStatement.setDate(11, applicableTill);
+				    	    preparedStatement.setString(12, contract.getContract_id_fk());
+
+				    	    preparedStatement.executeUpdate();
+				    	} catch (ParseException e) {
+				    	    e.printStackTrace();
+				    	}
+		             
+					
+					
+					
+					
+					
+					
 					/*c = stmt.executeBatch();
 					c = updateStmt.executeBatch();
 					int[] insert_count = stmt.executeBatch();
@@ -2741,6 +2796,22 @@ public class ContractDaoImpl implements ContractDao {
 		return contract.getContract_id();	
 	
 	}
+	
+	private void printSQLException(SQLException ex) {
+        for (Throwable e : ex) {
+            if (e instanceof SQLException) {
+                e.printStackTrace(System.err);
+                System.err.println("SQLState: " + ((SQLException) e).getSQLState());
+                System.err.println("Error Code: " + ((SQLException) e).getErrorCode());
+                System.err.println("Message: " + e.getMessage());
+                Throwable t = ex.getCause();
+                while (t != null) {
+                    System.out.println("Cause: " + t);
+                    t = t.getCause();
+                }
+            }
+        }
+    }	
  
 	private List<String> compareTwoContractObjects(Contract s1, Contract s2) throws Exception {
 		List<String> changedFields = new ArrayList<String>();

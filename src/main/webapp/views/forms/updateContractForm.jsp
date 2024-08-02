@@ -2738,62 +2738,62 @@
 										    <div class="container">
 										            <h5>Contract Details</h5>
 										            <div class="item col s6 m6 l6">
-										                <label for="contract-value-gst">Contract Value inclusive of GST:</label>
-										                <select id="contract-value-gst" name="contract-value-gst">
+										                <label for="contract-value-gst">Contract Value inclusive of GST:</label><span class="required">*</span>
+										                <select id="contract_value_gst" name="contract_value_gst">
 										                    <option value="yes">Yes</option>
 										                    <option value="no">No</option>
 										                </select>
 										            </div>
 										            <div class="item col s6 m6 l6">
-										                <label for="gst-rate">GST Rate:</label>
-										                <input type="text" id="gst-rate" name="gst-rate" placeholder="e.g., 18%" />
+										                <label for="gst-rate">GST Rate:</label><span class="required">*</span>
+										                <input type="text" id="gst_rate" name="gst_rate" placeholder="e.g., 18%" />
 										            </div>
 										            <div class="item col s6 m6 l6">
-										                <label for="composite-contract">Composite Contract:</label>
-										                <select id="composite-contract" name="composite-contract">
+										                <label for="composite-contract">Composite Contract:</label><span class="required">*</span>
+										                <select id="composite_contract" name="composite_contract">
 										                    <option value="yes">Yes</option>
 										                    <option value="no">No</option>
 										                </select>
 										            </div>
 										            <div class="item col s6 m6 l6">
-										                <label for="price-variation">Price Variation Clause Applicable:</label>
-										                <select id="price-variation" name="price-variation">
+										                <label for="price-variation">Price Variation Clause Applicable:</label><span class="required">*</span>
+										                <select id="price_variation" name="price_variation">
 										                    <option value="yes">Yes</option>
 										                    <option value="no">No</option>
 										                </select>
 										            </div>
 										            <div class="item col s6 m6 l6">
-										                <label for="base-month">Base Month for PVC:</label>
-										                <input type="text" id="base-month" name="base-month" placeholder="e.g., July 2024" />
+										                <label for="base-month">Base Month for PVC:</label><span class="required">*</span>
+										                <input type="text" id="base_month" name="base_month" placeholder="e.g., July 2024" />
 										            </div>
 								            
 										        
 										            <h5>Retention Details</h5>
 										            <div class="item col s6 m6 l6">
-										                <label for="retention-amount">Retention Amount (Rs):</label>
-										                <input type="number" id="retention-amount" name="retention-amount" placeholder="e.g., 500,000" />
+										                <label for="retention-amount">Retention Amount (Rs):</label><span class="required">*</span>
+										                <input type="number" id="retention_amount" name="retention_amount" placeholder="e.g., 500,000" />
 										            </div>
 										            <div class="item col s6 m6 l6">
-										                <label for="rate-of-deduction-retention">Rate of Deduction:</label>
-										                <input type="text" id="rate-of-deduction-retention" name="rate-of-deduction-retention" placeholder="e.g., 5%" />
+										                <label for="rate-of-deduction-retention">Rate of Deduction:</label><span class="required">*</span>
+										                <input type="text" id="rate_of_deduction_retention" name="rate_of_deduction_retention" placeholder="e.g., 5%" />
 										            </div>
 										            <div class="item col s6 m6 l6">
-										                <label for="retention-validity">Retention Money Validity:</label>
-										                <input type="text" id="retention-validity" name="retention-validity" placeholder="e.g., 12 Months" />
+										                <label for="retention-validity">Retention Money Validity:</label><span class="required">*</span>
+										                <input type="text" id="retention_validity" name="retention_validity" placeholder="November 2024" />
 										            </div>
 										        
 										            <h5>Mobilisation Advance</h5>
 										            <div class="item col s6 m6 l6">
-										                <label for="mobilisation-advance">Mobilisation Advance (Rs):</label>
-										                <input type="number" id="mobilisation-advance" name="mobilisation-advance" placeholder="e.g., 200,000" />
+										                <label for="mobilisation-advance">Mobilisation Advance (Rs):</label><span class="required">*</span>
+										                <input type="number" id="mobilisation_advance" name="mobilisation_advance" placeholder="e.g., 200,000" />
 										            </div>
 										            <div class="item col s6 m6 l6">
-										                <label for="rate-of-deduction-advance">Rate of Deduction:</label>
-										                <input type="text" id="rate-of-deduction-advance" name="rate-of-deduction-advance" placeholder="e.g., 2%" />
+										                <label for="rate-of-deduction-advance">Rate of Deduction:</label><span class="required">*</span>
+										                <input type="text" id="rate_of_deduction_advance" name="rate_of_deduction_advance" placeholder="e.g., 2%" />
 										            </div>
 										            <div class="item col s6 m6 l6">
-										                <label for="applicable-till">Applicable till:</label>
-										                <input type="text" id="applicable-till" name="applicable-till" placeholder="e.g., December 2024" />
+										                <label for="applicable-till">Applicable till:</label><span class="required">*</span>
+										                <input type="text" id="applicable_till" name="applicable_till" placeholder="e.g., December 2024" />
 										            </div>
 										    </div>	                                    
 										    </div>
@@ -3621,6 +3621,41 @@
 	   	     	  }
             });
         }
+        
+        function validateForm() {
+            const errorContainer = $('#errorContainer');
+            let errorMessage = '';
+
+            // Validate mandatory fields
+            const fields = [
+                { id: '#contract_value_gst', name: 'Contract Value inclusive of GST' },
+                { id: '#gst_rate', name: 'GST Rate' },
+                { id: '#composite_contract', name: 'Composite Contract' },
+                { id: '#price_variation', name: 'Price Variation Clause Applicable' },
+                { id: '#base_month', name: 'Base Month for PVC' },
+                { id: '#retention_amount', name: 'Retention Amount (Rs)' },
+                { id: '#rate_of_deduction_retention', name: 'Rate of Deduction' },
+                { id: '#retention_validity', name: 'Retention Money Validity' },
+                { id: '#mobilisation_advance', name: 'Mobilisation Advance (Rs)' },
+                { id: '#rate_of_deduction_advance', name: 'Rate of Deduction' },
+                { id: '#applicable_till', name: 'Applicable till' }
+            ];
+
+            fields.forEach(field => {
+                const element = $(field.id);
+                if (element.val() === '' || element.val() == null) {
+                    errorMessage += `Please enter ${field.name}. `;
+                }
+            });
+
+            // Show validation errors if any
+            if (errorMessage) {
+                errorContainer.text(errorMessage);
+                return false; // Prevent form submission if there are validation errors
+            }
+
+            return true; // Allow form submission if validation passes
+        }        
      
         function updateContract(){
         	var update_type = $("#update_type").val();
@@ -3788,6 +3823,78 @@
 	        		
 /* 	                	$("#ravTable input").prop("disabled", false);
 	                	$("#ravTable input.checkbox").prop("disabled", false);	     */ 
+	                	
+	                	
+	                    var isValid = true;
+	                    var errorMessage = "Please fill out the following fields:\n";
+
+	                    // Validate Contract Details
+	                    if ($('#contract_value_gst').val() === "") {
+	                        isValid = false;
+	                        errorMessage += "- Contract Value inclusive of GST\n";
+	                    }
+
+	                    if ($('#gst_rate').val().trim() === "") {
+	                        isValid = false;
+	                        errorMessage += "- GST Rate\n";
+	                    }
+
+	                    if ($('#composite_contract').val() === "") {
+	                        isValid = false;
+	                        errorMessage += "- Composite Contract\n";
+	                    }
+
+	                    if ($('#price_variation').val() === "") {
+	                        isValid = false;
+	                        errorMessage += "- Price Variation Clause Applicable\n";
+	                    }
+
+	                    if ($('#base_month').val().trim() === "") {
+	                        isValid = false;
+	                        errorMessage += "- Base Month for PVC\n";
+	                    }
+
+	                    // Validate Retention Details
+	                    if ($('#retention_amount').val().trim() === "") {
+	                        isValid = false;
+	                        errorMessage += "- Retention Amount\n";
+	                    }
+
+	                    if ($('#rate_of_deduction_retention').val().trim() === "") {
+	                        isValid = false;
+	                        errorMessage += "- Rate of Deduction for Retention\n";
+	                    }
+
+	                    if ($('#retention_validity').val().trim() === "") {
+	                        isValid = false;
+	                        errorMessage += "- Retention Money Validity\n";
+	                    }
+
+	                    // Validate Mobilisation Advance
+	                    if ($('#mobilisation_advance').val().trim() === "") {
+	                        isValid = false;
+	                        errorMessage += "- Mobilisation Advance\n";
+	                    }
+
+	                    if ($('#rate_of_deduction_advance').val().trim() === "") {
+	                        isValid = false;
+	                        errorMessage += "- Rate of Deduction for Mobilisation Advance\n";
+	                    }
+
+	                    if ($('#applicable_till').val().trim() === "") {
+	                        isValid = false;
+	                        errorMessage += "- Applicable till\n";
+	                    }
+
+	                    // If the form is not valid, prevent submission and show an alert
+	                    if (!isValid) {
+	                        alert(errorMessage);
+	                        $(".page-loader").hide();
+	                        return false;
+	                        event.preventDefault();
+	                    }	                	
+	                	
+	                	
 	                	
     				document.getElementById("contractForm").submit();	
     	 		}else{

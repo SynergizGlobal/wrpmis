@@ -400,7 +400,7 @@
  	  	  <nav>
 	        <div class="nav-wrapper bg">
 	          <!-- <h3 style="margin:0" class="text">Welcome to MRVC PMIS </h3> -->
-	          <h3 style="margin:0" class="text">MRVC Celebrates its 25th Anniversary </h3>  
+	          <h3 style="margin:0" class="text">Welcome to MRVC PMIS </h3>  
 	        </div>
 	      </nav>
       <!-- header ends -->
@@ -462,10 +462,7 @@
 		    </div>
         
     		<div class="row mar-top">
-    		<div class="blast">
-		    			
-		    			<div class="fireworks"></div>
-		    		</div>
+
      			<div id="support" class="col"></div>
      			
      			<!-- <h3 style="color: #fff;">System IP Address : <span id="systemIPA">Loading...</span></h3>
@@ -504,21 +501,6 @@
 			        </div>
 		        
 		         </form>
-		         <div class="confetti">
-					    <div class="confetti-piece"></div>
-					    <div class="confetti-piece"></div>
-					    <div class="confetti-piece"></div>
-					    <div class="confetti-piece"></div>
-					    <div class="confetti-piece"></div>
-					    <div class="confetti-piece"></div>
-					    <div class="confetti-piece"></div>
-					    <div class="confetti-piece"></div>
-					    <div class="confetti-piece"></div>
-					    <div class="confetti-piece"></div>
-					    <div class="confetti-piece"></div>
-					    <div class="confetti-piece"></div>
-					    <div class="confetti-piece"></div>
-					</div>
 	      	</div>
     	</div>
     	
@@ -584,7 +566,7 @@
 			    <li class="divider" tabindex="-1"></li>
 			    <li class="support-link"> Contact us : <a href="mailto:mailto:helpdesk_pmis@mrvc.gov.in" style="display: inline;">helpdesk_pmis@mrvc.gov.in</a></li>
 			    <li class="divider" tabindex="-1"></li>
-			    <li><a href="#">Unable to login? </a></li>
+        		<li><a href="#" onclick="sendSupportEmail(); return false;">Unable to login?</a></li>
 			  </ul>
         </div>
       </footer>
@@ -685,7 +667,28 @@
 			    }
 			});
 			
-
+			function sendSupportEmail() 
+			{
+					if($("#user_id").val()=="")
+					{
+						$("#message").html("Please enter User Name");
+						return false;
+					}
+				
+	            $.ajax({
+	                url: '<%=request.getContextPath()%>/ajax/sendSupportEmail',
+	                type: 'GET',
+	                data:{user_name:$("#user_id").val()},
+	                success: function(response) {
+	                    alert("Mail sent to Support Team");
+	                },
+	                error: function(error) {
+	                    alert('Error: ' + error);
+	                }
+	            });
+	        }
+			
+			
 			
 			function login() {
 				window.localStorage.clear();

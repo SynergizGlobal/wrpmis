@@ -1551,16 +1551,7 @@ html, body {
     </form>
  <!-- baloons html -->
     
-     <div class="baloon-container">
-        <div class="balloon"></div>
-        <div class="balloon"></div>
-        <div class="balloon"></div>
-        <div class="balloon"></div>
-        <div class="balloon"></div>
-        <div class="balloon"></div>
-        <div class="balloon"></div>
-        <div class="balloon"></div>
-    </div>
+
 <!-- footer starts here  -->
   <jsp:include page="./layout/footer.jsp"></jsp:include>
 <!-- footer ends here  -->

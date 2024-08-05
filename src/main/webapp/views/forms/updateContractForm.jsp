@@ -60,6 +60,39 @@
 		    background-color: transparent;
 		}
 		
+		#base_month~button {
+		    position: absolute;
+		    right: 15px;
+		    top: 15px;
+		    border: 0;
+		    opacity: 0.7;
+		    cursor: pointer;
+		    background-color: transparent;
+		}
+		
+		
+		#retention_validity~button {
+		    position: absolute;
+		    right: 15px;
+		    top: 15px;
+		    border: 0;
+		    opacity: 0.7;
+		    cursor: pointer;
+		    background-color: transparent;
+		}	
+		
+		
+		#applicable_till~button {
+		    position: absolute;
+		    right: 15px;
+		    top: 15px;
+		    border: 0;
+		    opacity: 0.7;
+		    cursor: pointer;
+		    background-color: transparent;
+		}			
+						
+		
 		/* utility classes ends here  */
         .datepicker-table thead tr,
         .datepicker-table thead tr:hover,
@@ -2746,7 +2779,7 @@
 										            </div>
 										            <div class="item col s6 m6 l6">
 										                <label for="gst-rate">GST Rate:</label><span class="required">*</span>
-										                <input type="text" id="gst_rate" name="gst_rate" placeholder="e.g., 18%" />
+										                <input type="text" id="gst_rate" name="gst_rate" placeholder="e.g., 18%"  value="${contractDeatils.contractGstDetails[0].gst_rate }" />
 										            </div>
 										            <div class="item col s6 m6 l6">
 										                <label for="composite-contract">Composite Contract:</label><span class="required">*</span>
@@ -2764,36 +2797,50 @@
 										            </div>
 										            <div class="item col s6 m6 l6">
 										                <label for="base-month">Base Month for PVC:</label><span class="required">*</span>
-										                <input type="text" id="base_month" name="base_month" placeholder="e.g., July 2024" />
+
+	                                    <input autocomplete="off" id="base_month" name="base_month" type="text" class="validate validate-dropdown datepicker" value="${contractDeatils.contractGstDetails[0].base_month }">
+	                                     <span id="base_monthError" class="error-msg" ></span>
+	                                    <button type="button" id="base_month_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>										                
+										                
+										                
 										            </div>
 								            
 										        
 										            <h5>Retention Details</h5>
 										            <div class="item col s6 m6 l6">
 										                <label for="retention-amount">Retention Amount (Rs):</label><span class="required">*</span>
-										                <input type="number" id="retention_amount" name="retention_amount" placeholder="e.g., 500,000" />
+										                <input type="number" id="retention_amount" name="retention_amount" placeholder="e.g., 500,000"  value="${contractDeatils.contractGstDetails[0].retention_amount }"/>
 										            </div>
 										            <div class="item col s6 m6 l6">
 										                <label for="rate-of-deduction-retention">Rate of Deduction:</label><span class="required">*</span>
-										                <input type="text" id="rate_of_deduction_retention" name="rate_of_deduction_retention" placeholder="e.g., 5%" />
+										                <input type="text" id="rate_of_deduction_retention" name="rate_of_deduction_retention" placeholder="e.g., 5%"  value="${contractDeatils.contractGstDetails[0].rate_of_deduction_retention }"/>
 										            </div>
 										            <div class="item col s6 m6 l6">
 										                <label for="retention-validity">Retention Money Validity:</label><span class="required">*</span>
-										                <input type="text" id="retention_validity" name="retention_validity" placeholder="November 2024" />
+										                
+								         <input autocomplete="off" id="retention_validity" name="retention_validity" type="text" class="validate validate-dropdown datepicker" value="${contractDeatils.contractGstDetails[0].retention_validity }">
+	                                     <span id="retention_validityError" class="error-msg" ></span>
+	                                    <button type="button" id="retention_validity_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>				                
+										                
+										                
 										            </div>
 										        
 										            <h5>Mobilisation Advance</h5>
 										            <div class="item col s6 m6 l6">
 										                <label for="mobilisation-advance">Mobilisation Advance (Rs):</label><span class="required">*</span>
-										                <input type="number" id="mobilisation_advance" name="mobilisation_advance" placeholder="e.g., 200,000" />
+										                <input type="number" id="mobilisation_advance" name="mobilisation_advance" placeholder="e.g., 200,000" value="${contractDeatils.contractGstDetails[0].mobilisation_advance }" />
 										            </div>
 										            <div class="item col s6 m6 l6">
 										                <label for="rate-of-deduction-advance">Rate of Deduction:</label><span class="required">*</span>
-										                <input type="text" id="rate_of_deduction_advance" name="rate_of_deduction_advance" placeholder="e.g., 2%" />
+										                <input type="text" id="rate_of_deduction_advance" name="rate_of_deduction_advance" placeholder="e.g., 2%" value="${contractDeatils.contractGstDetails[0].rate_of_deduction_advance }" />
 										            </div>
 										            <div class="item col s6 m6 l6">
 										                <label for="applicable-till">Applicable till:</label><span class="required">*</span>
-										                <input type="text" id="applicable_till" name="applicable_till" placeholder="e.g., December 2024" />
+										                
+										 <input autocomplete="off" id="applicable_till" name="applicable_till" type="text" class="validate validate-dropdown datepicker" value="${contractDeatils.contractGstDetails[0].applicable_till }">
+	                                     <span id="applicable_tillError" class="error-msg" ></span>
+	                                    <button type="button" id="retention_validity_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>               
+										                
 										            </div>
 										    </div>	                                    
 										    </div>
@@ -2881,7 +2928,34 @@
 	       }else if ($(this).val() == "No"){
 	    	   $("#bankFundedDiv").hide();
 	       }
-	   });	        
+	   });	
+  	   
+ 	   
+  	   var contractValueGst = "${contractDeatils.contractGstDetails[0].contract_value_gst}";
+  	    var compositeContract = "${contractDeatils.contractGstDetails[0].composite_contract}";
+  	    var priceVariation = "${contractDeatils.contractGstDetails[0].price_variation}";
+
+  	    if (contractValueGst == 1) {
+  	        $("#contract_value_gst").val('yes').trigger('change');
+  	    } else {
+  	        $("#contract_value_gst").val('no').trigger('change');
+  	    }
+  	    
+
+  	    if (compositeContract == 1) { 
+  	        $("#composite_contract").val('yes').trigger('change');
+  	    } else {
+  	        $("#composite_contract").val('no').trigger('change');
+  	    }
+
+  	    if (priceVariation == 1) { 
+  	        $("#price_variation").val('yes').trigger('change');
+  	    } else {
+  	        $("#price_variation").val('no').trigger('change');
+  	    }
+  	   
+  	   
+  	   
     });
     
     getContract_ifas_code_div("${contractDeatils.contractor_id_fk}");

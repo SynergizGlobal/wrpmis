@@ -62,6 +62,8 @@ public class Contract {
 	private List<Contract> responsiblePersonsList;
 	private List<Contract> report1List;
 	
+	private List<Contract> contractGstDetails;
+	
 	
 	
 	private List<Contract> worksList;
@@ -2429,6 +2431,14 @@ public class Contract {
 
 	public void setApplicable_till(String applicable_till) {
 		this.applicable_till = applicable_till;
+	}
+
+	public List<Contract> getContractGstDetails() {
+		return contractGstDetails;
+	}
+
+	public void setContractGstDetails(List<Contract> contractGstDetails) {
+		this.contractGstDetails = contractGstDetails;
 	}
 	
 }

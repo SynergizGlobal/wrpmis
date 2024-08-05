@@ -116,7 +116,7 @@ public class ContractDaoImpl implements ContractDao {
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? or "
-						+ "contract_id in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk) or contract_id in(	select distinct contract_id from contractexecutives ce inner join work w on w.work_id=ce.work_id_fk inner join contract c on c.work_id_fk=w.work_id where executive_user_id_fk = ?\r\n" + 
+						+ "contract_id in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk) or contract_id in(	select distinct contract_id from contractexecutives ce inner join work w on w.work_id=ce.work_id_fk inner join contract c on c.work_id_fk=w.work_id where executive_user_id_fk = ? " + 
 						") )";
 				arrSize++;
 				arrSize++;
@@ -1296,6 +1296,11 @@ public class ContractDaoImpl implements ContractDao {
 				contract.setRemarks(resultSet.getString("remarks"));
 
 				contract.setBankGauranree(getBankGauranree(contract.getContract_id(),con));	
+				
+				contract.setContractGstDetails(getContractGstDetails(contract.getContract_id(),con));	
+				
+				
+				
 				contract.setInsurence(getInsurence(contract.getContract_id(),con));	
 				contract.setMilestones(getMilestones(contract.getContract_id(),con));
 				contract.setContract_revisions(getContract_revisions(contract.getContract_id(),con));
@@ -1651,6 +1656,55 @@ public class ContractDaoImpl implements ContractDao {
 		}
 		return insurence;
 	}
+	
+	
+	private List<Contract> getContractGstDetails(String contract_id, Connection con) throws Exception {
+	       String qry = "SELECT [includes_gst], " +
+                   "      [gst_rate], " +
+                   "      [is_composite], " +
+                   "      [is_varying_price], " +
+                   "      FORMAT(base_month,'dd-MM-yyyy') as [base_month], " +
+                   "      [retention_amount], " +
+                   "      [retention_deduction_rate], " +
+                   "      FORMAT(retention_validity,'dd-MM-yyyy') as [retention_validity], " +
+                   "      [mobilization_advance], " +
+                   "      [mob_deduction_rate], " +
+                   "      FORMAT(applicable_date,'dd-MM-yyyy') as [applicable_date], " +
+                   "      [created_at], " +
+                   "      [updated_at], " +
+                   "      [contract_id_fk] " +
+                   "  FROM [pmis].[dbo].[contract_gst_details] " +
+                   "WHERE contract_id_fk = ?";
+
+      List<Contract> contractGstDetails = new ArrayList<>();
+      Contract obj = null;
+
+      try (PreparedStatement stmt = con.prepareStatement(qry)) {
+          stmt.setString(1, contract_id);
+          ResultSet resultSet = stmt.executeQuery();
+
+          while (resultSet.next()) {
+              obj = new Contract();
+              obj.setContract_value_gst(resultSet.getString("includes_gst"));
+              obj.setGst_rate(resultSet.getString("gst_rate"));
+              obj.setComposite_contract(resultSet.getString("is_composite"));
+              obj.setPrice_variation(resultSet.getString("is_varying_price"));
+              obj.setBase_month(resultSet.getString("base_month"));
+              obj.setRetention_amount(resultSet.getString("retention_amount"));
+              obj.setRate_of_deduction_retention(resultSet.getString("retention_deduction_rate"));
+              obj.setRetention_validity(resultSet.getString("retention_validity"));
+              obj.setMobilisation_advance(resultSet.getString("mobilization_advance"));
+              obj.setRate_of_deduction_advance(resultSet.getString("mob_deduction_rate"));
+              obj.setApplicable_till(resultSet.getString("applicable_date"));
+
+              contractGstDetails.add(obj);
+          }
+      } catch (SQLException e) {
+          e.printStackTrace();
+      }
+
+      return contractGstDetails;
+	}	
 
 	private List<Contract> getBankGauranree(String contract_id, Connection con) throws Exception {
 		PreparedStatement stmt = null;
@@ -2560,48 +2614,74 @@ public class ContractDaoImpl implements ContractDao {
 					
 					DBConnectionHandler.closeJDBCResoucrs(null, stmt, null);
 					
-				     String INSERT_CONTRACT_SQL = "INSERT INTO [contract_gst_details] ([includes_gst] ,[gst_rate],[is_composite],[is_varying_price],[base_month],[retention_amount],[retention_deduction_rate],[retention_validity],[mobilization_advance],[mob_deduction_rate] ,[applicable_date],[created_at],[contract_id_fk]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,GETDATE(),?);";
+			        String CHECK_CONTRACT_SQL = "SELECT COUNT(1) FROM [contract_gst_details] WHERE [contract_id_fk] = ?";
+			        String INSERT_CONTRACT_SQL = "INSERT INTO [contract_gst_details] ([includes_gst], [gst_rate], [is_composite], [is_varying_price], [base_month], [retention_amount], [retention_deduction_rate], [retention_validity], [mobilization_advance], [mob_deduction_rate], [applicable_date], [created_at], [contract_id_fk]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE(), ?)";
+			        String UPDATE_CONTRACT_SQL = "UPDATE [contract_gst_details] SET [includes_gst] = ?, [gst_rate] = ?, [is_composite] = ?, [is_varying_price] = ?, [base_month] = ?, [retention_amount] = ?, [retention_deduction_rate] = ?, [retention_validity] = ?, [mobilization_advance] = ?, [mob_deduction_rate] = ?, [applicable_date] = ?, [created_at] = GETDATE() WHERE [contract_id_fk] = ?";
 
-				     PreparedStatement preparedStatement = con.prepareStatement(INSERT_CONTRACT_SQL) ;
-					 
-				     try {
-				    	    // Example input strings
-				    	    String baseMonthStr = contract.getBase_month(); // "July 2024"
-				    	    String retentionValidityStr = contract.getRetention_validity(); // "December 2024"
-				    	    String applicableTillStr = contract.getApplicable_till(); // "August 2024"
+			        try {
+			            PreparedStatement checkStatement = con.prepareStatement(CHECK_CONTRACT_SQL);
+			            checkStatement.setString(1, contract.getContract_id());
+			            ResultSet rs1 = checkStatement.executeQuery();
 
-				    	    // Convert month-year strings to "yyyy-MM-dd"
-				    	    SimpleDateFormat inputFormat = new SimpleDateFormat("MMMM yyyy", Locale.ENGLISH);
-				    	    SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");
+			            boolean recordExists = false;
+			            if (rs1.next()) {
+			                recordExists = rs1.getInt(1) > 0;
+			            }
 
-				    	    // Parse and format the dates
-				    	    String baseMonthFormatted = outputFormat.format(inputFormat.parse(baseMonthStr));
-				    	    String retentionValidityFormatted = outputFormat.format(inputFormat.parse(retentionValidityStr));
-				    	    String applicableTillFormatted = outputFormat.format(inputFormat.parse(applicableTillStr));
+			            //String baseMonthStr = contract.getBase_month(); // "July 2024"
+			           // String retentionValidityStr = contract.getRetention_validity(); // "December 2024"
+			           // String applicableTillStr = contract.getApplicable_till(); // "August 2024"
 
-				    	    // Convert to java.sql.Date
-				    	    java.sql.Date baseMonth = java.sql.Date.valueOf(baseMonthFormatted);
-				    	    java.sql.Date retentionValidity = java.sql.Date.valueOf(retentionValidityFormatted);
-				    	    java.sql.Date applicableTill = java.sql.Date.valueOf(applicableTillFormatted);
+			            SimpleDateFormat inputFormat = new SimpleDateFormat("dd-MM-yyyy");
+			            SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-				    	    // Set values in the PreparedStatement
-				    	    preparedStatement.setBoolean(1, "yes".equalsIgnoreCase(contract.getContract_value_gst()));
-				    	    preparedStatement.setBigDecimal(2, new BigDecimal(contract.getGst_rate()));
-				    	    preparedStatement.setBoolean(3, "yes".equalsIgnoreCase(contract.getComposite_contract()));
-				    	    preparedStatement.setBoolean(4, "yes".equalsIgnoreCase(contract.getPrice_variation()));
-				    	    preparedStatement.setDate(5, baseMonth);
-				    	    preparedStatement.setBigDecimal(6, new BigDecimal(contract.getRetention_amount()));
-				    	    preparedStatement.setBigDecimal(7, new BigDecimal(contract.getRate_of_deduction_retention()));
-				    	    preparedStatement.setDate(8, retentionValidity);
-				    	    preparedStatement.setBigDecimal(9, new BigDecimal(contract.getMobilisation_advance()));
-				    	    preparedStatement.setBigDecimal(10, new BigDecimal(contract.getRate_of_deduction_advance()));
-				    	    preparedStatement.setDate(11, applicableTill);
-				    	    preparedStatement.setString(12, contract.getContract_id_fk());
+			            //String baseMonthFormatted = outputFormat.format(inputFormat.parse(baseMonthStr));
+			           // String retentionValidityFormatted = outputFormat.format(inputFormat.parse(retentionValidityStr));
+			           // String applicableTillFormatted = outputFormat.format(inputFormat.parse(applicableTillStr));
 
-				    	    preparedStatement.executeUpdate();
-				    	} catch (ParseException e) {
-				    	    e.printStackTrace();
-				    	}
+			            //java.sql.Date baseMonth = java.sql.Date.valueOf(baseMonthFormatted);
+			           // java.sql.Date retentionValidity = java.sql.Date.valueOf(retentionValidityFormatted);
+			           // java.sql.Date applicableTill = java.sql.Date.valueOf(applicableTillFormatted);
+			            
+			            Date date = null;
+			            Date date1 = null;
+			            Date date2 = null;
+			            String formattedDate = null;
+			            String formattedDate1 = null;	
+			            String formattedDate2 = null;	
+
+			            String sql = recordExists ? UPDATE_CONTRACT_SQL : INSERT_CONTRACT_SQL;
+			            PreparedStatement preparedStatement = con.prepareStatement(sql);
+
+			            preparedStatement.setBoolean(1, "yes".equalsIgnoreCase(contract.getContract_value_gst()));
+			            preparedStatement.setBigDecimal(2, new BigDecimal(contract.getGst_rate()));
+			            preparedStatement.setBoolean(3, "yes".equalsIgnoreCase(contract.getComposite_contract()));
+			            preparedStatement.setBoolean(4, "yes".equalsIgnoreCase(contract.getPrice_variation()));
+			            
+			            date = inputFormat.parse(contract.getBase_month());
+			            formattedDate = outputFormat.format(date);
+			            
+			            preparedStatement.setString(5, formattedDate);
+			            preparedStatement.setBigDecimal(6, new BigDecimal(contract.getRetention_amount()));
+			            preparedStatement.setBigDecimal(7, new BigDecimal(contract.getRate_of_deduction_retention()));
+
+			            date1 = inputFormat.parse(contract.getRetention_validity());
+			            formattedDate1 = outputFormat.format(date1);
+			            
+			            preparedStatement.setString(8, formattedDate1);
+			            preparedStatement.setBigDecimal(9, new BigDecimal(contract.getMobilisation_advance()));
+			            preparedStatement.setBigDecimal(10, new BigDecimal(contract.getRate_of_deduction_advance()));
+			            
+			            date2 = inputFormat.parse(contract.getApplicable_till());
+			            formattedDate2 = outputFormat.format(date2);
+			            
+			            preparedStatement.setString(11, formattedDate2);
+			            preparedStatement.setString(12, contract.getContract_id());
+
+			            preparedStatement.executeUpdate();
+			        } catch (SQLException e) {
+			            e.printStackTrace();
+			        }
 		             
 					
 					
@@ -3649,7 +3729,7 @@ public class ContractDaoImpl implements ContractDao {
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? or "
-						+ "contract_id in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk) or contract_id in(	select distinct contract_id from contractexecutives ce inner join work w on w.work_id=ce.work_id_fk inner join contract c on c.work_id_fk=w.work_id where executive_user_id_fk = ?\r\n" + 
+						+ "contract_id in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk) or contract_id in(	select distinct contract_id from contractexecutives ce inner join work w on w.work_id=ce.work_id_fk inner join contract c on c.work_id_fk=w.work_id where executive_user_id_fk = ? " + 
 						") )";
 				arrSize++;
 				arrSize++;
@@ -3768,7 +3848,7 @@ public class ContractDaoImpl implements ContractDao {
 			}
 			if(!StringUtils.isEmpty(obj) &&  !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
 				qry = qry + " and (hod_user_id_fk = ? or dy_hod_user_id_fk = ? or "
-						+ "contract_id in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk) or contract_id in(	select distinct contract_id from contractexecutives ce inner join work w on w.work_id=ce.work_id_fk inner join contract c on c.work_id_fk=w.work_id where executive_user_id_fk = ?\r\n" + 
+						+ "contract_id in(select contract_id_fk from contract_executive where executive_user_id_fk = ? group by contract_id_fk) or contract_id in(	select distinct contract_id from contractexecutives ce inner join work w on w.work_id=ce.work_id_fk inner join contract c on c.work_id_fk=w.work_id where executive_user_id_fk = ? " + 
 						") )";
 				arrSize++;
 				arrSize++;
@@ -4937,8 +5017,6 @@ public class ContractDaoImpl implements ContractDao {
 		}
 		return objsList;
 	}
-
-	
 
 
 }

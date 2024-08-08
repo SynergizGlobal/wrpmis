@@ -1131,7 +1131,7 @@
                                                         	<td style="width:10%;"><input id="financial_eval_approval0" name="financial_eval_approval" type="text" class="validate datepicker" value="${revObj1.financialevalapproval }"></td> 
                                                         	<td style="width:100%;">
                                                         	
-                                                        	<textarea name="tender_bid_remarks" maxlength="1000" data-length="1000" id="tender_bid_remarks0"  class="validate pmis-textarea w90 pdr4em" style="height: 59px;">${revObj1.tenderbidremarks }</textarea>
+                                                        	<textarea name="tender_bid_remarks" maxlength="1500" data-length="1500" id="tender_bid_remarks0"  class="validate pmis-textarea w90 pdr4em" style="height: 59px;">${revObj1.tenderbidremarks }</textarea>
                                                         	</td>
                                                         	
                                                         	
@@ -1149,7 +1149,7 @@
                                                             <td style="width:10%"><input id="tender_bid_opening_date0" name="tender_bid_opening_date" type="text" class="validate datepicker"></td>
                                                         	<td style="width:10%;"><input id="technical_eval_approval0" name="technical_eval_approval" type="text" class="validate datepicker"></td> 
                                                         	<td style="width:10%;"><input id="financial_eval_approval0" name="financial_eval_approval" type="text" class="validate datepicker"></td> 
-                                                        	<td style="width:100%;"><textarea name="tender_bid_remarks" maxlength="1000" data-length="1000" id="tender_bid_remarks0" class="validate pmis-textarea w90 pdr4em" style="height: 59px;"></textarea></td>
+                                                        	<td style="width:100%;"><textarea name="tender_bid_remarks" maxlength="1500" data-length="1500" id="tender_bid_remarks0" class="validate pmis-textarea w90 pdr4em" style="height: 59px;"></textarea></td>
                                                         	
                                                         	                                                        	                                                       	
                                                         	
@@ -5471,7 +5471,7 @@
 	               +'<td><input id="tender_bid_opening_date' + rNo + '" name="tender_bid_opening_date" type="text" class="validate datepicker" value=""></td>'
 	               +'<td><input id="technical_eval_approval' + rNo + '" name="technical_eval_approval" type="text" class="validate datepicker" value=""></td>'
 	               +'<td><input id="financial_eval_approval' + rNo + '" name="financial_eval_approval" type="text" class="validate datepicker" value=""></td>'
-	               +'<td><textarea id="tender_bid_remarks' + rNo + '" name="tender_bid_remarks" maxlength="1000" data-length="1000" class="validate pmis-textarea w90 pdr4em" style="height: 59px;"></textarea></td>'
+	               +'<td><textarea id="tender_bid_remarks' + rNo + '" name="tender_bid_remarks" maxlength="1500" data-length="1500" class="validate pmis-textarea w90 pdr4em" style="height: 59px;"></textarea></td>'
 	               
 	               
 	               +'<td class="input-field mobile_btn_close"><button type="button" onclick="removeRevisionStActions(' + rNo + ');" class="btn waves-effect waves-light red t-c remove"><i class="fa fa-close"></i></button></td>'

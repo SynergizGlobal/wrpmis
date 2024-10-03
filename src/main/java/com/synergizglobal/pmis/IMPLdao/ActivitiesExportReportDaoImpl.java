@@ -305,16 +305,11 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 	public List<StripChart> generateMCDOProgressReport(StripChart obj) throws Exception {
 		List<StripChart> objsList = null;
 		try {
-			String qry = "select * from( " + 
-					"select distinct works+' ('+unit+')' as works,cast(during_month as int) as during_month,cast(cumulative as int) as cumulative,cast(balance as int) as balance from  vf_mcdo_pk('"+obj.getWork_id_fk()+"','"+obj.getFrom_date()+"','"+obj.getTo_date()+"') " + 
-					") as a where works is not null  " + 
+			String qry = "select * from( select distinct works+' ('+unit+')' as works,cast(during_month as int) as during_month,cast(cumulative as int) as cumulative,cast(balance as int) as balance from  vf_mcdo_pk('"+obj.getWork_id_fk()+"','"+obj.getFrom_date()+"','"+obj.getTo_date()+"') ) as a where works is not null   and works in('Earthwork Filling (Cum)','Rock cutting (Cum)','Blanketing (Cum)','Drain (Rm)','TSS Formation (Cum)','Flyover (Nos)','Major Bridge (Nos)','Minor Bridge (Nos)','ROB (Nos)','RUB (Nos)','Approach Cutting (Cum)','Heading (Rm)','Benching (Rm)','Final Lining  (Rm)','Railway Earth Filling (Cum)','Panvel Station Improvement (Nos)','Chowk Station Improvement (Nos)','Chikhale Station Improvement (Nos)','Mohape Station Improvement (Nos)','Karjat Station Improvement (Nos)')  order by (case when works='Earthwork Filling (Cum)' then 1 when works='Railway Earth Filling (Cum)' then 2 when works='Rock cutting (Cum)' then 3 when works='Blanketing (Cum)' then 4 when works='Drain (Rm)' then 5 when works='TSS Formation (Cum)' then 6   when works='Flyover (Nos)' then 7 when works='Major Bridge (Nos)' then 8 when works='Minor Bridge (Nos)' then 9 when works='ROB (Nos)' then 10 when works='RUB (Nos)' then 11   when works='Approach Cutting (Cum)' then 12 when works='Heading (Rm)' then 13 when works='Benching (Rm)' then 14 when works='Final Lining  (Rm)' then 15   " + 
 					" " + 
-					"and works in('Earthwork Filling (Cum)','Rock cutting (Cum)','Blanketing (Cum)','Drain (Rm)','TSS Formation (Cum)','Flyover (Nos)','Major Bridge (Nos)','Minor Bridge (Nos)','ROB (Nos)','RUB (Nos)','Approach Cutting (Cum)','Heading (Rm)','Benching (Rm)','Final Lining  (Rm)','Railway Earth Filling (Cum)') " + 
+					"when works='Railway Earth Filling (Cum)' then 16 when works='Panvel Station Improvement (Nos)' then 17 when works='Chowk Station Improvement (Nos)' then 18 when works='Chikhale Station Improvement (Nos)' then 19 when works='Mohape Station Improvement (Nos)' then 20  when works='Karjat Station Improvement (Nos)' then 21 " + 
 					" " + 
-					"order by (case when works='Earthwork Filling (Cum)' then 1 when works='Railway Earth Filling (Cum)' then 2 when works='Rock cutting (Cum)' then 3 when works='Blanketing (Cum)' then 4 when works='Drain (Rm)' then 5 when works='TSS Formation (Cum)' then 6 " + 
-					" " + 
-					" when works='Flyover (Nos)' then 7 when works='Major Bridge (Nos)' then 8 when works='Minor Bridge (Nos)' then 9 when works='ROB (Nos)' then 10 when works='RUB (Nos)' then 11  " + 
-					" when works='Approach Cutting (Cum)' then 12 when works='Heading (Rm)' then 13 when works='Benching (Rm)' then 14 when works='Final Lining  (Rm)' then 15  else 0 end) ";
+					"else 0 end)";
 			
 
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<StripChart>(StripChart.class));
@@ -333,9 +328,34 @@ public class ActivitiesExportReportDaoImpl implements ActivitiesExportReportDao{
 					"select distinct works+' ('+unit+')' as works,cast(during_month as int) as during_month,cast(cumulative as int) as cumulative,cast(balance as int) as balance  from  vf_mcdo_virar('"+obj.getWork_id_fk()+"','"+obj.getFrom_date()+"','"+obj.getTo_date()+"') " +
 					") as a where works is not null  " + 
 					" " + 
-					"and works in('Earthwork Filling (Cum)','Earthwork Cutting (Cum)','Rock cutting (Cum)','Blanketing (Cum)','Construction of Drain (Rm)','Major Bridge (Nos)','Minor Bridge (Nos)','ROB (Nos)','RUB (Nos)') " + 
+					"and works in('Earthwork Filling (Cum)','Earthwork Cutting (Cum)','Rock cutting (Cum)','Blanketing (Cum)','Construction of Drain (Rm)','Major Bridge (Nos)','Minor Bridge (Nos)','ROB (Nos)','RUB (Nos)','Boisar station (Nos)',\r\n" + 
+					"'Kelve Station (Nos)',\r\n" + 
+					"'Vangaon station (Nos)',\r\n" + 
+					"'Virar-Vaitarna(East) (Nos)',\r\n" + 
+					"'Vaitarna Station (Nos)',\r\n" + 
+					"'Virar Car Shed North (Nos)',\r\n" + 
+					"'Dahanu station (Nos)',\r\n" + 
+					"'Umroli station (Nos)',\r\n" + 
+					"'Palghar Station (Nos)',\r\n" + 
+					"'Saphale Station (Nos)',\r\n" + 
+					"'Virar Station (Nos)',\r\n" + 
+					"'Relay Hut (Nos)',\r\n" + 
+					"'Addl Relay Hut (Nos)') " + 
 					" " + 
-					"order by (case when works='Earthwork Filling (Cum)' then 1 when works='Earthwork Cutting (Cum)' then 2 when works='Blanketing (Cum)' then 3 when works='Construction of Drain (Rm)' then 4  when works='Major Bridge (Nos)' then 5 when works='Minor Bridge (Nos)' then 6 when works='ROB (Nos)' then 7 when works='RUB (Nos)' then 8  " + 
+					"order by (case when works='Earthwork Filling (Cum)' then 1 when works='Earthwork Cutting (Cum)' then 2 when works='Blanketing (Cum)' then 3 when works='Construction of Drain (Rm)' then 4  when works='Major Bridge (Nos)' then 5 when works='Minor Bridge (Nos)' then 6 when works='ROB (Nos)' then 7 when works='RUB (Nos)' then 8  when works='Boisar station (Nos)' then 9\r\n" + 
+					"when works='Kelve Station (Nos)' then 10\r\n" + 
+					"when works='Vangaon station (Nos)' then 11 \r\n" + 
+					"when works='Virar-Vaitarna(East) (Nos)' then 12\r\n" + 
+					"when works='Vaitarna Station (Nos)' then 13\r\n" + 
+					"when works='Virar Car Shed North (Nos)' then 14\r\n" + 
+					"when works='Dahanu station (Nos)' then 15\r\n" + 
+					"when works='Umroli station (Nos)' then 16\r\n" + 
+					"when works='Palghar Station (Nos)' then 17\r\n" + 
+					"when works='Saphale Station (Nos)'  then 18\r\n" + 
+					"when works='Virar Station (Nos)' then 19\r\n" + 
+					"when works='Relay Hut (Nos)' then 20\r\n" + 
+					"when works='Addl Relay Hut (Nos)' then 21\r\n" + 
+					" " + 
 					"else 0 end) ";
 			
 

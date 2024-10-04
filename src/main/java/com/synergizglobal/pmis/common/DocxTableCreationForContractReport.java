@@ -5804,6 +5804,7 @@ public class DocxTableCreationForContractReport {
 				if (!StringUtils.isEmpty(contractsData1))
 				{
 				addParagraph(mp, factory);
+				addPageBreak(mp);
 				addHeading(wordMLPackage, mp, factory, JcEnumeration.CENTER, titleRPr, "Quadrupling of Virar-Dahanu Road on Western Railway");
 				
 				addHeading(wordMLPackage, mp, factory, JcEnumeration.LEFT, calibriBoldRPr, "Works Completed");		

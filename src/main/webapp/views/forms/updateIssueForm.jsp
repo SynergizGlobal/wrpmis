@@ -1843,17 +1843,10 @@
 	            }
 	        }, "Escalated Date date must be after Assigned Date");
 	    	
-	    	$.validator.addMethod("dateBefore3", function(value, element) {
+/* 	    	$.validator.addMethod("dateBefore3", function(value, element) {
 	    		var fromDateString = $('#assigned_date').val(); 
 	    		if(fromDateString!="")
 	    			{
-	    		/* var fromDateString = $('#escalation_date').val(); //
-	            var status = $('#status_fk').val();
-	            if($.trim(status) != '' && $.trim(status) == 'Escalated'){
-	            	fromDateString = $('#escalation_date').val();
-	            }else{
-	            	fromDateString = $('#assigned_date').val();
-	            } */
 	            var fromDateParts = fromDateString.split("-");
 	            // month is 0-based, that's why we need dataParts[1] - 1
 	            var fromDate = new Date(+fromDateParts[2], fromDateParts[1] - 1, +fromDateParts[0]); 
@@ -1871,7 +1864,7 @@
 	            	return true;
 	            }
 	    			}
-	        }, "Resolved Date must be after Assigned Date");
+	        }, "Resolved Date must be after Assigned Date"); */
 	    	
 	    	
 	    	

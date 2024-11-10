@@ -1601,9 +1601,9 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 		try{
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);	
 			String insertQry = "insert into  fortnight_monthly_plan_upload  "
-					+ "(date,contract_short_name,structure_type_fk,structure,component,unit,scope,target_till_lfn,actual_till_lfn,target_this_fn,actual_this_fn,cum_target,cum_actual,critical,remarks,created_by,created_date,filename)"
+					+ "(date,contract_short_name,structure_type_fk,structure,component,unit,scope,target_till_lfn,actual_till_lfn,target_this_fn,actual_this_fn,cum_target,cum_actual,critical,remarks,created_by,created_date,filename, upload_timestamp)"
 					+ "VALUES(:fortnight_date, :contract_short_name, :structure_type_fk, :structure, :component, :unit, :scope, :target_till_lfn, :actual_till_lfn, :target_this_fn,"
-					+ ":actual_this_fn, :cum_target, :cum_actual, :critical, :remarks,:created_by_user_id_fk,CURRENT_TIMESTAMP,:filename) ";
+					+ ":actual_this_fn, :cum_target, :cum_actual, :critical, :remarks,:created_by_user_id_fk,CURRENT_TIMESTAMP,:filename, CURRENT_TIMESTAMP) ";
 			
 			
 			
@@ -1641,20 +1641,16 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 		return objsList;
 	}
 
-	@Override
-	public int deleteFortnightsByContractShortName(String contractShortName) throws Exception {
-		Connection con = null;
-		PreparedStatement stmt = null;
-		con = dataSource.getConnection();
-		
-		String deleteQry = "delete from fortnight_monthly_plan_upload   where contract_short_name = ? ";
-		stmt = con.prepareStatement(deleteQry);
-		stmt.setString(1,contractShortName);
-		int cnt=stmt.executeUpdate();
-		if(stmt != null){stmt.close();}
-		return cnt;
-	}
-
+	/*
+	 * @Override public int deleteFortnightsByContractShortName(String
+	 * contractShortName) throws Exception { Connection con = null;
+	 * PreparedStatement stmt = null; con = dataSource.getConnection();
+	 * 
+	 * String deleteQry =
+	 * "delete from fortnight_monthly_plan_upload   where contract_short_name = ? ";
+	 * stmt = con.prepareStatement(deleteQry); stmt.setString(1,contractShortName);
+	 * int cnt=stmt.executeUpdate(); if(stmt != null){stmt.close();} return cnt; }
+	 */
 	@Override
 	public int insertQuarterlyPlans(List<FortnightPlan> fortnightPlansList) throws Exception {
 		TransactionDefinition def = new DefaultTransactionDefinition();

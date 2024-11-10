@@ -66,7 +66,9 @@ public interface FortnightPlanService {
 	
 	public int insertQuarterlyPlans(List<FortnightPlan>FortnightPlansList) throws Exception;
 	
-	public int deleteFortnightsByContractShortName(String ContractShortName) throws Exception;
-	
+	/*
+	 * public int deleteFortnightsByContractShortName(String ContractShortName)
+	 * throws Exception;
+	 */	
 
 } 

@@ -267,9 +267,11 @@ public class FortnightPlanController {
 				int sheetsCount = workbook.getNumberOfSheets();
 				if(sheetsCount > 0) {
 					
-					if(!StringUtils.isEmpty(obj.getContract_short_name())) {	
-						int Count=FortnightPlanService.deleteFortnightsByContractShortName(obj.getContract_short_name());
-					}
+					/*
+					 * if(!StringUtils.isEmpty(obj.getContract_short_name())) { int
+					 * Count=FortnightPlanService.deleteFortnightsByContractShortName(obj.
+					 * getContract_short_name()); }
+					 */
 					XSSFSheet risksDrawingsSheet = workbook.getSheetAt(0);
 					//System.out.println(uploadFilesSheet.getSheetName());
 					//header row

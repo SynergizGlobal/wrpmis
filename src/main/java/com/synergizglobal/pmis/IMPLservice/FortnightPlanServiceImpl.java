@@ -183,10 +183,11 @@ public class FortnightPlanServiceImpl implements FortnightPlanService {
 		return fortnightPlanDao.uploadFortnightPlans(FortnightPlansList);
 	}
 	
-	public int deleteFortnightsByContractShortName(String ContractShortName) throws Exception
-	{
-		return fortnightPlanDao.deleteFortnightsByContractShortName(ContractShortName);
-	}
+	/*
+	 * public int deleteFortnightsByContractShortName(String ContractShortName)
+	 * throws Exception { return
+	 * fortnightPlanDao.deleteFortnightsByContractShortName(ContractShortName); }
+	 */
 	
 	public int insertQuarterlyPlans(List<FortnightPlan>FortnightPlansList) throws Exception
 	{

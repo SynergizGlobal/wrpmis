@@ -6,6 +6,8 @@ import com.synergizglobal.pmis.model.FortnightPlan;
 
 public interface FortnightPlanService {
 	
+	
+	
 	List<FortnightPlan> getFortnightPlanList(FortnightPlan obj) throws Exception;
 	List<FortnightPlan> getFortnightQuarterlyPlanList(FortnightPlan obj) throws Exception;
 	List<FortnightPlan> getfortnightActivities(FortnightPlan obj) throws Exception;

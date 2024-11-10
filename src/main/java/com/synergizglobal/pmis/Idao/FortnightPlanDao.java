@@ -7,6 +7,7 @@ import com.synergizglobal.pmis.model.FortnightPlan;
 
 public interface FortnightPlanDao {
 	
+	
 	List<FortnightPlan> getFortnightPlanList(FortnightPlan obj) throws Exception;
 
 	List<FortnightPlan> getFortnightPlanWorkList() throws Exception;

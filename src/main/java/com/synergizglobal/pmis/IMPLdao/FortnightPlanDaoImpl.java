@@ -1641,6 +1641,8 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 		return objsList;
 	}
 
+	
+	
 	/*
 	 * @Override public int deleteFortnightsByContractShortName(String
 	 * contractShortName) throws Exception { Connection con = null;

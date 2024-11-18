@@ -1592,7 +1592,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 		 Connection con = null;
 	  PreparedStatement stmt = null; con = dataSource.getConnection();
 	  
-	  String deleteQry ="delete from fortnight_monthly_plan_upload   where contract_short_name = ? ";
+	  String deleteQry ="delete from fortnight_monthly_plan_upload   where contract_short_name = ? and upload_timestamp > DATEADD(DAY, -5, GETDATE())";
 	  stmt = con.prepareStatement(deleteQry); stmt.setString(1,contractShortName);
 	  int cnt=stmt.executeUpdate(); if(stmt != null){stmt.close();} return cnt; 
 	  

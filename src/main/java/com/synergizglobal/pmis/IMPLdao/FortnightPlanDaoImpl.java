@@ -1531,7 +1531,11 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 					+ "END "
 					+ "WHERE contract_short_name = :contract_short_name";
 			
+			
 	        String contractShortName = fortnightPlansList.get(0).getContract_short_name();
+	        
+	     
+	    
 
 
 			for (FortnightPlan obj : fortnightPlansList) {
@@ -1555,6 +1559,17 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 			DBConnectionHandler.closeJDBCResoucrs(con, insertStmt, rs);
 		}
 		return insertCount;
+	}
+	
+	private int checkPreviousFortnightinFiveDays(String ContractShortName) throws Exception{
+   		int cnt=0;
+   		try {
+   			String qry = "select count(*) from fortnight_monthly_plan_upload where contract_short_name = ?";
+   			cnt = (int) jdbcTemplate.queryForObject(qry, new Object[] { ContractShortName }, int.class);
+   		} catch (Exception e) {
+   			throw new Exception(e);
+   		}		
+   		return cnt;
 	}
 
 	@Override

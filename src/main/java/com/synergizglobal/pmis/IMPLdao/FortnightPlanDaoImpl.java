@@ -1534,7 +1534,10 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 			
 	        String contractShortName = fortnightPlansList.get(0).getContract_short_name();
 	        
-	     
+	        if(checkPreviousFortnightinFiveDays(contractShortName)>0)
+	        {
+	        	deleteFortnightsByContractShortName(contractShortName);
+	        }
 	    
 
 
@@ -1544,8 +1547,6 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 				count = namedParamJdbcTemplate.update(insertQry, paramSource, keyHolder);
 				if (count > 0) {
 					insertCount++;
-//					namedParamJdbcTemplate.update(updateQry, paramSource);
-
 				}
 			}
 			
@@ -1587,16 +1588,16 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 		return objsList;
 	}
 
-	/*
-	 * @Override public int deleteFortnightsByContractShortName(String
-	 * contractShortName) throws Exception { Connection con = null;
-	 * PreparedStatement stmt = null; con = dataSource.getConnection();
-	 * 
-	 * String deleteQry =
-	 * "delete from fortnight_monthly_plan_upload   where contract_short_name = ? ";
-	 * stmt = con.prepareStatement(deleteQry); stmt.setString(1,contractShortName);
-	 * int cnt=stmt.executeUpdate(); if(stmt != null){stmt.close();} return cnt; }
-	 */
+	 public int deleteFortnightsByContractShortName(String contractShortName) throws Exception { 
+		 Connection con = null;
+	  PreparedStatement stmt = null; con = dataSource.getConnection();
+	  
+	  String deleteQry ="delete from fortnight_monthly_plan_upload   where contract_short_name = ? ";
+	  stmt = con.prepareStatement(deleteQry); stmt.setString(1,contractShortName);
+	  int cnt=stmt.executeUpdate(); if(stmt != null){stmt.close();} return cnt; 
+	  
+	 }
+	 
 	@Override
 	public int insertQuarterlyPlans(List<FortnightPlan> fortnightPlansList) throws Exception {
 		TransactionDefinition def = new DefaultTransactionDefinition();

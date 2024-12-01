@@ -1525,8 +1525,8 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 					+ ":actual_this_fn, :cum_target, :cum_actual, :critical, :remarks,:created_by_user_id_fk,CURRENT_TIMESTAMP,:filename, CURRENT_TIMESTAMP, 'Current Fortnight') ";
 
 			String updateQry = "UPDATE fortnight_monthly_plan_upload " + "SET Remarks_status = CASE "
-					+ "    WHEN upload_timestamp > DATEADD(DAY, -20, GETDATE()) AND upload_timestamp <= GETDATE() THEN 'Current Fortnight' "
-					+ "    WHEN upload_timestamp > DATEADD(DAY, -35, GETDATE()) AND upload_timestamp <= DATEADD(DAY, -20, GETDATE()) THEN 'Previous Fortnight' "
+					+ "    WHEN upload_timestamp > DATEADD(DAY, -10, GETDATE()) AND upload_timestamp <= GETDATE() THEN 'Current Fortnight' "
+					+ "    WHEN upload_timestamp > DATEADD(DAY, -30, GETDATE()) AND upload_timestamp <= DATEADD(DAY, -10, GETDATE()) THEN 'Previous Fortnight' "
 					+ "    ELSE 'Archive' " 
 					+ "END "
 					+ "WHERE contract_short_name = :contract_short_name";
@@ -1565,7 +1565,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 	private int checkPreviousFortnightinFiveDays(String ContractShortName) throws Exception{
    		int cnt=0;
    		try {
-   			String qry = "select count(*) from fortnight_monthly_plan_upload where contract_short_name = ?";
+   			String qry = "select count(*) from fortnight_monthly_plan_upload where contract_short_name = ? and upload_timestamp > DATEADD(DAY, -9, GETDATE())";
    			cnt = (int) jdbcTemplate.queryForObject(qry, new Object[] { ContractShortName }, int.class);
    		} catch (Exception e) {
    			throw new Exception(e);
@@ -1592,7 +1592,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 		 Connection con = null;
 	  PreparedStatement stmt = null; con = dataSource.getConnection();
 	  
-	  String deleteQry ="delete from fortnight_monthly_plan_upload   where contract_short_name = ? and upload_timestamp > DATEADD(DAY, -5, GETDATE())";
+	  String deleteQry ="delete from fortnight_monthly_plan_upload   where contract_short_name = ? and upload_timestamp > DATEADD(DAY, -9, GETDATE())";
 	  stmt = con.prepareStatement(deleteQry); stmt.setString(1,contractShortName);
 	  int cnt=stmt.executeUpdate(); if(stmt != null){stmt.close();} return cnt; 
 	  

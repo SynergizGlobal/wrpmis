@@ -212,10 +212,10 @@
 								<table id="datatable-structure" class="mdl-data-table">
 									<thead>
 										<tr>
-											<th class="w100px">Structure  ID</th>
+											<th>Structure ID</th>
 											<th class="no-sort">Work</th>
-											<th>Structure  Type</th>
-											
+											<th>Structure Type</th>
+											<th class="w100px">Structure</th>
 											<th>Contract</th>
 											<th>Work Status</th>
 											<th class="no-sort">Action</th>
@@ -489,9 +489,11 @@
 											"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/getStructuresList?"+myParams,
 													 
 						        "aoColumns": [
-						        	{ "mData": function(data,type,row){
-						            	if($.trim(data.structure) == ''){ return '-'; }else{ return data.structure; }
-						            } },						        	
+						            { "mData": function(data,type,row){
+						            	var structure_id = '';
+				                        if ($.trim(data.structure_id) != '') { structure_id = $.trim(data.structure_id) }    	
+				                     	if($.trim(data.structure_id) == ''){ return '-'; }else{ return structure_id; }
+			            			} },						        	
 						            { "mData": function(data,type,row){
 						            	var work_short_name = '';
 				                        if ($.trim(data.work_short_name) != '') { work_short_name = $.trim(data.work_short_name) }    	
@@ -500,7 +502,9 @@
 						            { "mData": function(data,type,row){
 						            	if($.trim(data.structure_type_fk) == ''){ return '-'; }else{ return data.structure_type_fk; }
 						            } },			            			
-						            
+						            { "mData": function(data,type,row){
+						            	if($.trim(data.structure) == ''){ return '-'; }else{ return data.structure; }
+						            } },
 						         	{ "mData": function(data,type,row){
 						         		var contract_short_name = '';
 						         		if ($.trim(data.contract_short_name) != '') { contract_short_name =  $.trim(data.contract_short_name) } 

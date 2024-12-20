@@ -77,12 +77,16 @@ public class StructureServiceImpl implements StructureService{
 	}
 
 	@Override
-	public boolean addStructure(Structure obj) throws Exception {
-		return dao.addStructure(obj);
+	public String addStructure(Structure obj) throws Exception {
+	    return dao.addStructure(obj);
+	}
+	@Override
+	public boolean checkForDuplicateStructure(Structure obj) throws Exception {
+	    return dao.checkForDuplicateStructure(obj);
 	}
 
 	@Override
-	public boolean updateStructure(Structure obj) throws Exception {
+	public String updateStructure(Structure obj) throws Exception {
 		return dao.updateStructure(obj);
 	}
 

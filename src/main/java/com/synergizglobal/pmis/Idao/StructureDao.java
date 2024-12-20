@@ -30,9 +30,9 @@ public interface StructureDao {
 
 	Structure getStructuresListDetails(Structure obj) throws Exception;
 
-	boolean addStructure(Structure obj) throws Exception;
+	String addStructure(Structure obj) throws Exception;
 
-	boolean updateStructure(Structure obj) throws Exception;
+	String updateStructure(Structure obj) throws Exception;
 
 	boolean saveStructureDataUploadFile(Structure obj) throws Exception;
 
@@ -55,4 +55,7 @@ public interface StructureDao {
 	List<Structure> getStructureCount(Structure obj) throws Exception;
 
 	List<Structure> getStructureTypeCount(Structure obj)  throws Exception;
+
+
+	boolean checkForDuplicateStructure(Structure obj) throws Exception;
 }

@@ -3,6 +3,7 @@ package com.synergizglobal.pmis.IMPLdao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -469,6 +470,8 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 		int activitiesCount = 3;
 		int rowNo = 3;
 		boolean flag = false;
+		   int recordsUploaded = 0;
+		    int recordsUpdated = 0;
 		try {
 			con = dataSource.getConnection();
 			
@@ -518,14 +521,38 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 					+ "completed = CAST(? as decimal(18,2)), weightage = CAST(? as decimal(18,2)), component_details = ?, remarks = ?, modified_by_user_id_fk = ?,original_duration = ?, modified_date = CURRENT_TIMESTAMP where task_code = ? and contract_id_fk = ?";
 			stmt = con.prepareStatement(wbsQry);
 			stmtUpdate = con.prepareStatement(wbsUpdateQry);
+
 			int loop=0;
 			int loop1=0;
+			
+			
+//			List<P6Data> tempList = new ArrayList<P6Data>();
+//			tempList.add(activitiesList.get(0));
+//			tempList.add(activitiesList.get(1));
+//			tempList.add(activitiesList.get(2));
+//			tempList.add(activitiesList.get(3));
+//			tempList.add(activitiesList.get(4));
+//			
+//
+//			tempList.add(activitiesList.get(activitiesList.size() - 2));
+//			tempList.add(activitiesList.get(activitiesList.size() - 1));
+//			
+//			for (P6Data obj : tempList) {
 			for (P6Data obj : activitiesList) {
-						PreparedStatement pstmt = con.prepareStatement("SELECT p6_activity_id as p6_activity_id FROM p6_activities WHERE task_code = ? and contract_id_fk = ?");
+						PreparedStatement pstmt = con.prepareStatement("SELECT p6_activity_id as p6_activity_id FROM p6_activities WHERE"
+								+ " task_code = ? and contract_id_fk = ?");
 						p = 1;
 						pstmt.setString(p++,obj.getP6_task_code());
 						pstmt.setString(p++,pobj.getContract_id_fk());
-						rs = pstmt.executeQuery();		
+//						System.out.println("----- : SELECT p6_activity_id as p6_activity_id FROM p6_activities WHERE task_code = '"+obj.getP6_task_code()+"'"
+//								+ " and contract_id_fk = '"+pobj.getContract_id_fk()+"'");
+						
+						
+						
+						rs = pstmt.executeQuery();	
+						
+						
+						
 						String p6_activity_id = null;
 						if(rs.next()) {
 							p6_activity_id = rs.getString("p6_activity_id");
@@ -535,6 +562,12 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 						p = 1;
 						structureStmt.setString(p++,obj.getStructure_type_fk());
 						structureStmt.setString(p++,obj.getStructure());
+						
+//						System.out.println("==== : SELECT top 1 structure_id as structure_id_fk FROM structure WHERE "
+//								+ "work_id_fk=(select work_id_fk from contract where contract_id = '"+pobj.getContract_id_fk()+"') "
+//										+ "and structure_type_fk = '"+obj.getStructure_type_fk()+"' and structure = '"+obj.getStructure()+"' "
+//												+ "and structure_id in(select structure_id_fk from structure_contract_responsible_people "
+//												+ "where contract_id_fk='"+pobj.getContract_id_fk()+"')");
 						rs = structureStmt.executeQuery();		
 						String val = null;
 						if(rs.next()) {
@@ -589,6 +622,8 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 								stmt.setString(p++,!StringUtils.isEmpty((pobj.getCreated_by_user_id_fk()))?pobj.getCreated_by_user_id_fk():null);
 								stmt.setString(p++,!StringUtils.isEmpty((pobj.getOriginal_duration()))?pobj.getOriginal_duration():null);
 								stmt.executeUpdate();
+		                        recordsUploaded++;  // Increment upload count
+
 								loop++;
 							}else {
 								
@@ -597,7 +632,7 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 								deleteExistingIDStmt.setString(1, p6_activity_id);
 								int c = deleteExistingIDStmt.executeUpdate();  
 								DBConnectionHandler.closeJDBCResoucrs(null, deleteExistingIDStmt, rs);
-								System.out.println("update "+activitiesCount++);
+//								System.out.println("update "+activitiesCount++);
 								p = 1;
 								stmtUpdate.setString(p++,obj.getStructure_id_fk());
 								stmtUpdate.setString(p++,!StringUtils.isEmpty((obj.getP6_activity_name()))?obj.getP6_activity_name():null);
@@ -628,6 +663,8 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 								stmtUpdate.setString(p++,!StringUtils.isEmpty((obj.getP6_task_code()))?obj.getP6_task_code():null);
 								stmtUpdate.setString(p++,!StringUtils.isEmpty((pobj.getContract_id_fk()))?pobj.getContract_id_fk():null);
 								stmtUpdate.executeUpdate();
+		                        recordsUpdated++;  // Increment update count
+
 								loop1++;
 								
 							}
@@ -643,15 +680,16 @@ public class P6NewDataDaoImpl implements P6NewDataDao {
 			}
 			//int[] c = stmt.executeBatch();	
 			//int[] d = stmtUpdate.executeBatch();	
-			for (int i = 0; i < loop; i++) {
-				wbsCount = wbsCount + (i+1);
-			}
-			for (int i = 0; i < loop1; i++) {
-				wbsCountUpdate = wbsCountUpdate + (i+1);
-			}
+//			for (int i = 0; i < loop; i++) {
+//				wbsCount = wbsCount + (i+1);
+//			}
+//			for (int i = 0; i < loop1; i++) {
+//				wbsCountUpdate = wbsCountUpdate + (i+1);
+//			}
 			DBConnectionHandler.closeJDBCResoucrs(null, stmtUpdate, rs);
-			counts = wbsCount + "," + wbsCountUpdate;
-			rows = "<span style='color:green;'> "+wbsCount + " records Added, " + wbsCountUpdate+" records Updated </span><br>";	
+			counts = recordsUploaded + "," + recordsUpdated;
+			rows = "<span style='color:green;'> "+recordsUploaded + " records Added, " + recordsUpdated+" records Updated </span><br>";	
+			System.out.println("wbscount:"+ recordsUploaded+"count update:"+recordsUpdated);
 			if(!StringUtils.isEmpty(norows)) {
 				if(!norows.contains(",")) {
 					rows = rows +"<span style='color:red;'> row no ( "+ norows+" )  Not Inserted Because Selected Contract & Structure Type & Structure combination is not present in Structure</span> ";

@@ -396,13 +396,14 @@ public class StructureController {
 			obj.setConstruction_start_date(DateParser.parse(obj.getConstruction_start_date()));	
 			obj.setTarget_date(DateParser.parse(obj.getTarget_date()));	
 			obj.setRevised_completion(DateParser.parse(obj.getRevised_completion()));	
-			boolean flag =  structureService.updateStructure(obj);	
-			if(flag) {
-				attributes.addFlashAttribute("success", "Structures Updated Succesfully."); 
-			} else {
-				attributes.addFlashAttribute("error","Updating Structures is failed. Try again.");
-			}		
-			
+			String flag =  structureService.updateStructure(obj);	
+			 if ("success".equals(flag)) {
+		            attributes.addFlashAttribute("success", "Structures updated Successfully.");
+		        } else if ("duplicate".equals(flag)) {
+		            attributes.addFlashAttribute("error", "Error: Duplicate  structure and structure name found.");
+		        } else {
+		            attributes.addFlashAttribute("error", "Adding Structures failed. Try again.");
+		        }
 			
 		}catch (Exception e) {
 			logger.error("updateStructureForm : " + e.getMessage());
@@ -426,12 +427,14 @@ public class StructureController {
 			obj.setConstruction_start_date(DateParser.parse(obj.getConstruction_start_date()));	
 			obj.setTarget_date(DateParser.parse(obj.getTarget_date()));	
 			obj.setRevised_completion(DateParser.parse(obj.getRevised_completion()));	
-			boolean flag =  structureService.addStructure(obj);	
-			if(flag) {
-				attributes.addFlashAttribute("success", "Structures Added Succesfully."); 
-			} else {
-				attributes.addFlashAttribute("error","Adding Structures is failed. Try again.");
-			}
+			String flag =  structureService.addStructure(obj);	
+			 if ("success".equals(flag)) {
+		            attributes.addFlashAttribute("success", "Structures Added Successfully.");
+		        } else if ("duplicate".equals(flag)) {
+		            attributes.addFlashAttribute("error", "Error: Duplicate  structure and structure name found.");
+		        } else {
+		            attributes.addFlashAttribute("error", "Adding Structures failed. Try again.");
+		        }
 			
 		}catch (Exception e) {
 			logger.error("addStructure : " + e.getMessage());

@@ -506,7 +506,7 @@ public class StructureFormController {
 			obj.setActual_completion_date(DateParser.parse(obj.getActual_completion_date()));	
 			boolean flag =  structureFormService.updateStructureForm(obj);	
 			if(flag) {
-				attributes.addFlashAttribute("success", "Structure Updated Succesfully."); 
+				attributes.addFlashAttribute("success", "Structure Updated Succesfully......."); 
 			} else {
 				attributes.addFlashAttribute("error","Updating Structure is failed. Try again.");
 			}		

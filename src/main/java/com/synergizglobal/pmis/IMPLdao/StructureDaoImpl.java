@@ -57,6 +57,7 @@ public class StructureDaoImpl implements StructureDao {
 	DataSourceTransactionManager transactionManager;
 	@Autowired
 	FormsHistoryDao formsHistoryDao;
+
 	@Override
 	public List<Structure> getProjectsListFilter(Structure obj) throws Exception {
 		List<Structure> objsList = null;
@@ -304,21 +305,17 @@ public class StructureDaoImpl implements StructureDao {
 			throws Exception {
 		List<Structure> objsList = null;
 		try {
-			String qry = "					SELECT distinct s.status,w.work_name,w.work_short_name,w.project_id_fk,p.project_name,s.work_id_fk,\r\n" + 
-					"					\r\n" + 
-					"structure_type_fk = STUFF((\r\n" + 
-					"          select distinct  ',' + CONCAT(structure_type_fk, ' - ', count(structure_type_fk))\r\n" + 
-					"FROM structure sd\r\n" + 
-					"					JOIN work ON work.work_id = sd.work_id_fk where status = 'Active' AND s.work_id_fk = sd.work_id_fk GROUP BY work_id_fk, structure_type_fk\r\n" + 
-					"           \r\n" + 
-					"          FOR XML PATH(''), TYPE).value('.', 'NVARCHAR(MAX)'), 1, 1, ''),(select max(structure_id) as structure_id from structure where work_id_fk=w.work_id ) as structure_id\r\n" + 
-					"					\r\n" + 
-					"					  FROM structure s\r\n" + 
-					"					left JOIN work w ON w.work_id = s.work_id_fk \r\n" + 
-					"					\r\n" + 
-					"					left join project p on w.project_id_fk = p.project_id  \r\n" + 
-					"					\r\n" + 
-					"					where status = 'Active' and work_id is not null ";
+			String qry = "					SELECT distinct s.status,w.work_name,w.work_short_name,w.project_id_fk,p.project_name,s.work_id_fk,\r\n"
+					+ "					\r\n" + "structure_type_fk = STUFF((\r\n"
+					+ "          select distinct  ',' + CONCAT(structure_type_fk, ' - ', count(structure_type_fk))\r\n"
+					+ "FROM structure sd\r\n"
+					+ "					JOIN work ON work.work_id = sd.work_id_fk where status = 'Active' AND s.work_id_fk = sd.work_id_fk GROUP BY work_id_fk, structure_type_fk\r\n"
+					+ "           \r\n"
+					+ "          FOR XML PATH(''), TYPE).value('.', 'NVARCHAR(MAX)'), 1, 1, ''),(select max(structure_id) as structure_id from structure where work_id_fk=w.work_id ) as structure_id\r\n"
+					+ "					\r\n" + "					  FROM structure s\r\n"
+					+ "					left JOIN work w ON w.work_id = s.work_id_fk \r\n" + "					\r\n"
+					+ "					left join project p on w.project_id_fk = p.project_id  \r\n"
+					+ "					\r\n" + "					where status = 'Active' and work_id is not null ";
 
 			int arrSize = 0;
 			if (!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getProject_id_fk())) {
@@ -343,7 +340,8 @@ public class StructureDaoImpl implements StructureDao {
 				arrSize++;
 			}
 			if (!StringUtils.isEmpty(startIndex) && !StringUtils.isEmpty(offset)) {
-				qry = qry + " GROUP BY work_id_fk,work_id, structure_type_fk,structure_id,status,work_name,work_short_name,project_id_fk,project_name ORDER BY structure_id ASC offset ? rows  fetch next ? rows only";
+				qry = qry
+						+ " GROUP BY work_id_fk,work_id, structure_type_fk,structure_id,status,work_name,work_short_name,project_id_fk,project_name ORDER BY structure_id ASC offset ? rows  fetch next ? rows only";
 				arrSize++;
 				arrSize++;
 			}
@@ -506,7 +504,7 @@ public class StructureDaoImpl implements StructureDao {
 				objsList = jdbcTemplate.query(qryDetails, new Object[] { structure.getWork_id_fk() },
 						new BeanPropertyRowMapper<Structure>(Structure.class));
 				structure.setStructureList(objsList);
-				
+
 				List<Structure> objsListI = null;
 				String qryDetailsI = "select distinct structure_id, structure_type_fk,structure_name,structure "
 						+ " from structure s  where s.work_id_fk = ? and s.status = 'Inactive' ";
@@ -543,28 +541,181 @@ public class StructureDaoImpl implements StructureDao {
 		return structure;
 	}
 
+//	@Override
+//	public boolean addStructure(Structure obj) throws Exception {
+//		Connection con = null;
+//		PreparedStatement insertStmt = null;
+//		PreparedStatement executivesInsertStmt = null;
+//		PreparedStatement detailsInsertStmt = null;
+//		PreparedStatement documentsStmt = null;
+//		int j = 0, dCount = 0, fCount = 0;
+//		;
+//		boolean flag = false;
+//		ResultSet rs = null;
+//		int[] insertCount = { 0 };
+//		try {
+//			con = dataSource.getConnection();
+//			con.setAutoCommit(false);
+//			/*String insert_qry = "INSERT into  structure ( work_id_fk, structure_type_fk, "
+//					+ "structure,work_status_fk,structure_name,latitude,longitude,target_date,estimated_cost,estimated_cost_units,construction_start_date,revised_completion,remarks) "
+//					+"VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";*/
+//
+//			String insert_qry = "INSERT into  structure ( work_id_fk, structure_type_fk, "
+//					+ "structure,structure_name,status) " + "VALUES (?,?,?,?,?)";
+//			insertStmt = con.prepareStatement(insert_qry, Statement.RETURN_GENERATED_KEYS);
+//			int arraySize = 0;
+//
+//			if (!StringUtils.isEmpty(obj.getStructures()) && obj.getStructures().length > 0) {
+//				obj.setStructures(CommonMethods.replaceEmptyByNullInSringArray(obj.getStructures()));
+//				if (arraySize < obj.getStructures().length) {
+//					arraySize = obj.getStructures().length;
+//				}
+//			}
+//			if (!StringUtils.isEmpty(obj.getStructure_names()) && obj.getStructure_names().length > 0) {
+//				obj.setStructure_names(CommonMethods.replaceEmptyByNullInSringArray(obj.getStructure_names()));
+//				if (arraySize < obj.getStructure_names().length) {
+//					arraySize = obj.getStructure_names().length;
+//				}
+//			}
+//			if (!StringUtils.isEmpty(obj.getLatitudes()) && obj.getLatitudes().length > 0) {
+//				obj.setLatitudes(CommonMethods.replaceEmptyByNullInSringArray(obj.getLatitudes()));
+//				if (arraySize < obj.getLatitudes().length) {
+//					arraySize = obj.getLatitudes().length;
+//				}
+//			}
+//			if (!StringUtils.isEmpty(obj.getLongitudes()) && obj.getLongitudes().length > 0) {
+//				obj.setLongitudes(CommonMethods.replaceEmptyByNullInSringArray(obj.getLongitudes()));
+//				if (arraySize < obj.getLongitudes().length) {
+//					arraySize = obj.getLongitudes().length;
+//				}
+//			}
+//			if (!StringUtils.isEmpty(obj.getWork_status_fks()) && obj.getWork_status_fks().length > 0) {
+//				obj.setWork_status_fks(CommonMethods.replaceEmptyByNullInSringArray(obj.getWork_status_fks()));
+//				if (arraySize < obj.getWork_status_fks().length) {
+//					arraySize = obj.getWork_status_fks().length;
+//				}
+//			}
+//			if (!StringUtils.isEmpty(obj.getTarget_dates()) && obj.getTarget_dates().length > 0) {
+//				obj.setTarget_dates(CommonMethods.replaceEmptyByNullInSringArray(obj.getTarget_dates()));
+//				if (arraySize < obj.getTarget_dates().length) {
+//					arraySize = obj.getTarget_dates().length;
+//				}
+//			}
+//			if (!StringUtils.isEmpty(obj.getEstimated_costs()) && obj.getEstimated_costs().length > 0) {
+//				obj.setEstimated_costs(CommonMethods.replaceEmptyByNullInSringArray(obj.getEstimated_costs()));
+//				if (arraySize < obj.getEstimated_costs().length) {
+//					arraySize = obj.getEstimated_costs().length;
+//				}
+//			}
+//			if (!StringUtils.isEmpty(obj.getEstimated_cost_unitss()) && obj.getEstimated_cost_unitss().length > 0) {
+//				obj.setEstimated_cost_unitss(
+//						CommonMethods.replaceEmptyByNullInSringArray(obj.getEstimated_cost_unitss()));
+//				if (arraySize < obj.getEstimated_cost_unitss().length) {
+//					arraySize = obj.getEstimated_cost_unitss().length;
+//				}
+//			}
+//
+//			if (!StringUtils.isEmpty(obj.getConstruction_start_dates())
+//					&& obj.getConstruction_start_dates().length > 0) {
+//				obj.setConstruction_start_dates(
+//						CommonMethods.replaceEmptyByNullInSringArray(obj.getConstruction_start_dates()));
+//				if (arraySize < obj.getConstruction_start_dates().length) {
+//					arraySize = obj.getConstruction_start_dates().length;
+//				}
+//			}
+//			if (!StringUtils.isEmpty(obj.getRevised_completions()) && obj.getRevised_completions().length > 0) {
+//				obj.setRevised_completions(CommonMethods.replaceEmptyByNullInSringArray(obj.getRevised_completions()));
+//				if (arraySize < obj.getRevised_completions().length) {
+//					arraySize = obj.getRevised_completions().length;
+//				}
+//			}
+//			if (!StringUtils.isEmpty(obj.getRemarkss()) && obj.getRemarkss().length > 0) {
+//				obj.setRemarkss(CommonMethods.replaceEmptyByNullInSringArray(obj.getRemarkss()));
+//				if (arraySize < obj.getRemarkss().length) {
+//					arraySize = obj.getRemarkss().length;
+//				}
+//			}
+//			if (!StringUtils.isEmpty(obj.getStructure_type_fks()) && obj.getStructure_type_fks().length > 0
+//					&& !StringUtils.isEmpty(obj.getWork_id_fk()) && obj.getStructures().length > 0) {
+//				for (int i = 0; i < arraySize; i++) {
+//					int p = 1;
+//					if (!StringUtils.isEmpty(obj.getStructure_type_fks()[i])
+//							&& !StringUtils.isEmpty(obj.getStructures()[i])) {
+//						insertStmt.setString(p++, (obj.getWork_id_fk()));
+//						insertStmt.setString(p++,
+//								(obj.getStructure_type_fks().length > 0) ? obj.getStructure_type_fks()[i] : null);
+//						insertStmt.setString(p++, (obj.getStructures().length > 0) ? obj.getStructures()[i] : null);
+//						insertStmt.setString(p++,
+//								(obj.getStructure_names().length > 0) ? obj.getStructure_names()[i] : null);
+//						insertStmt.setString(p++, (CommonConstants.ACTIVE));
+//
+//						insertStmt.executeUpdate();
+//
+//						rs = insertStmt.getGeneratedKeys();
+//						if (rs.next()) {
+//							String structure_id = rs.getString(1);
+//							obj.setStructure_id(structure_id);
+//						}
+//					
+//
+//					}
+//				}
+//				if (insertCount.length > 0) {
+//					flag = true;
+//					FormHistory formHistory = new FormHistory();
+//					formHistory.setCreated_by_user_id_fk(obj.getUser_id());
+//					formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
+//					formHistory.setModule_name_fk("Works");
+//					formHistory.setForm_name("Add Structure");
+//					formHistory.setForm_action_type("Add");
+//					formHistory.setForm_details("New Structure for "+obj.getWork_id_fk() + " Created");
+//					formHistory.setWork_id_fk(obj.getWork_id_fk());
+//					//formHistory.setContract(obj.getContract_id_fk());
+//					
+//					boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
+//					/********************************************************************************/
+//				}
+//			}
+//			con.commit();
+//		} catch (Exception e) {
+//			con.rollback();
+//			e.printStackTrace();
+//			throw new Exception(e);
+//		} finally {
+//			DBConnectionHandler.closeJDBCResoucrs(con, insertStmt, rs);
+//			if (executivesInsertStmt != null) {
+//				executivesInsertStmt.close();
+//			}
+//			if (detailsInsertStmt != null) {
+//				detailsInsertStmt.close();
+//			}
+//			if (documentsStmt != null) {
+//				documentsStmt.close();
+//			}
+//		}
+//		return flag;
+//	}
+
+
+	@SuppressWarnings("resource")
 	@Override
-	public boolean addStructure(Structure obj) throws Exception {
+	public String addStructure(Structure obj) throws Exception {
 		Connection con = null;
 		PreparedStatement insertStmt = null;
-		PreparedStatement executivesInsertStmt = null;
-		PreparedStatement detailsInsertStmt = null;
-		PreparedStatement documentsStmt = null;
-		int j = 0, dCount = 0, fCount = 0;
-		;
-		boolean flag = false;
+		PreparedStatement checkDuplicateStmt = null;
 		ResultSet rs = null;
-		int[] insertCount = { 0 };
+		boolean flag = false;
+
 		try {
 			con = dataSource.getConnection();
 			con.setAutoCommit(false);
-			/*String insert_qry = "INSERT into  structure ( work_id_fk, structure_type_fk, "
-					+ "structure,work_status_fk,structure_name,latitude,longitude,target_date,estimated_cost,estimated_cost_units,construction_start_date,revised_completion,remarks) "
-					+"VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";*/
 
-			String insert_qry = "INSERT into  structure ( work_id_fk, structure_type_fk, "
-					+ "structure,structure_name,status) " + "VALUES (?,?,?,?,?)";
+			String checkDuplicateQuery = "SELECT COUNT(*) FROM structure WHERE structure = ? AND structure_name = ?";
+			checkDuplicateStmt = con.prepareStatement(checkDuplicateQuery);
+
+			String insert_qry = "INSERT INTO structure (work_id_fk, structure_type_fk, structure, structure_name, status) VALUES (?, ?, ?, ?, ?)";
 			insertStmt = con.prepareStatement(insert_qry, Statement.RETURN_GENERATED_KEYS);
+
 			int arraySize = 0;
 
 			if (!StringUtils.isEmpty(obj.getStructures()) && obj.getStructures().length > 0) {
@@ -643,13 +794,22 @@ public class StructureDaoImpl implements StructureDao {
 					int p = 1;
 					if (!StringUtils.isEmpty(obj.getStructure_type_fks()[i])
 							&& !StringUtils.isEmpty(obj.getStructures()[i])) {
-						insertStmt.setString(p++, (obj.getWork_id_fk()));
+
+						// Check for duplicate
+						checkDuplicateStmt.setString(1, obj.getStructures()[i]);
+						checkDuplicateStmt.setString(2, obj.getStructure_names()[i]);
+						rs = checkDuplicateStmt.executeQuery();
+						if (rs.next() && rs.getInt(1) > 0) {
+							return "duplicate"; // Return "duplicate" if a duplicate is found
+						}
+
+						insertStmt.setString(p++, obj.getWork_id_fk());
 						insertStmt.setString(p++,
-								(obj.getStructure_type_fks().length > 0) ? obj.getStructure_type_fks()[i] : null);
-						insertStmt.setString(p++, (obj.getStructures().length > 0) ? obj.getStructures()[i] : null);
+								obj.getStructure_type_fks().length > 0 ? obj.getStructure_type_fks()[i] : null);
+						insertStmt.setString(p++, obj.getStructures().length > 0 ? obj.getStructures()[i] : null);
 						insertStmt.setString(p++,
-								(obj.getStructure_names().length > 0) ? obj.getStructure_names()[i] : null);
-						insertStmt.setString(p++, (CommonConstants.ACTIVE));
+								obj.getStructure_names().length > 0 ? obj.getStructure_names()[i] : null);
+						insertStmt.setString(p++, CommonConstants.ACTIVE);
 
 						insertStmt.executeUpdate();
 
@@ -658,57 +818,48 @@ public class StructureDaoImpl implements StructureDao {
 							String structure_id = rs.getString(1);
 							obj.setStructure_id(structure_id);
 						}
-					
-
 					}
 				}
-				if (insertCount.length > 0) {
-					flag = true;
-					FormHistory formHistory = new FormHistory();
-					formHistory.setCreated_by_user_id_fk(obj.getUser_id());
-					formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
-					formHistory.setModule_name_fk("Works");
-					formHistory.setForm_name("Add Structure");
-					formHistory.setForm_action_type("Add");
-					formHistory.setForm_details("New Structure for "+obj.getWork_id_fk() + " Created");
-					formHistory.setWork_id_fk(obj.getWork_id_fk());
-					//formHistory.setContract(obj.getContract_id_fk());
-					
-					boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
-					/********************************************************************************/
-				}
+
+				flag = true;
+				FormHistory formHistory = new FormHistory();
+				formHistory.setCreated_by_user_id_fk(obj.getUser_id());
+				formHistory.setUser(obj.getDesignation() + " - " + obj.getUser_name());
+				formHistory.setModule_name_fk("Works");
+				formHistory.setForm_name("Add Structure");
+				formHistory.setForm_action_type("Add");
+				formHistory.setForm_details("New Structure for " + obj.getWork_id_fk() + " Created");
+				formHistory.setWork_id_fk(obj.getWork_id_fk());
+
+				boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
 			}
 			con.commit();
 		} catch (Exception e) {
 			con.rollback();
 			e.printStackTrace();
-			throw new Exception(e);
+			throw new Exception(e.getMessage()); // Throw the duplicate error message or any other exception message
 		} finally {
 			DBConnectionHandler.closeJDBCResoucrs(con, insertStmt, rs);
-			if (executivesInsertStmt != null) {
-				executivesInsertStmt.close();
-			}
-			if (detailsInsertStmt != null) {
-				detailsInsertStmt.close();
-			}
-			if (documentsStmt != null) {
-				documentsStmt.close();
+			if (checkDuplicateStmt != null) {
+				checkDuplicateStmt.close();
 			}
 		}
-		return flag;
+		return flag ? "success" : "error";
 	}
-
+	
 	@Override
-	public boolean updateStructure(Structure obj) throws Exception {
+	public String updateStructure(Structure obj) throws Exception {
 		Connection con = null;
 		PreparedStatement insertStmt = null;
 		PreparedStatement stmt = null;
 		PreparedStatement executivesInsertStmt = null;
+		ResultSet rs = null;
+		PreparedStatement checkDuplicateStmt = null;
 		PreparedStatement detailsInsertStmt = null;
 		PreparedStatement documentsStmt = null;
 		PreparedStatement updateStmt = null;
 		int j = 0, dCount = 0, fCount = 0;
-		;
+		
 		boolean flag = false;
 		int[] insertCount = { 0 };
 		int[] updateCount = { 0 };
@@ -716,6 +867,9 @@ public class StructureDaoImpl implements StructureDao {
 			con = dataSource.getConnection();
 			con.setAutoCommit(false);
 			con.setAutoCommit(false);
+
+			String checkDuplicateQuery = "SELECT COUNT(*) FROM structure WHERE structure = ? AND structure_name = ?";
+			checkDuplicateStmt = con.prepareStatement(checkDuplicateQuery);
 
 			String updateQry = " update structure set "
 					+ "structure = ?,structure_name = ?,status = ?  where structure_id = ?";
@@ -808,31 +962,42 @@ public class StructureDaoImpl implements StructureDao {
 				if (stmt != null) {
 					stmt.close();
 				}
-				int loopTimes=0;
-				int loopTimes1=0;
+				int loopTimes = 0;
+				int loopTimes1 = 0;
 				for (int i = 0; i < arraySize; i++) {
 					if (!StringUtils.isEmpty(obj.getStructure_type_fks()[i])
 							&& !StringUtils.isEmpty(obj.getStructures()[i])) {
 						String sId = obj.getStructure_ids()[i];
+					
 						if (!StringUtils.isEmpty(sId)) {
 							obj.setStructure_id(sId);
 							int k = 1;
 							if (!StringUtils.isEmpty(obj.getStructure_type_fks()[i])
 									&& !StringUtils.isEmpty(obj.getStructures()[i])) {
+								
 								updateStmt.setString(k++,
 										(obj.getStructures().length > 0) ? obj.getStructures()[i] : null);
 								updateStmt.setString(k++,
 										(obj.getStructure_names().length > 0) ? obj.getStructure_names()[i] : null);
 								updateStmt.setString(k++, (CommonConstants.ACTIVE));
 								updateStmt.setString(k++, (sId));
-								//updateStmt.addBatch();
+								// updateStmt.addBatch();
 								updateStmt.executeUpdate();
+								
 								loopTimes1++;
 							}
 						} else {
 							int p = 1;
 							if (!StringUtils.isEmpty(obj.getStructure_type_fks()[i])
 									&& !StringUtils.isEmpty(obj.getStructures()[i])) {
+								// Check for duplicate
+								checkDuplicateStmt.setString(1, obj.getStructures()[i]);
+								checkDuplicateStmt.setString(2, obj.getStructure_names()[i]);
+								rs = checkDuplicateStmt.executeQuery();
+								if (rs.next() && rs.getInt(1) > 0) {
+									return "duplicate"; // Return "duplicate" if a duplicate is found
+								}
+
 								insertStmt.setString(p++, (obj.getWork_id_fk()));
 								insertStmt.setString(p++,
 										(obj.getStructure_type_fks().length > 0) ? obj.getStructure_type_fks()[i]
@@ -843,20 +1008,19 @@ public class StructureDaoImpl implements StructureDao {
 										(obj.getStructure_names().length > 0) ? obj.getStructure_names()[i] : null);
 								insertStmt.setString(p++, (CommonConstants.ACTIVE));
 
-								//insertStmt.addBatch();
+								// insertStmt.addBatch();
 								insertStmt.executeUpdate();
+								if (rs.next()) {
+									String structure_id = rs.getString(1);
+									obj.setStructure_id(structure_id);
+								}
 								loopTimes++;
 							}
 						}
 
-					   if(loopTimes>0)
-					   {
-							ResultSet rs = insertStmt.getGeneratedKeys();
-							if (rs.next()) {
-								String structure_id = rs.getString(1);
-								obj.setStructure_id(structure_id);
-							}
-					   }
+						if (loopTimes > 0) {
+							
+						}
 					}
 				}
 				int result = loopTimes1 + loopTimes;
@@ -864,14 +1028,14 @@ public class StructureDaoImpl implements StructureDao {
 					flag = true;
 					FormHistory formHistory = new FormHistory();
 					formHistory.setCreated_by_user_id_fk(obj.getUser_id());
-					formHistory.setUser(obj.getDesignation()+" - "+obj.getUser_name());
+					formHistory.setUser(obj.getDesignation() + " - " + obj.getUser_name());
 					formHistory.setModule_name_fk("Works");
 					formHistory.setForm_name("Update Structure");
 					formHistory.setForm_action_type("Update");
-					formHistory.setForm_details("Structure for "+obj.getWork_id_fk() + " Updated");
+					formHistory.setForm_details("Structure for " + obj.getWork_id_fk() + " Updated");
 					formHistory.setWork_id_fk(obj.getWork_id_fk());
-					//formHistory.setContract(obj.getContract_id_fk());
-					
+					// formHistory.setContract(obj.getContract_id_fk());
+
 					boolean history_flag = formsHistoryDao.saveFormHistory(formHistory);
 					/********************************************************************************/
 				}
@@ -880,7 +1044,7 @@ public class StructureDaoImpl implements StructureDao {
 		} catch (Exception e) {
 			con.rollback();
 			e.printStackTrace();
-			throw new Exception(e);
+			throw new Exception(e.getMessage());
 		} finally {
 			DBConnectionHandler.closeJDBCResoucrs(con, insertStmt, null);
 			if (executivesInsertStmt != null) {
@@ -893,7 +1057,35 @@ public class StructureDaoImpl implements StructureDao {
 				documentsStmt.close();
 			}
 		}
-		return flag;
+		return flag ? "success" : "error";	
+		}
+
+	@Override
+	public boolean checkForDuplicateStructure(Structure obj) throws Exception {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		boolean duplicateExists = false;
+
+		try {
+			con = dataSource.getConnection();
+			String checkDuplicateQuery = "SELECT COUNT(*) FROM structure WHERE structure = ? AND structure_name = ?";
+			pstmt = con.prepareStatement(checkDuplicateQuery);
+			pstmt.setString(1, obj.getStructure());
+			pstmt.setString(2, obj.getStructure_name());
+			rs = pstmt.executeQuery();
+
+			if (rs.next() && rs.getInt(1) > 0) {
+				duplicateExists = true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception(e);
+		} finally {
+			DBConnectionHandler.closeJDBCResoucrs(con, pstmt, rs);
+		}
+
+		return duplicateExists;
 	}
 
 	private List<Structure> getStructureIdsWithWork(String work_id_fk) throws Exception {
@@ -979,11 +1171,11 @@ public class StructureDaoImpl implements StructureDao {
 					insertStmt.setString(p++, (department));
 					insertStmt.setString(p++, (obj.getStructure_type_fk()));
 					insertStmt.setString(p++, (obj.getStructure()));
-					//insertStmt.addBatch();
+					// insertStmt.addBatch();
 					insertStmt.executeUpdate();
 					count++;
 				}
-				//insertStmt.executeBatch();
+				// insertStmt.executeBatch();
 			}
 
 			con.commit();
@@ -1088,68 +1280,51 @@ public class StructureDaoImpl implements StructureDao {
 	public List<Structure> getResponsiblePeopleListForStructureForm(Structure obj) throws Exception {
 		List<Structure> objsList = null;
 		try {
-			String qry = "SELECT user_id,user_name,designation,department_fk FROM [user] u where user_name not like '%user%' and pmis_key_fk not like '%SGS%' and department_fk in('Engg','Elec','S&T')\r\n" + 
-					"					ORDER BY \r\n" + 
-					"					case when user_type_fk='HOD' then 1\r\n" + 
-					"					when user_type_fk='DYHOD' then 2\r\n" + 
-					"					when user_type_fk='Officers ( Jr./Sr. Scale )' then 3\r\n" + 
-					"					when user_type_fk='Others' then 4\r\n" + 
-					"					end asc ,\r\n" + 
-					"case when u.designation='ED Civil' then 1 \r\n" + 
-					"   when u.designation='CPM I' then 2 \r\n" + 
-					"   when u.designation='CPM II' then 3\r\n" + 
-					"   when u.designation='CPM III' then 4 \r\n" + 
-					"   when u.designation='CPM V' then 5\r\n" + 
-					"   when u.designation='CE' then 6 \r\n" + 
-					"   when u.designation='ED S&T' then 7 \r\n" + 
-					"   when u.designation='CSTE' then 8\r\n" + 
-					"   when u.designation='GM Electrical' then 9\r\n" + 
-					"   when u.designation='CEE Project I' then 10\r\n" + 
-					"   when u.designation='CEE Project II' then 11\r\n" + 
-					"   when u.designation='ED Finance & Planning' then 12\r\n" + 
-					"   when u.designation='AGM Civil' then 13\r\n" + 
-					"   when u.designation='DyCPM Civil' then 14\r\n" + 
-					"   when u.designation='DyCPM III' then 15\r\n" + 
-					"   when u.designation='DyCPM V' then 16\r\n" + 
-					"   when u.designation='DyCE EE' then 17\r\n" + 
-					"   when u.designation='DyCE Badlapur' then 18\r\n" + 
-					"   when u.designation='DyCPM Pune' then 19\r\n" + 
-					"   when u.designation='DyCE Proj' then 20\r\n" + 
-					"   when u.designation='DyCEE I' then 21\r\n" + 
-					"   when u.designation='DyCEE Projects' then 22\r\n" + 
-					"   when u.designation='DyCEE PSI' then 23\r\n" + 
-					"   when u.designation='DyCSTE I' then 24\r\n" + 
-					"   when u.designation='DyCSTE IT' then 25\r\n" + 
-					"   when u.designation='DyCSTE Projects' then 26\r\n" + 
-					"   when u.designation='XEN Consultant' then 27\r\n" + 
-					"   when u.designation='AEN Adhoc' then 28\r\n" + 
-					"   when u.designation='AEN Project' then 29\r\n" + 
-					"   when u.designation='AEN P-Way' then 30\r\n" + 
-					"   when u.designation='AEN' then 31\r\n" + 
-					"   when u.designation='Sr Manager Signal' then 32 \r\n" + 
-					"   when u.designation='Manager Signal' then 33\r\n" + 
-					"   when u.designation='Manager Civil' then 34 \r\n" + 
-					"   when u.designation='Manager OHE' then 35\r\n" + 
-					"   when u.designation='Manager GS' then 36\r\n" + 
-					"   when u.designation='Manager Finance' then 37\r\n" + 
-					"   when u.designation='Planning Manager' then 38\r\n" + 
-					"   when u.designation='Manager Project' then 39\r\n" + 
-					"   when u.designation='Manager' then 40 \r\n" + 
-					"   when u.designation='SSE' then 41\r\n" + 
-					"   when u.designation='SSE Project' then 42\r\n" + 
-					"   when u.designation='SSE Works' then 43\r\n" + 
-					"   when u.designation='SSE Drg' then 44\r\n" + 
-					"   when u.designation='SSE BR' then 45\r\n" + 
-					"   when u.designation='SSE P-Way' then 46\r\n" + 
-					"   when u.designation='SSE OHE' then 47\r\n" + 
-					"   when u.designation='SPE' then 48\r\n" + 
-					"   when u.designation='PE' then 49\r\n" + 
-					"   when u.designation='JE' then 50\r\n" + 
-					"   when u.designation='Demo-HOD-Elec' then 51\r\n" + 
-					"   when u.designation='Demo-HOD-Engg' then 52\r\n" + 
-					"   when u.designation='Demo-HOD-S&T' then 53\r\n" + 
-					"\r\n" + 
-					"   end asc";
+			String qry = "SELECT user_id,user_name,designation,department_fk FROM [user] u where user_name not like '%user%' and pmis_key_fk not like '%SGS%' and department_fk in('Engg','Elec','S&T')\r\n"
+					+ "					ORDER BY \r\n" + "					case when user_type_fk='HOD' then 1\r\n"
+					+ "					when user_type_fk='DYHOD' then 2\r\n"
+					+ "					when user_type_fk='Officers ( Jr./Sr. Scale )' then 3\r\n"
+					+ "					when user_type_fk='Others' then 4\r\n" + "					end asc ,\r\n"
+					+ "case when u.designation='ED Civil' then 1 \r\n" + "   when u.designation='CPM I' then 2 \r\n"
+					+ "   when u.designation='CPM II' then 3\r\n" + "   when u.designation='CPM III' then 4 \r\n"
+					+ "   when u.designation='CPM V' then 5\r\n" + "   when u.designation='CE' then 6 \r\n"
+					+ "   when u.designation='ED S&T' then 7 \r\n" + "   when u.designation='CSTE' then 8\r\n"
+					+ "   when u.designation='GM Electrical' then 9\r\n"
+					+ "   when u.designation='CEE Project I' then 10\r\n"
+					+ "   when u.designation='CEE Project II' then 11\r\n"
+					+ "   when u.designation='ED Finance & Planning' then 12\r\n"
+					+ "   when u.designation='AGM Civil' then 13\r\n"
+					+ "   when u.designation='DyCPM Civil' then 14\r\n"
+					+ "   when u.designation='DyCPM III' then 15\r\n" + "   when u.designation='DyCPM V' then 16\r\n"
+					+ "   when u.designation='DyCE EE' then 17\r\n"
+					+ "   when u.designation='DyCE Badlapur' then 18\r\n"
+					+ "   when u.designation='DyCPM Pune' then 19\r\n" + "   when u.designation='DyCE Proj' then 20\r\n"
+					+ "   when u.designation='DyCEE I' then 21\r\n"
+					+ "   when u.designation='DyCEE Projects' then 22\r\n"
+					+ "   when u.designation='DyCEE PSI' then 23\r\n" + "   when u.designation='DyCSTE I' then 24\r\n"
+					+ "   when u.designation='DyCSTE IT' then 25\r\n"
+					+ "   when u.designation='DyCSTE Projects' then 26\r\n"
+					+ "   when u.designation='XEN Consultant' then 27\r\n"
+					+ "   when u.designation='AEN Adhoc' then 28\r\n"
+					+ "   when u.designation='AEN Project' then 29\r\n"
+					+ "   when u.designation='AEN P-Way' then 30\r\n" + "   when u.designation='AEN' then 31\r\n"
+					+ "   when u.designation='Sr Manager Signal' then 32 \r\n"
+					+ "   when u.designation='Manager Signal' then 33\r\n"
+					+ "   when u.designation='Manager Civil' then 34 \r\n"
+					+ "   when u.designation='Manager OHE' then 35\r\n"
+					+ "   when u.designation='Manager GS' then 36\r\n"
+					+ "   when u.designation='Manager Finance' then 37\r\n"
+					+ "   when u.designation='Planning Manager' then 38\r\n"
+					+ "   when u.designation='Manager Project' then 39\r\n"
+					+ "   when u.designation='Manager' then 40 \r\n" + "   when u.designation='SSE' then 41\r\n"
+					+ "   when u.designation='SSE Project' then 42\r\n"
+					+ "   when u.designation='SSE Works' then 43\r\n" + "   when u.designation='SSE Drg' then 44\r\n"
+					+ "   when u.designation='SSE BR' then 45\r\n" + "   when u.designation='SSE P-Way' then 46\r\n"
+					+ "   when u.designation='SSE OHE' then 47\r\n" + "   when u.designation='SPE' then 48\r\n"
+					+ "   when u.designation='PE' then 49\r\n" + "   when u.designation='JE' then 50\r\n"
+					+ "   when u.designation='Demo-HOD-Elec' then 51\r\n"
+					+ "   when u.designation='Demo-HOD-Engg' then 52\r\n"
+					+ "   when u.designation='Demo-HOD-S&T' then 53\r\n" + "\r\n" + "   end asc";
 
 			objsList = jdbcTemplate.query(qry, new BeanPropertyRowMapper<Structure>(Structure.class));
 		} catch (Exception e) {
@@ -1199,44 +1374,37 @@ public class StructureDaoImpl implements StructureDao {
 		Connection connection = null;
 		java.sql.CallableStatement statement = null;
 		ResultSet resultSet = null;
-		try{
-				String concat="";
-				if(obj.getStructure_ids().length>1)
-				{
-					concat="[";
-				}
-				for (int i = 0; i < obj.getStructure_ids().length; i++)
-				{
-					concat=concat+'"'+obj.getStructure_ids()[i]+'"'+",";
-				}
-				concat=concat.substring(0, concat.length() - 1);
-				if(obj.getStructure_ids().length>1)
-				{
-					concat=concat+"]";
-				}				
-				
-				connection = dataSource.getConnection();	
-				
-				if(obj.getStructure_ids().length>1)
-				{
-					statement = connection.prepareCall("{exec deleteMultipleStructure(?,?)}");
+		try {
+			String concat = "";
+			if (obj.getStructure_ids().length > 1) {
+				concat = "[";
+			}
+			for (int i = 0; i < obj.getStructure_ids().length; i++) {
+				concat = concat + '"' + obj.getStructure_ids()[i] + '"' + ",";
+			}
+			concat = concat.substring(0, concat.length() - 1);
+			if (obj.getStructure_ids().length > 1) {
+				concat = concat + "]";
+			}
 
-				}	
-				else
-				{
-					statement = connection.prepareCall("{exec deleteStructure(?,?)}");
-				}
-				statement.setString(1, concat);
-				statement.setString(2, obj.getStructure_type_fk());
-				statement.setString(3, obj.getWork_id_fk());
+			connection = dataSource.getConnection();
 
-				boolean hadResults = statement.execute();
-				if(hadResults)
-				{
-					return true;
-				}
-		}catch(Exception e){ 
-		}finally {
+			if (obj.getStructure_ids().length > 1) {
+				statement = connection.prepareCall("{exec deleteMultipleStructure(?,?)}");
+
+			} else {
+				statement = connection.prepareCall("{exec deleteStructure(?,?)}");
+			}
+			statement.setString(1, concat);
+			statement.setString(2, obj.getStructure_type_fk());
+			statement.setString(3, obj.getWork_id_fk());
+
+			boolean hadResults = statement.execute();
+			if (hadResults) {
+				return true;
+			}
+		} catch (Exception e) {
+		} finally {
 			DBConnectionHandler.closeJDBCResoucrs(connection, statement, resultSet);
 		}
 		return false;
@@ -1248,32 +1416,30 @@ public class StructureDaoImpl implements StructureDao {
 		java.sql.CallableStatement statement = null;
 		ResultSet resultSet = null;
 		List<Structure> objsList = new ArrayList<Structure>();
-		try{
-				connection = dataSource.getConnection();
-				String concat="";
-				for (int i = 0; i < obj.getStructure_ids().length; i++)
-				{
-						concat=concat+obj.getStructure_ids()[i]+",";
-				}
-				concat=concat.substring(0, concat.length() - 1);				
-				statement = connection.prepareCall("{execgetStructureCount(?,?)}");
-				statement.setString(1, obj.getWork_id_fk());
-				statement.setString(2, concat);
-				statement.setString(3, obj.getStructure_type_fk());
-				resultSet =statement.executeQuery();
-				
-				while(resultSet.next()) 
-				{
-					Structure str = new Structure();
-					str.setName(resultSet.getString("name"));
-					str.setStructure_count(resultSet.getString("structure_count"));
-					objsList.add(str);
-				}
-				
-			} catch (Exception e) {
-				throw new Exception(e);
+		try {
+			connection = dataSource.getConnection();
+			String concat = "";
+			for (int i = 0; i < obj.getStructure_ids().length; i++) {
+				concat = concat + obj.getStructure_ids()[i] + ",";
 			}
-			return objsList;
+			concat = concat.substring(0, concat.length() - 1);
+			statement = connection.prepareCall("{execgetStructureCount(?,?)}");
+			statement.setString(1, obj.getWork_id_fk());
+			statement.setString(2, concat);
+			statement.setString(3, obj.getStructure_type_fk());
+			resultSet = statement.executeQuery();
+
+			while (resultSet.next()) {
+				Structure str = new Structure();
+				str.setName(resultSet.getString("name"));
+				str.setStructure_count(resultSet.getString("structure_count"));
+				objsList.add(str);
+			}
+
+		} catch (Exception e) {
+			throw new Exception(e);
+		}
+		return objsList;
 	}
 
 	@Override
@@ -1282,40 +1448,36 @@ public class StructureDaoImpl implements StructureDao {
 		java.sql.CallableStatement statement = null;
 		ResultSet resultSet = null;
 		List<Structure> objsList = new ArrayList<Structure>();
-		try{
-				connection = dataSource.getConnection();
-				String concat="";
-				if(obj.getStructure_ids().length>0)
-				{
-					concat="[";
-				}				
-				for (int i = 0; i < obj.getStructure_ids().length; i++)
-				{
-						concat=concat+'"'+obj.getStructure_ids()[i]+'"'+",";
-				}
-				concat=concat.substring(0, concat.length() - 1);
-				if(obj.getStructure_ids().length>0)
-				{
-					concat=concat+"]";
-				}					
-				statement = connection.prepareCall("{exec getStructureTypeCount(?,?)}");
-				statement.setString(1, obj.getWork_id_fk());
-				statement.setString(2, concat);
-				statement.setString(3, obj.getStructure_type_fk());
-				resultSet =statement.executeQuery();
-				
-				while(resultSet.next()) 
-				{
-					Structure str = new Structure();
-					str.setName(resultSet.getString("name"));
-					str.setStructure_count(resultSet.getString("structure_count"));
-					objsList.add(str);
-				}
-				
-			} catch (Exception e) {
-				throw new Exception(e);
+		try {
+			connection = dataSource.getConnection();
+			String concat = "";
+			if (obj.getStructure_ids().length > 0) {
+				concat = "[";
 			}
-			return objsList;
+			for (int i = 0; i < obj.getStructure_ids().length; i++) {
+				concat = concat + '"' + obj.getStructure_ids()[i] + '"' + ",";
+			}
+			concat = concat.substring(0, concat.length() - 1);
+			if (obj.getStructure_ids().length > 0) {
+				concat = concat + "]";
+			}
+			statement = connection.prepareCall("{exec getStructureTypeCount(?,?)}");
+			statement.setString(1, obj.getWork_id_fk());
+			statement.setString(2, concat);
+			statement.setString(3, obj.getStructure_type_fk());
+			resultSet = statement.executeQuery();
+
+			while (resultSet.next()) {
+				Structure str = new Structure();
+				str.setName(resultSet.getString("name"));
+				str.setStructure_count(resultSet.getString("structure_count"));
+				objsList.add(str);
+			}
+
+		} catch (Exception e) {
+			throw new Exception(e);
+		}
+		return objsList;
 	}
 
 }

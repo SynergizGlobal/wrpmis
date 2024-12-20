@@ -703,7 +703,7 @@
 						</ul></li>
 				<%-- </c:if> --%>
 
-				<c:if test="${sessionScope.USER_ROLE_NAME ne 'Super User' && sessionScope.USER_ROLE_NAME ne 'Contractor' }">
+				<c:if test="${sessionScope.USER_ROLE_NAME ne 'Super User' }">
 					<li class="blue dropdown">
 						<a href="#" class='head-img'> <span class="material-icons-outlined">post_add</span> Update Forms</a>
 

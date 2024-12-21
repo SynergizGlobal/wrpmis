@@ -1446,4 +1446,134 @@ public class IssuesReportController {
 
 		return flag;
 	}
+
+	public boolean sendReminderEmail(Issue issue, int daysPending) {
+	    try {
+	        // Determine the email details based on the daysPending
+	        String subject = getEmailSubject(daysPending, issue);
+	        String body = getEmailBody(daysPending, issue);
+	        String to = getRecipientEmail(daysPending, issue);
+	        String cc = getCCEmail(daysPending, issue);
+	        
+	        EMailSender emailSender = new EMailSender();
+			emailSender.sendEmail(to, subject, body, cc);	        
+	        
+	        logger.info("Reminder email sent for Issue ID: {}, Days Pending: {}");
+	        return true;
+	    } catch (Exception e) {
+	        logger.error("Failed to send reminder email for Issue ID: {}, Days Pending: {}");
+	        return false;
+	    }
+	}
+	
+	private String getEmailSubject(int daysPending, Issue issue) {
+	    switch (daysPending) {
+	        case 7:
+	            return "Reminder-1: Notification of Unresolved Issue in " + issue.getContract_name() + ", pending since 7 days of reporting";
+	        case 14:
+	            return "Reminder-2: Notification of Unresolved Issue in " + issue.getContract_name() + ", pending since 14 days of reporting";
+	        case 21:
+	            return "Reminder-3: Notification of Unresolved Issue in " + issue.getContract_name() + ", pending since 21 days of reporting";
+	        case 28:
+	            return "Reminder-4: Notification of Unresolved Issue in " + issue.getContract_name() + ", pending since 28 days of reporting";
+	        default:
+	            return "Reminder: Notification of Unresolved Issue in " + issue.getContract_name();
+	    }
+	}
+
+	private String getEmailBody(int daysPending, Issue issue) {
+	    String workDetails = issue.getWork_name();
+	    String contractDetails = issue.getContract_name();
+	    String reportedBy = issue.getReported_by();
+	    String description = issue.getDescription();
+	    String category = issue.getCategory();
+	    String priority = issue.getPriority();
+	    String responsibleOrg = issue.getZonal_railway_fk();
+	    String actionTaken = issue.getCorrective_measure();
+	    String targetDate = issue.getDate();
+
+	    String bodyTemplate = 
+	        "Respected %s,\n\n" +
+	        "This is a reminder that the following issue, reported on %s, has not been resolved till date.\n\n" +
+	        "Work Details: %s\n" +
+	        "Contract Details: %s\n" +
+	        "Reported By: %s\n" +
+	        "Issue Description: %s\n" +
+	        "Category: %s; Priority: %s\n" +
+	        "Organization Responsible for Issue: %s\n" +
+	        "Action Taken: %s\n" +
+	        "Target Date of Resolution: %s\n\n\n\\n" +
+	        "We kindly request your immediate attention to this matter to ensure timely resolution.\n" +
+	        "Click Here for more details on the issue.\n\n" +
+	        "Thank you for your prompt action.\n\n" +
+	        "Regards,\n" +
+	        "MRVC-PMIS Team.\n" +
+	        "[Company Logo]\n";
+
+	    String recipientName = getRecipientName(daysPending, issue);
+	    String reportingDate = issue.getDate().toString();  // Assuming issue.getReportingDate() returns a LocalDate
+
+	    return String.format(bodyTemplate, recipientName, reportingDate, workDetails, contractDetails, reportedBy, description,
+	            category, priority, responsibleOrg, actionTaken, targetDate);
+	}
+
+
+	private String getRecipientEmail(int daysPending, Issue issue) {
+	    // Depending on daysPending, return the recipient's email
+	    switch (daysPending) {
+	        case 7:
+	            return issue.getContract_dyhod_email_id();  // Assuming dyHodEmail is a field in Issue object
+	        case 14:
+	            return issue.getContract_hod_email_id();  // Assuming hodEmail is a field in Issue object
+	        case 21:
+	            return issue.getDp_email();  // Assuming dpEmail is a field in Issue object
+	        case 28:
+	            return issue.getCmd_email();  // Assuming cmdEmail is a field in Issue object
+	        default:
+	            return issue.getContract_dyhod_email_id();  // Default case, could be adjusted
+	    }
+	}
+
+	private String getCCEmail(int daysPending, Issue issue) {
+	    // Depending on daysPending, return the CC emails
+	    switch (daysPending) {
+	        case 7:
+	            return issue.getContract_hod_email_id() + ", " + issue.getContractor_email();  // Example: HOD and Contractor
+	        case 14:
+	            return issue.getDp_email() + ", " + issue.getContractor_email();  // DP and Contractor
+	        case 21:
+	            return issue.getCmd_email() + ", " + issue.getContractor_email();  // CMD and Contractor
+	        case 28:
+	            return issue.getContractor_email();  // Only Contractor
+	        default:
+	            return "";  // No CC by default
+	    }
+	}
+
+	private String getRecipientName(int daysPending, Issue issue) {
+	    // Get the recipient's name based on daysPending
+	    switch (daysPending) {
+	        case 7:
+	            return issue.getDyhod_name();  // Assuming DyHodName is a field in Issue object
+	        case 14:
+	            return issue.getHod_name();  // Assuming HodName is a field in Issue object
+	        case 21:
+	            return issue.getDp_name();  // Assuming DpName is a field in Issue object
+	        case 28:
+	            return issue.getCmd_name();  // Assuming CmdName is a field in Issue object
+	        default:
+	            return issue.getDyhod_name();  // Default to DyHodName
+	    }
+	}
+
+	public List<Issue> getUnresolvedIssues() {
+		List<Issue> objsList = null;
+		try {
+			objsList = issueService.getUnresolvedIssues();
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getUnresolvedIssues : " + e.getMessage());
+		}
+		return objsList;
+	}
 }

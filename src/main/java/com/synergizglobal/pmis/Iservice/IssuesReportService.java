@@ -28,4 +28,8 @@ public interface IssuesReportService {
 	List<Issue> getCategoriesListInIssuesReport(Issue obj) throws Exception;
 
 	List<Issue> IssuesSummaryData(Issue obj) throws Exception;
+
+	List<Issue> getUnresolvedIssues();
+
+	boolean processAndSendReminder(Issue unresolvedIssue);
 }

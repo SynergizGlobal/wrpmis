@@ -915,6 +915,14 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 			throw new Exception(e);
 		}
 		return objsList;
-	}	
-	
+	}
+
+	@Override
+	public List<Issue> getUnresolvedIssues() {
+    	List<Issue> issuesList = null;
+        String qry = "SELECT * FROM issue WHERE status_fk = 'Raised'";
+        issuesList = jdbcTemplate.query(qry, new BeanPropertyRowMapper<>(Issue.class));
+        return issuesList;
+	}
+
 }

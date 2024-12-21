@@ -29,4 +29,6 @@ public interface IssuesReportDao {
 
 	List<Issue> IssuesSummaryData(Issue obj) throws Exception;
 
+	List<Issue> getUnresolvedIssues();
+
 }

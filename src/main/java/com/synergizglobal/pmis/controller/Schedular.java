@@ -1,8 +1,12 @@
 package com.synergizglobal.pmis.controller;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 
 import com.synergizglobal.pmis.Iservice.AlertsService;
 import com.synergizglobal.pmis.Iservice.HomeService;
+import com.synergizglobal.pmis.Iservice.IssueService;
 import com.synergizglobal.pmis.common.UrlGenerator;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.model.Issue;
@@ -33,7 +38,10 @@ public class Schedular {
 	HomeService homeService;
 	
 	@Autowired
-	AlertsService alertService;
+	IssueService issueService;
+	
+	@Autowired
+	AlertsService alertService;	
 	
 	@Autowired
 	IssuesReportController issueReportController;
@@ -193,6 +201,45 @@ public class Schedular {
 		}
 	}
 	
+	@Scheduled(cron = "${cron.expression.send.reminder.emails}")
+	public void sendReminderEmails() {
+	    if (is_cron_jobs_enabled) {
+	        try {
+	            logger.info("sendReminderEmails: Job started at > " + new Date());
+
+	            // Fetch unresolved issues using the controller
+	            List<Issue> unresolvedIssues = issueReportController.getUnresolvedIssues();
+
+	            for (Issue issue : unresolvedIssues) {
+	                int daysPending = calculateDaysPending(issue.getDate());
+
+	                // Send reminders only for 7, 14, 21, or 28 days
+	                if (daysPending == 7 || daysPending == 14 || daysPending == 21 || daysPending == 28) {
+	                	boolean flag = issueReportController.sendReminderEmail(issue, daysPending);
+	                    logger.info("Reminder email sent for Issue ID: {}, Days Pending: {}");
+	                }
+	            }
+
+	            logger.info("sendReminderEmails: Job completed");
+	        } catch (Exception e) {
+	            logger.error("sendReminderEmails: Exception occurred - {}", e);
+	        }
+	    }
+	}
+	
+	
+
+	
+	private int calculateDaysPending(String date) {
+	    // Define the custom date format
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+
+	    // Parse the input date string to LocalDate using the formatter
+	    LocalDate reportingDate = LocalDate.parse(date, formatter);
+
+	    // Calculate the number of days between the reporting date and today's date
+	    return Period.between(reportingDate, LocalDate.now()).getDays();
+	}
 	@Scheduled(cron = "${cron.expression.sending.user.login.report.mails}")
 	public void sendUserLoginReportByCronJob(){		
 		if(is_cron_jobs_enabled) {

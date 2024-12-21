@@ -625,10 +625,10 @@ public class EMailSender {
 				  message.setRecipients(Message.RecipientType.BCC, addressBcc);
 			  }
 				 
-			  //message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(mail.getMailTo()));
+			  message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(mail.getMailTo()));
 			  message.setSubject(mail.getMailSubject());
 			  
-			  //Transport.send(message);
+			  Transport.send(message);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception(e);
@@ -1386,6 +1386,70 @@ public class EMailSender {
 	}
 	
 	
+	public void sendSupportEmail(String recipient, String UserName) {
+		 try {
+			 // create a message
+			 MimeMessage message = new MimeMessage( getSession() );
+			 message.setFrom(new InternetAddress(mailId));
+			 recipient="swathi1670@gmail.com,swathi.sagi@synergizglobal.com";
+			 
+			 if(!StringUtils.isEmpty(recipient)) {
+				 ArrayList<String> recipientsArray = new ArrayList<String>();
+				 StringTokenizer stringTokenizer = new StringTokenizer(recipient, ",");
+				 
+				 while (stringTokenizer.hasMoreTokens()) {
+					 recipientsArray.add(stringTokenizer.nextToken());
+				 }
+				 int sizeTo = recipientsArray.size();
+				 InternetAddress[] addressTo = new InternetAddress[sizeTo];
+				 for (int i = 0; i < sizeTo; i++) {
+					 addressTo[i] = new InternetAddress(recipientsArray.get(i).toString());
+				 }	 
+				 message.setRecipients(Message.RecipientType.TO, addressTo);
+			 }
+
+			 String subject = "PMIS error";
+			 String content = "Dear PMIS Team \r\n" + 
+			 		"\r\n" + 
+			 		"The user is unable to access the PMIS due to an error.\r\n" + 
+			 		"\r\n" + 
+			 		"Do the needful.\r\n" + 
+			 		"\r\n" + 
+			 		""+UserName+"";
+		 
+			 
+			 message.setSubject(subject);
+			 
+			 // create and fill the first message part
+			 MimeBodyPart mimeBodyPart1 = new MimeBodyPart();
+			 mimeBodyPart1.setText(content);
+			 
+			 // Open issues attachment part
+
+			 
+			 
+			 /*****************************************************************************************/
+			 
+			 Multipart multiPart = new MimeMultipart();
+			 multiPart.addBodyPart(mimeBodyPart1);
+			 
+			 message.setContent(multiPart);
+			 
+			 // set the Date: header
+			 message.setSentDate(new Date());
+			 
+			 // send the message
+			 Transport.send(message);
+			 
+		 }catch (MessagingException mex) {
+			 mex.printStackTrace();
+			 logger.error("sendOTPEmail >> "+mex);
+		 }
+	    
+	}
+	
+	
+	
 	public void sendOTPEmail(String recipient, int OTP,String UserName) {
 		 try {
 			 // create a message
@@ -1550,6 +1614,38 @@ public class EMailSender {
 		 }
 		
 	}
+
+	public void sendEmail(String to, String subject, String body, String cc) {
+        try {
+            // Create a default MimeMessage object
+            MimeMessage message = new MimeMessage(getSession());
+
+            // Set the "from" field
+            message.setFrom(new InternetAddress(mailId));
+
+            // Set the "to" field
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
+
+            // Set the "cc" field (if provided)
+            if (cc != null && !cc.isEmpty()) {
+                message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(cc));
+            }
+
+            // Set the subject
+            message.setSubject(subject);
+
+            // Set the body
+            message.setText(body);
+
+            // Send the message
+            Transport.send(message);
+
+            System.out.println("Email sent successfully to " + to);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            System.err.println("Failed to send email to " + to);
+        }
+    }
 
 	
 }

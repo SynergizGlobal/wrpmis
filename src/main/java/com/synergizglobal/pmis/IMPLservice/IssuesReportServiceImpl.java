@@ -71,4 +71,15 @@ public class IssuesReportServiceImpl implements IssuesReportService{
 		return issueDao.getCategoriesListInIssuesReport(obj);
 	}
 
+	@Override
+	public boolean processAndSendReminder(Issue unresolvedIssue) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List<Issue> getUnresolvedIssues() {
+		return issueDao.getUnresolvedIssues();
+	}
+
 }

@@ -16,7 +16,8 @@ public class Issue {
 	
 	private String contract_hod_user_id,contract_dyhod_user_id,created_by_user_id_fk,created_date,created_by_email_id,
 	existing_status_fk,mail_body_header,existing_responsible_person,existing_escalated_to,issue_file_type_fk,issue_file_type,
-	issue_file_id,assigned_person_user_id_fk,total_issues,closed_issues,open_issues,la_id;
+	issue_file_id,assigned_person_user_id_fk,total_issues,closed_issues,open_issues,la_id,cmd_email,dp_email,dt_email,contractor_email,
+	cmd_name,dp_name,dt_name,dyhod_name;
 
 	private boolean readonlyForm = true;
 	private MultipartFile issueFile;
@@ -903,6 +904,70 @@ public class Issue {
 
 	public void setComponent(String component) {
 		this.component = component;
+	}
+
+	public String getCmd_email() {
+		return cmd_email;
+	}
+
+	public void setCmd_email(String cmd_email) {
+		this.cmd_email = cmd_email;
+	}
+
+	public String getDp_email() {
+		return dp_email;
+	}
+
+	public void setDp_email(String dp_email) {
+		this.dp_email = dp_email;
+	}
+
+	public String getDt_email() {
+		return dt_email;
+	}
+
+	public void setDt_email(String dt_email) {
+		this.dt_email = dt_email;
+	}
+
+	public String getContractor_email() {
+		return contractor_email;
+	}
+
+	public void setContractor_email(String contractor_email) {
+		this.contractor_email = contractor_email;
+	}
+
+	public String getCmd_name() {
+		return cmd_name;
+	}
+
+	public void setCmd_name(String cmd_name) {
+		this.cmd_name = cmd_name;
+	}
+
+	public String getDp_name() {
+		return dp_name;
+	}
+
+	public void setDp_name(String dp_name) {
+		this.dp_name = dp_name;
+	}
+
+	public String getDt_name() {
+		return dt_name;
+	}
+
+	public void setDt_name(String dt_name) {
+		this.dt_name = dt_name;
+	}
+
+	public String getDyhod_name() {
+		return dyhod_name;
+	}
+
+	public void setDyhod_name(String dyhod_name) {
+		this.dyhod_name = dyhod_name;
 	}
 	
 }

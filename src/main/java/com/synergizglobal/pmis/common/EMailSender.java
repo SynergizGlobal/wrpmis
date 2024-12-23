@@ -580,8 +580,24 @@ public class EMailSender {
 		    
 			  message.setFrom(new InternetAddress(mailId));
 			  
+	            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(mail.getMailTo()));
+	            if (mail.getMailCc() != null && !mail.getMailCc().isEmpty()) {
+	                message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(mail.getMailCc()));
+	            }
+
+	            // Set subject
+	            message.setSubject(mail.getMailSubject());
+
+	            // Set content
+	            String content = mail.getMailContent();
+	            message.setContent(content, "text/html; charset=utf-8");
+
+	            // Send the email
+	            Transport.send(message);
+
 			  
-			  ArrayList<String> recipientsArray = new ArrayList<String>();
+			  
+			 /* ArrayList<String> recipientsArray = new ArrayList<String>();
 			  StringTokenizer stringTokenizer = new StringTokenizer(mail.getMailTo(), ",");
 			 
 			  while (stringTokenizer.hasMoreTokens()) {
@@ -594,7 +610,6 @@ public class EMailSender {
 			  }	 
 			  message.setRecipients(Message.RecipientType.TO, addressTo);
 			  
-			  /*********************************************************************/
 			  
 			  ArrayList<String> ccArray = new ArrayList<String>();
 			  StringTokenizer stringTokenizerCc = new StringTokenizer(mail.getMailCc(), ",");
@@ -608,7 +623,6 @@ public class EMailSender {
 				 addressCc[i] = new InternetAddress(ccArray.get(i).toString());
 			  }	 
 			  message.setRecipients(Message.RecipientType.CC, addressCc);
-			  /*********************************************************************/
 			  
 			  if(!StringUtils.isEmpty(mail.getMailBcc())) {
 				  ArrayList<String> bccArray = new ArrayList<String>();
@@ -628,7 +642,7 @@ public class EMailSender {
 			  message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(mail.getMailTo()));
 			  message.setSubject(mail.getMailSubject());
 			  
-			  Transport.send(message);
+			  Transport.send(message);*/
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception(e);

@@ -16,8 +16,8 @@ public class Issue {
 	
 	private String contract_hod_user_id,contract_dyhod_user_id,created_by_user_id_fk,created_date,created_by_email_id,
 	existing_status_fk,mail_body_header,existing_responsible_person,existing_escalated_to,issue_file_type_fk,issue_file_type,
-	issue_file_id,assigned_person_user_id_fk,total_issues,closed_issues,open_issues,la_id,cmd_email,dp_email,dt_email,contractor_email,
-	cmd_name,dp_name,dt_name,dyhod_name;
+	issue_file_id,assigned_person_user_id_fk,total_issues,closed_issues,open_issues,la_id,cmd_email,dp_email,dt_email,contractor_email,sse_email,pe_email,aen_mail,
+	cmd_name,dp_name,dt_name,dyhod_name,pe_name,aen_name,Sse_name;
 
 	private boolean readonlyForm = true;
 	private MultipartFile issueFile;
@@ -968,6 +968,54 @@ public class Issue {
 
 	public void setDyhod_name(String dyhod_name) {
 		this.dyhod_name = dyhod_name;
+	}
+
+	public String getPe_name() {
+		return pe_name;
+	}
+
+	public void setPe_name(String pe_name) {
+		this.pe_name = pe_name;
+	}
+
+	public String getAen_name() {
+		return aen_name;
+	}
+
+	public void setAen_name(String aen_name) {
+		this.aen_name = aen_name;
+	}
+
+	public String getSse_name() {
+		return Sse_name;
+	}
+
+	public void setSse_name(String sse_name) {
+		Sse_name = sse_name;
+	}
+
+	public String getSse_email() {
+		return sse_email;
+	}
+
+	public void setSse_email(String sse_email) {
+		this.sse_email = sse_email;
+	}
+
+	public String getPe_email() {
+		return pe_email;
+	}
+
+	public void setPe_email(String pe_email) {
+		this.pe_email = pe_email;
+	}
+
+	public String getAen_mail() {
+		return aen_mail;
+	}
+
+	public void setAen_mail(String aen_mail) {
+		this.aen_mail = aen_mail;
 	}
 	
 }

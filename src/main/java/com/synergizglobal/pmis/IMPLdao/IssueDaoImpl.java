@@ -960,7 +960,7 @@ public class IssueDaoImpl implements IssueDao {
 		    }
 
 		} catch (Exception e) {
-		    logger.error("Failed to send email for issue ID: " + iObj.getIssue_id(), e);
+		    logger.error("Failed to send email for issue ID: " + issue_id, e);
 		}
 	    
 	}

@@ -820,12 +820,43 @@ public class IssueDaoImpl implements IssueDao {
 			String emailsQry = "select i.issue_id,w.work_short_name,i.contract_id_fk,i.status_fk,i.reported_by,c.contract_short_name,w.work_name,c.contract_name,i.category_fk,i.priority_fk,i.title,i.location,i.corrective_measure,i.remarks,"
 					+ "u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,"
 					+ "u2.email_id as responsible_person_email_id,u3.email_id as escalated_to_email_id,"
-					+ "u4.email_id as contract_hod_email_id,u5.email_id as contract_dyhod_email_id,"
+					+ "u4.email_id as contract_hod_email_id,u5.email_id as contract_dyhod_email_id,u5.user_name as dyhod_name,"
 					+ "i.responsible_person as responsible_person_user_id,i.escalated_to as escalated_to_user_id,"
 					+ "c.hod_user_id_fk as contract_hod_user_id,c.dy_hod_user_id_fk as contract_dyhod_user_id,"
-					+ "u1.email_id as created_by_email_id,i.created_by_user_id_fk,other_org_resposible_person_name,other_org_resposible_person_designation,(select top 1 email_id  as aen_email  from [user] where designation like '%AEN Project%') as aen_email,\r\n" + 
-					"(select top 1 email_id as pe_email from [user] where designation like '%Project Engineer%') as pe_email,\r\n" + 
-					"(select top 1 email_id as sse_email from [user] where designation like '%SSE%') as sse_email "
+					+ "u1.email_id as created_by_email_id,i.created_by_user_id_fk,other_org_resposible_person_name,other_org_resposible_person_designation,(select  distinct top 1 email_id from contract_executive c1\r\n" + 
+					"\r\n" + 
+					"left join [user] u on u.user_id=c1.executive_user_id_fk\r\n" + 
+					"\r\n" + 
+					"where user_id is not null and contract_id_fk=c.contract_id and designation like '%AEN%') as aen_email,\r\n" + 
+					"\r\n" + 
+					"(select  distinct top 1 email_id from contract_executive c1\r\n" + 
+					"\r\n" + 
+					"left join [user] u on u.user_id=c1.executive_user_id_fk\r\n" + 
+					"\r\n" + 
+					"where user_id is not null and contract_id_fk=c.contract_id and designation like '%Project Engineer%') as pe_email,\r\n" + 
+					"	\r\n" + 
+					"(select  distinct top 1 email_id from contract_executive c1\r\n" + 
+					"\r\n" + 
+					"left join [user] u on u.user_id=c1.executive_user_id_fk\r\n" + 
+					"\r\n" + 
+					"where user_id is not null and contract_id_fk=c.contract_id and designation like '%SSE%') as sse_email,\r\n" + 
+					"(select  distinct top 1 user_name from contract_executive c1\r\n" + 
+					"\r\n" + 
+					"left join [user] u on u.user_id=c1.executive_user_id_fk\r\n" + 
+					"\r\n" + 
+					"where user_id is not null and contract_id_fk=c.contract_id and designation like '%AEN%') as aen_name,\r\n" + 
+					"\r\n" + 
+					"(select  distinct top 1 user_name from contract_executive c1\r\n" + 
+					"\r\n" + 
+					"left join [user] u on u.user_id=c1.executive_user_id_fk\r\n" + 
+					"\r\n" + 
+					"where user_id is not null and contract_id_fk=c.contract_id and designation like '%Project Engineer%') as pe_name,\r\n" + 
+					"	\r\n" + 
+					"(select  distinct top 1 user_name from contract_executive c1\r\n" + 
+					"\r\n" + 
+					"left join [user] u on u.user_id=c1.executive_user_id_fk\r\n" + 
+					"\r\n" + 
+					"where user_id is not null and contract_id_fk=c.contract_id and designation like '%SSE%') as sse_name  "
 					+ "from issue i " + "left outer join [user] u1 on i.created_by_user_id_fk = u1.user_id "
 					+ "left outer join [user] u2 on i.responsible_person = u2.user_id "
 					+ "left outer join [user] u3 on i.escalated_to = u3.user_id "
@@ -834,97 +865,103 @@ public class IssueDaoImpl implements IssueDao {
 					+ "left outer join [user] u5 on c.dy_hod_user_id_fk = u5.user_id "
 					+ "LEFT OUTER JOIN work w ON c.work_id_fk  = w.work_id "
 					+ "where issue_id = ? ";
+			
+			String currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+
 
 			Object[] pValues = new Object[] { issue_id };
 
 			Issue iObj = (Issue) jdbcTemplate.queryForObject(emailsQry, pValues,
-					new BeanPropertyRowMapper<Issue>(Issue.class));
-	        String emailSubject = "Occurrence of Issue in " + iObj.getContract_name() + ", raised on " + iObj.getDate();
+		            new BeanPropertyRowMapper<Issue>(Issue.class));
+		    
+		    String emailSubject = "Occurrence of Issue in " + iObj.getContract_name() + ", raised on " + iObj.getDate();
 
-	        // Determine email recipients
-	        StringBuilder mailTo = new StringBuilder();
-	        StringBuilder mailCC = new StringBuilder();
+		    // Determine email recipients
+		    StringBuilder mailTo = new StringBuilder();
+		    StringBuilder mailCC = new StringBuilder();
+		    
+		    // Determine the recipient name (PE, AEN/AM or DyHOD if any name is missing)
+		    String recipientName = iObj.getPe_name() + "," + iObj.getSse_name() + " and " + iObj.getAen_name();
+		    
+		    if (iObj.getPe_name() == null || iObj.getPe_name().isEmpty() ||
+		        iObj.getSse_name() == null || iObj.getSse_name().isEmpty() ||
+		        iObj.getAen_name() == null || iObj.getAen_name().isEmpty()) {
+		        recipientName = iObj.getDyhod_name();  // Use Dyhod_name if any of the previous names are missing
+		        mailTo.append(iObj.getContract_dyhod_email_id()).append(",");
+		    }
 
-	        // Add PE and AEN/AM to 'To'
-	        if (iObj.getResponsible_person_email_id() != null && !iObj.getResponsible_person_email_id().isEmpty()) {
-	           // mailTo.append(iObj.getResponsible_person_email_id()).append(",");
-	        }
-	        if (iObj.getEscalated_to_email_id() != null && !iObj.getEscalated_to_email_id().isEmpty()) {
-	            //mailTo.append(iObj.getEscalated_to_email_id()).append(",");
-	        }
+		    // Add PE, AEN/AM, SSE to 'To'
+		    if (iObj.getPe_email() != null && !iObj.getPe_email().isEmpty()) {
+		        mailTo.append(iObj.getPe_email()).append(",");
+		    }
+		    if (iObj.getAen_mail() != null && !iObj.getAen_mail().isEmpty()) {
+		        mailTo.append(iObj.getAen_mail()).append(",");
+		    }
+		    if (iObj.getSse_email() != null && !iObj.getSse_email().isEmpty()) {
+		        mailTo.append(iObj.getSse_email()).append(",");
+		    }
 
-	        if (iObj.getPe_email() != null && !iObj.getPe_email().isEmpty()) {
-	            mailTo.append(iObj.getPe_email()).append(",");
-	        }
-	        
-	        if (iObj.getAen_mail() != null && !iObj.getAen_mail().isEmpty()) {
-	            mailTo.append(iObj.getAen_mail()).append(",");
-	        }
-	        
-	        if (iObj.getSse_email() != null && !iObj.getSse_email().isEmpty()) {
-	            mailTo.append(iObj.getSse_email()).append(",");
-	        }	        
-	        
-	        
-	        // Add DyHOD and Contractor to 'CC'
-	        if (iObj.getContract_dyhod_email_id() != null && !iObj.getContract_dyhod_email_id().isEmpty()) {
-	            mailCC.append(iObj.getContract_dyhod_email_id()).append(",");
-	        }
-	        if (iObj.getContractor_email() != null && !iObj.getContractor_email().isEmpty()) {
-	            mailCC.append(iObj.getContractor_email()).append(",");
-	        }
+		    // Add DyHOD and Contractor to 'CC'
+		    if (iObj.getContract_dyhod_email_id() != null && !iObj.getContract_dyhod_email_id().isEmpty()) {
+		        mailCC.append(iObj.getContract_dyhod_email_id()).append(",");
+		    }
+		    if (iObj.getContractor_email() != null && !iObj.getContractor_email().isEmpty()) {
+		        mailCC.append(iObj.getContractor_email()).append(",");
+		    }
 
-	        // Remove trailing commas
-	        if (mailTo.length() > 0) {
-	            mailTo.setLength(mailTo.length() - 1);
-	        }
-	        if (mailCC.length() > 0) {
-	            mailCC.setLength(mailCC.length() - 1);
-	        }
+		    // Remove trailing commas
+		    if (mailTo.length() > 0) {
+		        mailTo.setLength(mailTo.length() - 1);
+		    }
+		    if (mailCC.length() > 0) {
+		        mailCC.setLength(mailCC.length() - 1);
+		    }
 
-	        // Construct the email body
-	        String mailBody = "Dear " + iObj.getPe_name() + "," + iObj.getSse_name() + " and " + iObj.getAen_name() + ",\n\n" +
-	                "We would like to inform you that a new issue has been added to the MRVC-PMIS portal by " + iObj.getContractor_name() + ". Below are the details of the issue:\n\n" +
-	                "Work Details: " + iObj.getWork_name() + "\n" +
-	                "Contract Details: " + iObj.getContract_name() + "\n" +
-	                "Issue Raised On: " + iObj.getDate() + "\n" +
-	                "Reported By: " + iObj.getReported_by() + "\n" +
-	                "Issue Description: " + iObj.getDescription() + "\n" +
-	                "Category: " + iObj.getCategory_fk() + "; Priority: " + iObj.getPriority_fk() + "\n" +
-	                "Organization Responsible for Issue: " + iObj.getZonal_railway_fk() + "\n" +
-	                "Target Date of Resolution: " + iObj.getDate() + "\n\n" +
-	                "The concerned team is expected to attend to the issue at the earliest and take the necessary actions.\n" +
-	                "<a href='" + issueDetailsUrl + "'>Click Here</a> for more details on the issue.\n\n" +
-	                "Thank you for your attention to this matter.\n\n" +
-	                "Regards,\nMRVC-PMIS Team.\n";
+		    // Construct the email body
+		    String mailBody = "Subject: Occurrence of Issue in " + iObj.getContract_name() + ", raised on " + iObj.getDate() + "\n\n" +
+		            "To: " + recipientName + "\n" +
+		            "CC: " + iObj.getContract_dyhod_email_id() + ", " + iObj.getContractor_email() + "\n\n" +
+		            "Dear " + recipientName + ",\n\n" +
+		            "We would like to inform you that a new issue has been added to the MRVC-PMIS portal by " + iObj.getContractor_name() + ". Below are the details of the issue:\n\n" +
+		            "Work Details: " + iObj.getWork_name() + "\n" +
+		            "Contract Details: " + iObj.getContract_name() + "\n" +
+		            "Issue Raised On: " + currentDate + "\n" +
+		            "Reported By: " + iObj.getReported_by() + "\n" +
+		            "Issue Description: " + iObj.getDescription() + "\n" +
+		            "Category: " + iObj.getCategory_fk() + "; Priority: " + iObj.getPriority_fk() + "\n" +
+		            "Organization Responsible for Issue: " + iObj.getZonal_railway_fk() + "\n" +
+		            "Target Date of Resolution: " + iObj.getDate() + "\n\n" +
+		            "The concerned team is expected to attend to the issue at the earliest and take the necessary actions.\n" +
+		            "<a href='get-issue/" + iObj.getIssue_id() + "'>Click Here</a> for more details on the issue.\n\n" +
+		            "Thank you for your attention to this matter.\n\n" +
+		            "Regards,\nMRVC-PMIS Team.\n";
 
-	        // Create and configure Mail object
-	        Mail mail = new Mail();
-	        mail.setMailTo(mailTo.toString());
-	        mail.setMailCc(mailCC.toString());
-	        mail.setMailSubject(emailSubject);
-	        mail.setMailContent(mailBody);
-	        mail.setTemplateName("IssueStatusAlert.vm");
+		    // Create and configure Mail object
+		    Mail mail = new Mail();
+		    mail.setMailTo(mailTo.toString());
+		    mail.setMailCc(mailCC.toString());
+		    mail.setMailSubject(emailSubject);
+		    mail.setMailContent(mailBody);
 
-	        // Log email details
-	        logger.info("Preparing email for issue ID: " + iObj.getIssue_id());
-	        logger.info("Mail To: " + mailTo);
-	        logger.info("Mail CC: " + mailCC);
-	        logger.info("Email Subject: " + emailSubject);
-	        logger.info("Email Body: \n" + mailBody);
+		    // Log email details
+		    logger.info("Preparing email for issue ID: " + iObj.getIssue_id());
+		    logger.info("Mail To: " + mailTo);
+		    logger.info("Mail CC: " + mailCC);
+		    logger.info("Email Subject: " + emailSubject);
+		    logger.info("Email Body: \n" + mailBody);
 
-	        // Send email
-	        if (mailTo.length() > 0) {
-	            EMailSender emailSender = new EMailSender();
-	            emailSender.sendEmailWithIssueStatusAlert(mail, iObj, today_date, current_year);
-	            logger.info("Email sent successfully for issue ID: " + iObj.getIssue_id());
-	        } else {
-	            logger.warn("No recipients found for the email. Skipping email for issue ID: " + iObj.getIssue_id());
-	        }
+		    // Send email
+		    if (mailTo.length() > 0) {
+		        EMailSender emailSender = new EMailSender();
+		        emailSender.sendEmailWithIssueStatusAlert(mail, iObj, today_date, current_year);
+		        logger.info("Email sent successfully for issue ID: " + iObj.getIssue_id());
+		    } else {
+		        logger.warn("No recipients found for the email. Skipping email for issue ID: " + iObj.getIssue_id());
+		    }
 
-	    } catch (Exception e) {
-	        logger.error("Failed to send email for issue ID: " + issue_id, e);
-	    }
+		} catch (Exception e) {
+		    logger.error("Failed to send email for issue ID: " + iObj.getIssue_id(), e);
+		}
 	    
 	}
 

@@ -917,24 +917,21 @@ public class IssueDaoImpl implements IssueDao {
 		        mailCC.setLength(mailCC.length() - 1);
 		    }
 
-		    // Construct the email body
-		    String mailBody = "Subject: Occurrence of Issue in " + iObj.getContract_name() + ", raised on " + iObj.getDate() + "\n\n" +
-		            "To: " + recipientName + "\n" +
-		            "CC: " + iObj.getContract_dyhod_email_id() + ", " + iObj.getContractor_email() + "\n\n" +
-		            "Dear " + recipientName + ",\n\n" +
-		            "We would like to inform you that a new issue has been added to the MRVC-PMIS portal by " + iObj.getContractor_name() + ". Below are the details of the issue:\n\n" +
-		            "Work Details: " + iObj.getWork_name() + "\n" +
-		            "Contract Details: " + iObj.getContract_name() + "\n" +
-		            "Issue Raised On: " + currentDate + "\n" +
-		            "Reported By: " + iObj.getReported_by() + "\n" +
-		            "Issue Description: " + iObj.getDescription() + "\n" +
-		            "Category: " + iObj.getCategory_fk() + "; Priority: " + iObj.getPriority_fk() + "\n" +
-		            "Organization Responsible for Issue: " + iObj.getZonal_railway_fk() + "\n" +
-		            "Target Date of Resolution: " + iObj.getDate() + "\n\n" +
-		            "The concerned team is expected to attend to the issue at the earliest and take the necessary actions.\n" +
-		            "<a href='check-issue/" + iObj.getIssue_id() + "'>Click Here</a> for more details on the issue.\n\n" +
-		            "Thank you for your attention to this matter.\n\n" +
-		            "Regards,\nMRVC-PMIS Team.\n";
+		    String mailBody = "Dear " + iObj.getPe_name() + " and " + iObj.getAen_name() + ",\n\n" +
+		    	    "We would like to inform you that a new issue has been added to the MRVC-PMIS portal by " + iObj.getContractor_name() + ". Below are the details of the issue:\n\n" +
+		    	    "Work Details: " + iObj.getWork_name() + "\n" +
+		    	    "Contract Details: " + iObj.getContract_name() + "\n" +
+		    	    "Issue Raised On: " + iObj.getDate() + "\n" +
+		    	    "Reported By: " + iObj.getReported_by() + "\n" +
+		    	    "Issue Description: " + iObj.getDescription() + "\n" +
+		    	    "Category: " + iObj.getCategory_fk() + "; Priority: " + iObj.getPriority_fk() + "\n" +
+		    	    "Organization Responsible for Issue: " + iObj.getZonal_railway_fk() + "\n" +
+		    	    "Target Date of Resolution: " + iObj.getDate() + "\n\n" +
+		    	    "The concerned team is expected to attend to the issue at the earliest and take the necessary actions.\n\n" +
+		    	    "<a href='check-issue/" + iObj.getIssue_id() + "'>Click Here</a> for more details on the issue.\n\n" +
+		    	    "Thank you for your attention to this matter.\n\n" +
+		    	    "Regards,\nMRVC-PMIS Team.\n" +
+		    	    "[Company Logo]\n";
 
 		    // Create and configure Mail object
 		    Mail mail = new Mail();
@@ -942,6 +939,7 @@ public class IssueDaoImpl implements IssueDao {
 		    mail.setMailCc(mailCC.toString());
 		    mail.setMailSubject(emailSubject);
 		    mail.setMailContent(mailBody);
+		    mail.setMailSubject("Occurrence of Issue in " + iObj.getContract_short_name() + ", raised on " + iObj.getDate());
 
 		    // Log email details
 		    logger.info("Preparing email for issue ID: " + iObj.getIssue_id());

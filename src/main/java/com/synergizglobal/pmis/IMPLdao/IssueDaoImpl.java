@@ -932,7 +932,7 @@ public class IssueDaoImpl implements IssueDao {
 		            "Organization Responsible for Issue: " + iObj.getZonal_railway_fk() + "\n" +
 		            "Target Date of Resolution: " + iObj.getDate() + "\n\n" +
 		            "The concerned team is expected to attend to the issue at the earliest and take the necessary actions.\n" +
-		            "<a href='get-issue/" + iObj.getIssue_id() + "'>Click Here</a> for more details on the issue.\n\n" +
+		            "<a href='check-issue/" + iObj.getIssue_id() + "'>Click Here</a> for more details on the issue.\n\n" +
 		            "Thank you for your attention to this matter.\n\n" +
 		            "Regards,\nMRVC-PMIS Team.\n";
 

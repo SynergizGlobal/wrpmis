@@ -16,8 +16,10 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -147,6 +149,44 @@ public class LoginController {
 		return model;
 	}
 	
+	
+	@RequestMapping(value = "/check-issue/{issueId}", method = RequestMethod.GET)
+	public ModelAndView autoLogin(@RequestParam("user_email") String userEmail,@PathVariable("issueId") int issueId,
+	                              HttpSession session,
+	                              RedirectAttributes attributes) {
+	    ModelAndView model = new ModelAndView();
+	    
+	    try {
+	    	List<User> UserDetails = loginService.getUserId(userEmail);
+	        
+	        if (UserDetails != null) {
+	            // Step 2: Log the user in by setting session attributes
+	            session.setAttribute("user", UserDetails);
+	            session.setAttribute("USER_ID", UserDetails.get(0).getUser_id());
+	            session.setAttribute("USER_NAME", UserDetails.get(0).getUser_name());
+	            session.setAttribute("USER_ROLE_NAME", UserDetails.get(0).getUser_role_name_fk());
+	            session.setAttribute("USER_ROLE_CODE", UserDetails.get(0).getUser_role_code());
+	            session.setAttribute("USER_TYPE", UserDetails.get(0).getUser_type_fk());
+	            session.setAttribute("USER_DESIGNATION", UserDetails.get(0).getDesignation());
+	            session.setAttribute("IS_TEST_ENV_ENABLED", UserDetails.get(0).getIs_test_env_enabled());
+	            session.setAttribute("USER_LOGIN_DETAILS_ID", UserDetails.get(0).getUser_login_details_id());
+	            session.setAttribute("SINGLE_LOGIN_SESSION_ID", UserDetails.get(0).getSingle_login_session_id());
+	            
+	            // Step 3: Redirect to the issue page
+	            String redirectUrl = "http://203.153.40.44:90/pmis_qa/get-issue/" + issueId;
+	            model.setViewName("redirect:" + redirectUrl);
+	        } else {
+	            // If no user found, redirect to login page
+	            model.setViewName("redirect:/login");
+	        }
+	    } catch (Exception e) {
+	        logger.error("Error during auto-login: " + e.getMessage());
+	        model.setViewName("redirect:/login");
+	    }
+	    
+	    return model;
+	}
+
 	/**
 	 * This method logout() is used for logout the user and destroy the session
 	 * @param session it will create/destroy the session for the user. 
@@ -469,6 +509,17 @@ public class LoginController {
 		return model;
 	}
 	
+ 	@RequestMapping(value = "/ajax/sendSupportEmail", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+ 	@ResponseBody
+ 	public int sendSupportEmail(String user_name) throws Exception {
+		String recipients="";
+		if (!StringUtils.isEmpty(user_name)) {
+			EMailSender emailSender = new EMailSender();
+			emailSender.sendSupportEmail(recipients,user_name);
+		}
+ 		return 1;	
+ 	}
+	
 	@RequestMapping(value = "/ajax/sendOTPtomail", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public static int sendOTPtomail(int OTP,HttpSession session) {
@@ -479,7 +530,8 @@ public class LoginController {
 			emailSender.sendOTPEmail(recipients,OTP,"");
 		}
 		return 1;
-	}
+	}	
+	
 	
 	@RequestMapping(value = "/ajax/sendOTPtomailforResetPassword", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody

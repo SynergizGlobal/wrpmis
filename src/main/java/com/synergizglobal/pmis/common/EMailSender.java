@@ -130,7 +130,7 @@ public class EMailSender {
 			  }
 			     
 			 			  
-			  Template template = velocityEngine.getTemplate("templates/"+ mail.getTemplateName());
+			  //Template template = velocityEngine.getTemplate("templates/"+ mail.getTemplateName());
 				
 			  VelocityContext velocityContext = new VelocityContext();
 			  velocityContext.put("alerts", alerts);
@@ -138,13 +138,13 @@ public class EMailSender {
 			  velocityContext.put("current_year", current_year);
 			  velocityContext.put("alert_type", alert_type);
 			  
-			  StringWriter stringWriter = new StringWriter();
+			 // StringWriter stringWriter = new StringWriter();
 			  
-			  template.merge(velocityContext, stringWriter);
+			// template.merge(velocityContext, stringWriter);
 
 
 			  MimeBodyPart htmlPart = new MimeBodyPart();
-			  htmlPart.setContent( stringWriter.toString(), "text/html; charset=utf-8" );
+			//  htmlPart.setContent( stringWriter.toString(), "text/html; charset=utf-8" );
 
 			  //multipart.addBodyPart( htmlPart );
 

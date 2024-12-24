@@ -49,8 +49,8 @@ public class EMailSender {
 	private static String pass = "Synergiz@2018";*/
 	
 	/************** ZIMBRA Mail Server Credentials**************************************/
-	private static String mailId = "syntrack@synergizglobal.com";
-	private static String pass = "synergiz@%^07122022";
+	private static String mailId = "support_pmis@mrvc.gov.in";
+	private static String pass = "Mrvc#pmis2";
 	
 	public static Session getSession() {
 		Properties props = new Properties();
@@ -130,7 +130,7 @@ public class EMailSender {
 			  }
 			     
 			 			  
-			  //Template template = velocityEngine.getTemplate("templates/"+ mail.getTemplateName());
+			  Template template = velocityEngine.getTemplate("templates/"+ mail.getTemplateName());
 				
 			  VelocityContext velocityContext = new VelocityContext();
 			  velocityContext.put("alerts", alerts);
@@ -138,13 +138,13 @@ public class EMailSender {
 			  velocityContext.put("current_year", current_year);
 			  velocityContext.put("alert_type", alert_type);
 			  
-			 // StringWriter stringWriter = new StringWriter();
+			  StringWriter stringWriter = new StringWriter();
 			  
-			// template.merge(velocityContext, stringWriter);
+			  template.merge(velocityContext, stringWriter);
 
 
 			  MimeBodyPart htmlPart = new MimeBodyPart();
-			//  htmlPart.setContent( stringWriter.toString(), "text/html; charset=utf-8" );
+			  htmlPart.setContent( stringWriter.toString(), "text/html; charset=utf-8" );
 
 			  //multipart.addBodyPart( htmlPart );
 
@@ -554,7 +554,7 @@ public class EMailSender {
 			  }
 			     
 			 			  
-			  Template template = velocityEngine.getTemplate("templates/"+ mail.getTemplateName());
+			  //Template template = velocityEngine.getTemplate("templates/"+ mail.getTemplateName());
 				
 			  VelocityContext velocityContext = new VelocityContext();
 			  velocityContext.put("alert", iObj);
@@ -563,7 +563,7 @@ public class EMailSender {
 			  
 			  StringWriter stringWriter = new StringWriter();
 			  
-			  template.merge(velocityContext, stringWriter);
+			  //template.merge(velocityContext, stringWriter);
 
 
 			  MimeBodyPart htmlPart = new MimeBodyPart();

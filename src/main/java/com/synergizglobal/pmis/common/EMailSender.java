@@ -49,8 +49,8 @@ public class EMailSender {
 	private static String pass = "Synergiz@2018";*/
 	
 	/************** ZIMBRA Mail Server Credentials**************************************/
-	private static String mailId = "support_pmis@mrvc.gov.in";
-	private static String pass = "Mrvc#pmis2";
+	private static String mailId = "syntrack@synergizglobal.com";
+	private static String pass = "synergiz@%^07122022";
 	
 	public static Session getSession() {
 		Properties props = new Properties();

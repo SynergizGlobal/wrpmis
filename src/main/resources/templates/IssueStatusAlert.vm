@@ -63,8 +63,8 @@
                                                                 </td>
 																<td align="left" width="100px"
                                                                     style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
-                                                                    #if($alert.current_date && !$alert.current_date.empty) 
-                                                                    	$alert.current_date
+                                                                    #if($alert.curdate && !$alert.curdate.empty) 
+                                                                    	$alert.curdate
                                                                     #end
                                                                 </td>
                                                             </tr>
@@ -87,8 +87,8 @@
                                                                 </td>
 																<td align="left" width="100px"
                                                                     style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
-                                                                    #if($alert.issue_description && !$alert.issue_description.empty) 
-                                                                    	$alert.issue_description
+                                                                    #if($alert.description && !$alert.description.empty) 
+                                                                    	$alert.description
                                                                     #end
                                                                 </td>
                                                             </tr>                                                                                                                                                                                  
@@ -147,7 +147,7 @@
 																<td align="left" width="100px" colspan="2"
                                                                     style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
                                                                      The concerned team is expected to attend to the issue at the earliest and take the necessary actions.
-<a href="$alert.redirect_url">Click Here</a>  for more details on the issue.
+<a href="http://203.153.40.44:90/pmis_qa/check-issue/832?user_email="$alert.pe_email>Click Here</a>  for more details on the issue.
 Thank you for your attention to this matter.
 
 Regards,

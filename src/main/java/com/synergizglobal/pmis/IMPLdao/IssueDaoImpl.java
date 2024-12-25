@@ -967,7 +967,7 @@ public class IssueDaoImpl implements IssueDao {
 
 		try {
 
-			String emailsQry = "select i.issue_id,w.work_short_name,i.contract_id_fk,i.status_fk,i.reported_by,c.contract_short_name,w.work_name,c.contract_name,i.category_fk,i.priority_fk,i.title,i.location,i.corrective_measure,i.remarks,"
+			String emailsQry = "select i.issue_id,zonal_railway_fk,description,date,w.work_short_name,i.contract_id_fk,i.status_fk,i.reported_by,c.contract_short_name,w.work_name,c.contract_name,i.category_fk,i.priority_fk,i.title,i.location,i.corrective_measure,i.remarks,"
 					+ "u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,"
 					+ "u2.email_id as responsible_person_email_id,u3.email_id as escalated_to_email_id,"
 					+ "u4.email_id as contract_hod_email_id,u5.email_id as contract_dyhod_email_id,u5.user_name as dyhod_name,"
@@ -1389,67 +1389,68 @@ public class IssueDaoImpl implements IssueDao {
 				/*********************************************************************************************/
 				String mailTo = "";
 				String mailCC = "";
+				String mailBodyHeader = "";
 
 				if ("Raised".equals(iObj.getStatus_fk())) {
 					if (!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
-						mailTo = mailTo + iObj.getContract_dyhod_email_id() + ",";
+						//mailTo = mailTo + iObj.getContract_dyhod_email_id() + ",";
 					}
 					if (!StringUtils.isEmpty(reported_by_email_id)) {
-						mailCC = mailCC + reported_by_email_id + ",";
+						//mailCC = mailCC + reported_by_email_id + ",";
 					}
 					if (!StringUtils.isEmpty(iObj.getContract_hod_email_id())) {
-						mailCC = mailCC + iObj.getContract_hod_email_id() + ",";
+						//mailCC = mailCC + iObj.getContract_hod_email_id() + ",";
 					}
 				} else if ("Assigned".equals(iObj.getStatus_fk())) {
 					if (!StringUtils.isEmpty(iObj.getResponsible_person_email_id())) {
-						mailTo = mailTo + iObj.getResponsible_person_email_id() + ",";
+						//mailTo = mailTo + iObj.getResponsible_person_email_id() + ",";
 					}
 					if (!StringUtils.isEmpty(iObj.getContract_hod_email_id())) {
-						mailCC = mailCC + iObj.getContract_hod_email_id() + ",";
+						//mailCC = mailCC + iObj.getContract_hod_email_id() + ",";
 					}
 					if (!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
-						mailCC = mailCC + iObj.getContract_dyhod_email_id() + ",";
+						//mailCC = mailCC + iObj.getContract_dyhod_email_id() + ",";
 					}
 				} else if ("Escalated".equals(iObj.getStatus_fk())) {
 					if (!StringUtils.isEmpty(iObj.getEscalated_to_email_id())) {
-						mailTo = mailTo + iObj.getEscalated_to_email_id() + ",";
+						//mailTo = mailTo + iObj.getEscalated_to_email_id() + ",";
 					}
 					if (!StringUtils.isEmpty(iObj.getResponsible_person_email_id())) {
-						mailCC = mailCC + iObj.getResponsible_person_email_id() + ",";
+						//mailCC = mailCC + iObj.getResponsible_person_email_id() + ",";
 					}
 					if (!StringUtils.isEmpty(iObj.getContract_hod_email_id())) {
-						mailCC = mailCC + iObj.getContract_hod_email_id() + ",";
+						//mailCC = mailCC + iObj.getContract_hod_email_id() + ",";
 					}
 					if (!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
-						mailCC = mailCC + iObj.getContract_dyhod_email_id() + ",";
+						//mailCC = mailCC + iObj.getContract_dyhod_email_id() + ",";
 					}
 				} else if ("Closed".equals(iObj.getStatus_fk())) {
 					if (!StringUtils.isEmpty(iObj.getContract_hod_email_id())) {
-						mailTo = mailTo + iObj.getContract_hod_email_id() + ",";
+						//mailTo = mailTo + iObj.getContract_hod_email_id() + ",";
 					}
 					if (!StringUtils.isEmpty(iObj.getContract_dyhod_email_id())) {
-						mailCC = mailCC + iObj.getContract_dyhod_email_id() + ",";
+						//mailCC = mailCC + iObj.getContract_dyhod_email_id() + ",";
 					}
 					if (!StringUtils.isEmpty(iObj.getEscalated_to_email_id())) {
-						mailCC = mailCC + iObj.getEscalated_to_email_id() + ",";
+						//mailCC = mailCC + iObj.getEscalated_to_email_id() + ",";
 					}
 					if (!StringUtils.isEmpty(iObj.getResponsible_person_email_id())) {
-						mailCC = mailCC + iObj.getResponsible_person_email_id() + ",";
+						//mailCC = mailCC + iObj.getResponsible_person_email_id() + ",";
 					}
 					if (!StringUtils.isEmpty(iObj.getCreated_by_email_id())) {
-						mailCC = mailCC + iObj.getCreated_by_email_id() + ",";
+						//mailCC = mailCC + iObj.getCreated_by_email_id() + ",";
 					}
 				}
 
 				if (!StringUtils.isEmpty(mailTo)) {
-					mailTo = org.apache.commons.lang3.StringUtils.chop(mailTo);
+					//mailTo = org.apache.commons.lang3.StringUtils.chop(mailTo);
 				}
 
 				if (!StringUtils.isEmpty(mailCC)) {
-					mailCC = org.apache.commons.lang3.StringUtils.chop(mailCC);
+					//mailCC = org.apache.commons.lang3.StringUtils.chop(mailCC);
 				}
 
-				String mailBodyHeader = "";
+				
 
 				if (!StringUtils.isEmpty(iObj.getStatus_fk()) && !iObj.getStatus_fk().equals(existing_status_fk)
 						&& !iObj.getStatus_fk().equals("Closed")) {
@@ -1483,6 +1484,8 @@ public class IssueDaoImpl implements IssueDao {
 						mailBodyHeader = mailBodyHeader + " to you ";
 					}
 				}
+				
+				
 				
 			    String recipientName = iObj.getPe_name() + "," + iObj.getSse_name() + " and " + iObj.getAen_name();
 			    
@@ -1524,7 +1527,6 @@ public class IssueDaoImpl implements IssueDao {
 					iObj.setMail_body_header(header);
 				}
 
-				iObj.setMail_body_header(mailBodyHeader);
 
 				String emailSubject = "PMIS Issue Notification - Issue ";
 

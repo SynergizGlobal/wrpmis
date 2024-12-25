@@ -499,11 +499,8 @@ public class IssueDaoImpl implements IssueDao {
 
 				String issue_status = obj.getStatus_fk();
 				String reported_by_email_id = obj.getReported_by_email_id();
-				
-				String today_date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); // Example: 2024-12-23
-				String current_year = String.valueOf(LocalDate.now().getYear()); // Example: 2024
-				
-				sendEmailWithIssueStatusAlert1(issue_id, issue_status, "get-issue/"+obj.getIssue_id(),today_date,current_year);
+				sendEmailWithIssueStatusAlert(issue_id, issue_status, reported_by_email_id, obj.getExisting_status_fk(), null,
+						null);
 
 			}
 			transactionManager.commit(status);
@@ -973,10 +970,57 @@ public class IssueDaoImpl implements IssueDao {
 			String emailsQry = "select i.issue_id,w.work_short_name,i.contract_id_fk,i.status_fk,i.reported_by,c.contract_short_name,w.work_name,c.contract_name,i.category_fk,i.priority_fk,i.title,i.location,i.corrective_measure,i.remarks,"
 					+ "u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,"
 					+ "u2.email_id as responsible_person_email_id,u3.email_id as escalated_to_email_id,"
-					+ "u4.email_id as contract_hod_email_id,u5.email_id as contract_dyhod_email_id,"
+					+ "u4.email_id as contract_hod_email_id,u5.email_id as contract_dyhod_email_id,u5.user_name as dyhod_name,"
 					+ "i.responsible_person as responsible_person_user_id,i.escalated_to as escalated_to_user_id,"
 					+ "c.hod_user_id_fk as contract_hod_user_id,c.dy_hod_user_id_fk as contract_dyhod_user_id,"
-					+ "u1.email_id as created_by_email_id,i.created_by_user_id_fk,other_org_resposible_person_name,other_org_resposible_person_designation "
+					+ "u1.email_id as created_by_email_id,i.created_by_user_id_fk,other_org_resposible_person_name,other_org_resposible_person_designation,(select email_id from issue i\r\n" + 
+					"\r\n" + 
+					"inner join (select contract_id_fk, department_id_fk,executive_user_id_fk,user_name,\r\n" + 
+					"designation, department_fk,user_type_fk,user_role_name_fk,email_id from contract_executive a left join [user] b\r\n" + 
+					"on a.executive_user_id_fk = b.user_id\r\n" + 
+					"where department_fk not in('Fin','Plan')) m on m.contract_id_fk=i.contract_id_fk\r\n" + 
+					"\r\n" + 
+					"where i.contract_id_fk = c.contract_id  and issue_id="+issue_id+"  and designation in('XEN')) as aen_email,\r\n" + 
+					"\r\n" + 
+					"(select  distinct top 1 email_id from contract_executive c1\r\n" + 
+					"\r\n" + 
+					"left join [user] u on u.user_id=c1.executive_user_id_fk\r\n" + 
+					"\r\n" + 
+					"where user_id is not null and contract_id_fk=c.contract_id and designation like '%Project Engineer%') as pe_email,\r\n" + 
+					"	\r\n" + 
+					"\r\n" + 
+					"(select email_id from issue i\r\n" + 
+					"\r\n" + 
+					"inner join (select contract_id_fk, department_id_fk,executive_user_id_fk,user_name,\r\n" + 
+					"designation, department_fk,user_type_fk,user_role_name_fk,email_id from contract_executive a left join [user] b\r\n" + 
+					"on a.executive_user_id_fk = b.user_id\r\n" + 
+					"where department_fk not in('Fin','Plan')) m on m.contract_id_fk=i.contract_id_fk\r\n" + 
+					"\r\n" + 
+					"where i.contract_id_fk = c.contract_id  and issue_id="+issue_id+"  and designation in('SSE')) as sse_email,\r\n" + 
+					"(select user_name from issue i\r\n" + 
+					"\r\n" + 
+					"inner join (select contract_id_fk, department_id_fk,executive_user_id_fk,user_name,\r\n" + 
+					"designation, department_fk,user_type_fk,user_role_name_fk,email_id from contract_executive a left join [user] b\r\n" + 
+					"on a.executive_user_id_fk = b.user_id\r\n" + 
+					"where department_fk not in('Fin','Plan')) m on m.contract_id_fk=i.contract_id_fk\r\n" + 
+					"\r\n" + 
+					"where i.contract_id_fk = c.contract_id  and issue_id="+issue_id+"  and designation in('XEN')) as aen_name,\r\n" + 
+					"\r\n" + 
+					"(select  distinct top 1 user_name from contract_executive c1\r\n" + 
+					"\r\n" + 
+					"left join [user] u on u.user_id=c1.executive_user_id_fk\r\n" + 
+					"\r\n" + 
+					"where user_id is not null and contract_id_fk=c.contract_id and designation like '%Project Engineer%') as pe_name,\r\n" + 
+					"	\r\n" + 
+					"\r\n" + 
+					"(select user_name from issue i\r\n" + 
+					"\r\n" + 
+					"inner join (select contract_id_fk, department_id_fk,executive_user_id_fk,user_name,\r\n" + 
+					"designation, department_fk,user_type_fk,user_role_name_fk,email_id from contract_executive a left join [user] b\r\n" + 
+					"on a.executive_user_id_fk = b.user_id\r\n" + 
+					"where department_fk not in('Fin','Plan')) m on m.contract_id_fk=i.contract_id_fk\r\n" + 
+					"\r\n" + 
+					"where i.contract_id_fk = c.contract_id  and issue_id="+issue_id+"  and designation in('SSE')) as sse_name  "
 					+ "from issue i " + "left outer join [user] u1 on i.created_by_user_id_fk = u1.user_id "
 					+ "left outer join [user] u2 on i.responsible_person = u2.user_id "
 					+ "left outer join [user] u3 on i.escalated_to = u3.user_id "
@@ -1438,6 +1482,46 @@ public class IssueDaoImpl implements IssueDao {
 					if ("Assigned".equals(iObj.getStatus_fk()) || "Escalated".equals(iObj.getStatus_fk())) {
 						mailBodyHeader = mailBodyHeader + " to you ";
 					}
+				}
+				
+			    String recipientName = iObj.getPe_name() + "," + iObj.getSse_name() + " and " + iObj.getAen_name();
+			    
+			    if (iObj.getPe_name() == null || iObj.getPe_name().isEmpty() ||
+			        iObj.getSse_name() == null || iObj.getSse_name().isEmpty() ||
+			        iObj.getAen_name() == null || iObj.getAen_name().isEmpty()) {
+			        recipientName = iObj.getDyhod_name();  // Use Dyhod_name if any of the previous names are missing
+			        mailTo=mailTo+iObj.getContract_dyhod_email_id()+",";
+			    }
+
+			    // Add PE, AEN/AM, SSE to 'To'
+			    if (iObj.getPe_email() != null && !iObj.getPe_email().isEmpty()) {
+			    	mailTo=mailTo+iObj.getPe_email()+",";
+			    }
+			    if (iObj.getAen_mail() != null && !iObj.getAen_mail().isEmpty()) {
+			    	mailTo=mailTo+iObj.getAen_mail()+",";
+			    }
+			    if (iObj.getSse_email() != null && !iObj.getSse_email().isEmpty()) {
+			    	mailTo=mailTo+iObj.getSse_email()+",";
+			    }
+
+			    // Add DyHOD and Contractor to 'CC'
+			    if (iObj.getContract_dyhod_email_id() != null && !iObj.getContract_dyhod_email_id().isEmpty()) {
+			        mailCC=mailCC+iObj.getContract_dyhod_email_id()+",";
+			    }
+			    if (iObj.getContractor_email() != null && !iObj.getContractor_email().isEmpty()) {
+			    	mailCC=mailCC+iObj.getContractor_email()+",";
+			    }			
+			    String currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+			    iObj.setCurdate(currentDate);
+				
+			    
+				String header="Dear "+recipientName+",\r\n" + 
+						"\r\n" + 
+						"We would like to inform you that a new issue has been added to the MRVC-PMIS portal by "+iObj.getContractor_name()+". Below are the details of the issue:\r\n" + 
+						"";
+				
+				if ("Raised".equals(iObj.getStatus_fk())) {
+					iObj.setMail_body_header(header);
 				}
 
 				iObj.setMail_body_header(mailBodyHeader);

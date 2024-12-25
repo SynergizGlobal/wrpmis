@@ -35,7 +35,7 @@
                                                             <tr>
 																<td align="left" width="100px"
                                                                     style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
-                                                                     Work
+                                                                     Work Details
                                                                 </td>
 																<td align="left" width="100px"
                                                                     style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
@@ -47,7 +47,7 @@
 															<tr>
 																<td align="left" width="100px"
                                                                     style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
-                                                                     Contract
+                                                                     Contract Details
                                                                 </td>
 																<td align="left" width="100px"
                                                                     style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
@@ -56,6 +56,42 @@
                                                                     #end
                                                                 </td>
                                                             </tr>
+                                                            <tr>
+ 																<td align="left" width="100px"
+                                                                    style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
+                                                                     Issue Raised On
+                                                                </td>
+																<td align="left" width="100px"
+                                                                    style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
+                                                                    #if($alert.current_date && !$alert.current_date.empty) 
+                                                                    	$alert.current_date
+                                                                    #end
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+ 																<td align="left" width="100px"
+                                                                    style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
+                                                                     Reported By
+                                                                </td>
+																<td align="left" width="100px"
+                                                                    style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
+                                                                    #if($alert.reported_by && !$alert.reported_by.empty) 
+                                                                    	$alert.reported_by
+                                                                    #end
+                                                                </td>
+                                                            </tr> 
+                                                              <tr>
+ 																<td align="left" width="100px"
+                                                                    style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
+                                                                     Issue Description
+                                                                </td>
+																<td align="left" width="100px"
+                                                                    style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
+                                                                    #if($alert.issue_description && !$alert.issue_description.empty) 
+                                                                    	$alert.issue_description
+                                                                    #end
+                                                                </td>
+                                                            </tr>                                                                                                                                                                                  
 															<tr>
 																<td align="left" width="100px"
                                                                     style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
@@ -68,7 +104,7 @@
                                                                     #end
                                                                 </td>
                                                             </tr>
-															<tr>
+ 															<tr>
 																<td align="left" width="100px"
                                                                     style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
                                                                      Priority
@@ -79,94 +115,46 @@
                                                                     	$alert.priority_fk
                                                                     #end
                                                                 </td>
-                                                            </tr>
+                                                            </tr>                                                           
 															<tr>
 																<td align="left" width="100px"
                                                                     style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
-                                                                     Short Description
+                                                                     Organization Responsible for Issue
                                                                 </td>
 																<td align="left" width="100px"
                                                                     style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
-                                                                    #if($alert.title && !$alert.title.empty) 
-                                                                    	$alert.title
+                                                                    #if($alert.zonal_railway_fk && !$alert.zonal_railway_fk.empty) 
+                                                                    	$alert.zonal_railway_fk
                                                                     #end
                                                                 </td>
                                                             </tr>
 															<tr>
 																<td align="left" width="100px"
                                                                     style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
-                                                                     Location/Station/KM
+                                                                     Target Date of Resolution
                                                                 </td>
 																<td align="left" width="100px"
                                                                     style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
-                                                                    #if($alert.location && !$alert.location.empty) 
-                                                                    	$alert.location
+                                                                    #if($alert.date && !$alert.date.empty) 
+                                                                    	$alert.date
                                                                     #end
                                                                 </td>
                                                             </tr>
-															<tr>
-																<td align="left" width="100px"
-                                                                    style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
-                                                                     Reported By
-                                                                </td>
-																<td align="left" width="100px"
-                                                                    style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
-                                                                    #if($alert.reported_by && !$alert.reported_by.empty) 
-                                                                    	$alert.reported_by
-                                                                    #end
-                                                                </td>
-                                                            </tr>
-                                                            #if($alert.responsible_person_designation && !$alert.responsible_person_designation.empty) 
-															<tr>
-																<td align="left" width="100px"
-                                                                    style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
-                                                                     Responsible Person
-                                                                </td>
-																<td align="left" width="100px"
-                                                                    style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
-                                                                    #if($alert.responsible_person_designation && !$alert.responsible_person_designation.empty) 
-                                                                    	$alert.responsible_person_designation
-                                                                    #end
-                                                                </td>
-                                                            </tr>
-                                                            #end
-															<tr>
-																<td align="left" width="100px"
-                                                                    style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
-                                                                     Issue/Action Taken/Remarks
-                                                                </td>
-																<td align="left" width="100px"
-                                                                    style="white-space: pre-wrap;padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
-                                                                    #if($alert.corrective_measure && !$alert.corrective_measure.empty) 
-                                                                    	$alert.corrective_measure
-                                                                    #end
-                                                                </td>
-                                                            </tr>
-                                                            #if($alert.escalated_to_designation && !$alert.escalated_to_designation.empty) 
-															<tr>
-																<td align="left" width="100px"
-                                                                    style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
-                                                                     Escalated To
-                                                                </td>
-																<td align="left" width="100px"
-                                                                    style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
-                                                                    $alert.escalated_to_designation
-                                                                </td>
-                                                            </tr>
-                                                            #end
+
+
                                                             
-                                                            #if($alert.remarks && !$alert.remarks.empty) 
                                                             <tr>
-																<td align="left" width="100px"
+																<td align="left" width="100px" colspan="2"
                                                                     style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
-                                                                     Escalated remarks
-                                                                </td>
-																<td align="left" width="100px"
-                                                                    style="white-space: pre-wrap;padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
-                                                                    $alert.remarks
+                                                                     The concerned team is expected to attend to the issue at the earliest and take the necessary actions.
+<a href="$alert.redirect_url">Click Here</a>  for more details on the issue.
+Thank you for your attention to this matter.
+
+Regards,
+MRVC-PMIS Team.
+
                                                                 </td>
                                                             </tr>
-                                                             #end
                                                         </tbody>
                                                         <tr>
                                                             <td

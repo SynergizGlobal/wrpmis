@@ -917,7 +917,7 @@ public class IssueDaoImpl implements IssueDao {
 		        mailCC.setLength(mailCC.length() - 1);
 		    }
 
-		    String mailBody = "Dear " + iObj.getPe_name() + " and " + iObj.getAen_name() + ",\n\n" +
+		    String mailBody = "Dear " + recipientName+ ",\n\n" +
 		    	    "We would like to inform you that a new issue has been added to the MRVC-PMIS portal by " + iObj.getContractor_name() + ". Below are the details of the issue:\n\n" +
 		    	    "Work Details: " + iObj.getWork_name() + "\n" +
 		    	    "Contract Details: " + iObj.getContract_short_name() + "\n" +
@@ -928,7 +928,7 @@ public class IssueDaoImpl implements IssueDao {
 		    	    "Organization Responsible for Issue: " + iObj.getZonal_railway_fk() + "\n" +
 		    	    "Target Date of Resolution: " + iObj.getDate() + "\n\n" +
 		    	    "The concerned team is expected to attend to the issue at the earliest and take the necessary actions.\n\n" +
-		    	    "<a href='check-issue/" + iObj.getIssue_id() + "'>Click Here</a> for more details on the issue.\n\n" +
+		    	    "<a href='http://203.153.40.44:90/pmis_qa/check-issue/" + iObj.getIssue_id() + "'>Click Here</a> for more details on the issue.\n\n" +
 		    	    "Thank you for your attention to this matter.\n\n" +
 		    	    "Regards,\nMRVC-PMIS Team.\n" +
 		    	    "[Company Logo]\n";

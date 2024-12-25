@@ -532,58 +532,69 @@ public class EMailSender {
 	
 	public void sendEmailWithIssueStatusAlert(Mail mail, Issue iObj, String today_date, String current_year) throws Exception {
 		try {
-	        MimeMessage message = new MimeMessage(getSession());
-	        Multipart multipart = new MimeMultipart("alternative");
+			  MimeMessage message = new MimeMessage( getSession() );
+			  Multipart multipart = new MimeMultipart( "alternative" );
 
-	        // Initialize Velocity Engine
-	        VelocityEngine velocityEngine = new VelocityEngine();
-	        Properties velocityProperties = new Properties();
-	        velocityProperties.setProperty("resource.loader", "class");
-	        velocityProperties.setProperty("class.resource.loader.description", "Velocity Classpath Resource Loader");
-	        velocityProperties.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
-	        velocityProperties.setProperty("runtime.log.logsystem.class", "org.apache.velocity.runtime.log.NullLogSystem");
+			  VelocityEngine velocityEngine = new VelocityEngine();
+			  Properties p = new Properties();
+			  //p.setProperty("resource.loader", "class");
+			  //p.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+			  
+			  p.setProperty("resource.loader", "class");
+			  p.setProperty("class.resource.loader.description", "Velocity Classpath Resource Loader");
+			  p.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+			  
+			  p.setProperty("runtime.log.logsystem.class", "org.apache.velocity.runtime.log.NullLogSystem");
+			  
+			  //p.setProperty(Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS,    NullLogChute.class.getName());
+			  try {
+				  velocityEngine.init( p );    
+			  }catch (Exception e) {
+				  throw new Exception(e);
+			  }
+			     
+			 			  
+			  //Template template = velocityEngine.getTemplate("templates/"+ mail.getTemplateName());
+				
+			  VelocityContext velocityContext = new VelocityContext();
+			  velocityContext.put("alert", iObj);
+			  velocityContext.put("today_date", today_date);
+			  velocityContext.put("current_year", current_year);
+			  
+			  StringWriter stringWriter = new StringWriter();
+			  
+			  //template.merge(velocityContext, stringWriter);
 
-	        try {
-	            velocityEngine.init(velocityProperties);
-	        } catch (Exception e) {
-	            throw new Exception("Error initializing VelocityEngine", e);
-	        }
 
-	        // Prepare Velocity Context
-	        VelocityContext velocityContext = new VelocityContext();
-	        velocityContext.put("alert", iObj);
-	        velocityContext.put("today_date", today_date);
-	        velocityContext.put("current_year", current_year);
+			  MimeBodyPart htmlPart = new MimeBodyPart();
+			  htmlPart.setContent( stringWriter.toString(), "text/html; charset=utf-8" );
 
-	        StringWriter stringWriter = new StringWriter();
+			  //multipart.addBodyPart( htmlPart );
 
-	        // Load and merge the Velocity template
-	        try {
-	            velocityEngine.getTemplate("templates/" + mail.getTemplateName()).merge(velocityContext, stringWriter);
-	        } catch (Exception e) {
-	            throw new Exception("Error processing Velocity template", e);
-	        }
+			  
+			  //Multipart multiPart = new MimeMultipart();
+			  multipart.addBodyPart(htmlPart);
+			  
+			  
+			  message.setContent( multipart );
+		    
+			  message.setFrom(new InternetAddress(mailId));
+			  
+	            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(mail.getMailTo()));
+	            if (mail.getMailCc() != null && !mail.getMailCc().isEmpty()) {
+	                message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(mail.getMailCc()));
+	            }
 
-	        // Add HTML content to the email
-	        MimeBodyPart htmlPart = new MimeBodyPart();
-	        htmlPart.setContent(stringWriter.toString(), "text/html; charset=utf-8");
-	        multipart.addBodyPart(htmlPart);
+	            // Set subject
+	            message.setSubject(mail.getMailSubject());
 
-	        // Set message content
-	        message.setContent(multipart);
-	        message.setFrom(new InternetAddress(mail.getMailFrom()));
+	            // Set content
+	            String content = mail.getMailContent();
+	            message.setContent(content, "text/html; charset=utf-8");
+	            
 
-	        // Set recipients
-	        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(mail.getMailTo()));
-	        if (mail.getMailCc() != null && !mail.getMailCc().isEmpty()) {
-	            message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(mail.getMailCc()));
-	        }
-
-	        // Set subject
-	        message.setSubject(mail.getMailSubject());
-
-	        // Send the email
-	        Transport.send(message);
+	            // Send the email
+	            Transport.send(message);
 
 			  
 			  

@@ -874,7 +874,7 @@ public class IssueDaoImpl implements IssueDao {
 			Issue iObj = (Issue) jdbcTemplate.queryForObject(emailsQry, pValues,
 		            new BeanPropertyRowMapper<Issue>(Issue.class));
 		    
-		    String emailSubject = "Occurrence of Issue in " + iObj.getContract_name() + ", raised on " + iObj.getDate();
+		    String emailSubject = "Occurrence of Issue in " + iObj.getContract_short_name() + ", raised on " + iObj.getDate();
 
 		    // Determine email recipients
 		    StringBuilder mailTo = new StringBuilder();
@@ -920,7 +920,7 @@ public class IssueDaoImpl implements IssueDao {
 		    String mailBody = "Dear " + iObj.getPe_name() + " and " + iObj.getAen_name() + ",\n\n" +
 		    	    "We would like to inform you that a new issue has been added to the MRVC-PMIS portal by " + iObj.getContractor_name() + ". Below are the details of the issue:\n\n" +
 		    	    "Work Details: " + iObj.getWork_name() + "\n" +
-		    	    "Contract Details: " + iObj.getContract_name() + "\n" +
+		    	    "Contract Details: " + iObj.getContract_short_name() + "\n" +
 		    	    "Issue Raised On: " + iObj.getDate() + "\n" +
 		    	    "Reported By: " + iObj.getReported_by() + "\n" +
 		    	    "Issue Description: " + iObj.getDescription() + "\n" +

@@ -1456,6 +1456,16 @@ public class IssuesReportController {
 	        String to = getRecipientEmail(daysPending, issue);
 	        String cc = getCCEmail(daysPending, issue);
 	        
+			String header="Dear "+getRecipientName(daysPending, issue)+",\r\n" + 
+					"\r\n" + 
+					"We would like to inform you that a new issue has been added to the MRVC-PMIS portal by "+issue.getContractor_name()+". Below are the details of the issue:\r\n" + 
+					"";
+			
+			if ("Raised".equals(issue.getStatus_fk())) {
+				issue.setMail_body_header(header);
+				issue.setReported_by_user_id(getRecipientName(daysPending, issue));
+			}	        
+	        
 			Mail mail = new Mail();
 			mail.setMailTo(to);
 			mail.setMailCc(cc);
@@ -1537,52 +1547,50 @@ public class IssuesReportController {
 
 
 	private String getRecipientEmail(int daysPending, Issue issue) {
-	    // Depending on daysPending, return the recipient's email
 	    switch (daysPending) {
 	        case 7:
-	            return issue.getContract_dyhod_email_id();  // Assuming dyHodEmail is a field in Issue object
+	            return issue.getContract_dyhod_email_id();
 	        case 14:
-	            return issue.getContract_hod_email_id();  // Assuming hodEmail is a field in Issue object
+	            return issue.getContract_hod_email_id();
 	        case 21:
-	            return issue.getDp_email();  // Assuming dpEmail is a field in Issue object
+	            return issue.getDp_email() + ", " + issue.getDt_email();  // DP and DT
 	        case 28:
-	            return issue.getCmd_email();  // Assuming cmdEmail is a field in Issue object
+	            return issue.getCmd_email();
 	        default:
-	            return issue.getContract_dyhod_email_id();  // Default case, could be adjusted
+	            return issue.getContract_dyhod_email_id();
 	    }
 	}
 
 	private String getCCEmail(int daysPending, Issue issue) {
-	    // Depending on daysPending, return the CC emails
 	    switch (daysPending) {
 	        case 7:
-	            return issue.getContract_hod_email_id() + ", " + issue.getContractor_email();  // Example: HOD and Contractor
+	            return issue.getContract_hod_email_id() + ", " + issue.getContractor_email();
 	        case 14:
-	            return issue.getDp_email() + ", " + issue.getContractor_email();  // DP and Contractor
+	            return issue.getDp_email() + ", " + issue.getDt_email() + ", " + issue.getContractor_email();
 	        case 21:
-	            return issue.getCmd_email() + ", " + issue.getContractor_email();  // CMD and Contractor
+	            return issue.getCmd_email() + ", " + issue.getContractor_email();
 	        case 28:
-	            return issue.getContractor_email();  // Only Contractor
+	            return issue.getContractor_email();
 	        default:
-	            return "";  // No CC by default
+	            return "";
 	    }
 	}
 
 	private String getRecipientName(int daysPending, Issue issue) {
-	    // Get the recipient's name based on daysPending
 	    switch (daysPending) {
 	        case 7:
-	            return issue.getDyhod_name();  // Assuming DyHodName is a field in Issue object
+	            return issue.getDyhod_name();
 	        case 14:
-	            return issue.getHod_name();  // Assuming HodName is a field in Issue object
+	            return issue.getHod_name();
 	        case 21:
-	            return issue.getDp_name();  // Assuming DpName is a field in Issue object
+	            return issue.getDp_name() + " and " + issue.getDt_name();  // DP and DT names combined
 	        case 28:
-	            return issue.getCmd_name();  // Assuming CmdName is a field in Issue object
+	            return issue.getCmd_name();
 	        default:
-	            return issue.getDyhod_name();  // Default to DyHodName
+	            return issue.getDyhod_name();
 	    }
 	}
+
 
 	public List<Issue> getUnresolvedIssues() {
 		List<Issue> objsList = null;

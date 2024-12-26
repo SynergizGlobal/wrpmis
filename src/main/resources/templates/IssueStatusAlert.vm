@@ -16,7 +16,9 @@
                     <tr>
 						<td align="center"
 							style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
-							$alert.mail_body_header
+										    
+				Dear $alert.reported_by_user_id,<br>We would like to inform you that a new issue has been added to the MRVC-PMIS portal by $alert.contract_short_name. Below are the details of the issue:<br>
+						
 						</td>
 					</tr>
                     
@@ -147,10 +149,11 @@
 																<td align="left" width="100px" colspan="2"
                                                                     style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
                                                                      The concerned team is expected to attend to the issue at the earliest and take the necessary actions.
-<a href="http://203.153.40.44:90/pmis_qa/check-issue/832?user_email="$alert.pe_email>Click Here</a>  for more details on the issue.
+<a href="http://203.153.40.44:90/pmis_qa/check-issue/832?user_email="$alert.pe_email>Click Here</a>  for more details on the issue.<br>
 Thank you for your attention to this matter.
-
+<br><br>
 Regards,
+<br>
 MRVC-PMIS Team.
 
                                                                 </td>

@@ -58,7 +58,7 @@ public class EMailSender {
 		/************** ZIMBRA Server Starts**************************************/
 		props.put("mail.transport.protocol", "smtp");
 		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.starttls.enable", "false");
+		props.put("mail.smtp.starttls.enable", "true");
 		props.put("mail.smtp.host", "mrvcmail.rcil.gov.in");
 		props.put("mail.smtp.port", "587");
 		/************** ZIMBRA Server ends*************************************/

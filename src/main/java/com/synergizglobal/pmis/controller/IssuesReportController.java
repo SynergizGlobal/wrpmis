@@ -98,6 +98,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.synergizglobal.pmis.Iservice.IssuesReportService;
 import com.synergizglobal.pmis.common.DocxTableCreation;
 import com.synergizglobal.pmis.common.EMailSender;
+import com.synergizglobal.pmis.common.Mail;
 import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.constants.PageConstants2;
@@ -1455,10 +1456,27 @@ public class IssuesReportController {
 	        String to = getRecipientEmail(daysPending, issue);
 	        String cc = getCCEmail(daysPending, issue);
 	        
-	        EMailSender emailSender = new EMailSender();
-			emailSender.sendEmail(to, subject, body, cc);	        
-	        
-	        logger.info("Reminder email sent for Issue ID: {}, Days Pending: {}");
+			Mail mail = new Mail();
+			mail.setMailTo(to);
+			mail.setMailCc(cc);
+			mail.setMailBcc(CommonConstants.BCC_MAIL);
+			mail.setMailSubject(subject);
+			mail.setTemplateName("IssueStatusAlert.vm");
+
+			SimpleDateFormat monthFormat = new SimpleDateFormat("dd-MMM-YYYY");
+			String today_date = monthFormat.format(new Date()).toUpperCase();
+
+			SimpleDateFormat yearFormat = new SimpleDateFormat("YYYY");
+			String current_year = yearFormat.format(new Date()).toUpperCase();
+
+			if (!StringUtils.isEmpty(to)) {
+				EMailSender emailSender = new EMailSender();
+				logger.error("sendEmailWithIssueStatusAlert() >> Sending mail to " + to + ": Start ");
+				logger.error("sendEmailWithIssueStatusAlert() >> Sending mail CC " + cc + ": Start ");
+				emailSender.sendEmailWithIssueStatusAlert(mail, issue, today_date, current_year);
+				logger.error("sendEmailWithIssueStatusAlert() >> Sending mail to " + to + ": end ");
+				logger.error("sendEmailWithIssueStatusAlert() >> Sending mail CC " + cc + ": end ");
+			}	        
 	        return true;
 	    } catch (Exception e) {
 	        logger.error("Failed to send reminder email for Issue ID: {}, Days Pending: {}");
@@ -1469,15 +1487,15 @@ public class IssuesReportController {
 	private String getEmailSubject(int daysPending, Issue issue) {
 	    switch (daysPending) {
 	        case 7:
-	            return "Reminder-1: Notification of Unresolved Issue in " + issue.getContract_name() + ", pending since 7 days of reporting";
+	            return "Reminder-1: Notification of Unresolved Issue in " + issue.getContract_short_name() + ", pending since 7 days of reporting";
 	        case 14:
-	            return "Reminder-2: Notification of Unresolved Issue in " + issue.getContract_name() + ", pending since 14 days of reporting";
+	            return "Reminder-2: Notification of Unresolved Issue in " + issue.getContract_short_name() + ", pending since 14 days of reporting";
 	        case 21:
-	            return "Reminder-3: Notification of Unresolved Issue in " + issue.getContract_name() + ", pending since 21 days of reporting";
+	            return "Reminder-3: Notification of Unresolved Issue in " + issue.getContract_short_name() + ", pending since 21 days of reporting";
 	        case 28:
-	            return "Reminder-4: Notification of Unresolved Issue in " + issue.getContract_name() + ", pending since 28 days of reporting";
+	            return "Reminder-4: Notification of Unresolved Issue in " + issue.getContract_short_name() + ", pending since 28 days of reporting";
 	        default:
-	            return "Reminder: Notification of Unresolved Issue in " + issue.getContract_name();
+	            return "Reminder: Notification of Unresolved Issue in " + issue.getContract_short_name();
 	    }
 	}
 

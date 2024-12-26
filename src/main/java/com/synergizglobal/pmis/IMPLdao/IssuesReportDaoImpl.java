@@ -920,7 +920,69 @@ public class IssuesReportDaoImpl implements IssuesReportDao {
 	@Override
 	public List<Issue> getUnresolvedIssues() {
     	List<Issue> issuesList = null;
-        String qry = "SELECT * FROM issue WHERE status_fk = 'Raised'";
+		String qry = "select i.issue_id,zonal_railway_fk,description,date,contractor_name,w.work_short_name,i.contract_id_fk,i.status_fk,i.reported_by,c.contract_short_name,w.work_name,c.contract_name,i.category_fk,i.priority_fk,i.title,i.location,i.corrective_measure,i.remarks,"
+				+ "u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,"
+				+ "u2.email_id as responsible_person_email_id,u3.email_id as escalated_to_email_id,"
+				+ "u4.email_id as contract_hod_email_id,u5.email_id as contract_dyhod_email_id,u5.user_name as dyhod_name,"
+				+ "i.responsible_person as responsible_person_user_id,i.escalated_to as escalated_to_user_id,"
+				+ "c.hod_user_id_fk as contract_hod_user_id,c.dy_hod_user_id_fk as contract_dyhod_user_id,"
+				+ "u1.email_id as created_by_email_id,i.created_by_user_id_fk,other_org_resposible_person_name,other_org_resposible_person_designation,(select email_id from issue i\r\n" + 
+				"\r\n" + 
+				"inner join (select contract_id_fk, department_id_fk,executive_user_id_fk,user_name,\r\n" + 
+				"designation, department_fk,user_type_fk,user_role_name_fk,email_id from contract_executive a left join [user] b\r\n" + 
+				"on a.executive_user_id_fk = b.user_id\r\n" + 
+				"where department_fk not in('Fin','Plan')) m on m.contract_id_fk=i.contract_id_fk\r\n" + 
+				"\r\n" + 
+				"where i.contract_id_fk = c.contract_id  and issue_id=i.issue_id  and designation in('XEN')) as aen_email,\r\n" + 
+				"\r\n" + 
+				"(select  distinct top 1 email_id from contract_executive c1\r\n" + 
+				"\r\n" + 
+				"left join [user] u on u.user_id=c1.executive_user_id_fk\r\n" + 
+				"\r\n" + 
+				"where user_id is not null and contract_id_fk=c.contract_id and designation like '%Project Engineer%') as pe_email,\r\n" + 
+				"	\r\n" + 
+				"\r\n" + 
+				"(select email_id from issue i\r\n" + 
+				"\r\n" + 
+				"inner join (select contract_id_fk, department_id_fk,executive_user_id_fk,user_name,\r\n" + 
+				"designation, department_fk,user_type_fk,user_role_name_fk,email_id from contract_executive a left join [user] b\r\n" + 
+				"on a.executive_user_id_fk = b.user_id\r\n" + 
+				"where department_fk not in('Fin','Plan')) m on m.contract_id_fk=i.contract_id_fk\r\n" + 
+				"\r\n" + 
+				"where i.contract_id_fk = c.contract_id  and issue_id=i.issue_id  and designation in('SSE')) as sse_email,\r\n" + 
+				"(select user_name from issue i\r\n" + 
+				"\r\n" + 
+				"inner join (select contract_id_fk, department_id_fk,executive_user_id_fk,user_name,\r\n" + 
+				"designation, department_fk,user_type_fk,user_role_name_fk,email_id from contract_executive a left join [user] b\r\n" + 
+				"on a.executive_user_id_fk = b.user_id\r\n" + 
+				"where department_fk not in('Fin','Plan')) m on m.contract_id_fk=i.contract_id_fk\r\n" + 
+				"\r\n" + 
+				"where i.contract_id_fk = c.contract_id  and issue_id=i.issue_id  and designation in('XEN')) as aen_name,\r\n" + 
+				"\r\n" + 
+				"(select  distinct top 1 user_name from contract_executive c1\r\n" + 
+				"\r\n" + 
+				"left join [user] u on u.user_id=c1.executive_user_id_fk\r\n" + 
+				"\r\n" + 
+				"where user_id is not null and contract_id_fk=c.contract_id and designation like '%Project Engineer%') as pe_name,\r\n" + 
+				"	\r\n" + 
+				"\r\n" + 
+				"(select user_name from issue i\r\n" + 
+				"\r\n" + 
+				"inner join (select contract_id_fk, department_id_fk,executive_user_id_fk,user_name,\r\n" + 
+				"designation, department_fk,user_type_fk,user_role_name_fk,email_id from contract_executive a left join [user] b\r\n" + 
+				"on a.executive_user_id_fk = b.user_id\r\n" + 
+				"where department_fk not in('Fin','Plan')) m on m.contract_id_fk=i.contract_id_fk\r\n" + 
+				"\r\n" + 
+				"where i.contract_id_fk = c.contract_id  and issue_id=i.issue_id  and designation in('SSE')) as sse_name  "
+				+ "from issue i " + "left outer join [user] u1 on i.created_by_user_id_fk = u1.user_id "
+				+ "left outer join [user] u2 on i.responsible_person = u2.user_id "
+				+ "left outer join [user] u3 on i.escalated_to = u3.user_id "
+				+ "LEFT OUTER JOIN contract c ON i.contract_id_fk  = c.contract_id "
+				+ "left outer join [user] u4 on c.hod_user_id_fk = u4.user_id "
+				+ "left outer join [user] u5 on c.dy_hod_user_id_fk = u5.user_id "
+				+ "LEFT OUTER JOIN work w ON c.work_id_fk  = w.work_id "
+				+ " left outer join contractor c1 on c1.contractor_id = c.contractor_id_fk WHERE status_fk = 'Raised' ";   	
+    	
         issuesList = jdbcTemplate.query(qry, new BeanPropertyRowMapper<>(Issue.class));
         return issuesList;
 	}

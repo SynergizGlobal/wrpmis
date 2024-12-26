@@ -575,7 +575,7 @@
     	                   	rowArray.push($.trim(val.location));
     	                   	/* rowArray.push($.trim(val.reported_by)); */
     	                   	rowArray.push($.trim(val.other_org_resposible_person_name));
-    	                   	rowArray.push($.trim(val.department_name));
+    	                   	rowArray.push($.trim(val.other_organizations));
     	                   	/* rowArray.push($.trim(val.category_fk)); */
     	                   	rowArray.push($.trim(val.status_fk));
     	                   	rowArray.push($.trim(val.modified_date));

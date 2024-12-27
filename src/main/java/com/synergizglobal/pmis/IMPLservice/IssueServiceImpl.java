@@ -172,5 +172,15 @@ public class IssueServiceImpl implements IssueService {
 	@Override
 	public List<Issue> getComponentListForIssue(Issue obj) throws Exception {
 		return issueDao.getComponentListForIssue(obj);
+	}
+
+	@Override
+	public List<Issue> getUnresolvedIssues() {
+		return issueDao.getUnresolvedIssues();
+	}
+
+	@Override
+	public boolean sendReminderEmail(Issue issue, int daysPending) {
+		return issueDao.sendReminderEmail(issue,daysPending);
 	}	
 }

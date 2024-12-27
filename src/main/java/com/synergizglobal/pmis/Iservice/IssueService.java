@@ -70,5 +70,9 @@ public interface IssueService {
 
 	List<Issue> getComponentListForIssue(Issue obj) throws Exception;
 
+	List<Issue> getUnresolvedIssues();
+
+	boolean sendReminderEmail(Issue issue, int daysPending);
+
 
 }

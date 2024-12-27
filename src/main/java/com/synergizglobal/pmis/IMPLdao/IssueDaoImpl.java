@@ -1089,9 +1089,9 @@ public class IssueDaoImpl implements IssueDao {
 				}
 				String redirect_url = null;
 				if ("Closed".equals(iObj.getStatus_fk())) {
-					redirect_url = "/InfoViz/issues/closed-issues/" + iObj.getIssue_id();
+					redirect_url = "/get-issue/" + iObj.getIssue_id();
 				} else {
-					redirect_url = "/InfoViz/issues/open-issues/" + iObj.getIssue_id();
+					redirect_url = "/get-issue/" + iObj.getIssue_id();
 				}
 				String message_type = "Issue";
 
@@ -2540,6 +2540,220 @@ public class IssueDaoImpl implements IssueDao {
 			throw new Exception(e);
 		}
 		return objsList;
+	}
+	@Override
+	public List<Issue> getUnresolvedIssues() {
+    	List<Issue> issuesList = null;
+		String qry = "select i.issue_id,zonal_railway_fk,description,date,contractor_name,w.work_short_name,i.contract_id_fk,i.status_fk,i.reported_by,c.contract_short_name,w.work_name,c.contract_name,i.category_fk,i.priority_fk,i.title,i.location,i.corrective_measure,i.remarks,u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,u2.email_id as responsible_person_email_id,u3.email_id as escalated_to_email_id,u4.email_id as contract_hod_email_id,u5.email_id as contract_dyhod_email_id,u5.user_name as dyhod_name,i.responsible_person as responsible_person_user_id,i.escalated_to as escalated_to_user_id,c.hod_user_id_fk as contract_hod_user_id,c.dy_hod_user_id_fk as contract_dyhod_user_id,u1.email_id as created_by_email_id,i.created_by_user_id_fk,other_org_resposible_person_name,other_org_resposible_person_designation,(select top 1 email_id from issue i\r\n" + 
+				"\r\n" + 
+				"inner join (select contract_id_fk, department_id_fk,executive_user_id_fk,user_name,\r\n" + 
+				"designation, department_fk,user_type_fk,user_role_name_fk,email_id from contract_executive a left join [user] b\r\n" + 
+				"on a.executive_user_id_fk = b.user_id\r\n" + 
+				"where department_fk not in('Fin','Plan')) m on m.contract_id_fk=i.contract_id_fk\r\n" + 
+				"\r\n" + 
+				"where i.contract_id_fk = c.contract_id  and issue_id=i.issue_id  and designation in('XEN')) as aen_email,\r\n" + 
+				"\r\n" + 
+				"(select  distinct top 1 email_id from contract_executive c1\r\n" + 
+				"\r\n" + 
+				"left join [user] u on u.user_id=c1.executive_user_id_fk\r\n" + 
+				"\r\n" + 
+				"where user_id is not null and contract_id_fk=c.contract_id and designation like '%Project Engineer%') as pe_email,\r\n" + 
+				"	\r\n" + 
+				"\r\n" + 
+				"(select top 1 email_id from issue i\r\n" + 
+				"\r\n" + 
+				"inner join (select contract_id_fk, department_id_fk,executive_user_id_fk,user_name,\r\n" + 
+				"designation, department_fk,user_type_fk,user_role_name_fk,email_id from contract_executive a left join [user] b\r\n" + 
+				"on a.executive_user_id_fk = b.user_id\r\n" + 
+				"where department_fk not in('Fin','Plan')) m on m.contract_id_fk=i.contract_id_fk\r\n" + 
+				"\r\n" + 
+				"where i.contract_id_fk = c.contract_id  and issue_id=i.issue_id  and designation in('SSE')) as sse_email,\r\n" + 
+				"(select top 1 user_name from issue i\r\n" + 
+				"\r\n" + 
+				"inner join (select contract_id_fk, department_id_fk,executive_user_id_fk,user_name,\r\n" + 
+				"designation, department_fk,user_type_fk,user_role_name_fk,email_id from contract_executive a left join [user] b\r\n" + 
+				"on a.executive_user_id_fk = b.user_id\r\n" + 
+				"where department_fk not in('Fin','Plan')) m on m.contract_id_fk=i.contract_id_fk\r\n" + 
+				"\r\n" + 
+				"where i.contract_id_fk = c.contract_id  and issue_id=i.issue_id  and designation in('XEN')) as aen_name,\r\n" + 
+				"\r\n" + 
+				"(select  distinct top 1 user_name from contract_executive c1\r\n" + 
+				"\r\n" + 
+				"left join [user] u on u.user_id=c1.executive_user_id_fk\r\n" + 
+				"\r\n" + 
+				"where user_id is not null and contract_id_fk=c.contract_id and designation like '%Project Engineer%') as pe_name,\r\n" + 
+				"	\r\n" + 
+				"\r\n" + 
+				"(select top 1 user_name from issue i\r\n" + 
+				"\r\n" + 
+				"inner join (select contract_id_fk, department_id_fk,executive_user_id_fk,user_name,\r\n" + 
+				"designation, department_fk,user_type_fk,user_role_name_fk,email_id from contract_executive a left join [user] b\r\n" + 
+				"on a.executive_user_id_fk = b.user_id\r\n" + 
+				"where department_fk not in('Fin','Plan')) m on m.contract_id_fk=i.contract_id_fk\r\n" + 
+				"\r\n" + 
+				"where i.contract_id_fk = c.contract_id  and issue_id=i.issue_id  and designation in('SSE')) as sse_name,\r\n" + 
+				"\r\n" + 
+				"\r\n" + 
+				"(select top 1 email_id as dt_email from [user] where designation like '%Director Technical%') as dt_email,\r\n" + 
+				"\r\n" + 
+				"(select top 1 email_id as dp_email from [user] where designation like '%DIR Project%') as dp_email,\r\n" + 
+				"\r\n" + 
+				"(select top 1 email_id as cmd_email from [user] where designation like '%CMD%') as cmd_email,\r\n" + 
+				"\r\n" + 
+				"(select top 1 user_name as dt_name from [user] where designation like '%Director Technical%') as dt_name,\r\n" + 
+				"\r\n" + 
+				"(select top 1 user_name as dp_name from [user] where designation like '%DIR Project%') as dp_name,\r\n" + 
+				"(select top 1 user_name as cmd_name from [user] where designation like '%CMD%') as cmd_name,created_date  \r\n" + 
+				"\r\n" + 
+				"\r\n" + 
+				"\r\n" + 
+				"from issue i left outer join [user] u1 on i.created_by_user_id_fk = u1.user_id left outer join [user] u2 on i.responsible_person = u2.user_id left outer join [user] u3 on i.escalated_to = u3.user_id LEFT OUTER JOIN contract c ON i.contract_id_fk  = c.contract_id left outer join [user] u4 on c.hod_user_id_fk = u4.user_id left outer join [user] u5 on c.dy_hod_user_id_fk = u5.user_id LEFT OUTER JOIN work w ON c.work_id_fk  = w.work_id  left outer join contractor c1 on c1.contractor_id = c.contractor_id_fk WHERE status_fk = 'Raised' and date is not null and i.created_date>='2024-12-24'";   	
+    	
+        issuesList = jdbcTemplate.query(qry, new BeanPropertyRowMapper<>(Issue.class));
+        return issuesList;
+	}
+	private String getEmailSubject(int daysPending, Issue issue) {
+	    switch (daysPending) {
+	        case 7:
+	            return "Reminder-1: Notification of Unresolved Issue in " + issue.getContract_short_name() + ", pending since 7 days of reporting";
+	        case 14:
+	            return "Reminder-2: Notification of Unresolved Issue in " + issue.getContract_short_name() + ", pending since 14 days of reporting";
+	        case 21:
+	            return "Reminder-3: Notification of Unresolved Issue in " + issue.getContract_short_name() + ", pending since 21 days of reporting";
+	        case 28:
+	            return "Reminder-4: Notification of Unresolved Issue in " + issue.getContract_short_name() + ", pending since 28 days of reporting";
+	        default:
+	            return "Reminder: Notification of Unresolved Issue in " + issue.getContract_short_name();
+	    }
+	}
+
+	private String getEmailBody(int daysPending, Issue issue) {
+	    String workDetails = issue.getWork_name();
+	    String contractDetails = issue.getContract_name();
+	    String reportedBy = issue.getReported_by();
+	    String description = issue.getDescription();
+	    String category = issue.getCategory();
+	    String priority = issue.getPriority();
+	    String responsibleOrg = issue.getZonal_railway_fk();
+	    String actionTaken = issue.getCorrective_measure();
+	    String targetDate = issue.getDate();
+
+	    String bodyTemplate = 
+	        "Respected %s,\n\n" +
+	        "This is a reminder that the following issue, reported on %s, has not been resolved till date.\n\n" +
+	        "Work Details: %s\n" +
+	        "Contract Details: %s\n" +
+	        "Reported By: %s\n" +
+	        "Issue Description: %s\n" +
+	        "Category: %s; Priority: %s\n" +
+	        "Organization Responsible for Issue: %s\n" +
+	        "Action Taken: %s\n" +
+	        "Target Date of Resolution: %s\n\n\n\\n" +
+	        "We kindly request your immediate attention to this matter to ensure timely resolution.\n" +
+	        "Click Here for more details on the issue.\n\n" +
+	        "Thank you for your prompt action.\n\n" +
+	        "Regards,\n" +
+	        "MRVC-PMIS Team.\n" +
+	        "[Company Logo]\n";
+
+	    String recipientName = getRecipientName(daysPending, issue);
+	    String reportingDate = issue.getDate().toString();  // Assuming issue.getReportingDate() returns a LocalDate
+
+	    return String.format(bodyTemplate, recipientName, reportingDate, workDetails, contractDetails, reportedBy, description,
+	            category, priority, responsibleOrg, actionTaken, targetDate);
+	}
+
+
+	private String getRecipientEmail(int daysPending, Issue issue) {
+	    switch (daysPending) {
+	        case 7:
+	            return issue.getContract_dyhod_email_id();
+	        case 14:
+	            return issue.getContract_hod_email_id();
+	        case 21:
+	            return issue.getDp_email() + ", " + issue.getDt_email();  // DP and DT
+	        case 28:
+	            return issue.getCmd_email();
+	        default:
+	            return issue.getContract_dyhod_email_id();
+	    }
+	}
+
+	private String getCCEmail(int daysPending, Issue issue) {
+	    switch (daysPending) {
+	        case 7:
+	            return issue.getContract_hod_email_id() + ", " + issue.getContractor_email();
+	        case 14:
+	            return issue.getDp_email() + ", " + issue.getDt_email() + ", " + issue.getContractor_email();
+	        case 21:
+	            return issue.getCmd_email() + ", " + issue.getContractor_email();
+	        case 28:
+	            return issue.getContractor_email();
+	        default:
+	            return "";
+	    }
+	}
+
+	private String getRecipientName(int daysPending, Issue issue) {
+	    switch (daysPending) {
+	        case 7:
+	            return issue.getDyhod_name();
+	        case 14:
+	            return issue.getHod_name();
+	        case 21:
+	            return issue.getDp_name() + " and " + issue.getDt_name();  // DP and DT names combined
+	        case 28:
+	            return issue.getCmd_name();
+	        default:
+	            return issue.getDyhod_name();
+	    }
+	}
+	@Override
+	public boolean sendReminderEmail(Issue issue, int daysPending) {
+	    try {
+	        // Determine the email details based on the daysPending
+	        String subject = getEmailSubject(daysPending, issue);
+	        String body = getEmailBody(daysPending, issue);
+	        String to = getRecipientEmail(daysPending, issue);
+	        String cc = getCCEmail(daysPending, issue);
+	        
+			String header="Dear "+getRecipientName(daysPending, issue)+",\r\n" + 
+					"\r\n" + 
+					"We would like to inform you that a new issue has been added to the MRVC-PMIS portal by "+issue.getContractor_name()+". Below are the details of the issue:\r\n" + 
+					"";
+			
+			if ("Raised".equals(issue.getStatus_fk())) {
+				issue.setMail_body_header(header);
+				issue.setReported_by_user_id(getRecipientName(daysPending, issue));
+				issue.setCurdate(issue.getCreated_date());
+			}	        
+	        
+			Mail mail = new Mail();
+			mail.setMailTo(to);
+			mail.setMailCc(cc);
+			mail.setMailBcc(CommonConstants.BCC_MAIL);
+			mail.setMailSubject(subject);
+			mail.setTemplateName("IssueStatusAlert.vm");
+
+			SimpleDateFormat monthFormat = new SimpleDateFormat("dd-MMM-YYYY");
+			String today_date = monthFormat.format(new Date()).toUpperCase();
+
+			SimpleDateFormat yearFormat = new SimpleDateFormat("YYYY");
+			String current_year = yearFormat.format(new Date()).toUpperCase();
+
+			if (!StringUtils.isEmpty(to)) {
+				EMailSender emailSender = new EMailSender();
+				logger.error("sendEmailWithIssueStatusAlert() >> Sending mail to " + to + ": Start ");
+				logger.error("sendEmailWithIssueStatusAlert() >> Sending mail CC " + cc + ": Start ");
+				emailSender.sendEmailWithIssueStatusAlert(mail, issue, today_date, current_year);
+				logger.error("sendEmailWithIssueStatusAlert() >> Sending mail to " + to + ": end ");
+				logger.error("sendEmailWithIssueStatusAlert() >> Sending mail CC " + cc + ": end ");
+			}	        
+	        return true;
+	    } catch (Exception e) {
+	        logger.error("Failed to send reminder email for Issue ID: {}, Days Pending: {}");
+	        return false;
+	    }
 	}
 
 }

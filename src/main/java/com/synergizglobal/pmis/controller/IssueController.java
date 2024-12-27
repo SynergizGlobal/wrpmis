@@ -3,7 +3,12 @@ package com.synergizglobal.pmis.controller;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -90,13 +95,62 @@ public class IssueController {
 	public ModelAndView issues(@ModelAttribute Issue obj,HttpSession session) {
 		ModelAndView model = new ModelAndView();
 		try {
-			model.setViewName(PageConstants.issuesGrid);			
+			model.setViewName(PageConstants.issuesGrid);	
+			List<Issue> unresolvedIssues = issueService.getUnresolvedIssues();
+
+            for (Issue issue : unresolvedIssues) {
+            	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            	String issueDate = issue.getDate(); 
+
+                     Date reportingDate = formatter.parse(issueDate);
+                     Date currentDate = new Date();
+
+                     long differenceInMilliseconds = currentDate.getTime() - reportingDate.getTime();
+                     int daysPending = (int) (differenceInMilliseconds / (1000 * 60 * 60 * 24));
+
+                     // Send reminders only for 7, 14, 21, or 28 days
+                     if (daysPending == 7 || daysPending == 14 || daysPending == 21 || daysPending == 28) {
+                         boolean flag = issueService.sendReminderEmail(issue, daysPending);
+                         if (flag) {
+                             logger.info("Reminder email sent for Issue ID: " + issue.getIssue_id() + ", Days Pending: " + daysPending);
+                         } else {
+                             logger.warn("Failed to send reminder email for Issue ID: " + issue.getIssue_id());
+                         }
+                     }
+
+            }
+			
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("issues : " + e.getMessage());
 		}
 		return model;
 	}
+	
+	private int calculateDaysPending(String date) {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+        try {
+            // Parse the input date string to a Date object
+            Date reportingDate = formatter.parse(date);
+
+            // Get the current date
+            Date currentDate = new Date();
+
+            // Calculate the difference in milliseconds
+            long differenceInMilliseconds = currentDate.getTime() - reportingDate.getTime();
+
+            // Convert milliseconds to days
+            return (int) (differenceInMilliseconds / (1000 * 60 * 60 * 24));
+        } catch (ParseException e) {
+            // Handle parsing errors
+            System.out.println("Invalid date format: " + e.getMessage());
+            return -1; // Return -1 to indicate an error
+        }
+	}	
+	
 	@RequestMapping(value = "/ajax/getWorksListFilterInIssue", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Issue> getWorksListFilterInIssue(@ModelAttribute Issue obj,HttpSession session) {

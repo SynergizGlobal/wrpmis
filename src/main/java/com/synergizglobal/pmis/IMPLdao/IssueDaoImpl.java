@@ -1020,7 +1020,7 @@ public class IssueDaoImpl implements IssueDao {
 					"on a.executive_user_id_fk = b.user_id\r\n" + 
 					"where department_fk not in('Fin','Plan')) m on m.contract_id_fk=i.contract_id_fk\r\n" + 
 					"\r\n" + 
-					"where i.contract_id_fk = c.contract_id  and issue_id="+issue_id+"  and designation in('SSE')) as sse_name  "
+					"where i.contract_id_fk = c.contract_id  and issue_id="+issue_id+"  and designation in('SSE')) as sse_name,c1.email_id as contractor_email  "
 					+ "from issue i " + "left outer join [user] u1 on i.created_by_user_id_fk = u1.user_id "
 					+ "left outer join [user] u2 on i.responsible_person = u2.user_id "
 					+ "left outer join [user] u3 on i.escalated_to = u3.user_id "
@@ -2603,7 +2603,7 @@ public class IssueDaoImpl implements IssueDao {
 				"(select top 1 user_name as dt_name from [user] where designation like '%Director Technical%') as dt_name,\r\n" + 
 				"\r\n" + 
 				"(select top 1 user_name as dp_name from [user] where designation like '%DIR Project%') as dp_name,\r\n" + 
-				"(select top 1 user_name as cmd_name from [user] where designation like '%CMD%') as cmd_name,i.created_date  \r\n" + 
+				"(select top 1 user_name as cmd_name from [user] where designation like '%CMD%') as cmd_name,i.created_date,,c1.email_id as contractor_email  \r\n" + 
 				"\r\n" + 
 				"\r\n" + 
 				"\r\n" + 
@@ -2671,7 +2671,7 @@ public class IssueDaoImpl implements IssueDao {
 	        case 14:
 	            return issue.getContract_hod_email_id();
 	        case 21:
-	            return issue.getDp_email() + ", " + issue.getDt_email();  // DP and DT
+	            return issue.getDp_email() + ", " + issue.getDt_email();  
 	        case 28:
 	            return issue.getCmd_email();
 	        default:
@@ -2701,7 +2701,7 @@ public class IssueDaoImpl implements IssueDao {
 	        case 14:
 	            return issue.getHod_name();
 	        case 21:
-	            return issue.getDp_name() + " and " + issue.getDt_name();  // DP and DT names combined
+	            return issue.getDp_name() + " and " + issue.getDt_name();  
 	        case 28:
 	            return issue.getCmd_name();
 	        default:
@@ -2724,7 +2724,7 @@ public class IssueDaoImpl implements IssueDao {
 			
 			if ("Raised".equals(issue.getStatus_fk())) {
 				issue.setMail_body_header(header);
-				issue.setReported_by_user_id(getRecipientName(daysPending, issue));
+				issue.setHod_name(getRecipientName(daysPending, issue));
 				issue.setCurdate(issue.getCreated_date());
 			}	        
 	        

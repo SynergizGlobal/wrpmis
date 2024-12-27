@@ -211,7 +211,7 @@ public class Schedular {
 	            List<Issue> unresolvedIssues = issueReportController.getUnresolvedIssues();
 
 	            for (Issue issue : unresolvedIssues) {
-	                int daysPending = calculateDaysPending(issue.getDate());
+	                int daysPending = calculateDaysPending(issue.getCreated_date());
 
 	                // Send reminders only for 7, 14, 21, or 28 days
 	                if (daysPending == 7 || daysPending == 14 || daysPending == 21 || daysPending == 28) {

@@ -2603,7 +2603,7 @@ public class IssueDaoImpl implements IssueDao {
 				"(select top 1 user_name as dt_name from [user] where designation like '%Director Technical%') as dt_name,\r\n" + 
 				"\r\n" + 
 				"(select top 1 user_name as dp_name from [user] where designation like '%DIR Project%') as dp_name,\r\n" + 
-				"(select top 1 user_name as cmd_name from [user] where designation like '%CMD%') as cmd_name,created_date  \r\n" + 
+				"(select top 1 user_name as cmd_name from [user] where designation like '%CMD%') as cmd_name,i.created_date  \r\n" + 
 				"\r\n" + 
 				"\r\n" + 
 				"\r\n" + 

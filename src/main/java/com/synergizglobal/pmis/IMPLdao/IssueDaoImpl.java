@@ -1526,7 +1526,7 @@ public class IssueDaoImpl implements IssueDao {
 				
 				if ("Raised".equals(iObj.getStatus_fk())) {
 					iObj.setMail_body_header(header);
-					iObj.setReported_by_user_id(recipientName);
+					iObj.setHod_name(recipientName);
 				}
 
 

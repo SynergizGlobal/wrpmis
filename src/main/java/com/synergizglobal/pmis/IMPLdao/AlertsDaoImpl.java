@@ -968,7 +968,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			String qryAlert1 = "select contract_id_fk as contract_id, '1st Alert' as alert_level,'Issue' as alert_type,"
 					+ "concat(i.title,'<br>Pending Since : ',DATEDIFF(day,CONVERT(date, getdate()), date),' days.') as alert_value,"
-					+ "(CASE WHEN status_fk = 'Closed' THEN concat('/InfoViz/issues/closed-issues/',issue_id) ELSE concat('/InfoViz/issues/open-issues/',issue_id) END) as redirect_url,"
+					+ "(CASE WHEN status_fk = 'Closed' THEN concat('/get-issue/',issue_id) ELSE concat('/get-issue/',issue_id) END) as redirect_url,"
 					+ "d.department_name,responsible_person,escalated_to,"
 					+ "c.hod_user_id_fk,c.dy_hod_user_id_fk,created_by_user_id_fk,i.corrective_measure,i.remarks "
 					+ "from issue i "
@@ -985,7 +985,7 @@ public class AlertsDaoImpl implements AlertsDao{
 			
 			String qryAlert2 = "select contract_id_fk as contract_id, '2nd Alert' as alert_level,'Issue' as alert_type,"
 					+ "concat(i.title,'<br>Pending Since : ',DATEDIFF(day,CONVERT(date, getdate()), date),' days.') as alert_value,"
-					+ "(CASE WHEN status_fk = 'Closed' THEN concat('/InfoViz/issues/closed-issues/',issue_id) ELSE concat('/InfoViz/issues/open-issues/',issue_id) END) as redirect_url,"
+					+ "(CASE WHEN status_fk = 'Closed' THEN concat('/get-issue/',issue_id) ELSE concat('/get-issue/',issue_id) END) as redirect_url,"
 					+ "d.department_name,responsible_person,escalated_to,"
 					+ "c.hod_user_id_fk,c.dy_hod_user_id_fk,created_by_user_id_fk,i.corrective_measure,i.remarks "
 					+ "from issue i "

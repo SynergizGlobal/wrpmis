@@ -203,7 +203,7 @@ public class Schedular {
 	
 	@Scheduled(cron = "${cron.expression.send.reminder.emails}")
 	public void sendReminderEmails() {
-	    if (is_cron_jobs_enabled) {
+		if(is_cron_jobs_enabled || is_cron_jobs_enabled_in_qa) {
 	        try {
 	            logger.info("sendReminderEmails: Job started at > " + new Date());
 

@@ -96,31 +96,6 @@ public class IssueController {
 		ModelAndView model = new ModelAndView();
 		try {
 			model.setViewName(PageConstants.issuesGrid);	
-			List<Issue> unresolvedIssues = issueService.getUnresolvedIssues();
-
-            for (Issue issue : unresolvedIssues) {
-            	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-            	String issueDate = issue.getDate(); 
-
-                     Date reportingDate = formatter.parse(issueDate);
-                     Date currentDate = new Date();
-
-                     long differenceInMilliseconds = currentDate.getTime() - reportingDate.getTime();
-                     int daysPending = (int) (differenceInMilliseconds / (1000 * 60 * 60 * 24));
-
-                     // Send reminders only for 7, 14, 21, or 28 days
-                     if (daysPending == 7 || daysPending == 14 || daysPending == 21 || daysPending == 28) {
-                         boolean flag = issueService.sendReminderEmail(issue, daysPending);
-                         if (flag) {
-                             logger.info("Reminder email sent for Issue ID: " + issue.getIssue_id() + ", Days Pending: " + daysPending);
-                         } else {
-                             logger.warn("Failed to send reminder email for Issue ID: " + issue.getIssue_id());
-                         }
-                     }
-
-            }
-			
-			
 			
 		} catch (Exception e) {
 			e.printStackTrace();

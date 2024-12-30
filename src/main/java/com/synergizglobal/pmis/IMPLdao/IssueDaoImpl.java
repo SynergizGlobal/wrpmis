@@ -970,7 +970,7 @@ public class IssueDaoImpl implements IssueDao {
 			String emailsQry = "select i.issue_id,zonal_railway_fk,description,date,contractor_name,w.work_short_name,i.contract_id_fk,i.status_fk,i.reported_by,c.contract_short_name,w.work_name,c.contract_name,i.category_fk,i.priority_fk,i.title,i.location,i.corrective_measure,i.remarks,"
 					+ "u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,"
 					+ "u2.email_id as responsible_person_email_id,u3.email_id as escalated_to_email_id,"
-					+ "u4.email_id as contract_hod_email_id,u5.email_id as contract_dyhod_email_id,u5.user_name as dyhod_name,"
+					+ "u4.email_id as contract_hod_email_id,u5.email_id as contract_dyhod_email_id,u5.user_name as dyhod_name,u4.user_name as hod_name, "
 					+ "i.responsible_person as responsible_person_user_id,i.escalated_to as escalated_to_user_id,"
 					+ "c.hod_user_id_fk as contract_hod_user_id,c.dy_hod_user_id_fk as contract_dyhod_user_id,"
 					+ "u1.email_id as created_by_email_id,i.created_by_user_id_fk,other_org_resposible_person_name,other_org_resposible_person_designation,(select email_id from issue i\r\n" + 
@@ -2544,7 +2544,7 @@ public class IssueDaoImpl implements IssueDao {
 	@Override
 	public List<Issue> getUnresolvedIssues() {
     	List<Issue> issuesList = null;
-		String qry = "select i.issue_id,zonal_railway_fk,description,date,contractor_name,w.work_short_name,i.contract_id_fk,i.status_fk,i.reported_by,c.contract_short_name,w.work_name,c.contract_name,i.category_fk,i.priority_fk,i.title,i.location,i.corrective_measure,i.remarks,u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,u2.email_id as responsible_person_email_id,u3.email_id as escalated_to_email_id,u4.email_id as contract_hod_email_id,u5.email_id as contract_dyhod_email_id,u5.user_name as dyhod_name,i.responsible_person as responsible_person_user_id,i.escalated_to as escalated_to_user_id,c.hod_user_id_fk as contract_hod_user_id,c.dy_hod_user_id_fk as contract_dyhod_user_id,u1.email_id as created_by_email_id,i.created_by_user_id_fk,other_org_resposible_person_name,other_org_resposible_person_designation,(select top 1 email_id from issue i\r\n" + 
+		String qry = "select i.issue_id,zonal_railway_fk,description,date,contractor_name,w.work_short_name,i.contract_id_fk,i.status_fk,i.reported_by,c.contract_short_name,w.work_name,c.contract_name,i.category_fk,i.priority_fk,i.title,i.location,i.corrective_measure,i.remarks,u2.designation as responsible_person_designation,u3.designation as escalated_to_designation,u2.email_id as responsible_person_email_id,u3.email_id as escalated_to_email_id,u4.email_id as contract_hod_email_id,u5.email_id as contract_dyhod_email_id,u5.user_name as dyhod_name,u4.user_name as hod_name,i.responsible_person as responsible_person_user_id,i.escalated_to as escalated_to_user_id,c.hod_user_id_fk as contract_hod_user_id,c.dy_hod_user_id_fk as contract_dyhod_user_id,u1.email_id as created_by_email_id,i.created_by_user_id_fk,other_org_resposible_person_name,other_org_resposible_person_designation,(select top 1 email_id from issue i\r\n" + 
 				"\r\n" + 
 				"inner join (select contract_id_fk, department_id_fk,executive_user_id_fk,user_name,\r\n" + 
 				"designation, department_fk,user_type_fk,user_role_name_fk,email_id from contract_executive a left join [user] b\r\n" + 

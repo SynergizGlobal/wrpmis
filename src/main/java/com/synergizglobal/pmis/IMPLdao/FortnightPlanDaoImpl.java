@@ -1524,19 +1524,28 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 					+ "VALUES(:fortnight_date, :contract_short_name, :structure_type_fk, :structure, :component, :unit, :scope, :target_till_lfn, :actual_till_lfn, :target_this_fn,"
 					+ ":actual_this_fn, :cum_target, :cum_actual, :critical, :remarks,:created_by_user_id_fk,CURRENT_TIMESTAMP,:filename, CURRENT_TIMESTAMP, 'Current Fortnight') ";
 
-			String updateQry = "UPDATE fortnight_monthly_plan_upload " + "SET Remarks_status = CASE "
-					+ "    WHEN upload_timestamp > DATEADD(DAY, -10, GETDATE()) AND upload_timestamp <= GETDATE() THEN 'Current Fortnight' "
-					+ "    WHEN upload_timestamp > DATEADD(DAY, -30, GETDATE()) AND upload_timestamp <= DATEADD(DAY, -10, GETDATE()) THEN 'Previous Fortnight' "
-					+ "    ELSE 'Archive' " 
-					+ "END "
+			String updateQry = "UPDATE fortnight_monthly_plan_upload " + "SET Remarks_status = CASE " + 
+					"    WHEN DAY(GETDATE()) BETWEEN 1 AND 5 AND RIGHT(date, 10) BETWEEN  " + 
+					"        CONVERT(VARCHAR(10), DATEFROMPARTS(YEAR(DATEADD(MONTH, -1, GETDATE())), MONTH(DATEADD(MONTH, -1, GETDATE())), 16), 120) AND  " + 
+					"        CONVERT(VARCHAR(10), DATEFROMPARTS(YEAR(DATEADD(MONTH, -1, GETDATE())), MONTH(DATEADD(MONTH, -1, GETDATE())), 31), 120) " + 
+					"    THEN 'Current Fortnight' " + 
+					" " + 
+					"    WHEN DAY(GETDATE()) BETWEEN 1 AND 5 AND RIGHT(date, 10) BETWEEN  " + 
+					"        CONVERT(VARCHAR(10), DATEFROMPARTS(YEAR(DATEADD(MONTH, -1, GETDATE())), MONTH(DATEADD(MONTH, -1, GETDATE())), 1), 120) AND  " + 
+					"        CONVERT(VARCHAR(10), DATEFROMPARTS(YEAR(DATEADD(MONTH, -1, GETDATE())), MONTH(DATEADD(MONTH, -1, GETDATE())), 15), 120) " + 
+					"    THEN 'Previous Fortnight' " + 
+					"     " + 
+					"    ELSE 'Archive' " + 
+					"END"
 					+ "WHERE contract_short_name = :contract_short_name";
 			
 			
 	        String contractShortName = fortnightPlansList.get(0).getContract_short_name();
+	        String datecheck = fortnightPlansList.get(0).getFortnight_date();
 	        
-	        if(checkPreviousFortnightinFiveDays(contractShortName)>0)
+	        if(checkPreviousFortnightinFiveDays(contractShortName,datecheck)>0)
 	        {
-	        	deleteFortnightsByContractShortName(contractShortName);
+	        	deleteFortnightsByContractShortName(contractShortName,datecheck);
 	        }
 	    
 
@@ -1562,11 +1571,11 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 		return insertCount;
 	}
 	
-	private int checkPreviousFortnightinFiveDays(String ContractShortName) throws Exception{
+	private int checkPreviousFortnightinFiveDays(String ContractShortName,String datecheck) throws Exception{
    		int cnt=0;
    		try {
-   			String qry = "select count(*) from fortnight_monthly_plan_upload where contract_short_name = ? and upload_timestamp > DATEADD(DAY, -9, GETDATE())";
-   			cnt = (int) jdbcTemplate.queryForObject(qry, new Object[] { ContractShortName }, int.class);
+   			String qry = "select count(*) from fortnight_monthly_plan_upload where contract_short_name = ? and date =?";
+   			cnt = (int) jdbcTemplate.queryForObject(qry, new Object[] { ContractShortName,datecheck }, int.class);
    		} catch (Exception e) {
    			throw new Exception(e);
    		}		
@@ -1588,12 +1597,13 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 		return objsList;
 	}
 
-	 public int deleteFortnightsByContractShortName(String contractShortName) throws Exception { 
+	 public int deleteFortnightsByContractShortName(String contractShortName, String datecheck) throws Exception { 
 		 Connection con = null;
 	  PreparedStatement stmt = null; con = dataSource.getConnection();
 	  
-	  String deleteQry ="delete from fortnight_monthly_plan_upload   where contract_short_name = ? and upload_timestamp > DATEADD(DAY, -9, GETDATE())";
-	  stmt = con.prepareStatement(deleteQry); stmt.setString(1,contractShortName);
+	  String deleteQry ="delete from fortnight_monthly_plan_upload   where contract_short_name = ? and date=?";
+	  stmt = con.prepareStatement(deleteQry); stmt.setString(1,contractShortName);stmt.setString(2,datecheck);
+	  
 	  int cnt=stmt.executeUpdate(); if(stmt != null){stmt.close();} return cnt; 
 	  
 	 }

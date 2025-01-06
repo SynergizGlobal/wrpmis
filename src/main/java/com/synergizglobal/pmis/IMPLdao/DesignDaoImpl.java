@@ -10,6 +10,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -2831,6 +2832,7 @@ public class DesignDaoImpl implements DesignDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_id_fk())) {
 				pValues[i++] = obj.getStructure_id_fk();
 			}
+			   
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Design>(Design.class));
 			
@@ -2874,6 +2876,7 @@ public class DesignDaoImpl implements DesignDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type_fk())) {
 				pValues[i++] = obj.getStructure_type_fk();
 			}
+	      
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Design>(Design.class));
 			
@@ -2906,10 +2909,10 @@ public class DesignDaoImpl implements DesignDao{
 				qry = qry + " and structure_type_fk = ?";
 				arrSize++;
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_id_fk())) {
-				qry = qry + " and strcuture_id_fk = ?";
-				arrSize++;
-			}
+//			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_id_fk())) {
+//				qry = qry + " and strcuture_id_fk = ?";
+//				arrSize++;
+//			}
 			
 			if(!StringUtils.isEmpty(searchParameter)) {
 				qry = qry + " and (contract_id_fk like ? or c.contract_short_name like ? or d.drawing_title like ? or d.structure_type_fk like ?"
@@ -2938,10 +2941,10 @@ public class DesignDaoImpl implements DesignDao{
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type_fk())) {
 				pValues[i++] = obj.getStructure_type_fk();
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_id_fk())) {
-				pValues[i++] = obj.getStructure_id_fk();
-			}
-			
+//			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_id_fk())) {
+//				pValues[i++] = obj.getStructure_id_fk();
+//			}
+//			
 			if(!StringUtils.isEmpty(searchParameter)) {
 				pValues[i++] = "%"+searchParameter+"%";
 				pValues[i++] = "%"+searchParameter+"%";

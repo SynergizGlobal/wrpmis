@@ -1564,6 +1564,8 @@ public class IssueDaoImpl implements IssueDao {
 				{
 					iObj.setAction("added");
 				}
+				
+				iObj.setAction("added");
 
 				Mail mail = new Mail();
 				mail.setMailTo(mailTo);

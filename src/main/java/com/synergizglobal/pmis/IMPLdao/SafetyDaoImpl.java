@@ -1723,11 +1723,15 @@ public class SafetyDaoImpl implements SafetyDao {
 					+ "where work_id is not null  ";
 			
 			if(!StringUtils.isEmpty(obj) && !CommonConstants.ROLE_CODE_IT_ADMIN.equals(obj.getUser_role_code())) {
-				qry = qry + " and c.contract_id in(select distinct contract_id from( " + 
+				/*qry = qry + " and c.contract_id in(select distinct contract_id from( " + 
 						"SELECT distinct contract_id FROM contract where hod_user_id_fk='"+obj.getUser_id()+"' or dy_hod_user_id_fk='"+obj.getUser_id()+"' " + 
 						"union all " + 
 						"SELECT distinct contract_id FROM contract where hod_user_id_fk=(select reporting_to_id_srfk from [user] where user_id='"+obj.getUser_id()+"')  " + 
-						"or dy_hod_user_id_fk=(select reporting_to_id_srfk from [user] where user_id='"+obj.getUser_id()+"')) as a) ";				
+						"or dy_hod_user_id_fk=(select reporting_to_id_srfk from [user] where user_id='"+obj.getUser_id()+"')) as a) ";	*/	
+				
+				qry = qry + " and c.contract_id in(SELECT contract_id_fk FROM contract_executive where executive_user_id_fk='"+obj.getUser_id()+"'" + 
+						") ";				
+				
 			}
 			
 			objsList = jdbcTemplate.query( qry, new BeanPropertyRowMapper<Safety>(Safety.class));			

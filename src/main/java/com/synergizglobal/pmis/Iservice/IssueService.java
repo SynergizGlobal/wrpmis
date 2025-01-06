@@ -74,5 +74,6 @@ public interface IssueService {
 
 	boolean sendReminderEmail(Issue issue, int daysPending);
 
+	List<Issue> getActionTakens(Issue obj) throws Exception;
 
 }

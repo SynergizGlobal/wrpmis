@@ -17,7 +17,7 @@ public class Issue {
 	private String contract_hod_user_id,contract_dyhod_user_id,created_by_user_id_fk,created_date,created_by_email_id,
 	existing_status_fk,mail_body_header,existing_responsible_person,existing_escalated_to,issue_file_type_fk,issue_file_type,
 	issue_file_id,assigned_person_user_id_fk,total_issues,closed_issues,open_issues,la_id,cmd_email,dp_email,dt_email,contractor_email,sse_email,pe_email,aen_mail,
-	cmd_name,dp_name,dt_name,dyhod_name,pe_name,aen_name,Sse_name,curdate;
+	cmd_name,dp_name,dt_name,dyhod_name,pe_name,aen_name,Sse_name,curdate,issues_related_to,action;
 
 	private boolean readonlyForm = true;
 	private MultipartFile issueFile;
@@ -1024,6 +1024,22 @@ public class Issue {
 
 	public void setCurdate(String curdate) {
 		this.curdate = curdate;
+	}
+
+	public String getIssues_related_to() {
+		return issues_related_to;
+	}
+
+	public void setIssues_related_to(String issues_related_to) {
+		this.issues_related_to = issues_related_to;
+	}
+
+	public String getAction() {
+		return action;
+	}
+
+	public void setAction(String action) {
+		this.action = action;
 	}
 	
 }

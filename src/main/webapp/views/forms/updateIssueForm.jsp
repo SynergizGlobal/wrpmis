@@ -259,20 +259,44 @@
 				                 </c:otherwise>
 				               </c:choose>
                             </div>
-                            <div class="row">                                 
+                            <div class="row" style="display:none;">                                 
                                 <div class="col s12 m8 l12 input-field offset-m2">
                                     <textarea id="corrective_measure" name="corrective_measure"   class="pmis-textarea pdr5em" maxlength="1000" data-length="1000">${issue.corrective_measure }</textarea>
                                     <label for="corrective_measure">Action Taken</label>
                                     <span id="corrective_measureError" class="error-msg" ></span>
                                     <input type="hidden" name="comment" id="comment" />
+                                    <input type="hidden" name="action" id="action" />
                                     <input type="hidden"  id="value_old"  value="${issue.corrective_measure }"/>
                                 </div>
-                            </div>    
+                            </div> 
                             
+							  <div class="row">
+							  <div class="col-md-12">
+							    <table class="table table-bordered table-striped">
+							      <thead>
+							        <tr>
+							          <th>Updated By</th>
+							          <th>Update Date</th>
+							          <th>Action Taken/Remarks</th>
+							        </tr>
+							      </thead>
+							      <tbody id="bindActionTakensHistory">
+							      <c:forEach var="obj" items="${actionTakens }">
+							        <tr>
+							          <td>${obj.user_name}</td>
+							          <td>${obj.created_date}</td>
+							          <td>${obj.comment}</td>
+							        </tr>
+							        </c:forEach>
+							      </tbody>
+							    </table>
+							  </div>
+							</div>                             
+                            <br><br>
                             <div class="row ">                                 
                                 <div class="col s6 m4 l4 input-field offset-m2">
                                     <input id="date" name="date" type="text" class="datepicker" value="${issue.date }">
-                                    <label for="date">Target date of completion </label>
+                                    <label for="date">Deadline for Issue Resolution </label>
                                     <button type="button" id="date_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
                                     <span id="dateError" class="error-msg" ></span>
                                 </div>
@@ -554,7 +578,7 @@
                                  
                                 <div class="col s6 center-align offset-m2 m4 l6 mt-brdr">
                                     <div class="center-align m-1">
-                                        <c:if test="${issue.status_fk ne 'Closed' and issue.readonlyForm eq false }">
+<%--                                         <c:if test="${issue.status_fk ne 'Closed' and issue.readonlyForm eq false }">
                                         	<a  onclick="updateIssue();" class="btn waves-effect waves-light bg-m w7em" >Update </a>
                                         </c:if>
                                         
@@ -563,9 +587,12 @@
                                         </c:if>
                                         <c:if test="${issue.status_fk eq 'Closed' }">
                                         	<a style="color:red;line-height:36px">Issue Resolved</a>
-                                        </c:if>
+                                        </c:if> --%>
+                                                                        <a  onclick="updateIssue();" class="btn waves-effect waves-light bg-m w7em" >Update </a>
+                                        
                                     </div>
                                 </div>
+                                
                                 <div class="col s6 center-align m4 l6 mt-brdr">
                                     <div class=" m-1">
                                         <a href="<%=request.getContextPath() %>/issues" class="btn waves-effect waves-light bg-s w7em" >Cancel</a>
@@ -685,6 +712,8 @@
                 return false;
             }
         });
+        
+        $("#zonal_railway_fk").val("MRVC").trigger("change"); 
     });
 	$('input').characterCounter();
 		/*$(document).on('focus', '.datepicker',function(){
@@ -1494,6 +1523,7 @@
                             }else if($.trim(status_fk) != '' && $.trim(status_fk) == 'Closed'){
                             	if ((val.status == 'Closed') && ((status_fk == val.status ) || (logged_id_user_role_code == user_role_it_admin) || (logged_id_user_id == hod_user_id_fk))){
                                 	$("#status_fk").append('<option value="' + val.status+'" '+selectedFlag+'>' + $.trim(val.status) + '</option>');
+                                	$("#status_fk").append('<option value="Raised" onChange="putValueForAction();">Re-Open</option>');
                                 }
                             }/* else{
                             	if ((val.status == 'Assigned') && ((logged_id_user_role_code == user_role_it_admin) || (logged_id_user_id == dy_hod_user_id_fk) || (logged_id_user_id == hod_user_id_fk))){
@@ -1546,6 +1576,11 @@
                     $(".page-loader").hide();
                 }
             });
+        }
+        
+        function putValueForAction()
+        {
+        	$("#action").val("1");
         }
         
         

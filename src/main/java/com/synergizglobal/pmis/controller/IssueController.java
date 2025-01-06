@@ -550,8 +550,10 @@ public class IssueController {
 			
 			
 			List<Issue> components = issueService.getComponents(obj);
-			model.addObject("components", components);				
+			model.addObject("components", components);	
 			
+			List<Issue> actionTakens = issueService.getActionTakens(obj);
+			model.addObject("actionTakens", actionTakens);			
 			
 			Issue issue = issueService.getIssue(obj);
 			model.addObject("issue", issue);
@@ -674,7 +676,14 @@ public class IssueController {
 				if(!StringUtils.isEmpty(obj.getStatus_fk()) && obj.getStatus_fk().equals(obj.getExisting_status_fk())) {
 					attributes.addFlashAttribute("success", "Issue has been updated successfully");
 				}else{
-					attributes.addFlashAttribute("success", "Issue "+obj.getStatus_fk()+" successfully");
+					
+					if(!StringUtils.isEmpty(obj.getAction())) {
+					attributes.addFlashAttribute("success", "Issue has Re-Opened successfully");
+					}
+					else
+					{
+						attributes.addFlashAttribute("success", "Issue "+obj.getStatus_fk()+" successfully");
+					}
 				}
 			}else {
 				attributes.addFlashAttribute("error", "Updating issue failed. Try again.");

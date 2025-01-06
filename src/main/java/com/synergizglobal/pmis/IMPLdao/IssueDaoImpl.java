@@ -183,13 +183,16 @@ public class IssueDaoImpl implements IssueDao {
 	public List<Issue> getIssuesCategoryList(Issue obj) throws Exception {
 		List<Issue> objsList = null;
 		try {
-			String qry = "select issue_category_fk as category from issue_contarct_category ";
+			String qry = "\r\n" + 
+					"select f.issue_category_fk as category,issues_related_to from issue_contarct_category f\r\n" + 
+					"\r\n" + 
+					"left join issue_category_title t on t.issue_category_fk=f.issue_category_fk  ";
 			int arraSize = 0;
 			if (!StringUtils.isEmpty(obj.getContract_type_fk())) {
 				qry = qry + "where contract_category_fk = ? ";
 				arraSize++;
 			}
-			qry = qry + "group by issue_category_fk order by issue_category_fk ";
+			qry = qry + "group by f.issue_category_fk,issues_related_to order by f.issue_category_fk ";
 			Object[] pValues = new Object[arraSize];
 			int i = 0;
 			if (!StringUtils.isEmpty(obj.getContract_type_fk())) {
@@ -241,7 +244,7 @@ public class IssueDaoImpl implements IssueDao {
 	public List<Issue> getRailwayList() throws Exception {
 		List<Issue> objsList = null;
 		try {
-			String qry = "SELECT railway_id,railway_name from railway WHERE railway_id <> 'Con' ORDER BY case when railway_id='MRVC' then 1" + 
+			String qry = "SELECT railway_id,railway_name from railway WHERE railway_id <> 'Con' and railway_id='MRVC' ORDER BY case when railway_id='MRVC' then 1" + 
 					"when railway_id='CR' then 2 when railway_id='WR' then 3 when railway_id='Others' then 4 end asc";
 			objsList = jdbcTemplate.query(qry, new BeanPropertyRowMapper<Issue>(Issue.class));
 		} catch (Exception e) {
@@ -500,7 +503,7 @@ public class IssueDaoImpl implements IssueDao {
 				String issue_status = obj.getStatus_fk();
 				String reported_by_email_id = obj.getReported_by_email_id();
 				sendEmailWithIssueStatusAlert(issue_id, issue_status, reported_by_email_id, obj.getExisting_status_fk(), null,
-						null);
+						null,"0");
 
 			}
 			transactionManager.commit(status);
@@ -800,7 +803,7 @@ public class IssueDaoImpl implements IssueDao {
 							 ||  newFileAdded == true) {
 						history_flag = addIssueInHistory(obj,template);
 						sendEmailWithIssueStatusAlert(issue_id, issue_status, reported_by_email_id, existing_status_fk,
-								existing_responsible_person, existing_escalated_to);
+								existing_responsible_person, existing_escalated_to,"1");
 					}
 				}
 			}
@@ -962,7 +965,7 @@ public class IssueDaoImpl implements IssueDao {
 
 
 	public void sendEmailWithIssueStatusAlert(String issue_id, String issue_status, String reported_by_email_id,
-			String existing_status_fk, String existing_responsible_person, String existing_escalated_to)
+			String existing_status_fk, String existing_responsible_person, String existing_escalated_to,String action)
 			throws Exception {
 
 		try {
@@ -1549,6 +1552,17 @@ public class IssueDaoImpl implements IssueDao {
 					}
 				} else {
 					emailSubject = emailSubject + issue_status;
+				}
+				
+				
+				if ("Raised".equals(iObj.getStatus_fk()) && "1".equals(action)) 
+				{
+					emailSubject = "PMIS Issue Notification - Issue has Re-Opened";
+					iObj.setAction("Re-Opened");
+				}
+				else
+				{
+					iObj.setAction("added");
 				}
 
 				Mail mail = new Mail();
@@ -2755,5 +2769,29 @@ public class IssueDaoImpl implements IssueDao {
 	        return false;
 	    }
 	}
+	
+	@Override
+	public List<Issue> getActionTakens(Issue obj) throws Exception {
+		List<Issue> objsList = null;
+		try {
+			String qry = "select comment,created_by,created_date,u.user_name from issue_history i left join [user] u on u.user_id=i.created_by where 0=0  ";
+			int arraSize = 0;
+			if (!StringUtils.isEmpty(obj.getIssue_id())) {
+				qry = qry + "and issue_id_fk = ? ";
+				arraSize++;
+			}
+		
+			Object[] pValues = new Object[arraSize];
+			int i = 0;
+			if (!StringUtils.isEmpty(obj.getIssue_id())) {
+				pValues[i++] = obj.getIssue_id();
+			}
+			
+			objsList = jdbcTemplate.query(qry, pValues, new BeanPropertyRowMapper<Issue>(Issue.class));
+		} catch (Exception e) {
+			throw new Exception(e);
+		}
+		return objsList;
+	}	
 
 }

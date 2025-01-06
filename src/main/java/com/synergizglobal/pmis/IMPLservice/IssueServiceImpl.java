@@ -182,5 +182,11 @@ public class IssueServiceImpl implements IssueService {
 	@Override
 	public boolean sendReminderEmail(Issue issue, int daysPending) {
 		return issueDao.sendReminderEmail(issue,daysPending);
-	}	
+	}
+	
+	@Override
+	public List<Issue> getActionTakens(Issue obj) throws Exception {
+		return issueDao.getActionTakens(obj);
+	}
+	
 }

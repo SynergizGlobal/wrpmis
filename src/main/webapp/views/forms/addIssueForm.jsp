@@ -158,12 +158,19 @@
                                  
                                 <div class="col s12 offset-m2 m4 l4 input-field">
                                 	<p class="searchable_label">Issue Category <span class="required">*</span></p> 
-                                    <select class="searchable validate-dropdown" id="category_fk" name="category_fk" onchange="getIssueTitlesList();">
-                                        <option value="">Select</option>
-                                        <c:forEach var="obj" items="${issuesCategoryList }">
-                                            <option value="${obj.category }" >${obj.category}</option>
-                                        </c:forEach>
-                                    </select>
+									<select class="searchable validate-dropdown" id="category_fk" name="category_fk" onchange="getIssueTitlesList();">
+									    <option value="">Select</option>
+									    <c:forEach var="obj" items="${issuesCategoryList}">
+									        <c:choose>
+									            <c:when test="${sessionScope.USER_TYPE == 'Contractor' && (obj.issues_related_to == 'Contractor' || obj.issues_related_to == 'Both')}">
+									                <option value="${obj.category}">${obj.category}</option>
+									            </c:when>
+									            <c:when test="${sessionScope.USER_TYPE != 'Contractor' && ( obj.issues_related_to == 'MRVC' || obj.issues_related_to == 'Both') }">
+									                <option value="${obj.category}">${obj.category}</option>
+									            </c:when>
+									        </c:choose>
+									    </c:forEach>
+									</select>
                                     <span id="category_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s12 m4 l4 input-field">
@@ -226,7 +233,7 @@
                                  
                                 <div class="col s6 offset-m2 m4 l4 input-field">
                                     <input id="date" name="date" type="text" class="validate datepicker">
-                                    <label for="date">Target date of completion </label>
+                                    <label for="date">Deadline for Issue Resolution </label>
                                     <button type="button" id="date_icon"><i class="fa fa-calendar"></i></button>
                                     <span id="dateError" class="error-msg" ></span>
                                 </div>
@@ -599,7 +606,7 @@
     	    {
     	    	$("#category_fk").val(categoryid);
     	    }
-    	    
+    	    $("#zonal_railway_fk").val("MRVC").trigger("change"); 
     	    
             $('select:not(.searchable)').formSelect();
             $('.searchable').select2();

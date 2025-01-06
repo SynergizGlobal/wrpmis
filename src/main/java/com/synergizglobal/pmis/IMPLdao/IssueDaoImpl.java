@@ -1558,14 +1558,14 @@ public class IssueDaoImpl implements IssueDao {
 				if ("Raised".equals(iObj.getStatus_fk()) && "1".equals(action)) 
 				{
 					emailSubject = "PMIS Issue Notification - Issue has Re-Opened";
-					iObj.setAction("Re-Opened");
+					iObj.setAction("issue has been Re-Opened");
 				}
 				else
 				{
-					iObj.setAction("added");
+					iObj.setAction("a new issue has been added");
 				}
 				
-				iObj.setAction("added");
+				iObj.setAction("a new issue has been added");
 
 				Mail mail = new Mail();
 				mail.setMailTo(mailTo);

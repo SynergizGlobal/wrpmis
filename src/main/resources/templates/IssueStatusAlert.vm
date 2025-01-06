@@ -17,7 +17,7 @@
 						<td align="left"
 							style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
 										    
-				Dear $alert.hod_name,<br>We would like to inform you that a new issue has been $alert.action to the MRVC-PMIS portal by $alert.contract_short_name. Below are the details of the issue:<br>
+				Dear $alert.hod_name,<br>We would like to inform you that $alert.action to the MRVC-PMIS portal by $alert.contractor_name. Below are the details of the issue:<br>
 						
 						</td>
 					</tr>

@@ -1531,7 +1531,15 @@ html, body {
 
 	                        </c:forEach>
 	                    </ul>
-	                    </div>                    
+	                    </div>  
+	                    <div class="row">
+	                    				                            <a href="/pmis/issues"><div id="diamond">
+										    <div class="btn diamond">
+										         <span>Contractors Issues</span>
+										    </div>
+										</div></a>
+	                    </div>  
+                 
 	                </div>
 	            </div>
 	        </div>

@@ -17,7 +17,9 @@ public class Issue {
 	private String contract_hod_user_id,contract_dyhod_user_id,created_by_user_id_fk,created_date,created_by_email_id,
 	existing_status_fk,mail_body_header,existing_responsible_person,existing_escalated_to,issue_file_type_fk,issue_file_type,
 	issue_file_id,assigned_person_user_id_fk,total_issues,closed_issues,open_issues,la_id,cmd_email,dp_email,dt_email,contractor_email,sse_email,pe_email,aen_mail,
-	cmd_name,dp_name,dt_name,dyhod_name,pe_name,aen_name,Sse_name,curdate,issues_related_to,action;
+	cmd_name,dp_name,dt_name,dyhod_name,pe_name,aen_name,Sse_name,curdate,issues_related_to,action,ass_email,ass_name,assr_email,assr_name,rs_email,rs_name,pm_email,pm_name,
+	ae_email,ae_name,spe_email,spe_name
+	;
 
 	private boolean readonlyForm = true;
 	private MultipartFile issueFile;
@@ -1040,6 +1042,102 @@ public class Issue {
 
 	public void setAction(String action) {
 		this.action = action;
+	}
+
+	public String getAss_email() {
+		return ass_email;
+	}
+
+	public void setAss_email(String ass_email) {
+		this.ass_email = ass_email;
+	}
+
+	public String getAss_name() {
+		return ass_name;
+	}
+
+	public void setAss_name(String ass_name) {
+		this.ass_name = ass_name;
+	}
+
+	public String getAssr_email() {
+		return assr_email;
+	}
+
+	public void setAssr_email(String assr_email) {
+		this.assr_email = assr_email;
+	}
+
+	public String getAssr_name() {
+		return assr_name;
+	}
+
+	public void setAssr_name(String assr_name) {
+		this.assr_name = assr_name;
+	}
+
+	public String getRs_email() {
+		return rs_email;
+	}
+
+	public void setRs_email(String rs_email) {
+		this.rs_email = rs_email;
+	}
+
+	public String getRs_name() {
+		return rs_name;
+	}
+
+	public void setRs_name(String rs_name) {
+		this.rs_name = rs_name;
+	}
+
+	public String getPm_email() {
+		return pm_email;
+	}
+
+	public void setPm_email(String pm_email) {
+		this.pm_email = pm_email;
+	}
+
+	public String getPm_name() {
+		return pm_name;
+	}
+
+	public void setPm_name(String pm_name) {
+		this.pm_name = pm_name;
+	}
+
+	public String getAe_email() {
+		return ae_email;
+	}
+
+	public void setAe_email(String ae_email) {
+		this.ae_email = ae_email;
+	}
+
+	public String getAe_name() {
+		return ae_name;
+	}
+
+	public void setAe_name(String ae_name) {
+		this.ae_name = ae_name;
+	}
+
+	public String getSpe_email() {
+		return spe_email;
+	}
+
+	public void setSpe_email(String spe_email) {
+		this.spe_email = spe_email;
+	}
+
+	public String getSpe_name() {
+		return spe_name;
+	}
+
+	public void setSpe_name(String spe_name) {
+		this.spe_name = spe_name;
 	}
 	
 }

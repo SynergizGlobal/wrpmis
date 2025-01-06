@@ -1024,7 +1024,351 @@ public class IssueDaoImpl implements IssueDao {
 					"where department_fk not in('Fin','Plan')) m on m.contract_id_fk=i.contract_id_fk\r\n" + 
 					"\r\n" + 
 					"where i.contract_id_fk = c.contract_id  and issue_id="+issue_id+"  and designation in('SSE')) as sse_name,c1.email_id as contractor_email,(select top 1 comment from issue_history where issue_id_fk=i.issue_id and comment is not null order by id desc\r\n" + 
-							") as comment  "
+							") as comment,    (\r\n" + 
+							"        SELECT email_id \r\n" + 
+							"        FROM issue i\r\n" + 
+							"        INNER JOIN (\r\n" + 
+							"            SELECT \r\n" + 
+							"                contract_id_fk, \r\n" + 
+							"                department_id_fk, \r\n" + 
+							"                executive_user_id_fk, \r\n" + 
+							"                user_name,\r\n" + 
+							"                designation, \r\n" + 
+							"                department_fk, \r\n" + 
+							"                user_type_fk, \r\n" + 
+							"                user_role_name_fk, \r\n" + 
+							"                email_id \r\n" + 
+							"            FROM contract_executive a \r\n" + 
+							"            LEFT JOIN [user] b\r\n" + 
+							"            ON a.executive_user_id_fk = b.user_id\r\n" + 
+							"            WHERE department_fk NOT IN ('Fin', 'Plan')\r\n" + 
+							"        ) m \r\n" + 
+							"        ON m.contract_id_fk = i.contract_id_fk\r\n" + 
+							"        WHERE i.contract_id_fk = c.contract_id \r\n" + 
+							"        AND issue_id = issue_id \r\n" + 
+							"        AND designation IN ('Asst. Manager')\r\n" + 
+							"    ) AS ass_email,\r\n" + 
+							"        (\r\n" + 
+							"            SELECT user_name \r\n" + 
+							"            FROM issue i\r\n" + 
+							"            INNER JOIN (\r\n" + 
+							"                SELECT \r\n" + 
+							"                    contract_id_fk, \r\n" + 
+							"                    department_id_fk, \r\n" + 
+							"                    executive_user_id_fk, \r\n" + 
+							"                    user_name,\r\n" + 
+							"                    designation, \r\n" + 
+							"                    department_fk, \r\n" + 
+							"                    user_type_fk, \r\n" + 
+							"                    user_role_name_fk, \r\n" + 
+							"                    email_id \r\n" + 
+							"                FROM contract_executive a \r\n" + 
+							"                LEFT JOIN [user] b\r\n" + 
+							"                ON a.executive_user_id_fk = b.user_id\r\n" + 
+							"                WHERE department_fk NOT IN ('Fin', 'Plan')\r\n" + 
+							"            ) m \r\n" + 
+							"            ON m.contract_id_fk = i.contract_id_fk\r\n" + 
+							"            WHERE i.contract_id_fk = c.contract_id \r\n" + 
+							"            AND issue_id = issue_id \r\n" + 
+							"            AND designation IN ('Asst. Manager')\r\n" + 
+							"    ) AS ass_name,\r\n" + 
+							"    \r\n" + 
+							"        (\r\n" + 
+							"            SELECT email_id \r\n" + 
+							"            FROM issue i\r\n" + 
+							"            INNER JOIN (\r\n" + 
+							"                SELECT \r\n" + 
+							"                    contract_id_fk, \r\n" + 
+							"                    department_id_fk, \r\n" + 
+							"                    executive_user_id_fk, \r\n" + 
+							"                    user_name,\r\n" + 
+							"                    designation, \r\n" + 
+							"                    department_fk, \r\n" + 
+							"                    user_type_fk, \r\n" + 
+							"                    user_role_name_fk, \r\n" + 
+							"                    email_id \r\n" + 
+							"                FROM contract_executive a \r\n" + 
+							"                LEFT JOIN [user] b\r\n" + 
+							"                ON a.executive_user_id_fk = b.user_id\r\n" + 
+							"                WHERE department_fk NOT IN ('Fin', 'Plan')\r\n" + 
+							"            ) m \r\n" + 
+							"            ON m.contract_id_fk = i.contract_id_fk\r\n" + 
+							"            WHERE i.contract_id_fk = c.contract_id \r\n" + 
+							"            AND issue_id = issue_id \r\n" + 
+							"            AND designation IN ('Asst. Resident Engineer')\r\n" + 
+							"        ) AS assr_email,\r\n" + 
+							"            (\r\n" + 
+							"                SELECT user_name \r\n" + 
+							"                FROM issue i\r\n" + 
+							"                INNER JOIN (\r\n" + 
+							"                    SELECT \r\n" + 
+							"                        contract_id_fk, \r\n" + 
+							"                        department_id_fk, \r\n" + 
+							"                        executive_user_id_fk, \r\n" + 
+							"                        user_name,\r\n" + 
+							"                        designation, \r\n" + 
+							"                        department_fk, \r\n" + 
+							"                        user_type_fk, \r\n" + 
+							"                        user_role_name_fk, \r\n" + 
+							"                        email_id \r\n" + 
+							"                    FROM contract_executive a \r\n" + 
+							"                    LEFT JOIN [user] b\r\n" + 
+							"                    ON a.executive_user_id_fk = b.user_id\r\n" + 
+							"                    WHERE department_fk NOT IN ('Fin', 'Plan')\r\n" + 
+							"                ) m \r\n" + 
+							"                ON m.contract_id_fk = i.contract_id_fk\r\n" + 
+							"                WHERE i.contract_id_fk = c.contract_id \r\n" + 
+							"                AND issue_id = issue_id \r\n" + 
+							"                AND designation IN ('Asst. Resident Engineer')\r\n" + 
+							"    ) AS assr_name,\r\n" + 
+							"    \r\n" + 
+							"            (\r\n" + 
+							"                SELECT email_id \r\n" + 
+							"                FROM issue i\r\n" + 
+							"                INNER JOIN (\r\n" + 
+							"                    SELECT \r\n" + 
+							"                        contract_id_fk, \r\n" + 
+							"                        department_id_fk, \r\n" + 
+							"                        executive_user_id_fk, \r\n" + 
+							"                        user_name,\r\n" + 
+							"                        designation, \r\n" + 
+							"                        department_fk, \r\n" + 
+							"                        user_type_fk, \r\n" + 
+							"                        user_role_name_fk, \r\n" + 
+							"                        email_id \r\n" + 
+							"                    FROM contract_executive a \r\n" + 
+							"                    LEFT JOIN [user] b\r\n" + 
+							"                    ON a.executive_user_id_fk = b.user_id\r\n" + 
+							"                    WHERE department_fk NOT IN ('Fin', 'Plan')\r\n" + 
+							"                ) m \r\n" + 
+							"                ON m.contract_id_fk = i.contract_id_fk\r\n" + 
+							"                WHERE i.contract_id_fk = c.contract_id \r\n" + 
+							"                AND issue_id = issue_id \r\n" + 
+							"                AND designation IN ('Resident Engineer')\r\n" + 
+							"            ) AS rs_email,\r\n" + 
+							"                (\r\n" + 
+							"                    SELECT user_name \r\n" + 
+							"                    FROM issue i\r\n" + 
+							"                    INNER JOIN (\r\n" + 
+							"                        SELECT \r\n" + 
+							"                            contract_id_fk, \r\n" + 
+							"                            department_id_fk, \r\n" + 
+							"                            executive_user_id_fk, \r\n" + 
+							"                            user_name,\r\n" + 
+							"                            designation, \r\n" + 
+							"                            department_fk, \r\n" + 
+							"                            user_type_fk, \r\n" + 
+							"                            user_role_name_fk, \r\n" + 
+							"                            email_id \r\n" + 
+							"                        FROM contract_executive a \r\n" + 
+							"                        LEFT JOIN [user] b\r\n" + 
+							"                        ON a.executive_user_id_fk = b.user_id\r\n" + 
+							"                        WHERE department_fk NOT IN ('Fin', 'Plan')\r\n" + 
+							"                    ) m \r\n" + 
+							"                    ON m.contract_id_fk = i.contract_id_fk\r\n" + 
+							"                    WHERE i.contract_id_fk = c.contract_id \r\n" + 
+							"                    AND issue_id = issue_id \r\n" + 
+							"                    AND designation IN ('Resident Engineer')\r\n" + 
+							"    ) AS rs_name,(\r\n" + 
+							"                SELECT email_id \r\n" + 
+							"                FROM issue i\r\n" + 
+							"                INNER JOIN (\r\n" + 
+							"                    SELECT \r\n" + 
+							"                        contract_id_fk, \r\n" + 
+							"                        department_id_fk, \r\n" + 
+							"                        executive_user_id_fk, \r\n" + 
+							"                        user_name,\r\n" + 
+							"                        designation, \r\n" + 
+							"                        department_fk, \r\n" + 
+							"                        user_type_fk, \r\n" + 
+							"                        user_role_name_fk, \r\n" + 
+							"                        email_id \r\n" + 
+							"                    FROM contract_executive a \r\n" + 
+							"                    LEFT JOIN [user] b\r\n" + 
+							"                    ON a.executive_user_id_fk = b.user_id\r\n" + 
+							"                    WHERE department_fk NOT IN ('Fin', 'Plan')\r\n" + 
+							"                ) m \r\n" + 
+							"                ON m.contract_id_fk = i.contract_id_fk\r\n" + 
+							"                WHERE i.contract_id_fk = c.contract_id \r\n" + 
+							"                AND issue_id = issue_id \r\n" + 
+							"                AND designation IN ('Project Manager')\r\n" + 
+							"            ) AS pm_email,\r\n" + 
+							"                (\r\n" + 
+							"                    SELECT user_name \r\n" + 
+							"                    FROM issue i\r\n" + 
+							"                    INNER JOIN (\r\n" + 
+							"                        SELECT \r\n" + 
+							"                            contract_id_fk, \r\n" + 
+							"                            department_id_fk, \r\n" + 
+							"                            executive_user_id_fk, \r\n" + 
+							"                            user_name,\r\n" + 
+							"                            designation, \r\n" + 
+							"                            department_fk, \r\n" + 
+							"                            user_type_fk, \r\n" + 
+							"                            user_role_name_fk, \r\n" + 
+							"                            email_id \r\n" + 
+							"                        FROM contract_executive a \r\n" + 
+							"                        LEFT JOIN [user] b\r\n" + 
+							"                        ON a.executive_user_id_fk = b.user_id\r\n" + 
+							"                        WHERE department_fk NOT IN ('Fin', 'Plan')\r\n" + 
+							"                    ) m \r\n" + 
+							"                    ON m.contract_id_fk = i.contract_id_fk\r\n" + 
+							"                    WHERE i.contract_id_fk = c.contract_id \r\n" + 
+							"                    AND issue_id = issue_id \r\n" + 
+							"                    AND designation IN ('Project Manager')\r\n" + 
+							"    ) AS pm_name,\r\n" + 
+							"    \r\n" + 
+							"    \r\n" + 
+							" (\r\n" + 
+							"                SELECT email_id \r\n" + 
+							"                FROM issue i\r\n" + 
+							"                INNER JOIN (\r\n" + 
+							"                    SELECT \r\n" + 
+							"                        contract_id_fk, \r\n" + 
+							"                        department_id_fk, \r\n" + 
+							"                        executive_user_id_fk, \r\n" + 
+							"                        user_name,\r\n" + 
+							"                        designation, \r\n" + 
+							"                        department_fk, \r\n" + 
+							"                        user_type_fk, \r\n" + 
+							"                        user_role_name_fk, \r\n" + 
+							"                        email_id \r\n" + 
+							"                    FROM contract_executive a \r\n" + 
+							"                    LEFT JOIN [user] b\r\n" + 
+							"                    ON a.executive_user_id_fk = b.user_id\r\n" + 
+							"                    WHERE department_fk NOT IN ('Fin', 'Plan')\r\n" + 
+							"                ) m \r\n" + 
+							"                ON m.contract_id_fk = i.contract_id_fk\r\n" + 
+							"                WHERE i.contract_id_fk = c.contract_id \r\n" + 
+							"                AND issue_id = issue_id \r\n" + 
+							"                AND designation IN ('AEN')\r\n" + 
+							"            ) AS ae_email,\r\n" + 
+							"                (\r\n" + 
+							"                    SELECT user_name \r\n" + 
+							"                    FROM issue i\r\n" + 
+							"                    INNER JOIN (\r\n" + 
+							"                        SELECT \r\n" + 
+							"                            contract_id_fk, \r\n" + 
+							"                            department_id_fk, \r\n" + 
+							"                            executive_user_id_fk, \r\n" + 
+							"                            user_name,\r\n" + 
+							"                            designation, \r\n" + 
+							"                            department_fk, \r\n" + 
+							"                            user_type_fk, \r\n" + 
+							"                            user_role_name_fk, \r\n" + 
+							"                            email_id \r\n" + 
+							"                        FROM contract_executive a \r\n" + 
+							"                        LEFT JOIN [user] b\r\n" + 
+							"                        ON a.executive_user_id_fk = b.user_id\r\n" + 
+							"                        WHERE department_fk NOT IN ('Fin', 'Plan')\r\n" + 
+							"                    ) m \r\n" + 
+							"                    ON m.contract_id_fk = i.contract_id_fk\r\n" + 
+							"                    WHERE i.contract_id_fk = c.contract_id \r\n" + 
+							"                    AND issue_id = issue_id \r\n" + 
+							"                    AND designation IN ('AEN')\r\n" + 
+							"    ) AS ae_name,   \r\n" + 
+							"    \r\n" + 
+							"    \r\n" + 
+							"   \r\n" + 
+							"   (\r\n" + 
+							"                   SELECT email_id \r\n" + 
+							"                   FROM issue i\r\n" + 
+							"                   INNER JOIN (\r\n" + 
+							"                       SELECT \r\n" + 
+							"                           contract_id_fk, \r\n" + 
+							"                           department_id_fk, \r\n" + 
+							"                           executive_user_id_fk, \r\n" + 
+							"                           user_name,\r\n" + 
+							"                           designation, \r\n" + 
+							"                           department_fk, \r\n" + 
+							"                           user_type_fk, \r\n" + 
+							"                           user_role_name_fk, \r\n" + 
+							"                           email_id \r\n" + 
+							"                       FROM contract_executive a \r\n" + 
+							"                       LEFT JOIN [user] b\r\n" + 
+							"                       ON a.executive_user_id_fk = b.user_id\r\n" + 
+							"                       WHERE department_fk NOT IN ('Fin', 'Plan')\r\n" + 
+							"                   ) m \r\n" + 
+							"                   ON m.contract_id_fk = i.contract_id_fk\r\n" + 
+							"                   WHERE i.contract_id_fk = c.contract_id \r\n" + 
+							"                   AND issue_id = issue_id \r\n" + 
+							"                   AND designation IN ('SPE')\r\n" + 
+							"               ) AS spe_email,\r\n" + 
+							"                   (\r\n" + 
+							"                       SELECT user_name \r\n" + 
+							"                       FROM issue i\r\n" + 
+							"                       INNER JOIN (\r\n" + 
+							"                           SELECT \r\n" + 
+							"                               contract_id_fk, \r\n" + 
+							"                               department_id_fk, \r\n" + 
+							"                               executive_user_id_fk, \r\n" + 
+							"                               user_name,\r\n" + 
+							"                               designation, \r\n" + 
+							"                               department_fk, \r\n" + 
+							"                               user_type_fk, \r\n" + 
+							"                               user_role_name_fk, \r\n" + 
+							"                               email_id \r\n" + 
+							"                           FROM contract_executive a \r\n" + 
+							"                           LEFT JOIN [user] b\r\n" + 
+							"                           ON a.executive_user_id_fk = b.user_id\r\n" + 
+							"                           WHERE department_fk NOT IN ('Fin', 'Plan')\r\n" + 
+							"                       ) m \r\n" + 
+							"                       ON m.contract_id_fk = i.contract_id_fk\r\n" + 
+							"                       WHERE i.contract_id_fk = c.contract_id \r\n" + 
+							"                       AND issue_id = issue_id \r\n" + 
+							"                       AND designation IN ('SPE')\r\n" + 
+							"    ) AS spe_name,   \r\n" + 
+							"    \r\n" + 
+							"    \r\n" + 
+							"    \r\n" + 
+							"  (\r\n" + 
+							"                   SELECT email_id \r\n" + 
+							"                   FROM issue i\r\n" + 
+							"                   INNER JOIN (\r\n" + 
+							"                       SELECT \r\n" + 
+							"                           contract_id_fk, \r\n" + 
+							"                           department_id_fk, \r\n" + 
+							"                           executive_user_id_fk, \r\n" + 
+							"                           user_name,\r\n" + 
+							"                           designation, \r\n" + 
+							"                           department_fk, \r\n" + 
+							"                           user_type_fk, \r\n" + 
+							"                           user_role_name_fk, \r\n" + 
+							"                           email_id \r\n" + 
+							"                       FROM contract_executive a \r\n" + 
+							"                       LEFT JOIN [user] b\r\n" + 
+							"                       ON a.executive_user_id_fk = b.user_id\r\n" + 
+							"                       WHERE department_fk NOT IN ('Fin', 'Plan')\r\n" + 
+							"                   ) m \r\n" + 
+							"                   ON m.contract_id_fk = i.contract_id_fk\r\n" + 
+							"                   WHERE i.contract_id_fk = c.contract_id \r\n" + 
+							"                   AND issue_id = issue_id \r\n" + 
+							"                   AND designation IN ('PE')\r\n" + 
+							"               ) AS pe_email,\r\n" + 
+							"                   (\r\n" + 
+							"                       SELECT user_name \r\n" + 
+							"                       FROM issue i\r\n" + 
+							"                       INNER JOIN (\r\n" + 
+							"                           SELECT \r\n" + 
+							"                               contract_id_fk, \r\n" + 
+							"                               department_id_fk, \r\n" + 
+							"                               executive_user_id_fk, \r\n" + 
+							"                               user_name,\r\n" + 
+							"                               designation, \r\n" + 
+							"                               department_fk, \r\n" + 
+							"                               user_type_fk, \r\n" + 
+							"                               user_role_name_fk, \r\n" + 
+							"                               email_id \r\n" + 
+							"                           FROM contract_executive a \r\n" + 
+							"                           LEFT JOIN [user] b\r\n" + 
+							"                           ON a.executive_user_id_fk = b.user_id\r\n" + 
+							"                           WHERE department_fk NOT IN ('Fin', 'Plan')\r\n" + 
+							"                       ) m \r\n" + 
+							"                       ON m.contract_id_fk = i.contract_id_fk\r\n" + 
+							"                       WHERE i.contract_id_fk = c.contract_id \r\n" + 
+							"                       AND issue_id = issue_id \r\n" + 
+							"                       AND designation IN ('PE')\r\n" + 
+							"    ) AS pe_name  "
 					+ "from issue i " + "left outer join [user] u1 on i.created_by_user_id_fk = u1.user_id "
 					+ "left outer join [user] u2 on i.responsible_person = u2.user_id "
 					+ "left outer join [user] u3 on i.escalated_to = u3.user_id "
@@ -1492,25 +1836,63 @@ public class IssueDaoImpl implements IssueDao {
 				
 				
 				
-			    String recipientName = iObj.getPe_name() + "," + iObj.getSse_name() + " and " + iObj.getAen_name();
-			    
-			    if (iObj.getPe_name() == null || iObj.getPe_name().isEmpty() ||
-			        iObj.getSse_name() == null || iObj.getSse_name().isEmpty() ||
-			        iObj.getAen_name() == null || iObj.getAen_name().isEmpty()) {
-			        recipientName = iObj.getDyhod_name();  // Use Dyhod_name if any of the previous names are missing
-			        mailTo=mailTo+iObj.getContract_dyhod_email_id()+",";
-			    }
+				String recipientName = iObj.getPe_name() + "," + iObj.getSse_name() + " and " + iObj.getAen_name();
 
-			    // Add PE, AEN/AM, SSE to 'To'
-			    if (iObj.getPe_email() != null && !iObj.getPe_email().isEmpty()) {
-			    	mailTo=mailTo+iObj.getPe_email()+",";
-			    }
-			    if (iObj.getAen_mail() != null && !iObj.getAen_mail().isEmpty()) {
-			    	mailTo=mailTo+iObj.getAen_mail()+",";
-			    }
-			    if (iObj.getSse_email() != null && !iObj.getSse_email().isEmpty()) {
-			    	mailTo=mailTo+iObj.getSse_email()+",";
-			    }
+				if (iObj.getPe_name() == null || iObj.getPe_name().isEmpty() ||
+				    iObj.getSse_name() == null || iObj.getSse_name().isEmpty() ||
+				    iObj.getAen_name() == null || iObj.getAen_name().isEmpty()) {
+				    recipientName = iObj.getDyhod_name();  // Use Dyhod_name if any of the previous names are missing
+				    mailTo = mailTo + iObj.getContract_dyhod_email_id() + ",";
+				}
+
+				// Add names dynamically to recipientName string
+				if (iObj.getAss_name() != null && !iObj.getAss_name().isEmpty()) {
+				    recipientName += ", " + iObj.getAss_name();
+				}
+				if (iObj.getAssr_name() != null && !iObj.getAssr_name().isEmpty()) {
+				    recipientName += ", " + iObj.getAssr_name();
+				}
+				if (iObj.getRs_name() != null && !iObj.getRs_name().isEmpty()) {
+				    recipientName += ", " + iObj.getRs_name();
+				}
+				if (iObj.getPm_name() != null && !iObj.getPm_name().isEmpty()) {
+				    recipientName += ", " + iObj.getPm_name();
+				}
+				if (iObj.getAe_name() != null && !iObj.getAe_name().isEmpty()) {
+				    recipientName += ", " + iObj.getAe_name();
+				}
+				if (iObj.getSpe_name() != null && !iObj.getSpe_name().isEmpty()) {
+				    recipientName += ", " + iObj.getSpe_name();
+				}
+
+				// Add emails to 'mailTo'
+				if (iObj.getPe_email() != null && !iObj.getPe_email().isEmpty()) {
+				    mailTo = mailTo + iObj.getPe_email() + ",";
+				}
+				if (iObj.getAen_mail() != null && !iObj.getAen_mail().isEmpty()) {
+				    mailTo = mailTo + iObj.getAen_mail() + ",";
+				}
+				if (iObj.getSse_email() != null && !iObj.getSse_email().isEmpty()) {
+				    mailTo = mailTo + iObj.getSse_email() + ",";
+				}
+				if (iObj.getAss_email() != null && !iObj.getAss_email().isEmpty()) {
+				    mailTo = mailTo + iObj.getAss_email() + ",";
+				}
+				if (iObj.getAssr_email() != null && !iObj.getAssr_email().isEmpty()) {
+				    mailTo = mailTo + iObj.getAssr_email() + ",";
+				}
+				if (iObj.getRs_email() != null && !iObj.getRs_email().isEmpty()) {
+				    mailTo = mailTo + iObj.getRs_email() + ",";
+				}
+				if (iObj.getPm_email() != null && !iObj.getPm_email().isEmpty()) {
+				    mailTo = mailTo + iObj.getPm_email() + ",";
+				}
+				if (iObj.getAe_email() != null && !iObj.getAe_email().isEmpty()) {
+				    mailTo = mailTo + iObj.getAe_email() + ",";
+				}
+				if (iObj.getSpe_email() != null && !iObj.getSpe_email().isEmpty()) {
+				    mailTo = mailTo + iObj.getSpe_email() + ",";
+				}
 
 			    // Add DyHOD and Contractor to 'CC'
 			    if (iObj.getContract_dyhod_email_id() != null && !iObj.getContract_dyhod_email_id().isEmpty()) {

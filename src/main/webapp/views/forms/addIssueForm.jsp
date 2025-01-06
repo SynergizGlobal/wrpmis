@@ -761,34 +761,54 @@
             }
          }
          
-         function getIssueCategoryList(){
-        	 
-        	  //var contract_type_fk = $("#contract_id_fk").find('option:selected').attr("contract_type");
-        	  var contract_type_fk = "";
-        	 
-        	  $(".page-loader").show(); 
-      		  $("#category_fk option:not(:first)").remove();
-      		  $("#title option:not(:first)").remove();
-              var myParams = { contract_type_fk : contract_type_fk };
-              $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getIssueCategoryListForIssuesForm",
-                    data: myParams, cache: false,async:true,
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $.each(data, function (i, val) {
-                               $("#category_fk").append('<option value="' + val.category + '">' + $.trim(val.category)+ '</option>');
-                            });
-                    	    if(laid!="")
-                    	    {
-                    	    	 getLAData();
-                    	    }
-                        }
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
-                    }
-              });
-              $('.searchable').select2();
-         }
+         function getIssueCategoryList() {
+        	    var contract_type_fk = ""; // Fetch contract_type_fk if necessary
+        	    $(".page-loader").show();
+        	    $("#category_fk option:not(:first)").remove();
+        	    $("#title option:not(:first)").remove();
+
+        	    var myParams = { contract_type_fk: contract_type_fk };
+
+        	    $.ajax({
+        	        url: "<%=request.getContextPath()%>/ajax/getIssueCategoryListForIssuesForm",
+        	        data: myParams,
+        	        cache: false,
+        	        async: true,
+        	        success: function (data) {
+        	            if (data.length > 0) {
+        	                $.each(data, function (i, obj) {
+        	                    var userType = "${sessionScope.USER_TYPE}";
+
+        	                    if (
+        	                        (userType === "Contractor" && 
+        	                        (obj.issues_related_to === "Contractor" || obj.issues_related_to === "Both")) ||
+        	                        (userType !== "Contractor" && 
+        	                        (obj.issues_related_to === "MRVC" || obj.issues_related_to === "Both"))
+        	                    ) {
+        	                        $("#category_fk").append(
+        	                            '<option value="' + obj.category + '">' + 
+        	                            $.trim(obj.category) + 
+        	                            '</option>'
+        	                        );
+        	                    }
+        	                });
+
+        	                if (laid !== "") {
+        	                    getLAData();
+        	                }
+        	            }
+        	            $('.searchable').select2(); // Reinitialize Select2
+        	            $(".page-loader").hide();
+        	        },
+        	        error: function (xhr, status, error) {
+        	            console.error("Error fetching issue categories:", error);
+        	            $(".page-loader").hide();
+        	        }
+        	    });
+
+        	    $('.searchable').select2(); // Ensure Select2 is applied
+        	}
+
          
          function getComponentListForIssue()
          {

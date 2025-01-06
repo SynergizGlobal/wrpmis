@@ -502,6 +502,7 @@ public class IssueController {
 			obj.setUser_type(uObj.getUser_type_fk());
 			obj.setUser_role_code(uObj.getUser_role_code());
 			obj.setUser_id(uObj.getUser_id());
+			String userDesignation = (String) session.getAttribute("USER_DESIGNATION");
 			
 			List<Issue> projectsList = issueService.getProjectsListForIssueForm(obj);
 			model.addObject("projectsList", projectsList);

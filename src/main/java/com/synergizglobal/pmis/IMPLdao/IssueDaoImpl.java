@@ -503,7 +503,7 @@ public class IssueDaoImpl implements IssueDao {
 				String issue_status = obj.getStatus_fk();
 				String reported_by_email_id = obj.getReported_by_email_id();
 				sendEmailWithIssueStatusAlert(issue_id, issue_status, reported_by_email_id, obj.getExisting_status_fk(), null,
-						null,"0");
+						null,"0",obj.getDesignation(),obj.getUser_name());
 
 			}
 			transactionManager.commit(status);
@@ -803,7 +803,7 @@ public class IssueDaoImpl implements IssueDao {
 							 ||  newFileAdded == true) {
 						history_flag = addIssueInHistory(obj,template);
 						sendEmailWithIssueStatusAlert(issue_id, issue_status, reported_by_email_id, existing_status_fk,
-								existing_responsible_person, existing_escalated_to,"1");
+								existing_responsible_person, existing_escalated_to,"1",obj.getDesignation(),obj.getUser_name());
 					}
 				}
 			}
@@ -965,7 +965,7 @@ public class IssueDaoImpl implements IssueDao {
 
 
 	public void sendEmailWithIssueStatusAlert(String issue_id, String issue_status, String reported_by_email_id,
-			String existing_status_fk, String existing_responsible_person, String existing_escalated_to,String action)
+			String existing_status_fk, String existing_responsible_person, String existing_escalated_to,String action,String Designation,String User)
 			throws Exception {
 
 		try {
@@ -1000,7 +1000,7 @@ public class IssueDaoImpl implements IssueDao {
 					"where department_fk not in('Fin','Plan')) m on m.contract_id_fk=i.contract_id_fk\r\n" + 
 					"\r\n" + 
 					"where i.contract_id_fk = c.contract_id  and issue_id="+issue_id+"  and designation in('SSE')) as sse_email,\r\n" + 
-					"(select user_name from issue i\r\n" + 
+					"(select top 1 user_name from issue i\r\n" + 
 					"\r\n" + 
 					"inner join (select contract_id_fk, department_id_fk,executive_user_id_fk,user_name,\r\n" + 
 					"designation, department_fk,user_type_fk,user_role_name_fk,email_id from contract_executive a left join [user] b\r\n" + 
@@ -1016,7 +1016,7 @@ public class IssueDaoImpl implements IssueDao {
 					"where user_id is not null and contract_id_fk=c.contract_id and designation like '%Project Engineer%') as pe_name,\r\n" + 
 					"	\r\n" + 
 					"\r\n" + 
-					"(select user_name from issue i\r\n" + 
+					"(select top 1 user_name from issue i\r\n" + 
 					"\r\n" + 
 					"inner join (select contract_id_fk, department_id_fk,executive_user_id_fk,user_name,\r\n" + 
 					"designation, department_fk,user_type_fk,user_role_name_fk,email_id from contract_executive a left join [user] b\r\n" + 
@@ -1025,7 +1025,7 @@ public class IssueDaoImpl implements IssueDao {
 					"\r\n" + 
 					"where i.contract_id_fk = c.contract_id  and issue_id="+issue_id+"  and designation in('SSE')) as sse_name,c1.email_id as contractor_email,(select top 1 comment from issue_history where issue_id_fk=i.issue_id and comment is not null order by id desc\r\n" + 
 							") as comment,    (\r\n" + 
-							"        SELECT email_id \r\n" + 
+							"        SELECT top 1 email_id \r\n" + 
 							"        FROM issue i\r\n" + 
 							"        INNER JOIN (\r\n" + 
 							"            SELECT \r\n" + 
@@ -1049,7 +1049,7 @@ public class IssueDaoImpl implements IssueDao {
 							"        AND designation IN ('Asst. Manager')\r\n" + 
 							"    ) AS ass_email,\r\n" + 
 							"        (\r\n" + 
-							"            SELECT user_name \r\n" + 
+							"            SELECT top 1 user_name \r\n" + 
 							"            FROM issue i\r\n" + 
 							"            INNER JOIN (\r\n" + 
 							"                SELECT \r\n" + 
@@ -1074,7 +1074,7 @@ public class IssueDaoImpl implements IssueDao {
 							"    ) AS ass_name,\r\n" + 
 							"    \r\n" + 
 							"        (\r\n" + 
-							"            SELECT email_id \r\n" + 
+							"            SELECT top 1 email_id \r\n" + 
 							"            FROM issue i\r\n" + 
 							"            INNER JOIN (\r\n" + 
 							"                SELECT \r\n" + 
@@ -1098,7 +1098,7 @@ public class IssueDaoImpl implements IssueDao {
 							"            AND designation IN ('Asst. Resident Engineer')\r\n" + 
 							"        ) AS assr_email,\r\n" + 
 							"            (\r\n" + 
-							"                SELECT user_name \r\n" + 
+							"                SELECT top 1 user_name \r\n" + 
 							"                FROM issue i\r\n" + 
 							"                INNER JOIN (\r\n" + 
 							"                    SELECT \r\n" + 
@@ -1123,7 +1123,7 @@ public class IssueDaoImpl implements IssueDao {
 							"    ) AS assr_name,\r\n" + 
 							"    \r\n" + 
 							"            (\r\n" + 
-							"                SELECT email_id \r\n" + 
+							"                SELECT top 1 email_id \r\n" + 
 							"                FROM issue i\r\n" + 
 							"                INNER JOIN (\r\n" + 
 							"                    SELECT \r\n" + 
@@ -1147,7 +1147,7 @@ public class IssueDaoImpl implements IssueDao {
 							"                AND designation IN ('Resident Engineer')\r\n" + 
 							"            ) AS rs_email,\r\n" + 
 							"                (\r\n" + 
-							"                    SELECT user_name \r\n" + 
+							"                    SELECT top 1 user_name \r\n" + 
 							"                    FROM issue i\r\n" + 
 							"                    INNER JOIN (\r\n" + 
 							"                        SELECT \r\n" + 
@@ -1170,7 +1170,7 @@ public class IssueDaoImpl implements IssueDao {
 							"                    AND issue_id = issue_id \r\n" + 
 							"                    AND designation IN ('Resident Engineer')\r\n" + 
 							"    ) AS rs_name,(\r\n" + 
-							"                SELECT email_id \r\n" + 
+							"                SELECT top 1 email_id \r\n" + 
 							"                FROM issue i\r\n" + 
 							"                INNER JOIN (\r\n" + 
 							"                    SELECT \r\n" + 
@@ -1194,7 +1194,7 @@ public class IssueDaoImpl implements IssueDao {
 							"                AND designation IN ('Project Manager')\r\n" + 
 							"            ) AS pm_email,\r\n" + 
 							"                (\r\n" + 
-							"                    SELECT user_name \r\n" + 
+							"                    SELECT top 1 user_name \r\n" + 
 							"                    FROM issue i\r\n" + 
 							"                    INNER JOIN (\r\n" + 
 							"                        SELECT \r\n" + 
@@ -1220,7 +1220,7 @@ public class IssueDaoImpl implements IssueDao {
 							"    \r\n" + 
 							"    \r\n" + 
 							" (\r\n" + 
-							"                SELECT email_id \r\n" + 
+							"                SELECT top 1 email_id \r\n" + 
 							"                FROM issue i\r\n" + 
 							"                INNER JOIN (\r\n" + 
 							"                    SELECT \r\n" + 
@@ -1244,7 +1244,7 @@ public class IssueDaoImpl implements IssueDao {
 							"                AND designation IN ('AEN')\r\n" + 
 							"            ) AS ae_email,\r\n" + 
 							"                (\r\n" + 
-							"                    SELECT user_name \r\n" + 
+							"                    SELECT top 1 user_name \r\n" + 
 							"                    FROM issue i\r\n" + 
 							"                    INNER JOIN (\r\n" + 
 							"                        SELECT \r\n" + 
@@ -1271,7 +1271,7 @@ public class IssueDaoImpl implements IssueDao {
 							"    \r\n" + 
 							"   \r\n" + 
 							"   (\r\n" + 
-							"                   SELECT email_id \r\n" + 
+							"                   SELECT top 1 email_id \r\n" + 
 							"                   FROM issue i\r\n" + 
 							"                   INNER JOIN (\r\n" + 
 							"                       SELECT \r\n" + 
@@ -1295,7 +1295,7 @@ public class IssueDaoImpl implements IssueDao {
 							"                   AND designation IN ('SPE')\r\n" + 
 							"               ) AS spe_email,\r\n" + 
 							"                   (\r\n" + 
-							"                       SELECT user_name \r\n" + 
+							"                       SELECT top 1 user_name \r\n" + 
 							"                       FROM issue i\r\n" + 
 							"                       INNER JOIN (\r\n" + 
 							"                           SELECT \r\n" + 
@@ -1322,7 +1322,7 @@ public class IssueDaoImpl implements IssueDao {
 							"    \r\n" + 
 							"    \r\n" + 
 							"  (\r\n" + 
-							"                   SELECT email_id \r\n" + 
+							"                   SELECT top 1 email_id \r\n" + 
 							"                   FROM issue i\r\n" + 
 							"                   INNER JOIN (\r\n" + 
 							"                       SELECT \r\n" + 
@@ -1346,7 +1346,7 @@ public class IssueDaoImpl implements IssueDao {
 							"                   AND designation IN ('PE')\r\n" + 
 							"               ) AS pe_email,\r\n" + 
 							"                   (\r\n" + 
-							"                       SELECT user_name \r\n" + 
+							"                       SELECT top 1 user_name \r\n" + 
 							"                       FROM issue i\r\n" + 
 							"                       INNER JOIN (\r\n" + 
 							"                           SELECT \r\n" + 
@@ -1937,18 +1937,24 @@ public class IssueDaoImpl implements IssueDao {
 					emailSubject = emailSubject + issue_status;
 				}
 				
-				
+				iObj.setAction("a new issue has been added");
+
 				if ("Raised".equals(iObj.getStatus_fk()) && "1".equals(action)) 
 				{
 					emailSubject = "PMIS Issue Notification - Issue has Re-Opened";
-					iObj.setAction("issue has been Re-Opened");
+					iObj.setAction("issue has been Re-Opened by "+iObj.getContractor_name());
+					iObj.setActionremarks("1");
+				}
+				else if ("Closed".equals(iObj.getStatus_fk()) && "1".equals(action)) {
+					iObj.setAction("an issue was closed by "+User+"("+Designation+")");
+					iObj.setActionremarks("0");
 				}
 				else
 				{
-					iObj.setAction("a new issue has been added");
+					iObj.setAction("a new issue has been added to the MRVC-PMIS portal by "+iObj.getContractor_name());
+					iObj.setActionremarks("0");
 				}
 				
-				iObj.setAction("a new issue has been added");
 
 				Mail mail = new Mail();
 				mail.setMailTo(mailTo);

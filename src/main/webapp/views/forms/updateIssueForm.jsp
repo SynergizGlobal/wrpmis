@@ -259,16 +259,6 @@
 				                 </c:otherwise>
 				               </c:choose>
                             </div>
-                            <div class="row" style="display:none;">                                 
-                                <div class="col s12 m8 l12 input-field offset-m2">
-                                    <textarea id="corrective_measure" name="corrective_measure"   class="pmis-textarea pdr5em" maxlength="1000" data-length="1000">${issue.corrective_measure }</textarea>
-                                    <label for="corrective_measure">Action Taken</label>
-                                    <span id="corrective_measureError" class="error-msg" ></span>
-                                    <input type="hidden" name="comment" id="comment" />
-                                    <input type="hidden" name="action" id="action" />
-                                    <input type="hidden"  id="value_old"  value="${issue.corrective_measure }"/>
-                                </div>
-                            </div> 
                             
 							  <div class="row">
 							  <div class="col-md-12">
@@ -401,6 +391,17 @@
 					             <span id="status_fkError" class="error-msg" ></span>
 					          </div>
 							</div>
+							
+                            <div class="row">                                 
+                                <div class="col s12 m8 l12 input-field offset-m2">
+                                    <textarea id="corrective_measure" name="corrective_measure"   class="pmis-textarea pdr5em" maxlength="1000" data-length="1000">${issue.corrective_measure }</textarea>
+                                    <label for="corrective_measure">Action Taken/Remarks <span class="required">*</span></label>
+                                    <span id="corrective_measureError" class="error-msg" ></span>
+                                    <input type="hidden" name="comment" id="comment" />
+                                    <input type="hidden" name="action" id="action" />
+                                    <input type="hidden"  id="value_old"  value="${issue.corrective_measure }"/>
+                                </div>
+                            </div> 							
 
                             <div class="row mar" id="assignDateDiv" style="display:none">
                                 <!-- row 2 -->
@@ -929,15 +930,18 @@
             $('#existingAssignedPerson').val(existingAssignedPerson);
             getIssueStatusList();
             
+            issueStatusFk = "${issue.status_fk}";
+
+/*             
             if('${issue.readonlyForm}' == 'true'){
-	            $("#issueForm :input").attr("disabled", true);
+	            $("#issueForm :input").not("#status_fk").prop("disabled", true);
+	            $("#issueForm :textarea").not("#corrective_measure").prop("disabled", true);
 	            $("#issueForm :textarea").attr("disabled", true);	            
-	            $("#issueForm select").prop("disabled", true);	            
+	            $("#issueForm select:not(#status_fk)").prop("disabled", true);	
             }
-            
+             */
             //getDetailsByStatus(status_fk);
             
-            issueStatusFk = "${issue.status_fk}";
             
             if($.trim(issueStatusFk) == 'Closed'){
             	$("#assignDateDiv").show();
@@ -1470,6 +1474,11 @@
             var status_fk = "${issue.status_fk}";
             var logged_id_user_id = "${sessionScope.USER_ID}";
             var logged_id_user_role_code = "${sessionScope.USER_ROLE_CODE}";
+            var logged_id_user_designation = "${sessionScope.USER_DESIGNATION}";
+            
+            
+            
+            
             var user_role_it_admin = '<%=CommonConstants.ROLE_CODE_IT_ADMIN%>';
             
             /* var hod_user_id_fk = $("#contract_id_fk").find('option:selected').attr("hod");
@@ -1494,7 +1503,7 @@
                             	if ((val.status == 'Assigned') && ((logged_id_user_role_code == user_role_it_admin) || (logged_id_user_id == dy_hod_user_id_fk) || (logged_id_user_id == hod_user_id_fk))){
                                 	$("#status_fk").append('<option value="' + val.status+'" '+selectedFlag+'>' + $.trim(val.status) + '</option>');
                              	}else 
-                                if ((val.status == 'Closed') && ((status_fk == val.status ) || (logged_id_user_role_code == user_role_it_admin) || (logged_id_user_id == hod_user_id_fk))){
+                                if ((val.status == 'Closed') && ((status_fk == val.status ) || (logged_id_user_role_code == user_role_it_admin) || (logged_id_user_id == hod_user_id_fk) || (logged_id_user_designation=="AEN") || (logged_id_user_designation=="Asst. Manager") || (logged_id_user_designation=="Project Manager")|| (logged_id_user_designation=="RE")|| (logged_id_user_designation=="Resident Engineer"))){
                                 	$("#status_fk").append('<option value="' + val.status+'" '+selectedFlag+'>' + $.trim(val.status) + '</option>');
                                 }/* else  
                                 if ((val.status == 'Escalated') && ((status_fk == val.status ) || (logged_id_user_role_code == user_role_it_admin) || (logged_id_user_id == responsible_person ) || (logged_id_user_id == dy_hod_user_id_fk) || (logged_id_user_id == hod_user_id_fk))){
@@ -1507,21 +1516,21 @@
                             	if ((val.status == 'Assigned') && ((logged_id_user_role_code == user_role_it_admin) || (logged_id_user_id == responsible_person ) || (logged_id_user_id == dy_hod_user_id_fk) || (logged_id_user_id == hod_user_id_fk))){
                                 	$("#status_fk").append('<option value="' + val.status+'" '+selectedFlag+'>' + $.trim(val.status) + '</option>');
                              	}else 
-                                if ((val.status == 'Closed') && ((status_fk == val.status ) || (logged_id_user_role_code == user_role_it_admin) || (logged_id_user_id == hod_user_id_fk))){
+                                    if ((val.status == 'Closed') && ((status_fk == val.status ) || (logged_id_user_role_code == user_role_it_admin) || (logged_id_user_id == hod_user_id_fk) || (logged_id_user_designation=="AEN") || (logged_id_user_designation=="Asst. Manager") || (logged_id_user_designation=="Project Manager")|| (logged_id_user_designation=="RE")|| (logged_id_user_designation=="Resident Engineer"))){
                                 	$("#status_fk").append('<option value="' + val.status+'" '+selectedFlag+'>' + $.trim(val.status) + '</option>');
                                 }else  
                                 if ((val.status == 'Escalated') && ((status_fk == val.status ) || (logged_id_user_role_code == user_role_it_admin) || (logged_id_user_id == responsible_person ) || (logged_id_user_id == dy_hod_user_id_fk) || (logged_id_user_id == hod_user_id_fk))){
                                 	$("#status_fk").append('<option value="' + val.status+'" '+selectedFlag+'>' + $.trim(val.status) + '</option>');
                                 }
                             }else if($.trim(status_fk) != '' && $.trim(status_fk) == 'Escalated'){
-                            	if ((val.status == 'Closed') && ((status_fk == val.status ) || (logged_id_user_role_code == user_role_it_admin) || (logged_id_user_id == hod_user_id_fk))){
+                                if ((val.status == 'Closed') && ((status_fk == val.status ) || (logged_id_user_role_code == user_role_it_admin) || (logged_id_user_id == hod_user_id_fk) || (logged_id_user_designation=="AEN") || (logged_id_user_designation=="Asst. Manager") || (logged_id_user_designation=="Project Manager")|| (logged_id_user_designation=="RE")|| (logged_id_user_designation=="Resident Engineer"))){
                                 	$("#status_fk").append('<option value="' + val.status+'" '+selectedFlag+'>' + $.trim(val.status) + '</option>');
                                 }else  
                                 if ((val.status == 'Escalated') && ((status_fk == val.status ) || (logged_id_user_role_code == user_role_it_admin) || (logged_id_user_id == responsible_person ) || (logged_id_user_id == dy_hod_user_id_fk) || (logged_id_user_id == hod_user_id_fk) || (logged_id_user_id == escalated_to))){
                                 	$("#status_fk").append('<option value="' + val.status+'" '+selectedFlag+'>' + $.trim(val.status) + '</option>');
                                 }
                             }else if($.trim(status_fk) != '' && $.trim(status_fk) == 'Closed'){
-                            	if ((val.status == 'Closed') && ((status_fk == val.status ) || (logged_id_user_role_code == user_role_it_admin) || (logged_id_user_id == hod_user_id_fk))){
+                                if ((val.status == 'Closed') && ((status_fk == val.status ) || (logged_id_user_role_code == user_role_it_admin) || (logged_id_user_id == hod_user_id_fk) || (logged_id_user_designation=="AEN") || (logged_id_user_designation=="Asst. Manager") || (logged_id_user_designation=="Project Manager")|| (logged_id_user_designation=="RE")|| (logged_id_user_designation=="Resident Engineer"))){
                                 	$("#status_fk").append('<option value="' + val.status+'" '+selectedFlag+'>' + $.trim(val.status) + '</option>');
                                 	$("#status_fk").append('<option value="Raised" onChange="putValueForAction();">Re-Open</option>');
                                 }
@@ -1668,13 +1677,8 @@
     				 	  },"responsible_person":{
     				 		 required: true
     				 	  },"corrective_measure": {
-    			 		    required: false,
-    			 	   	  },"resolved_date": {
-    				 		required: true,
-       				 	 	dateBeforeToday4:"#resolved_date",
-       				 	 	dateBefore3:"#escalation_date",
-    				 		statusCheck1: true
-    				 	  },"escalated_to": {
+    			 		    required: true,
+    			 	   	  },"escalated_to": {
     			 		    required: true
     			 	   	  },"escalation_date": {
     			 	   		required: true,
@@ -1724,9 +1728,7 @@
 	   				 		 required: 'Required'
 	   				 	  },"corrective_measure": {
 	   			 		    required: 'Required',
-	   			 	   	  },"resolved_date": {
-	   				 		required: 'Required'
-	   				 	  },"escalated_to": {
+	   			 	   	  },"escalated_to": {
 	   			 		    required: 'Required'
 	   			 	   	  },"escalation_date": {
 	   			 		    required: 'Required'

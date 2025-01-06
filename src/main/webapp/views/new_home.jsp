@@ -183,7 +183,7 @@
 	           padding: 1rem;
 	       }
 	       .map-btn-holder{
-	       	margin-top: 30px;
+	       	margin-top: 70px;
 	       	text-align: center
 	       }
         
@@ -218,6 +218,7 @@
             vertical-align: middle;
             width: 100%;
             font-size:40px;
+            padding-top: 55px;
         }
 		/* .heading h3:before,
 			.heading h3:after {
@@ -1468,7 +1469,7 @@ html, body {
 	            <div class="col s12 m12 l12">
 	            	<div class="row">
 	            		<div class="col s2 m1 l1 m-pd0">
-		            		<div class="heading">
+		            		<div class="heading" style="padding-top:30px;">
 		            			<br><img src="/pmis/resources/images/mrvclogo.png" alt="Logo">
 		            		</div>
 	            		</div>
@@ -1532,13 +1533,15 @@ html, body {
 	                        </c:forEach>
 	                    </ul>
 	                    </div>  
-	                    <div class="row">
-	                    				                            <a href="/pmis/issues"><div id="diamond">
-										    <div class="btn diamond">
-										         <span>Contractors Issues</span>
-										    </div>
-										</div></a>
-	                    </div>  
+	                   <div class="row">
+						    <a id="issuesLink">
+						        <div id="diamond">
+						            <div class="btn diamond">
+						                <span>Contractors Issues</span>
+						            </div>
+						        </div>
+						    </a>
+						</div>
                  
 	                </div>
 	            </div>
@@ -1585,6 +1588,15 @@ html, body {
 		if($.trim(flushHostsError) != ''){
 			swal("Failed!", flushHostsError, "error");
 		}
+		// Get the base URL dynamically
+		const pathParts = window.location.pathname.split('/');
+		const contextPath = pathParts[1]; // This captures 'pmis' or 'pmis_qa'
+		const issuesUrl = window.location.origin + '/' + contextPath + '/issues';
+
+		// Set the href dynamically
+		document.getElementById('issuesLink').setAttribute('href', issuesUrl);
+
+		
   	});
   	
 	function getProjectOverview(project_id){

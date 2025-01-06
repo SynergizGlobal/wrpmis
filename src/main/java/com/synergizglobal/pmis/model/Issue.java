@@ -18,7 +18,7 @@ public class Issue {
 	existing_status_fk,mail_body_header,existing_responsible_person,existing_escalated_to,issue_file_type_fk,issue_file_type,
 	issue_file_id,assigned_person_user_id_fk,total_issues,closed_issues,open_issues,la_id,cmd_email,dp_email,dt_email,contractor_email,sse_email,pe_email,aen_mail,
 	cmd_name,dp_name,dt_name,dyhod_name,pe_name,aen_name,Sse_name,curdate,issues_related_to,action,ass_email,ass_name,assr_email,assr_name,rs_email,rs_name,pm_email,pm_name,
-	ae_email,ae_name,spe_email,spe_name
+	ae_email,ae_name,spe_email,spe_name,actionremarks
 	;
 
 	private boolean readonlyForm = true;
@@ -1138,6 +1138,14 @@ public class Issue {
 
 	public void setSpe_name(String spe_name) {
 		this.spe_name = spe_name;
+	}
+
+	public String getActionremarks() {
+		return actionremarks;
+	}
+
+	public void setActionremarks(String actionremarks) {
+		this.actionremarks = actionremarks;
 	}
 	
 }

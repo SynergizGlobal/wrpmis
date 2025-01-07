@@ -100,6 +100,11 @@
 				margin-top:-20px !important;
 			}
 	   }
+#corrective_measure {
+    pointer-events: auto;
+    user-select: text;
+}	   
+	   
 	   .filedownload{
 		   	color: #007a7a;
 		   	color: rgb(0 122 122 / 75%);
@@ -861,21 +866,7 @@
 				    return false;
 				  }
            	}); */
-           	$('#corrective_measure').on('keypress, keydown', function(event) {
-           		
-           		if($.trim(issueStatusFk) != 'Raised'){
-           		var $field = $(this)
-           		 if ((event.which != 37 && (event.which != 39)) &&
-					    ((this.selectionStart < readOnlyLength) ||
-					      ((this.selectionStart == readOnlyLength) && (event.which == 8)))) {
-           			if( !$("textarea#corrective_measure").attr('readonly') ){
-	           			var text = $("textarea#corrective_measure").val(); 
-	           			$("textarea#corrective_measure").val( text + "\n");           				
-           			}
-				    return false;
-				  }
-           		}
-           	});
+
            	
             $('#corrective_measure').focus(function(){
 			  var that = this;
@@ -969,7 +960,7 @@
             		$("#remarks").val('');
         		}
         		
-        		$("#corrective_measure").attr('readonly', true);
+        		//$("#corrective_measure").attr('readonly', true);
         		$("#zonal_railway_fk").attr('disabled', true);
         		$("#other_organization").attr('disabled', true);
         		//$("#other_organization").attr('readonly', true);
@@ -983,7 +974,7 @@
         		$("#escalatedRemarksDiv").show();
         		$("#resolvedDiv").hide();
         		
-        		$("#corrective_measure").attr('readonly', true);
+        		//$("#corrective_measure").attr('readonly', true);
         		$("#zonal_railway_fk").attr('disabled', true);
         		$("#other_organization").attr('disabled', true);
         		//$("#other_organization").attr('readonly', true);
@@ -1391,7 +1382,7 @@
         	}
         	
         	if(issueStatusFk == 'Escalated'){
-        		$("#corrective_measure").attr('readonly', true);  
+        		//$("#corrective_measure").attr('readonly', true);  
     		}
         }
         
@@ -2021,7 +2012,11 @@
                 }
             });
         	
-        	$(document).ready(function(){				
+        	$(document).ready(function(){	
+        		
+        		console.log(document.getElementById('corrective_measure').readOnly); // Should log 'false'
+        		console.log(document.getElementById('corrective_measure').disabled);   		
+        		
         		var responsibleOrganization = '${issue.zonal_railway_fk}';
         		var otherOrganization = '${issue.zonal_railway_fk}';
         		

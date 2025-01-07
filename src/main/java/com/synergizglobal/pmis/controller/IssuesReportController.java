@@ -1530,7 +1530,7 @@ public class IssuesReportController {
 	        "Category: %s; Priority: %s\n" +
 	        "Organization Responsible for Issue: %s\n" +
 	        "Action Taken: %s\n" +
-	        "Target Date of Resolution: %s\n\n\n\\n" +
+	        "Deadline for Issue Resolution: %s\n\n\n\\n" +
 	        "We kindly request your immediate attention to this matter to ensure timely resolution.\n" +
 	        "Click Here for more details on the issue.\n\n" +
 	        "Thank you for your prompt action.\n\n" +

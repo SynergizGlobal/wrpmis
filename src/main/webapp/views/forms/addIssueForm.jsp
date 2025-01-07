@@ -779,18 +779,13 @@
         	                $.each(data, function (i, obj) {
         	                    var userType = "${sessionScope.USER_TYPE}";
 
-        	                    if (
-        	                        (userType === "Contractor" && 
-        	                        (obj.issues_related_to === "Contractor" || obj.issues_related_to === "Both")) ||
-        	                        (userType !== "Contractor" && 
-        	                        (obj.issues_related_to === "MRVC" || obj.issues_related_to === "Both"))
-        	                    ) {
+
         	                        $("#category_fk").append(
         	                            '<option value="' + obj.category + '">' + 
         	                            $.trim(obj.category) + 
         	                            '</option>'
         	                        );
-        	                    }
+        	                    
         	                });
 
         	                if (laid !== "") {

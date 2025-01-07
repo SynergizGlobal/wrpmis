@@ -133,7 +133,7 @@
 															<tr>
 																<td align="left" width="100px"
                                                                     style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
-                                                                     Target Date of Resolution
+                                                                     Deadline for Issue Resolution
                                                                 </td>
 																<td align="left" width="100px"
                                                                     style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
@@ -142,20 +142,22 @@
                                                                     #end
                                                                 </td>
                                                             </tr>
-                                                             #if($alert.actionremarks=="1") 
-															<tr>
-																<td align="left" width="100px"
-                                                                    style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
-                                                                     Latest Action Taken/Remarks
-                                                                </td>
-																<td align="left" width="100px"
-                                                                    style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
-                                                                    #if($alert.comment && !$alert.date.comment) 
-                                                                    	$alert.comment
-                                                                    #end
-                                                                </td>
-                                                            </tr>
- 															#end
+#if($alert.actionremarks == "1") 
+<tr>
+    <td align="left" width="100px"
+        style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
+        Latest Action Taken/Remarks
+    </td>
+    <td align="left" width="100px"
+        style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; width: 170px; min-width: 170px; max-width: 170px; word-wrap:break-word;">
+        #if($alert.comment && !$alert.comment.empty) 
+            $alert.comment
+        #else
+            No remarks available
+        #end
+    </td>
+</tr>
+#end
                                                             
                                                             <tr>
 																<td align="left" width="100px" colspan="2"

@@ -51,6 +51,13 @@
 		    margin-top: .35rem;
 		    margin-bottom: .35rem;
 		}
+		
+		textarea {
+    height: 50px !important;
+    overflow-y: auto;
+    resize: none;
+    
+}
 		.input-field>textarea+label:not(.label-icon).active{
 			margin-top: 8px;
 		}
@@ -238,10 +245,7 @@
                                 </div>
                                  
                             </div>
-                            <div class="row">                                 
-                                                                 
-                            </div>
-                          
+                         
                               <div class="row">
                               <c:choose>
 							    <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD' ||  sessionScope.USER_TYPE eq 'DyHOD'}">

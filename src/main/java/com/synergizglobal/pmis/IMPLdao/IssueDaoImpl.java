@@ -926,7 +926,7 @@ public class IssueDaoImpl implements IssueDao {
 		    	    "Issue Description: " + iObj.getDescription() + "\n" +
 		    	    "Category: " + iObj.getCategory_fk() + "; Priority: " + iObj.getPriority_fk() + "\n" +
 		    	    "Organization Responsible for Issue: " + iObj.getZonal_railway_fk() + "\n" +
-		    	    "Target Date of Resolution: " + iObj.getDate() + "\n\n" +
+		    	    "Deadline for Issue Resolution: " + iObj.getDate() + "\n\n" +
 		    	    "The concerned team is expected to attend to the issue at the earliest and take the necessary actions.\n\n" +
 		    	    "<a href='http://203.153.40.44:90/pmis_qa/check-issue/" + iObj.getIssue_id() + "'>Click Here</a> for more details on the issue.\n\n" +
 		    	    "Thank you for your attention to this matter.\n\n" +
@@ -1938,6 +1938,7 @@ public class IssueDaoImpl implements IssueDao {
 				}
 				
 				iObj.setAction("a new issue has been added");
+				iObj.setActionremarks("0");
 
 				if ("Raised".equals(iObj.getStatus_fk()) && "1".equals(action)) 
 				{
@@ -1947,7 +1948,10 @@ public class IssueDaoImpl implements IssueDao {
 				}
 				else if ("Closed".equals(iObj.getStatus_fk()) && "1".equals(action)) {
 					iObj.setAction("an issue was closed by "+User+"("+Designation+")");
-					iObj.setActionremarks("0");
+					iObj.setActionremarks("1");
+				    if (iObj.getContractor_email() != null && !iObj.getContractor_email().isEmpty()) {
+				    	mailCC=mailCC+iObj.getContractor_email()+",";
+				    }						
 				}
 				else
 				{
@@ -3054,7 +3058,7 @@ public class IssueDaoImpl implements IssueDao {
 	        "Category: %s; Priority: %s\n" +
 	        "Organization Responsible for Issue: %s\n" +
 	        "Action Taken: %s\n" +
-	        "Target Date of Resolution: %s\n\n\n\\n" +
+	        "Deadline for Issue Resolution: %s\n\n\n\\n" +
 	        "We kindly request your immediate attention to this matter to ensure timely resolution.\n" +
 	        "Click Here for more details on the issue.\n\n" +
 	        "Thank you for your prompt action.\n\n" +
@@ -3132,6 +3136,7 @@ public class IssueDaoImpl implements IssueDao {
 				issue.setMail_body_header(header);
 				issue.setHod_name(getRecipientName(daysPending, issue));
 				issue.setCurdate(issue.getCreated_date());
+				issue.setAction("a new issue has been added to the MRVC-PMIS portal by "+issue.getContractor_name());
 			}	        
 	        
 			Mail mail = new Mail();

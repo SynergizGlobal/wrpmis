@@ -635,6 +635,9 @@ public class IssueController {
 			List<Issue> structures = issueService.getStructures(obj);
 			model.addObject("structures", structures);
 			
+			List<Issue> actionTakens = issueService.getActionTakens(obj);
+			model.addObject("actionTakens", actionTakens);	
+			
 			
 			List<Issue> components = issueService.getComponents(obj);
 			model.addObject("components", components);				

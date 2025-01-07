@@ -209,13 +209,13 @@ public class IssueDaoImpl implements IssueDao {
 	public List<Issue> getIssueTitlesList(Issue obj) throws Exception {
 		List<Issue> objsList = null;
 		try {
-			String qry = "select short_description from issue_category_title ";
+			String qry = "select short_description,issues_related_to from issue_category_title ";
 			int arraSize = 0;
 			if (!StringUtils.isEmpty(obj.getCategory_fk())) {
 				qry = qry + "where issue_category_fk = ? ";
 				arraSize++;
 			}
-			qry = qry + "group by short_description order by short_description ";
+			qry = qry + "group by short_description,issues_related_to order by short_description ";
 			Object[] pValues = new Object[arraSize];
 			int i = 0;
 			if (!StringUtils.isEmpty(obj.getCategory_fk())) {

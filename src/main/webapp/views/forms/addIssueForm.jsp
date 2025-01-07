@@ -900,7 +900,22 @@
                    success: function (data) {
                        if (data.length > 0) {
                            $.each(data, function (i, val) {
-                              $("#title").append('<option value="' + val.short_description + '">' + $.trim(val.short_description)+ '</option>');
+                        	   
+       	                    var userType = "${sessionScope.USER_TYPE}";
+
+                        	   
+       	                    if ((userType === "Contractor" && (val.issues_related_to === "Contractor" || val.issues_related_to === "Both"))) 
+    	                    {
+                                $("#title").append('<option value="' + val.short_description + '">' + $.trim(val.short_description)+ '</option>');
+
+    	                    }
+    	                    else if ((userType != "Contractor" && (val.issues_related_to === "MRVC" || val.issues_related_to === "Both"))) 
+    	                    {
+                                $("#title").append('<option value="' + val.short_description + '">' + $.trim(val.short_description)+ '</option>');
+
+    	                    }                       	   
+                        	   
+                        	   
                            });
 	                   	    if(laid!="")
 	                	    {

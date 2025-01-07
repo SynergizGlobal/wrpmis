@@ -173,7 +173,7 @@
 									</select>
                                     <span id="category_fkError" class="error-msg" ></span>
                                 </div>
-                                <div class="col s12 m4 l4 input-field">
+                                <div class="col s12 m4 l4 input-field" id="divTitle">
                                     <!-- <input id="title" name="title" type="text" class="validate">
                                     <label for="title">Short Description <span class="required">*</span></label>
                                     <span id="titleError" class="error-msg" ></span> -->
@@ -192,6 +192,13 @@
                                     </select>
                                     <span id="titleError" class="error-msg" ></span>
                                 </div>
+ 
+                                 <div class="col s12 m4 l4 input-field" id="divTextTitle">
+                                	<p class="searchable_label">Short Description <span class="required">*</span></p> 
+                                    <input type="text" id="title1" name="title1">
+                                    <span id="title1Error" class="error-msg" ></span>
+                                </div>                               
+                                
                                 <div class="col s12 m8 l4 offset-m2 input-field">
                                 	<p class="searchable_label">Issue Priority <span class="required">*</span></p> 
                                     <select class="searchable validate-dropdown" id="priority_fk" name="priority_fk">
@@ -606,6 +613,22 @@
     	    {
     	    	$("#category_fk").val(categoryid);
     	    }
+    	    
+            $("#category_fk").on("change", function () {
+                var selectedCategory = $(this).val();
+                if (selectedCategory === "Any Other Issues") {
+                    $("#divTitle").hide(); 
+                    $("#divTextTitle").show();
+                    
+                } else {
+                    $("#divTitle").show(); 
+                    $("#divTextTitle").hide();
+                }
+            });      	    
+    	    
+    	    
+    	    
+    	    
     	    $("#zonal_railway_fk").val("MRVC").trigger("change"); 
     	    
             $('select:not(.searchable)').formSelect();
@@ -780,11 +803,22 @@
         	                    var userType = "${sessionScope.USER_TYPE}";
 
 
+        	                    if ((userType === "Contractor" && (obj.issues_related_to === "Contractor" || obj.issues_related_to === "Both"))) 
+        	                    {
         	                        $("#category_fk").append(
         	                            '<option value="' + obj.category + '">' + 
         	                            $.trim(obj.category) + 
         	                            '</option>'
         	                        );
+        	                    }
+        	                    else if ((userType != "Contractor" && (obj.issues_related_to === "MRVC" || obj.issues_related_to === "Both"))) 
+        	                    {
+        	                        $("#category_fk").append(
+        	                            '<option value="' + obj.category + '">' + 
+        	                            $.trim(obj.category) + 
+        	                            '</option>'
+        	                        );
+        	                    }
         	                    
         	                });
 
@@ -792,7 +826,8 @@
         	                    getLAData();
         	                }
         	            }
-        	            $('.searchable').select2(); // Reinitialize Select2
+        	            $('.searchable').select2(); 
+        	            
         	            $(".page-loader").hide();
         	        },
         	        error: function (xhr, status, error) {
@@ -937,6 +972,11 @@
         }
         
         function addIssue(){
+        	    if($("#title").val()=="")
+        		{
+        	    	$("#title").val("Delay in inspection");
+        		}
+
     		if(validator.form()){ // validation perform
     			$(".page-loader").show();
     		
@@ -945,6 +985,8 @@
            		
                 $("#hod_user_id_fk").val(hod_user_id_fk);
                 $("#dy_hod_user_id_fk").val(dy_hod_user_id_fk);
+                
+                $("#title").val($("#title1").val());
                 
     			document.getElementById("issueForm").submit();			
     	 	}

@@ -38,6 +38,7 @@ import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.constants.PageConstants;
 import com.synergizglobal.pmis.exceptions.NoKeyException;
 import com.synergizglobal.pmis.exceptions.NotEnabledTestEnv;
+import com.synergizglobal.pmis.model.FOBGallery;
 import com.synergizglobal.pmis.model.Form;
 import com.synergizglobal.pmis.model.User;
 @Controller
@@ -148,8 +149,7 @@ public class LoginController {
 		}
 		return model;
 	}
-	
-	
+
 	@RequestMapping(value = "/check-issue/{issueId}", method = RequestMethod.GET)
 	public ModelAndView autoLogin(@RequestParam("user_email") String userEmail,@PathVariable("issueId") int issueId,
 	                              HttpSession session,
@@ -186,7 +186,7 @@ public class LoginController {
 	    
 	    return model;
 	}
-
+	
 	/**
 	 * This method logout() is used for logout the user and destroy the session
 	 * @param session it will create/destroy the session for the user. 

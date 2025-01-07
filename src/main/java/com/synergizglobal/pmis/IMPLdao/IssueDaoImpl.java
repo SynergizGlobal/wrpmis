@@ -184,7 +184,7 @@ public class IssueDaoImpl implements IssueDao {
 		List<Issue> objsList = null;
 		try {
 			String qry = "\r\n" + 
-					"select f.issue_category_fk as category,issues_related_to from issue_contarct_category f\r\n" + 
+					"select distinct f.issue_category_fk as category,issues_related_to from issue_contarct_category f\r\n" + 
 					"\r\n" + 
 					"left join issue_category_title t on t.issue_category_fk=f.issue_category_fk  ";
 			int arraSize = 0;
@@ -436,6 +436,11 @@ public class IssueDaoImpl implements IssueDao {
 		String issue_id = null;
 		try {
 			NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
+			
+			if (StringUtils.isEmpty(obj.getTitle())) {
+			    obj.setTitle(obj.getTitle1());
+			}
+			
 			String qry = "INSERT INTO issue"
 					+ "(contract_id_fk,title,date,location,reported_by,responsible_person,"
 					+ "priority_fk,category_fk,status_fk,assigned_date,corrective_measure,resolved_date,escalated_to,remarks,"
@@ -1950,7 +1955,8 @@ public class IssueDaoImpl implements IssueDao {
 					iObj.setAction("an issue was closed by "+User+"("+Designation+")");
 					iObj.setActionremarks("1");
 				    if (iObj.getContractor_email() != null && !iObj.getContractor_email().isEmpty()) {
-				    	mailCC=mailCC+iObj.getContractor_email()+",";
+				    	mailTo=iObj.getContractor_email();
+				    	iObj.setHod_name(iObj.getContractor_name());
 				    }						
 				}
 				else

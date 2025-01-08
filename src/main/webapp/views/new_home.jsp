@@ -183,7 +183,7 @@
 	           padding: 1rem;
 	       }
 	       .map-btn-holder{
-	       	margin-top: 70px;
+	       	margin-top: 30px;
 	       	text-align: center
 	       }
         
@@ -218,7 +218,7 @@
             vertical-align: middle;
             width: 100%;
             font-size:40px;
-            padding-top: 55px;
+            /* padding-top: 55px; */
         }
 		/* .heading h3:before,
 			.heading h3:after {
@@ -702,6 +702,7 @@
 }
  body {
 	 background: linear-gradient(to top, rgba(255, 255, 255, 1), rgba(101, 150, 255, .75));
+	 background-attachment: fixed;
 	 
 }
 .bg{
@@ -1143,7 +1144,7 @@
 } */
 .tran{
 	overflow: hidden !important;
-	position: absolute;
+	position: fixed;
     width: 100%;
     bottom: 6%;
 }
@@ -1181,11 +1182,11 @@
 }
 
 .middleText {
-  position: fixed;
-  top: 25em;
+  position: absolute;
+  top: 50px;
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
+  transform: translate(-50%);
   z-index: 1;
 }
 .down-background{
@@ -1469,7 +1470,7 @@ html, body {
 	            <div class="col s12 m12 l12">
 	            	<div class="row">
 	            		<div class="col s2 m1 l1 m-pd0">
-		            		<div class="heading" style="padding-top:30px;">
+		            		<div class="heading" >
 		            			<br><img src="/pmis/resources/images/mrvclogo.png" alt="Logo">
 		            		</div>
 	            		</div>

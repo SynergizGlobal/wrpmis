@@ -1947,17 +1947,44 @@ public class IssueDaoImpl implements IssueDao {
 
 				if ("Raised".equals(iObj.getStatus_fk()) && "1".equals(action)) 
 				{
-					emailSubject = "PMIS Issue Notification - Issue has Re-Opened";
-					iObj.setAction("issue has been Re-Opened by "+iObj.getContractor_name());
-					iObj.setActionremarks("1");
+					if(iObj.getStatus_fk()!=iObj.getExisting_status_fk())
+					{
+						emailSubject = "PMIS Issue Notification - Issue has Re-Opened";
+						iObj.setAction("issue has been Re-Opened by "+iObj.getContractor_name());
+						iObj.setActionremarks("1");
+					}
+					else
+					{
+						emailSubject = "PMIS Issue Notification - Issue Updated";
+						iObj.setAction("issue has been updated by "+User+"("+Designation+")");
+						iObj.setActionremarks("0");
+					    if (iObj.getContractor_email() != null && !iObj.getContractor_email().isEmpty()) {
+					    	mailTo=iObj.getContractor_email();
+					    	iObj.setHod_name(iObj.getContractor_name());
+					    }
+					}
 				}
 				else if ("Closed".equals(iObj.getStatus_fk()) && "1".equals(action)) {
-					iObj.setAction("an issue was closed by "+User+"("+Designation+")");
-					iObj.setActionremarks("1");
-				    if (iObj.getContractor_email() != null && !iObj.getContractor_email().isEmpty()) {
-				    	mailTo=iObj.getContractor_email();
-				    	iObj.setHod_name(iObj.getContractor_name());
-				    }						
+					
+					if(iObj.getStatus_fk()!=iObj.getExisting_status_fk())
+					{
+						iObj.setAction("an issue was closed by "+User+"("+Designation+")");
+						iObj.setActionremarks("1");
+					    if (iObj.getContractor_email() != null && !iObj.getContractor_email().isEmpty()) {
+					    	mailTo=iObj.getContractor_email();
+					    	iObj.setHod_name(iObj.getContractor_name());
+					    }	
+					}
+					else
+					{
+						emailSubject = "PMIS Issue Notification - Issue Updated";
+						iObj.setAction("issue has been updated by "+User+"("+Designation+")");
+						iObj.setActionremarks("0");
+					    if (iObj.getContractor_email() != null && !iObj.getContractor_email().isEmpty()) {
+					    	mailTo=iObj.getContractor_email();
+					    	iObj.setHod_name(iObj.getContractor_name());
+					    }						
+					}
 				}
 				else
 				{

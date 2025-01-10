@@ -282,9 +282,9 @@
 							      <tbody id="bindActionTakensHistory">
 							      <c:forEach var="obj" items="${actionTakens }">
 							        <tr>
-							          <td>${obj.user_name}</td>
-							          <td>${obj.created_date}</td>
-							          <td>${obj.comment}</td>
+							          <td style="width:20%">${obj.user_name}</td>
+							          <td style="width:20%">${obj.created_date}</td>
+							          <td style="text-align:left;width:60%">${obj.comment}</td>
 							        </tr>
 							        </c:forEach>
 							      </tbody>

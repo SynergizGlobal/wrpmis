@@ -1499,6 +1499,7 @@ html, body {
 	                    </div>
 	                    </div>
 	            	</div>
+	            	<c:if test="${sessionScope.USER_ROLE_NAME != 'Contractor'}"> 
 	                <div class="btn-menu">
 	                    <div class="row">
 	                    	<ul class="">
@@ -1533,7 +1534,8 @@ html, body {
 
 	                        </c:forEach>
 	                    </ul>
-	                    </div>  
+	                    </div> 
+	                   </c:if>  
 	                   <div class="row">
 						    <a id="issuesLink">
 						        <div id="diamond">

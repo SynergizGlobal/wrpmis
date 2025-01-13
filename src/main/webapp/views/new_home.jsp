@@ -1207,7 +1207,7 @@ margin-right: 0rem;
 		height: 15%;
 	}
 	.middleText{
-		top: 36em;
+		top: 10em;
 	}
 	.diamond{
 		width: 200px;
@@ -1228,7 +1228,7 @@ margin-right: 0rem;
 		pdding: 10px 0 !important;
 	}
 	.middleText {
-	    top: 22em;
+	    top: 8em;
 	}
 	.diamond{
 		width: 150px;

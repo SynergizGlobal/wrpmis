@@ -606,6 +606,10 @@
 			#projectsList ul{
 				margin-bottom: 10px;
 			}
+			.mob-none{
+				display: none;
+			}
+			
         }
         
   .middleText {
@@ -771,7 +775,7 @@
                 </div>
                 <div class="col s3 m2 right">
                     <div class="card-title title-btn" id="projectBackBtn"> 
- 						<a class="btn " data-position="bottom" href="<%=request.getContextPath()%>/" class="btn tooltipped right btn" style="float:right;width:150px;height:40px;font-size:19px;font-weight:bold;">Back</a>  
+ 						<a class="btn mob-none" data-position="bottom" href="<%=request.getContextPath()%>/" class="btn tooltipped right btn" style="float:right;width:150px;height:40px;font-size:19px;font-weight:bold;">Back</a>  
                                                
                     </div>
                     <div class="card-title title-btn hidden" id="workBackBtn"> &nbsp;

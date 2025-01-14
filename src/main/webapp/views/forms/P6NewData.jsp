@@ -332,6 +332,8 @@
 												<div class="file-field input-field">
 													<div class="btn btn-outline bt-sh">
 														<span>Upload P6 Export File <span class="required">*</span></span>
+														<input type="file" name="p6dataFile" id="p6dataFileRevised">
+														
 													</div>
 													<div class="file-path-wrapper">
 														<input class="file-path validate" type="text">

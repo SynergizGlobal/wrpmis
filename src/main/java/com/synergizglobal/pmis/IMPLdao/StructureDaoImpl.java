@@ -868,7 +868,7 @@ public class StructureDaoImpl implements StructureDao {
 			con.setAutoCommit(false);
 			con.setAutoCommit(false);
 
-			String checkDuplicateQuery = "SELECT COUNT(*) FROM structure WHERE structure = ? AND structure_name = ?";
+			String checkDuplicateQuery = "SELECT COUNT(*) FROM structure WHERE structure = ? AND structure_name = ? and structure_type_fk=?";
 			checkDuplicateStmt = con.prepareStatement(checkDuplicateQuery);
 
 			String updateQry = " update structure set "
@@ -993,6 +993,7 @@ public class StructureDaoImpl implements StructureDao {
 								// Check for duplicate
 								checkDuplicateStmt.setString(1, obj.getStructures()[i]);
 								checkDuplicateStmt.setString(2, obj.getStructure_names()[i]);
+								checkDuplicateStmt.setString(3, obj.getStructure_type_fks()[i]);
 								rs = checkDuplicateStmt.executeQuery();
 								if (rs.next() && rs.getInt(1) > 0) {
 									return "duplicate"; // Return "duplicate" if a duplicate is found

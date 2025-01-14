@@ -380,7 +380,7 @@ public class UserDaoImpl implements UserDao{
 			if(getUserCount(role_code)>0)
 			{
 				String maxIdQry = "SELECT TOP 1 CONCAT(SUBSTRING(user_id, 1, 4),'_"+role_code+"_',substring(cast(MAX(SUBSTRING(user_id, 9, LEN(user_id)))+1 as varchar),0,3) ) AS maxId  " + 
-						"					FROM [user] WHERE user_id LIKE 'PMIS_"+role_code+"_%' group by user_id";
+						"					FROM [user] WHERE user_id LIKE 'PMIS_"+role_code+"_%' and LEN(SUBSTRING(user_id, 9, LEN(user_id) ))>1  group by user_id  order by user_id desc ";
 				
 				stmt = connection.prepareStatement(maxIdQry);
 				rs = stmt.executeQuery();  

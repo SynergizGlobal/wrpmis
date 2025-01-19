@@ -104,6 +104,19 @@ public class IssueController {
 		return model;
 	}
 	
+	@RequestMapping(value="/IssueLink",method=RequestMethod.GET)
+	public ModelAndView issueLink(@ModelAttribute Issue obj,HttpSession session) {
+		ModelAndView model = new ModelAndView();
+		try {
+			model.setViewName(PageConstants.issueLink);	
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("IssueLink : " + e.getMessage());
+		}
+		return model;
+	}
+	
 	private int calculateDaysPending(String date) {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 

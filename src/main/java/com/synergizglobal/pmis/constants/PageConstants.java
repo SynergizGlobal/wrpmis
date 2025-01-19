@@ -26,6 +26,8 @@ public class PageConstants {
 	public static final String updateModulePermission = "forms/updateModulePermission";
 
 	public static final String issuesGrid = "forms/issuesGrid";
+	public static final String issueLink = "forms/issueLink";
+	
 	public static final String addIssueForm = "forms/addIssueForm";
 	
 	public static final String safetyGrid = "forms/safetyGrid";

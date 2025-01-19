@@ -1381,13 +1381,36 @@ html, body {
 
 <body>
 
+ 
    		<div class="container middleText">
 	        <div class="row">
-
+	            <div class="col s12 m12 l12">
+	            	<div class="row">
+	            		<div class="col s2 m1 l1 m-pd0">
+		            		<div class="heading" >
+		            			<br><img src="/pmis/resources/images/mrvclogo.png" alt="Logo">
+		            		</div>
+	            		</div>
+	                <div class="col l10 m10 s8">
+	                	<div class="heading color-change-2x">
+	                    <center>
+	                    
+	                    <br><h3 class="tracking-in-expand-fwd">Mumbai Railway Vikas Corporation</h3></center>
+	                </div>
+	                </div>
+	                <div class="col l1 m1 s2">
+	                <div class="map-btn-holder"><br>
+	                        <a target="_new" class="waves-effect waves-light btn modal-trigger" href="/pmis/resources/images/final_map.png" title="click to see map">
+	                            <!-- <span class="material-icons">map</span> -->
+	                            <i class="fa fa-globe"></i>
+	                        </a>
+	                    </div>
+	                    </div>
+	            	</div>
+	                <div class="btn-menu">
 	                   <div class="row">
-						    <a id="issuesLink" >
-						    
-						    Click the link to get Issue Url
+						    <a id="issuesLink" style="font-size:30px;padding-top:200px;padding-left:350px;">
+						                <span> Click here to get Issue Link</span>
 						    </a>
 						</div>
                  
@@ -1408,14 +1431,16 @@ html, body {
     <form action="<%=request.getContextPath()%>/project-overview" id="projectOverviewForm" method="post">
     	<input type="hidden" id="project_id_overview" name="project_id">
     </form>
+ <!-- baloons html -->
     
 
-  <jsp:include page="./layout/footer.jsp"></jsp:include>
+<!-- footer starts here  -->
+<!-- footer ends here  -->
   <script src="/pmis/resources/js/jQuery-v.3.5.min.js" ></script>
   <script src="/pmis/resources/js/materialize-v.1.0.min.js" ></script>
   <script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
   <script type="text/javascript">
-  
+  	
   function getUrlVars() {
       var vars = {};
       var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
@@ -1431,14 +1456,13 @@ html, body {
 		const contextPath = pathParts[1]; 
 		
 		var cid = getUrlVars()["issue_id"];
+		
 
 		var issuesUrl = window.location.origin + '/' + contextPath + '/get-issue/'+cid;
 		
 		 document.getElementById("issuesLink").href = issuesUrl;
 
   	});
-  	
-
   </script>
 </body>
 

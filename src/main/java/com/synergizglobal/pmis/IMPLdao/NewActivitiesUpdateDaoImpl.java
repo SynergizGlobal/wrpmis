@@ -202,7 +202,7 @@ public class NewActivitiesUpdateDaoImpl implements NewActivitiesUpdateDao{
 					+ "left join structure s on s.structure_id = a.structure_id_fk "
 					+ "left outer join contract c on a.contract_id_fk = c.contract_id "
 					+ "left outer join contract_executive c1 on c1.contract_id_fk = c.contract_id "	
-					+ "where c.work_id_fk is not null and contract_id not like '%ms%' and a.contract_id_fk is not null   " ;
+					+ "where c.work_id_fk is not null and a.contract_id_fk is not null   " ;
 			int arrSize = 0;
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and c.work_id_fk = ?";

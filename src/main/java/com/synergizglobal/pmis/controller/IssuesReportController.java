@@ -95,6 +95,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.synergizglobal.pmis.Iservice.IssueService;
 import com.synergizglobal.pmis.Iservice.IssuesReportService;
 import com.synergizglobal.pmis.common.DocxTableCreation;
 import com.synergizglobal.pmis.common.EMailSender;
@@ -103,6 +104,7 @@ import com.synergizglobal.pmis.constants.CommonConstants;
 import com.synergizglobal.pmis.constants.CommonConstants2;
 import com.synergizglobal.pmis.constants.PageConstants2;
 import com.synergizglobal.pmis.model.Issue;
+import com.synergizglobal.pmis.model.User;
 
 @Controller
 public class IssuesReportController {
@@ -115,6 +117,9 @@ public class IssuesReportController {
 
 	@Autowired
 	IssuesReportService issueService;
+	
+	@Autowired
+	IssueService issueFormService;	
 
 	@Value("${common.error.message}")
 	public String commonError;
@@ -125,10 +130,23 @@ public class IssuesReportController {
 		try {
 			model.setViewName(PageConstants2.issuesReport);
 			obj.setStatus_fk("Closed");
-			List<Issue> contractsList = issueService.getContractsListInIssuesReport(obj);
+
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_type(uObj.getUser_type_fk());
+			obj.setUser_role_code(uObj.getUser_role_code());
+			obj.setUser_id(uObj.getUser_id());
+			
+			/*List<Issue> contractsList = issueService.getContractsListInIssuesReport(obj);
 			model.addObject("contractsList", contractsList);
 			List<Issue> worksList = issueService.getWorksListInIssuesReport(obj);
+			model.addObject("worksList", worksList);*/
+			
+			List<Issue> worksList = issueFormService.getWorkListForIssueForm(obj);
 			model.addObject("worksList", worksList);
+			
+			List<Issue> contractsList = issueFormService.getContractsListForIssueForm(obj);
+			model.addObject("contractsList", contractsList);
+			
 			List<Issue> hodsList = issueService.getHODListInIssuesReport(obj);
 			model.addObject("hodsList", hodsList);
 		} catch (Exception e) {

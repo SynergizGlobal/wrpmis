@@ -292,11 +292,17 @@ public class DesignDaoImpl implements DesignDao{
 		try {
 			String qry ="select count(*) as total_records from design d "  
 					+"LEFT OUTER JOIN contract c ON d.contract_id_fk = c.contract_id "
+					+"left join contractor c1 on c1.contractor_id=c.contractor_id_fk "
 					+"LEFT OUTER JOIN work w  ON d.work_id_fk  =  w.work_id " 
 					+"LEFT OUTER JOIN project p  ON w.project_id_fk  =  p.project_id "
 					+ " where design_id is not null";
 				
 			int arrSize = 0;
+			if("Contractor".compareTo(obj.getUser_role_code())==0 && !StringUtils.isEmpty(obj.getUser_role_code())) {
+				qry = qry + " and contractor_name=? "; 
+				arrSize++;
+			}
+			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and d.work_id_fk = ?";
 				arrSize++;
@@ -340,6 +346,11 @@ public class DesignDaoImpl implements DesignDao{
 			//qry = qry + " offset 0 rows  fetch next 1 rows only0";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
+			
+			if("Contractor".compareTo(obj.getUser_role_code())==0 && !StringUtils.isEmpty(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_name();
+			}			
+			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
 			}
@@ -1658,19 +1669,29 @@ public class DesignDaoImpl implements DesignDao{
 	public List<Design> getStructureListFilter(Design obj) throws Exception {
 		List<Design> objsList = null;
 		try {
-			String qry ="select structure_type_fk from design where structure_type_fk is not null and structure_type_fk <> '' ";
+			String qry ="select distinct d.structure_type_fk "
+					+ "from design d "  
+					+"LEFT OUTER JOIN contract c ON d.contract_id_fk = c.contract_id "
+					+"left join contractor c1 on c1.contractor_id=c.contractor_id_fk "
+					+ " where d.contract_id_fk is not null and d.contract_id_fk <> '' ";
 				
 			int arrSize = 0;
+			
+			if("Contractor".compareTo(obj.getUser_role_code())==0 && !StringUtils.isEmpty(obj.getUser_role_code())) {
+				qry = qry + " and contractor_name=? "; 
+				arrSize++;
+			}
+			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
-				qry = qry + " and work_id_fk = ?";
+				qry = qry + " and d.work_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
-				qry = qry + " and contract_id_fk = ?";
+				qry = qry + " and d.contract_id_fk = ? ";
 				arrSize++;
 			}	
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_id_fk())) {
-				qry = qry + " and department_id_fk = ?";
+				qry = qry + " and department_id_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
@@ -1678,17 +1699,22 @@ public class DesignDaoImpl implements DesignDao{
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type_fk())) {
-				qry = qry + " and structure_type_fk = ?";
+				qry = qry + " and structure_type_fk = ? ";
 				arrSize++;
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDrawing_type_fk())) {
-				qry = qry + " and drawing_type_fk = ?";
+				qry = qry + " and drawing_type_fk = ? ";
 				arrSize++;
 			}
-			qry = qry + " group by structure_type_fk";
+			qry = qry + " group by d.structure_type_fk";
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
+			
+			if("Contractor".compareTo(obj.getUser_role_code())==0 && !StringUtils.isEmpty(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_name();
+			}
+			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
 			}
@@ -1715,6 +1741,7 @@ public class DesignDaoImpl implements DesignDao{
 		}
 		return objsList;
 	}
+
 
 	@Override
 	public List<Design> getDrawingTypeListFilter(Design obj) throws Exception {
@@ -2805,9 +2832,16 @@ public class DesignDaoImpl implements DesignDao{
 			String qry ="select distinct d.structure_type_fk "
 					+ "from design d "  
 					+"LEFT OUTER JOIN contract c ON d.contract_id_fk = c.contract_id "
-					+ " where d.structure_type_fk is not null and d.structure_type_fk <> '' ";
+					+"left join contractor c1 on c1.contractor_id=c.contractor_id_fk "
+					+ " where d.contract_id_fk is not null and d.contract_id_fk <> '' ";
 				
 			int arrSize = 0;
+			
+			if("Contractor".compareTo(obj.getUser_role_code())==0 && !StringUtils.isEmpty(obj.getUser_role_code())) {
+				qry = qry + " and contractor_name=? "; 
+				arrSize++;
+			}
+			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and d.work_id_fk = ? ";
 				arrSize++;
@@ -2816,23 +2850,49 @@ public class DesignDaoImpl implements DesignDao{
 				qry = qry + " and d.contract_id_fk = ? ";
 				arrSize++;
 			}	
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_id_fk())) {
-				qry = qry + " and structure_id_fk = ? ";
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_id_fk())) {
+				qry = qry + " and department_id_fk = ? ";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				qry = qry + " and hod = ?";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type_fk())) {
+				qry = qry + " and structure_type_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDrawing_type_fk())) {
+				qry = qry + " and drawing_type_fk = ? ";
+				arrSize++;
+			}
+			qry = qry + " group by d.structure_type_fk";
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
+			
+			if("Contractor".compareTo(obj.getUser_role_code())==0 && !StringUtils.isEmpty(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_name();
+			}
+			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
 			}
-			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_id_fk())) {
-				pValues[i++] = obj.getStructure_id_fk();
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_id_fk())) {
+				pValues[i++] = obj.getDepartment_id_fk();
 			}
-			   
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				pValues[i++] = obj.getHod();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type_fk())) {
+				pValues[i++] = obj.getStructure_type_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDrawing_type_fk())) {
+				pValues[i++] = obj.getDrawing_type_fk();
+			}
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Design>(Design.class));
 			
@@ -2849,9 +2909,16 @@ public class DesignDaoImpl implements DesignDao{
 			String qry ="select distinct d.structure_id_fk "
 					+ "from design d "  
 					+"LEFT OUTER JOIN contract c ON d.contract_id_fk = c.contract_id "
+					+"left join contractor c1 on c1.contractor_id=c.contractor_id_fk "
 					+ " where d.structure_type_fk is not null and d.structure_type_fk <> '' ";
 				
 			int arrSize = 0;
+			
+			if("Contractor".compareTo(obj.getUser_role_code())==0 && !StringUtils.isEmpty(obj.getUser_role_code())) {
+				qry = qry + " and contractor_name=? "; 
+				arrSize++;
+			}
+			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and d.work_id_fk = ? ";
 				arrSize++;
@@ -2860,23 +2927,49 @@ public class DesignDaoImpl implements DesignDao{
 				qry = qry + " and d.contract_id_fk = ? ";
 				arrSize++;
 			}	
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_id_fk())) {
+				qry = qry + " and department_id_fk = ? ";
+				arrSize++;
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				qry = qry + " and hod = ?";
+				arrSize++;
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type_fk())) {
 				qry = qry + " and structure_type_fk = ? ";
 				arrSize++;
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDrawing_type_fk())) {
+				qry = qry + " and drawing_type_fk = ? ";
+				arrSize++;
+			}
+			qry = qry + " group by d.structure_id_fk";
 			
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
+			
+			if("Contractor".compareTo(obj.getUser_role_code())==0 && !StringUtils.isEmpty(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_name();
+			}
+			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
 			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getContract_id_fk())) {
 				pValues[i++] = obj.getContract_id_fk();
 			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDepartment_id_fk())) {
+				pValues[i++] = obj.getDepartment_id_fk();
+			}
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getHod())) {
+				pValues[i++] = obj.getHod();
+			}
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getStructure_type_fk())) {
 				pValues[i++] = obj.getStructure_type_fk();
 			}
-	      
+			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getDrawing_type_fk())) {
+				pValues[i++] = obj.getDrawing_type_fk();
+			}
 			
 			objsList = jdbcTemplate.query( qry,pValues, new BeanPropertyRowMapper<Design>(Design.class));
 			
@@ -2892,11 +2985,17 @@ public class DesignDaoImpl implements DesignDao{
 		try {
 			String qry ="select count(*) as total_records from design d "  
 					+"LEFT OUTER JOIN contract c ON d.contract_id_fk = c.contract_id "
+					+"left join contractor c1 on c1.contractor_id=c.contractor_id_fk "
 					+"LEFT OUTER JOIN work w  ON d.work_id_fk  =  w.work_id " 
 					+"LEFT OUTER JOIN project p  ON w.project_id_fk  =  p.project_id "
 					+ " where design_id is not null";
 				
 			int arrSize = 0;
+			if("Contractor".compareTo(obj.getUser_role_code())==0 && !StringUtils.isEmpty(obj.getUser_role_code())) {
+				qry = qry + " and contractor_name=? "; 
+				arrSize++;
+			}
+			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				qry = qry + " and d.work_id_fk = ?";
 				arrSize++;
@@ -2932,6 +3031,12 @@ public class DesignDaoImpl implements DesignDao{
 			//qry = qry + " offset 0 rows  fetch next 1 rows only0";
 			Object[] pValues = new Object[arrSize];
 			int i = 0;
+
+			if("Contractor".compareTo(obj.getUser_role_code())==0 && !StringUtils.isEmpty(obj.getUser_role_code())) {
+				pValues[i++] = obj.getUser_name();
+			}
+			
+			
 			if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 				pValues[i++] = obj.getWork_id_fk();
 			}
@@ -2975,11 +3080,16 @@ public class DesignDaoImpl implements DesignDao{
 				+",FORMAT(d.gfc_released,'dd-MM-yyyy') AS gfc_released,d.remarks,d.modified_by,FORMAT(d.modified_date,'dd-MM-yyyy') as modified_date,d.design_seq_id,component,(select distinct revision from design_revisions where design_id_fk=d.design_id and [current]='Yes') as revisions,(select distinct drawing_no from design_revisions where design_id_fk=d.design_id and [current]='Yes') as drawing_no,(select distinct upload_file from design_revisions where design_id_fk=d.design_id and [current]='Yes') as upload_file,(select distinct correspondence_letter_no from design_revisions where design_id_fk=d.design_id and [current]='Yes') as correspondence_letter_no,[3pvc] as threepvc   "
 				+ "from design d "  
 				+"LEFT OUTER JOIN contract c ON d.contract_id_fk = c.contract_id "
+				+"left join contractor c1 on c1.contractor_id=c.contractor_id_fk "
 				+"LEFT OUTER JOIN work w  ON d.work_id_fk  =  w.work_id " 
 				+"LEFT OUTER JOIN project p  ON w.project_id_fk  =  p.project_id "
 				+ " where design_id is not null";
 			
 		int arrSize = 0;
+		if("Contractor".compareTo(obj.getUser_role_code())==0 && !StringUtils.isEmpty(obj.getUser_role_code())) {
+			qry = qry + " and contractor_name=? "; 
+			arrSize++;
+		}		
 		if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 			qry = qry + " and d.work_id_fk = ?";
 			arrSize++;
@@ -3028,6 +3138,11 @@ public class DesignDaoImpl implements DesignDao{
 		
 		Object[] pValues = new Object[arrSize];
 		int i = 0;
+		
+		if("Contractor".compareTo(obj.getUser_role_code())==0 && !StringUtils.isEmpty(obj.getUser_role_code())) {
+			pValues[i++] = obj.getUser_name();
+		}
+		
 		if(!StringUtils.isEmpty(obj) && !StringUtils.isEmpty(obj.getWork_id_fk())) {
 			pValues[i++] = obj.getWork_id_fk();
 		}

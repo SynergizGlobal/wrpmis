@@ -1520,11 +1520,11 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 		try {
 			NamedParameterJdbcTemplate namedParamJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 			String insertQry = "insert into  fortnight_monthly_plan_upload  "
-					+ "(date,contract_short_name,structure_type_fk,structure,component,unit,scope,target_till_lfn,actual_till_lfn,target_this_fn,actual_this_fn,cum_target,cum_actual,critical,remarks,created_by,created_date,filename, upload_timestamp, Remarks_status)"
+					+ "(date,contract_short_name,structure_type_fk,structure,component,unit,scope,target_till_lfn,actual_till_lfn,target_this_fn,actual_this_fn,cum_target,cum_actual,critical,remarks,created_by,created_date,filename, upload_timestamp)"
 					+ "VALUES(:fortnight_date, :contract_short_name, :structure_type_fk, :structure, :component, :unit, :scope, :target_till_lfn, :actual_till_lfn, :target_this_fn,"
-					+ ":actual_this_fn, :cum_target, :cum_actual, :critical, :remarks,:created_by_user_id_fk,CURRENT_TIMESTAMP,:filename, CURRENT_TIMESTAMP, 'Current Fortnight') ";
+					+ ":actual_this_fn, :cum_target, :cum_actual, :critical, :remarks,:created_by_user_id_fk,CURRENT_TIMESTAMP,:filename, CURRENT_TIMESTAMP) ";
 
-			String updateQry = "UPDATE fortnight_monthly_plan_upload " + "SET Remarks_status = CASE " + 
+			/*String updateQry = "UPDATE fortnight_monthly_plan_upload " + "SET Remarks_status = CASE " + 
 					"    WHEN DAY(GETDATE()) BETWEEN 1 AND 5 AND RIGHT(date, 10) BETWEEN  " + 
 					"        CONVERT(VARCHAR(10), DATEFROMPARTS(YEAR(DATEADD(MONTH, -1, GETDATE())), MONTH(DATEADD(MONTH, -1, GETDATE())), 16), 120) AND  " + 
 					"        CONVERT(VARCHAR(10), DATEFROMPARTS(YEAR(DATEADD(MONTH, -1, GETDATE())), MONTH(DATEADD(MONTH, -1, GETDATE())), 31), 120) " + 
@@ -1537,7 +1537,7 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 					"     " + 
 					"    ELSE 'Archive' " + 
 					"END"
-					+ "WHERE contract_short_name = :contract_short_name";
+					+ "WHERE contract_short_name = :contract_short_name";*/
 			
 			
 	        String contractShortName = fortnightPlansList.get(0).getContract_short_name();
@@ -1559,8 +1559,8 @@ public class FortnightPlanDaoImpl implements FortnightPlanDao {
 				}
 			}
 			
-			Map<String, String> paramMap = Collections.singletonMap("contract_short_name", contractShortName);
-	        namedParamJdbcTemplate.update(updateQry, paramMap);
+			//Map<String, String> paramMap = Collections.singletonMap("contract_short_name", contractShortName);
+	        //namedParamJdbcTemplate.update(updateQry, paramMap);
 
 		} catch (Exception e) {
 			e.printStackTrace();

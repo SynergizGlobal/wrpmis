@@ -299,9 +299,12 @@ public class DesignController {
 	
 	@RequestMapping(value = "/ajax/getStructureListFilterInDesign", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Design> getStructureListFilter(@ModelAttribute Design obj) {
+	public List<Design> getStructureListFilter(@ModelAttribute Design obj, HttpSession session) {
 		List<Design> design = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_role_code(uObj.getUser_role_name_fk());
+			obj.setUser_name(uObj.getUser_name());				
 			design = designService.getStructureListFilter(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -312,9 +315,12 @@ public class DesignController {
 	
 	@RequestMapping(value = "/ajax/getStructureIdListFilter", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Design> getStructureIdListFilter(@ModelAttribute Design obj) {
+	public List<Design> getStructureIdListFilter(@ModelAttribute Design obj, HttpSession session) {
 		List<Design> design = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_role_code(uObj.getUser_role_name_fk());
+			obj.setUser_name(uObj.getUser_name());			
 			design = designService.getStructureIdsListFilter(obj);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -397,7 +403,7 @@ public class DesignController {
 			//Search functionality: Returns filtered list based on search parameter
 			//designsList = getListBasedOnSearchParameter(searchParameter,designsList);
 
-			int totalRecords = getTotalRecords(obj, searchParameter);
+			int totalRecords = getTotalRecords(obj, searchParameter,session);
 
 			DesignsPaginationObject personJsonObject = new DesignsPaginationObject();
 			//Set Total display record
@@ -456,17 +462,17 @@ public class DesignController {
 			if (pageNumber == 1) {
 				startIndex = 0;
 				offset = pageDisplayLength;
-				designsList = createDrawingRepositoryPaginationData(startIndex, offset, obj, searchParameter);
+				designsList = createDrawingRepositoryPaginationData(startIndex, offset, obj, searchParameter,session);
 			} else {
 				startIndex = (pageNumber * offset) - offset;
 				offset = pageDisplayLength;
-				designsList = createDrawingRepositoryPaginationData(startIndex, offset, obj, searchParameter);
+				designsList = createDrawingRepositoryPaginationData(startIndex, offset, obj, searchParameter,session);
 			}
 
 			//Search functionality: Returns filtered list based on search parameter
 			//designsList = getListBasedOnSearchParameter(searchParameter,designsList);
 
-			int totalRecords = getTotalDrawingRepositoryRecords(obj, searchParameter);
+			int totalRecords = getTotalDrawingRepositoryRecords(obj, searchParameter,session);
 
 			DesignsPaginationObject personJsonObject = new DesignsPaginationObject();
 			//Set Total display record
@@ -487,9 +493,12 @@ public class DesignController {
 	}	
 	
 
-	private int getTotalDrawingRepositoryRecords(Design obj, String searchParameter) {
+	private int getTotalDrawingRepositoryRecords(Design obj, String searchParameter,HttpSession session) {
 		int totalRecords = 0;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_role_code(uObj.getUser_role_name_fk());
+			obj.setUser_name(uObj.getUser_name());			
 			totalRecords = designService.getTotalDrawingRepositoryRecords(obj, searchParameter);
 		} catch (Exception e) {
 			logger.error("getTotalRecords : " + e.getMessage());
@@ -502,9 +511,12 @@ public class DesignController {
 	 * @param activity 
 	 * @return
 	 */
-	public int getTotalRecords(Design obj, String searchParameter) {
+	public int getTotalRecords(Design obj, String searchParameter,HttpSession session) {
 		int totalRecords = 0;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_role_code(uObj.getUser_role_name_fk());
+			obj.setUser_name(uObj.getUser_name());				
 			totalRecords = designService.getTotalRecords(obj, searchParameter);
 		} catch (Exception e) {
 			logger.error("getTotalRecords : " + e.getMessage());
@@ -529,9 +541,12 @@ public class DesignController {
 		return earthWorkList;
 	}
 	
-	public List<Design> createDrawingRepositoryPaginationData(int startIndex, int offset, Design obj, String searchParameter) {
+	public List<Design> createDrawingRepositoryPaginationData(int startIndex, int offset, Design obj, String searchParameter, HttpSession session) {
 		List<Design> earthWorkList = null;
 		try {
+			User uObj = (User) session.getAttribute("user");
+			obj.setUser_role_code(uObj.getUser_role_name_fk());
+			obj.setUser_name(uObj.getUser_name());				
 			earthWorkList = designService.getDrawingRepositoryDesignsList(obj, startIndex, offset, searchParameter);
 		} catch (Exception e) {
 			logger.error("createDrawingRepositoryPaginationData : " + e.getMessage());

@@ -193,7 +193,7 @@
                                     <span id="titleError" class="error-msg" ></span>
                                 </div>
  
-                                 <div class="col s12 m4 l4 input-field" id="divTextTitle">
+                                 <div class="col s12 m4 l4 input-field" id="divTextTitle" style="display:none;">
                                 	<p class="searchable_label">Short Description <span class="required">*</span></p> 
                                     <input type="text" id="title1" name="title1">
                                     <span id="title1Error" class="error-msg" ></span>
@@ -681,7 +681,7 @@
         function getWorksList(projectId) {
         	$(".page-loader").show();
             $("#work_id_fk option:not(:first)").remove();
-            $("#contract_id_fk option:not(:first)").remove();
+            //$("#contract_id_fk option:not(:first)").remove();
 
             if ($.trim(projectId) != "") {
                 var myParams = { project_id_fk: projectId };

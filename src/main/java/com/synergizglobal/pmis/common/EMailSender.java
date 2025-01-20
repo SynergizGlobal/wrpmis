@@ -49,17 +49,16 @@ public class EMailSender {
 	private static String pass = "Synergiz@2018";*/
 	
 	/************** ZIMBRA Mail Server Credentials**************************************/
-	private static String mailId = "support_pmis@mrvc.gov.in";
-	private static String pass = "Mrvc#pmis2";
+	private static String mailId = "syntrack@synergizglobal.com";
+	private static String pass = "bxku goln hhil axze";
 	
 	public static Session getSession() {
 		Properties props = new Properties();
 		
 		/************** ZIMBRA Server Starts**************************************/
-		props.put("mail.transport.protocol", "smtp");
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.starttls.enable", "true");
-		props.put("mail.smtp.host", "mrvcmail.rcil.gov.in");
+		props.put("mail.smtp.host", "smtp.gmail.com");
 		props.put("mail.smtp.port", "587");
 		/************** ZIMBRA Server ends*************************************/
 		

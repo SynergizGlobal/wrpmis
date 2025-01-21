@@ -1376,6 +1376,196 @@ html, body {
     top: -100%;
     -webkit-transform: rotate(4deg);
     transform: rotate(4deg); display: none;visibility: hidden;} }
+    
+    
+    /* temporary css */
+		
+		/* Celebration popup styles */
+        .celebration-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .popup-wrapper {
+            position: relative;
+            width: 90%;
+            max-width: 70%;
+            height: 80%;
+        }
+
+        .popup-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url(https://img.freepik.com/free-photo/teacher-s-day-elements-composition_23-2149045017.jpg) no-repeat center center;
+            background-size: cover;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5); /* Adjusted shadow for a smoother effect */
+            filter: blur(2px);
+            z-index: -1; /* Ensures the background is behind the content */
+        }
+
+        .popup-content {
+            position: relative;
+            z-index: 1;
+            padding: 50px 30px;
+            border-radius: 20px;
+            color: #fff;
+            animation: slideUp 1s ease-in-out;
+            overflow: hidden;
+            height: 75%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .popup-content h1 {
+            font-size: 2.5rem;
+            margin: 10px 0;
+            opacity: 0;
+            transform: translateX(-100%);
+            animation: headingSlideIn 1.2s cubic-bezier(0.68, -0.55, 0.27, 1.55) 0.5s forwards;
+        }
+
+        @keyframes headingSlideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .popup-content p {
+            font-size: 1.2rem;
+            margin: 10px 0;
+            font-weight: 700;
+            opacity: 0;
+            width: 100%;
+            
+            animation: paragraphFadeIn 2s ease-in-out 1s forwards;
+            padding: 10px;
+            
+            border-radius: 10px; /* Rounded corners for the border */
+        }
+
+        @keyframes paragraphFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .popup-wrapper .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.7);
+            color: #000;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.3s ease-in-out;
+        }
+        .person-image{
+        	padding: 0 30px
+        }
+
+        .popup-content .close-btn:hover {
+            background: rgba(0, 0, 0, 1);
+        }
+
+        /* Paper Confetti Animation */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            animation: fall 3s linear infinite;
+            transform-origin: center;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Customizing the papers */
+        .confetti:nth-child(1) { left: 10%; background: #f87171; animation-duration: 3s; }
+        .confetti:nth-child(2) { left: 10%; background: #34d399; animation-duration: 2.8s; }
+        .confetti:nth-child(3) { left: 20%; background: #60a5fa; animation-duration: 3.2s; }
+        .confetti:nth-child(4) { left: 30%; background: #fbbf24; animation-duration: 3.1s; }
+        .confetti:nth-child(5) { left: 40%; background: #a78bfa; animation-duration: 2.9s; }
+        .confetti:nth-child(6) { left: 50%; background: #f43f5e; animation-duration: 3.5s; }
+        .confetti:nth-child(7) { left: 60%; background: #22c55e; animation-duration: 2.7s; }
+        .confetti:nth-child(8) { left: 70%; background: #9333ea; animation-duration: 3.3s; }
+        .confetti:nth-child(9) { left: 80%; background: #ff8c00; animation-duration: 3s; }
+        
+        .popup_inner_cont{
+        	display: flex;
+        	align-items: center;
+    		justify-content: center;
+    		height: 100%;
+        }
+        .person-image img{
+        	border-radius: 5px;
+		    border: 5px solid #000;
+		    box-shadow: -moz-box-shadow: 13px 13px 0px 0px #FFFFFF;
+		    -webkit-box-shadow: 13px 13px 0px 0px #FFFFFF;
+		    box-shadow: 0px 0px 10px 5px #FFFFFF;
+        }
+        
+        
+		
+		/* temporary css */
     </style>
 </head>
 
@@ -1465,6 +1655,39 @@ html, body {
     </ul>
   </section>
 </main> -->
+
+<!-- temporary html -->
+
+ <div id="celebrationPopup" class="celebration-popup">
+        <div class="popup-wrapper">
+            <div class="popup-background"></div> <!-- Background is blurred -->
+            <button class="close-btn" onclick="closePopup()">×</button>
+            <div class="popup_inner_cont">
+            	<div class="popup-content">
+	                
+	                <h1>Thank You</h1>
+	                <p>Honouring Shri S. C. Gupta for shaping MRVC journey with wisdom and vision. Wishing you great success ahead!</p>
+	            </div>
+	            <div class="person-image">
+	            	<img alt="image" src="/pmis/resources/images/mrvc-person.jpg" width="250" height="250">
+	            </div>
+            </div>
+        </div>
+
+        <!-- Paper Confetti -->
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+    </div>
+
+
+<!-- temporary html -->
    		<div class="container middleText">
 	        <div class="row">
 	            <div class="col s12 m12 l12">
@@ -1573,6 +1796,16 @@ html, body {
   <script src="/pmis/resources/js/materialize-v.1.0.min.js" ></script>
   <script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
   <script type="text/javascript">
+  
+  /* temporary script  */
+  
+  const popup = document.getElementById('celebrationPopup');
+
+       function closePopup() {
+           popup.style.display = 'none';
+       }
+  
+  /* temporary script  */
   	
   	$(document).ready(function () {
   		var procedureResult = '${procedureResult}';

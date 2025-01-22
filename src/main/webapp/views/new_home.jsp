@@ -1562,6 +1562,11 @@ html, body {
 		    -webkit-box-shadow: 13px 13px 0px 0px #FFFFFF;
 		    box-shadow: 0px 0px 10px 5px #FFFFFF;
         }
+        @media(max-width: 996px){
+        	.celebration-popup{
+        		display: none;
+        	}
+        }
         
         
 		

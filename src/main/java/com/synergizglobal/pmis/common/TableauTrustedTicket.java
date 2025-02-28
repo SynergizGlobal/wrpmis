@@ -22,26 +22,22 @@ public class TableauTrustedTicket {
 		UrlGenerator ugObj = new UrlGenerator();
 		String getResponseString = "";
 		
-		/*String postURL = "https://infoviz.syntrackpro.com/trusted"; 
+		String postURL = "http://203.153.40.44:8000/trusted"; 
 		String username = "SynTrack"; 
-		String server = "infoviz.syntrackpro.com"; 
-		String clientIp = "www.syntrackpro.com";*/
-        
-		
-		/*String postURL = "http://"+ugObj.getIpAddress()+":8000/trusted"; 
-		String username = "SynTrack"; 
-		String server = ugObj.getIpAddress()+":8000";
-		String clientIp = ugObj.getIpAddress();*/
-		
-		String postURL = "";
-		String username = "";		
-		String server = ""; 
-		String clientIp = "";			
-		
-		 postURL = "http://203.153.40.44:8000/trusted";
-		 username = "SynTrack";		
-		 server = "203.153.40.44:8000"; 
-		 clientIp = "203.153.40.44";
+		String server = "203.153.40.44:8000"; 
+		String clientIp = "203.153.40.44";
+//		if("Syntrack".equalsIgnoreCase(server_name)) {
+//
+//			 postURL = "http://203.153.40.44:8000/trusted"; 
+//			 username = "SynTrack"; 
+//			 server = "203.153.40.44:8000"; 
+//			 clientIp = "203.153.40.44";
+//		}else {
+//			postURL = "http://"+ugObj.getIpAddress()+":8000/trusted"; 
+//			username = "Synergiz"; 
+//			server = ugObj.getIpAddress()+":8000";
+//			clientIp = ugObj.getIpAddress();
+//		}		 
         
         String target_site = "";//Optional
 		try {
@@ -72,52 +68,12 @@ public class TableauTrustedTicket {
 			    getResponseString = sb.toString();
 			    //use server output getResponseString as string value.
 			    
-			   // System.out.println("getResponseString : "+getResponseString);
+			    System.out.println("getResponseString : "+getResponseString);
 			}
 		} catch (Exception e) {
 			throw new Exception(e);
 		}
 		return getResponseString;
 	}
-	
-	public static String myPublicIp() {
-
-	    /*nslookup myip.opendns.com resolver1.opendns.com*/
-	    String ipAdressDns  = "";
-	    try {
-	        String command = "nslookup myip.opendns.com resolver1.opendns.com";
-	        Process proc = Runtime.getRuntime().exec(command);
-
-	        BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-
-	        String s;
-	        while ((s = stdInput.readLine()) != null) {
-	            ipAdressDns  += s + "___";
-	        }
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    }
-
-	    return ipAdressDns ;
-	}
-	
-	public String getExternalIpAddress() throws Exception {
-	    URL whatismyip = new URL("http://checkip.amazonaws.com");
-	    BufferedReader in = null;
-	    try {
-	        in = new BufferedReader(new InputStreamReader(
-	                whatismyip.openStream()));
-	        String ip = in.readLine();
-	        return ip;
-	    } finally {
-	        if (in != null) {
-	            try {
-	                in.close();
-	            } catch (IOException e) {
-	                e.printStackTrace();
-	            }
-	        }
-	    }
-	}	
 	
 }

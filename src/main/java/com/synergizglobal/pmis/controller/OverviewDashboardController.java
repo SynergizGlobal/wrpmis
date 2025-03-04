@@ -240,16 +240,27 @@ public class OverviewDashboardController {
 				}
 				TableauTrustedTicket tObj = new TableauTrustedTicket();
 				String trustedTokenId =  tObj.getTrustedTicket(server_name);
+				String baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", "infoviz.syntrackpro.com");
+				baseUrl = baseUrl.replace("{1}", trustedTokenId);
 				String[] url = {};
 
-					url = dashboardUrl.split(":8000/");
-					UrlGenerator ugObj = new UrlGenerator();
-					String baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", "203.153.40.44");
+				
+				if(dashboardUrl.contains(".com/")) {
+					url = dashboardUrl.split(".com/");
+					//baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
+					baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", "infoviz.syntrackpro.com");
 					baseUrl = baseUrl.replace("{1}", trustedTokenId);
-					tableauUrl = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS;
+				}else {
+					url = dashboardUrl.split(":8000/");
+					//baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", trustedTokenId);
+					UrlGenerator ugObj = new UrlGenerator();
+					baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", "203.153.40.44");
+					baseUrl = baseUrl.replace("{1}", trustedTokenId);
+				}
 					
 					
 					
+										
 					
 					
 				}
@@ -491,21 +502,22 @@ public class OverviewDashboardController {
 //				}
 //				TableauTrustedTicket tObj = new TableauTrustedTicket();
 //				String trustedTokenId =  tObj.getTrustedTicket(server_name);
-//				//String baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", "infoviz.syntrackpro.com");
-//				//baseUrl = baseUrl.replace("{1}", trustedTokenId);
+//				String baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", "infoviz.syntrackpro.com");
+//				baseUrl = baseUrl.replace("{1}", trustedTokenId);
 //				String[] url = {};
-//				//if(dashboardUrl.contains(".com/")) {
-//				//	url = dashboardUrl.split(".com/");
-//				//	//baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
-//				//	baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", "infoviz.syntrackpro.com");
-//				//	baseUrl = baseUrl.replace("{1}", trustedTokenId);
-//				//}else {
+//				
+//				if(dashboardUrl.contains(".com/")) {
+//					url = dashboardUrl.split(".com/");
+//					//baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
+//					baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", "infoviz.syntrackpro.com");
+//					baseUrl = baseUrl.replace("{1}", trustedTokenId);
+//				}else {
 //					url = dashboardUrl.split(":8000/");
 //					//baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", trustedTokenId);
 //					UrlGenerator ugObj = new UrlGenerator();
-//					String baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", "203.153.40.44");
+//					baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", "203.153.40.44");
 //					baseUrl = baseUrl.replace("{1}", trustedTokenId);
-//				//}
+//				}
 //					
 //
 //					String clientIpMap=tObj.getExternalIpAddress();
@@ -523,7 +535,7 @@ public class OverviewDashboardController {
 //					String SMStr=Str6[0]+'.'+Str6[1];
 //					System.out.println(ConcatNew);
 //					
-//					if(ConcatNew.compareTo("  203.153.39.186")==0)
+//					if(ConcatNew.compareTo("  infoviz.syntrackpro.com")==0)
 //					{
 //			
 //						if(!StringUtils.isEmpty(params)) {
@@ -536,9 +548,9 @@ public class OverviewDashboardController {
 //					{
 //						String mainUrl[]=baseUrl.split("/");
 //						String weburl=mainUrl[2];
-//						if(weburl.compareTo("203.153.40.44:8000")==0)
+//						if(weburl.compareTo("infoviz.syntrackpro.com")==0)
 //						{
-//							weburl="203.153.40.44:8000";
+//							weburl="infoviz.syntrackpro.com";
 //						}
 //						else if(weburl.compareTo("pmis.mrvc.gov.in:8000")==0)
 //						{
@@ -562,7 +574,6 @@ public class OverviewDashboardController {
 //		return obj;
 //	}	
 	
-	
 	@RequestMapping(value = "/ajax/getDashboardURL", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public OverviewDashboard getDashboardURL(@ModelAttribute OverviewDashboard dObj,HttpSession session){
@@ -575,6 +586,7 @@ public class OverviewDashboardController {
 			dashboardName = dashboardName.replaceAll("--", " ");*/
 			
 			String dashboard_id = dObj.getDashboard_id();
+			
 			String work_id = dObj.getWork_id();
 			String params = dObj.getParams();
 			obj = overviewDashboardService.getTableauUrl(dashboard_id);
@@ -621,7 +633,6 @@ public class OverviewDashboardController {
 		}
 		return obj;
 	}	
-	
 	
 	
 	public static String decodeURIComponent(String s) {

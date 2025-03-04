@@ -128,7 +128,7 @@ public class TableauDashboardController {
 					url = vo.getTableauUrl().split(":8000/");
 					//baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", trustedTokenId);
 					UrlGenerator ugObj = new UrlGenerator();
-					String baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", "203.153.40.44");
+					String baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", trustedTokenId);
 					baseUrl = baseUrl.replace("{1}", trustedTokenId);
 				//}
 					String tableauUrl ="";
@@ -202,102 +202,43 @@ public class TableauDashboardController {
 		String title = "";
 		try{
 			user_Id = (String) session.getAttribute("USER_ID");userName = (String) session.getAttribute("USER_NAME");
-			/*view.addObject("active", param);
-			view.addObject("tabActive", "dashboard");*/
+			view.addObject("active", param);
+			view.addObject("tabActive", "dashboard");
 			
-			//User user = (User)session.getAttribute("user");
+			User user = (User)session.getAttribute("user");
 			String activityWork = null;
 			if(!StringUtils.isEmpty(param)){
 				activityWork = param.replaceAll("_", " - ").toLowerCase();
 				activityWork = activityWork.replaceAll("-", " ").toLowerCase();
 				title = title + capitalize(activityWork).toUpperCase() + " - ";
 			}
-			//view.addObject("title", title+"PMIS - Syntrack.");
+			view.addObject("title", title+"PMIS - Syntrack.");
 			
 			TableauDashboard vo = service.getTableauUrl(activityWork);
 			if(!StringUtils.isEmpty(vo) && !StringUtils.isEmpty(vo.getTableauUrl())){
-				
+				String[] url = {};
 				if(vo.getTableauUrl().contains("work-overview-dashboard")) {
-					String url = vo.getTableauUrl() + "/" + vo.getWork_id_fk();
-					view.setViewName("redirect:/"+url);
+					String url1 = vo.getTableauUrl() + "/" + vo.getWork_id_fk();
+					view.setViewName("redirect:/"+url1);
 					return view;
-				}else if(vo.getTableauUrl().contains("overview-dashboard")) {
-					String url = vo.getTableauUrl();
-					view.setViewName("redirect:/"+url);
+				}
+				else if(vo.getTableauUrl().contains("overview-dashboard")) {
+					String url1 = vo.getTableauUrl();
+					view.setViewName("redirect:/"+url1);
 					return view;
-				}else {
-					view.addObject("active", param);
-					view.addObject("tabActive", "dashboard");
-					view.addObject("title", title+"PMIS - Syntrack.");
 				}
 				
-				String server_name = "MRVC";
-				/*if(vo.getTableauUrl().contains(".com/")) {
-					server_name = "Syntrack";
-				}else {
-					server_name = "MRVC";
-				}*/
-				TableauTrustedTicket tObj = new TableauTrustedTicket();
-				String trustedTokenId =  tObj.getTrustedTicket(server_name);
-				//String baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", "infoviz.syntrackpro.com");
-				//baseUrl = baseUrl.replace("{1}", trustedTokenId);
-				String[] url = {};
-				/*if(vo.getTableauUrl().contains(".com/")) {
-					url = vo.getTableauUrl().split(".com/");
-					//baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", trustedTokenId);
-					baseUrl = CommonConstants.BASE_URL_SYNTRACK.replace("{0}", "infoviz.syntrackpro.com");
-					baseUrl = baseUrl.replace("{1}", trustedTokenId);
-				}else {*/
+				else {
 					url = vo.getTableauUrl().split(":8000/");
-					//baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", trustedTokenId);
-					UrlGenerator ugObj = new UrlGenerator();
-					String baseUrl = CommonConstants.BASE_URL_MRVC.replace("{0}", "203.153.40.44");
-					baseUrl = baseUrl.replace("{1}", trustedTokenId);
-				//}
-					String tableauUrl ="";
-					
-//String clientIpMap=tObj.getExternalIpAddress();
-//					
-//					String Str5[]=clientIpMap.split("\\.");
-//					String Concat=Str5[2]+'.'+Str5[3];
-//
-//					 String Str[]=tObj.myPublicIp().split("___");
-//					 String ipnew=Str[4];
-//					 String Str1[]=ipnew.split(":");
-//					 String ipnew1=Str1[1];	
-//					 
-//					String Str6[]=ipnew1.split("\\.");
-//					String ConcatNew=Str6[0]+'.'+Str6[1]+'.'+Concat;
-//					String SMStr=Str6[0]+'.'+Str6[1];
-//					System.out.println(ConcatNew);
-//					
-//					if(ConcatNew.compareTo("  203.153.39.186")==0)
-//					{
-//			
-//
-//							tableauUrl =baseUrl +"/"+ url[1]+CommonConstants.TABLEAU_PARAMS;
-//												
-//					}
-//					else
-//					{
-//						String mainUrl[]=baseUrl.split("/");
-//						String weburl=mainUrl[2];
-//						if(weburl.compareTo("203.153.40.44:8000")==0)
-//						{
-//							weburl="203.153.40.44:8000";
-//						}
-//						else if(weburl.compareTo("pmis.mrvc.gov.in:8000")==0)
-//						{
-//							weburl="pmis.mrvc.gov.in:8000";
-//						}				
-//
-//						tableauUrl =mainUrl[0]+"//"+weburl +"/"+ url[1]+CommonConstants.TABLEAU_PARAMS+"&:embed=y";
-//							
-//					}					
-//				
-//				//String tableauUrl1 = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS;
-//				vo.setTableauUrl(tableauUrl);
-				vo.setTableauTrustedToken(trustedTokenId);
+				}
+				
+				TableauTrustedTicket tObj = new TableauTrustedTicket();
+				String server_name="MRVC";
+				String trustedTokenId =  tObj.getTrustedTicket(server_name);
+				CommonConstants cObj = new CommonConstants();
+				String baseUrl = cObj.BASE_URL_MRVC.replace("{0}", trustedTokenId);
+				String tableauUrl = baseUrl + url[1]+CommonConstants.TABLEAU_PARAMS;
+				vo.setTableauUrl(tableauUrl);
 			}
 			view.addObject("url", vo);
 		} catch (Exception e) {
@@ -306,6 +247,7 @@ public class TableauDashboardController {
 		}
 		return view;
 	}
+	
 	
 	private String capitalize(final String line) {
 	   return Character.toUpperCase(line.charAt(0)) + line.substring(1);

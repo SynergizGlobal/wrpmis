@@ -253,6 +253,27 @@ public class BudgetController {
 		return model;
 	}
 	
+	@RequestMapping(value = "/add-payment-details", method = {RequestMethod.GET})
+	public ModelAndView addPaymentDetails(@ModelAttribute Budget obj){
+		ModelAndView model = new ModelAndView();
+		try{
+			model.setViewName(PageConstants.addPaymentDetails);
+			model.addObject("action", "add");
+			List<Budget> financialYearList = budgetService.getFinancialYearList();
+			model.addObject("financialYearList", financialYearList);
+			
+			List<Budget> projectsList = budgetService.getProjectsListForBudgetForm(obj);
+			model.addObject("projectsList", projectsList);
+			
+			List<Budget> worksList = budgetService.getWorkListForBudgetForm(obj);
+			model.addObject("worksList", worksList);
+			
+		}catch (Exception e) {
+				logger.error("addBudgetForm : " + e.getMessage());
+		}
+		return model;
+	}
+	
 	@RequestMapping(value = "/ajax/getProjectsListForBudgetForm", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Budget> getProjectsListForBudgetForm(@ModelAttribute Budget obj) {

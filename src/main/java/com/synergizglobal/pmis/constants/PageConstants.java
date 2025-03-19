@@ -59,6 +59,7 @@ public class PageConstants {
 	
 	public static final String budgetGrid = "forms/budgetGrid";
 	public static final String addEditBudget = "forms/addEditBudget";
+	public static final String addPaymentDetails = "forms/addPaymentDetails";
 	
 	public static final String rAndRBsesGrid = "forms/rAndRBsesGrid"; 
 	public static final String addEditRandRBses = "forms/addEditRandRBses";

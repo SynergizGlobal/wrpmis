@@ -1,0 +1,22 @@
+package com.synergizglobal.wrpmis.Iservice;
+
+import java.util.List;
+
+import com.synergizglobal.wrpmis.model.Document;
+import com.synergizglobal.wrpmis.model.StripChart;
+
+public interface PMISProgressService {
+
+	public List<StripChart> getMileStoneFilterList(StripChart obj) throws Exception;
+
+	public List<StripChart> getMileStonesFilterList(StripChart obj) throws Exception;
+
+	public boolean updateProgressForm(StripChart obj) throws Exception;
+
+	public List<StripChart> getContractsFilterList(StripChart obj) throws Exception;
+
+	public List<StripChart> getProjectsFilterList(StripChart obj) throws Exception;
+
+	public List<StripChart> getWorksFilterList(StripChart obj) throws Exception;
+
+}

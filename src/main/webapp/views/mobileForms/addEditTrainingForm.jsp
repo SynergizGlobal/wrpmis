@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants2"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
@@ -13,19 +13,19 @@
     	 <c:if test="${action eq 'edit'}">Update Training</c:if>
 		 <c:if test="${action eq 'add'}"> Add Training</c:if>
     </title>
-    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">     
-    <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">     
+    <link rel="icon" type="image/png" sizes="96x96" href="/wrpmis/resources/images/favicon.png">
+    <link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">     
+    <link rel="stylesheet" href="/wrpmis/resources/css/font-awesome-v.4.7.css">     
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
-    <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/pmis/resources/css/training.css">
-    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/mobile-form-template.css">
-    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-    <link rel="stylesheet" href="/pmis/resources/css/mobile-responsive-table.css">
-    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-    <script src="/pmis/resources/js/select2.min.js"></script>
+    <link rel="stylesheet" href="/wrpmis/resources/css/datatable-material.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/training.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/mobile-form-template.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/mobile-responsive-table.css">
+    <script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+    <script src="/wrpmis/resources/js/select2.min.js"></script>
     <style>
         #session-table .datepicker~button {
             top: 26px;
@@ -874,15 +874,15 @@
 	</div>
 
 
-	<!-- <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script> -->
-	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
-	<script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-	<script src="/pmis/resources/js/dataTables.material.min.js"></script>
-	<!-- <script src="/pmis/resources/js/select2.min.js"></script> -->
-	<script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
-	<script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
-	<script src="/pmis/resources/js/datetimepicker.js"></script>
+	<!-- <script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script> -->
+	<script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+	<script src="/wrpmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+	<script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+	<script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
+	<!-- <script src="/wrpmis/resources/js/select2.min.js"></script> -->
+	<script src="/wrpmis/resources/js/moment-v2.8.4.min.js"></script>
+	<script src="/wrpmis/resources/js/datetime-moment-v1.10.12.js"></script>
+	<script src="/wrpmis/resources/js/datetimepicker.js"></script>
 	
 	<script>
         $(document).ready(function () {

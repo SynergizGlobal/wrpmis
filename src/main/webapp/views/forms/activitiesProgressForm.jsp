@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants"%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -9,18 +9,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Activity Progress Form - Update Forms - PMIS</title>
-    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">    
-    <link rel="stylesheet" href="/pmis/resources/css/la.css">
-    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
-    <link rel="stylesheet" href="/pmis/resources/css/light-theme.css">
+    <link rel="icon" type="image/png" sizes="96x96" href="/wrpmis/resources/images/favicon.png">
+    <link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">    
+    <link rel="stylesheet" href="/wrpmis/resources/css/la.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">	
+    <link rel="stylesheet" href="/wrpmis/resources/css/light-theme.css">
 
     <style>
         body {
             overflow-x: hidden;
         }
-		.bg-m{background-color: #007A7A;}
+		.bg-m{background-color: #EA6A2A;}
         .hiddendiv.common {
             width: 99vw !important;
         }
@@ -285,17 +285,6 @@
                                                 </c:forEach>
                                             </select>
                                             <span id="project_idError" class="error-msg" ></span>
-                                        </div>
-                                        <div class="col m8 s12 input-field">
-                                           <p class="searchable_label">Work <span class="required">*</span></p>
-                                            <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
-                                                onchange="getActivitiesContractsList(this.value);">
-                                                <option value="">Select</option>
-                                                <c:forEach var="obj" items="${worksList }">
-                                                    <option value="${obj.work_id }" <c:if test="${obj.work_id eq activitiesData.work_id }">selected</c:if>>${obj.work_id}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
-                                                </c:forEach>
-                                            </select>
-                                            <span id="work_id_fkError" class="error-msg" ></span>
                                         </div>
                                         <div class="col m12 s12 input-field">
                                            <p class="searchable_label">Contract <span class="required">*</span></p>
@@ -650,7 +639,7 @@
                                     <input type="hidden" id="strip_chart_section_name" name="strip_chart_section_name" />
                                     <input type="hidden" id="strip_chart_activity_name" name="strip_chart_activity_name" />
                                     
-                                    <input type="hidden" id="zonal_railway_fk" name="zonal_railway_fk" value="MRVC" />
+                                    <input type="hidden" id="zonal_railway_fk" name="zonal_railway_fk" value="WR" />
                                     <input type="hidden" id="other_organization" name="other_organization" />
             
                                     <div class="row">
@@ -726,17 +715,16 @@
     
     <form action="<%=request.getContextPath()%>/add-issue-form" id="issueForm" method="post" target="_blank">
     	<input type="hidden" id="issue_project_id_fk" name="project_id_fk"/>
-    	<input type="hidden" id="issue_work_id_fk" name="work_id_fk"/>
     	<input type="hidden" id="issue_contract_id_fk" name="contract_id_fk"/>
     	<input type="hidden" id="issue_location" name="location"/>
     </form>
 
-    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-    <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
-    <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-    <script src="/pmis/resources/js/select2.min.js"></script>
-    <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-    <script src="/pmis/resources/js/dataTables.material.min.js"></script>
+    <script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+    <script src="/wrpmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+    <script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/wrpmis/resources/js/select2.min.js"></script>
+    <script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+    <script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
     
 
     <script>

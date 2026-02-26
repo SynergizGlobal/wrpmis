@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants2"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
@@ -11,16 +11,16 @@
 		<c:if test="${action eq 'edit'}">Update Structure Form - Update Forms - PMIS</c:if>
 		<c:if test="${action eq 'add'}"> Add Structure Form - Update Forms - PMIS</c:if>
 	</title>
-	<link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
-	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-	<link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">	
-	<link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">	 
-	<!-- <link rel="stylesheet" href="/pmis/resources/css/fob.css"> -->
-	<link rel="stylesheet" href="/pmis/resources/css/rits.css">
-	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" >
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" >
+	<link rel="icon" type="image/png" sizes="96x96"	href="/wrpmis/resources/images/favicon.png">
+	<link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+	<link rel="stylesheet" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">	
+	<link rel="stylesheet" href="/wrpmis/resources/css/datatable-material.css">
+	<link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">	 
+	<!-- <link rel="stylesheet" href="/wrpmis/resources/css/fob.css"> -->
+	<link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+	<link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">
+	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/wrpmis/resources/css/mobile-form-template.css" >
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/wrpmis/resources/css/mobile-responsive-table.css" >
 	 <style>
 	 	.select2-selection.select2-selection--single{
 	 		margin-bottom:5px;
@@ -173,7 +173,7 @@
 	<jsp:include page="../layout/header.jsp"></jsp:include>
 
   <!-- card  -->
-    <div class="row">
+    <div class="container-padding">
         <div class="col s12 m12">
             <div class="card ">
                 <div class="card-content">
@@ -199,25 +199,13 @@
                                 <div class="col s6 m4 l4 input-field">
                                 <p class="searchable_label"> Project<span class="required">*</span></p>
                                 <input type="hidden" name="structure_id" id="structure_id" value="${structuresListDetails.structure_id}">
-                                    <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"
-                                        onchange="getWorksList(this.value);" <c:if test="${not empty structuresListDetails.project_id_fk}">disabled</c:if>>
+                                    <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  <c:if test="${not empty structuresListDetails.project_id_fk}">disabled</c:if>>
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${projectsList }">
                                             <option value="${obj.project_id_fk }" <c:if test="${obj.project_id_fk eq structuresListDetails.project_id_fk}">selected</c:if>><%-- ${obj.project_id_fk}<c:if test="${not empty obj.project_name}"> - </c:if> --%> ${obj.project_name }</option>
                                         </c:forEach>
                                     </select>                                   
                                     <span id="project_id_fkError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s6 m4 l4 input-field">
-                                	<p class="searchable_label"> Work<span class="required">*</span></p>
-                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
-                                        onchange="resetProject();getContractsList(this.value);" <c:if test="${not empty structuresListDetails.work_id_fk}">disabled</c:if>>
-                                        <option value="">Select</option>
-                                        <c:forEach var="obj" items="${worksList }">
-                                      	   <option value= "${obj.work_id_fk}" <c:if test="${obj.work_id_fk eq structuresListDetails.work_id_fk}">selected</c:if>> ${obj.work_short_name }</option>
-                                         </c:forEach>
-                                    </select>
-                                    <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
                                 <div class="col s6 m4 l4 input-field">
                                 	<p class="searchable_label"> Structure Type<span class="required">*</span></p>
@@ -295,14 +283,24 @@
 				                                		  <c:set var="selVal" value="" />
 											                  <tr id="departmentRow${index.count }">
 											                        <td data-head="Department" class="input-field">
-											                             <select class="searchable validate-dropdown" name="contracts_id_fk" id="contract_id_fk${index.count }" onChange="getResponsibleExecutives(${index.count });"
-											                              <c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' && sessionScope.USER_TYPE ne 'HOD' &&  sessionScope.USER_TYPE ne 'DyHOD'}">disabled </c:if>>
-											                                	<option value="" >Select</option>  
-																		          <c:forEach var="obj" items="${contractsList }">
-									 											  <c:set var="selVal" value="${contractObj.contract_id_fk}" />
-									 											<option value= "${obj.contract_id_fk}" <c:if test="${contractObj.contract_id_fk eq obj.contract_id_fk}">selected</c:if>>${ obj.contract_short_name}</option>
-									 											                                          </c:forEach>
-											                              </select> 
+<select class="searchable validate-dropdown contract-dd" 
+        name="contracts_id_fk" 
+        id="contract_id_fk${index.count}" 
+        onChange="getResponsibleExecutives(${index.count});"
+        <c:if test="${sessionScope.USER_ROLE_NAME ne 'IT Admin' 
+                     && sessionScope.USER_TYPE ne 'HOD' 
+                     && sessionScope.USER_TYPE ne 'DyHOD'}">disabled</c:if>>
+    <option value="">Select</option>  
+
+    <c:forEach var="obj" items="${contractsList}">
+        <c:if test="${structuresListDetails.project_id_fk eq obj.project_id_fk}">
+            <option value="${obj.contract_id_fk}" 
+                <c:if test="${contractObj.contract_id_fk eq obj.contract_id_fk}">selected</c:if>>
+                ${obj.contract_short_name}
+            </option>
+        </c:if>
+    </c:forEach>
+</select>
 											                              <span id="deptError${index.count }" class="my-error"></span>
 											                        </td>
 											                        <td data-head="Select Executives" class="input-field h-auto">
@@ -774,6 +772,8 @@
             </div>
         </div>
     </div>
+    </div>
+
 	
 	 <!-- Page Loader -->
 	<div class="page-loader" style="display: none;">
@@ -793,11 +793,11 @@
 	<!-- footer included -->
 	<jsp:include page="../layout/footer.jsp"></jsp:include>
 
-	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-	<script src="/pmis/resources/js/datepickerDepedency.js"></script>
-	<script src="/pmis/resources/js/select2.min.js"></script>
-	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+	<script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+	<script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+	<script src="/wrpmis/resources/js/datepickerDepedency.js"></script>
+	<script src="/wrpmis/resources/js/select2.min.js"></script>
+	<script src="/wrpmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 	<script type="text/javascript">
 	 $(document).ready(function() {
          $(".num").keypress(function() {
@@ -805,6 +805,20 @@
                  return false;
              }
          });
+         
+         if("${action }"=='edit')
+        	 {
+        	 $("select[id^='responsible_people_id_fks']").each(function() {
+
+        	        // Extract row number at the end of ID
+        	        var id = $(this).attr("id");
+        	        var rowNo = id.replace("responsible_people_id_fks", "");
+
+        	        // Trigger your method once on load
+        	        executivesToStringMethod(rowNo);
+        	    });      	 
+        	 }
+         
      });
  	 $("[data-length]").each(function(i,val){
       	$('#'+val.id).characterCounter();;
@@ -1209,45 +1223,7 @@
 
     
     
-  //geting works list from database    
-    function getWorksList(projectId) {
-    	$(".page-loader").show();
-        $("#work_id_fk option:not(:first)").remove();
-        $("#contract_id_fk option:not(:first)").remove();
-        //$("#responsible_people_id_fk option:not(:first)").remove();
 
-        if ($.trim(projectId) != "") {
-            var myParams = { project_id_fk: projectId };
-            $.ajax({
-                url: "<%=request.getContextPath()%>/ajax/getWorksListForStructureForm",
-                data: myParams, cache: false,async : false,
-                success: function (data) {
-                    if (data.length > 0) {
-                        $.each(data, function (i, val) {
-                            var workName = '';
-                            if ($.trim(val.work_short_name) != '') { workName =  $.trim(val.work_short_name) }
-                            var work_id_fk = "${structuresListDetails.work_id_fk }";
-                            if ($.trim(work_id_fk) != '' && val.work_id_fk == $.trim(work_id_fk)) {
-                                $("#work_id_fk").append('<option value="' + val.work_id_fk + '" selected>' +  $.trim(workName) + '</option>');
-                            } else {
-                                $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' +  $.trim(workName) + '</option>');
-                            }
-                        });
-                    }
-                     $('.searchable:not(.units)').select2();
-                    $(".page-loader").hide();
-                }
-            });
-            var work_id_fk = $("#work_id_fk").val();
-            if ($.trim(work_id_fk) != '') {
-            	getContractsList(work_id_fk);
-            }
-        }else{
-        	$(".page-loader").hide();
-        }
-        
-        hitCount = 0;
-    }
 
     //geting contracts list    
     function getContractsList(work_id_fk) {

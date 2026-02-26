@@ -1,7 +1,7 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
-<%@ page import="com.synergizglobal.pmis.constants.CommonConstants"%>
-<%@ page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
+<%@ page import="com.synergizglobal.wrpmis.constants.CommonConstants"%>
+<%@ page import="com.synergizglobal.wrpmis.constants.CommonConstants2"%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -11,16 +11,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Risk Assessment - Update Forms - PMIS</title>
-    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-    <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
-    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" />
-	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-grid-template.css" />
-	<link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css" rel="stylesheet" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/wrpmis/resources/images/favicon.png">
+    <link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/datatable-material.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/wrpmis/resources/css/mobile-form-template.css" />
+	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/wrpmis/resources/css/mobile-grid-template.css" />
+	<link rel="stylesheet" href="/wrpmis/resources/css/sweetalert-v.1.1.0.min.css" rel="stylesheet" />
 	
       <style>
 		p a{
@@ -392,7 +392,7 @@
 										</div>
 										<div class="col l5 m10 offset-m2 s9 offset-s3 mob-center input-field">											
 											<a class="btn waves-effect waves-light bg-s t-c"
-												href="/pmis/Risk_Template.xlsx" download style="width: 100%;letter-spacing: 0px;text-transform: unset;">Click
+												href="/wrpmis/Risk_Template.xlsx" download style="width: 100%;letter-spacing: 0px;text-transform: unset;">Click
 												here for blank Risk Assessment Form</a>
 										</div>
 									</div>
@@ -475,45 +475,7 @@
 						</form>
 					</div>
 
-					<!-- <div class="row plr-1 no-mar">
-                            <div class="col s12 m3 l-align"> </div>
-                            <div class="col s12 m6 c-align">                            
-                                <div class="m-1">
-                                	 <form action="<%=request.getContextPath()%>/upload-risk-assessment" id="riskUploadForm" name="riskUploadForm" method="post" enctype="multipart/form-data">
-	                                    <div class="row">
-	                                        <div class="col s12 m4 input-field">
-	                                        	<p class="searchable_label left-align">Work</p>
-	                                            <select id="work_id_fk" name="work_id_fk" class="searchable validate-dropdown">
-	                                            	<option value="" >Select</option>	  
-	                                            	<c:forEach var="obj" items="${worksList}">
-	                                            		<option name="${obj.work_short_name }" value="${obj.work_id}" >${obj.work_id} - ${obj.work_short_name}</option>	  
-	                                            	</c:forEach>                                         
-	                                            </select>
-	                                            <span id="work_id_fkError" class="error-msg"></span>
-	                                        </div>
-	                                        <input type="hidden" id="work_short_name" name="work_short_name" />
-	                                        <div class="col s12 m6 file-field input-field">
-										      <div class="btn bg-m t-c disabled" id="uploadRiskBtn">
-										        <span>Upload Risk Assessment</span>
-										        <input type="file" name="riskAssessmentFile" id="riskAssessmentFile" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
-										      </div>
-										      <div class="file-path-wrapper">
-										        <input class="file-path validate" type="text">
-										      </div>
-										      <span id="riskAssessmentFileError" class="error-msg"></span>
-                                         	 <!--  <p style="padding-top:.7rem; text-align:left"> Click <a href="/pmis/Risk_Template.xlsx" download>here</a> for the template</p>  -->
-	                                        <!-- </div>
-	                                        <div class="col s12 m2 input-field">
-	                                            <button type="button" class="btn waves-effect waves-light bg-s t-c disabled" id="uploadRisk" style="margin-top:5px;">
-	                                            	<strong><i class="fa arrow-circle-up"></i>Submit</strong>
-	                                            </button>	                                            
-	                                        </div>
-	                                    </div>
-                                    </form>
-                                </div> 
-                            </div>
-                            <div class="col s12 m3 r-align">     </div>
-                        </div> -->
+					
                         
                         
                  
@@ -600,15 +562,15 @@
 		<input type="hidden" id="sub_work_atr_update" name="sub_work"/>
 		<input type="hidden" id="assessment_date_atr_update" name="assessment_date"/>
 	</form>
-    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-    <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-    <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
-    <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-    <script src="/pmis/resources/js/dataTables.material.min.js"></script>
-    <script src="/pmis/resources/js/select2.min.js"></script>
-    <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
-    <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
-    <script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
+    <script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+    <script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/wrpmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+    <script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+    <script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
+    <script src="/wrpmis/resources/js/select2.min.js"></script>
+    <script src="/wrpmis/resources/js/moment-v2.8.4.min.js"></script>
+    <script src="/wrpmis/resources/js/datetime-moment-v1.10.12.js"></script>
+    <script src="/wrpmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
   
       <script>
           var pageNo = window.localStorage.getItem("risksPageNo");

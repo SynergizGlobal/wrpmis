@@ -1,0 +1,27 @@
+package com.synergizglobal.wrpmis.reference.IMPLservice;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.synergizglobal.wrpmis.reference.Idao.ReferenceFormsAccessDao;
+import com.synergizglobal.wrpmis.reference.Iservice.ReferenceFormsAccessService;
+import com.synergizglobal.wrpmis.reference.model.ReferenceForms;
+
+
+@Service
+public class ReferenceFormsAccessServiceImpl implements ReferenceFormsAccessService{
+	@Autowired
+	ReferenceFormsAccessDao dao;
+
+	@Override
+	public List<ReferenceForms> getReferenceForms() throws Exception {
+		return dao.getReferenceForms();
+	}
+
+	@Override
+	public List<ReferenceForms> getReferencePagesList(ReferenceForms obj) throws Exception {
+		return dao.getReferencePagesList(obj);
+	}
+}

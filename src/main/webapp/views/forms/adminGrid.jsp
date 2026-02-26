@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<%@ page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
-<%@ page import="com.synergizglobal.pmis.constants.CommonConstants"%>
+<%@ page import="com.synergizglobal.wrpmis.constants.CommonConstants2"%>
+<%@ page import="com.synergizglobal.wrpmis.constants.CommonConstants"%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -11,17 +11,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/wrpmis/resources/images/favicon.png">
     <title>Admin Forms - Admin - PMIS</title>
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-    <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <!-- <link rel="stylesheet" href="/pmis/resources/css/la.css"> -->
-    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
-    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
-	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" /> 
+    <link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/datatable-material.css">
+    <!-- <link rel="stylesheet" href="/wrpmis/resources/css/la.css"> -->
+    <link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">
+	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/wrpmis/resources/css/mobile-form-template.css" />
+	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/wrpmis/resources/css/mobile-grid-template.css" /> 
 
     <style>
         p a {
@@ -195,11 +195,11 @@
  	<form name="getForm" id="getForm" method="post">
     	<input type="hidden" name="admin_form_id" id="admin_form_id" />
     </form>
-    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-    <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-    <script src="/pmis/resources/js/select2.min.js"></script>
-    <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-    <script src="/pmis/resources/js/dataTables.material.min.js"></script>
+    <script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+    <script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/wrpmis/resources/js/select2.min.js"></script>
+    <script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+    <script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
 
     <script>
         $(document).ready(function () {

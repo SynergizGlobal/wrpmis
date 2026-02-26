@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
@@ -9,13 +9,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SynTrack - PMIS Login</title>
-    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/wrpmis/resources/images/favicon.png">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
+     <link rel="stylesheet" href="/wrpmis/resources/css/font-awesome-v.4.7.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/md5.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/style.css">  
+    <link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/style.css">  
     
     <style type="text/css">
 		/* Change the white to any color ;) */
@@ -116,7 +116,7 @@
  	       <!-- header starts -->
  	  	  <nav>
 	        <div class="nav-wrapper bg">
-	          <h3 style="margin:0" class="text">Welcome to MRVC PMIS </h3>  
+	          <h3 style="margin:0" class="text">Welcome to WR PMIS </h3>  
 	        </div>
 	      </nav>
       	<!-- header ends -->
@@ -129,7 +129,7 @@
                 
 		        <form class="col s12 m3 " action="<%=request.getContextPath()%>/logout-from-all-devices" id="logoutForm" name="logoutForm" method="post" >
 		        	<div class="row homepage">
-			            <img src="/pmis/resources/images/mrvclogo.png" alt="mrvc logo" class="card-img">
+			            <img src="/wrpmis/resources/images/mrvclogo.png" alt="mrvc logo" class="card-img">
 			            <div>
 			             	<p style="margin: 5px;" class="error">${error}</p>
 			            </div>
@@ -166,24 +166,24 @@
         <div class="container">
             <p class="footer-text"> &copy; <span id="year"></span> @ 
             	<a href="https://mrvc.indianrailways.gov.in/" target="_blank">mrvc.indianrailways.gov.in</a> | Designed & Developed by
-               <a href="https://www.synergizglobal.com" target="_blank"> <img src="/pmis/resources/images/synergiz.png" alt="synergiz logo" class="footer-logo"> </a>
+               <a href="https://www.synergizglobal.com" target="_blank"> <img src="/wrpmis/resources/images/synergiz.png" alt="synergiz logo" class="footer-logo"> </a>
                 <a class="help-icon dropdown-trigger"  href='#' data-target='help-dropdown'>
-        			<img src="/pmis/resources/images/help_icon_white.svg">        
+        			<img src="/wrpmis/resources/images/help_icon_white.svg">        
         		</a>
         	</p>
 	          <!-- Dropdown Structure -->
 			  <ul id='help-dropdown' class='dropdown-content blue lighten-5'>
-			    <li><a href="/pmis/PMIS User Manual Ver-1.pdf" target="_blank">PMIS Manual <i class="fa fa-download"></i></a></li>
-			    <li><a href="/pmis/Primmavera P6_ppm_usermanual  Ver-19.12.pdf" target="_blank">Primavera Manual <i class="fa fa-download"></i></a></li>
+			    <li><a href="/wrpmis/PMIS User Manual Ver-1.pdf" target="_blank">PMIS Manual <i class="fa fa-download"></i></a></li>
+			    <li><a href="/wrpmis/Primmavera P6_ppm_usermanual  Ver-19.12.pdf" target="_blank">Primavera Manual <i class="fa fa-download"></i></a></li>
 			    <li class="divider" tabindex="-1"></li>
 			    <li class="support-link"> Contact us :  <br> <a href="mailto:support_pmis@mrvc.gov.in">support_pmis@mrvc.gov.in</a></li>
 			  </ul>
         </div>
       </footer>
           <!-- footer ends here -->
-	<script src="/pmis/resources/js/jQuery-v.3.5.min.js" ></script>
-	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js" ></script>  
-	<script src="/pmis/resources/js/materialize-v.1.0.min.js" ></script>
+	<script src="/wrpmis/resources/js/jQuery-v.3.5.min.js" ></script>
+	<script src="/wrpmis/resources/js/jquery-validation-1.19.1.min.js" ></script>  
+	<script src="/wrpmis/resources/js/materialize-v.1.0.min.js" ></script>
 </body>
 
 </html>

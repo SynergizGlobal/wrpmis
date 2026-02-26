@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants"%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -9,16 +9,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contract - Update Forms - PMIS</title>
-    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-    <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <!-- <link rel="stylesheet" href="/pmis/resources/css/contract.css"> -->
-    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
-    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" />
-    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-grid-template.css" />
+    <link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/datatable-material.css">
+    <!-- <link rel="stylesheet" href="/wrpmis/resources/css/contract.css"> -->
+    <link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">
+	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/wrpmis/resources/css/mobile-form-template.css" />
     <style>        
         .input-field .searchable_label{
         	font-size:0.85rem;
@@ -124,67 +122,8 @@
     <!-- header  starts-->
          <jsp:include page="../layout/header.jsp"></jsp:include>
     <!-- header ends  -->
-	<div class="row">
-		<%-- <div class="col s12 m12 hide-on-med-and-down">
-			<div class="card">
-				<div class="card-content">
-					<span class="card-title headbg">
-						<div class="center-align bg-m p-2 m-b-5">
-							<h6>Contract</h6>
-						</div>
-					</span>
-
-					<div class="row clearfix">
-						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-							<c:if test="${not empty success }">
-								<div class="center-align m-1 close-message">${success}</div>
-							</c:if>
-							<c:if test="${not empty error }">
-								<div class="center-align m-1 close-message">${error}</div>
-							</c:if>
-						</div>
-					</div>
-					<div class="">
-						<div class="row plr-1 center-align">
-							<div class="col s12 m4">
-								<!-- <div class="m-1 l-align">
-                                    <a href="#" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-arrow-circle-up"></i> Upload Data</strong></a>
-                                    <p style="padding-top:1rem"> Click <a href="#">here</a> for the template</p>
-                                </div> -->
-							</div>
-							<c:choose>
-							    <c:when test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD'   || sessionScope.USER_TYPE eq 'DyHOD'}">
-							        <div class="col s12 m4">
-									   <div class="m-1 c-align">
-										<a href="add-contract-form"
-											class="btn waves-effect waves-light bg-s t-c"> <strong><i
-												class="fa fa-plus-circle"></i> Add Contract</strong></a>
-									   </div>
-									</div>
-							    </c:when>
-							    <c:otherwise>
-							        <div class="col s12 m4">
-										<div class="m-1 c-align">
-										
-										</div>
-									</div>
-							    </c:otherwise>
-							</c:choose>
-							<div class="col s12 m4 r-align">
-								<div class="m-1 ">
-									<a href="javascript:void(0);" onclick="exportContract();"
-										class="btn waves-effect waves-light bg-s t-c"> <strong><i
-											class="fa fa-cloud-download"></i> Export Data</strong></a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div> --%>
-
-		<div class="row">
+	<div class="container-padding">
+		<div class="container-padding">
 			<div class="col s12 m12">
 				<div class="card">
 					<div class="card-content">
@@ -232,26 +171,6 @@
                                                 </c:forEach>  --%>
 									</select>
 								</div>
-								<div class="col s6 m4 l2 input-field">
-									<p class="searchable_label">Work</p>
-									<select id="work_id_fk" name="work_id_fk"
-										onchange="addInQueWork(this.value);getContractList();" class="searchable">
-										<option value="">Select</option>
-										<%--   <c:forEach var="obj" items="${worksList }">
-                                                    <option value="${obj.work_id_fk }" >${obj.work_id_fk}<c:if test="${not empty obj.work_name}"> - </c:if> ${obj.work_name }</option>
-                                                </c:forEach>  --%>
-									</select> 
-								</div>
-								<%-- <div class="col s12 m2 input-field">
-									<p class="searchable_label">Department</p>
-									<select id="department_fk" name="department_fk"
-										onchange="getContractList();" class="searchable">
-										<option value="">Select</option>
-										 <c:forEach var="obj" items="${departmentList }">
-                                                    <option name="${obj.work_id_fk }" value="${obj.department_fk }" >${obj.department_fk}</option>
-                                                </c:forEach> 
-									</select>
-								</div> --%>
 								
 								<div class="col s6 m4 l2 input-field">
 									<p class="searchable_label">HOD</p>
@@ -309,7 +228,7 @@
 							<table id="datatable-contract" class="mdl-data-table">
 								<thead>
 									<tr>
-										<th class="no-sort fw-250">Work &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+										<th class="no-sort">Project</th>
 										<th class="no-sort">Contract ID</th>
 										<th class="no-sort fw-250">Contract Name</th>
 										<th class="no-sort">Contractor Name</th>
@@ -329,7 +248,7 @@
 				</div>
 			</div>
 		</div>
-
+</div>
 		<div class="page-loader" style="display: none;">
 			<div class="preloader-wrapper big active">
 				<div class="spinner-layer spinner-blue-only">
@@ -375,19 +294,18 @@
         <input type="hidden" name="contractor_id_fk" id="exportContractor_id_fk" />
         <input type="hidden" name="contract_status_fk" id="exportContract_status_fk" />
         <input type="hidden" name="contract_status" id="exportContract_status" />
-        <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
         <input type="hidden" name="project_id_fk" id="exportProject_id_fk" />
         <input type="hidden" name="searchStr" id="exportsearchStr" />
         
 	</form>
 
-    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-	<script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-	<script src="/pmis/resources/js/dataTables.material.min.js"></script>
-	<script src="/pmis/resources/js/select2.min.js"></script>
-	<script src="/pmis/resources/js/moment-v2.8.4.min.js"></script> 
-	<script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script> 
+    <script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+	<script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+	<script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+	<script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
+	<script src="/wrpmis/resources/js/select2.min.js"></script>
+	<script src="/wrpmis/resources/js/moment-v2.8.4.min.js"></script> 
+	<script src="/wrpmis/resources/js/datetime-moment-v1.10.12.js"></script> 
 	
     <script>
     
@@ -406,8 +324,6 @@
 	        		  var temp2 = temp[i].split('=');
 		        	  if($.trim(temp2[0]) == 'project_id_fk' ){
 		        		  getProjectFilterList(temp2[1]);
-		        	  }else if($.trim(temp2[0]) == 'work_id_fk'){
-		        		  getWorkFilterList(temp2[1]);
 		        	  }else if($.trim(temp2[0]) == 'designation'){
 		        		  getDesignationFilterList(temp2[1]);
 		        	  }else if($.trim(temp2[0]) == 'dy_hod_designation'){
@@ -455,14 +371,7 @@
     	}
     }
     
-    function addInQueWork(work_id_fk){
-    	Object.keys(filtersMap).forEach(function (key) {
-   			if(key.match('work_id_fk')) delete filtersMap[key];
-   		});
-    	if($.trim(work_id_fk) != ''){
-   	    	filtersMap["work_id_fk"] = work_id_fk;
-    	}
-    }
+
     function addInQueHOD(designation){
     	Object.keys(filtersMap).forEach(function (key) {
    			if(key.match('designation')) delete filtersMap[key];
@@ -510,7 +419,6 @@
     	getDesignationFilterList('');
     	getDyHODDesignationFilterList('');
     	getContractorsFilterList('');
-    	getWorkFilterList('');
     	getProjectFilterList('');
     	getContractStatusFilterList('');
     	getStatusFilterList('');
@@ -533,7 +441,7 @@
 		 
 		table.destroy();
 		
-		$.fn.dataTable.moment('DD-MMM-YYYY');
+		
 		table = $('#datatable-contract').DataTable({
 			"bStateSave": true,  
      		fixedHeader: true,
@@ -599,10 +507,7 @@
 	                    var actions = '<a href="javascript:void(0);"  onclick="getContract('+contract_id+');" class="btn waves-effect waves-light bg-m t-c" title="Edit"><i class="fa fa-pencil"></i></a>';    	                   	
 	                   	var rowArray = [];    	                 
 	                   	
-	                	var workName = '';
-                        if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
-                        
-	                   	rowArray.push($.trim(val.work_id_fk) + workName);
+	                   	rowArray.push($.trim(val.project_id_fk));
 	                   	rowArray.push($.trim(val.contract_id));
 	                   	rowArray.push($.trim(val.contract_short_name));
 	                   	rowArray.push($.trim(val.contractor_name));
@@ -636,7 +541,6 @@
 		getDesignationFilterList(''); 
     	getDyHODDesignationFilterList('');
     	getContractorsFilterList('');
-    	getWorkFilterList('');
     	getProjectFilterList('');
     	getContractStatusFilterList('');
     	getStatusFilterList('');
@@ -790,90 +694,137 @@
  }
     
 
-    function getDyHODDesignationFilterList(dy_designation){
-    	$(".page-loader").show();
-    	var contractor_id_fk = $("#contractor_id_fk").val();
-    	var contract_status_fk = $("#contract_status_fk").val();
-    	var work_id_fk = $("#work_id_fk").val();
-    	var project_id_fk = $("#project_id_fk").val();
-    	var designation = $("#designation").val();
-    	var dy_hod_designation = $("#dy_hod_designation").val();
-    	var contract_status = $("#contract_status").val();
+    function getDyHODDesignationFilterList(dy_designation) {
+        $(".page-loader").show();
+
+        var contractor_id_fk = $("#contractor_id_fk").val();
+        var contract_status_fk = $("#contract_status_fk").val();
+        var work_id_fk = $("#work_id_fk").val();
+        var project_id_fk = $("#project_id_fk").val();
+        var designation = $("#designation").val();
+        var dy_hod_designation = $("#dy_hod_designation").val();
+        var contract_status = $("#contract_status").val();
+
         if ($.trim(dy_hod_designation) == "") {
-        	$("#dy_hod_designation option:not(:first)").remove();
-    	 	var myParams = {designation : designation,dy_hod_designation : dy_hod_designation,contractor_id_fk : contractor_id_fk, contract_status_fk : contract_status_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk, contract_status : contract_status};
+
+            $("#dy_hod_designation option:not(:first)").remove();
+
+            var myParams = {
+                designation: designation,
+                dy_hod_designation: dy_hod_designation,
+                contractor_id_fk: contractor_id_fk,
+                contract_status_fk: contract_status_fk,
+                work_id_fk: work_id_fk,
+                project_id_fk: project_id_fk,
+                contract_status: contract_status
+            };
+
             $.ajax({
                 url: "<%=request.getContextPath()%>/ajax/getDyHODDesignationsFilterListInContract",
-                data: myParams, cache: false,async: false,
+                data: myParams,
+                cache: false,
+                async: false,
                 success: function (data) {
-                    if (data.length > 0) {
-                        $.each(data, function (i, val) {
-                        	var selectedFlag = (dy_designation == val.dy_hod_user_id)?'selected':'';
-                        	/*if($.trim(selectedFlag) != ''){
-                            	if(selectedFlag == ''){
-                            		var selectedFlag = (dy_designation == val.dy_hod_user_id)?'selected':'';
-                        		}
-                         	}else{
-                         		var user_id  = '${sessionScope.USER_ID}';
-                            	var selectedFlag = (user_id == val.dy_hod_user_id)?'selected':'';
-                         	}*/
-                        	$("#dy_hod_designation").append('<option value="' + val.dy_hod_user_id + '" '+selectedFlag+'>' + $.trim(val.dy_hod_designation) +'</option>');
-                        });
-                    }
+
+                    let unique = new Set(); // unique key store
+
+                    data.forEach(function (val) {
+
+                        let key = val.dy_hod_user_id + "_" + $.trim(val.dy_hod_designation);
+
+                        // skip duplicates
+                        if (unique.has(key)) return;
+
+                        unique.add(key);
+
+                        var selectedFlag = (dy_designation == val.dy_hod_user_id) ? 'selected' : '';
+
+                        $("#dy_hod_designation").append(
+                            '<option value="' + val.dy_hod_user_id + '" ' + selectedFlag + '>' +
+                            $.trim(val.dy_hod_designation) +
+                            '</option>'
+                        );
+                    });
+
                     $('.searchable').select2();
                     $(".page-loader").hide();
-                },error: function (jqXHR, exception) {
- 	   			      $(".page-loader").hide();
-	   	          	  getErrorMessage(jqXHR, exception);
-	   	     	  }
+                },
+                error: function (jqXHR, exception) {
+                    $(".page-loader").hide();
+                    getErrorMessage(jqXHR, exception);
+                }
             });
-        }else{
-        	  $(".page-loader").hide();
+        } else {
+            $(".page-loader").hide();
         }
-     }
+    }
 
-    function getDesignationFilterList(hod_designation){
-    	$(".page-loader").show();
-    	var contractor_id_fk = $("#contractor_id_fk").val();
-    	var contract_status_fk = $("#contract_status_fk").val();
-    	var work_id_fk = $("#work_id_fk").val();
-    	var project_id_fk = $("#project_id_fk").val();
-    	var designation = $("#designation").val();
-    	var dy_hod_designation = $("#dy_hod_designation").val();
-    	var contract_status = $("#contract_status").val();
+
+    function getDesignationFilterList(hod_designation) {
+        $(".page-loader").show();
+
+        var contractor_id_fk = $("#contractor_id_fk").val();
+        var contract_status_fk = $("#contract_status_fk").val();
+        var work_id_fk = $("#work_id_fk").val();
+        var project_id_fk = $("#project_id_fk").val();
+        var designation = $("#designation").val();
+        var dy_hod_designation = $("#dy_hod_designation").val();
+        var contract_status = $("#contract_status").val();
+
         if ($.trim(designation) == "") {
-        	$("#designation option:not(:first)").remove();
-    	 	var myParams = {designation : designation,dy_hod_designation : dy_hod_designation,contractor_id_fk : contractor_id_fk, contract_status_fk : contract_status_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk, contract_status : contract_status};
+
+            $("#designation option:not(:first)").remove();
+
+            var myParams = {
+                designation: designation,
+                dy_hod_designation: dy_hod_designation,
+                contractor_id_fk: contractor_id_fk,
+                contract_status_fk: contract_status_fk,
+                work_id_fk: work_id_fk,
+                project_id_fk: project_id_fk,
+                contract_status: contract_status
+            };
+
             $.ajax({
                 url: "<%=request.getContextPath()%>/ajax/getDesignationsFilterListInContract",
-                data: myParams, cache: false,async: false,
+                data: myParams,
+                cache: false,
+                async: false,
                 success: function (data) {
-                    if (data.length > 0) {
-                        $.each(data, function (i, val) {
-                        	var selectedFlag = (hod_designation == val.hod_user_id)?'selected':'';
-                        	/*if($.trim(selectedFlag) != ''){
-                        		if(selectedFlag == ''){
-                            		var selectedFlag = (hod_designation == val.hod_user_id)?'selected':'';
-                        		}
-                         	}else{
-                         		var user_id  = '${sessionScope.USER_ID}';
-                        		var selectedFlag = (user_id == val.hod_user_id)?'selected':'';
-                         	}*/
-                        	$("#designation").append('<option value="' + val.hod_user_id + '" '+selectedFlag+'>' + $.trim(val.designation) +'</option>');
-                        });
-                    }
+
+                    let unique = new Set(); // store unique pairs
+
+                    data.forEach(function (val) {
+
+                        let key = val.hod_user_id + "_" + $.trim(val.designation);
+
+                        // skip duplicates
+                        if (unique.has(key)) return;
+
+                        unique.add(key);
+
+                        var selectedFlag = (hod_designation == val.hod_user_id) ? 'selected' : '';
+
+                        $("#designation").append(
+                            '<option value="' + val.hod_user_id + '" ' + selectedFlag + '>' +
+                            $.trim(val.designation) +
+                            '</option>'
+                        );
+                    });
+
                     $('.searchable').select2();
                     $(".page-loader").hide();
-                },error: function (jqXHR, exception) {
- 	   			      $(".page-loader").hide();
-	   	          	  getErrorMessage(jqXHR, exception);
-	   	     	  }
+                },
+                error: function (jqXHR, exception) {
+                    $(".page-loader").hide();
+                    getErrorMessage(jqXHR, exception);
+                }
             });
-        }else{
-        	  $(".page-loader").hide();
+        } else {
+            $(".page-loader").hide();
         }
-     }
-   
+    }
+
     function getContractorsFilterList(contractor){
     	$(".page-loader").show();
     	var contractor_id_fk = $("#contractor_id_fk").val();
@@ -1011,41 +962,7 @@
 	        }
 	    }
 	 
-	 function getWorkFilterList(work){
-	 	$(".page-loader").show();
-	 	var contractor_id_fk = $("#contractor_id_fk").val();
-    	var contract_status_fk = $("#contract_status_fk").val();
-    	var work_id_fk = $("#work_id_fk").val();
-    	var project_id_fk = $("#project_id_fk").val();
-    	var designation = $("#designation").val();
-    	var dy_hod_designation = $("#dy_hod_designation").val();
-    	var contract_status = $("#contract_status").val();
-	    if ($.trim(work_id_fk) == "") {
-	    	$("#work_id_fk option:not(:first)").remove();
-		 	var myParams = {designation : designation,dy_hod_designation : dy_hod_designation,contractor_id_fk : contractor_id_fk, contract_status_fk : contract_status_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk, contract_status : contract_status};
-            $.ajax({
-                url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInContract",
-                data: myParams, cache: false,async: false,
-                success: function (data) {
-                    if (data.length > 0) {
-                        $.each(data, function (i, val) {
-                        	 var workShortName = '';
-                             if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
-                             var selectedFlag = (work == val.work_id_fk)?'selected':'';
-	                         $("#work_id_fk").append('<option value="' + val.work_id_fk + '"'+selectedFlag+'>' + $.trim(val.work_id_fk)   + workShortName +'</option>');
-                        });
-                    }
-                    $('.searchable').select2();
-                    $(".page-loader").hide();
-                },error: function (jqXHR, exception) {
- 	   			      $(".page-loader").hide();
-	   	          	  getErrorMessage(jqXHR, exception);
-	   	     	  }
-            });
-        }else{
-        	  $(".page-loader").hide();
-        }
-    }
+
 	 
 	 function getProjectFilterList(project){
 		 	$(".page-loader").show();

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
-<%@ page import="com.synergizglobal.pmis.constants.CommonConstants"%>
+<%@ page import="com.synergizglobal.wrpmis.constants.CommonConstants"%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -9,13 +9,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update Risks</title>
-    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-    <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
-    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
+    <link rel="icon" type="image/png" sizes="96x96" href="/wrpmis/resources/images/favicon.png">
+    <link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/datatable-material.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">
       <style>
 
         .input-field .searchable_label {
@@ -103,12 +103,6 @@
                       
                         <!--if  model 2 -->
                         <div class="row no-mar">
-                          		<div class="col s12 m2 input-field" >
-                                	<p class="searchable_label left-align">Work</p>
-                                    <select id="work_id_fk" name="work_id_fk" onchange="getRiskList();" class="searchable" required="required">
-                                    	<option value="" >Select</option>	                                           
-                                    </select>
-                                </div>
 								<div class="col s12 m2 input-field">
 	                                <p class="searchable_label">Assessment Date</p>
 	                                  <select id="assessment_date" name="assessment_date" onchange="getRiskList();" class="searchable">
@@ -280,17 +274,16 @@
     <!-- footer included -->
     <jsp:include page="../layout/footer.jsp"></jsp:include>
 
-    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-    <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-    <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
-    <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-    <script src="/pmis/resources/js/dataTables.material.min.js"></script>
-    <script src="/pmis/resources/js/select2.min.js"></script>
-    <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
-    <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
+    <script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+    <script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/wrpmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+    <script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+    <script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
+    <script src="/wrpmis/resources/js/select2.min.js"></script>
+    <script src="/wrpmis/resources/js/moment-v2.8.4.min.js"></script>
+    <script src="/wrpmis/resources/js/datetime-moment-v1.10.12.js"></script>
     <form name="getForm" id="getForm" method="post">
     	<input type="hidden" name="risk_id_pk" id="risk_id_pk" />
-    	<input type="hidden" name="work_id_fk" id="work_id_fk" />
     </form>
       <script>
       
@@ -395,7 +388,6 @@
         	var classification = $("#classification").val();
         	var responsible_person = $("#responsible_person").val();
         	var assessment_date = $("#assessment_date").val();
-        	getWorksFilterList();
          	getAreasFilterList();
          	getPrioritiesFilterList();
          	getClassificationsFilterList();
@@ -469,40 +461,7 @@
        }
         
         
-        function getWorksFilterList() {
-        	$(".page-loader").show();
-        	var work_id_fk = $("#work_id_fk").val();
-        	var area = $("#area").val();
-        	var priority = $("#priority").val();
-        	var classification = $("#classification").val();
-        	var responsible_person = $("#responsible_person").val();
-        	var assessment_date = $("#assessment_date").val();
-            if ($.trim(work_id_fk) == "") {
-            	$("#work_id_fk option:not(:first)").remove();
-        		var myParams = {work_id_fk : work_id_fk,assessment_date : assessment_date,area : area,priority : priority,classification : classification,responsible_person : responsible_person};
-            	$.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInRisk",
-                    data: myParams, cache: false,
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $.each(data, function (i, val) {
-                            	 var workShortName = '';
-                                 if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
-    	                           $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk)   + workShortName +'</option>');
-                            });
-                        }
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
-                    },error: function (jqXHR, exception) {
-     	   			      $(".page-loader").hide();
-    	   	          	  getErrorMessage(jqXHR, exception);
-    	   	     	  }
-                });
-            }else{
-            	  $(".page-loader").hide();
-            }
-        }
-        
+
         function getAreasFilterList() {
         	$(".page-loader").show();
         	var work_id_fk = $("#work_id_fk").val();

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
         
-    <wb-module deploy-name="pmis">
+    <wb-module deploy-name="wrpmis">
                 
         <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
                 
@@ -9,10 +9,10 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
                 
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/java"/>
                 
-        <property name="java-output-path" value="/pmis/target/classes"/>
-        <property name="context-root" value="pmis"/>
+        <property name="java-output-path" value="/wrpmis/target/classes"/>
+        <property name="context-root" value="wrpmis"/>
+        <property name="component.exclusion.patterns" value="**/*.java,**/test/**,**/*.md,**/old-images/**,**/unused-js/**"/>
             
     </wb-module>
     

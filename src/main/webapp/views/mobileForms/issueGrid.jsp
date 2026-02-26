@@ -8,18 +8,18 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Issues</title>
-	<link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
-	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">	 
-	<link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">	
-	<link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-	<link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
+	<link rel="icon" type="image/png" sizes="96x96"	href="/wrpmis/resources/images/favicon.png">
+	<link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">	 
+	<link rel="stylesheet" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">	
+	<link rel="stylesheet" href="/wrpmis/resources/css/datatable-material.css">
+	<link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
+	<link rel="stylesheet" href="/wrpmis/resources/css/font-awesome-v.4.7.css">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined"	rel="stylesheet">
-	<link rel="stylesheet" href="/pmis/resources/css/rits.css">
-<link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
-	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />	
+	<link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+<link rel="stylesheet" href="/wrpmis/resources/css/header-footer.css">
+	<link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">
+	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/wrpmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/wrpmis/resources/css/mobile-grid-template.css" />	
 	
 	 <style>
         p a {
@@ -184,12 +184,6 @@
                         <div class="col s12 m12 l10">
                         <div class="row">
                            <div class="col s6 m4 l2 input-field">
-                            <p class="searchable_label">Work </p>
-                               <select id="work_id_fk" name="work_id_fk" onchange="addInQueWork(this.value);getIssues();" class="searchable">
-                                   <option value="">Select</option>                                      
-                               </select>
-                          </div>
-                           <div class="col s6 m4 l2 input-field">
                              <p class="searchable_label">Contract</p>
                                  <select id="contract_id_fk" name="contract_id_fk" onchange="addInQueContract(this.value);getIssues();" class="searchable">
                                      <option value="" >Select</option>
@@ -316,17 +310,16 @@
         <input type="hidden" name="department_fk" id="exportDepartment_fk" />
         <input type="hidden" name="category_fk" id="exportCategory_fk" />
         <input type="hidden" name="status_fk" id="exportStatus_fk" />
-         <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
           <input type="hidden" name="hod" id="exportHod" />
 	</form>
 
-	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-	<script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-	<script src="/pmis/resources/js/dataTables.material.min.js"></script>
-	<script src="/pmis/resources/js/select2.min.js"></script>
-	<script src="/pmis/resources/js/moment-v2.8.4.min.js"></script> 
-	<script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script> 
+	<script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+	<script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+	<script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+	<script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
+	<script src="/wrpmis/resources/js/select2.min.js"></script>
+	<script src="/wrpmis/resources/js/moment-v2.8.4.min.js"></script> 
+	<script src="/wrpmis/resources/js/datetime-moment-v1.10.12.js"></script> 
 
 	<script>
 	

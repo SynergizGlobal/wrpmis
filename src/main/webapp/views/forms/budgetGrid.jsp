@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
@@ -10,17 +10,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Budget - Update Forms - PMIS</title>
-    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-    <link href="/pmis/resources/css/sweetalert-v.1.1.0.min.css" rel="stylesheet" />    
-    <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <!-- <link rel="stylesheet" href="/pmis/resources/css/budget.css"> -->
-    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
-    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
-    <link rel="stylesheet" media="screen and (max-device-width: 1024px)" href="/pmis/resources/css/mobile-form-template.css" />
-    <link rel="stylesheet" media="screen and (max-device-width: 1024px)" href="/pmis/resources/css/mobile-grid-template.css" />
+    <link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">
+    <link href="/wrpmis/resources/css/sweetalert-v.1.1.0.min.css" rel="stylesheet" />    
+    <link rel="stylesheet" href="/wrpmis/resources/css/datatable-material.css">
+    <!-- <link rel="stylesheet" href="/wrpmis/resources/css/budget.css"> -->
+    <link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">	
+    <link rel="stylesheet" media="screen and (max-device-width: 1024px)" href="/wrpmis/resources/css/mobile-form-template.css" />
     
     <style>
         p a {
@@ -90,7 +88,7 @@
     <!-- header included -->
     <jsp:include page="../layout/header.jsp"></jsp:include>
 
-	<div class="row">
+	<div class="container-padding">
 		<%-- <div class="col s12 m12 hide-on-med-and-down">
 			<div class="card">
 				<div class="card-content">
@@ -171,21 +169,6 @@
 
 										</select>
 									</div>
-									<div class="col s6 m4 input-field">
-										<p class="searchable_label">Work</p>
-										<select id="work_id_fk" name="work_id_fk"
-											onchange="addInQueWork(this.value);getBudgetList();" class="searchable">
-											<option value="">Select</option>
-
-										</select>
-									</div>
-									<!-- <div class="col s12 m3 input-field">
-                                        <p class="searchable_label">Financial Year</p>
-                                        <select class="searchable" name="financial_year_fk" id="financial_year_fk" onchange="getBudgetList();">
-                                            <option value="" >Select</option>
-                                            	 
-                                        </select>
-                                    </div> -->
 									<div class="col s12 m4 center-align">
 										<button
 											class="btn bg-m waves-effect waves-light t-c clear-filters"
@@ -202,7 +185,7 @@
 								<table id="datatable-budget" class="mdl-data-table">
 										<thead>
 											<tr>
-												<th class='fw-300'>Work</th>
+												<th class='fw-300'>Project</th>
 												<th>Latest <br>Financial Year
 												</th>
 												<th>Budget Estimate</th>
@@ -256,17 +239,17 @@
     <!-- footer included -->
     <jsp:include page="../layout/footer.jsp"></jsp:include>
 
-    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-    <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-    <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
-    <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-    <script src="/pmis/resources/js/dataTables.material.min.js"></script>
-    <script src="/pmis/resources/js/select2.min.js"></script>
-    <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
-    <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
+    <script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+    <script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/wrpmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+    <script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+    <script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
+    <script src="/wrpmis/resources/js/select2.min.js"></script>
+    <script src="/wrpmis/resources/js/moment-v2.8.4.min.js"></script>
+    <script src="/wrpmis/resources/js/datetime-moment-v1.10.12.js"></script>
     
     
-    <script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
+    <script src="/wrpmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
     
 	<form name="getForm" id="getForm" method="post">
     	<input type="hidden" name="budget_id" id="budget_id" />
@@ -274,7 +257,6 @@
     
      <form action="<%=request.getContextPath() %>/export-budget" name="exportBudgetForm" id="exportBudgetForm" target="_blank" method="post">	
          <input type="hidden" name="project_id_fk" id="exportProject_id_fk" />
-         <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
          <input type="hidden" name="financial_year_fk" id="exportFinancial_year_fk" />
 	</form>
 
@@ -295,8 +277,6 @@
 	        		  var temp2 = temp[i].split('=');
 		        	  if($.trim(temp2[0]) == 'project_id_fk' ){
 		        		  getProjectsFilterList(temp2[1]);
-		        	  }else if($.trim(temp2[0]) == 'work_id_fk'){
-		        		  getWorksFilterList(temp2[1]);
 		        	  }
 	        	  }
 	          }
@@ -309,7 +289,6 @@
  
     function clearFilter(){
     	$("#project_id_fk").val("");
-    	$("#work_id_fk").val("");
     	$("#financial_year_fk").val("");
     	$('.searchable').select2();
     	window.localStorage.setItem("budgetFilters",'');
@@ -327,26 +306,15 @@
    	    	filtersMap["project_id_fk"] = project_id_fk;
     	}
     }
-    
-    function addInQueWork(work_id_fk){
-      	Object.keys(filtersMap).forEach(function (key) {
-	   		if(key.match('work_id_fk')) delete filtersMap[key];
-   	   	});
-      	if($.trim(work_id_fk) != ''){
-        	filtersMap["work_id_fk"] = work_id_fk;
-      	}
-    }
-    
+
     var queue = 1;
     function getBudgetList() {
 		$(".page-loader-2").show();
 
-		getWorksFilterList('');
      	getProjectsFilterList('');
      	getFinancialYearsFilterList('');
      	
     	var project_id_fk = $("#project_id_fk").val();
-    	var work_id_fk = $("#work_id_fk").val();
     	var financial_year_fk = $("#financial_year_fk").val();
 
     	var filters = '';
@@ -358,10 +326,8 @@
     	   	table = $('#datatable-budget').DataTable();
     		table.destroy();
 			var i = 0;
-    		$.fn.dataTable.moment('DD-MMM-YYYY');
     		var rowLen = 0;
-    		var myParams =  "work_id_fk="
-    				+ work_id_fk + "&project_id_fk="+ project_id_fk+ "&financial_year_fk="+ financial_year_fk;
+    		var myParams =  "project_id_fk="+ project_id_fk+ "&financial_year_fk="+ financial_year_fk;
 
     		/***************************************************************************************************/
 
@@ -462,12 +428,12 @@
     							"bDestroy" : true,
     							"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/get-budget?"+myParams,
     		        "aoColumns": [
-    		        	
-      		            { "mData": function(data,type,row){
-      		            	var work_short_name = '';
-                             if ($.trim(data.work_short_name) != '') { work_short_name = ' - ' + $.trim(data.work_short_name) }    	
-                             if($.trim(data.work_id_fk) == ''){ return '-'; }else{ return data.work_id_fk +work_short_name; }
-      		            } },
+    		        	{ "mData": function(data,type,row){
+      		            	var project_name = '';
+                             if ($.trim(data.project_name) != '') { project_name = ' - ' + $.trim(data.project_name) }    	
+                             if($.trim(data.project_id) == ''){ return '-'; }else{ return data.project_id +project_name; }
+      		            } },    		        	
+      		            
       		         	{ "mData": function(data,type,row){
                              if($.trim(data.financial_year_fk) == ''){ return '-'; }else{ return data.financial_year_fk ; }
       		            } },
@@ -508,12 +474,10 @@
     function getBudgetList1(){
     	$(".page-loader-2").show();
     	
-    	getWorksFilterList('');
      	getProjectsFilterList('');
      	getFinancialYearsFilterList('');
      	
     	var project_id_fk = $("#project_id_fk").val();
-    	var work_id_fk = $("#work_id_fk").val();
     	var financial_year_fk = $("#financial_year_fk").val();
 
     	var filters = '';
@@ -554,7 +518,7 @@
         }).rows().remove().draw();
 		
 		table.state.clear();		
-	 	var myParams = {project_id_fk : project_id_fk, work_id_fk : work_id_fk, financial_year_fk : financial_year_fk};
+	 	var myParams = {project_id_fk : project_id_fk, financial_year_fk : financial_year_fk};
 	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/get-budget",
 			type:"POST",
 			data:myParams, cache: false,async:false,
@@ -564,12 +528,10 @@
          			var budget_id = "'"+val.budget_id+"'";
                     var actions = '<a href="javascript:void(0);"  onclick="getBudget('+budget_id+');" class="btn waves-effect waves-light bg-m t-c"><i class="fa fa-pencil"></i></a>'
 /*                     			  +'<a onclick="deleteBudget('+budget_id+');" class="btn waves-effect waves-light bg-s t-c "><i class="fa fa-trash"></i></a>'
- */                   	var rowArray = [];    	                 
+ */                   	var rowArray = [];   
+
+ 					rowArray.push($.trim(val.project_id+' - '+val.project_name));
                    	
-                	var workName = '';
-                    if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
-                    
-                   	rowArray.push($.trim(val.work_id_fk) + workName);
                    	rowArray.push($.trim(val.financial_year_fk));
                    	rowArray.push($.trim(val.budget_estimate));
                    	rowArray.push($.trim(val.budget_grant));
@@ -594,46 +556,15 @@
      }});
    }
     
-    function getWorksFilterList(work) {
-    	$(".page-loader").show();
-        var project_id_fk = $("#project_id_fk").val();
-        var financial_year_fk = $("#financial_year_fk").val();
-        var work_id_fk = $("#work_id_fk").val();
-        if ($.trim(work_id_fk) == "") {
-        	$("#work_id_fk option:not(:first)").remove();
-        	var myParams = { project_id_fk: project_id_fk,financial_year_fk : financial_year_fk,work_id_fk: work_id_fk };
-            $.ajax({
-                url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInBudget",
-                data: myParams, cache: false,async: false,
-                success: function (data) {
-                    if (data.length > 0) {
-                        $.each(data, function (i, val) {
-                        	 var workShortName = '';
-                             if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
-                             var selectedFlag = (work == val.work_id_fk)?'selected':'';
-	                         $("#work_id_fk").append('<option value="' + val.work_id_fk + '"'+selectedFlag+'>' + $.trim(val.work_id_fk)   + workShortName +'</option>');
-                        });
-                    }
-                    $('.searchable').select2();
-                    $(".page-loader").hide();
-                },error: function (jqXHR, exception) {
- 	   			      $(".page-loader").hide();
-	   	          	  getErrorMessage(jqXHR, exception);
-	   	     	  }
-            });
-        }else{
-        	  $(".page-loader").hide();
-        }
-    }
+
     
     function getProjectsFilterList(project) {
     	$(".page-loader").show();
         var project_id_fk = $("#project_id_fk").val();
-        var work_id_fk = $("#work_id_fk").val();
         var financial_year_fk = $("#financial_year_fk").val();
 		if ($.trim(project_id_fk) == "") {
         	$("#project_id_fk option:not(:first)").remove();
-        	var myParams = { project_id_fk: project_id_fk,financial_year_fk : financial_year_fk,work_id_fk: work_id_fk };
+        	var myParams = { project_id_fk: project_id_fk,financial_year_fk : financial_year_fk };
             $.ajax({
                 url: "<%=request.getContextPath()%>/ajax/getProjectsFilterListInBudget",
                 data: myParams, cache: false,async: false,
@@ -661,11 +592,10 @@
     function getFinancialYearsFilterList(year) {
     	$(".page-loader").show();
         var project_id_fk = $("#project_id_fk").val();
-        var work_id_fk = $("#work_id_fk").val();
         var financial_year_fk = $("#financial_year_fk").val();
         if ($.trim(financial_year_fk) == "") {
         	$("#financial_year_fk option:not(:first)").remove();
-        	var myParams = { project_id_fk: project_id_fk,financial_year_fk : financial_year_fk,work_id_fk: work_id_fk };
+        	var myParams = { project_id_fk: project_id_fk,financial_year_fk : financial_year_fk};
             $.ajax({
                 url: "<%=request.getContextPath()%>/ajax/getFinancialYearsFilterListInBudget",
                 data: myParams, cache: false,
@@ -745,10 +675,8 @@
     
     function exportBudget(){
    	 var project_id_fk = $("#project_id_fk").val();
-     var work_id_fk = $("#work_id_fk").val();
    	 var financial_year_fk = $("#financial_year_fk").val();
    	 $("#exportProject_id_fk").val(project_id_fk);
-   	 $("#exportWork_id_fk").val(work_id_fk);
    	 $("#exportFinancial_year_fk").val(financial_year_fk);
    	 $("#exportBudgetForm").submit();
 	}

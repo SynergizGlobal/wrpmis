@@ -11,14 +11,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Error page</title>
-    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
+    <link rel="icon" type="image/png" sizes="96x96" href="/wrpmis/resources/images/favicon.png">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r83/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
     <style>
         body {
-       			background: url("/pmis/resources/images/bg-500.jpg");
+       			background: url("/wrpmis/resources/images/bg-500.jpg");
            		/* background: #EBE9E9; */
                 background-position: center;
 			    background-size: cover;
@@ -666,7 +664,7 @@
     <nav>
         <div class="nav-wrapper blue darken-3">
             <div class="">
-                <a href="<%=request.getContextPath() %>/home" class="brand-logo fs"><img src="/pmis/resources/images/mrvclogo.png" alt="Logo"> MRVC PMIS</a>
+                <a href="<%=request.getContextPath() %>/home" class="brand-logo fs"><img src="/wrpmis/resources/images/mrvclogo.png" alt="Logo"> WR PMIS</a>
                 <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="fa fa-bars"></i></a>
 
             </div>
@@ -741,13 +739,10 @@
         <div class="footer-copyright blue lighten-5 bottom">
             <div class="container">
                 <span>Copyright 2020 @ mrvc.indianrailways.gov.in | Designed & Developed by</span> <img
-                    src="/pmis/resources/images/synergiz.png" class="footer-img" alt="footer image">
+                    src="/wrpmis/resources/images/synergiz.png" class="footer-img" alt="footer image">
             </div>
         </div>
     </div>
-
-    <!-- <script src="js/jQuery.min.js"></script>
-    <script src="js/materialize.min.js"></script> -->
     
     
     <script>

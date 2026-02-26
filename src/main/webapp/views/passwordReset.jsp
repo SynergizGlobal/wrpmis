@@ -8,13 +8,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reset Password - User Details - PMIS</title>
-  <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-  <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-  <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-  <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-  <!-- <link rel="stylesheet" href="/pmis/resources/css/activity.css"> -->
-  <link rel="stylesheet" href="/pmis/resources/css/rits.css">
-  <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
+  <link rel="icon" type="image/png" sizes="96x96" href="/wrpmis/resources/images/favicon.png">
+  <link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+  <link rel="stylesheet" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">
+  <link rel="stylesheet" href="/wrpmis/resources/css/datatable-material.css">
+  <!-- <link rel="stylesheet" href="/wrpmis/resources/css/activity.css"> -->
+  <link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+  <link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
   <style type="text/css">
   	.error{color:red;}
   	.toggle-password{
@@ -50,7 +50,7 @@
   <!-- header includes -->
   <jsp:include page="./layout/header.jsp"></jsp:include>
 
-  <div class="row">
+  <div class="row w-100">
         <div class="col s12 m12">
             <div class="card">
                 <div class="card-content">
@@ -81,7 +81,7 @@
                                 <div class="col s12 m6 l4 offset-l4 input-field offset-m3">
                                     <input type="password" id="oldPassword" name="oldPassword" class="validate" autocomplete="off">
                                     <label for="oldPassword">Old Password</label>
-                                     <span class="material-icons toggle-password old-pass">visibility_off</span>
+                                     <span class="fa-solid fa-eye toggle-password old-pass"></span>
                                     <span id="oldPasswordError" ></span>
                                 </div>
                             </div>
@@ -89,7 +89,7 @@
                                 <div class="col s12 m6 l4 offset-l4 input-field offset-m3">
                                     <input type="password" id="newPassword" name="newPassword"  class="validate" autocomplete="off"  pattern="^\d*(\.\d{0,2})?$">
                                     <label for="newPassword">New Password</label>
-                                    <span class="material-icons toggle-password new-pass">visibility_off</span>
+                                    <span class="fa-solid fa-eye toggle-password new-pass"></span>
                                     <span id="newPasswordError" ></span>
                                 </div>
                             </div>
@@ -99,7 +99,7 @@
                                 <div class="col s12 m6 l4 offset-l4 input-field offset-m3 ">
                                     <input type="password" id="confirmPassword" name="confirmPassword" class="validate" autocomplete="off">
                                     <label for="confirmPassword">Confirm Password</label>
-                                    <span class="material-icons toggle-password conf-pass">visibility_off</span>
+                                    <span class="fa-solid fa-eye toggle-password conf-pass"></span>
                                     <span id="confirmPasswordError" ></span>
                                 </div>
                             </div>
@@ -147,11 +147,11 @@
   <!-- footer includes -->
   <jsp:include page="./layout/footer.jsp"></jsp:include>
   
-  <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-  <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-  <script src="/pmis/resources/js/dataTables.material.min.js"></script>
-  <script src="/pmis/resources/js/select2.min.js"></script>
-  <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+  <script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+  <script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+  <script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
+  <script src="/wrpmis/resources/js/select2.min.js"></script>
+  <script src="/wrpmis/resources/js/jquery-validation-1.19.1.min.js"></script>
   
   <script type="text/javascript">
   var glbProcess=false;
@@ -269,11 +269,7 @@
 	    	    }
 	    	});
 	        $(".old-pass").on('click', function() {
-		    	  if($(this).text()=='visibility_off'){
-		    		  $(this).text('visibility');
-		    	  } else{
-		    		  $(this).text('visibility_off');
-		    	  }
+	        	$(this).toggleClass("fa-eye-slash");
 		    	  var input = $("#oldPassword");
 		    	  if (input.attr("type") === "password") {
 		    	     input.attr("type", "text");
@@ -282,11 +278,7 @@
 		    	  }	
 		    });	
 	        $(".new-pass").on('click', function() {
-		    	  if($(this).text()=='visibility_off'){
-		    		  $(this).text('visibility');
-		    	  } else{
-		    		  $(this).text('visibility_off');
-		    	  }
+	        	$(this).toggleClass("fa-eye-slash");
 		    	  var input = $("#newPassword");
 		    	  if (input.attr("type") === "password") {
 		    	     input.attr("type", "text");
@@ -295,11 +287,7 @@
 		    	  }	
 		    });		        
 	        $(".conf-pass").on('click', function() {
-		    	  if($(this).text()=='visibility_off'){
-		    		  $(this).text('visibility');
-		    	  } else{
-		    		  $(this).text('visibility_off');
-		    	  }
+	        	$(this).toggleClass("fa-eye-slash");
 		    	  var input = $("#confirmPassword");
 		    	  if (input.attr("type") === "password") {
 		    	     input.attr("type", "text");

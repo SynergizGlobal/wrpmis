@@ -73,7 +73,7 @@
 
   <!-- header including -->
   <jsp:include page="../../layout/header.jsp"></jsp:include>
-  <div class="row">
+  <div class="container-padding">
         <div class="col s12 m12">
 <!-- card starting -->
             <div class="card">
@@ -368,8 +368,8 @@
   		<input type="hidden" name="landAcquisitionId" id="landAcquisitionId"/>
   </form>
   
-  <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>	
+  <script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+	<script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>	
   <script src="/mrvc/resources/js/jquery.dataTables-v.1.10.min.js"></script>
   <script src="/mrvc/resources/js/dataTables.material.min.js"></script>
     <!--script src="/mrvc/resources/js/dataTables.fixedHeader.min.js"></script-->

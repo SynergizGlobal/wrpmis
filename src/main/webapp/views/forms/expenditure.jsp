@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants"%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -9,17 +9,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Expenditure - Update Forms - PMIS</title>
-    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-    <link href="/pmis/resources/css/sweetalert-v.1.1.0.min.css" rel="stylesheet" />    
-    <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <!-- <link rel="stylesheet" href="/pmis/resources/css/budget.css"> -->
-    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
-    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" />
-    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-grid-template.css" />
+    <link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">
+    <link href="/wrpmis/resources/css/sweetalert-v.1.1.0.min.css" rel="stylesheet" />    
+    <link rel="stylesheet" href="/wrpmis/resources/css/datatable-material.css">
+    <!-- <link rel="stylesheet" href="/wrpmis/resources/css/budget.css"> -->
+    <link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/wrpmis/resources/css/mobile-form-template.css" />
     <style>
         p a {
             color: blue
@@ -127,56 +125,8 @@
     <jsp:include page="../layout/header.jsp"></jsp:include>
 
 
-	<div class="row">
-		<%-- <div class="col s12 m12 hide-on-med-and-down">
-			<div class="card">
-				<div class="card-content">
-					<span class="card-title headbg">
-						<div class="center-align bg-m p-2 m-b-5">
-							<h6>Expenditure</h6>
-						</div>
-					</span>
-					<div class="">
-						<c:if test="${not empty success }">
-							<div class="center-align m-1 close-message">${success}</div>
-						</c:if>
-						<c:if test="${not empty error }">
-							<div class="center-align m-1 close-message">${error}</div>
-						</c:if>
-						<div class="row plr-1 center-align">
-							<div class="col s12 m4 hide-on-med-and-down">
-								<div class="m-1 l-align">
-									<a href="javascript:void(0);"
-										onclick="openUploadExpendituresModal();"
-										class="btn waves-effect waves-light bg-s t-c"> <strong><i
-											class="fa fa-arrow-circle-up"></i> Upload Data</strong></a>
-									<p style="padding-top: 1rem">
-										Click <a href="/pmis/Expenditure_Template.xlsx" download>here</a>
-										for the template
-									</p>
-								</div>
-							</div>
+	<div class="container-padding">
 
-							<div class="col s12 m4">
-								<div class="m-1 c-align">
-									<a href="<%=request.getContextPath()%>/add-expenditure-form"
-										class="btn waves-effect waves-light bg-s t-c"> <strong><i
-											class="fa fa-plus-circle"></i> Add Expenditure</strong></a>
-								</div>
-							</div>
-
-							<div class="col s12 m4 r-align ">
-								<div class="m-1 ">
-									<a href="javascript:void(0);" onclick="exportExpenditure();"
-										class="btn waves-effect waves-light bg-s t-c"> <strong><i
-											class="fa fa-cloud-download"></i> Export Data</strong></a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div> --%>
 		<div class="row">
 			<div class="col s12 m12">
 				<div class="card">
@@ -187,8 +137,9 @@
 								<h6 class="mob-mar">Expenditure</h6>
 								<div class="col s12 m12 right-align exportButton hideCOl">
     								<div class="m-n1">
-    									 <a href="/pmis/Expenditure_Template.xlsx" download class="template-btn" title="Download Template">
-            <i class="material-icons-outlined">download_for_offline</i>
+    									 <a href="/wrpmis/Expenditure_Template.xlsx" download class="template-btn" title="Download Template">
+            <span class="material-symbols-outlined">download_for_offline</span>
+ 
         </a>
         <a href="javascript:void(0);"
 										onclick="openUploadExpendituresModal();"
@@ -217,16 +168,6 @@
 						<c:if test="${not empty error }">
 							<div class="center-align m-1 close-message">${error}</div>
 						</c:if>
-							<div class="col s6 m4 l2 input-field">
-								<p class="searchable_label">Work</p>
-								<select id="work_id_fk" name="work_id_fk"
-									onchange="addInQueWork(this.value);getExpenditureList();" class="searchable">
-									<option value="">Select</option>
-									<%--  <c:forEach var="obj" items="${worksList}">
-                 						  <option value="${obj.work_id_fk }" <c:if test="${param.work_id_fk eq obj.work_id_fk }">selected</c:if>>${obj.work_id_fk }<c:if test="${not empty obj.work_name}"> - </c:if>${obj.work_name}</option>
-                                      </c:forEach> --%>
-								</select>
-							</div>
 							<div class="col s6 m4 l2 input-field">
 								<p class="searchable_label">Contract</p>
 								<select id="contract_id_fk" name="contract_id_fk"
@@ -282,7 +223,7 @@
 						<table id="datatable-expenditure" class="mdl-data-table">
 							<thead>
 								<tr>
-									<th class="fw-250">Work</th>
+									<th class="fw-250">Project</th>
 									<th class="fw-300">Contract</th>
 									<th class="fw-250">Ledger Account</th>
 									<th>Contractor Name </th>
@@ -374,14 +315,14 @@
     <!-- footer included -->
     <jsp:include page="../layout/footer.jsp"></jsp:include>
 
-    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-    <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-    <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
-    <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-    <script src="/pmis/resources/js/dataTables.material.min.js"></script>
-    <script src="/pmis/resources/js/select2.min.js"></script>
-    <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
-    <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
+    <script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+    <script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/wrpmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+    <script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+    <script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
+    <script src="/wrpmis/resources/js/select2.min.js"></script>
+    <script src="/wrpmis/resources/js/moment-v2.8.4.min.js"></script>
+    <script src="/wrpmis/resources/js/datetime-moment-v1.10.12.js"></script>
     
     <form name="getForm" id="getForm" method="post">
     	<input type="hidden" name="expenditure_id" id="expenditure_id" />
@@ -389,7 +330,6 @@
     
      <form action="<%=request.getContextPath() %>/export-expenditure" name="exportExpenditureForm" id="exportExpenditureForm" target="_blank" method="post">	
        
-         <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
          <input type="hidden" name="contract_id_fk" id="exportContract_id_fk" />
          <input type="hidden" name="ledger_account" id="exportLedger_account" />
          <input type="hidden" name="contractor_name" id="exportContractor_name" />
@@ -423,8 +363,6 @@
         		  var temp2 = temp[i].split('=');
 	        	  if($.trim(temp2[0]) == 'ledger_account' ){
 	        		  getLedgerAccountsFilterList(temp2[1]);
-	        	  }else if($.trim(temp2[0]) == 'work_id_fk'){
-	        		  getWorksFilterList(temp2[1]);
 	        	  }else if($.trim(temp2[0]) == 'contract_id_fk'){
 	        		  getContractsFilterList(temp2[1]);
 	        	  }else if($.trim(temp2[0]) == 'contractor_name'){
@@ -443,7 +381,6 @@
   
 
     function clearFilter(){
-    	$("#work_id_fk").val("");
     	$("#contract_id_fk").val("");
     	$("#ledger_account").val("");
     	$("#contractor_name").val("");
@@ -464,15 +401,7 @@
    	    	filtersMap["ledger_account"] = ledger_account;
     	}
     }
-    
-    function addInQueWork(work_id_fk){
-      	Object.keys(filtersMap).forEach(function (key) {
-	   		if(key.match('work_id_fk')) delete filtersMap[key];
-   	   	});
-      	if($.trim(work_id_fk) != ''){
-        	filtersMap["work_id_fk"] = work_id_fk;
-      	}
-    }
+
     
     function addInQueContract(contract_id_fk){
     	Object.keys(filtersMap).forEach(function (key) {
@@ -504,13 +433,11 @@
     function getExpenditureList() {
 		$(".page-loader-2").show();
 
-		getWorksFilterList('');
     	getContractsFilterList(''); 
     	getLedgerAccountsFilterList('');
     	getContractorNamesFilterList(''); 
     	getVoucherTypesFilterList('');
     	
-    	var work_id_fk = $("#work_id_fk").val();
     	var contract_id_fk = $("#contract_id_fk").val();
     	var ledger_account = $("#ledger_account").val();
     	var contractor_name = $("#contractor_name").val();
@@ -527,9 +454,8 @@
 
     		table.destroy();
 
-    		$.fn.dataTable.moment('DD-MMM-YYYY');
     		var rowLen = 0;
-    		var myParams = "work_id_fk=" + work_id_fk + "&contract_id_fk="
+    		var myParams = "contract_id_fk="
     				+ contract_id_fk + "&ledger_account=" + ledger_account
     				+ "&contractor_name=" + contractor_name+ "&voucher_type=" + voucher_type;
 
@@ -628,11 +554,7 @@
     							"bDestroy" : true,
     							"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/get-expenditure?"+myParams,
     		        "aoColumns": [
-    		            { "mData": function(data,type,row){
-    		            	var work_short_name = '';
-                            if ($.trim(data.work_short_name) != '') { work_short_name = ' - ' + $.trim(data.work_short_name) }    	
-                         	if($.trim(data.work_id_fk) == ''){ return '-'; }else{ return data.work_id_fk +work_short_name; }
-            			} },   				            
+    		               				            
     		            { "mData": function(data,type,row){
     		            	var contract_short_name = '';
                             if ($.trim(data.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(data.contract_short_name) } 
@@ -666,13 +588,11 @@
     function getExpenditureList1(){
     	
     	$(".page-loader-2").show();
-    	getWorksFilterList('');
     	getContractsFilterList(''); 
     	getLedgerAccountsFilterList('');
     	getContractorNamesFilterList(''); 
     	getVoucherTypesFilterList('');
     	
-    	var work_id_fk = $("#work_id_fk").val();
     	var contract_id_fk = $("#contract_id_fk").val();
     	var ledger_account = $("#ledger_account").val();
     	var contractor_name = $("#contractor_name").val();
@@ -716,7 +636,7 @@
         }).rows().remove().draw();
 		
 		table.state.clear();		
-	 	var myParams = { work_id_fk : work_id_fk, contract_id_fk : contract_id_fk, ledger_account : ledger_account, contractor_name : contractor_name, voucher_type : voucher_type};
+	 	var myParams = { contract_id_fk : contract_id_fk, ledger_account : ledger_account, contractor_name : contractor_name, voucher_type : voucher_type};
 	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/get-expenditure",
 	 		type:"POST",
 			data:myParams, cache: false,async:true,
@@ -728,12 +648,9 @@
                     			  //+'<a onclick="deleteExpenditure('+expenditure_id+');" class="btn waves-effect waves-light bg-s t-c "><i class="fa fa-trash"></i></a>'
                   	var rowArray = [];    	                 
                    	
-                	var workName = '';
-                    if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
                     var contractName = '';
                     if ($.trim(val.contract_short_name) != '') { contractName = ' - ' + $.trim(val.contract_short_name) }
                     
-                   	rowArray.push($.trim(val.work_id_fk) + workName);
                    	rowArray.push($.trim(val.contract_id_fk) + contractName);
                    	rowArray.push($.trim(val.ledger_account));
                    	rowArray.push($.trim(val.contractor_name));
@@ -756,50 +673,15 @@
       }});
     }
     
-    function getWorksFilterList(work) {
-    	$(".page-loader").show();
-    	var work_id_fk = $("#work_id_fk").val();
-    	var contract_id_fk = $("#contract_id_fk").val();
-    	var ledger_account = $("#ledger_account").val();
-    	var contractor_name = $("#contractor_name").val();
-    	var voucher_type = $("#voucher_type").val();
-        if ($.trim(work_id_fk) == "") {
-        	$("#work_id_fk option:not(:first)").remove();
-    	 	var myParams = { work_id_fk : work_id_fk, contract_id_fk : contract_id_fk, ledger_account : ledger_account, contractor_name : contractor_name, voucher_type : voucher_type};
-            $.ajax({
-                url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInExpenditure",
-                data: myParams, cache: false,async: false,
-                success: function (data) {
-                    if (data.length > 0) {
-                        $.each(data, function (i, val) {
-                        	 var workShortName = '';
-                             if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
-                             var selectedFlag = (work == val.work_id_fk)?'selected':'';
-	                         $("#work_id_fk").append('<option value="' + val.work_id_fk + '" '+selectedFlag+'>' + $.trim(val.work_id_fk)   + workShortName +'</option>');
-                        });
-                    }
-                    $('.searchable').select2();
-                    $(".page-loader").hide();
-                },error: function (jqXHR, exception) {
- 	   			      $(".page-loader").hide();
-	   	          	  getErrorMessage(jqXHR, exception);
-	   	     	  }
-            });
-        }else{
-        	  $(".page-loader").hide();
-        }
-    }
-    
     function getContractsFilterList(contract) {
     	$(".page-loader").show();
-    	var work_id_fk = $("#work_id_fk").val();
     	var contract_id_fk = $("#contract_id_fk").val();
     	var ledger_account = $("#ledger_account").val();
     	var contractor_name = $("#contractor_name").val();
     	var voucher_type = $("#voucher_type").val();
         if ($.trim(contract_id_fk) == "") {
         	$("#contract_id_fk option:not(:first)").remove();
-    	 	var myParams = { work_id_fk : work_id_fk, contract_id_fk : contract_id_fk, ledger_account : ledger_account, contractor_name : contractor_name, voucher_type : voucher_type};
+    	 	var myParams = { contract_id_fk : contract_id_fk, ledger_account : ledger_account, contractor_name : contractor_name, voucher_type : voucher_type};
             $.ajax({
                 url: "<%=request.getContextPath()%>/ajax/getContractsFilterListInExpenditure",
                 data: myParams, cache: false,async: false,
@@ -826,14 +708,13 @@
     
     function getLedgerAccountsFilterList(ledger) {
     	$(".page-loader").show();
-    	var work_id_fk = $("#work_id_fk").val();
     	var contract_id_fk = $("#contract_id_fk").val();
     	var ledger_account = $("#ledger_account").val();
     	var contractor_name = $("#contractor_name").val();
     	var voucher_type = $("#voucher_type").val();
         if ($.trim(ledger_account) == "") {
         	$("#ledger_account option:not(:first)").remove();
-    	 	var myParams = { work_id_fk : work_id_fk, contract_id_fk : contract_id_fk, ledger_account : ledger_account, contractor_name : contractor_name, voucher_type : voucher_type};
+    	 	var myParams = { contract_id_fk : contract_id_fk, ledger_account : ledger_account, contractor_name : contractor_name, voucher_type : voucher_type};
             $.ajax({
                 url: "<%=request.getContextPath()%>/ajax/getLedgerAccountsFilterListInExpenditure",
                 data: myParams, cache: false,async: false,
@@ -858,14 +739,13 @@
     
     function getContractorNamesFilterList(contractorName) {
     	$(".page-loader").show();
-    	var work_id_fk = $("#work_id_fk").val();
     	var contract_id_fk = $("#contract_id_fk").val();
     	var ledger_account = $("#ledger_account").val();
     	var contractor_name = $("#contractor_name").val();
     	var voucher_type = $("#voucher_type").val();
         if ($.trim(contractor_name) == "") {
         	$("#contractor_name option:not(:first)").remove();
-    	 	var myParams = { work_id_fk : work_id_fk, contract_id_fk : contract_id_fk, ledger_account : ledger_account, contractor_name : contractor_name, voucher_type : voucher_type};
+    	 	var myParams = { contract_id_fk : contract_id_fk, ledger_account : ledger_account, contractor_name : contractor_name, voucher_type : voucher_type};
             $.ajax({
                 url: "<%=request.getContextPath()%>/ajax/getContractorNamesFilterListInExpenditure",
                 data: myParams, cache: false,async: false,
@@ -890,14 +770,13 @@
     
     function getVoucherTypesFilterList(type) {
     	$(".page-loader").show();
-    	var work_id_fk = $("#work_id_fk").val();
     	var contract_id_fk = $("#contract_id_fk").val();
     	var ledger_account = $("#ledger_account").val();
     	var contractor_name = $("#contractor_name").val();
     	var voucher_type = $("#voucher_type").val();
         if ($.trim(voucher_type) == "") {
         	$("#voucher_type option:not(:first)").remove();
-    	 	var myParams = { work_id_fk : work_id_fk, contract_id_fk : contract_id_fk, ledger_account : ledger_account, contractor_name : contractor_name, voucher_type : voucher_type};
+    	 	var myParams = { contract_id_fk : contract_id_fk, ledger_account : ledger_account, contractor_name : contractor_name, voucher_type : voucher_type};
             $.ajax({
                 url: "<%=request.getContextPath()%>/ajax/getVoucherTypesFilterListInExpenditure",
                 data: myParams, cache: false,async: false,
@@ -922,13 +801,11 @@
     
     function exportExpenditure(){
       	
-        var work_id_fk = $("#work_id_fk").val();
         var contract_id_fk = $("#contract_id_fk").val();
     	var ledger_account = $("#ledger_account").val();
     	var contractor_name = $("#contractor_name").val();
     	var voucher_type = $("#voucher_type").val();
       	
-      	 $("#exportWork_id_fk").val(work_id_fk);
       	 $("#exportContract_id_fk").val(contract_id_fk);
     	 $("#exportLedger_account").val(ledger_account);
     	 $("#exportContractor_name").val(contractor_name);

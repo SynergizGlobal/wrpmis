@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants2"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
@@ -8,14 +8,14 @@
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Utility Shifting - Update Forms - PMIS</title>
-    <link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">     
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">     
-    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
-    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
-	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" />
+    <link rel="icon" type="image/png" sizes="96x96"	href="/wrpmis/resources/images/favicon.png">
+    <link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">     
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">     
+    <link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">	
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/wrpmis/resources/css/mobile-form-template.css" />
+	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/wrpmis/resources/css/mobile-responsive-table.css" />
 	
     <style>
        
@@ -297,7 +297,7 @@
  <!-- header  starts-->
          <jsp:include page="../layout/header.jsp"></jsp:include>
                   
-       <div class="row">
+       <div class="container-padding">
         <div class="col s12 m12" style="margin-bottom:3rem;">
             <div class="card ">
                 <div class="card-content">
@@ -326,8 +326,7 @@
                             <div class="row" style="margin-top:1rem;">
                                 <div class="col s12 m3 l3 input-field">
                                 <p class="searchable_label"> Project </p>
-                                    <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"
-                                        onchange="getWorksList(this.value);">
+                                    <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${projectsList }">
                                             <option value="${obj.project_id_fk }" <c:if test="${obj.project_id_fk eq utilityShifting.project_id_fk}">selected</c:if>>${obj.project_id_fk}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
@@ -336,27 +335,6 @@
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
                                  <input type="hidden" id= "work_code" name= "work_code"/>
-                                <div class="col s12 m3 l3 input-field">
-                                <p class="searchable_label"> Work <span class="required">*</span></p>
-                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
-                                        onchange="getImpactedContractsList(this.value);">
-                                        <option value="">Select</option>
-                                        <c:forEach var="obj" items="${worksList }">
-                                      	   <option name="${ obj.work_code}" value= "${ obj.work_id_fk}" <c:if test="${obj.work_id_fk eq utilityShifting.work_id_fk}">selected</c:if>>${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
-                                         </c:forEach>
-                                    </select>
-                                    <span id="work_id_fkError" class="error-msg" ></span>
-                                </div>
-                                <%-- <div class="col s12 m4 l4 input-field">
-                                	<p class="searchable_label"> Contract </p>
-                                    <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" onchange="resetWorksAndProjectsDropdowns();">
-                                        <option value="">Select</option>
-                                        <c:forEach var="obj" items="${contractsList }">
-                                      	   <option  workId="${obj.work_id_fk }" hod_user_id="${obj.hod_user_id_fk }" value= "${ obj.contract_id_fk}" <c:if test="${obj.contract_id_fk eq utilityShifting.contract_id_fk}">selected</c:if>>${obj.contract_id_fk}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
-                                         </c:forEach>
-                                    </select>
-                                    <span id="contract_id_fkError" class="error-msg" ></span>
-                                </div> --%>
                                 <div class="col s12 m3 l3 input-field">
                                     <p class="searchable_label"> Execution Agency <span class="required">*</span></p>
                                     <select class="searchable validate-dropdown" id="execution_agency_fk" name="execution_agency_fk" >
@@ -844,13 +822,13 @@
     <!-- footer  -->
  <jsp:include page="../layout/footer.jsp"></jsp:include>
  
-    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-    <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-    <script src="/pmis/resources/js/datepickerDepedency.js"></script>
-    <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-    <script src="/pmis/resources/js/dataTables.material.min.js"></script>
-    <script src="/pmis/resources/js/select2.min.js"></script>
-	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+    <script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+    <script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/wrpmis/resources/js/datepickerDepedency.js"></script>
+    <script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+    <script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
+    <script src="/wrpmis/resources/js/select2.min.js"></script>
+	<script src="/wrpmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 
    <script>
    $(document).ready(function() {
@@ -871,19 +849,19 @@
 	       $('#latitude').val();
 	       $('#longitude').val();	
 	       
-		 if($("#work_id_fk").val()!="" || "${utilityShifting.work_id_fk}"!="")
+		 if($("#project_id_fk").val()!="" || "${utilityShifting.project_id_fk}"!="")
 			 {
 		       var r1=$('#chainage').val();
-		       var work_id_fk=$("#work_id_fk").val();
-		       	   if($("#work_id_fk").val()=="")
+		       var project_id_fk=$("#project_id_fk").val();
+		       	   if($("#project_id_fk").val()=="")
 		    	   {
-		       		work_id_fk="${utilityShifting.work_id_fk}";
+		       		project_id_fk="${utilityShifting.project_id_fk}";
 		    	   }
 		       if(r1!="")
 		       	{
 		    	   var c1=r1; 
 		    	   
-			        	var myParams = { chainage: r1,work_id_fk:work_id_fk };
+			        	var myParams = { chainage: r1,project_id_fk:project_id_fk };
 			            $.ajax({
 			                url: "<%=request.getContextPath()%>/ajax/getRRCoordinates",
 			                data: myParams, cache: false,
@@ -1100,16 +1078,13 @@
     	} 
          
         var project_id_fk = "${utilityShifting.project_id_fk}";
-        var work_id_fk = "${utilityShifting.work_id_fk}";
+        var project_id_fk = "${utilityShifting.project_id_fk}";
         var impacted_contract_id_fk = "${utilityShifting.impacted_contract_id_fk}";
         var requirement_stage_fk = "${utilityShifting.requirement_stage_fk}";
         var impacted_element = "${utilityShifting.impacted_element}";
-        
+
         if($.trim(project_id_fk) != '' ){
-        	getWorksList(project_id_fk);
-        }
-        if($.trim(work_id_fk) != '' ){
-        	getImpactedContractsList(work_id_fk);
+        	getImpactedContractsList(project_id_fk);
         }
         if($.trim(impacted_contract_id_fk) != '' ){
         	getRequirementStageList(impacted_contract_id_fk);
@@ -1223,48 +1198,16 @@
     	$("#progressDetailsRow"+rowNo).remove();
     }   
     
-    
-    function getWorksList(projectId) {
-    	$(".page-loader").show();
-        $("#work_id_fk option:not(:first)").remove();
-        $("#contract_id_fk option:not(:first)").remove();
-
-        if ($.trim(projectId) != "") {
-            var myParams = { project_id_fk: projectId };
-            $.ajax({
-                url: "<%=request.getContextPath()%>/ajax/getWorkListForUtilityForm",
-                data: myParams, cache: false,
-                success: function (data) {
-                    if (data.length > 0) {
-                        $.each(data, function (i, val) {
-                            var workShortName = '';
-                            if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
-                            var work_id_fk_exists = "${utilityShifting.work_id_fk}";
-                            var selected = '';
-                            if(work_id_fk_exists == val.work_id_fk){
-                            	selected = 'selected';
-                            }
-                            $("#work_id_fk").append('<option name = "' + val.work_code + '" value="' + val.work_id_fk + '" '+selected+'>' + $.trim(val.work_id_fk) + $.trim(workShortName) + '</option>');
-                        });
-                    }
-                    $('.searchable').select2();
-                    $(".page-loader").hide();
-                }
-            });
-        }else{
-        	$(".page-loader").hide();
-        }
-    }
 
     //geting contracts list    
-    function getContractsList(work_id_fk) {
-    	var work_code =   $('#work_id_fk option:selected').attr('name');
+    function getContractsList(project_id_fk) {
+    	var work_code =   $('#project_id_fk option:selected').attr('name');
 		$("#work_code").val(work_code);
     	$(".page-loader").show();
         $("#contract_id_fk option:not(:first)").remove();
         
-        if ($.trim(work_id_fk) != "") {
-            var myParams = { work_id_fk: work_id_fk };
+        if ($.trim(project_id_fk) != "") {
+            var myParams = { project_id_fk: project_id_fk };
             $.ajax({
             	url: "<%=request.getContextPath()%>/ajax/getContractsListForSafetyForm",
                 data: myParams, cache: false,
@@ -1273,7 +1216,7 @@
                         $.each(data, function (i, val) {
                         	var contract_short_name = '';
                             if ($.trim(val.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(val.contract_short_name) }
-                            $("#contract_id_fk").append('<option  workId="'+val.work_id_fk +'" hod_user_id="'+val.hod_user_id_fk +'" value="' + val.contract_id_fk + '">' + $.trim(val.contract_id_fk) + $.trim(contract_short_name) + '</option>');
+                            $("#contract_id_fk").append('<option  workId="'+val.project_id_fk +'" hod_user_id="'+val.hod_user_id_fk +'" value="' + val.contract_id_fk + '">' + $.trim(val.contract_id_fk) + $.trim(contract_short_name) + '</option>');
                         });
                     }
                     $('.searchable').select2();
@@ -1286,16 +1229,14 @@
     }   
     
   //geting contracts list    
-    function getImpactedContractsList(work_id_fk) {
-    	var work_code =   $('#work_id_fk option:selected').attr('name');
-		$("#work_code").val(work_code);
+    function getImpactedContractsList(project_id_fk) {
     	$(".page-loader").show();
         $("#impacted_contract_id_fk option:not(:first)").remove();
         $("#requirement_stage_fk option:not(:first)").remove();
         $("#impacted_element option:not(:first)").remove();
         
-        if ($.trim(work_id_fk) != "") {
-            var myParams = { work_id_fk: work_id_fk };
+        if ($.trim(project_id_fk) != "") {
+            var myParams = { project_id_fk: project_id_fk };
             $.ajax({
             	url: "<%=request.getContextPath()%>/ajax/getImpactedContractsListForUSForm",
                 data: myParams, cache: false,
@@ -1309,7 +1250,7 @@
                             if(impacted_contract_id_fk_exists == val.contract_id_fk){
                             	selected = 'selected';
                             }
-                            $("#impacted_contract_id_fk").append('<option  workId="'+val.work_id_fk +'" hod_user_id="'+val.hod_user_id_fk +'" value="' + val.contract_id_fk + '" '+selected+'>' + $.trim(val.contract_id_fk) + $.trim(contract_short_name) + '</option>');
+                            $("#impacted_contract_id_fk").append('<option  hod_user_id="'+val.hod_user_id_fk +'" value="' + val.contract_id_fk + '" '+selected+'>' + $.trim(val.contract_id_fk) + $.trim(contract_short_name) + '</option>');
                         });
                     }
                     $('.searchable').select2();
@@ -1335,31 +1276,7 @@
    			$("#project_id_fk").select2();
    			
    		}
-   		
-   		if ($.trim(projectId) != "") {
-   			$("#work_id_fk option:not(:first)").remove();
-            var myParams = { project_id_fk: projectId };
-            $.ajax({
-                url: "<%=request.getContextPath()%>/ajax/getWorkListForSafetyForm",
-                data: myParams, cache: false,
-                success: function (data) {
-                    if (data.length > 0) {
-                        $.each(data, function (i, val) {
-                            var workName = '';
-                            if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
-                            if ($.trim(workId) != '' && val.work_id_fk == $.trim(workId)) {
-                                $("#work_id_fk").append('<option name = "' + val.work_code + '" value="' + val.work_id_fk + '" selected>' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
-                            } else {
-                                $("#work_id_fk").append('<option name = "' + val.work_code + '" value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
-                            }
-                        });
-                    }
-                    $('.searchable').select2();
-                    $(".page-loader").hide();
-                }
-            });
-            $('.searchable').select2();
-        }       		
+      		
     }      
     
     
@@ -1449,9 +1366,7 @@
 			   rules: {
     				  "project_id_fk": {
    				 		required: false
-   				 	  },"work_id_fk": {
-				 		required: true
-				 	  },"contract_id_fk": {
+   				 	  },"contract_id_fk": {
 				 		required: false
 				 	  },"identification": {
 				 		required: false
@@ -1510,9 +1425,7 @@
 			   messages: {
        				  "project_id_fk": {
      				 	required: 'Required'
-     				  },"work_id_fk": {
-  				 		required: 'Required'
-  				 	  },"contract_id_fk": {
+     				  },"contract_id_fk": {
   				 		required: 'Required'
   				 	  },"identification": {
   				 		required: 'Required'
@@ -1570,10 +1483,7 @@
     				if (element.attr("id") == "project_id_fk" ){
  			 		     document.getElementById("project_id_fkError").innerHTML="";
  			 			 error.appendTo('#project_id_fkError');
- 			 	    }else if (element.attr("id") == "work_id_fk" ){
-			 		     document.getElementById("work_id_fkError").innerHTML="";
-			 			 error.appendTo('#work_id_fkError');
-			 	    }else if (element.attr("id") == "contract_id_fk" ){
+ 			 	    }else if (element.attr("id") == "contract_id_fk" ){
 			 	    	 document.getElementById("contract_id_fkError").innerHTML="";
 			 			 error.appendTo('#contract_id_fkError');
 			 	    }else if (element.attr("id") == "identification" ){

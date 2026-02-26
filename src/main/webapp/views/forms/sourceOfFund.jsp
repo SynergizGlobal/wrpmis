@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants"%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -9,17 +9,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Source of Fund - Update Forms - PMIS</title>
-    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-    <link href="/pmis/resources/css/sweetalert-v.1.1.0.min.css" rel="stylesheet" />     
-    <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <!-- <link rel="stylesheet" href="/pmis/resources/css/budget.css"> -->
-    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
-    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/wrpmis/resources/images/favicon.png">
+    <link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">
+    <link href="/wrpmis/resources/css/sweetalert-v.1.1.0.min.css" rel="stylesheet" />     
+    <link rel="stylesheet" href="/wrpmis/resources/css/datatable-material.css">
+    <!-- <link rel="stylesheet" href="/wrpmis/resources/css/budget.css"> -->
+    <link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/wrpmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/wrpmis/resources/css/mobile-grid-template.css" />
     <style>
         p a {
             color: blue
@@ -210,12 +210,6 @@
 							</div>				
 							<div class="col l6 s12 offset-l3 m8 offset-m2">
 								<div class="row no-mar" >
-									<!-- <div class="col s12 m3 input-field">
-                                       <p class="searchable_label">Work</p>
-                                         <select id="work_id_fk" name="work_id_fk" onchange="getFundList();" class="searchable">
-                                            <option value="" >Select</option>
-                                        </select>
-                                    </div> -->
                                     	
 									<div class="col s6 m4 input-field">
 										<p class="searchable_label">Source of Fund</p>
@@ -285,14 +279,14 @@
     <!-- footer included -->
     <jsp:include page="../layout/footer.jsp"></jsp:include>
 
-    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-    <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-    <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
-    <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-    <script src="/pmis/resources/js/dataTables.material.min.js"></script>
-    <script src="/pmis/resources/js/select2.min.js"></script>
-    <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
-    <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
+    <script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+    <script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/wrpmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+    <script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+    <script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
+    <script src="/wrpmis/resources/js/select2.min.js"></script>
+    <script src="/wrpmis/resources/js/moment-v2.8.4.min.js"></script>
+    <script src="/wrpmis/resources/js/datetime-moment-v1.10.12.js"></script>
     
     <form name="getForm" id="getForm" method="post">
     	<input type="hidden" name="funds_id" id="funds_id" />
@@ -300,7 +294,6 @@
     
      <form action="<%=request.getContextPath() %>/export-funds" name="exportFundsForm" id="exportFundsForm" target="_blank" method="post">	
        
-         <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
          <input type="hidden" name="source_of_funds_fk" id="exportSource_of_funds_fk" />
          <input type="hidden" name="sub_category_railway_id_fk" id="exportSub_category_railway_id_fk" />
 	</form>
@@ -406,7 +399,6 @@
 		$(".page-loader-2").show();
 		getSOFFilterList('');
     	getRailwaysFilterList('');
-    	getWorksFilterList('');
     	
     	var work_id_fk = $("#work_id_fk").val();
     	var source_of_funds_fk = $("#source_of_funds_fk").val();
@@ -560,7 +552,6 @@
     	
     	getSOFFilterList('');
     	getRailwaysFilterList('');
-    	getWorksFilterList('');
     	
     	var work_id_fk = $("#work_id_fk").val();
     	var source_of_funds_fk = $("#source_of_funds_fk").val();
@@ -706,36 +697,7 @@
         }
     }
     	
-    function getWorksFilterList(work){
-	 	$(".page-loader").show();
-	 	var sub_category_railway_id_fk = $("#sub_category_railway_id_fk").val();
-    	var source_of_funds_fk = $("#source_of_funds_fk").val();
-    	var work_id_fk = $("#work_id_fk").val();
-	    if ($.trim(work_id_fk) == "") {
-	    	$("#work_id_fk option:not(:first)").remove();
-        	var myParams = { work_id_fk: work_id_fk,sub_category_railway_id_fk : sub_category_railway_id_fk,source_of_funds_fk : source_of_funds_fk};
-            $.ajax({
-                url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInFunds",
-                data: myParams, cache: false,
-                success: function (data) {
-                    if (data.length > 0) {
-                        $.each(data, function (i, val) {
-                        	 var workShortName = '';
-                             if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
-	                           $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk)   + workShortName +'</option>');
-                        });
-                    }
-                    $('.searchable').select2();
-                    $(".page-loader").hide();
-                },error: function (jqXHR, exception) {
- 	   			      $(".page-loader").hide();
-	   	          	  getErrorMessage(jqXHR, exception);
-	   	     	  }
-            });
-        }else{
-        	  $(".page-loader").hide();
-        }
-	 }
+
     
     function getFunds(funds_id){
     	$("#funds_id").val(funds_id);

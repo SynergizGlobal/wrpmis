@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants"%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -9,16 +9,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Deliverables - Update Forms - PMIS</title>
-    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">          
-    <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <!-- <link rel="stylesheet" href="/pmis/resources/css/la.css"> -->
-    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
-    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
+    <link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">          
+    <link rel="stylesheet" href="/wrpmis/resources/css/datatable-material.css">
+    <!-- <link rel="stylesheet" href="/wrpmis/resources/css/la.css"> -->
+    <link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/wrpmis/resources/css/mobile-form-template.css" />
     <style>
         p a {
             color: blue;
@@ -106,7 +104,7 @@
     <!-- header included -->
     <jsp:include page="../layout/header.jsp"></jsp:include>
 
-	<div class="row">
+	<div class="container-padding">
 		<div class="row">
 			<div class="col s12 m12">
 				<div class="card">
@@ -118,7 +116,8 @@
 								<div class="col s12 m12 right-align exportButton">
 								    <div class="m-n1">
 								    	<a href="<%=request.getContextPath()%>/deliverables-template" class="template-btn" title="Click to Download Deliverables Template">
-											<i class="material-icons-outlined">download_for_offline</i>
+											<span class="material-symbols-outlined">download_for_offline</span>
+ 
 										</a>
 										<a href="javascript:void(0);"
 											onclick="openUploadModal();"
@@ -154,14 +153,6 @@
 								</select>
 							</div>
 							<div class="col s6 m4 l2 input-field">
-								<p class="searchable_label">Work</p>
-								<select id="work_id_fk" name="work_id_fk" class="searchable"
-									onchange="addInQueWork(this.value);getDeliverablesList();">
-									<option value="">Select</option>
-
-								</select>
-							</div>
-							<div class="col s6 m4 l2 input-field">
 								<p class="searchable_label">Contract</p>
 								<select id="contract_id_fk" name="contract_id_fk"
 									class="searchable" onchange="addInQueContract(this.value);getDeliverablesList();">
@@ -190,7 +181,7 @@
 									<thead>
 										<tr>
 											<!-- <th>Project</th> -->
-											<th class="fw-300">Work</th>
+											<th class="fw-300">Project</th>
 											<th class="fw-300">Contract</th>
 											<th>Milestone</th>
 											<th>Deliverables Type</th>
@@ -294,21 +285,20 @@
         <!-- footer included -->
     <jsp:include page="../layout/footer.jsp"></jsp:include>
 
-    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-    <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-    <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
-    <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-    <script src="/pmis/resources/js/dataTables.material.min.js"></script>
-    <script src="/pmis/resources/js/select2.min.js"></script>
-    <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
-    <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
+    <script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+    <script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/wrpmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+    <script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+    <script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
+    <script src="/wrpmis/resources/js/select2.min.js"></script>
+    <script src="/wrpmis/resources/js/moment-v2.8.4.min.js"></script>
+    <script src="/wrpmis/resources/js/datetime-moment-v1.10.12.js"></script>
      <form name="getForm" id="getForm" method="post">
     	<input type="hidden" name="deliverable_id" id="deliverable_id" />
     </form>
     
      <form action="<%=request.getContextPath() %>/export-deliverables" name="exportDeliverablesForm" id="exportDeliverablesForm" target="_blank" method="post">	
          <input type="hidden" name="project_id_fk" id="exportProject_id_fk" />
-         <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
          <input type="hidden" name="contract_id_fk" id="exportContract_id_fk" />
          <input type="hidden" name="status_fk" id="exportStatus_fk" />
 	</form>
@@ -341,8 +331,6 @@
 	        		  var temp2 = temp[i].split('=');
 		        	  if($.trim(temp2[0]) == 'project_id_fk' ){
 		        		  getProjectFilterList(temp2[1]);
-		        	  }else if($.trim(temp2[0]) == 'work_id_fk'){
-		        		  getWorkFilterList(temp2[1]);
 		        	  }else if($.trim(temp2[0]) == 'contract_id_fk'){
 		        		  getContarctFilterList(temp2[1]);
 		        	  }else if($.trim(temp2[0]) == 'status_fk'){
@@ -363,7 +351,6 @@
         
      function clearFilters() {
          $('#project_id_fk').val("");
-         $('#work_id_fk').val("");
          $('#contract_id_fk').val("");
          $('#status_fk').val("");
          $('.searchable').select2();
@@ -381,15 +368,6 @@
      	if($.trim(project_id_fk) != ''){
     	    	filtersMap["project_id_fk"] = project_id_fk;
      	}
-     }
-     
-     function addInQueWork(work_id_fk){
-	      	Object.keys(filtersMap).forEach(function (key) {
-		   		if(key.match('work_id_fk')) delete filtersMap[key];
-	   	   	});
-	      	if($.trim(work_id_fk) != ''){
-         	filtersMap["work_id_fk"] = work_id_fk;
-	      	}
      }
      
      function addInQueContract(contract_id_fk){
@@ -415,13 +393,11 @@
   		$(".page-loader-2").show();
 
   		getProjectFilterList('');
-    	getWorkFilterList('');
     	getContarctFilterList('');
        	getStatusFilterList('');
        	
       	var status_fk = $("#status_fk").val();
       	var project_id_fk = $("#project_id_fk").val();
-      	var work_id_fk = $("#work_id_fk").val();
       	var contract_id_fk = $("#contract_id_fk").val();
 
     	var filters = '';
@@ -434,11 +410,9 @@
      		 
       		table.destroy();
 
-      		$.fn.dataTable.moment('DD-MMM-YYYY');
       		var rowLen = 0;
       		var myParams = "status_fk=" + status_fk + "&project_id_fk="
-      				+ project_id_fk + "&work_id_fk=" + work_id_fk
-      				+ "&contract_id_fk=" + contract_id_fk;
+      				+ project_id_fk + "&contract_id_fk=" + contract_id_fk;
 
       		/***************************************************************************************************/
 
@@ -537,16 +511,6 @@
       							"bDestroy" : true,
       							"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/get-deliverables-list?"+myParams,
       		        "aoColumns": [
-      		        	 /* { "mData": function(data,type,row){
-      		            	var project_name = '';
-                             if ($.trim(data.project_name) != '') { project_name = ' - ' + $.trim(data.project_name) }    	
-                           	if($.trim(data.project_id_fk) == ''){ return '-'; }else{ return data.project_id_fk +project_name; }
-              			} },  */  				            
-      		            { "mData": function(data,type,row){
-      		            	var work_short_name = '';
-                             if ($.trim(data.work_short_name) != '') { work_short_name = ' - ' + $.trim(data.work_short_name) }    	
-                             if($.trim(data.work_id_fk) == ''){ return '-'; }else{ return data.work_id_fk +work_short_name; }
-      		            } },
       		         	{ "mData": function(data,type,row){
       		         		var contract_short_name = '';
                              if ($.trim(data.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(data.contract_short_name) }    	
@@ -581,13 +545,11 @@
       	$(".page-loader-2").show();
       	
      	getProjectFilterList('');
-    	getWorkFilterList('');
     	getContarctFilterList('');
        	getStatusFilterList('');
        	
       	var status_fk = $("#status_fk").val();
       	var project_id_fk = $("#project_id_fk").val();
-      	var work_id_fk = $("#work_id_fk").val();
       	var contract_id_fk = $("#contract_id_fk").val();
 
     	var filters = '';
@@ -628,7 +590,7 @@
           }).rows().remove().draw();
   		
   		table.state.clear();		
-  	 	var myParams = {project_id_fk : project_id_fk, work_id_fk : work_id_fk, contract_id_fk : contract_id_fk, status_fk : status_fk};
+  	 	var myParams = {project_id_fk : project_id_fk, contract_id_fk : contract_id_fk, status_fk : status_fk};
   	 	$.ajax({url : "<%=request.getContextPath()%>/ajax/get-deliverables-list",
   	 		type:"POST",
 			data:myParams, cache: false,async:false,
@@ -641,13 +603,11 @@
    */                   var rowArray = [];    	                 
 					    var projectName = '';
 					    if ($.trim(val.project_name) != '') { projectName = ' - ' + $.trim(val.project_name) }
-					    var work_short_name = '';
-					    if ($.trim(val.work_short_name) != '') { work_short_name = ' - ' + $.trim(val.work_short_name) }
+					   
 					    var contract_short_name = '';
 					    if ($.trim(val.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(val.contract_short_name) }
  					 
  					    rowArray.push($.trim(val.project_id_fk) + projectName);
- 					 	rowArray.push($.trim(val.work_id_fk) + work_short_name);
  					 	rowArray.push($.trim(val.contract_id_fk) + contract_short_name);
  					 	rowArray.push($.trim(val.deliverable_type));
  					 	rowArray.push($.trim(val.deliverable_description));
@@ -674,12 +634,11 @@
       	$(".page-loader").show();
       	var status_fk = $("#status_fk").val();
       	var project_id_fk = $("#project_id_fk").val();
-      	var work_id_fk = $("#work_id_fk").val();
       	var contract_id_fk = $("#contract_id_fk").val();
       
           if ($.trim(status_fk) == "") {
           	$("#status_fk option:not(:first)").remove();
-      	 	var myParams = {project_id_fk : project_id_fk, work_id_fk : work_id_fk, contract_id_fk : contract_id_fk, status_fk : status_fk};
+      	 	var myParams = {project_id_fk : project_id_fk,  contract_id_fk : contract_id_fk, status_fk : status_fk};
               $.ajax({
                   url: "<%=request.getContextPath()%>/ajax/getStatusFilterListInDeliverables",
                   data: myParams, cache: false,async:false,
@@ -706,12 +665,11 @@
        	$(".page-loader").show();
        	var status_fk = $("#status_fk").val();
        	var project_id_fk = $("#project_id_fk").val();
-       	var work_id_fk = $("#work_id_fk").val();
        	var contract_id_fk = $("#contract_id_fk").val();
        
            if ($.trim(project_id_fk) == "") {
            	$("#project_id_fk option:not(:first)").remove();
-       	 	var myParams = {project_id_fk : project_id_fk, work_id_fk : work_id_fk, contract_id_fk : contract_id_fk, status_fk : status_fk};
+       	 	var myParams = {project_id_fk : project_id_fk,  contract_id_fk : contract_id_fk, status_fk : status_fk};
                $.ajax({
                    url: "<%=request.getContextPath()%>/ajax/getProjectFilterListInDeliverables",
                    data: myParams, cache: false,async:false,
@@ -736,50 +694,16 @@
            }
        }
       
-     function getWorkFilterList(work) {
-        	$(".page-loader").show();
-        	var status_fk = $("#status_fk").val();
-        	var project_id_fk = $("#project_id_fk").val();
-        	var work_id_fk = $("#work_id_fk").val();
-        	var contract_id_fk = $("#contract_id_fk").val();
-        
-            if ($.trim(work_id_fk) == "") {
-            	$("#work_id_fk option:not(:first)").remove();
-        	 	var myParams = {project_id_fk : project_id_fk, work_id_fk : work_id_fk, contract_id_fk : contract_id_fk, status_fk : status_fk};
-                $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorkFilterListInDeliverables",
-                    data: myParams, cache: false,async:false,
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $.each(data, function (i, val) {
-                            	var workShortName = '';
-                         	   if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
-                         	   var selectedFlag = (work == val.work_id_fk)?'selected':'';
-    	                       $("#work_id_fk").append('<option value="' + val.work_id_fk + '"'+selectedFlag+'>' + $.trim(val.work_id_fk)  + workShortName +'</option>');
-                            });
-                        }
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
-                    },error: function (jqXHR, exception) {
-     	   			      $(".page-loader").hide();
-    	   	          	  getErrorMessage(jqXHR, exception);
-    	   	     	  }
-                });
-            }else{
-            	  $(".page-loader").hide();
-            }
-        }
      
      function getContarctFilterList(contract) {
      	$(".page-loader").show();
      	var status_fk = $("#status_fk").val();
      	var project_id_fk = $("#project_id_fk").val();
-     	var work_id_fk = $("#work_id_fk").val();
      	var contract_id_fk = $("#contract_id_fk").val();
      
          if ($.trim(contract_id_fk) == "") {
          	$("#contract_id_fk option:not(:first)").remove();
-     	 	var myParams = {project_id_fk : project_id_fk, work_id_fk : work_id_fk, contract_id_fk : contract_id_fk, status_fk : status_fk};
+     	 	var myParams = {project_id_fk : project_id_fk,  contract_id_fk : contract_id_fk, status_fk : status_fk};
              $.ajax({
                  url: "<%=request.getContextPath()%>/ajax/getContarctFilterListInDeliverables",
                  data: myParams, cache: false,async:false,
@@ -863,11 +787,9 @@
      
      function exportDeliverables(){
     	 var project_id_fk = $("#project_id_fk").val();
-    	 var work_id_fk = $("#work_id_fk").val();
     	 var contract_id_fk = $("#contract_id_fk").val();
     	 var status_fk = $("#status_fk").val();
     	 $("#exportProject_id_fk").val(project_id_fk);
-    	 $("#exportWork_id_fk").val(work_id_fk);
     	 $("#exportContract_id_fk").val(contract_id_fk);
     	 $("#exportStatus_fk").val(status_fk);
     	 $("#exportDeliverablesForm").submit();

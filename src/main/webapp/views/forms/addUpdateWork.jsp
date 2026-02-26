@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants2"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -11,16 +11,16 @@
    		 <c:if test="${action eq 'edit'}">Update WORK - Update Forms - PMIS</c:if>
 		 <c:if test="${action eq 'add'}"> Add WORK - Update Forms - PMIS</c:if>
     </title>
-    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/material-design-lite-v.1.0.css">    
-	<link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    <!-- <link rel="stylesheet" href="/pmis/resources/css/work.css"> -->
-    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
-    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
- 	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" />
-	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-responsive-table.css" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/wrpmis/resources/images/favicon.png">
+    <link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">    
+	<link rel="stylesheet" href="/wrpmis/resources/css/datatable-material.css">
+	<link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
+    <!-- <link rel="stylesheet" href="/wrpmis/resources/css/work.css"> -->
+    <link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">
+ 	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/wrpmis/resources/css/mobile-form-template.css" />
+	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/wrpmis/resources/css/mobile-responsive-table.css" />
     <style>
     	/* .select2-container .select2-selection--multiple{height: 5em;} */
     	/* .l20px{margin-left: 20px !important;}
@@ -408,7 +408,6 @@
 												<label >Project<span class="required">*</span>:</label>			                                    
 			                                    <input type="hidden" name ="project_id_fk" id="project_id_fk" value="${workDetails.project_id_fk}"/>
 			                               </div>
-			                                 <input id="work_id" type="hidden" class="form-control" name="work_id" value="${workDetails.work_id }" >  
 			                           
 		                              <div class="col s12 m8 l6 input-field">
 	                                    <textarea id="work_name" class="pmis-textarea h46px" data-length="1000" name="work_name">${workDetails.work_name }</textarea>
@@ -624,8 +623,9 @@
                             	<h5 class="center-align">Chainage wise Coordinates</h5>
  								<div class="col s12 m12 center-align exportButton">
 	    							<div class="m-n1">
-	    								<a href="/pmis/Chainage_wise_Coordinates_Template.xlsx" download="" class="template-btn" title="Click to Download Chainage wise Coordinates Template">
-											<i class="material-icons-outlined">download_for_offline</i>
+	    								<a href="/wrpmis/Chainage_wise_Coordinates_Template.xlsx" download="" class="template-btn" title="Click to Download Chainage wise Coordinates Template">
+											<span class="material-symbols-outlined">download_for_offline</span>
+ 
 										</a>
 	    							 	<a href="javascript:void(0);" onclick="openUploadChainageModal();" class="btn waves-effect waves-light bg-s t-c"> <strong><i class="fa fa-arrow-circle-up"></i> Upload</strong></a>  
   
@@ -1164,7 +1164,6 @@
 							</div>
 						</div>
 					</div>
-					<input id="work_data_id" type="hidden" class="form-control" name="work_id" value="${workDetails.work_id }" >  
 					
 					<div class="row no-mar">
 						<div class="col s12 m6">
@@ -1203,13 +1202,13 @@
  
 
 
-	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-    <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-    <script src="/pmis/resources/js/datepickerDepedency.js"></script>
-    <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-    <script src="/pmis/resources/js/dataTables.material.min.js"></script>
-    <script src="/pmis/resources/js/select2.min.js"></script>
-	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+	<script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+    <script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/wrpmis/resources/js/datepickerDepedency.js"></script>
+    <script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+    <script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
+    <script src="/wrpmis/resources/js/select2.min.js"></script>
+	<script src="/wrpmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 
 
     <script type="text/javascript">

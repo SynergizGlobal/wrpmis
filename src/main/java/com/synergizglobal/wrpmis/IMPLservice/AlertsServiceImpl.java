@@ -1,0 +1,163 @@
+package com.synergizglobal.wrpmis.IMPLservice;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.synergizglobal.wrpmis.Idao.AlertsDao;
+import com.synergizglobal.wrpmis.Iservice.AlertsService;
+import com.synergizglobal.wrpmis.model.Alerts;
+
+@Service
+public class AlertsServiceImpl implements AlertsService{
+	@Autowired
+	AlertsDao dao;
+	
+	@Override
+	public boolean generateAterts() throws Exception {
+		return dao.generateAterts();
+	}
+
+	@Override
+	public boolean sendEMailNotificationWithContractAlerts(String alert_type) throws Exception {
+		return dao.sendEMailNotificationWithContractAlerts(alert_type);
+	}
+	
+	@Override
+	public boolean sendEMailNotificationWithIssueAlerts(String alert_type) throws Exception {
+		return dao.sendEMailNotificationWithIssueAlerts(alert_type);
+	}
+
+	@Override
+	public boolean sendEMailNotificationWithRiskAlerts() throws Exception {
+		return dao.sendEMailNotificationWithRiskAlerts();
+	}	
+
+	@Override
+	public boolean sendEMailNotificationAlertsToITAdmins() throws Exception {
+		return dao.sendEMailNotificationAlertsToITAdmins();
+	}
+
+	@Override
+	public List<Alerts> getAlerts(Alerts obj) throws Exception {
+		return dao.getAlerts(obj);
+	}
+
+	@Override
+	public List<Alerts> getContractorsFilterListInAlerts(Alerts obj) throws Exception {
+		return dao.getContractorsFilterListInAlerts(obj);
+	}
+
+	@Override
+	public List<Alerts> getContractsFilterListInAlerts(Alerts obj) throws Exception {
+		return dao.getContractsFilterListInAlerts(obj);
+	}
+
+	@Override
+	public List<Alerts> getHODFilterListInAlerts(Alerts obj) throws Exception {
+		return dao.getHODFilterListInAlerts(obj);
+	}
+
+	@Override
+	public List<Alerts> getWorksFilterListInAlerts(Alerts obj) throws Exception {
+		return dao.getWorksFilterListInAlerts(obj);
+	}
+
+	@Override
+	public List<Alerts> getAlertTypesFilterListInAlerts(Alerts obj) throws Exception {
+		return dao.getAlertTypesFilterListInAlerts(obj);
+	}
+
+	@Override
+	public boolean addAlertRemarks(Alerts obj) throws Exception {
+		return dao.addAlertRemarks(obj);
+	}
+
+	@Override
+	public Map<String,List<Alerts>> getAlertsForHeaderNotifications(Alerts aObj) throws Exception {
+		return dao.getAlertsForHeaderNotifications(aObj);
+	}
+
+	@Override
+	public int getAlertsCount(Alerts obj) throws Exception {
+		return dao.getAlertsCount(obj);
+	}
+
+	@Override
+	public boolean callingStoredProcedures() throws Exception {
+		return dao.callingStoredProcedures();
+	}
+
+	@Override
+	public int getTotalRecords(Alerts obj, String searchParameter) throws Exception {
+		return dao.getTotalRecords(obj,searchParameter);
+	}
+
+	@Override
+	public List<Alerts> getAlertsList(Alerts obj, int startIndex, int offset, String searchParameter) throws Exception {
+		return dao.getAlertsList(obj,startIndex,offset,searchParameter);
+	}
+
+	@Override
+	public List<Alerts> getAlertTypes(Alerts aObj) throws Exception {
+		return dao.getAlertTypes(aObj);
+	}	
+
+	@Override
+	public List<Alerts> getAlertTypesForGenerateSendAlerts() throws Exception {
+		return dao.getAlertTypesForGenerateSendAlerts();
+	}
+
+	@Override
+	public List<Alerts> getAlertLevelsForGenerateSendAlerts() throws Exception {
+		return dao.getAlertLevelsForGenerateSendAlerts();
+	}
+
+	@Override
+	public List<Alerts> getSendToListForGenerateSendAlerts() throws Exception {
+		return dao.getSendToListForGenerateSendAlerts();
+	}
+
+	@Override
+	public boolean sendAlertsToParticulars(Alerts obj) throws Exception {
+		return dao.sendAlertsToParticulars(obj);
+	}
+
+	@Override
+	public Map<String,List<Alerts>> getContractAlerts(Alerts obj) throws Exception {
+		return dao.getContractAlerts(obj);
+	}
+
+	@Override
+	public List<Alerts> getHodListInAlertsReport(Alerts obj) throws Exception {
+		return dao.getHodListInAlertsReport(obj);
+	}
+
+	@Override
+	public List<Alerts> getWorksListInAlertsReport(Alerts obj) throws Exception {
+		return dao.getWorksListInAlertsReport(obj);
+	}
+
+	@Override
+	public List<Alerts> getAlertLevelsListInAlertsReport(Alerts obj) throws Exception {
+		return dao.getAlertLevelsListInAlertsReport(obj);
+	}
+
+	@Override
+	public List<Alerts> getAlertTypesListInAlertsReport(Alerts obj) throws Exception {
+		return dao.getAlertTypesListInAlertsReport(obj);
+	}
+
+	@Override
+	public boolean readIssueAlert(String alerts_user_id) throws Exception {
+		return dao.readIssueAlert(alerts_user_id);
+	}
+
+	@Override
+	public boolean runPlannedNormalDistributionDay() throws Exception {
+		return dao.runPlannedNormalDistributionDay();
+	}
+
+}

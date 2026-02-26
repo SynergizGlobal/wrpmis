@@ -6,13 +6,13 @@
 	<meta charset="UTF-8">
 	<title>Overview Dashboard - Reports - PMIS</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
-	<link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
+	<link rel="icon" type="image/png" sizes="96x96"	href="/wrpmis/resources/images/favicon.png">
+	<link rel="stylesheet" href="/wrpmis/resources/css/font-awesome-v.4.7.css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
-	<link rel="stylesheet"	href="/pmis/resources/css/materialize-v.1.0.min.css">
-	<link rel="stylesheet" href="/pmis/resources/css/rits.css">	
-	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">	
-	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
+	<link rel="stylesheet"	href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+	<link rel="stylesheet" href="/wrpmis/resources/css/rits.css">	
+	<link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">	
+	<link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">
 	
   	<link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">	
 	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
@@ -33,9 +33,9 @@
 		.ui-widget-content{
 			border: none;
 		}
-		.ui-state-default{border: 3px solid #4498d3dd;background: #fff;}
+		.ui-state-default{border: 3px solid #b45f06;background: #fff;}
 		.bd-bl{
-			border: 3px solid #4498d3dd;
+			border: 3px solid #b45f06;
 			padding:.5em .5em .5em .7em;
 			border-radius: 10px;
 			display:block;
@@ -63,7 +63,7 @@
 			background-color: transparent;
 		}
 		.active {
-		  background-color: rgb(227, 242, 253) !important;
+		  background-color: #f8cbad !important;
 		  color: #000 !important;
 		}
 		
@@ -138,6 +138,7 @@
 		    width: 100%;
 		    height: 560px;
 		    height:85vh;
+		    border: 3px solid #e99772 !important;
 		}
 		@media only screen and (max-width:678px){
 			/* #secondModel {
@@ -155,11 +156,11 @@
     <style>
 		 .main-menu li .collapsible-header,
 		 .filterHolder{
-		    border: 3px solid #4498d3dd;
+		    border: 3px solid #b45f06;
 		    margin-top:2px;
 		 }
 		 .timeline_body{
-		 	border:3px solid #4498d3dd;
+		 	border:3px solid #e99772;
 		 	border-radius:14px;
 		 	background-color: #fff;
 		 }
@@ -206,9 +207,9 @@
 		    pointer-events:none;
 		    /* opacity:0.4!important; */
 		 }
-		 body{
+		 /* body{
 		 	background:linear-gradient(to top, rgba(255, 255, 255, 1), rgba(101, 150, 255, .75));
-		 }
+		 } */
 		 .filterHolder{
 		 	background-color: #fff !important;
 		 }
@@ -272,19 +273,19 @@ font-size:22px ;
 	<!-- footer included -->
  	<jsp:include page="../layout/footer.jsp"></jsp:include> 
 
-  <script src="/pmis/resources/js/jQuery-v.3.5.min.js" ></script>
-  <script src="/pmis/resources/js/materialize-v.1.0.min.js" ></script>
-  <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-  <script src="/pmis/resources/js/dataTables.material.min.js"></script>
-  <script src="/pmis/resources/js/select2.min.js"></script>
-  <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+  <script src="/wrpmis/resources/js/jQuery-v.3.5.min.js" ></script>
+  <script src="/wrpmis/resources/js/materialize-v.1.0.min.js" ></script>
+  <script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+  <script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
+  <script src="/wrpmis/resources/js/select2.min.js"></script>
+  <script src="/wrpmis/resources/js/jquery-validation-1.19.1.min.js"></script>
   <script type="text/javascript" src="http://203.153.40.44:8000/javascripts/api/tableau-2.min.js"></script>
   <!-- <script src="https://code.jquery.com/jquery-3.6.0.js"></script> -->
   <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
   
   <script type="text/javascript">
 
-
+        var glbAccess=false;
 	    var requestedDashboardId = '';
 	 	var subworkid="";
 		var assessmentdate="";
@@ -310,20 +311,15 @@ font-size:22px ;
     		}
 	    	
 
-		    var overview_work_id = '${work_id}';
+		    var overview_project_id = '${project_id}';
 		    requestedDashboardId = '${dashboardId}';
 		    var dashboard_type = '${dashboard_type}';
 		    $.ajax({url : "<%=request.getContextPath()%>/ajax/getLeftNav",
 				type:"POST",
-				data:{dashboard_id : requestedDashboardId, work_id : overview_work_id, dashboard_type : dashboard_type},
+				data:{dashboard_id : requestedDashboardId, project_id : overview_project_id, dashboard_type : dashboard_type},
 				cache: false,async:false,
 				success : function(data){   
 					$('#accordion').append(getData(data));
-					
-					if('${work_id}'!="" && getWorkDroneSurveyCount()==true)
-						{
-							$('#accordion').append('<h3 class="bg-a ui-accordion-header ui-corner-top ui-accordion-header-collapsed ui-corner-all ui-state-default ui-accordion-icons" id="27" parent_id="" onclick="surveypage();" role="tab" aria-controls="ui-id-12" aria-selected="false" aria-expanded="false" tabindex="-1"><span class="ui-accordion-header-icon ui-icon ui-icon-triangle-1-e"></span><a href="javascript:void(0);">Drone Survey</a></h3>');
-						}
 					
 						if(getData(data)=="")
 						{
@@ -383,7 +379,7 @@ font-size:22px ;
 	   
 	 function surveypage()
 	 {
-			var url="/pmis/work-drone-survey/"+'${work_id}';
+			var url="/wrpmis/work-drone-survey/"+'${project_id}';
 		 	$("#dashboardOpen").attr("src",url);
 	 }
 	 
@@ -392,7 +388,7 @@ font-size:22px ;
 	     	var bool = false;
 	      	 $.ajax({
 	            url: "<%=request.getContextPath()%>/ajax/getWorkDroneSurveyCount",
-	            data:{work_id : '${work_id}'},
+	            data:{project_id : '${project_id}'},
 	            type: 'GET',
 	            async: false,
 	            dataType: 'json',
@@ -419,7 +415,7 @@ font-size:22px ;
 		            success: function (data)
 		            {
 		            	 	 $.each( data, function( index, value ){
-		            	 		rworkid=value.work_id
+		            	 		rworkid=value.project_id
 		            	 	});
 		            }
 		            
@@ -465,7 +461,7 @@ font-size:22px ;
 	            success: function (data)
 	            {
 	            	 	 $.each( data, function( index, value ){
-	            	 		rworkid=value.work_id_fk
+	            	 		rworkid=value.project_id_fk
 	            	 	});
 	            }
 	            
@@ -515,18 +511,30 @@ font-size:22px ;
 					}
 				else
 					{
-						html = html+'<h3 class="bg-a" id="'+parentDashboardId+'" parent_id="" onclick="openDashboard('+value.dashboard_id+');"><a href="javascript:void(0);" style="cursor: default;">'+value.dashboard_name+'</a><span style="float:right;"><img src="/pmis/resources/images/notaccess.png" width="20" height="20"></span></h3>';
+						html = html+'<h3 class="bg-a" id="'+parentDashboardId+'" parent_id="" onclick="openDashboard('+value.dashboard_id+');"><a href="javascript:void(0);" style="cursor: default;">'+value.dashboard_name+'</a><span style="float:right;"><img src="/wrpmis/resources/images/notaccess.png" width="20" height="20"></span></h3>';
 					}
 			} */
 			var level2List = value.formsSubMenu;
 			var accessibility = "'"+value.accessibility+"'";
 
 			if(value.accessibility == 'true' || level2List.length > 0){
-				html = html + '<h3 class="bg-a" id="'+parentDashboardId+'" parent_id="" onclick="openDashboard('+value.dashboard_id+','+accessibility+');"><a href="javascript:void(0);">'+value.dashboard_name+'</a>';
-				if(value.accessibility == 'false'){
-					html = html + '<span style="float:right;"><img src="/pmis/resources/images/notaccess.png" width="20" height="20"></span>';
+				if(glbAccess==false)
+					{
+					html = html + '<h3 class="bg-a" id="'+parentDashboardId+'" parent_id="" onclick="openDashboard('+value.dashboard_id+','+accessibility+');"><a href="javascript:void(0);">'+value.dashboard_name+'</a>';
+					if(value.accessibility == 'false'){
+						html = html + '<span style="float:right;"><img src="/wrpmis/resources/images/notaccess.png" width="20" height="20"></span>';
+					}
+					html = html + '</h3>';
 				}
-				html = html + '</h3>';
+			else
+				{
+					html = html + '<h3 class="bg-a" id="'+parentDashboardId+'" parent_id="" onclick="openDashboardNewPage('+value.dashboard_id+', \'' + '${project_id}' + '\','+parentDashboardId+');"><a href="javascript:void(0);">'+value.dashboard_name+'</a>';
+					if(value.accessibility == 'false'){
+						html = html + '<span style="float:right;"><img src="/wrpmis/resources/images/notaccess.png" width="20" height="20"></span>';
+					}
+					html = html + '</h3>';				
+				}
+			   glbAccess=true;
 			}
 			
 			if(value.formsSubMenu != "" && value.formsSubMenu != null && value.formsSubMenu != 'undefined'){
@@ -567,7 +575,7 @@ font-size:22px ;
 					var level3List = value1.formsSubMenu;
 					var accessibility = "'"+value1.accessibility+"'";
 					if(value1.accessibility == 'true' || level3List.length > 0){
-						html = html + '<a href="javascript:openDashboard('+value1.dashboard_id+','+accessibility+');"" class="bd-bl bg-a" id="'+dashboardId+'" parent_id="'+parentDashboardId+'">'+value1.dashboard_name+'</a>';
+						html = html + '<a href="javascript:openDashboardNewPage('+dashboardId+', \'' + '${project_id}' + '\','+parentDashboardId+');"" class="bd-bl bg-a" id="'+dashboardId+'" parent_id="'+parentDashboardId+'">'+value1.dashboard_name+'</a>';
 					}
 					
 					if(value1.formsSubMenu != "" && value1.formsSubMenu != null && value1.formsSubMenu != 'undefined' && value1.formsSubMenu.length > 0){
@@ -586,7 +594,7 @@ font-size:22px ;
 							} */
 							var accessibility = "'"+value2.accessibility+"'";
 							if(value2.accessibility == 'true'){
-								html = html + '<a href="javascript:openDashboard('+value1.dashboard_id+','+accessibility+');"" class="bd-bl bg-a" id="'+dashboardId+'" parent_id="'+parentDashboardId+'">'+value1.dashboard_name+'</a>';
+								html = html + '<a href="javascript:openDashboardNewPage('+dashboardId+', \'' + '${project_id}' + '\','+parentDashboardId+');"" class="bd-bl bg-a" id="'+dashboardId+'" parent_id="'+parentDashboardId+'">'+value1.dashboard_name+'</a>';
 							}
 							
 						});
@@ -607,11 +615,24 @@ font-size:22px ;
 			}else{
 				html = html+'<div class="ds-none"> <p></p> </div>';
 			}
+			
+
 		});
-		var overview_work_id = '${work_id}';
-		//html +='<br><button type="button" class="btn waves-effect waves-light bg-s f-w-b" style="float:right;display:none;" id="btnDroneSurvey"><a href="/pmis/work-drone-survey/'+overview_work_id+'">Drone Survey</a></button>';
+		var overview_project_id = '${project_id}';
+		//html +='<br><button type="button" class="btn waves-effect waves-light bg-s f-w-b" style="float:right;display:none;" id="btnDroneSurvey"><a href="/wrpmis/work-drone-survey/'+overview_project_id+'">Drone Survey</a></button>';
 	    return html;	
 	}
+    
+    function openDashboardNewPage(dashboardId, projectId, parentId) { 
+    	
+        localStorage.setItem("selectedDashboardId", dashboardId);
+        localStorage.setItem("selectedParentId", parentId);
+        
+        var url = window.location.origin + '/wrpmis/work-dashboard/' + dashboardId + '/' + projectId;
+        
+        window.location.href = url;   
+    }
+
     
     function getDashboardLeftMenuAccess(dashboard_id,level)
     {
@@ -650,7 +671,7 @@ font-size:22px ;
 	      	  $.ajax({
 	      		url: "<%=request.getContextPath()%>/ajax/getFilters",
 	            type: 'POST',
-	            data:{dashboard_id : dashboardId,work_id : '${work_id}'},
+	            data:{dashboard_id : dashboardId,project_id : '${project_id}'},
 	            async: false,
 	            dataType: 'json',
 	            success: function (data){
@@ -742,7 +763,7 @@ font-size:22px ;
 					    				    if(userrole=="Contractor")
 					    				    	{
 						    				    	var valueToCheck = contractorroleworkid;
-						    				    	var selectElement = document.getElementById('work_id');
+						    				    	var selectElement = document.getElementById('project_id');
 	
 						    				    	if (!hasOptionWithValue(selectElement, valueToCheck)) {
 						    				    		  $("#filter-item-holder").hide();
@@ -751,7 +772,7 @@ font-size:22px ;
 	         								
 						if(subworkid!="")
 						{
-								//$("#work_id").val(subworkid).trigger('change');
+								//$("#project_id").val(subworkid).trigger('change');
 						}        								
 						if(assessmentdate!="")
 						{
@@ -815,21 +836,21 @@ font-size:22px ;
 
 			if(subworkid!="")
 			{
-					//$("#work_id").val(subworkid);
+					//$("#project_id").val(subworkid);
 			}  
 
 		 $.ajax({
 	      		url: "<%=request.getContextPath()%>/ajax/getDashboardURL",
 	            type: 'POST',
-	            data:{dashboard_id : dashboardId,work_id : '${work_id}',params : encodeURIComponent(params)},
+	            data:{dashboard_id : dashboardId,project_id : '${project_id}',params : encodeURIComponent(params)},
 	            async: false,
 	            dataType: 'json',
 	            success: function (data){
 	            	var dashboard_url = data.dashboard_url;
 	            	if($.trim(dashboard_url) == 'structure-gallery-page'){
-	            		dashboard_url = "<%=request.getContextPath()%>/"+dashboard_url+"/${work_id}";
+	            		dashboard_url = "<%=request.getContextPath()%>/"+dashboard_url+"/${project_id}";
 	            	}else if($.trim(dashboard_url) == 'wbs-tree'){
-	            		dashboard_url = "<%=request.getContextPath()%>/"+dashboard_url+"/${work_id}";
+	            		dashboard_url = "<%=request.getContextPath()%>/"+dashboard_url+"/${project_id}";
 	            	}
 	            	dashboard_url=dashboard_url+'&:embed=y';
 	         	    $("#dashboardOpen").attr("src",dashboard_url);
@@ -980,7 +1001,7 @@ font-size:22px ;
 				 $.ajax({
 			      		url: "<%=request.getContextPath()%>/ajax/getFilteredOptions",
 			            type: 'POST',
-			            data:{dashboard_id : dashboardId,work_id : '${work_id}',filter_id : filter_id_temp,params : encodeURIComponent(params)},
+			            data:{dashboard_id : dashboardId,project_id : '${project_id}',filter_id : filter_id_temp,params : encodeURIComponent(params)},
 			            async: false,
 			            dataType: 'json',
 			            success: function (data){
@@ -1039,11 +1060,11 @@ font-size:22px ;
 			 else
 				 { 
 				 
-			   		if(id=="work_id" && fk==0)
+			   		if(id=="project_id" && fk==0)
 					   {  
 			   			
 
-			   		 		var selectElement = document.getElementById('work_id');
+			   		 		var selectElement = document.getElementById('project_id');
 
 			   				var selectedValue = contractorroleworkid; // Example value you want to find the text for
 			   				var optionText = getOptionTextByValue(selectElement, selectedValue);			   			

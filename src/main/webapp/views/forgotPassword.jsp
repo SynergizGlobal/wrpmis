@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants2"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
@@ -10,22 +10,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SynTrack - PMIS Login</title>
-    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/wrpmis/resources/images/favicon.png">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-     <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
+     <link rel="stylesheet" href="/wrpmis/resources/css/font-awesome-v.4.7.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/md5.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/style.css">  
+    <link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/style.css">  
     
     <style type="text/css">
+    body{
+    	background-color: #FFEFE2;
+    }
 		/* Change the white to any color ;) */
-		input:-webkit-autofill,
+		/* input:-webkit-autofill,
 		input:-webkit-autofill:hover, 
 		input:-webkit-autofill:focus, 
 		input:-webkit-autofill:active  {
 		    -webkit-box-shadow: 0 0 0 30px rgba(2, 36, 202, 0.70) inset !important;
-		}		
+		}	 */	 
 		.setting-icon{
 			color:inherit;
 		}
@@ -33,6 +36,9 @@
 			-webkit-box-shadow: 0px 0px 25px 10px rgba(0,0,155,.4);
 			-moz-box-shadow: 0px 0px 25px 10px rgba(0,0,155,.4);
 			box-shadow: 0px 0px 25px 10px rgba(0,0,155,.4);
+		}
+		.login-heading h1{
+			margin: 0.67em 0;
 		}
 		.toggle-password{
 			position: absolute;
@@ -123,8 +129,19 @@
 			    font-size: 16px;
     			font-weight: 500;
 		}
+		.input-field.col label{
+			color: #fff;
+		}
+		.input-field.col input{
+			color: #fff;
+			border-bottom: 1px solid #fff;
+			background-color: transparent !important;
+		}
+		.input-field.col input::focus{
+			background-color: transparent;
+		}
 		.input-field.col label.active{
-			color:#eee !important;
+			color:#fff !important;
 		}
 		label.error{
 			font-size:.9rem;
@@ -137,14 +154,95 @@
 		    color: #ff8484;
 		    text-shadow: 0 0 3px #444;
 		}
+		.sidenav, .sidenav-trigger{
+			display:none;
+		}
+		.tite{
+			font-size: 26px;
+			font-weight: 600;
+			text-align: center;
+			color: #fff;
+		}
+		#support{
+			display: none;
+		}
+		.row.mar-top{
+			display: flex;
+			justify-content: center; 
+		}
+		.row.mar-top form{
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+		.row.homepage{
+			display: flex;
+		    flex-direction: column;
+		    margin: 3em;
+		    align-items: center;
+		    position: relative;
+		    background-color: #D58D54;
+		    border-radius: 30px;
+		    width: 63%;
+		    padding: 1em;
+		}
+		.material-icons a{
+			color: #fff;
+		}
+		.footer{
+    background-color: #542705;
+    /*position: absolute;
+    width: 100%;
+    bottom: 0;*/
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px 0;
+    width: 100%;
+    position: relative;
+    bottom: 0;
+    left: 0;
+  }
+  .designed-name img{
+    width: 140px;
+    height: auto;
+  }
+  .designed-name, .ft-copyright{
+    display: flex;
+    align-items: center;
+  }
+  .ft-copyright{
+    gap: 10px;
+  }
+  .server-type .select-wrapper input.select-dropdown{
+    background-color: #fff;
+    padding: 5px 15px;
+    height: auto;
+    line-height: 100%;
+    width: 100%;
+    margin-bottom: 0;
+  }
+  @media(max-width: 630px){
+    
+      .footer{  
+        margin-bottom: -40px;
+        width: 100%;
+      }
+      .footer, .designed-name{
+        flex-direction: column;
+      }
+  }
     </style>
 </head>
 
 <body>
+<div class="page-container">
  	       <!-- header starts -->
  	  	  <nav>
-	        <div class="nav-wrapper bg">
-	          <h3 style="margin:0" class="text">Welcome to MRVC PMIS </h3>  
+	        <div class="nav-wrapper bg login-heading">
+	          <h1 class="text">Welcome to WR PMIS </h1>  
 	        </div>
 	      </nav>
       <!-- header ends -->
@@ -211,11 +309,10 @@
      			<!-- <h3 style="color: #fff;">System IP Address : <span id="systemIPA">Loading...</span></h3>
                 <h3 style="color: #fff;">Public IP Address : <span id="publicIPA">Loading...</span></h3> -->
                 
-		        <form class="col s12 m3" action="<%=request.getContextPath()%>/forgot-password" id="forgotPasswordForm" name="forgotPasswordForm" method="post" >
+		        <form  action="<%=request.getContextPath()%>/forgot-password" id="forgotPasswordForm" name="forgotPasswordForm" method="post" >
 		        	<div class="row homepage" style="margin-bottom:3rem;">
-			            <img src="/pmis/resources/images/mrvclogo.png" alt="mrvc logo" class="card-img">
-
-	                         <span class="material-icons" style="background-color:#ffffff;"><a href="#" onclick="window.location.href='login'"> keyboard_backspace</a></span>
+		        	<span class="material-icons" style="position: absolute; left: 20px; top: 20px;"><a href="#" onclick="window.location.href='login'"> keyboard_backspace</a></span> 
+			            <img src="/wrpmis/resources/images/wr-logo.png" alt="mrvc logo" width="150" height="150" class="card-img">
 
 				            <h4 class="tite">Forgot Password</h4>
 				            <div id="firstDiv">
@@ -269,8 +366,8 @@
                             </div> 				            
 				            
 				            
-			            <div class="input-field col offset-s1 s10 text-center">
-			            	<button type="button" onclick="login();" class="btn bgb" style="width:100%" id="btnSubmit">Submit</button>
+			            <div class="input-field text-center">
+			            	<button type="button" onclick="login();" class="btn btn-transparent-white-border" style="width:100%" id="btnSubmit">Submit</button>
 			               <!--  <input type="submit" class="btn-outline waves-effect waves-light" value="Go">
 			                <p class="for-text"><a href="javscript:void(0);" >Forgot Password ?</a></p> -->
 			            </div>				            
@@ -315,38 +412,25 @@
 	
       <!-- footer starts here -->
 
-      <footer class="page-footer">
-        <div class="container">
-            <p class="footer-text"> &copy; <span id="year"></span> @ 
-            	<a href="https://mrvc.indianrailways.gov.in/" target="_blank">mrvc.indianrailways.gov.in</a> | Designed & Developed by
-               <a href="https://www.synergizglobal.com" target="_blank"> <img src="/pmis/resources/images/synergiz.png" alt="synergiz logo" class="footer-logo"> </a>
-                <a class="help-icon dropdown-trigger"  href='#' data-target='help-dropdown'>
-        			<img src="/pmis/resources/images/help_icon_white.svg">        
-        		</a>
-        	</p>
-	          <!-- Dropdown Structure -->
-			  <ul id='help-dropdown' class='dropdown-content blue lighten-5'>
-			    <!-- <li><a href="/pmis/5. User Manual for Risk Module-V2.pdf" target="_blank">User Manual for Risk Module<i class="fa fa-download"></i></a></li> -->
-			    <!-- <ul style="padding-left: 20px;">
-			        <li style="min-height: 20px;">
-			        	<a style="font-size: 14px;min-height: 20px;padding: 11px 16px;line-height: 0px;font-weight: 100;" href="/pmis/PMIS - Issue Module - User Manual.docx" >PMIS Issue Module<i class="fa fa-download"></i></a>
-			        </li>
-			    </ul> -->
-			    <!-- <li><a href="/pmis/5. User Manual for PMIS-V 3.pdf" target="_blank">User Manual for Issue Module <i class="fa fa-download"></i></a></li>
-			    <li><a href="/pmis/5.User Manual -Works Execution & Monitoring Module FOB-Ver-2.pdf"  target="_blank">User Manual for FOB <i class="fa fa-download"></i></a></li>
-			    <li><a href="/pmis/Primmavera P6_ppm_usermanual  Ver-19.12.pdf" target="_blank">Primavera Manual <i class="fa fa-download"></i></a></li> -->
-			    <c:forEach var="manualObj" items="${userManuals }">
-			    	<li><a href="<%=CommonConstants2.PMIS_MANUALS%>${manualObj.manual_id }/${manualObj.file_name }" target="_blank">${manualObj.title } <i class="fa fa-download"></i></a></li>
-			    </c:forEach>
-			    <li class="divider" tabindex="-1"></li>
-			    <li class="support-link"> Contact us : <a href="mailto:support_pmis@mrvc.gov.in" style="display: inline;">support_pmis@mrvc.gov.in</a></li>
-			  </ul>
-        </div>
-      </footer>
+      <div class="footer">
+  <div class="ft-copyright">
+    © 2025 @ WR <img src="/wrpmis/resources/images/wr-logo.png" alt="logo" width="25" height="25">
+  </div> |
+  <div class="designed-name">
+    Designed & Developed by <img src="/wrpmis/resources/images/syg-logo.png" alt="SYG Logo">
+  </div>
+  <div class="server-type">
+    <select name="server_type" id="server_type">
+      <option value="production">Production</option>
+      <option value="testing">Testing</option>
+    </select>
+  </div>
+</div>
           <!-- footer ends here -->
-	<script src="/pmis/resources/js/jQuery-v.3.5.min.js" ></script>
-	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js" ></script>  
-	<script src="/pmis/resources/js/materialize-v.1.0.min.js" ></script>
+          </div>
+	<script src="/wrpmis/resources/js/jQuery-v.3.5.min.js" ></script>
+	<script src="/wrpmis/resources/js/jquery-validation-1.19.1.min.js" ></script>  
+	<script src="/wrpmis/resources/js/materialize-v.1.0.min.js" ></script>
 	<script type="text/javascript">
 			var glbProcess=false;
 	

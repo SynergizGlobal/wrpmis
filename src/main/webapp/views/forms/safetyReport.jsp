@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
-<%@ page import="com.synergizglobal.pmis.constants.CommonConstants"%>
+<%@ page import="com.synergizglobal.wrpmis.constants.CommonConstants"%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -10,14 +10,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!--     <title>PMIS Report - Safety Incidents</title> -->
     <title>Safety Reports - Reports - PMIS</title>
-    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-    <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
-    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css">
+    <link rel="icon" type="image/png" sizes="96x96" href="/wrpmis/resources/images/favicon.png">
+    <link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/datatable-material.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/wrpmis/resources/css/mobile-form-template.css">
       <style>            
 		.desk-right{
 			text-align:right;
@@ -100,14 +100,6 @@ td, th {
 	                                        <span id="hod_user_id_fkError" class="error-msg" ></span>
 	                                    </div>
 	                                    <div class="col s6 m4 input-field">
-	                                        <p class="searchable_label" style="text-align:left">Work</p>
-	                                        <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" onchange="addInQueWork(this.value);getContractsList2InSafetyReport(this.value);getSafetyReport();">
-	                                            <option value="">Select </option>
-	                                          
-	                                        </select>
-	                                        <span id="work_id_fkError" class="error-msg" ></span>
-	                                    </div>
-	                                    <div class="col s6 m4 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Contract</p>
 	                                        <select class="searchable validate-dropdown" id="contract_id_fk" name="contract_id_fk" onchange="addInQueContract(this.value);resetWorksDropdowns();getSafetyReport();">
 	                                            <option value="">Select </option>
@@ -136,7 +128,7 @@ td, th {
 	                             </div>	
 								<div class='googoose-wrapper' style="display:none;">
 								    <div class='googoose' style="padding-bottom:0px;text-align:center;display:none;" id="logoDiv">
-								       <img src="/pmis/resources/images/mrvclogo.png" alt="Logo" width="70" height="55">
+								       <img src="/wrpmis/resources/images/mrvclogo.png" alt="Logo" width="70" height="55">
 								    </div>
 		                              <div class="col m8 s12 offset-m2" style="text-align:center;font-weight:bold;font-family:Calibri;">
 		                             	PMIS Report - Safety Incidents
@@ -181,14 +173,14 @@ td, th {
     <!-- footer included -->
     <jsp:include page="../layout/footer.jsp"></jsp:include>
 
-    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-    <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-    <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
-    <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-    <script src="/pmis/resources/js/dataTables.material.min.js"></script>
-    <script src="/pmis/resources/js/select2.min.js"></script>
-    <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
-    <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
+    <script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+    <script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/wrpmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+    <script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+    <script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
+    <script src="/wrpmis/resources/js/select2.min.js"></script>
+    <script src="/wrpmis/resources/js/moment-v2.8.4.min.js"></script>
+    <script src="/wrpmis/resources/js/datetime-moment-v1.10.12.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/aadel112/googoose@master/jquery.googoose.js"></script>
     
     <script>
@@ -245,8 +237,6 @@ td, th {
     	        		  var temp2 = temp[i].split('=');
     		        	  if($.trim(temp2[0]) == 'hod_user_id_fk' ){
     		        		  getHODListInSafetyReport(temp2[1]);
-    		        	  }else if($.trim(temp2[0]) == 'work_id_fk'){
-    		        		  getWorksListInSafetyReport(temp2[1]);
     		        	  }else if($.trim(temp2[0]) == 'contract_id_fk'){
     		        		  getContractsListInSafetyReport(temp2[1]);
     		        	  }else if($.trim(temp2[0]) == 'status_fk'){
@@ -303,7 +293,6 @@ td, th {
         
         function getSafetyReport(){
         	
-        	getWorksListInSafetyReport("");
         	getContractsListInSafetyReport("");
         	getHODListInSafetyReport("");
         	getStatusListInSafetyReport("");
@@ -352,38 +341,7 @@ td, th {
             	  $(".page-loader").hide();
             }
         }
-        function getWorksListInSafetyReport(work) {
-        	$(".page-loader").show();
-        	var work_id_fk = $('#work_id_fk').val();
-        	var contract_id_fk = $('#contract_id_fk').val();
-        	var hod_user_id_fk = $('#hod_user_id_fk').val();
-        	var status_fk = $('#status_fk').val();
-        	if ($.trim(work_id_fk) == "") {
-	           	$("#work_id_fk option:not(:first)").remove();
-	        	var myParams = {contract_id_fk : contract_id_fk, hod_user_id_fk : hod_user_id_fk, status_fk : status_fk}
-	           	$.ajax({
-	                   url: "<%=request.getContextPath()%>/ajax/getWorksListInSafetyReport",
-	                   data: myParams, cache: false,async: false,
-	                   success: function (data) {
-	                       if (data.length > 0) {
-	                           $.each(data, function (i, val) {
-	                           	 var workShortName = '';
-	                             if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
-	                             var selectedFlag = (work == val.work_id_fk)?'selected':'';
-	   	                         $("#work_id_fk").append('<option value="' + val.work_id_fk + '"'+selectedFlag+'>' + $.trim(val.work_id_fk)   + workShortName +'</option>');
-	                           });
-	                       }
-	                       $('.searchable').select2();
-	                       $(".page-loader").hide();
-	                   },error: function (jqXHR, exception) {
-	    	   			  $(".page-loader").hide();
-	   	   	          	  getErrorMessage(jqXHR, exception);
-	   	   	     	  }
-	            });
-        	}else{
-          	  $(".page-loader").hide();
-          }
-        }
+
         
         function getContractsList2InSafetyReport(work_id_fk){
        		$(".page-loader").show();
@@ -606,7 +564,7 @@ td, th {
 	                           var htmlC="";
                            	   if(mcl>0)
                         	   {
-                        	    	htmlC=htmlC+"<div class='googoose break'></div><div style='text-align:center;'><img src='/pmis/resources/images/mrvclogo.png' alt='Logo' width='70' height='55'></div><br><br>";						    
+                        	    	htmlC=htmlC+"<div class='googoose break'></div><div style='text-align:center;'><img src='/wrpmis/resources/images/mrvclogo.png' alt='Logo' width='70' height='55'></div><br><br>";						    
                         	   }
                            	   htmlC=htmlC+'<div class="col m8 s12 offset-m2" style="text-align:center;font-weight:bold;font-family:Calibri;" id="closedDiv">LIST OF CLOSED SAFETY INCIDENTS</div>';
 	                           htmlC=htmlC+"<table style='width:100%' class='glmCls'>";

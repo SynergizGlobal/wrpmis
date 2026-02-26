@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
@@ -13,14 +13,14 @@
    		 <c:if test="${action eq 'edit'}">Update Source of Fund - Update Forms - PMIS</c:if>
 		 <c:if test="${action eq 'add'}"> Add Source of Fund - Update Forms - PMIS</c:if>
     </title>
-    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">     
-    <!-- <link rel="stylesheet" href="/pmis/resources/css/budget.css"> -->
-    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
-    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
-	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/wrpmis/resources/images/favicon.png">
+    <link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">     
+    <!-- <link rel="stylesheet" href="/wrpmis/resources/css/budget.css"> -->
+    <link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/wrpmis/resources/css/mobile-form-template.css" />
+	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/wrpmis/resources/css/mobile-responsive-table.css" />
     <style>
         p a {
             color: blue
@@ -148,8 +148,7 @@
 							 <c:if test="${action eq 'add'}">	
                                 <div class="col s12 m4 l4 input-field">
                                     <p class="searchable_label">Project <span class="required">*</span></p>
-                                     <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  
-                                 	   onchange="getWorksList(this.value);">
+                                     <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk">
                                         <option value="">Select</option>
                                          <c:forEach var="obj" items="${projectsList }">
                                       	   <option value= "${ obj.project_id}">${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
@@ -157,17 +156,6 @@
                                      </select>
                                      <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
-                              <!--   <div class="col s12 m4 input-field">
-                                    <p class="searchable_label">Work</p>
-                                   <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" 
-                                   			onchange="resetProjectsDropdowns(this.value);">
-	                                        <option value="">Select</option>
-	                                        <c:forEach var="obj" items="${worksList }">
-	                                      	   <option value= "${obj.work_id}">${obj.work_id}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
-	                                         </c:forEach>
-                                    </select>
-                                    <span id="work_id_fkError" class="error-msg" ></span>
-                                </div> -->
                                 
                             
                            </c:if>
@@ -368,13 +356,13 @@
     <!-- footer included -->
     <jsp:include page="../layout/footer.jsp"></jsp:include>
 
-    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-    <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-    <script src="/pmis/resources/js/datepickerDepedency.js"></script>
-    <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>   
-    <script src="/pmis/resources/js/select2.min.js"></script>
-    <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
-<!--     <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
+    <script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+    <script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/wrpmis/resources/js/datepickerDepedency.js"></script>
+    <script src="/wrpmis/resources/js/jquery-validation-1.19.1.min.js"></script>   
+    <script src="/wrpmis/resources/js/select2.min.js"></script>
+    <script src="/wrpmis/resources/js/moment-v2.8.4.min.js"></script>
+<!--     <script src="/wrpmis/resources/js/datetime-moment-v1.10.12.js"></script>
  -->    
      <script>
     /*    $(document).on('focus', '.datepicker',function(){
@@ -446,41 +434,9 @@
             }); */
             
             var projectId = "${fundDetails.project_id_fk}";
-            if($.trim(projectId) != ''){
-            	getWorksList(projectId);
-            }
         });
         
-        function getWorksList(projectId) {
-        	$(".page-loader").show();
-            $("#work_id_fk option:not(:first)").remove();
 
-            if ($.trim(projectId) != "") {
-                var myParams = { project_id_fk: projectId };
-                $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorkListForSourceOfFundForm",
-                    data: myParams, cache: false,
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $.each(data, function (i, val) {
-                                var workName = '';
-                                if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
-                                var workId = "${fundDetails.work_id_fk}";
-                                if ($.trim(workId) != '' && val.work_id == $.trim(workId)) {
-                                    $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' + $.trim(val.work_id) + $.trim(workName) + '</option>');
-                                } else {
-                                    $("#work_id_fk").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + $.trim(workName) + '</option>');
-                                }
-                            });
-                        }
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
-                    }
-                });
-            }else{
-            	$(".page-loader").hide();
-            }
-        }
         
         function resetProjectsDropdowns(workId){
         	var projectId = '';

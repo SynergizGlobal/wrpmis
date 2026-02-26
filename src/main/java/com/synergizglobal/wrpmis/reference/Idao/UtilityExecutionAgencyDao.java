@@ -1,0 +1,15 @@
+package com.synergizglobal.wrpmis.reference.Idao;
+
+import java.util.List;
+
+import com.synergizglobal.wrpmis.reference.model.Safety;
+
+public interface UtilityExecutionAgencyDao {
+
+	public List<Safety> getUtilityExecutionAgencysList() throws Exception;
+	public Safety getUtilityExecutionAgencysList(Safety obj) throws Exception;
+
+	public boolean addUtilityExecutionAgency(Safety obj) throws Exception;
+	public boolean updateUtilityExecutionAgency(Safety obj) throws Exception;
+	public boolean deleteUtilityExecutionAgency(Safety obj) throws Exception;
+}

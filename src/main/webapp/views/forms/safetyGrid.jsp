@@ -8,15 +8,15 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Safety Incidents - Update Forms - PMIS</title>
-	<link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
-	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">	 
-	<link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">	 
-	<link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-	<link rel="stylesheet" href="/pmis/resources/css/rits.css">
-	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
-	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" />
-    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-grid-template.css" />
+	<link rel="icon" type="image/png" sizes="96x96"	href="/wrpmis/resources/images/favicon.png">
+	<link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">	 
+	<link rel="stylesheet" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">
+	<link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">	 
+	<link rel="stylesheet" href="/wrpmis/resources/css/datatable-material.css">
+	<link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+	<link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">	
+	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/wrpmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/wrpmis/resources/css/mobile-grid-template.css" />
 	
 	 <style>
         p a {
@@ -194,12 +194,6 @@
 							</div>
                         	 <div class="col m12 s12 l10">
                         		<div class="row">                        			
-                        			  <div class="col m4 s6 l2 input-field">
-		                            	<p class="searchable_label">Work</p>
-		                                 <select id="work_id_fk" name="work_id_fk" onchange="addInQueWork(this.value);getSafetyList();" class="searchable">
-		                                     <option value="" >Select</option>		                                     
-		                                 </select>  
-                            		 </div>
 		                            <div class="col s6 m4 l2 input-field">
 		                            	<p class="searchable_label">Contract</p>
 		                                 <select id="contract_id_fk" name="contract_id_fk" onchange="addInQueContract(this.value);getSafetyList();" class="searchable">
@@ -307,19 +301,18 @@
         <input type="hidden" name="department_fk" id="exportDepartment_fk" />
         <input type="hidden" name="category_fk" id="exportCategory_fk" />
         <input type="hidden" name="status_fk" id="exportStatus_fk" />
-        <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
         <input type="hidden" name="hod_user_id_fk" id="exportHod_user_id_fk" />
         <input type="hidden" name="searchStr" id="exportsearchStr" />
 	</form>
 
 
-	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-	<script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-	<script src="/pmis/resources/js/select2.min.js"></script>	
-	<script src="/pmis/resources/js/dataTables.material.min.js"></script>
-	<script src="/pmis/resources/js/moment-v2.8.4.min.js"></script> 
-	<script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script> 
+	<script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+	<script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+	<script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+	<script src="/wrpmis/resources/js/select2.min.js"></script>	
+	<script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
+	<script src="/wrpmis/resources/js/moment-v2.8.4.min.js"></script> 
+	<script src="/wrpmis/resources/js/datetime-moment-v1.10.12.js"></script> 
 
 	<script>
 		var filtersMap = new Object();
@@ -338,9 +331,7 @@
         	  for(var i=0;i< temp.length;i++){
 	        	  if($.trim(temp[i]) != '' ){
 	        		  var temp2 = temp[i].split('=');
-		        	  if($.trim(temp2[0]) == 'work_id_fk'){
-		        		  getWorksListFilter(temp2[1]);
-		        	  }else if($.trim(temp2[0]) == 'contract_id_fk'){
+		        	  if($.trim(temp2[0]) == 'contract_id_fk'){
 		        		  getContractsListFilter(temp2[1]);
 		        	  }else if($.trim(temp2[0]) == 'department_fk'){
 		        		  getDepartmentsListFilter(temp2[1]);
@@ -433,7 +424,6 @@
         function getSafetyList() {
     		$(".page-loader-2").show();
 
-    		getWorksListFilter('');
         	getContractsListFilter('');
         	getDepartmentsListFilter('');
         	getCategoryListFilter('');
@@ -600,7 +590,6 @@
         function getSafetyList1(){
         	$(".page-loader-2").show();
         	
-        	getWorksListFilter('');
         	getContractsListFilter('');
         	getDepartmentsListFilter('');
         	getCategoryListFilter('');
@@ -723,42 +712,6 @@
         	    console.log(msg);
          }
       	
-        function getWorksListFilter(work) {
-        	var work_id_fk = $("#work_id_fk").val();
-        	var contract_id_fk = $("#contract_id_fk").val();
-        	var department_fk = $("#department_fk").val();
-        	var category_fk = $("#category_fk").val();
-        	var status_fk = $("#status_fk").val();
-        	var hod_user_id_fk = $("#hod_user_id_fk").val();
-        	
-         	$(".page-loader").show();
-
-            if ($.trim(work_id_fk) == "") {
-                $("#work_id_fk option:not(:first)").remove();
-         		var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, department_fk : encodeURIComponent(department_fk), category_fk : category_fk, status_fk : status_fk,hod_user_id_fk : hod_user_id_fk };
-                $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorksListFilterInSafety",
-                    data: myParams, cache: false,async:false,
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $.each(data, function (i, val) {
-                            	var work_short_name = '';
-                            	if ($.trim(val.work_short_name) != '') { work_short_name = ' - ' + $.trim(val.work_short_name) } 
-                            	var selectedFlag = (work == val.work_id_fk)?'selected':'';
- 	                            $("#work_id_fk").append('<option value="' + val.work_id_fk + '" '+selectedFlag+'>' + $.trim(val.work_id_fk) + work_short_name +'</option>');
-                            });
-                        }
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
-                    },error: function (jqXHR, exception) {
-     	   			  $(".page-loader").hide();
-   	   	          	  getErrorMessage(jqXHR, exception);
-  	   	     	  }
-                });
-            }else{
-            	  $(".page-loader").hide();
-            }
-        }
         
         function getContractsListFilter(contract) {
         	var work_id_fk = $("#work_id_fk").val();

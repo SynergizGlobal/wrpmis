@@ -1,0 +1,29 @@
+package com.synergizglobal.wrpmis.Idao;
+
+import java.util.List;
+
+import com.synergizglobal.wrpmis.model.P6Data;
+
+public interface P6DataDao {
+
+	
+	public int updateP6Activities(List<P6Data> p6dataList,P6Data p6Data) throws Exception;
+
+	public List<P6Data> getActivityDataList(P6Data obj) throws Exception;
+
+	public String uploadP6WBSActivities(List<P6Data> wbsList, List<P6Data> activitiesList, P6Data p6data) throws Exception;
+	
+	public List<P6Data> getFobList(P6Data obj) throws Exception;
+
+	public List<P6Data> getContractsList(P6Data obj) throws Exception;
+	
+	public List<P6Data> getFobListFilter(P6Data obj) throws Exception;
+
+	public List<P6Data> getContractsListFilter(P6Data obj) throws Exception;
+
+	public List<P6Data> getUploadTypesFilter(P6Data obj) throws Exception;
+
+	public List<P6Data> getStatusListFilter(P6Data obj) throws Exception;
+
+
+}

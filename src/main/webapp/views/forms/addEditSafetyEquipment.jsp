@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
@@ -11,14 +11,14 @@
    	     <c:if test="${action eq 'edit'}">Update Safety Equipment </c:if>
 		 <c:if test="${action eq 'add'}"> Add Safety Equipment </c:if>
     </title>
-    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
- 	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
+    <link rel="icon" type="image/png" sizes="96x96" href="/wrpmis/resources/images/favicon.png">
+ 	<link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">
      
-    <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
-    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">		
+    <link rel="stylesheet" href="/wrpmis/resources/css/datatable-material.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">		
     
     <style>
          .fixed-width {
@@ -120,25 +120,13 @@
                                         <div class="col s12 m4 input-field">
                                             <p class="searchable_label"> Project </p>
 		                                           <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  
-		                                 	  		 onchange="getWorksList(this.value);">
+		                                 	  		 onchange="getContractsList(this.value);">
 		                                      		  <option value="" >Select</option>
 		                                        		 <c:forEach var="obj" items="${projectsList }">
 		                                           			 <option value="${obj.project_id_fk }" <c:if test="${safetyEquipmentDetails.project_id_fk eq obj.project_id_fk}">selected</c:if>>${obj.project_id_fk}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
 		                                        		 </c:forEach>
 		                                          </select>
                                    			 <span id="project_idError" class="error-msg" ></span>
-                                        </div>
-                                        <div class="col s12 m4 input-field">
-                                            <p class="searchable_label"> Work </p>
-	                                           <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
-	                                      		  onchange="getContractsList(this.value);">
-	                                      		  <option value="">Select</option>
-	                                      		  <c:forEach var="obj" items="${worksList }">
-	                                      	   			<option value= "${ obj.work_id_fk}">${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
-	                                      		  </c:forEach>
-	                                   		 	</select>
-                                   		   
-                                     		 <span id="work_id_fkError" class="error-msg" ></span>
                                         </div>
                                			<div class="col m2 hide-on-small-only"></div>
                                			</div>
@@ -168,11 +156,6 @@
 									<p class="searchable_label"> Project </p>
                                       <input type="text" name="project_id" id="project_id" value="${safetyEquipmentDetails.project_id}- ${safetyEquipmentDetails.project_name}" readonly />
 							  </div> 
-							  <div class="col s12 m4 input-field"> 
-								    <p class="searchable_label"> Work </p>
-                                  	 	<input type="text"  value="${safetyEquipmentDetails.work_id}- ${safetyEquipmentDetails.work_name}" readonly />
-                                  	 	<input type="hidden" name="work_id_fk" id="work_id_fk" value="${safetyEquipmentDetails.work_id}" readonly />
-                              </div>
                                <div class="col m2 hide-on-small-only">     </div>
                           </div> 
                            <div class="row">
@@ -400,12 +383,12 @@
     <!-- footer included -->
     <jsp:include page="../layout/footer.jsp"></jsp:include>
 
-    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-    <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-    <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
-    <script src="/pmis/resources/js/select2.min.js"></script>
-    <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
-    <!-- <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script> -->
+    <script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+    <script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/wrpmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+    <script src="/wrpmis/resources/js/select2.min.js"></script>
+    <script src="/wrpmis/resources/js/moment-v2.8.4.min.js"></script>
+    <!-- <script src="/wrpmis/resources/js/datetime-moment-v1.10.12.js"></script> -->
 
 
     <script>
@@ -440,46 +423,13 @@
             
            
             var projectId = "${safetyEquipmentDetails.project_id_fk}";
-            if($.trim(projectId) != ''){
-            	getWorksList(projectId);
-            }
             var work_id_fk = "${safetyEquipmentDetails.work_id_fk}";
             if($.trim(work_id_fk) != ''){
             	getContractsList(work_id_fk);
             }
         });
 
-        function getWorksList(projectId) {
-        	$(".page-loader").show();
-            $("#work_id_fk option:not(:first)").remove();
-            $("#contract_id_fk option:not(:first)").remove();
 
-            if ($.trim(projectId) != "") {
-                var myParams = { project_id_fk: projectId };
-                $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorkListForSafetyEquipmentForm",
-                    data: myParams, cache: false,
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $.each(data, function (i, val) {
-                                var workName = '';
-                                if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
-                                var work_id_fk = "${safetyEquipmentDetails.work_id_fk }";
-                                if ($.trim(work_id_fk) != '' && val.work_id_fk == $.trim(work_id_fk)) {
-                                    $("#work_id_fk").append('<option value="' + val.work_id_fk + '" selected>' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
-                                } else {
-                                    $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
-                                }
-                            });
-                        }
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
-                    }
-                });
-            }else{
-            	$(".page-loader").hide();
-            }
-        }
         
         function getContractsList(work_id_fk) {
         	$(".page-loader").show();

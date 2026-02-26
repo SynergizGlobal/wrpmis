@@ -482,8 +482,8 @@
   <form action="<%=request.getContextPath()%>/get-r-and-r" id="getForm" name="getForm" method="post">
   		<input type="hidden" name="randRId" id="randRId"/>
   </form>
-  	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>	
+  	<script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+	<script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>	
   <script src="/mrvc/resources/js/jquery.dataTables-v.1.10.min.js"></script>
   <script src="/mrvc/resources/js/dataTables.material.min.js"></script>
   

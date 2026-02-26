@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants2"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -13,16 +13,16 @@
     	 <c:if test="${action eq 'edit'}">Update Land Acquisition - Update Forms - PMIS</c:if>
 		 <c:if test="${action eq 'add'}"> Add Land Acquisition - Update Forms - PMIS</c:if>
     </title>
-    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-    <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <!-- <link rel="stylesheet" href="/pmis/resources/css/la.css"> -->
-    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
-    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" >
-    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-responsive-table.css" >
+    <link rel="icon" type="image/png" sizes="96x96" href="/wrpmis/resources/images/favicon.png">
+    <link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/datatable-material.css">
+    <!-- <link rel="stylesheet" href="/wrpmis/resources/css/la.css"> -->
+    <link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/wrpmis/resources/css/mobile-form-template.css" >
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/wrpmis/resources/css/mobile-responsive-table.css" >
     <style>
     .m0{margin:0;}
     .w0{width: 0;}
@@ -38,7 +38,7 @@
         }
 
         .primary-text-bold {
-            color: #007A7A !important;
+            color: #EA6A2A !important;
             font-weight: 600
         }
 
@@ -47,7 +47,7 @@
         }
 
         .input-field .prefix.active {
-            color: #007A7A;
+            color: #EA6A2A;
         }
 		input[type="number"]~.units {
 		    position: absolute;
@@ -198,7 +198,7 @@
     <!-- header ends  -->
 
     <!-- card  -->
-    <div class="row">
+    <div class="container-padding">
         <div class="col s12 m12">
             <div class="card ">
                 <div class="card-content">
@@ -206,8 +206,8 @@
                         <span class="card-title headbg">
                             <div class="center-align p-2 bg-m m-b-2">
                                 <h6>
-                                	 <c:if test="${action eq 'edit'}">Update Land Acquisition (${LADetails.la_id })</c:if>
-									 <c:if test="${action eq 'add'}"> Add Land Acquisition</c:if>
+                                	 <c:if test="${action eq 'edit'}">Update Land Details (${LADetails.la_id })</c:if>
+									 <c:if test="${action eq 'add'}"> Add Land Details</c:if>
                                 </h6>
                             </div>
                         </span>
@@ -226,7 +226,7 @@
                         <div class="row">
                                 <div class="col s6 m4 l4 input-field offset-m2">
                                     <p class="searchable_label"> Project <span class="required">*</span></p>
-                                    <select id="project_id_fk" name="project_id_fk"  class="searchable validate-dropdown"  onchange="getWorksList(this.value);">
+                                    <select id="project_id_fk" name="project_id_fk"  class="searchable validate-dropdown">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${projectsList }">
                                       	   <option value= "${ obj.project_id}">${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
@@ -235,16 +235,6 @@
                                     <span id="project_id_fkError" class="error-msg" ></span>
                                 </div>
                                  <input type="hidden" id= "work_code" name= "work_code"/>
-                                <div class="col s6 m4 l4 input-field">
-                                    <p class="searchable_label"> Work <span class="required">*</span></p>
-                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" onchange="resetProjectsDropdowns(this.value);">
-                                        <option value="">Select</option>
-                                         <c:forEach var="obj" items="${worksList }">
-	                                      	   <option name="${ obj.work_code}" value= "${obj.work_id}">${obj.work_id}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
-	                                     </c:forEach>
-                                    </select>
-                                    <span id="work_id_fkError" class="error-msg" ></span>
-                                </div>
                                   <div class="col s12 m8 l4 input-field offset-m2">
                                 	 <p class="searchable_label"> Land Status  <span class="required">*</span></p>
                                  	<select id="la_land_status_fk" class="searchable validate-dropdown" name="la_land_status_fk" onchange="checkLStatus(this);">
@@ -263,11 +253,6 @@
 										<p class="searchable_label"> Project <span class="required">*</span></p>
 	                                    <input type="text" value="${LADetails.project_id_fk} - ${LADetails.project_name}" readonly />
 								  </div> 
-								  <div class="col s6 m4 l4 input-field"> 
-									    <p class="searchable_label"> Work <span class="required">*</span></p>
-                                    	<input type="text"  value="${LADetails.work_id_fk} - ${LADetails.work_short_name}" readonly />
-                                    	<input type="hidden" name="work_id_fk" id="work_id_fk" value="${LADetails.work_id_fk}"  />
-	                              </div>
 	                              
 	                              <div class="col s12 m8 l4 input-field offset-m2">
 	                                 <p class="searchable_label"> Land Status <span class="required">*</span></p>
@@ -304,7 +289,7 @@
                             <div class="row">                                 
                                 <div class="col s6 m4 l4 input-field offset-m2">
                                     <p class="searchable_label"> Type of Land <span class="required">*</span></p>
-                                    <select id="type_of_land" class="searchable validate-dropdown" name="category_fk" onchange="getSubCategorysList();">
+                                    <select id="type_of_land" class="searchable validate-dropdown" name="category_fk" onchange="getSubCategorysList();getTalukaVillageCollector(this.value);">
                                         <option value="" >Select</option>
                                         <c:forEach var="obj" items="${landsList }">
 	                                      	   <option value= "${obj.type_of_land}" <c:if test="${LADetails.type_of_land eq obj.type_of_land}">selected</c:if>>${obj.type_of_land}</option>
@@ -352,17 +337,31 @@
 							
 							</c:if>
 						
-                            <div class="row">                                 
-                                <div class="col s6 m4 l4 input-field offset-m2">
-                                    <input id="village" maxlength="100" data-length="100" name="village" type="text" class="validate w80 pdr4em" value="${LADetails.village }">
-                                    <label for="village"> Village <span class="required">*</span></label>
-                                    <span id="villageError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s6 m4 l4 input-field">
-                                    <input id="taluka" maxlength="100" data-length="100" name="taluka" type="text" class="validate w80 pdr4em" value="${LADetails.taluka }">
-                                    <label for="taluka"> Taluka <span class="required">*</span></label>
-                                    <span id="talukaError" class="error-msg" ></span>
-                                </div> 
+                            <div class="row">   
+                            
+                                   
+                                    <div class="col s12 m8 l4 input-field offset-m2">
+                                	 <p class="searchable_label"> Taluka  <span class="required">*</span></p>
+                                 	<select id="taluka" class="searchable validate-dropdown" name="taluka" value="${LADetails.taluka }" onchange="onTalukaChange()">
+                                     	<option value="0" >Select</option>
+<%--                                      	<c:forEach var="obj" items="${laLandStatus }">
+                                    	   	<option value= "${obj.la_land_status}">${obj.la_land_status}</option>
+                                  	 </c:forEach> --%>
+                                 	</select>
+                                		<span id="la_land_status_fkError" class="error-msg" ></span>  
+                                    
+                                </div>                                                           
+                                     <div class="col s12 m8 l4 input-field offset-m2">
+                                	 <p class="searchable_label"> Village  <span class="required">*</span></p>
+                                 	<select id="village" class="searchable validate-dropdown" name="village" onchange="onVillageChange()">
+                                     	<option value="0" >Select</option>
+<%--                                      	<c:forEach var="obj" items="${laLandStatus }">
+                                    	   	<option value= "${obj.la_land_status}">${obj.la_land_status}</option>
+                                  	 </c:forEach> --%>
+                                 	</select>
+                                		<span id="la_land_status_fkError" class="error-msg" ></span>  
+                               </div>                                
+                                
                                 <div class="col s6 m4 l4 input-field offset-m2">
                                     <input id="dy_slr" maxlength="100" data-length="100" name="dy_slr" type="text" class="validate w80 pdr4em" value="${LADetails.dy_slr }">
                                     <label for="dy_slr">Dy SLR </label>
@@ -375,7 +374,7 @@
                                     <span id="sdoError" class="error-msg" ></span>
                                 </div>                                 
                                 <div class="col s8 m8 l4 input-field offset-m2">
-                                    <input id="collector" maxlength="100" data-length="100" name="collector" type="text" class="validate w80 pdr4em" value="${LADetails.collector }">
+                                    <input id="collector" maxlength="100" data-length="100" name="collector" type="text" class="validate w80 pdr4em" value="${LADetails.collector }" readonly >
                                     <label for="collector">Collector </label>
                                     <span id="collectorError" class="error-msg" ></span>
                                 </div>
@@ -393,16 +392,6 @@
                                     <input id="area_of_plot" maxlength="10" data-length="10" name="area_of_plot" type="number" class="validate num w80 pdr4em" value="${LADetails.area_of_plot }">
                                     <label for="area_of_plot">Area of Plot (Ha)</label>
                                 </div> 
-                                <div class="col s6 m8 l4 input-field offset-m2">
-                                    <input id="latitude" maxlength="40" data-length="40" name="latitude" type="number" class="validate w80 pdr4em num" value="${LADetails.latitude }">
-                                    <label for="latitude" id="idLatitude">Latitude </label>
-                                    <span id="latitudeError" class="error-msg" ></span>
-                                </div> 
-                                <div class="col s6 m8 l4 input-field offset-m2">
-                                    <input id="longitude" maxlength="40" data-length="40" name="longitude" type="number" class="validate w80 pdr4em num" value="${LADetails.longitude }">
-                                    <label for="longitude" id="idLongitude">Longitude </label>
-                                    <span id="longitudeError" class="error-msg" ></span>
-                                </div>                               
                             </div>
                             <div class="row">      
                                <div class="col s12 m4 l4 input-field offset-m2">
@@ -2632,16 +2621,16 @@
     <!-- footer  -->
  <jsp:include page="../layout/footer.jsp"></jsp:include>
  
-    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-	<script src="/pmis/resources/js/datepickerDepedency.js"></script>
-	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
-	<script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-	<script src="/pmis/resources/js/dataTables.material.min.js"></script>
-	<script src="/pmis/resources/js/select2.min.js"></script>
-	<script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
-	<script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
-	<script src="/pmis/resources/js/datetimepicker.js"></script>
+    <script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+	<script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+	<script src="/wrpmis/resources/js/datepickerDepedency.js"></script>
+	<script src="/wrpmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+	<script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+	<script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
+	<script src="/wrpmis/resources/js/select2.min.js"></script>
+	<script src="/wrpmis/resources/js/moment-v2.8.4.min.js"></script>
+	<script src="/wrpmis/resources/js/datetime-moment-v1.10.12.js"></script>
+	<script src="/wrpmis/resources/js/datetimepicker.js"></script>
     <script>
     $(document).ready(function() {
     	$('.modal').modal({ dismissible: false });
@@ -2655,6 +2644,12 @@
         	if("${LADetails}"!="" && "${LADetails}"!=null)
         	{
         		getSubCategorysList();
+        		$("#taluka")
+        	    .empty()
+        	    .append('<option value="${LADetails.taluka}" selected>${LADetails.taluka}</option>');
+        		$("#village")
+        	    .empty()
+        	    .append('<option value="${LADetails.village}" selected>${LADetails.village}</option>');
             }
 
         
@@ -2763,6 +2758,94 @@
 	                    "_blank", "");
 		 }
         
+		 function getTalukaVillageCollector(category) {
+
+			    $(".page-loader").show();
+
+			    $.ajax({
+			        url: "<%=request.getContextPath()%>/ajax/getTalukaVillageCollector",
+			        type: "GET",
+			        data: {
+			            project_id: $("#project_id_fk").val(),
+			            category_fk: category
+			        },
+			        success: function (data) {
+			        	
+			        	if (!data || data.length === 0) {
+
+			                alert("Please fill relevant land type details in Land Acquisition Process form");
+			        	}
+
+			            talukaVillageData = data;
+
+			            // Clear
+			            $("#taluka").empty().append('<option value="0">Select Taluka</option>');
+			            $("#village").empty().append('<option value="0">Select Village</option>');
+			            $("#collector").val('');
+
+			            // Populate Taluka (unique)
+			            var talukaSet = new Set();
+			            $.each(data, function (i, row) {
+			                if (row.taluka) {
+			                    talukaSet.add(row.taluka);
+			                }
+			            });
+
+			            talukaSet.forEach(function (t) {
+			                $("#taluka").append('<option value="' + t + '">' + t + '</option>');
+			            });
+
+			            $('.searchable').select2();
+			            $(".page-loader").hide();
+			        },
+			        error: function (jqXHR, exception) {
+			            $(".page-loader").hide();
+			            getErrorMessage(jqXHR, exception);
+			        }
+			    });
+			}
+		 
+		 
+		 function onTalukaChange() {
+
+			    var selectedTaluka = $("#taluka").val();
+
+			    $("#village").empty().append('<option value="0">Select Village</option>');
+			    $("#collector").val('');
+
+			    $.each(talukaVillageData, function (i, row) {
+			        if (row.taluka === selectedTaluka) {
+			            $("#village").append(
+			                '<option value="' + row.village + '">' + row.village + '</option>'
+			            );
+			        }
+			    });
+
+			    $('.searchable').select2();
+			}	
+		 
+		 
+		 function onVillageChange() {
+
+			    var selectedTaluka = $("#taluka").val();
+			    var selectedVillage = $("#village").val();
+
+			    $.each(talukaVillageData, function (i, row) {
+			        if (row.taluka === selectedTaluka && row.village === selectedVillage) {
+
+			            $("#collector")
+			                .attr("placeholder", "")   // remove placeholder
+			                .val(row.collector)        // set value
+			                .trigger("change");        // trigger UI update
+
+			            return false; // break loop
+			        }
+			    });
+			}
+
+	 
+		 
+		 
         function selectFile(no){
 		    files = $("#laFiles"+no)[0].files;
 		    var html = "";
@@ -2831,8 +2914,6 @@
 		                        $('#idLatitude').html("");
 		                        $('#idLongitude').html("");		                        
 	                        
-		                        $('#latitude').val(x3);
-		                        $('#longitude').val(y3);
 		                        
 		                    }
 		                }
@@ -3027,37 +3108,7 @@
 		          $('#private_dpm').show();
 		    }
 		});
-        function getWorksList(projectId) {
-        	$(".page-loader").show();
-            $("#work_id_fk option:not(:first)").remove();
 
-            if ($.trim(projectId) != "") {
-                var myParams = { project_id_fk: projectId };
-                $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorkListForLAForm",
-                    data: myParams, cache: false,
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $.each(data, function (i, val) {
-                                var workName = '';
-                                if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
-                                var workId = "${LADetails.work_id_fk}";
-                                if ($.trim(workId) != '' && val.work_id == $.trim(workId)) {
-                                    $("#work_id_fk").append('<option name = "' + val.work_code + '" value="' + val.work_id + '" selected>' + $.trim(val.work_id) + $.trim(workName) + '</option>');
-                                } else {
-                                    $("#work_id_fk").append('<option name = "' + val.work_code + '" value="' + val.work_id + '">' + $.trim(val.work_id) + $.trim(workName) + '</option>');
-                                }
-                            });
-                        }
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
-                    }
-                });
-            }else{
-            	$(".page-loader").hide();
-            }
-        }
-        
         function resetProjectsDropdowns(workId){
         	var projectId = '';
         	if($.trim(workId) != ''){  

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants"%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -9,19 +9,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contract - Update Forms - PMIS</title>
-    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-    <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <!-- <link rel="stylesheet" href="/pmis/resources/css/contract.css"> -->
-    <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
+    <link rel="icon" type="image/png" sizes="96x96" href="/wrpmis/resources/images/favicon.png">
+    <link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/datatable-material.css">
+    <!-- <link rel="stylesheet" href="/wrpmis/resources/css/contract.css"> -->
+    <link rel="stylesheet" href="/wrpmis/resources/css/font-awesome-v.4.7.css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined"	rel="stylesheet">
-    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
-	<link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
-    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
+    <link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+	<link rel="stylesheet" href="/wrpmis/resources/css/header-footer.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">
+	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/wrpmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/wrpmis/resources/css/mobile-grid-template.css" />
     <style>        
         .input-field .searchable_label{
         	font-size:0.85rem;
@@ -174,26 +174,6 @@
                                                 </c:forEach>  --%>
 									</select>
 								</div>
-								<div class="col s6 m4 l2 input-field">
-									<p class="searchable_label">Work</p>
-									<select id="work_id_fk" name="work_id_fk"
-										onchange="addInQueWork(this.value);getContractList();" class="searchable">
-										<option value="">Select</option>
-										<%--   <c:forEach var="obj" items="${worksList }">
-                                                    <option value="${obj.work_id_fk }" >${obj.work_id_fk}<c:if test="${not empty obj.work_name}"> - </c:if> ${obj.work_name }</option>
-                                                </c:forEach>  --%>
-									</select> 
-								</div>
-								<%-- <div class="col s12 m2 input-field">
-									<p class="searchable_label">Department</p>
-									<select id="department_fk" name="department_fk"
-										onchange="getContractList();" class="searchable">
-										<option value="">Select</option>
-										 <c:forEach var="obj" items="${departmentList }">
-                                                    <option name="${obj.work_id_fk }" value="${obj.department_fk }" >${obj.department_fk}</option>
-                                                </c:forEach> 
-									</select>
-								</div> --%>
 								
 								<div class="col s6 m4 l2 input-field">
 									<p class="searchable_label">HOD</p>
@@ -315,17 +295,16 @@
         <input type="hidden" name="contractor_id_fk" id="exportContractor_id_fk" />
         <input type="hidden" name="contract_status_fk" id="exportContract_status_fk" />
         <input type="hidden" name="contract_status" id="exportContract_status" />
-        <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
         <input type="hidden" name="project_id_fk" id="exportProject_id_fk" />
 	</form>
 
-    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-	<script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-	<script src="/pmis/resources/js/dataTables.material.min.js"></script>
-	<script src="/pmis/resources/js/select2.min.js"></script>
-	<script src="/pmis/resources/js/moment-v2.8.4.min.js"></script> 
-	<script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script> 
+    <script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+	<script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+	<script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+	<script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
+	<script src="/wrpmis/resources/js/select2.min.js"></script>
+	<script src="/wrpmis/resources/js/moment-v2.8.4.min.js"></script> 
+	<script src="/wrpmis/resources/js/datetime-moment-v1.10.12.js"></script> 
 	
     <script>
     
@@ -808,41 +787,7 @@
 	        }
 	    }
 	 
-	 function getWorkFilterList(work){
-	 	$(".page-loader").show();
-	 	var contractor_id_fk = $("#contractor_id_fk").val();
-    	var contract_status_fk = $("#contract_status_fk").val();
-    	var work_id_fk = $("#work_id_fk").val();
-    	var project_id_fk = $("#project_id_fk").val();
-    	var designation = $("#designation").val();
-    	var dy_hod_designation = $("#dy_hod_designation").val();
-    	var contract_status = $("#contract_status").val();
-	    if ($.trim(work_id_fk) == "") {
-	    	$("#work_id_fk option:not(:first)").remove();
-		 	var myParams = {designation : designation,dy_hod_designation : dy_hod_designation,contractor_id_fk : contractor_id_fk, contract_status_fk : contract_status_fk, work_id_fk : work_id_fk, project_id_fk : project_id_fk, contract_status : contract_status};
-            $.ajax({
-                url: "<%=request.getContextPath()%>/mobileappwebview/ajax/getWorksFilterListInContract",
-                data: myParams, cache: false,async: false,
-                success: function (data) {
-                    if (data.length > 0) {
-                        $.each(data, function (i, val) {
-                        	 var workShortName = '';
-                             if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
-                             var selectedFlag = (work == val.work_id_fk)?'selected':'';
-	                         $("#work_id_fk").append('<option value="' + val.work_id_fk + '"'+selectedFlag+'>' + $.trim(val.work_id_fk)   + workShortName +'</option>');
-                        });
-                    }
-                    $('.searchable').select2();
-                    $(".page-loader").hide();
-                },error: function (jqXHR, exception) {
- 	   			      $(".page-loader").hide();
-	   	          	  getErrorMessage(jqXHR, exception);
-	   	     	  }
-            });
-        }else{
-        	  $(".page-loader").hide();
-        }
-    }
+
 	 
 	 function getProjectFilterList(project){
 		 	$(".page-loader").show();

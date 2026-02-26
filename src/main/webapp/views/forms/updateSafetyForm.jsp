@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants2"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants"%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -11,12 +11,12 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update Safety Incident - Update Forms - PMIS</title>
-	<link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
-	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">	 
-	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">	 
-	<link rel="stylesheet" href="/pmis/resources/css/rits.css">
-	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
-	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" >
+	<link rel="icon" type="image/png" sizes="96x96"	href="/wrpmis/resources/images/favicon.png">
+	<link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">	 
+	<link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">	 
+	<link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+	<link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">	
+	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/wrpmis/resources/css/mobile-form-template.css" >
 	 <style>
         .no-mar .row {
             margin-bottom: 0;
@@ -113,11 +113,6 @@
                                     <label for="project-text">Project <span class="required">*</span></label>
                                     <input type="hidden" name="project_id_fk" id="project_id_fk" value ="${safety.project_id_fk }" />
                                     <span id="project_id_fkError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s6 m4 l4 input-field">
-                                    <input type="text"  value ="${safety.work_id_fk } - ${safety.work_short_name}" readonly id="work-text"/>
-                                    <label for="work-text">Work <span class="required">*</span></label>
-                                    <input type="hidden" name="work_id_fk" id="work_id_fk" value ="${safety.work_id_fk }" />
                                 </div>
                                 <div class="col s12 m4 l4 input-field">
                                     <!-- <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown">
@@ -262,7 +257,7 @@
 	                                </div> 
 	                                <div class="col s12 m3 l3 input-field">
 	                                    
-	                                    <p style="color: #aaa;font-size:0.85rem;" >Person Responsible in MRVC<span class="required">*</span></p>
+	                                    <p style="color: #aaa;font-size:0.85rem;" >Person Responsible in WR<span class="required">*</span></p>
 	                                    <select id="responsible_person" name="responsible_person" class="searchable">
 	                                        <option value="">Select</option>
 	                                    </select>
@@ -452,11 +447,11 @@
 	<!-- footer included -->
 	<jsp:include page="../layout/footer.jsp"></jsp:include>
 
-	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>	
-	<!-- <script src="/pmis/resources/js/datepickerDepedency.js"></script> -->	
-	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
-	<script src="/pmis/resources/js/select2.min.js"></script>
+	<script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+	<script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>	
+	<!-- <script src="/wrpmis/resources/js/datepickerDepedency.js"></script> -->	
+	<script src="/wrpmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+	<script src="/wrpmis/resources/js/select2.min.js"></script>
 	<script>
 	$(document).ready(function() {
         $(".num").keypress(function() {
@@ -936,9 +931,6 @@
           });
   	        
             var project_id_fk = "${safety.project_id_fk}";
-            if ($.trim(project_id_fk) != '') {
-                getWorksList(project_id_fk);
-            }
             
             var work_id_fk = "${safety.work_id_fk}";
             if ($.trim(work_id_fk) != '') {
@@ -1022,37 +1014,7 @@
         	$("#title").val(category).focus();
         }
         
-      //geting works list from database    
-        function getWorksList(projectId) {
-        	$(".page-loader").show();
-            $("#work_id_fk option:not(:first)").remove();
 
-            if ($.trim(projectId) != "") {
-                var myParams = { project_id_fk: projectId };
-                $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorksList",
-                    data: myParams, cache: false,
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $.each(data, function (i, val) {
-                                var workName = '';
-                                if ($.trim(val.work_name) != '') { workName = ' - ' + $.trim(val.work_name) }
-                                var work_id_fk = "${safety.work_id_fk }";
-                                if ($.trim(work_id_fk) != '' && val.work_id == $.trim(work_id_fk)) {
-                                    $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' + $.trim(val.work_id) + $.trim(workName) + '</option>');
-                                } else {
-                                    $("#work_id_fk").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + $.trim(workName) + '</option>');
-                                }
-                            });
-                        }
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
-                    }
-                });
-            }else{
-            	$(".page-loader").hide();
-            }
-        }
 
         //geting contracts list    
         function getContractsList(work_id_fk) {

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
@@ -8,16 +8,15 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Structure Form - Update Forms - PMIS</title>
-	<link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
-	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">	 
-	<link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">	 
-	<link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-	<!-- <link rel="stylesheet" href="/pmis/resources/css/fob.css"> -->
-	<link rel="stylesheet" href="/pmis/resources/css/rits.css">
-	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
-	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
+	<link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">	 
+	<link rel="stylesheet" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">
+	<link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">	 
+	<link rel="stylesheet" href="/wrpmis/resources/css/datatable-material.css">
+	<!-- <link rel="stylesheet" href="/wrpmis/resources/css/fob.css"> -->
+	<link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+	<link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">	
+	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/wrpmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/wrpmis/resources/css/mobile-grid-template.css" />
 	 <style>
      	.fw-400{
      		max-width:400px;
@@ -133,7 +132,7 @@
 	<!-- header included -->
 	<jsp:include page="../layout/header.jsp"></jsp:include>
 		
-		<div class="row">
+		<div class="container-padding">
 			<div class="col s12 m12">
 				<div class="card">
 					<div class="card-content">
@@ -166,14 +165,6 @@
 						<div class="row no-mar">
 							<div class="col s12 l8 offset-l2 m12 offset-m1">
 								<div class="row no-mar">																		
-									<div class="col s6 m2 input-field">
-										<p class="searchable_label">Work</p>
-										<select id="work_id_fk" name="work_id_fk"
-											onchange="addInQueWork(this.value);getStructureList();" class="searchable">
-											<option value="">Select</option>
-
-										</select>
-									</div>
 									
 									<div class="col s6 m2 input-field">
 										<p class="searchable_label">Contract</p>
@@ -212,8 +203,7 @@
 								<table id="datatable-structure" class="mdl-data-table">
 									<thead>
 										<tr>
-											<th>Structure ID</th>
-											<th class="no-sort">Work</th>
+											<th>Project</th>
 											<th>Structure Type</th>
 											<th class="w100px">Structure</th>
 											<th>Contract</th>
@@ -252,23 +242,21 @@
 
 	<form action="<%=request.getContextPath()%>/get-structure-form" id="getForm" name="getForm" method="post">
   		<input type="hidden" name="structure_id" id="structure_id"/>
-  		<input type="hidden" name="work_id_fk" id="work"/>
     </form>
   
   
 	<form action="<%=request.getContextPath() %>/export-structures" name="exportStructureForm" id="exportStructureForm" target="_blank" method="post">	
-        <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
         <input type="hidden" name="work_status_fk" id="exportWork_status_fk" />
          <input type="hidden" name="contract_id_fk" id="exportContract_id_fk" />
 	</form>
 
-	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-	<script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-	<script src="/pmis/resources/js/dataTables.material.min.js"></script>
-	<script src="/pmis/resources/js/select2.min.js"></script>
-	<script src="/pmis/resources/js/moment-v2.8.4.min.js"></script> 
-	<script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script> 
+	<script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+	<script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+	<script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+	<script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
+	<script src="/wrpmis/resources/js/select2.min.js"></script>
+	<script src="/wrpmis/resources/js/moment-v2.8.4.min.js"></script> 
+	<script src="/wrpmis/resources/js/datetime-moment-v1.10.12.js"></script> 
 
 	<script>
 	
@@ -280,23 +268,21 @@
             var filters = window.localStorage.getItem("structureFilters1");
             
             if($.trim(filters) != '' && $.trim(filters) != null){
-          	  var temp = filters.split('^'); 
-          	  for(var i=0;i< temp.length;i++){
-  	        	  if($.trim(temp[i]) != '' ){
-  	        		  var temp2 = temp[i].split('=');
-  		        	  if($.trim(temp2[0]) == 'work_status_fk' ){
-  		        		getWorkStatusFilterList(temp2[1]);
-  		        	  }else if($.trim(temp2[0]) == 'work_id_fk'){
-  		        		getWorksFilterList(temp2[1]);
-  	        		  }else if($.trim(temp2[0]) == 'contract_id_fk'){
-  	        			getContractsFilterList(temp2[1]);
-		        	  }
-  	        		  else if($.trim(temp2[0]) == 'structure_type_fk'){
-  		        		getStructureTypesListFilter(temp2[1]);
-  		        	  }  		        	  
-  	        	  }
-  	            }
-              }
+            	  var temp = filters.split('^'); 
+            	  for(var i=0;i< temp.length;i++){
+    	        	  if($.trim(temp[i]) != '' ){
+    	        		  var temp2 = temp[i].split('=');
+    		        	  if($.trim(temp2[0]) == 'work_status_fk' ){
+    		        		getWorkStatusFilterList(temp2[1]);
+    		        	  }else if($.trim(temp2[0]) == 'contract_id_fk'){
+    	        			getContractsFilterList(temp2[1]);
+  		        	  }
+    	        		  else if($.trim(temp2[0]) == 'structure_type_fk'){
+    		        		getStructureTypesListFilter(temp2[1]);
+    		        	  }  		        	  
+    	        	  }
+    	            }
+                }
     		
         	
         	$('.close-message').delay(3000).fadeOut('slow');
@@ -308,7 +294,6 @@
         });
 
         function clearFilter(){
-        	$("#work_id_fk").val('');
         	$("#work_status_fk").val('');
         	$("#contract_id_fk").val('');
         	$(".searchable").select2();
@@ -318,15 +303,6 @@
         	var table = $('#datatable-structure').DataTable();
         	table.draw( true );
         	
-        }
-        
-        function addInQueWork(work_id_fk){
-	      	Object.keys(filtersMap).forEach(function (key) {
-		   		if(key.match('work_id_fk')) delete filtersMap[key];
-	   	   	});
-	      	if($.trim(work_id_fk) != ''){
-            	filtersMap["work_id_fk"] = work_id_fk;
-	      	}
         }
         
         function addInQueWorkStatus(work_status_fk){
@@ -364,11 +340,9 @@
 			$(".page-loader-2").show();
 
 			getWorkStatusFilterList('');
-        	getWorksFilterList('');
         	getContractsFilterList('');
         	getStructureTypesListFilter('');
         	
-        	var work_id_fk = $("#work_id_fk").val();
         	var work_status_fk = $("#work_status_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
         	var structure_type_fk = $("#structure_type_fk").val();
@@ -385,10 +359,8 @@
 			
 						table.destroy();
 			
-						$.fn.dataTable.moment('DD-MMM-YYYY');
 						var rowLen = 0;
-						var myParams = "work_id_fk=" + work_id_fk 
-								+ "&work_status_fk=" + work_status_fk+ "&contract_id_fk=" + contract_id_fk+ "&structure_type_fk=" + structure_type_fk;
+						var myParams = "work_status_fk=" + work_status_fk+ "&contract_id_fk=" + contract_id_fk+ "&structure_type_fk=" + structure_type_fk;
 			
 						/***************************************************************************************************/
 			
@@ -490,14 +462,9 @@
 													 
 						        "aoColumns": [
 						            { "mData": function(data,type,row){
-						            	var structure_id = '';
-				                        if ($.trim(data.structure_id) != '') { structure_id = $.trim(data.structure_id) }    	
-				                     	if($.trim(data.structure_id) == ''){ return '-'; }else{ return structure_id; }
-			            			} },						        	
-						            { "mData": function(data,type,row){
-						            	var work_short_name = '';
-				                        if ($.trim(data.work_short_name) != '') { work_short_name = $.trim(data.work_short_name) }    	
-				                     	if($.trim(data.work_id_fk) == ''){ return '-'; }else{ return work_short_name; }
+						            	var project_id_fk = '';
+				                        if ($.trim(data.project_id_fk) != '') { project_id_fk = $.trim(data.project_id_fk) }    	
+				                     	if($.trim(data.project_id_fk) == ''){ return '-'; }else{ return project_id_fk; }
 			            			} },
 						            { "mData": function(data,type,row){
 						            	if($.trim(data.structure_type_fk) == ''){ return '-'; }else{ return data.structure_type_fk; }
@@ -515,8 +482,7 @@
 						            } },						            
 						         	{ "mData": function(data,type,row){
 						         		var structure_id = "'"+data.structure_id+"'";
-						         		var work = "'"+data.work_id_fk+"'";
-					                    var actions = '<a href="javascript:void(0);"  onclick="getStructure('+structure_id+','+work+');" class="btn waves-effect waves-light bg-m t-c mob-btn" ><i class="fa fa-pencil"></i></a>';
+					                    var actions = '<a href="javascript:void(0);"  onclick="getStructure('+structure_id+');" class="btn waves-effect waves-light bg-m t-c mob-btn" ><i class="fa fa-pencil"></i></a>';
 						            	return actions;
 						            } }
 						            
@@ -529,17 +495,16 @@
 		  $(".page-loader-2").hide();  		     
       	
      }
+        
 
         
         function getStructureList1(){
         	$(".page-loader").show();
         	
-        	getWorkStatusFilterList('');
-        	getWorksFilterList('');
+			getWorkStatusFilterList('');
         	getContractsFilterList('');
         	getStructureTypesListFilter('');
         	
-        	var work_id_fk = $("#work_id_fk").val();
         	var work_status_fk = $("#work_status_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
         	var structure_type_fk = $("#structure_type_fk").val();
@@ -554,7 +519,6 @@
     		 
     		table.destroy();
     		
-    		$.fn.dataTable.moment('DD-MMM-YYYY');
     		table = $('#datatable-structure').DataTable({
          		"bStateSave": true,  
          		fixedHeader: true,
@@ -609,7 +573,7 @@
             }).rows().remove().draw();
     		table.state.clear();		
     	 
-    	 	var myParams = {work_id_fk : work_id_fk, work_status_fk : work_status_fk, contract_id_fk:contract_id_fk,structure_type_fk : structure_type_fk};
+    	 	var myParams = { work_status_fk : work_status_fk, contract_id_fk:contract_id_fk,structure_type_fk : structure_type_fk};
     		$.ajax({url : "<%=request.getContextPath()%>/ajax/getStructureList",
 	    			type:"POST",
 	    			data:myParams,cache: false,async:false,
@@ -646,16 +610,16 @@
         	
         }
         
+
         function getWorkStatusFilterList(work_status){
         	$(".page-loader").show();
-    	 	var work_id_fk = $("#work_id_fk").val();
     	 	var work_status_fk = $("#work_status_fk").val(); 
     	 	var contract_id_fk = $("#contract_id_fk").val();
     	 	var structure_type_fk = $("#structure_type_fk").val();
     	 	
     	    if ($.trim(work_status_fk) == "") {
     	    	$("#work_status_fk option:not(:first)").remove();
-    	    	var myParams = {work_id_fk : work_id_fk,work_status_fk : work_status_fk,contract_id_fk : contract_id_fk,structure_type_fk : structure_type_fk};
+    	    	var myParams = {work_status_fk : work_status_fk,contract_id_fk : contract_id_fk,structure_type_fk : structure_type_fk};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getWorkStatusListInStructure",
                     data: myParams, cache: false,async: false,
@@ -678,51 +642,16 @@
             }
     	 }
         
-        function getWorksFilterList(work_id){
-    	 	$(".page-loader").show();
-    	 	var work_status_fk = $("#work_status_fk").val();
-    	 	var work_id_fk = $("#work_id_fk").val();
-    	 	var contract_id_fk = $("#contract_id_fk").val();
-    	 	var structure_type_fk = $("#structure_type_fk").val();
-    	 	
-    	    if ($.trim(work_id_fk) == "") {
-    	    	$("#work_id_fk option:not(:first)").remove();
-    	    	var myParams = {work_id_fk : work_id_fk,work_status_fk : work_status_fk,contract_id_fk : contract_id_fk,structure_type_fk : structure_type_fk};
-                $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInStructure",
-                    data: myParams, cache: false,async: false,
-                    success: function (data) {
-                    	if(data != null && data != '' && data.length > 0){  
-                            $.each(data, function (i, val) {
-                            	 var work_short_name = '';
-                                 if ($.trim(val.work_short_name) != '') { work_short_name = ' - ' + $.trim(val.work_short_name) }
-                                 var selectedFlag = (work_id == val.work_id_fk)?'selected':'';
-    	                         $("#work_id_fk").append('<option value="' + val.work_id_fk + '"'+selectedFlag+'>' + $.trim(val.work_id_fk) + work_short_name + '</option>');
-                            });
-                        }
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
-                    },error: function (jqXHR, exception) {
-     	   			      $(".page-loader").hide();
-    	   	          	  getErrorMessage(jqXHR, exception);
-    	   	     	  }
-                });
-            }else{
-            	  $(".page-loader").hide();
-            }
-    	 }
-        
         
         function getContractsFilterList(contract_id){
     	 	$(".page-loader").show();
-    		var work_id_fk = $("#work_id_fk").val();
     	 	var work_status_fk = $("#work_status_fk").val();
     	 	var contract_id_fk = $("#contract_id_fk").val();
     	 	var structure_type_fk = $("#structure_type_fk").val();
     	 	
     	    if ($.trim(contract_id_fk) == "") {
     	    	$("#contract_id_fk option:not(:first)").remove();
-    	    	var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk,work_status_fk : work_status_fk,structure_type_fk : structure_type_fk};
+    	    	var myParams = {contract_id_fk : contract_id_fk,work_status_fk : work_status_fk,structure_type_fk : structure_type_fk};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getContractsFilterListInStructure",
                     data: myParams, cache: false,async: false,
@@ -750,10 +679,9 @@
         
         
         function getStructureTypesListFilter(fob) {
-       		var work_id_fk = $("#work_id_fk").val();
            	var contract_id_fk = $("#contract_id_fk").val();
            	var structure_type_fk = $("#structure_type_fk").val();
-           	var myParams = {work_id_fk : work_id_fk,contract_id_fk : contract_id_fk,structure_type_fk : structure_type_fk} ;
+           	var myParams = {contract_id_fk : contract_id_fk,structure_type_fk : structure_type_fk} ;
       	       
          	$(".page-loader").show();
 
@@ -811,12 +739,10 @@
     	}
         
         function exportStructure(){
-          	 var work_id_fk = $("#work_id_fk").val();
           	 var work_status_fk = $("#work_status_fk").val();
           	 var contract_id_fk = $("#contract_id_fk").val();
           	 var structure_type_fk = $("#structure_type_fk").val();
           	 
-          	 $("#exportWork_id_fk").val(work_id_fk);
           	 $("#exportWork_status_fk").val(work_status_fk);
           	 $("#exportContract_id_fk").val(contract_id_fk);
           	 $("#exportStructure_type_fk").val(structure_type_fk);

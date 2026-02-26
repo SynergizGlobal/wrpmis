@@ -6,13 +6,13 @@
 	<meta charset="UTF-8">
 	<title>Overview Dashboard - Reports - PMIS</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
-	<link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
+	<link rel="icon" type="image/png" sizes="96x96"	href="/wrpmis/resources/images/favicon.png">
+	<link rel="stylesheet" href="/wrpmis/resources/css/font-awesome-v.4.7.css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
-	<link rel="stylesheet"	href="/pmis/resources/css/materialize-v.1.0.min.css">
-	<link rel="stylesheet" href="/pmis/resources/css/rits.css">	
-	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">	
-	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
+	<link rel="stylesheet"	href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+	<link rel="stylesheet" href="/wrpmis/resources/css/rits.css">	
+	<link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">	
+	<link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">
 	
   	<link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">	
 	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
@@ -33,9 +33,9 @@
 		.ui-widget-content{
 			border: none;
 		}
-		.ui-state-default{border: 3px solid #4498d3dd;background: #fff;}
+		.ui-state-default{border: 3px solid #b45f06;background: #fff;}
 		.bd-bl{
-			border: 3px solid #4498d3dd;
+			border: 3px solid #b45f06;
 			padding:.5em .5em .5em .7em;
 			border-radius: 10px;
 			display:block;
@@ -152,11 +152,11 @@
     <style>
 		 .main-menu li .collapsible-header,
 		 .filterHolder{
-		    border: 3px solid #4498d3dd;
+		    border: 3px solid #b45f06;
 		    margin-top:2px;
 		 }
 		 .timeline_body{
-		 	border:3px solid #4498d3dd;
+		 	border:3px solid #b45f06;
 		 	border-radius:14px;
 		 }
 		 .filterHolder{
@@ -301,12 +301,12 @@ b, strong {
 	<!-- footer included -->
  	<jsp:include page="../layout/footer.jsp"></jsp:include> 
 
-  <script src="/pmis/resources/js/jQuery-v.3.5.min.js" ></script>
-  <script src="/pmis/resources/js/materialize-v.1.0.min.js" ></script>
-  <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-  <script src="/pmis/resources/js/dataTables.material.min.js"></script>
-  <script src="/pmis/resources/js/select2.min.js"></script>
-  <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+  <script src="/wrpmis/resources/js/jQuery-v.3.5.min.js" ></script>
+  <script src="/wrpmis/resources/js/materialize-v.1.0.min.js" ></script>
+  <script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+  <script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
+  <script src="/wrpmis/resources/js/select2.min.js"></script>
+  <script src="/wrpmis/resources/js/jquery-validation-1.19.1.min.js"></script>
   <script type="text/javascript" src="http://203.153.40.44:8000/javascripts/api/tableau-2.min.js"></script>
   <!-- <script src="https://code.jquery.com/jquery-3.6.0.js"></script> -->
   <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
@@ -327,12 +327,12 @@ b, strong {
    				assessmentdate = getUrlVars()["assessment_date"];
     		}
 	    	
-		    var overview_work_id = '${work_id}';
+		    var overview_project_id = '${project_id}';
 		    requestedDashboardId = '${dashboardId}';
 		    var dashboard_type = '${dashboard_type}';
 		    $.ajax({url : "<%=request.getContextPath()%>/ajax/getLeftNav",
 				type:"POST",
-				data:{dashboard_id : requestedDashboardId, work_id : overview_work_id, dashboard_type : dashboard_type},
+				data:{dashboard_id : requestedDashboardId, project_id : overview_project_id, dashboard_type : dashboard_type},
 				cache: false,async:false,
 				success : function(data){   
 					$('#accordion').append(getData(data));
@@ -394,7 +394,7 @@ b, strong {
 	            success: function (data)
 	            {
 	            	 	 $.each( data, function( index, value ){
-	            	 		rworkid=value.work_id_fk
+	            	 		rworkid=value.project_id_fk
 	            	 	});
 	            }
 	            
@@ -444,7 +444,7 @@ b, strong {
 					}
 				else
 					{
-						html = html+'<h3 class="bg-a" id="'+parentDashboardId+'" parent_id="" onclick="openDashboard('+value.dashboard_id+');"><a href="javascript:void(0);" style="cursor: default;">'+value.dashboard_name+'</a><span style="float:right;"><img src="/pmis/resources/images/notaccess.png" width="20" height="20"></span></h3>';
+						html = html+'<h3 class="bg-a" id="'+parentDashboardId+'" parent_id="" onclick="openDashboard('+value.dashboard_id+');"><a href="javascript:void(0);" style="cursor: default;">'+value.dashboard_name+'</a><span style="float:right;"><img src="/wrpmis/resources/images/notaccess.png" width="20" height="20"></span></h3>';
 					}
 			} */
 			var level2List = value.formsSubMenu;
@@ -452,7 +452,7 @@ b, strong {
 			if(value.accessibility == 'true' || level2List.length > 0){
 				html = html + '<h3 class="bg-a" id="'+parentDashboardId+'" parent_id="" onclick="openDashboard('+value.dashboard_id+','+accessibility+');"><a href="javascript:void(0);">'+value.dashboard_name+'</a>';
 				if(value.accessibility == 'false'){
-					html = html + '<span style="float:right;"><img src="/pmis/resources/images/notaccess.png" width="20" height="20"></span>';
+					html = html + '<span style="float:right;"><img src="/wrpmis/resources/images/notaccess.png" width="20" height="20"></span>';
 				}
 				html = html + '</h3>';
 			}
@@ -575,7 +575,7 @@ b, strong {
 	      	  $.ajax({
 	      		url: "<%=request.getContextPath()%>/ajax/getFilters",
 	            type: 'POST',
-	            data:{dashboard_id : dashboardId,work_id : '${work_id}'},
+	            data:{dashboard_id : dashboardId,project_id : '${project_id}'},
 	            async: false,
 	            dataType: 'json',
 	            success: function (data){
@@ -638,7 +638,7 @@ b, strong {
 	         								
 						if(subworkid!="")
 						{
-								$("#work_id").val(subworkid).trigger('change');
+								$("#project_id").val(subworkid).trigger('change');
 						}        								
 						if(assessmentdate!="")
 						{
@@ -689,21 +689,21 @@ b, strong {
 		 }
 			if(subworkid!="")
 			{
-					$("#work_id").val(subworkid);
+					$("#project_id").val(subworkid);
 			}  
 
 		 $.ajax({
 	      		url: "<%=request.getContextPath()%>/ajax/getDashboardURL",
 	            type: 'POST',
-	            data:{dashboard_id : dashboardId,work_id : '${work_id}',params : encodeURIComponent(params)},
+	            data:{dashboard_id : dashboardId,project_id : '${project_id}',params : encodeURIComponent(params)},
 	            async: false,
 	            dataType: 'json',
 	            success: function (data){
 	            	var dashboard_url = data.dashboard_url;
 	            	if($.trim(dashboard_url) == 'structure-gallery-page'){
-	            		dashboard_url = "<%=request.getContextPath()%>/"+dashboard_url+"/${work_id}";
+	            		dashboard_url = "<%=request.getContextPath()%>/"+dashboard_url+"/${project_id}";
 	            	}else if($.trim(dashboard_url) == 'wbs-tree'){
-	            		dashboard_url = "<%=request.getContextPath()%>/"+dashboard_url+"/${work_id}";
+	            		dashboard_url = "<%=request.getContextPath()%>/"+dashboard_url+"/${project_id}";
 	            	}
 	            	dashboard_url=dashboard_url+'&:embed=y';
 	         	    $("#dashboardOpen").attr("src",dashboard_url);
@@ -773,7 +773,7 @@ b, strong {
 				 $.ajax({
 			      		url: "<%=request.getContextPath()%>/ajax/getFilteredOptions",
 			            type: 'POST',
-			            data:{dashboard_id : dashboardId,work_id : '${work_id}',filter_id : filter_id_temp,params : encodeURIComponent(params)},
+			            data:{dashboard_id : dashboardId,project_id : '${project_id}',filter_id : filter_id_temp,params : encodeURIComponent(params)},
 			            async: false,
 			            dataType: 'json',
 			            success: function (data){

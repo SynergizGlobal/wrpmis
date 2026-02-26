@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants2"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -24,22 +24,22 @@
   <div class="footer-copyright blue lighten-5 bottom">
     <div class="container">
       <span> &copy; <span id="currentYear"></span> @ <a href="https://mrvc.indianrailways.gov.in/" target="_blank" style="color:blue">mrvc.indianrailways.gov.in</a> | Designed & Developed by</span> 
-      		<a href="https://www.synergizglobal.com" target="_blank"> <img src="/pmis/resources/images/synergiz.png" class="footer-img" alt="footer image"></a>
+      		<a href="https://www.synergizglobal.com" target="_blank"> <img src="/wrpmis/resources/images/synergiz.png" class="footer-img" alt="footer image"></a>
         <a class="help-icon dropdown-trigger"  href='#' data-target='help-dropdown'>
-        	<img src="/pmis/resources/images/help_icon.svg">
+        	<img src="/wrpmis/resources/images/help_icon.svg">
         </a>
 
   <!-- Dropdown Structure -->
   <ul id='help-dropdown' class='dropdown-content blue lighten-5'>
-    <!-- <li><a href="/pmis/5. User Manual for Risk Module-V2.pdf" target="_blank">User Manual for Risk Module<i class="fa fa-download"></i></a></li> -->
+    <!-- <li><a href="/wrpmis/5. User Manual for Risk Module-V2.pdf" target="_blank">User Manual for Risk Module<i class="fa fa-download"></i></a></li> -->
     	<!-- <ul >
 	        <li style="min-height: 20px;">
-	        	<a style="font-size: 14px;min-height: 20px;padding: 11px 16px;line-height: 0px;font-weight: 100;" href="/pmis/5. User Manual for PMIS-V 3.pdf" target="_blank">User Manual for Issue Module & FOB<i class="fa fa-download"></i></a>
+	        	<a style="font-size: 14px;min-height: 20px;padding: 11px 16px;line-height: 0px;font-weight: 100;" href="/wrpmis/5. User Manual for PMIS-V 3.pdf" target="_blank">User Manual for Issue Module & FOB<i class="fa fa-download"></i></a>
 	        </li>
 	    </ul> -->
-    <!-- <li><a href="/pmis/5. User Manual for PMIS-V 3.pdf" target="_blank">User Manual for Issue Module <i class="fa fa-download"></i></a></li>
+    <!-- <li><a href="/wrpmis/5. User Manual for PMIS-V 3.pdf" target="_blank">User Manual for Issue Module <i class="fa fa-download"></i></a></li>
     <li><a href="5.User Manual -Works Execution & Monitoring Module FOB-Ver-2.pdf" target="_blank">User Manual for FOB <i class="fa fa-download"></i></a></li>
-    <li><a href="/pmis/Primmavera P6_ppm_usermanual  Ver-19.12.pdf" target="_blank">Primavera Manual <i class="fa fa-download"></i></a></li> -->
+    <li><a href="/wrpmis/Primmavera P6_ppm_usermanual  Ver-19.12.pdf" target="_blank">Primavera Manual <i class="fa fa-download"></i></a></li> -->
     <c:forEach var="manualObj" items="${userManuals }">
     	<li><a href="<%=CommonConstants2.PMIS_MANUALS%>${manualObj.manual_id }/${manualObj.file_name }" target="_blank">${manualObj.title } <i class="fa fa-download"></i></a></li>
     </c:forEach>
@@ -48,7 +48,7 @@
   </ul>
     </div>
   </div>
-     <!-- <script src="/pmis/resources/js/theme.js"></script> -->
+     <!-- <script src="/wrpmis/resources/js/theme.js"></script> -->
      <script>
      $( document ).ready(function() {
 			/*if(window.matchMedia("(max-width: 769px)").matches)

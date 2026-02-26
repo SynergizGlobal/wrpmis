@@ -1,0 +1,19 @@
+package com.synergizglobal.wrpmis.Iservice;
+
+import java.util.List;
+
+import com.synergizglobal.wrpmis.model.Safety;
+
+public interface SafetyReportService {
+	List<Safety> getWorksListInSafetyReport(Safety obj) throws Exception;
+
+	List<Safety> getContractsListInSafetyReport(Safety obj) throws Exception;
+
+	List<Safety> getHODListInSafetyReport(Safety obj) throws Exception;
+
+	List<Safety> getSafetyReportData(Safety obj) throws Exception;
+
+	List<Safety> getStatusListInSafetyReport(Safety obj) throws Exception;
+
+	List<Safety> getSafetySummaryReport(Safety obj) throws Exception;
+}

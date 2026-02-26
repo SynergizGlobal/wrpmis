@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants2"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants"%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -9,12 +9,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Profile - User Details - PMIS</title>
-  <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-  <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">   
-  <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-  <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-  <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-  <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
+  <link rel="icon" type="image/png" sizes="96x96" href="/wrpmis/resources/images/favicon.png">
+  <link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">   
+  <link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">
+  <link rel="stylesheet" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">
+  <link rel="stylesheet" href="/wrpmis/resources/css/datatable-material.css">
+  <link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
   
        
      <style>
@@ -35,7 +35,7 @@
 }
 
 .right-btns .fa:hover {
-  color: #007A7A;
+  color: #EA6A2A;
 }
 
 .right-btns .fa+.fa {
@@ -79,7 +79,7 @@
         }
 	    table:not(.datepicker-table) thead tr {
 	        background-color: #2E58AD;
-	        background-color: #007a7a;
+	        background-color: #EA6A2A;
 	     }
 	     .profile_info table tbody tr td:first-of-type{
 	     	width:30%;
@@ -210,7 +210,7 @@
 		}
 		.mdl-button--raised.mdl-button--colored,
 		.mdl-button--raised.mdl-button--colored:hover{
-			background-color:#007a7a;
+			background-color:#EA6A2A;
 		}
 		td.fw-120{
 			width: 140px !important;
@@ -257,13 +257,13 @@
         	transition:color .3s linear;
         }
         .main i:hover{
-        	color:#007A7A;
+        	color:#EA6A2A;
         }
         .main .hidden{
         	display:none;
         }
         .bg-m{
-	    	background-color:#007a7a;  
+	    	background-color:#EA6A2A;  
 	    }
 		input::-webkit-outer-spin-button,
 		input::-webkit-inner-spin-button {
@@ -333,7 +333,7 @@
                 		<span class="right">
                			  <div class="profile_photo">
                               <span class="hideOrShow">
-                              	<img src="<%=CommonConstants2.USER_IMAGES %>${userDetails.user_image}" onerror="this.onerror=null;this.src='/pmis/resources/images/mrvc.png';" >
+                              	<img src="<%=CommonConstants2.USER_IMAGES %>${userDetails.user_image}" onerror="this.onerror=null;this.src='/wrpmis/resources/images/mrvc.png';" >
                               </span> 
                               <span class="hideOrShow hidden"> 
 								<div class="file-field input-field">
@@ -365,7 +365,7 @@
                                    <!--  <span class="card-title headbg">Basic</span> -->
                                     <div class="profile_photo">
                                         <span class="hideOrShow">
-                                        	<img src="<%=CommonConstants2.USER_IMAGES %>${userDetails.user_image}" onerror="this.onerror=null;this.src='/pmis/resources/images/mrvc.png';" >
+                                        	<img src="<%=CommonConstants2.USER_IMAGES %>${userDetails.user_image}" onerror="this.onerror=null;this.src='/wrpmis/resources/images/mrvc.png';" >
                                         </span> 
                                         <span class="hideOrShow hidden"> <!--  <form> -->
 											<div class="file-field input-field">
@@ -627,12 +627,12 @@
   <!-- footer included -->
   <jsp:include page="./layout/footer.jsp"></jsp:include>
     		
-  <script src="/pmis/resources/js/jQuery-v.3.5.min.js" ></script>
-  <script src="/pmis/resources/js/materialize-v.1.0.min.js" ></script>
-  <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-  <script src="/pmis/resources/js/dataTables.material.min.js"></script>
-  <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
-	<script src="/pmis/resources/js/select2.min.js"></script>
+  <script src="/wrpmis/resources/js/jQuery-v.3.5.min.js" ></script>
+  <script src="/wrpmis/resources/js/materialize-v.1.0.min.js" ></script>
+  <script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+  <script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
+  <script src="/wrpmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+	<script src="/wrpmis/resources/js/select2.min.js"></script>
 	
 	  <script>
      $(document).ready(function () {

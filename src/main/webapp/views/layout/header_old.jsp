@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants2"%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
@@ -9,9 +9,9 @@
 
 <head>
 
-<link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
+<link rel="stylesheet" href="/wrpmis/resources/css/font-awesome-v.4.7.css">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined"	rel="stylesheet">
-<link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
+<link rel="stylesheet" href="/wrpmis/resources/css/header-footer.css">
 <style>
 	nav .menu-active, nav .menu-active.blue {
 		background-color: #f56661 !important;
@@ -164,7 +164,7 @@
 	<div class="nav-wrapper blue lighten-1">
 		<div class="">
 			<a href="<%=request.getContextPath() %>/home" class="brand-logo fs"><img
-				src="/pmis/resources/images/mrvclogo.png" alt="Logo"> <span class="brand-text">MRVC PMIS</span> <span id="CurrentDate"></span>
+				src="/wrpmis/resources/images/mrvclogo.png" alt="Logo"> <span class="brand-text">WR PMIS</span> <span id="CurrentDate"></span>
 			</a> 
 			<a href="<%=request.getContextPath() %>/home"
 				data-target="mobile-demo" class="sidenav-trigger"> 
@@ -177,7 +177,7 @@
 						class="material-icons-outlined">home</span>Home</a></li>
 				<c:if test="${sessionScope.USER_ROLE_NAME ne 'Input User' }">
 					<li class="blue darken-2 dropdown"><a href="#"
-						class='head-img'> <!-- 1st level Dropdown starts --> <!-- img src="/pmis/resources/images/dashboard-white.png"-->
+						class='head-img'> <!-- 1st level Dropdown starts --> <!-- img src="/wrpmis/resources/images/dashboard-white.png"-->
 							<span class="material-icons-outlined">dashboard</span> Modules
 					</a>
 						<ul class="second-level-menu">
@@ -680,7 +680,7 @@
 					class='head-img'> <img
 						src="<%=CommonConstants2.USER_IMAGES %>${sessionScope.user.user_image}"
 						class="profile-img"
-						onerror="this.onerror=null;this.src='/pmis/resources/images/mrvc.png';" />
+						onerror="this.onerror=null;this.src='/wrpmis/resources/images/mrvc.png';" />
 						<!--           <span class="material-icons">person</span> -->
 						${USER_NAME }<c:if test="${empty USER_NAME }">${USER_ID}</c:if></a> <!-- change password and logout here -->
 					<ul class="second-level-menu rs">
@@ -704,7 +704,7 @@
 			<div class="head">
 				<span class="left-align">
 					<img src="<%=CommonConstants2.USER_IMAGES %>${sessionScope.user.user_image }"
-					class="profile-img"	onerror="this.onerror=null;this.src='/pmis/resources/images/mrvc.png';">
+					class="profile-img"	onerror="this.onerror=null;this.src='/wrpmis/resources/images/mrvc.png';">
 					${USER_NAME }<c:if test="${empty USER_NAME }">${USER_ID}</c:if>
 				</span>
 				<!-- a class="sidenav-close" href="#!"><i class="fa fa-close sidenav-close"></i></a-->
@@ -808,7 +808,7 @@
 			class='head-img collapsible-header'> <img
 				src="<%=CommonConstants2.USER_IMAGES %>${sessionScope.user.user_image }"
 				class="profile-img"
-				onerror="this.onerror=null;this.src='/pmis/resources/images/mrvc.png';">
+				onerror="this.onerror=null;this.src='/wrpmis/resources/images/mrvc.png';">
 				<!--     <span class="material-icons">person</span>  --> ${USER_NAME }<c:if
 					test="${empty USER_NAME }">${USER_ID}</c:if></a>
 			<ul class="dropdown-data collapsible-body second-lvl">
@@ -995,8 +995,8 @@
 	</form>
 
 	<!-- <script src="https://code.jquery.com/jquery-3.5.0.min.js" ></script> -->
-	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-	<!-- <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>  -->
+	<script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+	<!-- <script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>  -->
 	<script>
 
    			var dt=new Date();
@@ -1009,7 +1009,7 @@
                $(document).ready(function () {
           	   
             	   
-            	   $("a[href='/pmis/contractorslist']").click(function() {
+            	   $("a[href='/wrpmis/contractorslist']").click(function() {
 
             		   $.ajax({
                            url: "<%=request.getContextPath()%>/ajax/contractorslist",
@@ -1415,14 +1415,14 @@
 	              themeToggle.addEventListener('click', () => {
 	                  // if it's light -> go dark
 	                  if (themeToggle.children[0].classList.contains("fa-moon-o")) {
-	                      theme.href = '/pmis/resources/css/light-theme.css';
+	                      theme.href = '/wrpmis/resources/css/light-theme.css';
 	                      themeToggle.style.backgroundColor = "white";
 	                      themeToggle.children[0].classList.add('fa-sun-o');
 	                      themeToggle.children[0].classList.remove('fa-moon-o');
 	                      document.cookie = "theme=light";
 	                  } else {
 	                      // if it's dark -> go light
-	                      theme.href = '/pmis/resources/css/dark-theme.css';
+	                      theme.href = '/wrpmis/resources/css/dark-theme.css';
 	                      themeToggle.style.backgroundColor = "black";
 	                      themeToggle.children[0].classList.add('fa-moon-o');
 	                      themeToggle.children[0].classList.remove('fa-sun-o');
@@ -1433,13 +1433,13 @@
 	              //checking in the cookies which theme should load
 	              var x = document.cookie;
 	              if (x.includes("dark")) {
-	                  theme.href = '/pmis/resources/css/dark-theme.css';
+	                  theme.href = '/wrpmis/resources/css/dark-theme.css';
 	                  themeToggle.style.backgroundColor = "black";
 	                  themeToggle.children[0].classList.add('fa-moon-o');
 	                  themeToggle.children[0].classList.remove('fa-sun-o');
 	                  document.cookie = "theme=dark";
 	              } else {
-	                  theme.href = '/pmis/resources/css/light-theme.css';
+	                  theme.href = '/wrpmis/resources/css/light-theme.css';
 	                  themeToggle.style.backgroundColor = "white";
 	                  themeToggle.children[0].classList.add('fa-sun-o');
 	                  themeToggle.children[0].classList.remove('fa-moon-o');
@@ -1471,7 +1471,7 @@
 	    					$(classItem[classItem.length-1]).addClass('menu-active');					
 	    					var formName=current_page_URL.split('/');	
 	    					if(formName[formName.length-1]=='home' || formName[formName.length-1]==''){
-	    						$('.top-level-menu a[href="/pmis/home"]').parent().addClass('menu-active');
+	    						$('.top-level-menu a[href="/wrpmis/home"]').parent().addClass('menu-active');
 	    					}
 	    		          return false;
 	    		       }
@@ -1492,7 +1492,7 @@
 	    				  }
 	    			  }
 	    			  gridOrForm=urlName ?urlName : gridOrForm;
-	    			  var classItem=$('.top-level-menu a[href="/pmis/'+gridOrForm+'"]').closest('ul').parentsUntil($( "ul.top-level-menu" ));
+	    			  var classItem=$('.top-level-menu a[href="/wrpmis/'+gridOrForm+'"]').closest('ul').parentsUntil($( "ul.top-level-menu" ));
 	    			  $(classItem[classItem.length-1]).addClass('menu-active')	
 	    		  }
 	    		 

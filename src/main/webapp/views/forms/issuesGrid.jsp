@@ -8,15 +8,13 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Issues</title>
-	<link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
-	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">	 
-	<link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">	
-	<link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-	<link rel="stylesheet" href="/pmis/resources/css/rits.css">
-	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" />
-    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-grid-template.css" />	
+	<link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">	 
+	<link rel="stylesheet" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">	
+	<link rel="stylesheet" href="/wrpmis/resources/css/datatable-material.css">
+	<link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
+	<link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+	<link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">
+	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/wrpmis/resources/css/mobile-form-template.css" />
 	
 	 <style>
         p a {
@@ -128,57 +126,9 @@
 	<jsp:include page="../layout/header.jsp"></jsp:include>
 
 
-    <div class="row">
+    <div class="container-padding">
         <div class="col s12 m12 ">
-           <%--  <div class="card hide-on-med-and-down">
-                <div class="card-content">
-                    <span class="card-title headbg">
-                        <div class="center-align bg-m p-2 m-b-5">
-                            <h6>Issues</h6>
-                        </div>
-                    </span>
-                    <div class="">
-                    	<c:if test="${not empty success }">
-					        <div class="center-align m-1 close-message">	
-							   ${success}
-							</div>
-						</c:if>
-						<c:if test="${not empty error }">
-							<div class="center-align m-1 close-message">
-							   ${error}
-							</div>
-						</c:if>
-                        <div class="row plr-1 center-align">
-                            <div class="col s12 m4">
-                                <div class="m-1 l-align">
-                                    <!-- <a href="javascript:void(0);" class="btn waves-effect waves-light bg-s t-c" onclick="closeTab();">
-                                        <strong><i class="fa fa-close"></i> Close Window </strong>
-                                    </a> -->
-                                    <!-- <a style="color:blue; display:block; cursor:pointer;" onclick="closeWindow()">
-                                        <strong> Close Window <i class="fa fa-close"></i></strong>
-                                    </a> -->
-                                    <!-- <p style="padding-top:1rem"> Click <a href="#">here</a> for the template</p> -->
-                                </div> 
-                            </div>
-
-                            <div class="col s12 m4">
-                                <div class="m-1 c-align">
-                                    <a href="<%=request.getContextPath() %>/add-issue-form" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-plus-circle"></i> Add Issue</strong></a>
-                                </div>
-                            </div>
-
-                            <div class="col s12 m4 r-align">
-                                <div class="m-1 ">
-                                    <a href="javascript:void(0);" onclick="exportIssues();" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-cloud-download"></i> Export Data</strong></a>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        </div>
-                     </div>                        
-                  </div> --%>
+         
                   
                  <div class="card">
                  <div class="card-content">
@@ -210,12 +160,6 @@
 
                         <div class="col s12 m12 l10">
                         <div class="row">
-                           <div class="col s6 m4 l2 input-field">
-                            <p class="searchable_label">Work </p>
-                               <select id="work_id_fk" name="work_id_fk" onchange="addInQueWork(this.value);getIssues();" class="searchable">
-                                   <option value="">Select</option>                                      
-                               </select>
-                          </div>
                            <div class="col s6 m4 l2 input-field">
                              <p class="searchable_label">Contract</p>
                                  <select id="contract_id_fk" name="contract_id_fk" onchange="addInQueContract(this.value);getIssues();" class="searchable">
@@ -344,17 +288,16 @@
         <input type="hidden" name="department_fk" id="exportDepartment_fk" />
         <input type="hidden" name="category_fk" id="exportCategory_fk" />
         <input type="hidden" name="status_fk" id="exportStatus_fk" />
-         <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
           <input type="hidden" name="hod" id="exportHod" />
 	</form>
 
-	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-	<script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-	<script src="/pmis/resources/js/dataTables.material.min.js"></script>
-	<script src="/pmis/resources/js/select2.min.js"></script>
-	<script src="/pmis/resources/js/moment-v2.8.4.min.js"></script> 
-	<script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script> 
+	<script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+	<script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+	<script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+	<script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
+	<script src="/wrpmis/resources/js/select2.min.js"></script>
+	<script src="/wrpmis/resources/js/moment-v2.8.4.min.js"></script> 
+	<script src="/wrpmis/resources/js/datetime-moment-v1.10.12.js"></script> 
 	
 	<script>
 	
@@ -375,8 +318,6 @@
 	        		  var temp2 = temp[i].split('=');
 		        	  if($.trim(temp2[0]) == 'hod' ){
 		        		  getHODListFilter(temp2[1]);
-		        	  }else if($.trim(temp2[0]) == 'work_id_fk'){
-		        		  getWorksListFilter(temp2[1]);
 		        	  }else if($.trim(temp2[0]) == 'contract_id_fk'){
 		        		  getContractsListFilter(temp2[1]);
 		        	  }else if($.trim(temp2[0]) == 'department_fk'){
@@ -394,7 +335,6 @@
         
         
         function clearFilter(){
-        	$("#work_id_fk").val("");
         	$("#contract_id_fk").val("");
         	$("#department_fk").val("");
         	$("#category_fk").val("");
@@ -417,15 +357,6 @@
         	if($.trim(hod) != ''){
        	    	filtersMap["hod"] = hod;
         	}
-        }
-        
-        function addInQueWork(work_id_fk){
-	      	Object.keys(filtersMap).forEach(function (key) {
-		   		if(key.match('work_id_fk')) delete filtersMap[key];
-	   	   	});
-	      	if($.trim(work_id_fk) != ''){
-            	filtersMap["work_id_fk"] = work_id_fk;
-	      	}
         }
         
         function addInQueContract(contract_id_fk){
@@ -468,13 +399,11 @@
         	$(".page-loader-2").show();
 
         	getHODListFilter('');
-        	getWorksListFilter('');
         	getContractsListFilter('');
         	getDepartmentsListFilter('');
         	getCategoryListFilter('');
         	getStatusListFilter('');
         	
-        	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
         	var department_fk = $("#department_fk").val();
         	var category_fk = $("#category_fk").val();
@@ -490,7 +419,6 @@
         	table = $('#datatable-issues').DataTable();
 
     		table.destroy();
-    		$.fn.dataTable.moment('DD-MMM-YYYY');
     		table = $('#datatable-issues').DataTable({
         		"bStateSave": true,
         		//stateSave : true,
@@ -545,7 +473,7 @@
     		
     		table.state.clear();	
     	 
-    	 	var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk,
+    	 	var myParams = {contract_id_fk : contract_id_fk, department_fk : department_fk,
     	 			category_fk : category_fk, status_fk : status_fk,hod : hod };
     		$.ajax({url : "<%=request.getContextPath()%>/ajax/getIssuesList",
     				type:"POST",
@@ -556,10 +484,6 @@
     	         			var issue_id = "'"+val.issue_id+"'";
     	                    var actions = '<a href="javascript:void(0);"  onclick="getIssue('+issue_id+');" class="btn waves-effect waves-light bg-m t-c mob-btn" title="Edit"><i class="fa fa-pencil"></i></a>';    	                   	
     	                   	var rowArray = [];    	                  
-    	                   	
-    	                   	var workName = '';
-                            if ($.trim(val.work_name) != '') { workName = $.trim(val.work_name) }
-                            if ($.trim(val.work_name) == '') { workName = $.trim(val.work_id_fk) }
                             
                             var contract_name = '';
                             if ($.trim(val.contract_short_name) != '') { contract_name = $.trim(val.contract_short_name) }
@@ -623,46 +547,9 @@
         	    }
         	    console.log(msg);
          }
-        function getWorksListFilter(work) {
-        	$(".page-loader").show();
-        	var work_id_fk = $("#work_id_fk").val();
-        	var contract_id_fk = $("#contract_id_fk").val();
-        	var department_fk = $("#department_fk").val();
-        	var category_fk = $("#category_fk").val();
-        	var status_fk = $("#status_fk").val();
-        	var hod = $("#hod").val();
-         	
-            if ($.trim(work_id_fk) == "") {
-                $("#work_id_fk option:not(:first)").remove();
-         	 	var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod : hod };
-                $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorksListFilterInIssue",
-                    data: myParams, cache: false,async: false,
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $.each(data, function (i, val) {
-                            	var work_short_name = '';
-                            	if ($.trim(val.work_short_name) != '') { work_short_name = $.trim(val.work_short_name) }  
-                            	if ($.trim(val.work_short_name) == '') { work_short_name = $.trim(val.work_id_fk) }
-                            	var selectedFlag = (work == val.work_id_fk)?'selected':'';
- 	                            $("#work_id_fk").append('<option value="' + val.work_id_fk + '" '+selectedFlag+'>' + work_short_name +'</option>');
-                            });
-                        }
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
-                    },error: function (jqXHR, exception) {
-     	   			  $(".page-loader").hide();
-   	   	          	  getErrorMessage(jqXHR, exception);
-  	   	     	  }
-                });
-            }else{
-            	  $(".page-loader").hide();
-            }
-        }
                 
         function getHODListFilter(hod_designation) {
 
-        	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
         	var department_fk = $("#department_fk").val();
         	var category_fk = $("#category_fk").val();
@@ -672,7 +559,7 @@
 
             if ($.trim(hod) == "") {
                  $("#hod option:not(:first)").remove();
-         	 	 var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod : hod };
+         	 	 var myParams = {contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod : hod };
                  $.ajax({
                      url: "<%=request.getContextPath()%>/ajax/getHODListFilterInIssue",
                       data: myParams, cache: false,async: false,
@@ -706,7 +593,6 @@
         
         function getContractsListFilter(contract) {
         	$(".page-loader").show();
-        	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
         	var department_fk = $("#department_fk").val();
         	var category_fk = $("#category_fk").val();
@@ -715,7 +601,7 @@
 
             if ($.trim(contract_id_fk) == "") {
                 $("#contract_id_fk option:not(:first)").remove();
-        	 	var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod : hod };
+        	 	var myParams = {contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod : hod };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getContractsListFilterInIssue",
                     data: myParams, cache: false,async: false,
@@ -744,7 +630,6 @@
         function getDepartmentsListFilter(department) {
          	$(".page-loader").show();
 
-        	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
         	var department_fk = $("#department_fk").val();
         	var category_fk = $("#category_fk").val();
@@ -753,7 +638,7 @@
 
             if ($.trim(department_fk) == "") {
                 $("#department_fk option:not(:first)").remove();
-        	 	var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod : hod };
+        	 	var myParams = {contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod : hod };
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getDepartmentsListFilterInIssue",
                     data: myParams, cache: false,async: false,
@@ -779,7 +664,6 @@
         function getCategoryListFilter(category) {
          	$(".page-loader").show();
 
-        	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
         	var department_fk = $("#department_fk").val();
         	var category_fk = $("#category_fk").val();
@@ -788,7 +672,7 @@
 
             if ($.trim(category_fk) == "") {
                  $("#category_fk option:not(:first)").remove();
-         	 	 var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod : hod };
+         	 	 var myParams = {contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod : hod };
                  $.ajax({
                      url: "<%=request.getContextPath()%>/ajax/getCategoryListFilterInIssue",
                      data: myParams, cache: false,async: false,
@@ -814,7 +698,6 @@
         function getStatusListFilter(status) {
          	$(".page-loader").show();
 
-        	var work_id_fk = $("#work_id_fk").val();
         	var contract_id_fk = $("#contract_id_fk").val();
         	var department_fk = $("#department_fk").val();
         	var category_fk = $("#category_fk").val();
@@ -822,7 +705,7 @@
         	var hod = $("#hod").val();
             if ($.trim(status_fk) == "") {
                  $("#status_fk option:not(:first)").remove();
-         	 	 var myParams = {work_id_fk :work_id_fk,contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod : hod };
+         	 	 var myParams = {contract_id_fk : contract_id_fk, department_fk : department_fk, category_fk : category_fk, status_fk : status_fk,hod : hod };
                  $.ajax({
                      url: "<%=request.getContextPath()%>/ajax/getStatusListFilterInIssue",
                      data: myParams, cache: false,async: false,
@@ -856,10 +739,8 @@
         	var department_fk = $("#department_fk").val();
         	var category_fk = $("#category_fk").val();
         	var status_fk = $("#status_fk").val();
-        	var work_id_fk = $("#work_id_fk").val();
         	var hod = $("#hod").val();
           	 
-        	$("#exportWork_id_fk").val(work_id_fk);
           	$("#exportHod").val(hod);
           	$("#exportContract_id_fk").val(contract_id_fk);
           	$("#exportDepartment_fk").val(department_fk);

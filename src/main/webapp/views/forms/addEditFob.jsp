@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants2"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
@@ -11,16 +11,16 @@
 		<c:if test="${action eq 'edit'}">Update FOB - Update Forms - PMIS</c:if>
 		<c:if test="${action eq 'add'}"> Add FOB - Update Forms - PMIS</c:if>
 	</title>
-	<link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
-	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-	<link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">	
-	<link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">	 
-	<link rel="stylesheet" href="/pmis/resources/css/fob.css">
-	<link rel="stylesheet" href="/pmis/resources/css/rits.css">
-	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" >
-    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-responsive-table.css" >
+	<link rel="icon" type="image/png" sizes="96x96"	href="/wrpmis/resources/images/favicon.png">
+	<link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+	<link rel="stylesheet" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">	
+	<link rel="stylesheet" href="/wrpmis/resources/css/datatable-material.css">
+	<link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">	 
+	<link rel="stylesheet" href="/wrpmis/resources/css/fob.css">
+	<link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+	<link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">
+	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/wrpmis/resources/css/mobile-form-template.css" >
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/wrpmis/resources/css/mobile-responsive-table.css" >
     
 	 <style>
 	 	.input-field>label{
@@ -225,24 +225,13 @@
                                 <div class="col s6 m6 l6 input-field">
                                 <p class="searchable_label"> Project</p>
                                     <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"
-                                        onchange="getWorksList(this.value);" <c:if test="${not empty fob.project_id_fk}">disabled</c:if>>
+                                        onchange="getContractsList(this.value);" <c:if test="${not empty fob.project_id_fk}">disabled</c:if>>
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${projectsList }">
                                             <option value="${obj.project_id }" <c:if test="${obj.project_id eq fob.project_id_fk}">selected</c:if>><%-- ${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> --%> ${obj.project_name }</option>
                                         </c:forEach>
                                     </select>                                   
                                     <span id="project_id_fkError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s6 m6 l6 input-field">
-                                <p class="searchable_label"> Work</p>
-                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
-                                        onchange="getContractsList(this.value);" <c:if test="${not empty fob.work_id_fk}">disabled</c:if>>
-                                        <option value="">Select</option>
-                                        <c:forEach var="obj" items="${worksList }">
-                                      	   <option value= "${ obj.work_id}"><%-- ${obj.work_id}<c:if test="${not empty obj.work_short_name}"> - </c:if> --%> ${obj.work_short_name }</option>
-                                         </c:forEach>
-                                    </select>
-                                    <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
                             </div>
                             <div class="row">
@@ -962,11 +951,11 @@
 	<!-- footer included -->
 	<jsp:include page="../layout/footer.jsp"></jsp:include>
 
-	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-	<script src="/pmis/resources/js/datepickerDepedency.js"></script>
-	<script src="/pmis/resources/js/select2.min.js"></script>
-	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+	<script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+	<script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+	<script src="/wrpmis/resources/js/datepickerDepedency.js"></script>
+	<script src="/wrpmis/resources/js/select2.min.js"></script>
+	<script src="/wrpmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 	
 	<script type="text/javascript">
 	$(document).ready(function() {
@@ -1081,10 +1070,6 @@
         
                        
         var project_id_fk = "${fob.project_id_fk}";
-        if ($.trim(project_id_fk) != '') {
-            getWorksList(project_id_fk);
-        }
-        
         var work_id_fk = "${fob.work_id_fk}";
         if ($.trim(work_id_fk) != '') {
         	getContractsList(work_id_fk);
@@ -1434,46 +1419,7 @@
 
     
     
-  //geting works list from database    
-    function getWorksList(projectId) {
-    	$(".page-loader").show();
-        $("#work_id_fk option:not(:first)").remove();
-        $("#contract_id_fk option:not(:first)").remove();
-        //$("#responsible_people_id_fk option:not(:first)").remove();
-
-        if ($.trim(projectId) != "") {
-            var myParams = { project_id_fk: projectId };
-            $.ajax({
-                url: "<%=request.getContextPath()%>/ajax/getWorkListForFOBForm",
-                data: myParams, cache: false,async : false,
-                success: function (data) {
-                    if (data.length > 0) {
-                        $.each(data, function (i, val) {
-                            var workName = '';
-                            if ($.trim(val.work_short_name) != '') { workName =  $.trim(val.work_short_name) }
-                            var work_id_fk = "${fob.work_id_fk }";
-                            if ($.trim(work_id_fk) != '' && val.work_id == $.trim(work_id_fk)) {
-                                $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' +  $.trim(workName) + '</option>');
-                            } else {
-                                $("#work_id_fk").append('<option value="' + val.work_id + '">' +  $.trim(workName) + '</option>');
-                            }
-                        });
-                    }
-                    $('.searchable').select2();
-                    $(".page-loader").hide();
-                }
-            });
-            var work_id_fk = $("#work_id_fk").val();
-            if ($.trim(work_id_fk) != '') {
-            	getContractsList(work_id_fk);
-            }
-        }else{
-        	$(".page-loader").hide();
-        }
-        
-        hitCount = 0;
-    }
-
+ 
     //geting contracts list    
     function getContractsList(work_id_fk) {
     	$(".page-loader").show();

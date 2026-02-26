@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants2"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -10,19 +10,19 @@
     <meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Welcome to PMIS</title>
-	<link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="/wrpmis/resources/images/favicon.png">
 	
-    <link rel="stylesheet" href="/pmis/resources/css/normalize.css">
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-    <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
+<!--     <link rel="stylesheet" href="/wrpmis/resources/css/normalize.css">
+ -->    <link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/font-awesome-v.4.7.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
-    <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
-    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/li-footer.css">
-    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-    <link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/wrpmis/resources/css/datatable-material.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
+<!--     <link rel="stylesheet" href="/wrpmis/resources/css/li-footer.css">
+ -->    <link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/sweetalert-v.1.1.0.min.css" rel="stylesheet" />
      <style type="text/css">
 		/* 3rd demo start */
         
@@ -453,7 +453,7 @@
         body {
             margin: 0;
             font-family: 'Open Sans', sans-serif;
-            /* background: black url("/pmis/resources/images/login-background.jpg") no-repeat center center; */
+            /* background: black url("/wrpmis/resources/images/login-background.jpg") no-repeat center center; */
             /* background: #6596ff; */
             background-size: cover;
             background-repeat-y: repeat;
@@ -706,7 +706,7 @@
 	 
 }
 .bg{
-/* 	    background-image: url(/pmis/resources/images/new-background-railway-3.png);
+/* 	    background-image: url(/wrpmis/resources/images/new-background-railway-3.png);
 	    background-repeat: no-repeat;
 	    position: absolute;
 	    width: 100%;
@@ -779,7 +779,7 @@
 	 height: 80%;
 	 left: 10%;
 	 bottom: 10%;
-	 background: url("/pmis/resources/images/sky-list.png");
+	 background: url("/wrpmis/resources/images/sky-list.png");
 }
  .skyscrappers__list .skyscrapper__item:last-child:not(:only-child) {
 	 background: rgba(75, 175, 172, 1);
@@ -1388,19 +1388,19 @@ html, body {
 	            	<div class="row">
 	            		<div class="col s2 m1 l1 m-pd0">
 		            		<div class="heading" >
-		            			<br><img src="/pmis/resources/images/mrvclogo.png" alt="Logo">
+		            			<br><img src="/wrpmis/resources/images/mrvclogo.png" alt="Logo">
 		            		</div>
 	            		</div>
 	                <div class="col l10 m10 s8">
 	                	<div class="heading color-change-2x">
 	                    <center>
 	                    
-	                    <br><h3 class="tracking-in-expand-fwd">Mumbai Railway Vikas Corporation</h3></center>
+	                    <br><h3 class="tracking-in-expand-fwd">Western Railways</h3></center>
 	                </div>
 	                </div>
 	                <div class="col l1 m1 s2">
 	                <div class="map-btn-holder"><br>
-	                        <a target="_new" class="waves-effect waves-light btn modal-trigger" href="/pmis/resources/images/final_map.png" title="click to see map">
+	                        <a target="_new" class="waves-effect waves-light btn modal-trigger" href="/wrpmis/resources/images/final_map.png" title="click to see map">
 	                            <!-- <span class="material-icons">map</span> -->
 	                            <i class="fa fa-globe"></i>
 	                        </a>
@@ -1422,7 +1422,7 @@ html, body {
 	    	<div class="bg" id="train"></div>
 			   <div class="tran">
 			   	 <div class="row">
-			   	 	<img src="/pmis/resources/images/train.png" alt="Logo" class="trans slide-right">
+			   	 	<img src="/wrpmis/resources/images/train.png" alt="Logo" class="trans slide-right">
 			   	 	<div class="line"></div>
 			   	 </div>
 			   </div>
@@ -1436,9 +1436,9 @@ html, body {
 
 <!-- footer starts here  -->
 <!-- footer ends here  -->
-  <script src="/pmis/resources/js/jQuery-v.3.5.min.js" ></script>
-  <script src="/pmis/resources/js/materialize-v.1.0.min.js" ></script>
-  <script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
+  <script src="/wrpmis/resources/js/jQuery-v.3.5.min.js" ></script>
+  <script src="/wrpmis/resources/js/materialize-v.1.0.min.js" ></script>
+  <script src="/wrpmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
   <script type="text/javascript">
   	
   function getUrlVars() {

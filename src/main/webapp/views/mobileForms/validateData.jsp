@@ -1,5 +1,5 @@
  <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
- <%@page import="com.synergizglobal.pmis.constants.CommonConstants2" %>
+ <%@page import="com.synergizglobal.wrpmis.constants.CommonConstants2" %>
  <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
  <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
 <!DOCTYPE html>
@@ -9,21 +9,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Approve Activity Progress - Update Forms - PMIS</title>
-    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-    <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <!-- <link rel="stylesheet" href="/pmis/resources/css/la.css"> -->
-    <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
+    <link rel="icon" type="image/png" sizes="96x96" href="/wrpmis/resources/images/favicon.png">
+    <link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/datatable-material.css">
+    <!-- <link rel="stylesheet" href="/wrpmis/resources/css/la.css"> -->
+    <link rel="stylesheet" href="/wrpmis/resources/css/font-awesome-v.4.7.css">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined"	rel="stylesheet">
-    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
-<link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
-    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
-    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-    <link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css">
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" />
+    <link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+<link rel="stylesheet" href="/wrpmis/resources/css/header-footer.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/font-awesome-v.4.7.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/sweetalert-v.1.1.0.min.css">
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/wrpmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/wrpmis/resources/css/mobile-responsive-table.css" />
     <style>
     	 .fixed-width {
             width: 100%;
@@ -62,7 +62,7 @@
 
         .tabs .tab a {
             text-transform: capitalize;
-            color: #007a7a;
+            color: #EA6A2A;
         }
 
         .tabs .tab a:hover,
@@ -70,11 +70,11 @@
         .tabs .tab a:focus,
         .tabs .tab a:focus.active {
             background-color: #f2fefe;
-            color: #007a7a;
+            color: #EA6A2A;
         }
 
         .tabs .indicator {
-            background-color: #007a7a;
+            background-color: #EA6A2A;
         }
 
         a.bg-s.disabled>.fa {
@@ -174,12 +174,6 @@
                             <div class="row no-mar">
                                 <div class="col m10 s12 offset-m1">
                                     <div class="row">
-                                        <div class="col s6 m4 l2 input-field offset-l1">
-                                            <p class="searchable_label">Work</p>
-                                            <select id="work_id_fk" name="work_id_fk" onchange="getActivities();" class="searchable">
-			                                   <option value="">Select</option>                                      
-			                                </select>
-                                        </div>
                                         <div class="col s6 m4 l2 input-field">
                                             <p class="searchable_label">Contract</p>
                                             <select id="contract_id_fk" name="contract_id_fk" onchange="getActivities();" class="searchable">
@@ -299,7 +293,7 @@
         <!-- Page Loader starts-->
         <div class="page-loader" style="display: none;">
             <div class="preloader-wrapper big active">
-                <div class="spinner-layer spinner-#007a7a-only">
+                <div class="spinner-layer spinner-#EA6A2A-only">
                     <div class="circle-clipper left">
                         <div class="circle"></div>
                     </div>
@@ -333,15 +327,15 @@
 
         <%-- <jsp:include page="../layout/footer.jsp"></jsp:include> --%>
 
-        <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-        <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-        <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
-        <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-        <script src="/pmis/resources/js/dataTables.material.min.js"></script>
-        <script src="/pmis/resources/js/select2.min.js"></script>
-        <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
-        <script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
-        <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
+        <script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+        <script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+        <script src="/wrpmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+        <script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+        <script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
+        <script src="/wrpmis/resources/js/select2.min.js"></script>
+        <script src="/wrpmis/resources/js/moment-v2.8.4.min.js"></script>
+        <script src="/wrpmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
+        <script src="/wrpmis/resources/js/datetime-moment-v1.10.12.js"></script>
 
         <script type="text/javascript">
         	var filtersMap = new Object();

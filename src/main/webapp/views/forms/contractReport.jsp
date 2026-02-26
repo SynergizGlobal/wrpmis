@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
-<%@ page import="com.synergizglobal.pmis.constants.CommonConstants"%>
+<%@ page import="com.synergizglobal.wrpmis.constants.CommonConstants"%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -9,16 +9,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contract Reports - Reports - PMIS</title>
-    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-    <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <!-- <link rel="stylesheet" href="/pmis/resources/css/contract.css"> -->
-    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
-    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-    <link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css" rel="stylesheet" />
-    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/wrpmis/resources/images/favicon.png">
+    <link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/datatable-material.css">
+    <!-- <link rel="stylesheet" href="/wrpmis/resources/css/contract.css"> -->
+    <link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/sweetalert-v.1.1.0.min.css" rel="stylesheet" />
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/wrpmis/resources/css/mobile-form-template.css" />
       <style>
         p a {
             color: blue;
@@ -46,7 +46,7 @@ html:not(.browser-android) select {
     <!-- header included -->
     <jsp:include page="../layout/header.jsp"></jsp:include>
  
-    <div class="row">
+    <div class="container-padding">
         <div class="col s12 m12">
             <div class="card">
                 <div class="card-content">
@@ -63,7 +63,7 @@ html:not(.browser-android) select {
 	                                
 	   									<div class="col s12 m12 l3  input-field">
 										<p class="searchable_label">Project</p>
-										<select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk" onchange="getWorks();">
+										<select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk" onchange="getResetFiltersList();" >
 											<option value="">Select</option>										
 	                                         <c:forEach var="obj" items="${projectsList }">
 	                                             <option value="${obj.project_id }">${obj.project_name }</option>
@@ -75,13 +75,6 @@ html:not(.browser-android) select {
 	                                        <select id="hod_designation" class="searchable validate-dropdown" name="hod_designations" onchange="addInQueHOD();getResetFiltersList();"  multiple="multiple" >
 	                                        </select>
 	                                        <span id="hod_designationError" class="error-msg" ></span>
-	                                    </div>
-	                                    <div class="col s6 m6 l3 input-field">
-	                                        <p class="searchable_label" style="text-align:left">Work</p>
-	                                        <select id="work_id_fk" name="work_id_fk" onchange="addInQueWork(this.value);getResetFiltersList();" class="searchable validate-dropdown">
-	                                            <option value="">All</option>
-	                                        </select>
-	                                        <span id="work_id_fkError" class="error-msg" ></span>
 	                                    </div>
 	                                    <div class="col s6 m6 l4 input-field">
 	                                        <p class="searchable_label" style="text-align:left">Contractor</p>
@@ -196,16 +189,16 @@ html:not(.browser-android) select {
     <!-- footer included -->
     <jsp:include page="../layout/footer.jsp"></jsp:include>
 
-    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-    <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-    <script src="/pmis/resources/js/datepickerDepedency.js"></script>
-    <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
-    <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-    <script src="/pmis/resources/js/dataTables.material.min.js"></script>
-    <script src="/pmis/resources/js/select2.min.js"></script>
-    <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
-    <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
-    <script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
+    <script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+    <script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/wrpmis/resources/js/datepickerDepedency.js"></script>
+    <script src="/wrpmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+    <script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+    <script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
+    <script src="/wrpmis/resources/js/select2.min.js"></script>
+    <script src="/wrpmis/resources/js/moment-v2.8.4.min.js"></script>
+    <script src="/wrpmis/resources/js/datetime-moment-v1.10.12.js"></script>
+    <script src="/wrpmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
     <script>
 	    var filtersMap = new Object();
 	    var idNo = "";
@@ -307,9 +300,7 @@ html:not(.browser-android) select {
           	  for(var i=0;i< temp.length;i++){
     	        	  if($.trim(temp[i]) != '' ){
     	        		  var temp2 = temp[i].split('=');
-    		        	   if($.trim(temp2[0]) == 'work_id_fk'){
-    		        		  getWorkFilterList(temp2[1]);
-    		        	  }else if($.trim(temp2[0]) == 'contract_id'){
+						  if($.trim(temp2[0]) == 'contract_id'){
     		        		 getContractListFilter(temp2[1]);
     		        	  }else if($.trim(temp2[0]) == 'contractor_id_fk'){
     		        		 getContractorsFilterList(temp2[1]);
@@ -350,7 +341,7 @@ html:not(.browser-android) select {
                    url: "<%=request.getContextPath()%>/ajax/getStatusofWorkItems",
                    type:"post",
 	          	   traditional: true, 
-                   data: myParams, cache: false,async: false,
+                   data: myParams, cache: false,
                    success: function (data) {
                        if (data.length > 0) {
                            $.each(data, function (i, val) {
@@ -368,33 +359,9 @@ html:not(.browser-android) select {
        	   
        	   }
         }
-        
-        
-        
-    	function getWorks()
-    	{
-    		$("#work_id_fk option:not(:first)").remove();
-    	        var myParams = { work_id_fk: $("#work_id_fk").val(),project_id_fk: $("#project_id_fk").val() };
-    	        $.ajax({
-    	            url: "<%=request.getContextPath()%>/ajax/getPORWorksFilterList",
-    	            data: myParams, cache: false,async: false,
-    	            success: function (data) 
-    	            {
-    	                if (data.length > 0) 
-    	                {
-    	                    $.each(data, function (i, val) {
-    	                            $("#work_id_fk").append('<option value="' + val.work_id_fk + '">'+$.trim(val.work_id_fk)+'-' +  $.trim(val.work_short_name) + '</option>');
-    	                    });
-    	                }
-    	                $('.searchable').select2();
-    	            }
-    	        });
-    	        $('.searchable').select2();
-    	}         
-        
+
         function clearFilters(){
         	$("#contractor_id_fk").val('');
-        	$("#work_id_fk").val('');
         	$("#hod_designation").val('');
         	$("#contract_status_fk").val('');
         	$("#contract_id").val('');
@@ -404,14 +371,7 @@ html:not(.browser-android) select {
         	 window.localStorage.setItem("contarctReportFilters"+idNo,'');
         	 window.location.href= "<%=request.getContextPath()%>/contract-report/"+idNo;
         }
-        function addInQueWork(work_id_fk){
-          	Object.keys(filtersMap).forEach(function (key) {
-    	   		if(key.match('work_id_fk')) delete filtersMap[key];
-       	   	});
-          	if($.trim(work_id_fk) != ''){
-            	filtersMap["work_id_fk"] = work_id_fk;
-          	}
-        } 
+
        
         function addInQueContract(contract_id){
         	Object.keys(filtersMap).forEach(function (key) {
@@ -458,16 +418,12 @@ html:not(.browser-android) select {
           	}
         }
         function getResetFiltersList(){
-        	getContractorsFilterList("");
-        	getWorkFilterList("");
-        	getDesignationFilterList("");        	
-        	getContractStatusFilterList("");        	  
-        	getContractListFilter("");
-        	getStatusFilter("");
-        	//getStatusofWorkItems("");
+        	    getContractorsFilterList("");
+        	    getDesignationFilterList("");
+        	    getContractListFilter("");
+        	    getStatusFilter("");
         	
         	var contractor_id_fk = $("#contractor_id_fk").val();
-        	var work_id_fk = $("#work_id_fk").val();
         	var hod_designations = $("#hod_designation").val();
         	var contract_status_fk = $("#contract_status_fk").val();
         	var contract_id = $("#contract_id").val();
@@ -485,19 +441,18 @@ html:not(.browser-android) select {
 	  function getStatusFilter(statusVal){
 	   	$(".page-loader").show();
        	var contractor_id_fk = $("#contractor_id_fk").val();
-       	var work_id_fk = $("#work_id_fk").val();
        	var hod_designations = $("#hod_designation").val();
        	var status = $("#status").val()
        	var contract_status_fk = $("#contract_status_fk").val();
        	var contract_id = $("#contract_id").val();
            if ($.trim(status) == "") {
            	$("#status option:not(:first)").remove();
-       	 	var myParams = {hod_designations : hod_designations,contractor_id_fk : contractor_id_fk, work_id_fk : work_id_fk,contract_status_fk : contract_status_fk,contract_id : contract_id};
+       	 	var myParams = {hod_designations : hod_designations,contractor_id_fk : contractor_id_fk, contract_status_fk : contract_status_fk,contract_id : contract_id};
                $.ajax({
 	                   url: "<%=request.getContextPath()%>/ajax/getStatsuListInContractReport",
 	                   type:"post",
 	          		   traditional: true, 
-	                   data: myParams, cache: false,async: false,
+	                   data: myParams, cache: false,
 	                   success: function (data) {
 	                       if (data.length > 0) {
 	                           $.each(data, function (i, val) {
@@ -521,18 +476,17 @@ html:not(.browser-android) select {
         function getDesignationFilterList(designation){
         	$(".page-loader").show();
         	var contractor_id_fk = $("#contractor_id_fk").val();
-        	var work_id_fk = $("#work_id_fk").val();
         	var hod_designations = $("#hod_designation").val();
         	var contract_status_fk = $("#contract_status_fk").val();
         	var contract_id = $("#contract_id").val();
             if ($.trim(hod_designations) == "") {
             	$("#hod_designation option").remove();
-        	 	var myParams = {hod_designations : hod_designations,contractor_id_fk : contractor_id_fk, work_id_fk : work_id_fk,contract_status_fk : contract_status_fk,contract_id : contract_id};
+        	 	var myParams = {hod_designations : hod_designations,contractor_id_fk : contractor_id_fk, contract_status_fk : contract_status_fk,contract_id : contract_id};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getHODListInContractReport",
                     type:"post",
 	          		traditional: true, 
-                    data: myParams, cache: false,async: false,
+                    data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) 
                         {
@@ -544,11 +498,11 @@ html:not(.browser-android) select {
    		                         if(designationArr.length > 0){
    		                       	  for(var j=0;j< designationArr.length;j++){
    		                       		 var selectedFlag = (designationArr[j] == val.designation)?'selected':'';
-   		                              $("#hod_designation").append('<option value="' + val.designation + '"'+selectedFlag+'>' + $.trim(val.designation)  + '</option>');
+  		                              $("#hod_designation").append('<option value="' + val.designation + '"'+selectedFlag+'>' + $.trim(val.designation)  +' - '+ $.trim(val.user_name)+'</option>');
    		                       	  }
    		                         }
    		                    } else{
- 	                           $("#hod_designation").append('<option  name="hod_designations" value="' + val.designation + '">' + $.trim(val.designation)  + '</option>');
+ 	                           $("#hod_designation").append('<option  name="hod_designations" value="' + val.designation + '">' + $.trim(val.designation)  +' - '+ $.trim(val.user_name)+'</option>');  $("#hod_designation").append('<option  name="hod_designations" value="' + val.designation + '">' + $.trim(val.designation)  +'</option>');
    		                    }
                             });
                         }
@@ -566,58 +520,22 @@ html:not(.browser-android) select {
        
 
         
-	   	 function getWorkFilterList(work){
-	   		$(".page-loader").show();
-        	var contractor_id_fk = $("#contractor_id_fk").val();
-        	var work_id_fk = $("#work_id_fk").val();
-        	var hod_designations = $("#hod_designation").val();
-        	
-        	var contract_status_fk = $("#contract_status_fk").val();
-        	var contract_id = $("#contract_id").val();
-            if ($.trim(work_id_fk) == "") {
-            	$("#work_id_fk option:not(:first)").remove();
-        	 	var myParams = {hod_designations : hod_designations,contractor_id_fk : contractor_id_fk, work_id_fk : work_id_fk,contract_status_fk : contract_status_fk,contract_id : contract_id};
-                $.ajax({
-	                   url: "<%=request.getContextPath()%>/ajax/getWorksListInContractReport",
-	                   type:"post",
-	          		   traditional: true, 
-	                   data: myParams, cache: false,async: false,
-	                   success: function (data) {
-	                       if (data.length > 0) {
-	                           $.each(data, function (i, val) {
-	                           	 var workShortName = '';
-	                                if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
-	                                var selectedFlag = (work == val.work_id_fk)?'selected':'';
-	   	                            $("#work_id_fk").append('<option value="' + val.work_id_fk + '"'+selectedFlag+'>' + $.trim(val.work_id_fk)   + workShortName +'</option>');
-	                           });
-	                       }
-	                       $('.searchable').select2();
-	                       $(".page-loader").hide();
-	                   },error: function (jqXHR, exception) {
-	    	   			      $(".page-loader").hide();
-	   	   	          	  getErrorMessage(jqXHR, exception);
-	   	   	     	  }
-	               });
-	           }else{
-	           	  $(".page-loader").hide();
-	           }
-	       }
+
    	 
         function getContractorsFilterList(contractor){
         	$(".page-loader").show();
         	var contractor_id_fk = $("#contractor_id_fk").val();
-        	var work_id_fk = $("#work_id_fk").val();
         	var hod_designations = $("#hod_designation").val();
         	var contract_status_fk = $("#contract_status_fk").val();
         	var contract_id = $("#contract_id").val();
             if ($.trim(contractor_id_fk) == "") {
             	$("#contractor_id_fk option:not(:first)").remove();
-        	 	var myParams = {hod_designations : hod_designations,contractor_id_fk : contractor_id_fk, work_id_fk : work_id_fk,contract_status_fk : contract_status_fk,contract_id : contract_id};
+        	 	var myParams = {hod_designations : hod_designations,contractor_id_fk : contractor_id_fk, contract_status_fk : contract_status_fk,contract_id : contract_id};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getContractorsListInContractReport",
                     type:"post",
 	          		traditional: true, 
-                    data: myParams, cache: false,async: false,
+                    data: myParams, cache: false,
                     success: function (data) {
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
@@ -642,18 +560,17 @@ html:not(.browser-android) select {
         function getContractStatusFilterList(contractStatus){
         	$(".page-loader").show();
         	var contractor_id_fk = $("#contractor_id_fk").val();
-        	var work_id_fk = $("#work_id_fk").val();
         	var hod_designations = $("#hod_designation").val();
         	var contract_status_fk = $("#contract_status_fk").val();
         	var contract_id = $("#contract_id").val();
             if ($.trim(contract_status_fk) == "") {
             	$("#contract_status_fk option:not(:first)").remove();
-        	 	var myParams = {hod_designations : hod_designations,contractor_id_fk : contractor_id_fk, work_id_fk : work_id_fk,contract_status_fk : contract_status_fk,contract_id : contract_id};
+        	 	var myParams = {hod_designations : hod_designations,contractor_id_fk : contractor_id_fk, contract_status_fk : contract_status_fk,contract_id : contract_id};
                 $.ajax({
                    url: "<%=request.getContextPath()%>/ajax/getContractStatusListInContractReport",
                    type:"post",
 	          	   traditional: true, 
-                   data: myParams, cache: false,async: false,
+                   data: myParams, cache: false,
                    success: function (data) {
                        if (data.length > 0) {
                            $.each(data, function (i, val) {
@@ -686,19 +603,18 @@ html:not(.browser-android) select {
         	//debugger
         	$(".page-loader").show();
         	var contractor_id_fk = $("#contractor_id_fk").val();
-        	var work_id_fk = $("#work_id_fk").val();
         	var hod_designations = $("#hod_designation").val();
         	var contract_status_fk = $("#contract_status_fk").val();
         	var contract_id = $("#contract_id").val();
             if ($.trim(contract_id) == "") {
             	$("#contract_id option:not(:first)").remove();
-        	 	var myParams = {hod_designations : hod_designations,contractor_id_fk : contractor_id_fk, work_id_fk : work_id_fk,contract_status_fk : contract_status_fk,contract_id : contract_id};
+        	 	var myParams = {hod_designations : hod_designations,contractor_id_fk : contractor_id_fk, contract_status_fk : contract_status_fk,contract_id : contract_id};
 
                 $.ajax({
                    url: "<%=request.getContextPath()%>/ajax/getContractListInContractReport",
                    type:"post",
 	          	   traditional: true, 
-                   data: myParams, cache: false,async: false,
+                   data: myParams, cache: false,
                    success: function (data) {
                        if (data.length > 0) {
                            $.each(data, function (i, val) {

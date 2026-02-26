@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants"%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -9,15 +9,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project Overview Report - PMIS</title>
-    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-    <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
-    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/wrpmis/resources/images/favicon.png">
+    <link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/datatable-material.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">
+	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/wrpmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/wrpmis/resources/css/mobile-grid-template.css" />
     <style>   
     	.dataTables_wrapper .mdl-grid .mdl-cell.mdl-cell--6-col:first-of-type{
    		    vertical-align: middle !important;
@@ -39,7 +39,7 @@
 		    float: none;
 		}
 		.table-like-heading{
-			background-color:#007a7a; 
+			background-color:#EA6A2A; 
 			height:4rem; 			
 			box-shadow:0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%), 0 1px 5px 0 rgb(0 0 0 / 20%);
 		}
@@ -331,16 +331,6 @@ td, th {
 	                                         </c:forEach>
                                          </select>
 									</div>										
-									<div class="col s6 m6 input-field">
-										<p class="searchable_label">Work<span class="required">*</span></p>
-										<select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" onchange="getProjects();">
-											<option value="">Select</option>
-											<c:forEach var="obj" items="${worksList }">
-		                                      	   <option  value= "${obj.work_id_fk}" >${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
-		                                    </c:forEach>
-										</select>
-										<span id="work_idError" class="error-msg"></span>
-									</div>
 								
 
 							</div>
@@ -358,7 +348,7 @@ td, th {
 					</div>
 <div class='googoose-wrapper' style="display:none;">
     <div class='googoose' style="padding-bottom:0px;text-align:center;">
-       <img src="/pmis/resources/images/mrvclogo.png" alt="Logo" width="70" height="55">
+       <img src="/wrpmis/resources/images/mrvclogo.png" alt="Logo" width="70" height="55">
     </div>
     <br><br>					
  					<div style="text-align:center;text-transform: uppercase;" id="divWorkShortName"></div><br><br>
@@ -377,7 +367,7 @@ td, th {
 						        </tbody>
 						    </table>
 						 <div><span style="font-size:16px;">Refer <a href="#firstDestination">Annexure-1</a> for detailed list of contracts.</span></div>
-						    <div class='googoose break'></div><div style="text-align:center;"><img src="/pmis/resources/images/mrvclogo.png" alt="Logo" width="70" height="55"></div><br><br>						    
+						    <div class='googoose break'></div><div style="text-align:center;"><img src="/wrpmis/resources/images/mrvclogo.png" alt="Logo" width="70" height="55"></div><br><br>						    
 						<div style="text-align:center;" id="divProject"><span style="font-size:14px;">LAND ACQUISITION STATUS</span></div>  
 						<table style='width:auto;' id="landAcquisitionStatusTbl" class="table table-striped table-bordered" >
 								<thead>
@@ -394,7 +384,7 @@ td, th {
 						        <tbody>
 						        </tbody>
 						    </table>
-						      <div class='googoose break'></div><div style="text-align:center;"><img src="/pmis/resources/images/mrvclogo.png" alt="Logo" width="70" height="55"></div><br><br>
+						      <div class='googoose break'></div><div style="text-align:center;"><img src="/wrpmis/resources/images/mrvclogo.png" alt="Logo" width="70" height="55"></div><br><br>
 						    <div style="text-align:center;" id="divProject"><span style="font-size:14px;"> UTILITY SHIFTING STATUS</span></div>	
 						   
 							<table style='width:40%' id="utilityShiftingStatusSummaryTbl" class="table table-striped table-bordered" >
@@ -427,7 +417,7 @@ td, th {
 						        <tbody>
 						        </tbody>
 						    </table>
-						   <div class='googoose break'></div><div style="text-align:center;"><img src="/pmis/resources/images/mrvclogo.png" alt="Logo" width="70" height="55"></div><br><br>	
+						   <div class='googoose break'></div><div style="text-align:center;"><img src="/wrpmis/resources/images/mrvclogo.png" alt="Logo" width="70" height="55"></div><br><br>	
 						 <div style="text-align:center;" id="divProject"><span style="font-size:14px;">STRUCTURAL PROGRESS (%)</span></div>	   
 						<table style='width:100%;' id="structuralProgressTbl" class="table table-striped table-bordered" >
 						        <thead>
@@ -442,7 +432,7 @@ td, th {
 					
 						        </tbody>
 						    </table>
-						       <div class='googoose break'></div><div style="text-align:center;"><img src="/pmis/resources/images/mrvclogo.png" alt="Logo" width="70" height="55"></div><br><br>
+						       <div class='googoose break'></div><div style="text-align:center;"><img src="/wrpmis/resources/images/mrvclogo.png" alt="Logo" width="70" height="55"></div><br><br>
 						<div style="text-align:center;" id="divProject"><span style="font-size:14px;">ISSUE STATUS</span></div>		
 						
 						<table style='width:40%' id="issueSummaryTbl" class="table table-striped table-bordered" >
@@ -474,7 +464,7 @@ td, th {
 						        <tbody>
 						        </tbody>
 						    </table>	
-						        <div class='googoose break'></div><div style="text-align:center;"><img src="/pmis/resources/images/mrvclogo.png" alt="Logo" width="70" height="55"></div><br><br>
+						        <div class='googoose break'></div><div style="text-align:center;"><img src="/wrpmis/resources/images/mrvclogo.png" alt="Logo" width="70" height="55"></div><br><br>
 						<div style="text-align:center;" id="divProject"><span style="font-size:14px;">RISK STATUS</span></div>  
 						
 						<table style='width:60%;' id="riskSummaryTbl" class="table table-striped table-bordered" >
@@ -525,7 +515,7 @@ td, th {
 						        <tbody>
 						        </tbody>
 						    </table>
-						   <div class='googoose break'></div><div style="text-align:center;"><img src="/pmis/resources/images/mrvclogo.png" alt="Logo" width="70" height="55"></div><br><br>	
+						   <div class='googoose break'></div><div style="text-align:center;"><img src="/wrpmis/resources/images/mrvclogo.png" alt="Logo" width="70" height="55"></div><br><br>	
 						<div style="text-align:center;" id="divProject"><span style="font-size:14px;">SAFETY INCIDENTS</span></div> 
 						<table style='width:40%' id="safetySummaryTbl" class="table table-striped table-bordered" border="0">
 					        <tbody>
@@ -582,7 +572,7 @@ td, th {
 				
 						        </tbody>
 						    </table>
-						   <div class='googoose break'></div><div style="text-align:center;"><img src="/pmis/resources/images/mrvclogo.png" alt="Logo" width="70" height="55"></div><br><br>						    	
+						   <div class='googoose break'></div><div style="text-align:center;"><img src="/wrpmis/resources/images/mrvclogo.png" alt="Logo" width="70" height="55"></div><br><br>						    	
 						<div style="text-align:center;" id="divProject"><span style="font-size:14px;">PROJECT PHOTOS</span></div>   
 							<table style='width:auto;' id="projectPhotosTbl" class="table table-striped table-bordered" >
 							        <tbody>
@@ -643,16 +633,15 @@ td, th {
     </form>
     <form action="<%=request.getContextPath() %>/export-project-work-overview-report" name="exportProjectWorkOverviewDetailForm" id="exportProjectWorkOverviewDetailForm" target="_blank" method="post">	
         <input type="hidden" name="Project_fk" id="exportProject_fk" />
-        <input type="hidden" name="work_id" id="exportWork_id" />
 	</form>
 
-    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-	<script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-	<script src="/pmis/resources/js/dataTables.material.min.js"></script>
-	<script src="/pmis/resources/js/select2.min.js"></script>
-	<script src="/pmis/resources/js/moment-v2.8.4.min.js"></script> 
-	<script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script> 
+    <script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+	<script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+	<script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+	<script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
+	<script src="/wrpmis/resources/js/select2.min.js"></script>
+	<script src="/wrpmis/resources/js/moment-v2.8.4.min.js"></script> 
+	<script src="/wrpmis/resources/js/datetime-moment-v1.10.12.js"></script> 
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/aadel112/googoose@master/jquery.googoose.js"></script>
 	
 	
@@ -1060,7 +1049,7 @@ td, th {
 						$.each(data,function(key,val){
 							if(key<=2)
 								{
-									html=html+"<td><img src='/pmis/STRUCTURE_FILES/"+val.attachment+"' width='250' height='250'><br>"+val.strip_chart_type_fk+"-"+val.name+"-"+val.date+"</td>";
+									html=html+"<td><img src='/wrpmis/STRUCTURE_FILES/"+val.attachment+"' width='250' height='250'><br>"+val.strip_chart_type_fk+"-"+val.name+"-"+val.date+"</td>";
 								}
 						});
 						$("#projectPhotosTbl tbody").append("<tr>"+html+"</tr>");
@@ -1068,7 +1057,7 @@ td, th {
 						$.each(data,function(key,val){
 							if(key>2 && key<6)
 								{
-								shtml=shtml+"<td><img src='/pmis/STRUCTURE_FILES/"+val.attachment+"' width='250' height='250'><br>"+val.strip_chart_type_fk+"-"+val.name+"-"+val.date+"</td>";
+								shtml=shtml+"<td><img src='/wrpmis/STRUCTURE_FILES/"+val.attachment+"' width='250' height='250'><br>"+val.strip_chart_type_fk+"-"+val.name+"-"+val.date+"</td>";
 								}
 						});
 						$("#projectPhotosTbl tbody").append("<tr>"+shtml+"</tr>");
@@ -1076,7 +1065,7 @@ td, th {
 						$.each(data,function(key,val){
 							if(key>=6 && key<9)
 								{
-								mhtml=mhtml+"<td><img src='/pmis/STRUCTURE_FILES/"+val.attachment+"' width='250' height='250'><br>"+val.strip_chart_type_fk+"-"+val.name+"-"+val.date+"</td>";
+								mhtml=mhtml+"<td><img src='/wrpmis/STRUCTURE_FILES/"+val.attachment+"' width='250' height='250'><br>"+val.strip_chart_type_fk+"-"+val.name+"-"+val.date+"</td>";
 								}
 						});
 						$("#projectPhotosTbl tbody").append("<tr>"+mhtml+"</tr>");	
@@ -1084,7 +1073,7 @@ td, th {
 						$.each(data,function(key,val){
 							if(key>=9 && key<12)
 								{
-								phtml=phtml+"<td><img src='/pmis/STRUCTURE_FILES/"+val.attachment+"' width='250' height='250'><br>"+val.strip_chart_type_fk+"-"+val.name+"-"+val.date+"</td>";
+								phtml=phtml+"<td><img src='/wrpmis/STRUCTURE_FILES/"+val.attachment+"' width='250' height='250'><br>"+val.strip_chart_type_fk+"-"+val.name+"-"+val.date+"</td>";
 								}
 						});
 						$("#projectPhotosTbl tbody").append("<tr>"+phtml+"</tr>");							

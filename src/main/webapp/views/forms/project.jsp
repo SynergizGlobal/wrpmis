@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants"%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -9,16 +9,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project - Update Forms - PMIS</title>
-    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    <link href="/pmis/resources/css/sweetalert-v.1.1.0.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">          
-    <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    <!-- <link rel="stylesheet" href="/pmis/resources/css/project.css"> -->
-    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
+    <link href="/wrpmis/resources/css/sweetalert-v.1.1.0.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">          
+    <link rel="stylesheet" href="/wrpmis/resources/css/datatable-material.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
+    <!-- <link rel="stylesheet" href="/wrpmis/resources/css/project.css"> -->
+    <link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/wrpmis/resources/css/mobile-grid-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/wrpmis/resources/css/mobile-form-template.css" />
     <style>
         .dataTables_filter label::after{
          	content:'';
@@ -80,6 +79,103 @@
             padding-right: 6px;
         }
     }
+    
+    .page-title-bar {
+        background: #f4f4f4;
+        padding: 20px 30px;
+        border-bottom: 1px solid #ccc;
+        margin-bottom: 10px;
+        display: flex;
+    	justify-content: space-between;
+    	    align-items: center;
+    }
+
+    .page-title-bar h5 {
+        margin: 0;
+        font-size: 24px;
+        font-weight: bold;
+        display: inline-block;
+    }
+
+    .action-buttons{
+    	display: flex;
+    	align-items: center;
+    	gap: 10px;
+    }
+
+    .action-buttons .btn {
+        margin-left: 10px;
+    }
+	
+	.action-buttons .btn i{
+		line-height: 100%;
+	}
+	
+    .data-table-wrapper {
+        background: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .success, .error {
+        margin: 10px 0;
+        padding: 10px;
+        border-radius: 4px;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .success {
+        background-color: #d4edda;
+        color: #155724;
+    }
+
+    .error {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+
+    table.mdl-data-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    table.mdl-data-table th,
+    table.mdl-data-table td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    table.mdl-data-table th {
+        background: #e56717;
+        color: white;
+    }
+
+    table.mdl-data-table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .last-column {
+        text-align: center;
+    }
+
+    .mob-btn i {
+        font-size: 16px;
+    }
+
+    .container-padding {
+        padding: 30px;
+    }
+    
+.mdl-data-table td:nth-child(2),  /* Project Name */
+.mdl-data-table td:nth-child(12) { /* Remarks */
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-width: 200px; /* Adjust as needed */
+    overflow-wrap: break-word;
+}
     </style>
 </head>
 <body>
@@ -88,140 +184,92 @@
          <jsp:include page="../layout/header.jsp"></jsp:include>
     <!-- header ends  -->
 
-	<div class="row">
-		<%-- <div class="col s12 m12 hide-on-med-and-down">
-			<div class="card">
-				<div class="card-content">
-					<span class="card-title headbg">
-						<div class="center-align bg-m p-2 m-b-5">
-							<h6>Project</h6>
-						</div>
-					</span>
-					<div class="row clearfix">
-						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-							<c:if test="${not empty success }">
-								<div class="center-align m-1 close-message">${success}</div>
-							</c:if>
-							<c:if test="${not empty error }">
-								<div class="center-align m-1 close-message">${error}</div>
-							</c:if>
-						</div>
-					</div>
+<!-- Page Content -->
+<div class="container-padding">
+    <div class="page-title-bar">
+        <h5>Project</h5>
+        <div class="action-buttons">
+            <a href="add-project-form" class="btn waves-effect waves-light bg-s t-c">
+                <i class="fa fa-plus-circle"></i> Add
+            </a>
+            <a href="javascript:void(0);" onclick="exportProject();" class="btn waves-effect waves-light bg-s t-c">
+                <i class="fa fa-cloud-download"></i> Export
+            </a>
+        </div>
+    </div>
 
-					<div class="">
+    <div class="data-table-wrapper">
+        <c:if test="${not empty success}">
+            <div class="success">${success}</div>
+        </c:if>
+        <c:if test="${not empty error}">
+            <div class="error">${error}</div>
+        </c:if>
 
-						<div class="row plr-1 center-align">
-							<div class="col s12 m4">
-								<!-- <div class="m-1 l-align">
-                                    <a href="#" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-arrow-circle-up"></i> Upload Data</strong></a>
-                                    <p style="padding-top:1rem"> Click <a href="#">here</a> for the template</p>
-                                </div> -->
-							</div>
+ <table id="project_table" class="mdl-data-table" style="table-layout: fixed; width: 100%;">
+    <thead>
+        <tr>
+            <th>Project ID</th>
+			<th style="width: 15%;">Project Name</th>
+            <th>Project Status</th>
+            <th>Project Type</th>
+            <th>Railway Zone</th>
+            <th>Plan Head Number</th>
+            <th>Sanctioned Year</th>
+            <th>Sanctioned Amount</th>
+            <th>Sanctioned Commissioning Date</th>
+            <th>Division</th>
+            <th>Sections</th>
+			<th style="width: 20%;">Remarks</th>
+            <th class="no-sort">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <c:forEach var="obj" items="${projectList}">
+            <tr>
+                <td>${obj.project_id}</td>
+                <td>${obj.project_name}</td>
+                <td>${obj.project_status}</td>
+                <td>${obj.project_type_name}</td>
+                <td>${obj.railway_zone}</td>
+                <td>${obj.plan_head_number}</td>
+                <td>${obj.sanctioned_year}</td>
+                <td>${obj.sanctioned_amount}</td>
+                <td>${obj.sanctioned_commissioning_date}</td>
+                <td>${obj.division}</td>
+                <td>${obj.sections}</td>
+                <td>${obj.remarks}</td>
+                <td class="last-column">
+                    <a href="javascript:void(0);" onclick="getProject('${obj.project_id}')" class="btn waves-effect waves-light bg-m t-c mob-btn">
+                        <i class="fa fa-pencil"></i>
+                    </a>
+                    <%-- Optional delete button
+                    <a onclick="deleteProject('${obj.project_id}');" class="btn waves-effect waves-light bg-s t-c">
+                        <i class="fa fa-trash"></i>
+                    </a>
+                    --%>
+                </td>
+            </tr>
+        </c:forEach>
+    </tbody>
+</table>
 
-							<div class="col s12 m4 ">
-								<div class="m-1 c-align">
-									<a href="add-project-form"
-										class="btn waves-effect waves-light bg-s t-c"> <strong><i
-											class="fa fa-plus-circle"></i> Add Project</strong></a>
-								</div>
-							</div>
-
-							<div class="col s12 m4 r-align ">
-								<div class="m-1 ">
-									<a href="javascript:void(0);" onclick="exportProject();"
-										class="btn waves-effect waves-light bg-s t-c"> <strong><i
-											class="fa fa-cloud-download"></i> Export Data</strong></a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div> --%>
-		<div class="row">
-			<div class="col s12 m12">
-				<div class="card">
-					<div class="card-content">
-						<span class="card-title headbg">
-							<div class="center-align bg-m p-2 m-b-5">
-								<!-- <h6 class="hide-on-med-and-down">Update Project</h6>
-								<h6 class="hide-on-large-only">Project</h6> -->
-								<h6 class="mob-mar">Project</h6>
-								<div class="col s12 m12 right-align exportButton">
-    								<div class="m-n1">
-	       								<a href="add-project-form"
-											class="btn waves-effect waves-light bg-s t-c"> <strong><i
-												class="fa fa-plus-circle"></i> Add</strong></a>
-										<a href="javascript:void(0);" onclick="exportProject();"
-											class="btn waves-effect waves-light bg-s t-c"> <strong><i
-												class="fa fa-cloud-download"></i> Export</strong></a>
-							    	</div>
-								</div>
-							</div>
-						</span>
-						<div class="row">
-							<div class="row clearfix">
-								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-									<c:if test="${not empty success }">
-										<div class="center-align m-1 close-message">${success}</div>
-									</c:if>
-									<c:if test="${not empty error }">
-										<div class="center-align m-1 close-message">${error}</div>
-									</c:if>
-								</div>
-							</div>
-								<table id="project_table" class="mdl-data-table">
-									<thead>
-										<tr>
-											<th>Project ID</th>
-											<th>Project Name</th>
-											<th>Plan Head Number</th>
-											<!-- <th>PB Item Number</th> -->
-											<th class="no-sort">Remarks</th>
-											<th class="no-sort">Action</th>
-										</tr>
-									</thead>
-									<tbody>
-										 <c:forEach var="obj" items="${projectList }">
-											<tr>
-												<td>&nbsp;${ obj.project_id }</td>
-												<td>&nbsp;${ obj.project_name }</td>
-												<td>&nbsp;${ obj.plan_head_number }</td>
-												<%-- <td>&nbsp;${ obj.pink_book_item_number }</td> --%>
-												<td>&nbsp;${ obj.remarks }</td>
-												<td class="last-column"><a href="javascript:void(0);"
-													onclick="getProject('${ obj.project_id }')"
-													class="btn waves-effect waves-light bg-m t-c mob-btn"><i
-														class="fa fa-pencil"></i> </a> <%-- <a
-													onclick="deleteProject('${ obj.project_id }');"
-													class="btn waves-effect waves-light bg-s t-c "><i
-														class="fa fa-trash"></i></a> --%></td>
-											</tr>
-										</c:forEach>
-									</tbody>
-								</table>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+    </div>
+</div>
 
 	<!-- footer  -->
  <jsp:include page="../layout/footer.jsp"></jsp:include>
 
 
-    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-    <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-    <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
-    <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-    <script src="/pmis/resources/js/dataTables.material.min.js"></script>
-    <script src="/pmis/resources/js/select2.min.js"></script>
-    <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
-    <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
+    <script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+    <script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/wrpmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+    <script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+    <script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
+    <script src="/wrpmis/resources/js/select2.min.js"></script>
+    <script src="/wrpmis/resources/js/moment-v2.8.4.min.js"></script>
+    <script src="/wrpmis/resources/js/datetime-moment-v1.10.12.js"></script>
     
-    <script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
     
     <form name="getForm" id="getForm" method="post">
     	<input type="hidden" name="project_id" id="project_id" />
@@ -308,116 +356,7 @@
 	            table.destroy();
         });
       
- 		<%-- function getProjectList() {
-    		$(".page-loader-2").show();
-
-         	table = $('#project_table').DataTable();
-    		table.destroy();
-
-    		$.fn.dataTable.moment('DD-MMM-YYYY');
-
-    		var myParams = "";
-
-    		/***************************************************************************************************/
-
-    		$("#project_table")
-    				.DataTable(
-    						{
-    							"bProcessing" : true,
-    							"bServerSide" : true,
-    							"sort" : "position",
-    							//bStateSave variable you can use to save state on client cookies: set value "true" 
-    							"bStateSave" : false,
-    							//Default: Page display length
-    							"iDisplayLength" : 10,
-    							"iData" : {
-    								"start" : 52
-    							},
-    							//We will use below variable to track page number on server side(For more information visit: http://legacy.datatables.net/usage/options#iDisplayStart)
-    							"iDisplayStart" : 0,
-    							"fnDrawCallback" : function() {
-    								//Get page numer on client. Please note: number start from 0 So
-    								//for the first page you will see 0 second page 1 third page 2...
-    								//Un-comment below alert to see page number
-    								//alert("Current page number: "+this.fnPagingInfo().iPage);
-    							},
-    							//"sDom": 'l<"toolbar">frtip',
-    							"initComplete" : function() {
-    								$('.dataTables_filter input[type="search"]')
-    										.attr('placeholder', 'Search')
-    										.css({
-    											'width' : '350px ',
-    											'display' : 'inline-block'
-    										});
-
-    								var input = $('.dataTables_filter input')
-    										.unbind(), self = this.api(), $searchButton = $(
-    										'<i class="fa fa-search" title="Go">')
-    								//.text('Go')
-    								.click(function() {
-    									self.search(input.val()).draw();
-    								}), $clearButton = $(
-    										'<i class="fa fa-close" title="Reset">')
-    								//.text('X')
-    								.click(function() {
-    									input.val('');
-    									$searchButton.click();
-    								})
-    								$('.dataTables_filter').append(
-    										'<div class="right-btns"></div>');
-    								$('.dataTables_filter div').append(
-    										$searchButton, $clearButton);
-
-    								/* var input = $('.dataTables_filter input').unbind(),
-    								self = this.api(),
-    								$searchButton = $('<i class="fa fa-search">')
-    								           //.text('Go')
-    								           .click(function() {			   	                    	 
-    								              self.search(input.val()).draw();
-    								           })			   	        
-    								  $('.dataTables_filter label').append($searchButton); */
-    							},
-    							columnDefs : [ {
-    								"targets" : 'no-sort',
-    								"orderable" : false,
-    							} ],
-    							"sScrollX" : "100%",
-    							"sScrollXInner" : "100%",
-    							"bScrollCollapse" : true,
-    							"language" : {
-    								"info" : "_START_ - _END_ of _TOTAL_",
-    								paginate : {
-    									next : '<i class="fa fa-angle-right"></i>', 
-    									previous : '<i class="fa fa-angle-left"></i>'  
-    								}
-    							},
-    							"bDestroy" : true,
-    							"sAjaxSource" : "	<%=request.getContextPath()%>/ajax/get-projects?"+myParams,
-    		        "aoColumns": [
-    		            { "mData": function(data,type,row){
-    		            	if($.trim(data.project_id) == ''){ return '-'; }else{ return data.project_id; }
-    		            } },
-    		            { "mData": function(data,type,row){
-    		            	if($.trim(data.project_name) == ''){ return '-'; }else{ return data.project_name; }
-    		            } },
-    		         	{ "mData": function(data,type,row){
-    		            	if($.trim(data.plan_head_number) == ''){ return '-'; }else{ return data.plan_head_number; }
-    		            } },
-    		            { "mData": function(data,type,row){
-    		            	if($.trim(data.remarks) == ''){ return '-'; }else{ return data.remarks; }
-    		            } },
-    		         	{ "mData": function(data,type,row){
-    		         		var project_id = "'"+data.project_id+"'";
-    	                    var actions = '<a href="javascript:void(0);"  onclick="getProject('+project_id+');" class="btn waves-effect waves-light bg-m t-c" ><i class="fa fa-pencil"></i></a>';
-    		            	return actions;
-    		            } }
-    		            
-    		        ]
-    		    });
-    	    
-    	  $(".page-loader-2").hide();  		     
-      	
-     } --%>
+ 		
 	  function getProject(project_id){
 	    	$("#project_id").val(project_id);
 	    	$('#getForm').attr('action', '<%=request.getContextPath()%>/get-project');
@@ -451,12 +390,40 @@
 	        });
 	    }
         
-        function exportProject(){
-        	
-        	 var project_id = $("#project_id").val();
-        	 $("#exportProject_id").val(project_id);
-        	 $("#exportProjectForm").submit();
-     	}
+        function exportProject() {
+            const table = document.getElementById("project_table");
+            const rows = table.querySelectorAll("tr");
+
+            let exportTable = "<table border='1'>";
+
+            rows.forEach(row => {
+                const cells = row.querySelectorAll("th, td");
+
+                // Exclude the last column
+                let rowData = "<tr>";
+                for (let i = 0; i < cells.length - 1; i++) {
+                    rowData += "<td>" + cells[i].innerText.trim() + "</td>";
+                }
+                rowData += "</tr>";
+
+                exportTable += rowData;
+            });
+
+            exportTable += "</table>";
+
+            // Create downloadable Excel file
+            const blob = new Blob([exportTable], {
+                type: "application/vnd.ms-excel"
+            });
+
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "project_data.xls";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
     </script>
 
 </body>

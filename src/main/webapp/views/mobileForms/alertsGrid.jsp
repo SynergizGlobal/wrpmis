@@ -8,14 +8,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PMIS Contract Alerts</title>
-    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-    <link rel="stylesheet" href="/pmis/resources/css/la.css">
-    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-    <link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css" rel="stylesheet" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/wrpmis/resources/images/favicon.png">
+    <link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/datatable-material.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/la.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/sweetalert-v.1.1.0.min.css" rel="stylesheet" />
     <style>
         .modal-header {
             text-align: center;
@@ -74,12 +74,6 @@
                                 <div class="col s12 m2 input-field">
                                     <p class="searchable_label">HOD</p>
                                     <select id="hod" name="hod" class="searchable" onchange="getAlerts();">
-                                        <option value="">Select</option>
-                                    </select>
-                                </div>
-                                <div class="col s12 m2 input-field">
-                                    <p class="searchable_label">Work</p>
-                                    <select id="work_id_fk" name="work_id_fk" class="searchable" onchange="getAlerts();">
                                         <option value="">Select</option>
                                     </select>
                                 </div>
@@ -186,14 +180,14 @@
 	</div>
 
     
-    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-    <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-    <script src="/pmis/resources/js/select2.min.js"></script>
-    <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-    <script src="/pmis/resources/js/dataTables.material.min.js"></script>
-    <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
-    <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
-	<script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
+    <script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+    <script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/wrpmis/resources/js/select2.min.js"></script>
+    <script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+    <script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
+    <script src="/wrpmis/resources/js/moment-v2.8.4.min.js"></script>
+    <script src="/wrpmis/resources/js/datetime-moment-v1.10.12.js"></script>
+	<script src="/wrpmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
 	
     <script>
     
@@ -419,37 +413,7 @@
             }
          }
     	 
-    	 function getWorkFilterList(){
-    	 	$(".page-loader").show();
-    	 	var hod = $("#hod").val();
-   	    	var work_id_fk = $("#work_id_fk").val();
-   	    	var contractor_id_fk = $("#contractor_id_fk").val();
-   	    	var contract_id_fk = $("#contract_id_fk").val();
-   	    	var alert_type_fk = $("#alert_type_fk").val();
-   	    	
-   	        if ($.trim(work_id_fk) == "") {
-   	        	$("#work_id_fk option:not(:first)").remove();
-   	    	 	var myParams = {email_id : email_id,user_role_name : user_role_name,hod : hod,work_id_fk : work_id_fk,contractor_id_fk : contractor_id_fk, contract_id_fk : contract_id_fk, alert_type_fk : alert_type_fk};
-   	            $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInAlerts",
-                    data: myParams,type:"POST", cache: false,
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $.each(data, function (i, val) {
-                            	 $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' + $.trim(val.work_id_fk) +" - "+ $.trim(val.work_short_name) +'</option>');
-                            });
-                        }
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
-                    },error: function (jqXHR, exception) {
-     	   			      $(".page-loader").hide();
-    	   	          	  getErrorMessage(jqXHR, exception);
-    	   	     	  }
-                });
-            }else{
-            	  $(".page-loader").hide();
-            }
-        }
+  
     	 
     	function getAlertTypesFilterList(){
      	 	$(".page-loader").show();

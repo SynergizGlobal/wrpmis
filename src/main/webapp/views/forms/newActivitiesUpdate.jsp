@@ -1,20 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants"%>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Activities Bulk Update - Update Forms - PMIS</title>
-    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">     
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">     
-    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
-    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
-	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" />
-    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-responsive-table.css" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/wrpmis/resources/images/favicon.png">
+    <link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">     
+    <link rel="stylesheet" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">     
+    <link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">	
+	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/wrpmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/wrpmis/resources/css/mobile-responsive-table.css" />
      <style>
      	.m-3{margin-top: 0.45em;}
      	.h3em{height:3em;}
@@ -690,13 +690,23 @@
         	display: none !important;
         }
        }
+       
+ 		#filerList .modal.datepicker-modal {
+       	white-space: nowrap;
+       }  
+       
+         
+ 		#filerList td {
+       	white-space: inherit;
+       }      
+           
     </style>
 </head>
 <body>
     <!-- header included -->
     <jsp:include page="../layout/header.jsp"></jsp:include>
    <!-- card  -->
-    <div class="row">
+    <div class="container-padding">
         <div class="col s12 m12">
             <div class="card ">
                 <div class="card-content">
@@ -725,8 +735,7 @@
                                     <div class="row">
                                         <div class="col m4 s6 input-field m-dis-none">
                                             <p class="searchable_label">Project</p>
-                                            <select class="searchable validate-dropdown" id="project_id" name="project_id" data-placeholder="Select"
-                                                onchange="getNewActivitiesUpdateWorksList(this.value);">
+                                            <select class="searchable validate-dropdown" id="project_id" name="project_id" data-placeholder="Select">
                                                <option value="" ></option> 
                                                 <c:forEach var="obj" items="${projectsList }">
                                                     <option value="${obj.project_id }" <c:if test="${obj.project_id eq activitiesData.project_id }">selected</c:if>>${obj.project_name }</option>
@@ -734,24 +743,13 @@
                                             </select>
                                             <span id="project_idError" class="error-msg" ></span>
                                         </div>
-                                        <div class="col m8 s6 input-field m-dis-none">
-                                            <p class="searchable_label">Work</p>
-                                            <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" data-placeholder="Select"
-                                                onchange="getNewActivitiesUpdateContractsList(this.value);">
-                                                 <option value=""></option> 
-                                                <c:forEach var="obj" items="${worksList }">
-                                                    <option value="${obj.work_id }" <c:if test="${obj.work_id eq activitiesData.work_id }">selected</c:if>>${obj.work_short_name }</option>
-                                                </c:forEach>
-                                            </select>
-                                            <span id="work_id_fkError" class="error-msg" ></span>
-                                        </div>
-                                       <div class="col m12 s12 input-field">
+                                       <div class="col m4 s6 input-field">
                                             <p class="searchable_label">Contract <span class="required">*</span></p>
                                             <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown" data-placeholder="Select"
                                                 onchange="getStructureTypesListFilter(this.value);resetWorksAndProjectsDropdowns(null);">
                                                  <option value=""></option> 
                                                 <c:forEach var="obj" items="${contractsList }">
-                                                	<option name="${obj.work_id_fk }" value="${obj.contract_id }" <c:if test="${obj.contract_id eq activitiesData.contract_id }">selected</c:if>>${obj.contract_short_name}</option>
+                                                	<option value="${obj.contract_id }" <c:if test="${obj.contract_id eq activitiesData.contract_id }">selected</c:if>>${obj.contract_short_name}</option>
                                                 </c:forEach>
                                             </select>
                                             <span id="contract_id_fkError" class="error-msg" ></span>
@@ -1079,15 +1077,15 @@
       <!-- footer included -->
     <jsp:include page="../layout/footer.jsp"></jsp:include>    
     
-    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-    <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-   <!--  <script src="/pmis/resources/js/datepickerDepedency.js"></script> -->
-    <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
-    <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-    <script src="/pmis/resources/js/dataTables.material.min.js"></script>
-    <script src="/pmis/resources/js/select2.min.js"></script>
-    <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
-    <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
+    <script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+    <script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+   <!--  <script src="/wrpmis/resources/js/datepickerDepedency.js"></script> -->
+    <script src="/wrpmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+    <script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+    <script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
+    <script src="/wrpmis/resources/js/select2.min.js"></script>
+    <script src="/wrpmis/resources/js/moment-v2.8.4.min.js"></script>
+    <script src="/wrpmis/resources/js/datetime-moment-v1.10.12.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.7/xlsx.core.min.js"></script>  
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/xls/0.7.4-a/xls.core.min.js"></script>  
     
@@ -1280,7 +1278,7 @@
                         	var contract_name = '';
                         	if ($.trim(val.contract_short_name) != '') { contract_name =  $.trim(val.contract_short_name) }
 
-                            $("#contract_id_fk").append('<option name="'+val.work_id_fk+'" value="' + val.contract_id + '">' + $.trim(contract_name) + '</option>');
+                            $("#contract_id_fk").append('<option  value="' + val.contract_id + '">' + $.trim(contract_name) + '</option>');
                     });
                 }
                 $('.searchable').select2();
@@ -1473,7 +1471,6 @@
             if ($.trim(project_id) != '') {
             	$("#project_id").val(project_id);
             	$("#project_id").select2();
-            	getNewActivitiesUpdateWorksList(project_id);
             }
            
 
@@ -1526,56 +1523,9 @@
 			}
        	}	       
         
-
-	
-	function getNewActivitiesUpdateWorksList(projectId) { 
-		$(".page-loader-1").show();
-		$("#contract_id_fk option:not(:first)").remove();    	
-	    $("#work_id_fk option:not(:first)").remove();
-	    
-	    $("#strip_chart_structure_id_fk option:not(:first)").remove();
-	    $("#strip_chart_line_id_fk option:not(:first)").remove();
-	    $("#strip_chart_section_name option:not(:first)").remove();
-		
-		$('.searchable').select2();
-		clearComponentCircle();
-		
-	
-	    if ($.trim(projectId) != "") {
-	        var myParams = { project_id_fk: projectId };
-	        $.ajax({
-	            url: "<%=request.getContextPath()%>/ajax/getNewActivitiesUpdateWorksList",
-	            data: myParams, cache: false,async: false,
-	            success: function (data) {
-	            	var id1 = "";
-                    var id2 = "${activitiesData.work_id}";
-	                if (data.length > 0) {
-	                    $.each(data, function (i, val) {
-	                        var workName = '';
-	                        if ($.trim(val.work_short_name) != '') { workName =  $.trim(val.work_short_name) }
-	                        if ($.trim(id2) != '' && val.work_id == $.trim(id2)) {
-	                        	id1 = val.work_id;
-	                            $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' + $.trim(workName) + '</option>');
-	                        } else {
-	                            $("#work_id_fk").append('<option value="' + val.work_id + '">'  + $.trim(workName) + '</option>');
-	                        }
-	                    });
-	                }
-	                $('.searchable').select2();
-	                $(".page-loader-1").hide();
-	                
-	                if ($.trim(id1) != '' && $.trim(id2) != '') {
-	                	getNewActivitiesUpdateContractsList(id2);
-	                }
-	            }
-	        });
-	    }else{
-	    	$(".page-loader-1").hide();
-	    }
-	}
 	
 	//geting contracts list    
-	function getNewActivitiesUpdateContractsList(work_id_fk) {
+	function getNewActivitiesUpdateContractsList(project_id_fk) {
 		$(".page-loader").show();
 	    $("#contract_id_fk option:not(:first)").remove();
 	    
@@ -1644,33 +1594,6 @@
 				$("#project_id").select2();
 				$("#contract_id_fk").select2();
 			}
-			
-			if ($.trim(projectId) != "") {
-				$("#work_id_fk option:not(:first)").remove();
-		        var myParams = { project_id_fk: projectId };
-		        $.ajax({
-		            url: "<%=request.getContextPath()%>/ajax/getNewActivitiesUpdateWorksList",
-		            data: myParams, cache: false,async: false,
-		            success: function (data) {
-		                if (data.length > 0) {
-		                    $.each(data, function (i, val) {
-		                        var workName = '';
-		                        if ($.trim(val.work_short_name) != '') { workName =  $.trim(val.work_short_name) }
-		                        if ($.trim(workId) != '' && val.work_id == $.trim(workId)) {
-		                            $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' +  $.trim(workName) + '</option>');
-		                            //getNewActivitiesUpdateStructures(structureVal);
-		                            getStructureTypesListFilter(structureVal);
-		                        } else {
-		                            $("#work_id_fk").append('<option value="' + val.work_id + '">' +  $.trim(workName) + '</option>');
-		                        }
-		                    });
-		                }
-		                $('.searchable').select2();
-		                $(".page-loader-1").hide();
-		            }
-		        });
-		        $('.searchable').select2();
-		    }
 			
 	}
 	

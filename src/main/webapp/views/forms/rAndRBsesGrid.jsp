@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants"%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -9,17 +9,17 @@
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>R&R Agency Grid</title>
-    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">     
-    <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
-    <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
-    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    <link rel="stylesheet" href="../nginx-1.9.9/html/pmis/resources/css/header-footer.css">
-    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
-    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" />
-    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-grid-template.css" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/wrpmis/resources/images/favicon.png">
+    <link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">     
+    <link rel="stylesheet" href="/wrpmis/resources/css/datatable-material.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/font-awesome-v.4.7.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="../nginx-1.9.9/html/wrpmis/resources/css/header-footer.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">	
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/wrpmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/wrpmis/resources/css/mobile-grid-template.css" />
     <style type="text/css">
         [type="checkbox"]:not(:checked), [type="checkbox"]:checked{position: relative; opacity: 1;pointer-events: auto;}
          .input-field .searchable_label{
@@ -164,7 +164,7 @@
                             <div class="col s12 m12 right-align exportButton hideCOl" >
 								
 								<div class="m-n1">
-									 <!-- <a href="/pmis/RR_Drawings.xlsx" download class="template-btn" title="Download Template">
+									 <!-- <a href="/wrpmis/RR_Drawings.xlsx" download class="template-btn" title="Download Template">
 										<i class="material-icons-outlined">download_for_offline</i>
 									</a> -->
 									<a href="<%=request.getContextPath()%>/add-rr-bses" class="btn waves-effect waves-light bg-s t-c right-align">
@@ -214,13 +214,6 @@
                             <div class="col m3 hide-on-small-only"></div>
                             <div class="col m8 s12 ">
                                 <div class="row" style="margin-bottom: 0;" id="filters">
-                                    <div class="col s12 m3 input-field">
-                                        <p class="searchable_label">work </p>
-                                        <select id="work_id_fk" name="work_id_fk" class="searchable" onchange="addInQueWork(this.value);getRRList();">
-                                            <option value="" >Select </option>
-                                          
-                                        </select>
-                                    </div>
                                     <div class="col s12 m3 input-field">
                                         <p class="searchable_label">MRVC - HOD</p>
                                         <select id="hod" name="hod" class="searchable" onchange="addInQueHOD(this.value);getRRList();">
@@ -274,14 +267,14 @@
   		<input type="hidden" name="agency_id" id="agency_id"/>
   		
     </form>
-    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-    <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-    <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
-    <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-    <script src="/pmis/resources/js/dataTables.material.min.js"></script>
-    <script src="/pmis/resources/js/select2.min.js"></script>
-    <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
-    <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
+    <script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+    <script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/wrpmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+    <script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+    <script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
+    <script src="/wrpmis/resources/js/select2.min.js"></script>
+    <script src="/wrpmis/resources/js/moment-v2.8.4.min.js"></script>
+    <script src="/wrpmis/resources/js/datetime-moment-v1.10.12.js"></script>
     
     <script>
     	var filtersMap = new Object();
@@ -300,9 +293,7 @@
 	      	  for(var i=0;i< temp.length;i++){
 		        	  if($.trim(temp[i]) != '' ){
 		        		  var temp2 = temp[i].split('=');
-			        	  if($.trim(temp2[0]) == 'work_id_fk' ){
-			        		  getWorksFilterList(temp2[1]);
-			        	  }else if($.trim(temp2[0]) == 'hod'){
+			        	  if($.trim(temp2[0]) == 'hod'){
 			        		  getHODFilterList(temp2[1]);
 			        	  }
 		        	  }
@@ -360,36 +351,7 @@
 	        }
 	    }
 	    
-	    function getWorksFilterList(work) {
-	    	$(".page-loader").show();
-	    	var work_id_fk = $("#work_id_fk").val();
-	    	var hod = $("#hod").val();
-	        if ($.trim(work_id_fk) == "") {
-	        	$("#work_id_fk option:not(:first)").remove();
-	        	var myParams = { hod: hod,work_id_fk : work_id_fk};
-	            $.ajax({
-	                url: "<%=request.getContextPath()%>/ajax/getWorkFilterListInRRBSES",
-	                data: myParams, cache: false,async: false,
-	                success: function (data) {
-	                    if (data.length > 0) {
-	                        $.each(data, function (i, val) {
-	                        	 var workShortName = '';
-	                             if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
-	                             var selectedFlag = (work == val.work_id_fk)?'selected':'';
-		                         $("#work_id_fk").append('<option value="' + val.work_id_fk + '"'+selectedFlag+'>' + $.trim(val.work_id_fk)   + workShortName +'</option>');
-	                        });
-	                    }
-	                    $('.searchable').select2();
-	                    $(".page-loader").hide();
-	                },error: function (jqXHR, exception) {
-	 	   			      $(".page-loader").hide();
-		   	          	  getErrorMessage(jqXHR, exception);
-		   	     	  }
-	            });
-	        }else{
-	        	  $(".page-loader").hide();
-	        }
-	    }
+
 	    
 	    function getRandR(rrbses_id,agency_id){
 	    	$("#rrbses_id").val(rrbses_id);
@@ -422,7 +384,6 @@
 	    function getRRList() {
 			$(".page-loader-2").show();
 
-			getWorksFilterList('');
 			getHODFilterList('');
 	     	
 	     	
@@ -438,7 +399,6 @@
 	    	   	table = $('#rr-bses').DataTable();
 	    		table.destroy();
 				var i = 0;
-	    		$.fn.dataTable.moment('DD-MMM-YYYY');
 	    		var rowLen = 0;
 	    		var myParams =  "work_id_fk="
 	    				+ work_id_fk + "&hod="+ hod;

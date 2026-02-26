@@ -1,0 +1,42 @@
+package com.synergizglobal.wrpmis.Idao;
+
+import java.util.List;
+
+import com.synergizglobal.wrpmis.model.Risk;
+import com.synergizglobal.wrpmis.model.RiskReport;
+
+public interface RiskDao {
+
+
+	public List<Risk> getWorksList(Risk obj) throws Exception;
+	public List<Risk> getSubWorksList(Risk obj) throws Exception;
+
+	public int[] uploadRiskAssessments(List<Risk> risksList, Risk obj) throws Exception;
+
+	public Risk getRiskAssessment(Risk obj) throws Exception;
+
+	public boolean updateRiskAssessment(Risk obj) throws Exception;
+	
+	public List<Risk> getRiskAssessmentList(Risk obj) throws Exception;
+
+	public List<Risk> getSubWorksFilterListInRiskAssessmnt(Risk obj) throws Exception;
+
+	public List<Risk> getAreasFilterListInRiskAssessment(Risk obj) throws Exception;
+	
+	public List<Risk> getAssessmentDatesFilterListInRiskAssessment(Risk obj) throws Exception;
+
+	public List<Risk> getRiskAssessmentDates(Risk obj) throws Exception;
+	
+	public List<Risk> getRiskAssessmentUploadsList(Risk obj) throws Exception;
+
+	public List<Risk> getSubWorksListFromRiskUploads(Risk obj) throws Exception;
+	
+	public boolean saveRiskAssessmentUploadFile(Risk risk) throws Exception;
+
+	public List<Risk> getSubWorkHodFilterListInRiskAssessmnt(Risk obj) throws Exception;
+	
+	public Risk getLastUpdatedRiskAssessmentFile(Risk obj) throws Exception;
+	public boolean checkRiskAssessment(String subwork,String Date) throws Exception;
+	public List<Risk> getRisks(Risk obj) throws Exception;
+	
+}

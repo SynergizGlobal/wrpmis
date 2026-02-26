@@ -6,17 +6,17 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboards - Admin - PMIS</title>
-    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/normalize.css">
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-    <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
+    <link rel="icon" type="image/png" sizes="96x96" href="/wrpmis/resources/images/favicon.png">
+<!--     <link rel="stylesheet" href="/wrpmis/resources/css/normalize.css">
+ -->    <link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/font-awesome-v.4.7.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
-    <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
-    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
-    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/datatable-material.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/header-footer.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">
     <style type="text/css">
         [type="checkbox"]:not(:checked), [type="checkbox"]:checked{position: relative; opacity: 1;pointer-events: auto;}
     </style>
@@ -28,15 +28,10 @@
   <jsp:include page="../layout/header.jsp"></jsp:include>
     <!-- header ends  -->
 
-    <div class="row">
+    <div class="container-padding">
         <div class="col s12 m12">
             <div class="card">
                 <div class="card-content">
-                    <span class="card-title headbg">
-                        <div class="center-align bg-m p-2 m-b-5">
-                            <h6> Dashboard Access</h6>
-                        </div>
-                    </span>
                     <div class="">
 						<c:if test="${not empty success }">
 							<div class="center-align m-1 close-message">${success}</div>
@@ -44,25 +39,27 @@
 						<c:if test="${not empty error }">
 							<div class="center-align m-1 close-message">${error}</div>
 						</c:if> 
-						
-                        <!-- <div class="row plr-1 center-align">
-                            <div class="col s12 m4">
-                            </div>
-
-                            <div class="col s12 m4">
-                                <div class="m-1 c-align">
-                                    <a href="#" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-plus-circle"></i> Add Contract</strong></a>
-                                </div>
-                            </div>
-
-                            <div class="col s12 m4 r-align">
-                                <div class="m-1 ">
-                                    <a href="#" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-cloud-download"></i> Export Data</strong></a>
-                                </div>
-                            </div>
-                        </div> -->
+                    <span class="card-title headbg">
+                        <div class="center-align bg-m p-2 m-b-5">
+                            <!-- <h6 class="hide-on-med-and-down">Update Land Acquisition</h6> -->
+							<h6 class="mob-mar">Dashboard Access</h6>
+							<div class="col s12 m12 right-align exportButton">
+    							<div class="m-n1">
+    								<a href="/wrpmis/Dashboard_Template.xlsx" download class="template-btn" title="Click to Download Land Acquisition Template">
+										<span class="material-symbols-outlined">download_for_offline</span>
+ 
+									</a>
+    							 	<a href="javascript:void(0);"
+										onclick="openUploadLAModal();"
+										class="btn waves-effect waves-light bg-s t-c"> <strong><i
+											class="fa fa-arrow-circle-up"></i> Upload</strong></a>  
+    								 <a href="<%=request.getContextPath() %>/add-new-dashboard" class="btn waves-effect waves-light bg-s t-c">
+                                        <strong><i class="fa fa-plus-circle"></i> Add </strong></a>   
+                                   
+    							</div>
+    						</div>	
+                        </div>
+                    </span>  
                         <div class="row no-mar" style="margin-bottom: 0;">
                             <div class="col m2 hide-on-small-only"></div>
                             <div class="col m8 s12 ">
@@ -127,13 +124,13 @@
   	<!-- footer included -->
   	<jsp:include page="../layout/footer.jsp"></jsp:include>
 
-    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-    <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-    <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-    <script src="/pmis/resources/js/dataTables.material.min.js"></script>
-    <script src="/pmis/resources/js/select2.min.js"></script>
-    <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script> 
-	<script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
+    <script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+    <script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+    <script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
+    <script src="/wrpmis/resources/js/select2.min.js"></script>
+    <script src="/wrpmis/resources/js/moment-v2.8.4.min.js"></script> 
+	<script src="/wrpmis/resources/js/datetime-moment-v1.10.12.js"></script>
     
     <script type="text/javascript">
    		 var filtersMap = new Object();

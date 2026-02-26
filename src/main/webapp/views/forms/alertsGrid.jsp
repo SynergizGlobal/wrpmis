@@ -8,17 +8,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PMIS Contract Alerts - Update Forms - PMIS</title>
-    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-   <!--  <link rel="stylesheet" href="/pmis/resources/css/la.css"> -->
-    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
-    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-    <link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css" rel="stylesheet" />
-    <link rel="stylesheet" media="screen and (max-device-width: 820px)"    href="/pmis/resources/css/mobile-form-template.css" />
-	<link rel="stylesheet" media="screen and (max-device-width: 820px)"    href="/pmis/resources/css/mobile-grid-template.css" />
+    <link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/datatable-material.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">
+   <!--  <link rel="stylesheet" href="/wrpmis/resources/css/la.css"> -->
+    <link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/sweetalert-v.1.1.0.min.css" rel="stylesheet" />
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)"    href="/wrpmis/resources/css/mobile-form-template.css" />
     <style>
    
         .input-field .searchable_label {
@@ -158,7 +156,7 @@
         <jsp:include page="../layout/header.jsp"></jsp:include>
     <!-- header ends  -->
 
-    <div class="row">
+    <div class="container-padding">
         <div class="col s12 m12">
             <div class="card">
                 <div class="card-content">
@@ -168,38 +166,11 @@
                         </div>
                     </span>
                     <div class="">
-                        <!-- <div class="row plr-1">
-                            <div class="col s12 m4">
-                                 <div class="m-1 l-align">
-                                    <a href="#" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-arrow-circle-up"></i> Upload Data</strong></a>
-                                    <p style="padding-top:1rem">Click <a href="#"> here </a>for the template</p>
-                                </div>
-                            </div>
-                            <div class="col s12 m4">
-                                <div class="m-1 c-align">
-                                    <a href="Notifications.html" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-plus-circle"></i> Add Notifications</strong></a>
-                                </div>
-                            </div>
-                            <div class="col s12 m4 r-align">
-                                <div class="m-1 ">
-                                    <a href="#" class="btn waves-effect waves-light bg-s t-c">
-                                        <strong><i class="fa fa-cloud-download"></i> Export Data</strong></a>
-                                </div>
-                            </div>
-                        </div> -->
                         <div class="row no-mar">
                             <form action="">
                                 <div class="col s6 m4 l2 input-field">
                                     <p class="searchable_label">HOD</p>
                                     <select id="hod" name="hod" class="searchable" onchange="addInQueHOD(this.value);getAlerts();">
-                                        <option value="">Select</option>
-                                    </select>
-                                </div>
-                                <div class="col s6 m4 l2 input-field">
-                                    <p class="searchable_label">Work</p>
-                                    <select id="work_id_fk" name="work_id_fk" class="searchable" onchange="addInQueWork(this.value);getAlerts();">
                                         <option value="">Select</option>
                                     </select>
                                 </div>
@@ -235,7 +206,7 @@
 	                                    <thead>
 	                                        <tr>
 	                                            <th>HOD </th>
-	                                            <th>Work </th>
+	                                            <th>Project </th>
 	                                            <th>Contract </th>
 	                                            <th>Contractor </th>
 	                                            <th>Alert Type &nbsp; </th>
@@ -343,7 +314,6 @@
 	               </div>
                </div>
                
-               <input type="hidden" name="work_id" id="alerts_work_id" />
                <input type="hidden" name="contract_id" id="alerts_contract_id" />
 				
                 <div class="row no-mar col s12 m12 center-align btn-holder" >
@@ -411,15 +381,15 @@
     	<input type="hidden" name="tab_name" id="tab_name" />
     </form>
     
-    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-    <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-    <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
-    <script src="/pmis/resources/js/select2.min.js"></script>
-    <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-    <script src="/pmis/resources/js/dataTables.material.min.js"></script>
-    <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
-    <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
-	<script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
+    <script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+    <script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/wrpmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+    <script src="/wrpmis/resources/js/select2.min.js"></script>
+    <script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+    <script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
+    <script src="/wrpmis/resources/js/moment-v2.8.4.min.js"></script>
+    <script src="/wrpmis/resources/js/datetime-moment-v1.10.12.js"></script>
+	<script src="/wrpmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
 	
     <script>
     	var filtersMap = new Object();
@@ -456,8 +426,6 @@
 	        		  var temp2 = temp[i].split('=');
 		        	  if($.trim(temp2[0]) == 'hod' ){
 		        		  getHODFilterList(temp2[1]);
-		        	  }else if($.trim(temp2[0]) == 'work_id_fk'){
-		        		  getWorkFilterList(temp2[1]);
 		        	  }else if($.trim(temp2[0]) == 'contract_id_fk'){
 		        		  getContractsFilterList(temp2[1]);
 		        	  }else if($.trim(temp2[0]) == 'contractor_id_fk'){
@@ -476,7 +444,6 @@
         function clearFilters() {
         	
             $('#hod').val("");
-            $('#work_id_fk').val("");
             $('#contract_id_fk').val("");
             $('#contractor_id_fk').val("");
             $('#alert_type_fk').val("");
@@ -496,14 +463,6 @@
         	}
         }
         
-        function addInQueWork(work_id_fk){
-	      	Object.keys(filtersMap).forEach(function (key) {
-		   		if(key.match('work_id_fk')) delete filtersMap[key];
-	   	   	});
-	      	if($.trim(work_id_fk) != ''){
-            	filtersMap["work_id_fk"] = work_id_fk;
-	      	}
-        }
         
         function addInQueContract(contract_id_fk){
         	Object.keys(filtersMap).forEach(function (key) {
@@ -541,11 +500,9 @@
         	getContractsFilterList('');
 			getHODFilterList('');
 			getContractorsFilterList('');
-			getWorkFilterList('');
 			getAlertTypesFilterList('');
 
 			var hod = $("#hod").val();
-   	    	var work_id_fk = $("#work_id_fk").val();
    	    	var contractor_id_fk = $("#contractor_id_fk").val();
    	    	var contract_id_fk = $("#contract_id_fk").val();
    	    	var alert_type_fk = $("#alert_type_fk").val();
@@ -562,10 +519,9 @@
        		table = $('#notifications-table').DataTable();
     		table.destroy();
 
-    		$.fn.dataTable.moment('DD-MMM-YYYY');
     		var rowLen = 0;
     		var myParams =  "hod="
-    				+ encodeURIComponent(hod) + "&work_id_fk="+ work_id_fk+ "&contractor_id_fk="+ contractor_id_fk+ "&contract_id_fk="+ contract_id_fk+ "&alert_type_fk="+ alert_type_fk;
+    				+ encodeURIComponent(hod) + "&contractor_id_fk="+ contractor_id_fk+ "&contract_id_fk="+ contract_id_fk+ "&alert_type_fk="+ alert_type_fk;
 
     		/***************************************************************************************************/
 
@@ -670,8 +626,8 @@
      		            } },
       		            { "mData": function(data,type,row){
       		            	var work_short_name = '';
-                             if ($.trim(data.work_short_name) != '') { work_short_name = ' - ' + $.trim(data.work_short_name) }    	
-                             if($.trim(data.work_id_fk) == ''){ return '-'; }else{ return data.work_id_fk +work_short_name; }
+                             if ($.trim(data.project_name) != '') { work_short_name = ' - ' + $.trim(data.project_name) }    	
+                             if($.trim(data.project_id_fk) == ''){ return '-'; }else{ return data.project_id_fk +project_name; }
       		            } },
       		         	{ "mData": function(data,type,row){
       		         		 var contractName = '';
@@ -718,14 +674,13 @@
 	   	function getContractsFilterList(contract){
    	    	$(".page-loader").show();
    	    	var hod = $("#hod").val();
-   	    	var work_id_fk = $("#work_id_fk").val();
    	    	var contractor_id_fk = $("#contractor_id_fk").val();
    	    	var contract_id_fk = $("#contract_id_fk").val();
    	    	var alert_type_fk = $("#alert_type_fk").val();
    	    	
    	        if ($.trim(contract_id_fk) == "") {   	        	
    	        	$("#contract_id_fk option:not(:first)").remove();
-   	    	 	var myParams = {email_id : email_id,user_role_name : user_role_name,hod : hod,work_id_fk : work_id_fk,contractor_id_fk : contractor_id_fk, contract_id_fk : contract_id_fk, alert_type_fk : alert_type_fk};
+   	    	 	var myParams = {email_id : email_id,user_role_name : user_role_name,hod : hod,contractor_id_fk : contractor_id_fk, contract_id_fk : contract_id_fk, alert_type_fk : alert_type_fk};
    	            $.ajax({
    	                url: "<%=request.getContextPath()%>/ajax/getContractsFilterListInAlerts",
    	                data: myParams,type:"POST", cache: false,async: false,
@@ -751,14 +706,13 @@
         function getHODFilterList(hod_designation){
         	$(".page-loader").show();
         	var hod = $("#hod").val();
-   	    	var work_id_fk = $("#work_id_fk").val();
    	    	var contractor_id_fk = $("#contractor_id_fk").val();
    	    	var contract_id_fk = $("#contract_id_fk").val();
    	    	var alert_type_fk = $("#alert_type_fk").val();
    	    	
    	        if ($.trim(hod) == "") {
    	        	$("#hod option:not(:first)").remove();
-   	    	 	var myParams = {email_id : email_id,user_role_name : user_role_name,hod : hod,work_id_fk : work_id_fk,contractor_id_fk : contractor_id_fk, contract_id_fk : contract_id_fk, alert_type_fk : alert_type_fk};
+   	    	 	var myParams = {email_id : email_id,user_role_name : user_role_name,hod : hod,contractor_id_fk : contractor_id_fk, contract_id_fk : contract_id_fk, alert_type_fk : alert_type_fk};
    	            $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getHODFilterListInAlerts",
                     data: myParams,type:"POST", cache: false,async: false,
@@ -784,14 +738,13 @@
         function getContractorsFilterList(contractor){
         	$(".page-loader").show();
         	var hod = $("#hod").val();
-   	    	var work_id_fk = $("#work_id_fk").val();
    	    	var contractor_id_fk = $("#contractor_id_fk").val();
    	    	var contract_id_fk = $("#contract_id_fk").val();
    	    	var alert_type_fk = $("#alert_type_fk").val();
    	    	
    	        if ($.trim(contractor_id_fk) == "") {
    	        	$("#contractor_id_fk option:not(:first)").remove();
-   	    	 	var myParams = {email_id : email_id,user_role_name : user_role_name,hod : hod,work_id_fk : work_id_fk,contractor_id_fk : contractor_id_fk, contract_id_fk : contract_id_fk, alert_type_fk : alert_type_fk};
+   	    	 	var myParams = {email_id : email_id,user_role_name : user_role_name,hod : hod,contractor_id_fk : contractor_id_fk, contract_id_fk : contract_id_fk, alert_type_fk : alert_type_fk};
    	            $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getContractorsFilterListInAlerts",
                     data: myParams,type:"POST", cache: false,async: false,
@@ -814,50 +767,18 @@
             }
          }
     	 
-    	 function getWorkFilterList(work){
-    	 	$(".page-loader").show();
-    	 	var hod = $("#hod").val();
-   	    	var work_id_fk = $("#work_id_fk").val();
-   	    	var contractor_id_fk = $("#contractor_id_fk").val();
-   	    	var contract_id_fk = $("#contract_id_fk").val();
-   	    	var alert_type_fk = $("#alert_type_fk").val();
-   	    	
-   	        if ($.trim(work_id_fk) == "") {
-   	        	$("#work_id_fk option:not(:first)").remove();
-   	    	 	var myParams = {email_id : email_id,user_role_name : user_role_name,hod : hod,work_id_fk : work_id_fk,contractor_id_fk : contractor_id_fk, contract_id_fk : contract_id_fk, alert_type_fk : alert_type_fk};
-   	            $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInAlerts",
-                    data: myParams,type:"POST", cache: false,async: false,
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $.each(data, function (i, val) {
-                            	 var selectedFlag = (work == val.work_id_fk)?'selected':'';
-                            	 $("#work_id_fk").append('<option value="' + val.work_id_fk + '"'+selectedFlag+'>' + $.trim(val.work_id_fk) +" - "+ $.trim(val.work_short_name) +'</option>');
-                            });
-                        }
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
-                    },error: function (jqXHR, exception) {
-     	   			      $(".page-loader").hide();
-    	   	          	  getErrorMessage(jqXHR, exception);
-    	   	     	  }
-                });
-            }else{
-            	  $(".page-loader").hide();
-            }
-        }
+
     	 
     	function getAlertTypesFilterList(type){
      	 	$(".page-loader").show();
      	 	var hod = $("#hod").val();
-   	    	var work_id_fk = $("#work_id_fk").val();
    	    	var contractor_id_fk = $("#contractor_id_fk").val();
    	    	var contract_id_fk = $("#contract_id_fk").val();
    	    	var alert_type_fk = $("#alert_type_fk").val();
    	    	
    	        if ($.trim(alert_type_fk) == "") {
    	        	$("#alert_type_fk option:not(:first)").remove();
-   	    	 	var myParams = {email_id : email_id,user_role_name : user_role_name,hod : hod,work_id_fk : work_id_fk,contractor_id_fk : contractor_id_fk, contract_id_fk : contract_id_fk, alert_type_fk : alert_type_fk};
+   	    	 	var myParams = {email_id : email_id,user_role_name : user_role_name,hod : hod,contractor_id_fk : contractor_id_fk, contract_id_fk : contract_id_fk, alert_type_fk : alert_type_fk};
    	            $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getAlertTypesFilterListInAlerts",
                     data: myParams,type:"POST", cache: false,async: false,

@@ -1,0 +1,72 @@
+package com.synergizglobal.wrpmis.Idao;
+
+import java.util.List;
+
+import com.synergizglobal.wrpmis.model.Contract;
+import com.synergizglobal.wrpmis.model.LandAcquisition;
+import com.synergizglobal.wrpmis.model.RandRMain;
+import com.synergizglobal.wrpmis.model.Risk;
+import com.synergizglobal.wrpmis.model.Structure;
+import com.synergizglobal.wrpmis.model.User;
+import com.synergizglobal.wrpmis.model.UtilityShifting;
+
+public interface UserDao {
+
+	List<User> getUserRoles() throws Exception;
+
+	List<User> getUserDepartments() throws Exception;
+
+	List<User> getUserReportingToList(User obj) throws Exception;
+
+	List<User> getUsersList(User obj) throws Exception;
+
+	String addUser(User obj) throws Exception;
+
+	User getUser(User obj) throws Exception;
+	
+	boolean updateUser(User obj) throws Exception;
+	
+	boolean deleteUser(User obj) throws Exception;
+
+	int uploadUsers(List<User> usersList) throws Exception;
+
+	List<User> getPmisKeys() throws Exception;
+
+	String checkPMISKeyAvailability(User obj) throws Exception;
+
+	List<User> getUserRolesFilter(User obj) throws Exception;
+
+	List<User> getUserDepartmentsFilter(User obj) throws Exception;
+
+	List<User> getUserReportingToListFilter(User obj) throws Exception;
+
+	List<User> getUsersExportList(User obj) throws Exception;
+
+	List<User> getUserTypes() throws Exception;
+
+	List<User> getUserTypesFilter(User obj) throws Exception;
+
+	List<User> getReportingToUserId(String reporting_to_id_srfk) throws Exception;
+
+	List<User> getAllUsersList(User obj) throws Exception;
+
+	List<User> getResponsiblePersonUsers(User obj) throws Exception;
+
+	List<RandRMain> getRRList(User obj) throws Exception;
+
+	List<UtilityShifting> getUtilityList(User obj) throws Exception;
+
+	List<LandAcquisition> getLandList(User obj) throws Exception;
+
+	List<Risk> getRiskList(User obj) throws Exception;
+
+	List<Structure> getStructuresList(User obj) throws Exception;
+
+	List<Contract> getContractsList(User obj) throws Exception;
+
+	List<User> getModuleList(User obj) throws Exception;
+
+	List<User> getModuleSList(User obj) throws Exception;
+
+	List<User> getStructuresByContractId(User obj) throws Exception;
+}

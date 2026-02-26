@@ -9,16 +9,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Display of the expiring BG's - PMIS</title>
-    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-    <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <!-- <link rel="stylesheet" href="/pmis/resources/css/contract.css"> -->
-    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
-    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" />
-    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-grid-template.css" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/wrpmis/resources/images/favicon.png">
+    <link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/datatable-material.css">
+    <!-- <link rel="stylesheet" href="/wrpmis/resources/css/contract.css"> -->
+    <link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">
+	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/wrpmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/wrpmis/resources/css/mobile-grid-template.css" />
     <style>        
         .input-field .searchable_label{
         	font-size:0.85rem;
@@ -128,16 +128,6 @@
      display: none !important;
  
  }  
-
-@page WordSection1{
-         mso-page-orientation: landscape;
-         size: 841.95pt 595.35pt; /* EU A4 */
-         /* size:11.0in 8.5in; */ /* US Letter */
-     }
-     div.WordSection1 {
-         page: WordSection1;
-     }
-    
     </style>
 </head>
 
@@ -163,73 +153,98 @@
 <html>
 <head>
     <style type="text/css">
-    @page Section1 {
-        margin:0.15in 0.25in 0.25in 0.35in;
-        size:670.95pt 595.35pt;
-        mso-page-orientation:Portrait;
-        mso-header-margin:0.5in;
-        mso-header: h1;
-        mso-footer-margin:0.5in;
-        mso-footer: f1;
-    }
-
+@page Section1 {
+    margin: 1.97in 0.79in 1.0in 1.97in;
+    size: 595.28pt 841.89pt;
+    mso-page-orientation: Portrait;
+    mso-header-margin: 0.49in;
+    mso-header: h1;
+    mso-footer-margin: 0.49in;
+    mso-footer: f1;
+}
     div.Section1 {page:Section1;}
 
     p.headerFooter { margin:0in; text-align: center; }
     </style>
 </head>
-<body><div class=Section1>
+<body><div class="Section1" style="width: 793.7px; margin: 2in 1.25in 1.25in 2in; font-family: Arial, sans-serif; font-size: 10.5pt; color: black;">
 
-<table style='margin-left:50in;'><tr style='height:1pt;mso-height-rule:exactly'>
-    <td>
-      <div style='mso-element:header' id=h1>
-        <p class=headerFooter>
-        
-        <span style="text-align:left;"><img src="https://i.postimg.cc/prFXBmn6/img169346494752.png" width="95" height="69.774"></span>
-        <span style="text-align:right;"><img src="https://i.postimg.cc/VNgSS0j9/img1693464948.png" width="235" height="69.1176"></span>
-        </p>
+  <!-- Letter No. and Date -->
+  <div style="width: 100%; margin-bottom: 16px;font-family: Arial, sans-serif; font-size: 10.5pt;">
+    <table style="width: 100%; border-collapse: collapse;">
+      <tr>
+        <td style="text-align: left; white-space: nowrap;font-family: Arial, sans-serif; font-size: 10.5pt;">
+          <strong>Letter No. MRVC/ACCTS/EXP/BG/<u id="currentyeartext">2025-26</u></strong>
+        </td>
+        <td style="text-align: right; white-space: nowrap;font-family: Arial, sans-serif; font-size: 10.5pt;">
+          <strong>Date: <span id="bgdate2months">2025-07-18</span></strong>
+        </td>
+      </tr>
+    </table>
+  </div>
 
-      </div>
-      &nbsp;
-    </td>
+  <!-- HOD -->
+  <p style="margin: 0 0 12px 0;font-family: Arial, sans-serif; font-size: 10.5pt;"><strong><span id="hodContract">CPM (Civil) III MRVC</span></strong></p>
 
-    <td>
-      <div style='mso-element:footer' id=f1>
-        <p class=headerFooter>
-       <span style="font-size: 14px; line-height: 115%; font-family: 'Century Gothic',sans-serif; color: black;"><br><img style="width: 767px; height: 60.9686px;" src="https://i.postimg.cc/0QMbtk6h/img169346494879.png" width="767" height="60.9686"></span></p>
-      </div>
-      &nbsp;
-</td></tr></table>
+  <!-- Subject -->
+  <p style="margin: 0 0 20px 0;font-family: Arial, sans-serif; font-size: 10.5pt;">
+    <strong>
+      SUB: Extension of BG No. <u id="bgNumber">007BG01202320001</u> Dt: <u id="bgDate"></u> for Rs <u id="bgAmount">2,10,22,000.00</u> against CA/ PO. No. <u id="bgLoaNumber">MRVC/WII418/Major_Bridges/VR-DRD/Bid/Pt-V</u> of <u id="bgContractorName">M/s NG Project Ltd.</u>
+    </strong>
+  </p>
 
-<p style="margin: 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; margin-top: 7.2pt; line-height: 200%;"><strong><span style="font-size: 14px; line-height: 200%; font-family: 'Arial',sans-serif; color: black;">Letter No. MRVC/ACCTS/EXP/BG/<u id="currentyeartext">2020-21</u></span></strong><strong><span style="font-size: 14px; line-height: 200%; font-family: 'Arial',sans-serif; color: black;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span></strong><strong><span style="font-size: 14px; line-height: 200%; font-family: 'Arial',sans-serif; color: black;">Date:&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;&shy;<span id="bgdate2months"></span>&nbsp;</span></strong></p>
-<p style="margin: 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; margin-top: 7.2pt; line-height: 200%;"><strong><span style="font-size: 14px; line-height: 200%; font-family: 'Arial',sans-serif; color: black;" id="hodContract">DY.CPM-III MRVC</span></strong></p>
-<table style="border-collapse: collapse; border: none;">
-<tbody>
-<tr>
-<td style="width: 49.65pt; padding: 0cm 5.4pt; vertical-align: top;">
-<p style="margin: 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; margin-top: 7.2pt; line-height: 200%;"><strong><span style="font-size: 14px; line-height: 200%; font-family: 'Arial',sans-serif; color: black;">SUB:</span></strong></p>
-</td>
-<td style="width: 448.6pt; padding: 0cm 5.4pt; vertical-align: top;">
-<p style="margin: 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; margin-top: 7.2pt; line-height: 115%;"><strong><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">Extension of BG No <u id="bgNumber">IBG103814</u>&nbsp; &nbsp; &nbsp; &nbsp;Dt: <u id="bgDate">03-Mar-21</u> for Rs <u id="bgAmount">3,00,00,000.00</u> against CA/ PO. No. <u id="bgLoaNumber">MRVC/W/109/CA</u> of <u id="bgContractorName">M/S M VENKATA RAO INFRA PROJECTS PVT LTD</u></span></strong></p>
-</td>
-</tr>
-</tbody>
-</table>
-<p style="margin: 6pt 9.7pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; text-align: justify; text-indent: 50.4pt; line-height: 115%;"><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">The validity of the subject&nbsp;</span><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">Bank Guarantee received from </span><strong><u><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;" id="bgContractorName1">VENKATA RAO INFRA PROJECTS PVT</span></u></strong><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">&nbsp;</span><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">expires on <strong><u id="bgExpiryDate">02-Sep-23</u></strong>. You are requested to arrange for extension of&nbsp;</span><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">BG before the expiry date in case the contract is not completed in all respects.&nbsp;</span><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">In case the contract has been completed satisfactorily in all respects, advice to this effect must be sent to this office before <span id="bgExpiryDate1">02-Sep-23</span>.&nbsp;</span></p>
-<p style="margin: 6pt 9.7pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; text-align: justify; text-indent: 50.4pt; line-height: 115%;"><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">If this office does not receive the extension/reply within the stipulated date before the expiry date of BG, the issuing bank should be advised by this office to deposit the amount due to MRVC under guarantee. A copy of this letter is being endorsed to the firm's bank for taking necessary action.</span><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif;">&nbsp;</span></p>
-<br><br>
-<p><span style="height:30px;">&nbsp;</span></p>
+  <!-- Body Paragraph 1 -->
+  <p style="text-align: justify;  line-height: 1.5; font-family: Arial, sans-serif; font-size: 10.5pt;">
+    The validity of the subject Bank Guarantee received from <strong><u id="bgContractorName1">M/s NG Project Ltd.</u></strong> expires on <strong><u id="bgExpiryDate">2025-09-18</u></strong>. You are requested to arrange for extension of BG before the expiry date in case the contract is not completed in all respects. In case the contract has been completed satisfactorily in all respects, advice to this effect must be sent to this office before <strong><u id="bgExpiryDate1">2025-09-18</u></strong>.
+  </p>
 
-<p style="margin: 6pt 32.4pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; text-align: right;"><strong><span style="font-size: 14px; font-family: 'Arial',sans-serif; color: black;">FACAO(MRVC)</span></strong></p>
-<p style="margin: 6pt 32.4pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif;"><strong><span style="font-size: 14px; font-family: 'Arial',sans-serif; color: black;">Copy to:</span></strong></p>
-<p style="margin: 6pt 32.4pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif;"><strong><u><span style="font-size: 14px; font-family: 'Arial',sans-serif; color: black;" id="bgContractorAddress">VENKATA RAO INFRA PROJECTS PVT LTD,&nbsp;B-212, Western Edge-II, Behind Metro Mall, Borivali(E), Mumbai- 400066</span></u></strong></p>
-<p style="margin: 6pt 32.4pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; text-align: justify; line-height: 115%;"><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">Contractor is advised to take speedy steps for extension of the above BG [or submit the completion report to enable this office to release the said BG].</span></p>
-<p style="margin: 6pt 32.4pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif;"><strong><span style="font-size: 14px; font-family: 'Arial',sans-serif; color: black;">Copy to:</span></strong></p>
-<p style="margin: 6pt 32.4pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif;"><strong><span style="font-size: 14px; font-family: 'Arial',sans-serif; color: black;" id="bgBankAddress">The Manager, <u>HDFC BANK LTD,1<sup>st</sup> Floor, Metropolis II, Opp. Vintage Hospital, St.Inez Panjim, GOA-403001</span></u></strong></p>
-<p style="margin: 6pt 32.4pt .0001pt 0cm; font-size: 15px; font-family: 'Calibri',sans-serif; text-align: justify; line-height: 115%;"><span style="font-size: 14px; line-height: 115%; font-family: 'Arial',sans-serif; color: black;">The above BG confirmed vide your L.N <u id="bgDateonExpiry">03-03-2021&nbsp;</u>as issued by you, expires on <u id="bgExpiryDate2">02-Sep-23</u>. If the firm fails to extend the same unconditionally before the expiry date, these offices claim for Rs. <span id="bgAmountNew">3,00,000</span> is deemed to be lodged on your bank which may please be noted.</span></p>
+  <!-- Body Paragraph 2 -->
+  <p style="text-align: justify; line-height: 1.5; font-family: Arial, sans-serif; font-size: 10.5pt;">
+    If this office does not receive the extension/reply within the stipulated date before the expiry date of BG, the issuing bank should be advised by this office to deposit the amount due to MRVC under guarantee. A copy of this letter is being endorsed to the firm's bank for taking necessary action.
+  </p>
+
+  <!-- Signature -->
+  <p style="text-align: right; margin: 0 0 30px 0;font-family: Arial, sans-serif; font-size: 10.5pt;"><strong>/FACAO(MRVC)</strong></p>
+
+  <!-- Copy to Title -->
+  <p style="margin: 0 0 12px 0;font-family: Arial, sans-serif; font-size: 10.5pt;"><strong>Copy to:</strong></p>
+
+  <!-- Copy Table -->
+  <table style="width: 100%; border-collapse: collapse; font-size: 10.5pt; color: black;">
+    <tr>
+      <td style="width: 10%; vertical-align: top; padding-right: 10px;font-family: Arial, sans-serif; font-size: 10.5pt;">
+        <strong>1</strong>
+      </td>
+      <td style="width: 40%; vertical-align: top; padding-right: 20px;font-family: Arial, sans-serif; font-size: 10.5pt;">
+        <u id="bgContractorAddress">M/s NG Project Ltd.,<br>NG CIRCLE,<br>MEHTAPURA,<br>HIMMATNAGAR,<br>GUJRAT – 383001</u>
+      </td>
+      <td style="width: 50%; vertical-align: top;font-family: Arial, sans-serif; font-size: 10.5pt;">
+        Contractor is advised to take speedy steps for extension of the above BG [or submit the completion report to enable this office to release the said BG].
+      </td>
+    </tr>
+
+    <tr style="height: 5px;"></tr> 
+
+    <tr>
+      <td style="width: 10%; vertical-align: top; padding-right: 10px;font-family: Arial, sans-serif; font-size: 10.5pt;">
+        <strong>2</strong>
+      </td>
+      <td style="width: 40%; vertical-align: top; padding-right: 20px;font-family: Arial, sans-serif; font-size: 10.5pt;">
+        <u id="bgBankAddress">YES BANK,<br>102/103, C.G. CENTRE,<br>C.G. ROAD,<br>NEAR CARGOMOTORS,<br>PANCHVATI, AHMEDABAD-380009</u>
+      </td>
+      <td style="width: 50%; vertical-align: top;font-family: Arial, sans-serif; font-size: 10.5pt;">
+        The above BG confirmed vide your L.N as issued by you, expires on <u id="bgDateonExpiry">18-09-2025</u>. If the firm fails to extend the same unconditionally before the expiry date, these offices claim for Rs. <span id="bgAmountNew">21,022,000.00</span> is deemed to be lodged on your bank which may please be noted.
+      </td>
+    </tr>
+  </table>
+
+</div>
 
 
-</div></body>
+
+
+
+</body>
 </html>
 </div></div>
 
@@ -321,13 +336,13 @@
  	<jsp:include page="../layout/footer.jsp"></jsp:include>
  	
 
-    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-	<script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-	<script src="/pmis/resources/js/dataTables.material.min.js"></script>
-	<script src="/pmis/resources/js/select2.min.js"></script>
-	<script src="/pmis/resources/js/moment-v2.8.4.min.js"></script> 
-	<script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script> 
+    <script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+	<script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+	<script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+	<script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
+	<script src="/wrpmis/resources/js/select2.min.js"></script>
+	<script src="/wrpmis/resources/js/moment-v2.8.4.min.js"></script> 
+	<script src="/wrpmis/resources/js/datetime-moment-v1.10.12.js"></script> 
 	
     <script>
     
@@ -413,9 +428,9 @@
 					$("#bgContractorName1").html(val.contractor_name);
 					$("#bgExpiryDate").html(val.bg_valid_upto);
 					$("#bgExpiryDate1").html(val.bg_valid_upto);
-					$("#bgContractorAddress").html(val.contractor_name+', '+val.address);
-					$("#bgBankAddress").html(val.issuing_bank);
-					$("#bgDateonExpiry").html(val.bg_date);
+					$("#bgContractorAddress").html(val.contractor_name.toUpperCase() + ', ' + val.address.toUpperCase());
+					$("#bgBankAddress").html(val.issuing_bank.toUpperCase());
+					$("#bgDateonExpiry").html(val.bg_valid_upto);
 					$("#bgExpiryDate2").html(val.bg_valid_upto);
 					$("#bgAmountNew").html(val.bg_value);
 					$("#hodContract").html(val.hod_user_id_fk+' MRVC');
@@ -520,77 +535,81 @@
 		
 		table.state.clear();		
 	 
-		$.ajax({url : "<%=request.getContextPath()%>/ajax/generate-bg-contractual-letters",type:"POST",success : function(data){  
-				if(data != null && data != '' && data.length > 0){
-					var iteration=1;
-	         		$.each(data,function(key,val){
-	         			var actionsDownload ="";
-	         			var color="";
-	         			if(new Date(val.bg_valid_upto)<new Date())
-         				{
-	         				color="red";
-         			 		actionsDownload = '<a href="javascript:void(0);"  onclick=export2Word(window.docx,'+iteration+',"'+val.contract_id+'","'+val.bg_number+'") disabled class="btn waves-effect waves-light bg-s t-c" title="Download"><i class="fa fa-download"></i></a>';    
-         				}
-	         			else
-         				{
-         			 		actionsDownload = '<a href="javascript:void(0);"  onclick=export2Word(window.docx,'+iteration+',"'+val.contract_id+'","'+val.bg_number+'") class="btn waves-effect waves-light bg-s t-c" title="Download"><i class="fa fa-download"></i></a>';    
-         				}
+		$.ajax({
+			  url: "<%=request.getContextPath()%>/ajax/generate-bg-contractual-letters",
+			  type: "POST",
+			  success: function(data) {
+			    if (data != null && data != '' && data.length > 0) {
+			      var iteration = 1;
+			      $.each(data, function(key, val) {
 
-	                   	var rowArray = []; 
-	                   	
-	                   	var StatusArray="";
-                   		if(val.bg_letter_status=="Submitted")
-                   		{
-                   			StatusArray='<select class="searchable" disabled name="letter_status" id="letter_status'+iteration+'" onChange=updateLetterStatus("'+val.contract_id+'",this.value,"'+val.bg_number+'");>';
-                   		}
-                   		else
-               			{
-                   			StatusArray='<select class="searchable" name="letter_status" id="letter_status'+iteration+'" onChange=updateLetterStatus("'+val.contract_id+'",this.value,"'+val.bg_number+'");>';
-               			}
-	                   	
-	                   	
-	                   	if(val.bg_letter_status=="Not Submitted")
-                   		{
-	                   		StatusArray=StatusArray+'<option value="Not Submitted" selected>Not Submitted</option><option value="Submitted">Submitted</option>';
-                   		}
-	                   	else if(val.bg_letter_status=="Submitted")
-                   		{
-	                   		StatusArray=StatusArray+'<option value="Not Submitted">Not Submitted</option><option value="Submitted" selected>Submitted</option>';
-                   		}
-	                   	else
-                   		{
-	                   		StatusArray=StatusArray+'<option value="Not Submitted">Not Submitted</option><option value="Submitted">Submitted</option>';
-                   		}
-	                   	
-	                   	var bglink="<a href='/pmis/get-contract/"+val.contract_id+"'>"+val.bg_number+"</a>";
-	                   	
-	                   	StatusArray=StatusArray+'</select>';
-                        var table11="<tr><td>"+iteration+"</td><td>"+val.contract_id+"</td><td>"+val.contract_short_name+"</td><td>"+val.contractor_name+"</td><td>"+val.bg_type_fk+"</td><td>"+val.issuing_bank+"</td><td>"+val.bg_number+"</td><td>"+val.bg_value+"</td><td>"+val.valid_upto+"</td><td>"+val.valid_upto+"</td><td>"+val.valid_upto+"</td><td>"+StatusArray+"</td></tr>";
-	                   	rowArray.push($.trim(iteration));
-	                   	rowArray.push($.trim(val.contract_id));
-	                   	rowArray.push($.trim(val.contract_short_name));
-	                   	rowArray.push($.trim(val.contractor_name));
-	                   	rowArray.push($.trim(val.bg_type_fk));
-	                   	rowArray.push($.trim(val.issuing_bank));
-	                   	rowArray.push($.trim(bglink));
-	                   	rowArray.push($.trim(val.bg_value));
-	                   	rowArray.push($.trim('<span style="color:'+color+';">'+val.bg_valid_upto+'</span>'));
-	                   	rowArray.push($.trim(actionsDownload));
-	                   	rowArray.push(StatusArray);
-	                   	
-	                    table.row.add(rowArray).draw( true );
-	                    
-	                    iteration++;
-					});
-	         		if(pageNo == null){pageNo = 0;}else{pageNo = Number(pageNo);}
-	                var oTable = $('#datatable-contract').dataTable();
-	                oTable.fnPageChange( pageNo );
-	         		$(".page-loader-2").hide();
-				}else{
-					$(".page-loader-2").hide();
-				}
-				
-			}});
+			        // Clean bg_number: remove quotes and trim spaces
+			        var bgNumberClean = val.bg_number ? val.bg_number.replace(/['"]/g, '').trim() : "";
+
+			        var actionsDownload = "";
+			        var color = "";
+
+			        if (new Date(val.bg_valid_upto) < new Date()) {
+			          color = "red";
+			          actionsDownload = '<a href="javascript:void(0);" onclick="export2Word(window.docx,' 
+			            + iteration + ',\'' + val.contract_id + '\',\'' + bgNumberClean + '\')" disabled class="btn waves-effect waves-light bg-s t-c" title="Download"><i class="fa fa-download"></i></a>';
+			        } else {
+			          actionsDownload = '<a href="javascript:void(0);" onclick="export2Word(window.docx,' 
+			            + iteration + ',\'' + val.contract_id + '\',\'' + bgNumberClean + '\')" class="btn waves-effect waves-light bg-s t-c" title="Download"><i class="fa fa-download"></i></a>';
+			        }
+
+			        var StatusArray = "";
+			        if (val.bg_letter_status == "Submitted") {
+			          StatusArray = '<select class="searchable" disabled name="letter_status" id="letter_status' + iteration + '" onChange="updateLetterStatus(\'' 
+			            + val.contract_id + '\',this.value,\'' + bgNumberClean + '\');">';
+			        } else {
+			          StatusArray = '<select class="searchable" name="letter_status" id="letter_status' + iteration + '" onChange="updateLetterStatus(\'' 
+			            + val.contract_id + '\',this.value,\'' + bgNumberClean + '\');">';
+			        }
+
+			        if (val.bg_letter_status == "Not Submitted") {
+			          StatusArray += '<option value="Not Submitted" selected>Not Submitted</option><option value="Submitted">Submitted</option>';
+			        } else if (val.bg_letter_status == "Submitted") {
+			          StatusArray += '<option value="Not Submitted">Not Submitted</option><option value="Submitted" selected>Submitted</option>';
+			        } else {
+			          StatusArray += '<option value="Not Submitted">Not Submitted</option><option value="Submitted">Submitted</option>';
+			        }
+			        StatusArray += '</select>';
+
+			        var bglink = "<a href='/wrpmis/get-contract/" + val.contract_id + "'>" + bgNumberClean + "</a>";
+
+			        var rowArray = [];
+			        rowArray.push($.trim(iteration));
+			        rowArray.push($.trim(val.contract_id));
+			        rowArray.push($.trim(val.contract_short_name));
+			        rowArray.push($.trim(val.contractor_name));
+			        rowArray.push($.trim(val.bg_type_fk));
+			        rowArray.push($.trim(val.issuing_bank));
+			        rowArray.push($.trim(bglink));
+			        rowArray.push($.trim(val.bg_value));
+			        rowArray.push($.trim('<span style="color:' + color + ';">' + val.bg_valid_upto + '</span>'));
+			        rowArray.push($.trim(actionsDownload));
+			        rowArray.push(StatusArray);
+
+			        table.row.add(rowArray).draw(true);
+
+			        iteration++;
+			      });
+
+			      if (pageNo == null) {
+			        pageNo = 0;
+			      } else {
+			        pageNo = Number(pageNo);
+			      }
+			      var oTable = $('#datatable-contract').dataTable();
+			      oTable.fnPageChange(pageNo);
+			      $(".page-loader-2").hide();
+			    } else {
+			      $(".page-loader-2").hide();
+			    }
+			  }
+			});
+
     } 
     
     
@@ -708,7 +727,7 @@
 			                   		StatusArray=StatusArray+'<option value="Not Submitted">Not Submitted</option><option value="Submitted">Submitted</option>';
 		                   		}
 			                   	
-			                   	var bglink="<a href='/pmis/get-contract/"+val.contract_id+"'>"+val.bg_number+"</a>";
+			                   	var bglink="<a href='/wrpmis/get-contract/"+val.contract_id+"'>"+val.bg_number+"</a>";
 			                   	
 			                   	StatusArray=StatusArray+'</select>';
 		                        var table11="<tr><td>"+iteration+"</td><td>"+val.contract_id+"</td><td>"+val.contract_short_name+"</td><td>"+val.contractor_name+"</td><td>"+val.bg_type_fk+"</td><td>"+val.issuing_bank+"</td><td>"+val.bg_number+"</td><td>"+val.bg_value+"</td><td>"+val.valid_upto+"</td><td>"+val.valid_upto+"</td><td>"+val.valid_upto+"</td><td>"+StatusArray+"</td></tr>";

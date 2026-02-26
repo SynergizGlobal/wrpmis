@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants2"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <c:set var="ROLE_CODE_DATA_ADMIN" value="<%=CommonConstants.ROLE_CODE_DATA_ADMIN %>"></c:set>
@@ -20,16 +20,16 @@
 		 	</c:otherwise>
 		</c:choose>
 	</title>
-	<link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-	<link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
-	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-	<!-- <link rel="stylesheet" href="/pmis/resources/css/la.css"> -->
-	<link rel="stylesheet" href="/pmis/resources/css/rits.css">
-	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-	<link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css">
-	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-	<link rel="stylesheet" href="/pmis/resources/css/document-pages.css">
-	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css">
+	<link rel="icon" type="image/png" sizes="96x96" href="/wrpmis/resources/images/favicon.png">
+	<link rel="stylesheet" href="/wrpmis/resources/css/font-awesome-v.4.7.css">
+	<link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+	<!-- <link rel="stylesheet" href="/wrpmis/resources/css/la.css"> -->
+	<link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+	<link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
+	<link rel="stylesheet" href="/wrpmis/resources/css/sweetalert-v.1.1.0.min.css">
+	<link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">
+	<link rel="stylesheet" href="/wrpmis/resources/css/document-pages.css">
+	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/wrpmis/resources/css/mobile-form-template.css">
 	
 	<!-- if need less code try to replace document-template css with mobile-document-template --> 
 	<style>
@@ -37,7 +37,7 @@
 			width:12%;
 		}
 		.modal-header {
-		    background-color: #007a7a;
+		    background-color: #EA6A2A;
    		}
    		.modal .modal-content.datepicker-container{
    			padding:0 !important;
@@ -57,7 +57,7 @@
 	<!-- header included -->
 	<jsp:include page="../layout/header.jsp"></jsp:include>
 
-	<div class="row">
+	<div class="row w-100">
 		<div class="col s12 m12">
 			<div class="card main-card">
 				<div class="card-content">
@@ -102,7 +102,7 @@
 								</c:otherwise>
 							</c:choose>
 							">
-								<i class="material-icons prefix right-side">search</i> 
+								<i class="material-icons prefix right-side material-symbols-outlined">search</i>
 								<input id="fileSearch" type="text" class="validate autocomplete" placeholder="Search ...">
 							</div>
 							<c:if test="${(sessionScope.USER_ROLE_CODE eq ROLE_CODE_DATA_ADMIN) or (sessionScope.USER_ROLE_CODE eq ROLE_CODE_IT_ADMIN)}">	
@@ -170,7 +170,7 @@
 										<!--   <c:forEach var="webDoc" items="${webDocCategory.webDocumentsList}" varStatus="indexx"> 
 											<div class="card card-file files-filter-data"  id="row${indexx.count }${index.count }">
 												<div class="card-content center-align ">
-													<img src="/pmis/resources/images/document.svg"> 
+													<img src="/wrpmis/resources/images/document.svg"> 
 													<span class="card-title">${webDoc.title }</span>
 												</div>
 												<div class="card-action flex">
@@ -365,12 +365,12 @@
 	<!-- footer included -->
 	<jsp:include page="../layout/footer.jsp"></jsp:include>
 
-	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js" ></script>  
-	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-	<script src="/pmis/resources/js/datepickerDepedency.js"></script>
-	<script src="/pmis/resources/js/select2.min.js"></script>
-	<script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
+	<script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+	<script src="/wrpmis/resources/js/jquery-validation-1.19.1.min.js" ></script>  
+	<script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+	<script src="/wrpmis/resources/js/datepickerDepedency.js"></script>
+	<script src="/wrpmis/resources/js/select2.min.js"></script>
+	<script src="/wrpmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
 	<script>
 	/*  	
 		let date_pickers = document.querySelectorAll('.datepicker');

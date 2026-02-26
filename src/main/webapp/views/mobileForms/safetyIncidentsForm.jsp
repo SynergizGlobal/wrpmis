@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants2"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
@@ -11,14 +11,14 @@
    		 <c:if test="${action eq 'edit'}">Update Safety Incidents</c:if>
 		 <c:if test="${action eq 'add'}"> Add Safety Incidents</c:if>
     </title>
-    <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/font-awesome-v.4.7.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
-	<link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
-	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">	 
-	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">	 
-	<link rel="stylesheet" href="/pmis/resources/css/safety.css">
-	<link rel="stylesheet" href="/pmis/resources/css/mobile-form-template.css">
-	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
+	<link rel="icon" type="image/png" sizes="96x96"	href="/wrpmis/resources/images/favicon.png">
+	<link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">	 
+	<link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">	 
+	<link rel="stylesheet" href="/wrpmis/resources/css/safety.css">
+	<link rel="stylesheet" href="/wrpmis/resources/css/mobile-form-template.css">
+	<link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">	
 	 <style>
         .no-mar .row {
             margin-bottom: 0;
@@ -122,13 +122,7 @@
 	                                </div>
 	                                <div class="col s6 m4 input-field">
 	                                 <p class="searchable_label"> Work </p>
-	                                  <!--   <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
-	                                        onchange="getContractsList(this.value);">
-	                                        <option value="" selected>Select</option>
-	                                    </select>
-	                                    <span id="work_id_fkError" class="error-msg" ></span> -->
 	                                    <input type="text"  value ="${safety.work_id_fk } - ${safety.work_short_name}" readonly/>
-	                                    <input type="hidden" name="work_id_fk" id="work_id_fk" value ="${safety.work_id_fk }" />
 	                                </div>
 	                                <div class="col m2 hide-on-small-only"></div>
 	                            </div>
@@ -169,17 +163,6 @@
 	                                        </c:forEach>
 	                                    </select>                                   
 	                                    <span id="project_id_fkError" class="error-msg" ></span>
-	                                </div>
-	                                <div class="col s6 m4 input-field">
-	                                <p class="searchable_label"> Work </p>
-	                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
-	                                        onchange="getContractsList(this.value);">
-	                                        <option value="">Select</option>
-	                                        <c:forEach var="obj" items="${worksList }">
-	                                      	   <option value= "${ obj.work_id_fk}">${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
-	                                         </c:forEach>
-	                                    </select>
-	                                    <span id="work_id_fkError" class="error-msg" ></span>
 	                                </div>
 	                                <div class="col m2 hide-on-small-only"></div>
 	                            </div>
@@ -503,10 +486,10 @@
     </div>
 
 
-	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>	
-	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
-	<script src="/pmis/resources/js/select2.min.js"></script>
+	<script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+	<script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>	
+	<script src="/wrpmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+	<script src="/wrpmis/resources/js/select2.min.js"></script>
 	<script>
 		$(document).on('focus', '.datepicker',function(){
 	        $(this).datepicker({

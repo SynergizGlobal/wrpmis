@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants2"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -9,381 +9,72 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Welcome to PMIS</title>
-  <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-   <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">   
-    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-    <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-           
-     <style>     
-		#bg {
-		  position: fixed; 
-		  top: 0; 
-		  left: 0; 
-		  width: 100%; 
-		  height: 100%;
-		}
-		#bg img {
-		  position: absolute; 
-		  top: 0; 
-		  left: 0; 
-		  right: 0; 
-		  bottom: 0; 
-		  margin: auto; 
-		  opacity:0.7;
-		  min-width: 100%;
-		  max-width: 100%;
-		  min-height: 100%;
-		}
-     .card-title .right span{
-     	padding: 5px 15px;
-	   /*  background-image: linear-gradient(to right, #16D58A, #00BDE7); */
-	   background-color:#01BAEF;
-	    font-size: 2rem;
-	    color: #fff;
-	    border-radius: 5px;
-     }
-        nav {
-            box-shadow: none !important;
-        }
-      
-        .main-clr {
-            background-color: #fdfdfd;
-            border-radius: 10px;
-        }
+	<link rel="stylesheet" type="text/css" href="/wrpmis/resources/css/style.css">
+	<link rel="stylesheet" type="text/css" href="/wrpmis/resources/css/navigation.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	
+	<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@400&icon_names=dashboard" rel="stylesheet" />
+  <style>
+  	body{
+  		background-color: #FFEFE2;
+  	}
+  	.menu-item a{
+  		color: #fff;
+  	}
+  	.homepage-heading{
+  		padding: 40px 0;
+  	}
+  	.homepage-menu{
+  		display: flex;
+  		flex-wrap: wrap;
+  		align-items: center;
+  		justify-content: center;
+  		gap: 40px;
+  		align-items: stretch;
+  	}
+  	.homepage-menu a{
+  		background-color: #fff;
+  		color: #000;
+  		font-weight: 600;
+  		box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  		padding: 15px 40px;
+  		border-radius: 10px;
+  		flex: 0 0 20%;
+  		display: flex;
+    	align-items: center;
+	    text-align: center;
+	    justify-content: center;
+	    transition: 0.3s ease-in-out;
+  	}
+  	.homepage-menu a:hover{
+  		background-color: #D58D54;
+  		color: #fff;
+  	}
+  	@media(max-width: 630px){
+  		.heading-name h1{
+  			margin: 0;
+  		}
+  		.homepage-menu a{
+  			padding: 15px 10px;
+  			flex: 0 0 35%;
+  		}
+  		.homepage-menu{
+  			justify-content: space-between;
+  			gap: 30px;
+  			padding: 0 5px;
+  		}
+  		.heading-logo img{
+  			width: 40px;
+  			height: 40px;
+  		}
+  	}
+  </style>
 
-        .no-mar .row {
-            margin-bottom: 0;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .card.main-clr.active,
-        .card.sec-clr {
-            background-color: #DAE8F9;            
-        }
-        .projects-filter .card.sec-clr {        	
-        	background-color: transparent;
-        	box-shadow:none;
-        }
-
-        .card.main-clr.active {
-            transition: background-color 0.3s ease-in-out;
-        }
-
-        /* .card.sec-clr .card.main-clr.active,
-        .card.sec-clr .card.main-clr,
-        .card.sec-clr .card.sec-clr {
-            background-color: #f0f7ff;
-        } */
-
-        .card-title .material-icons {
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        .active .card-content:after {
-            content: "";
-            position: absolute;
-            top: 100%;
-            left: 48%;
-            margin-left: -5px;
-            border-width: 15px;
-            border-style: solid;
-            border-color: #DAE8F9 transparent transparent transparent;
-            -webkit-filter: drop-shadow(0px 2px 1px rgba(0, 0, 0, 0.35));
-            filter: drop-shadow(0px 2px 1px rgba(0, 0, 0, 0.35));
-        }
-
-        .card.sec-clr .card.main-clr.active .card-content:after {
-            border-color: #f0f7ff transparent transparent transparent;
-        }
-        .card.main-clr {
-            min-height: 270px;
-            height: auto;
-        }
-         .card.main-clr .card-content{
-         	padding-bottom:0;
-         }
-         .card.sec-clr .card.main-clr .card-content{
-         	padding-bottom:20px;
-         }
-
-        .card.main-clr .line {
-            display: flex;
-            padding: 1px;
-            justify-content: space-between;
-            border-bottom: 1px solid #eee;
-        }
-
-        .card.main-clr .line::after {
-            clear: both;
-        }
-
-        .card.main-clr .line>.alignleft {
-            float: left;
-            width: 58.33333%;
-            text-align: left;
-        }
-
-        .card.main-clr .line>.aligncenter {
-            float: left;
-            width: 3.33333%;
-            text-align: center;
-        }
-
-        .card.main-clr .line>.alignright {
-            float: left;
-            width: 38.33333%;
-            text-align: right;
-        }
-        .card-content .button{
-        	display:flex;        	
-        }
-        .button .btn{
-       		position: relative;
-		    margin: 5px 0;
-		    text-transform:capitalize;
-		    padding:0 10px;	
-		    background-color:#1565C0cc;
-		    background-color:#01BAEF;
-       	}
-       	.button span{
-       		line-height:inherit;
-       	}
-       	.button .btn-center{
-       		position:relative;
-       		margin:auto;
-       		padding:0 10px;
-       	}	
-       	.button .btn.btn-left{
-       		position:relative;
-       		float:left; 
-       		margin-right:auto; 
-       		border-radius: 10px 0 0 10px;   		
-       	}	
-       	.button .btn.btn-right{
-       		position:relative;
-       		margin-left:auto;
-       		float:right;  
-       		border-radius: 0 10px 10px 0;;   		
-       	}	
-		 .button .btn:hover, 
-		 .button .btn:focus{
-		 	background-color:#1565C088;
-		 }
-		 .button .btn:active{
-		 	background-color:#1565C0ff;
-		 }
-        .result {
-            width: 80vw;
-            margin-left:-5vw !important;
-            margin-left:5vw !important;
-        }
-		@media only screen and (min-width: 993px){
-				.container.no-mar {
-				    width: 75%;
-				}
-		}
-		
-		i[id^="prev"],i[id^="next"]{
-			position: absolute;
-		    color: #fff;
-		    top:46%;
-		    font-size: 4rem;
-		    cursor: pointer;
-		    -webkit-filter: drop-shadow(3px 6px 3px #444);
-    		filter: drop-shadow(3px 6px 3px #444);
-		}
-		i[id^="next"] {
-		    right: 10px;		   
-		}
-		i[id^="prev"] {
-		    left: 20px;		    
-		}
-        @media only screen and (max-width: 600px) {
-            .result {
-                width: 90vw;
-                margin-left:-0.75rem !important;
-            }
-            i[id^="next"] {
-		   		right: -15px;		   
-			}
-			i[id^="prev"] {
-			    left: -15px;		    
-			}
-        }
-       .projects-filter-work {
-		    margin-left: initial !important;
-		}
-		
-    </style>
-      <style>
-        .modal-header {
-            text-align: center;
-            background-color: #1565C0cc;
-            /* background-image: linear-gradient(to right, #16D58A, #00BDE7); */
-            background-color:#01BAEF;
-            color: #fff;
-            margin: -24px -24px 20px !important;
-            padding: 1rem;
-        }
-
-        .modal {
-            max-height: 100%;
-            top: 0 !important;
-        }
-        .media-modal{
-        	max-height:90%;
-        	top:10px !important;
-        }
-        .media-modal .carousel .carousel-item{
-        	text-align:center;
-        	background-color:#f2f2f2;
-        }
-        .media-modal .carousel .carousel-item>img ,
-        .media-modal .carousel .carousel-item>video{
-		    width: auto;
-		    /*height: 80vh;*/
-		    height: 51vh;
-		    max-width:100%;
-		}
-
-        .map-btn-holder {
-            text-align: center;
-        }
-
-        .map-btn-holder .btn {
-            background-color: #1565C0cc;
-           /*  background-image: linear-gradient(to right, #16D58A, #00BDE7); */
-            background-color:#01BAEF;
-            border-radius: 20px;
-            font-size: 2.25rem;
-            line-height: 2.5rem;
-            height: 3rem;
-            padding: 0 28px;
-        }
-
-        .map-btn-holder .fa {
-            font-size: 2.3rem;
-            vertical-align: middle;
-            height: 100%;
-            margin-top: 15%;
-        }
-      /*   .button .btn:hover,
-        .button .btn:focus,
-        .card.main-clr.active .button .btn {
-            background-color: #1565C088;
-            background-image: linear-gradient(to right, #16D58A, #00BDE7);
-            
-        } */
-        .container.no-mar .col {
-            padding: 0 .37rem;
-        }
-
-        .card.main-clr {
-            margin-bottom: 0.5rem;
-            border-width: 5px;
-            border-style: outset;
-        }
-
-        .card.main-clr .card-content .card-title {
-            margin: -23px -23px 10px -23px;
-            background-color: #1565C0cc;
-            /* background-image: linear-gradient(to right, #16D58A, #00BDE7); */
-            background-color:#01BAEF;
-            color: #fff;
-            border-radius: 4px 4px 0 0;
-            padding: 3px;
-            font-size:1.2rem;
-            box-shadow: 2px 3px 7px 2px #999999;
-            text-transform: inherit;
-        }
-
-        .card.card.sec-clr .row {
-            display: flex;
-        }
-
-        .card.card.sec-clr .row .col {
-            padding: 5px;
-        }
-
-        .card.sec-clr .row .col .card.main-clr {
-            min-height: 100%;
-        }
-
-        .autocomplete~ul.autocomplete-content {
-            border-radius: 20px;
-        }
-
-        .input-field .prefix.right-side {
-            right: 0
-        }
-
-        .input-field .prefix.right-side~label,
-        .input-field .prefix.right-side~input {
-            margin-left: 0;
-            width: 100%;
-        }
-
-        .input-field .prefix.right-side~input {
-            background-color: #fff;
-            width: calc(100% - 25px);
-            border-radius: 20px;
-            padding-left: 25px;
-        }
-
-        @media only screen and (max-width: 600px) {
-            .input-field .prefix.right-side~input {
-                padding-left: 15px;
-                width: calc(100% - 15px);
-            }
-        }
-        .row.no-mar{
-        	margin-bottom:0;
-        }
-        .title-btn{
-        	position: absolute;		    
-		    right: -94px;
-    		top: -65px;
-		    margin-bottom: 0;
-        }
-              
-        .material-tooltip {
-			  padding: 20px;
-			  z-index: 2000;
-			  border-radius: 2px;
-			  color: #fff;
-			  font-size: 15px;
-			  min-height: 36px;
-			  line-height: 120%;
-			  border:1px solid black;
-			  opacity: 0;
-			  position: absolute;
-			  max-width:50%;
-			  overflow: hidden;
-			  left: 0;
-			  top: 0;
-			  pointer-events: none;
-			  visibility: hidden;
-			  background-color: #1565C0cc;
-			 /*  background-image: linear-gradient(to right, #16D58A, #00BDE7); */
-			 background-color:#01BAEF;
-			  text-align:justify;
-			  box-shadow:0 0 5px 2px #aaa;
-			  white-space: pre-wrap;
-			  border-radius: 10px;
-		}
-
-    </style>
 </head>
 
 <body>
 <div id="bg">
-	<img src="/pmis/resources/images/login-background.jpg" alt="">
+	<img src="/wrpmis/resources/images/login-background.jpg" alt="">
 </div>
   <!-- header included -->
   <jsp:include page="./layout/header.jsp"></jsp:include>
@@ -406,7 +97,7 @@
                                 <h4 class="modal-header">Map with MUTP 3A Corridors <span
                                         class="right modal-action modal-close"><span
                                             class="material-icons">close</span></span></h4>
-                                <img src="/pmis/resources/images/final_map.png" alt="Map Image" width="100%">
+                                <img src="/wrpmis/resources/images/final_map.png" alt="Map Image" width="100%">
                             </div>
                         </div>
                     </div>
@@ -634,11 +325,7 @@
 								                            <c:if test="${empty wObj.year_of_completion and empty wObj.completion_cost}">${wObj.projected_completion_year }</c:if>
 								                            </p>
 								                        </div>
-								                         <div class="line">
-							                                <p class="alignleft">Work ID</p>
-							                                <p class="aligncenter">:</p>
-							                                <p class="alignright">${wObj.work_id}</p>
-									                    </div> 
+
 									                    <%-- <c:if test="${empty wObj.year_of_completion and empty wObj.completion_cost}">
 		                        							<div class="line">
 								                                <p class="alignleft">PB Item No</p>
@@ -736,11 +423,11 @@
   <!-- footer included -->
   <jsp:include page="./layout/footer.jsp"></jsp:include>
     		
-  <script src="/pmis/resources/js/jQuery-v.3.5.min.js" ></script>
-  <script src="/pmis/resources/js/materialize-v.1.0.min.js" ></script>
-  <script src="/pmis/resources/js/select2.min.js"></script>
-  <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-  <script src="/pmis/resources/js/dataTables.material.min.js"></script>
+  <script src="/wrpmis/resources/js/jQuery-v.3.5.min.js" ></script>
+  <script src="/wrpmis/resources/js/materialize-v.1.0.min.js" ></script>
+  <script src="/wrpmis/resources/js/select2.min.js"></script>
+  <script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+  <script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
 
    <script>
         $(document).ready(function () {

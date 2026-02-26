@@ -6,17 +6,17 @@
 	<meta charset="UTF-8">
 	<title>Alerts Report - PMIS</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
-	<link rel="stylesheet"	href="/pmis/resources/css/materialize-v.1.0.min.css">
-	<link rel="stylesheet"	href="/pmis/resources/css/material-design-lite-v.1.0.css">
-	<!-- <link rel="stylesheet" href="/pmis/resources/css/la.css"> -->
-	<link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
+	<link rel="icon" type="image/png" sizes="96x96"	href="/wrpmis/resources/images/favicon.png">
+	<link rel="stylesheet"	href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+	<link rel="stylesheet"	href="/wrpmis/resources/css/material-design-lite-v.1.0.css">
+	<!-- <link rel="stylesheet" href="/wrpmis/resources/css/la.css"> -->
+	<link rel="stylesheet" href="/wrpmis/resources/css/font-awesome-v.4.7.css">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined"	rel="stylesheet">
-	<link rel="stylesheet" href="/pmis/resources/css/rits.css">
-<link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
-	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-	<link rel="stylesheet"	href="/pmis/resources/css/searchable-dropdown.css">
-	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" >
+	<link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+<link rel="stylesheet" href="/wrpmis/resources/css/header-footer.css">
+	<link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
+	<link rel="stylesheet"	href="/wrpmis/resources/css/searchable-dropdown.css">
+	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/wrpmis/resources/css/mobile-form-template.css" >
 	<style>
 		.input-field .searchable_label {
 			font-size:0.9rem;
@@ -59,15 +59,6 @@
                                          </c:forEach>
 									</select> 
 								</div>							
-								<div class="col s6 m3 l3 input-field">
-									<p class="searchable_label">Work</p>
-									<select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" onchange="addInQueWork(this.value);resetDropDowns();">
-										<option value="">Select</option>
-										<c:forEach var="obj" items="${worksList }">
-                                                    <option  value="${obj.work_id_fk }"> <c:if test="${ empty obj.work_short_name}"> ${obj.work_id_fk } </c:if>${obj.work_short_name }</option>
-                                         </c:forEach>
-									</select> 
-								</div>	
 								<div class="col s6 m3 l3 input-field">
 									<p class="searchable_label">Alert level</p>
 									<select class="searchable validate-dropdown" id="alert_level" name="alert_level" onchange="addInQueAlertLevel(this.value);resetDropDowns();">
@@ -126,14 +117,14 @@
 	<!-- footer included -->
 	<%-- <jsp:include page="../layout/footer.jsp"></jsp:include> --%>
 
-	  <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-    <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-    <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
-    <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-    <script src="/pmis/resources/js/dataTables.material.min.js"></script>
-    <script src="/pmis/resources/js/select2.min.js"></script>
-    <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
-    <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
+	  <script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+    <script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/wrpmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+    <script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+    <script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
+    <script src="/wrpmis/resources/js/select2.min.js"></script>
+    <script src="/wrpmis/resources/js/moment-v2.8.4.min.js"></script>
+    <script src="/wrpmis/resources/js/datetime-moment-v1.10.12.js"></script>
 	<script>
 	var filtersMap = new Object();
         $(document).ready(function () {

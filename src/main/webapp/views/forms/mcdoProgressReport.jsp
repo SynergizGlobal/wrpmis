@@ -6,15 +6,15 @@
 	<meta charset="UTF-8">
 	<title>Network Expansion Works - PMIS</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
-	<link rel="stylesheet"	href="/pmis/resources/css/materialize-v.1.0.min.css">
-	<link rel="stylesheet"	href="/pmis/resources/css/material-design-lite-v.1.0.css">
-	<link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-	<!-- <link rel="stylesheet" href="/pmis/resources/css/la.css"> -->
-	<link rel="stylesheet" href="/pmis/resources/css/rits.css">
-	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-	<link rel="stylesheet"	href="/pmis/resources/css/searchable-dropdown.css">
-	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" >
+	<link rel="icon" type="image/png" sizes="96x96"	href="/wrpmis/resources/images/favicon.png">
+	<link rel="stylesheet"	href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+	<link rel="stylesheet"	href="/wrpmis/resources/css/material-design-lite-v.1.0.css">
+	<link rel="stylesheet" href="/wrpmis/resources/css/datatable-material.css">
+	<!-- <link rel="stylesheet" href="/wrpmis/resources/css/la.css"> -->
+	<link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+	<link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
+	<link rel="stylesheet"	href="/wrpmis/resources/css/searchable-dropdown.css">
+	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/wrpmis/resources/css/mobile-form-template.css" >
 	<style>
 		.input-field .searchable_label {
 			font-size:0.9rem;
@@ -32,7 +32,7 @@
 	<!-- header included -->
 	<jsp:include page="../layout/header.jsp"></jsp:include>
 
-	<div class="row">
+	<div class="container-padding">
 		<div class="col s12 m12">
 			<div class="card ">
 				<div class="card-content">
@@ -50,20 +50,12 @@
 							<div class="row no-mar" style="margin-bottom:0;">
 								<div class="col s6 m3 l4 input-field"> 
 									<p class="searchable_label">Project</p>
-									<select class="searchable validate-dropdown" id="project_id" name="project_id" onchange="addInQueProject(this.value);getWorksListForMCDOProgressReport();" multiple>
+									<select class="searchable validate-dropdown" id="project_id" name="project_id" onchange="addInQueProject(this.value);" multiple>
 										<option value="">Select</option>		
 								
 									</select> 
 									<span id="project_idError" class="error-msg"></span>
 								</div>							
-								<div class="col s6 m3 l4 input-field">
-									<p class="searchable_label">Work<span class="required">*</span></p>
-									<select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk" onchange="addInQueWork(this.value);" multiple>
-										<option value="">Select</option>
-	
-									</select> 
-									<span id="work_id_fkError" class="error-msg"></span>
-								</div>	
 							</div>									
 							<div class="row">
 								<div class="col s6 m3 l4 input-field">
@@ -127,20 +119,19 @@
 	<!-- footer included -->
 	<jsp:include page="../layout/footer.jsp"></jsp:include>
 
-	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
-	<script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-	<script src="/pmis/resources/js/dataTables.material.min.js"></script>
-	<script src="/pmis/resources/js/select2.min.js"></script>
-	<script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
-	<script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
+	<script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+	<script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+	<script src="/wrpmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+	<script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+	<script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
+	<script src="/wrpmis/resources/js/select2.min.js"></script>
+	<script src="/wrpmis/resources/js/moment-v2.8.4.min.js"></script>
+	<script src="/wrpmis/resources/js/datetime-moment-v1.10.12.js"></script>
 	<script>
 
 	 var filtersMap = new Object();
         $(document).ready(function () {
         	
-       	 	getWorksList('');
        	 	getProjectsList('');      	
     
             $('select:not(.searchable)').formSelect();
@@ -154,8 +145,6 @@
     	        		  var temp2 = temp[i].split('=');
     		        	  if($.trim(temp2[0]) == 'project_id' ){
     		        		  getProjectsList(temp2[1]);
-    		        	  }else if($.trim(temp2[0]) == 'work_id_fk'){
-    		        		  getWorksList(temp2[1]);
     		        	  }
     	        	  }
     	          }
@@ -211,7 +200,6 @@
         
       
         function getMCDOProgressList(){
-       	 	getWorksList('');
        	 	getProjectsList('');
             
        	 	
@@ -255,38 +243,7 @@
 	        }
         }
         
-        function getWorksList(work) {
-        	$(".page-loader").show();
-        	var project_id = $("#project_id").val();
-        	var work_id_fk = $("#work_id_fk").val();
-        	 
-          if ($.trim(work_id_fk) == "") {
-           	$("#work_id_fk option:not(:first)").remove();
-           	var myParams = {project_id : project_id,work_id_fk : work_id_fk};
-               $.ajax({
-                url: "<%=request.getContextPath()%>/ajax/getWorksListForActivitiesExportReportForm",
-                data: myParams, cache: false,async: false,
-                success: function (data) {
-                    if (data.length > 0) {
-                        $.each(data, function (i, val) {
-                            var workName = '';
-                            if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
-                            var selectedFlag = (work == val.work_id_fk)?'selected':'';
-                            $("#work_id_fk").append('<option value="' + val.work_id_fk + '"'+selectedFlag+'>' + $.trim(val.work_id_fk) + $.trim(workName) + '</option>');
-                        });
-                    }
-                    $('.searchable').select2();
-                    $(".page-loader").hide();
-                },error: function (jqXHR, exception) {
- 	   			    $(".page-loader").hide();
-	   	          	getErrorMessage(jqXHR, exception);
-	   	     	}
-            });
-          }else{
-        	  $(".page-loader").hide();
-        }
-        }
-        
+
         function getWorksListForMCDOProgressReport() {
         	//$(".page-loader").show();
         	var project_id = $("#project_id").val();

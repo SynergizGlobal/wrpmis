@@ -1,0 +1,147 @@
+package com.synergizglobal.wrpmis.IMPLservice;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.synergizglobal.wrpmis.Idao.SafetyDao;
+import com.synergizglobal.wrpmis.Iservice.SafetyService;
+import com.synergizglobal.wrpmis.model.Safety;
+
+@Service
+public class SafetyServiceImpl implements SafetyService {
+	@Autowired
+	SafetyDao safetyDao;
+	
+	@Override
+	public List<Safety> getSafetyList(Safety obj) throws Exception {
+		return safetyDao.getSafetyList(obj);
+	}
+
+	@Override
+	public List<Safety> getSafetyStatusList() throws Exception {
+		return safetyDao.getSafetyStatusList();
+	}
+
+	@Override
+	public List<Safety> getSafetyImpactList() throws Exception {
+		return safetyDao.getSafetyImpactList();
+	}
+
+	@Override
+	public List<Safety> getSafetyCategoryList() throws Exception {
+		return safetyDao.getSafetyCategoryList();
+	}
+
+	@Override
+	public List<Safety> getSafetyRootCauseList() throws Exception {
+		return safetyDao.getSafetyRootCauseList();
+	}
+
+	@Override
+	public String addSafety(Safety obj) throws Exception {
+		return safetyDao.addSafety(obj);
+	}
+
+	@Override
+	public Safety getSafety(Safety obj) throws Exception {
+		return safetyDao.getSafety(obj);
+	}
+
+	@Override
+	public String updateSafety(Safety obj) throws Exception {
+		return safetyDao.updateSafety(obj);
+	}
+
+	@Override
+	public boolean deleteSafety(Safety obj) throws Exception {
+		return safetyDao.deleteSafety(obj);
+	}
+
+	@Override
+	public List<Safety> getDepartmentList() throws Exception {
+		return safetyDao.getDepartmentList();
+	}
+
+	@Override
+	public List<Safety> getContractsListFilter(Safety obj) throws Exception {
+		return safetyDao.getContractsListFilter(obj);
+	}
+
+	@Override
+	public List<Safety> getDepartmentsListFilter(Safety obj) throws Exception {
+		return safetyDao.getDepartmentsListFilter(obj);
+	}
+
+	@Override
+	public List<Safety> getCategoryListFilter(Safety obj) throws Exception {
+		return safetyDao.getCategoryListFilter(obj);
+	}
+
+	@Override
+	public List<Safety> getStatusListFilter(Safety obj) throws Exception {
+		return safetyDao.getStatusListFilter(obj);
+	}
+
+	@Override
+	public List<Safety> getWorksListFilter(Safety obj) throws Exception {
+		return safetyDao.getWorksListFilter(obj);
+	}
+
+	@Override
+	public List<Safety> getProjectsListForSafetyForm(Safety obj) throws Exception {
+		return safetyDao.getProjectsListForSafetyForm(obj);
+	}
+
+	@Override
+	public List<Safety> getWorkListForSafetyForm(Safety obj) throws Exception {
+		return safetyDao.getWorkListForSafetyForm(obj);
+	}
+
+	@Override
+	public List<Safety> getContractsListForSafetyForm(Safety obj) throws Exception {
+		return safetyDao.getContractsListForSafetyForm(obj);
+	}
+
+	@Override
+	public List<Safety> getHODListForSafetyForm(Safety obj) throws Exception {
+		return safetyDao.getHODListForSafetyForm(obj);
+	}
+
+	@Override
+	public List<Safety> getHODListFilterInSafety(Safety obj) throws Exception {
+		return safetyDao.getHODListFilterInSafety(obj);
+	}
+
+	@Override
+	public int getTotalRecords(Safety obj, String searchParameter) throws Exception {
+		return safetyDao.getTotalRecords(obj,searchParameter);
+	}
+
+	@Override
+	public List<Safety> getSafetyList(Safety obj, int startIndex, int offset, String searchParameter) throws Exception {
+		return safetyDao.getSafetyList(obj,startIndex,offset,searchParameter);
+	}
+
+	@Override
+	public List<Safety> getUnitsList(Safety obj) throws Exception {
+		return safetyDao.getUnitsList(obj);
+	}
+
+	@Override
+	public List<Safety> getResponsiblePersonsListForSafetyForm(Safety obj) throws Exception {
+		return safetyDao.getResponsiblePersonsListForSafetyForm(obj);
+	}
+
+	@Override
+	public List<Safety> getNominatedAuthorityListForSafetyForm(Safety obj) throws Exception {
+		return safetyDao.getNominatedAuthorityListForSafetyForm(obj);
+	}
+
+	@Override
+	public List<Safety> getUersList(Safety obj) throws Exception {
+		return safetyDao.getUersList(obj);
+	}
+	
+}

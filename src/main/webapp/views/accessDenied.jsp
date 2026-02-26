@@ -8,12 +8,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Access Denied</title>
-  <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-  <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-  <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-  <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-  <link rel="stylesheet" href="/pmis/resources/css/activity.css">
-  <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
+  <link rel="icon" type="image/png" sizes="96x96" href="/wrpmis/resources/images/favicon.png">
+  <link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+  <link rel="stylesheet" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">
+  <link rel="stylesheet" href="/wrpmis/resources/css/datatable-material.css">
+  <link rel="stylesheet" href="/wrpmis/resources/css/activity.css">
+  <link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
   <style type="text/css">
   	.error{color:red;}
   	.timeline_body {
@@ -53,8 +53,8 @@
   <!-- footer  -->
   <jsp:include page="./layout/footer.jsp"></jsp:include>
   
-  <script src="/pmis/resources/js/jQuery-v.3.5.min.js" ></script>
-  <script src="/pmis/resources/js/materialize-v.1.0.min.js" ></script>
+  <script src="/wrpmis/resources/js/jQuery-v.3.5.min.js" ></script>
+  <script src="/wrpmis/resources/js/materialize-v.1.0.min.js" ></script>
   
 </body>
 

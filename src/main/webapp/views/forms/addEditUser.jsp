@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants2"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
@@ -12,16 +12,16 @@
 	<c:if test="${action eq 'edit'}">Update User - Admin - PMIS</c:if>
 	<c:if test="${action eq 'add'}"> Add User - Admin - PMIS</c:if>
 	</title>
-	<link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
-	<link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">	
-	<link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">	 
-	<!-- <link rel="stylesheet" href="/pmis/resources/css/users.css"> -->
-	<link rel="stylesheet" href="/pmis/resources/css/rits.css">
-	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
-	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" >
-    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-responsive-table.css" >
-    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/material-design-lite-v.1.0.css">
+	<link rel="icon" type="image/png" sizes="96x96"	href="/wrpmis/resources/images/favicon.png">
+	<link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">	
+	<link rel="stylesheet" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">	 
+	<!-- <link rel="stylesheet" href="/wrpmis/resources/css/users.css"> -->
+	<link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+	<link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
+	<link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">	
+	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/wrpmis/resources/css/mobile-form-template.css" >
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/wrpmis/resources/css/mobile-responsive-table.css" >
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">
 	<style>
 		.con-box, .exe-box, .risk-box, .la-box, .us-box, .rr-box{display: none;}
 		.per-box-list{
@@ -210,7 +210,7 @@
 	<jsp:include page="../layout/header.jsp"></jsp:include>
 	
 	  <!-- card  -->
-    <div class="row">
+    <div class="container-padding">
         <div class="col s12 m12">
             <div class="card ">
                 <div class="card-content">
@@ -330,23 +330,24 @@
                                 
                           
                                               
-                            <div class="row">
-                                <div class="col s6 m4 l4 input-field">
-                                    <input id="landline" name="landline" type="number" class="validate" value="${usrObj.landline }">
-                                    <label for="landline"> Landline </label>
-                                    <span id="landlineError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s6 m4 l4 input-field">
-                                    <input id="extension" name="extension" type="number" class="validate" value="${usrObj.extension }">
-                                    <label for="extension">Extension</label>
-                                     <span id="extensionError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s12 m4 l4 input-field">                                
-                                    <input id="pmis_key_fk" name="pmis_key_fk" type="text" class="validate" value="${usrObj.pmis_key_fk }">
-                                    <label for="pmis_key_fk">PMIS KEY</label>
-                                    <span id="pmis_key_fkError" class="error-msg" ></span>
-                                </div>
-                            </div>
+<div class="row">
+    <div class="col s6 m4 l4 input-field">
+        <input id="landline" name="landline" type="number" class="validate" value="${usrObj.landline }">
+        <label for="landline"> Landline </label>
+        <span id="landlineError" class="error-msg"></span>
+    </div>
+    <div class="col s6 m4 l4 input-field">
+        <input id="extension" name="extension" type="number" class="validate" value="${usrObj.extension }">
+        <label for="extension">Extension</label>
+        <span id="extensionError" class="error-msg"></span>
+    </div>
+    <div class="col s12 m4 l4 input-field">                                
+        <input id="pmis_key_fk" name="pmis_key_fk" type="text" class="validate" value="${usrObj.pmis_key_fk }" readonly>
+        <label for="pmis_key_fk">PMIS KEY</label>
+        <span id="pmis_key_fkError" class="error-msg"></span>
+    </div>
+</div>
+
                             
                              <div class="row">
                                 
@@ -366,7 +367,7 @@
                                         </div>
                                         <div class="file-path-wrapper">
                                             <input class="file-path validate" type="text" name="user_image" value="${usrObj.user_image }">
-                                            <img style="height: 20%;width: 20%;<c:if test="${empty usrObj.user_image }">display:none;</c:if>" id="userImagePreview" src="<%=CommonConstants2.USER_IMAGES %>${usrObj.user_image }" onerror="this.onerror=null;this.src='/pmis/resources/images/mrvc.png';" alt="userImage" />
+                                            <img style="height: 20%;width: 20%;<c:if test="${empty usrObj.user_image }">display:none;</c:if>" id="userImagePreview" src="<%=CommonConstants2.USER_IMAGES %>${usrObj.user_image }" onerror="this.onerror=null;this.src='/wrpmis/resources/images/mrvc.png';" alt="userImage" />
                                         </div>
                                     </div>
                                 </div>
@@ -405,7 +406,7 @@
                                 	</div>
                                 </div>
                                 
-                                 <div class="row no-container center-align no-mar">
+                                 <div class="container-padding no-container center-align no-mar">
                                 <ul class="per-box-list">
                                 	<li class="con-box">
                                     <div class="row fixed-width">
@@ -822,12 +823,12 @@
 	<jsp:include page="../layout/footer.jsp"></jsp:include>
 	
 	
-	 <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-    <script src="/pmis/resources/js/datepickerDepedency.js"></script>
-    <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-    <script src="/pmis/resources/js/dataTables.material.min.js"></script>
-    <script src="/pmis/resources/js/select2.min.js"></script>
-	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+	 <script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/wrpmis/resources/js/datepickerDepedency.js"></script>
+    <script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+    <script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
+    <script src="/wrpmis/resources/js/select2.min.js"></script>
+	<script src="/wrpmis/resources/js/jquery-validation-1.19.1.min.js"></script>
     <script>
     function executivesToStringMethod(Rno){
     	//$("#divContractExecutionExecutives").html("");
@@ -1262,6 +1263,44 @@
  	               $('#userImagePreview').show();
  	            }
  	        }
+    		
+    		
+    		function generatePMISKey() {
+    	        function randomLetters(length) {
+    	            const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    	            let result = "";
+    	            for (let i = 0; i < length; i++) {
+    	                result += letters.charAt(Math.floor(Math.random() * letters.length));
+    	            }
+    	            return result;
+    	        }
+
+    	        function randomDigits(length) {
+    	            const digits = "0123456789";
+    	            let result = "";
+    	            for (let i = 0; i < length; i++) {
+    	                result += digits.charAt(Math.floor(Math.random() * digits.length));
+    	            }
+    	            return result;
+    	        }
+
+    	        // Example format: AA33HT34MG71
+    	        return (
+    	            randomLetters(2) + 
+    	            randomDigits(2) + 
+    	            randomLetters(2) + 
+    	            randomDigits(2) + 
+    	            randomLetters(2) + 
+    	            randomDigits(2)
+    	        );
+    	    }
+
+    	    document.addEventListener("DOMContentLoaded", function () {
+    	        const pmisKeyInput = document.getElementById("pmis_key_fk");
+    	        if (!pmisKeyInput.value) {
+    	            pmisKeyInput.value = generatePMISKey();
+    	        }
+    	    });
     		 
     </script>
 </body>

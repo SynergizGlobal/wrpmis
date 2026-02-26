@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants"%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -9,15 +9,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Details of Contracts - PMIS</title>
-    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-    <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
-    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" />
-    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-grid-template.css" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/wrpmis/resources/images/favicon.png">
+    <link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/datatable-material.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">
+	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/wrpmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/wrpmis/resources/css/mobile-grid-template.css" />
     <style>   
     	.bg-red{background-color: red !important;padding: 0px 8px;border-radius: 10px;}
     	.tab-p{
@@ -462,13 +462,7 @@ width: 90%;
 							</div>
 							<div class="col m12 l12">
 								<div class="row no-mar">
-									<div class="col s12 m3 l3 input-field">
-										<p class="searchable_label fs16rem" style="color:#000000;">Work</p><br>
-										<select id="work_id_fk" name="work_id_fk"
-											onchange="addInQueWork(this.value);getContractDetailList();" class="searchable">
-											<option value="">Select</option>										
-										</select> 
-									</div>		
+	
 									<div class="col s12 m3 l3 input-field">
 										<p class="searchable_label fs16rem" style="color:#000000;">Contract Status</p><br>
 										<select id="contract_status_fk" name="contract_status_fk"
@@ -587,16 +581,15 @@ width: 90%;
     <form action="<%=request.getContextPath() %>/export-details-of-contract" name="exportContractDetailForm" id="exportContractDetailForm" target="_blank" method="post">	
         <input type="hidden" name="department_fk" id="exportDepartment_fk" />
         <input type="hidden" name="contract_status_fk" id="exportContract_status_fk" />
-        <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
 	</form>
 
-    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-	<script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-	<script src="/pmis/resources/js/dataTables.material.min.js"></script>
-	<script src="/pmis/resources/js/select2.min.js"></script>
-	<script src="/pmis/resources/js/moment-v2.8.4.min.js"></script> 
-	<script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script> 
+    <script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+	<script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+	<script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+	<script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
+	<script src="/wrpmis/resources/js/select2.min.js"></script>
+	<script src="/wrpmis/resources/js/moment-v2.8.4.min.js"></script> 
+	<script src="/wrpmis/resources/js/datetime-moment-v1.10.12.js"></script> 
 	
     <script>
     
@@ -626,9 +619,7 @@ width: 90%;
        	   for(var i=0;i< temp.length;i++){
 	        	  if($.trim(temp[i]) != '' ){
 	        		  var temp2 = temp[i].split('=');
-		        	  if($.trim(temp2[0]) == 'work_id_fk'){
-		        		  getWorkFilterList(temp2[1]);
-		        	  }else if($.trim(temp2[0]) == 'department_fk'){
+		        	  if($.trim(temp2[0]) == 'department_fk'){
 		        		  getDepartmentFilterList(temp2[1]);
 		        	  }else if($.trim(temp2[0]) == 'contract_status_fk'){
 		        		  getContractStatusFilterList(temp2[1]);
@@ -687,7 +678,6 @@ width: 90%;
     function getContractDetailList(){
     	$(".page-loader-2").show();
 
-    	getWorkFilterList('');
     	getContractStatusFilterList('');
     	getDepartmentFilterList('');
     	    	
@@ -947,48 +937,7 @@ width: 90%;
 	        }
 	 }
 	 
-	 function getWorkFilterList(work){
-	 	$(".page-loader").show();
-	 	
-    	var work_id_fk = $("#work_id_fk").val();
-    	
-    	var department_fk = $("#department_fk").val();
-    	var contract_status_fk = $("#contract_status_fk").val();
-    	
-	    if ($.trim(work_id_fk) == "") {
-	    	if($.trim(work_id_fk) == '' ){
-	    		work_id_fk = '${work_id}';
-	    	}
 
-	    	$("#work_id_fk option:not(:first)").remove();
-		 	var myParams = {department_fk : department_fk, work_id_fk : work_id_fk, contract_status_fk : contract_status_fk};
-            $.ajax({
-                url: "<%=request.getContextPath()%>/ajax/getDOCWorksFilterListInContract",
-                data: myParams, cache: false,async: false,
-                success: function (data) {
-                    if (data.length > 0) {
-                        $.each(data, function (i, val) {
-                        	 var workShortName = '';
-                             if ($.trim(val.work_short_name) != '') { workShortName = $.trim(val.work_short_name) }
-                             var selectedFlag = (work == val.work_id_fk)?'selected':'';
-                             if(data.length == 1 ){
-                            	 selectedFlag = 'selected';
-                             }
-	                         $("#work_id_fk").append('<option value="' + val.work_id_fk + '"'+selectedFlag+'>'+ workShortName +'</option>');
-                        });
-                    }
-                    $('.searchable').select2();
-                    $(".page-loader").hide();
-                },error: function (jqXHR, exception) {
- 	   			      $(".page-loader").hide();
-	   	          	  getErrorMessage(jqXHR, exception);
-	   	     	  }
-            });
-        }else{
-        	  $(".page-loader").hide();
-        }
-    }
-	 
   	//This function is used to get error message for all ajax calls
     function getErrorMessage(jqXHR, exception) {
     	    var msg = '';

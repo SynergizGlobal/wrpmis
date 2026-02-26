@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-	<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
+	<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants2"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %><!DOCTYPE html>
 <html>
@@ -9,30 +9,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WBS Tree - PMIS</title>
-    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png"> 
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">          
-    <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <!-- <link rel="stylesheet" href="/pmis/resources/css/contractor.css"> -->
-    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
-    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-   	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
-   	<link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css">
-   	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
-   	<link href="/pmis/resources/css/app_2.min.css" rel="stylesheet">
-   	<link href="/pmis/resources/css/app_1.min.css" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="96x96" href="/wrpmis/resources/images/favicon.png"> 
+    <link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">          
+    <link rel="stylesheet" href="/wrpmis/resources/css/datatable-material.css">
+    <!-- <link rel="stylesheet" href="/wrpmis/resources/css/contractor.css"> -->
+    <link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
+   	<link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">	
+   	<link rel="stylesheet" href="/wrpmis/resources/css/sweetalert-v.1.1.0.min.css">
+   	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/wrpmis/resources/css/mobile-grid-template.css" />
+   	<link href="/wrpmis/resources/css/app_2.min.css" rel="stylesheet">
+   	<link href="/wrpmis/resources/css/app_1.min.css" rel="stylesheet">
    	
    	<!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-		<link href="/pmis/resources/vendors/bower_components/animate.css/animate.min.css" rel="stylesheet">
-		<link href="/pmis/resources/vendors/bower_components/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
+		<link href="/wrpmis/resources/vendors/bower_components/animate.css/animate.min.css" rel="stylesheet">
+		<link href="/wrpmis/resources/vendors/bower_components/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
 		 
-		<link href="/pmis/resources/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet">
-		<link href="/pmis/resources/css1/material-design-iconic-font.css" rel="stylesheet">
-		<link href='/pmis/resources/css1/font-awesome.css' rel='stylesheet'>
-		<link href="/pmis/resources/css1/app_1.min.css" rel="stylesheet">
-		<link href="/pmis/resources/css1/app_2.min.css" rel="stylesheet">
-		<link href="/pmis/resources/css1/style.css" rel="stylesheet">
-		<link href="/pmis/resources/css1/chosen.css" rel="stylesheet"> -->
+		<link href="/wrpmis/resources/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet">
+		<link href="/wrpmis/resources/css1/material-design-iconic-font.css" rel="stylesheet">
+		<link href='/wrpmis/resources/css1/font-awesome.css' rel='stylesheet'>
+		<link href="/wrpmis/resources/css1/app_1.min.css" rel="stylesheet">
+		<link href="/wrpmis/resources/css1/app_2.min.css" rel="stylesheet">
+		<link href="/wrpmis/resources/css1/style.css" rel="stylesheet">
+		<link href="/wrpmis/resources/css1/chosen.css" rel="stylesheet"> -->
    <style>
    		/*  #imageFiles{
    		 	display: flex;
@@ -65,11 +65,11 @@
     		-webkit-transform: scale(1.5);
     		margin: 12px 307px;
    		 }
-   		 .br-bl{border: 2px solid #4498d3dd;
+   		 .br-bl{border: 2px solid #b45f06;
    		 	padding:10px !important;
    		 	border-radius: 10px;
    		 }
-   		 .bg-m, .bg-m:hover{background-color: #4498d3dd;}
+   		 .bg-m, .bg-m:hover{background-color: #b45f06;}
    		 .img-li:hover {
     		box-shadow: 0 14px 28px rgb(0 0 0 / 15%), 0 10px 10px rgb(0 0 0 / 0%);
 		}
@@ -446,15 +446,15 @@ input[type=checkbox] {
     <!-- footer included -->
    <%--  <jsp:include page="../layout/footer.jsp"></jsp:include> --%>
 
-    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-    <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-    <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
-    <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-    <script src="/pmis/resources/js/dataTables.material.min.js"></script>
-    <script src="/pmis/resources/js/select2.min.js"></script>
-    <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
-    <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
-   	<script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>  
+    <script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+    <script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/wrpmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+    <script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+    <script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
+    <script src="/wrpmis/resources/js/select2.min.js"></script>
+    <script src="/wrpmis/resources/js/moment-v2.8.4.min.js"></script>
+    <script src="/wrpmis/resources/js/datetime-moment-v1.10.12.js"></script>
+   	<script src="/wrpmis/resources/js/sweetalert-v.1.1.0.min.js"></script>  
 
 	<form name="getForm" id="getForm" method="post">
     	<input type="hidden" name="contractor_id" id="contractor_id" />
@@ -477,13 +477,13 @@ input[type=checkbox] {
         <script src="/airport/resources/js/app.min.js"></script>
         <script type="text/javascript" src="/airport/resources/js/jquery.validate.min.js"></script>
 		
-		<script src="/pmis/resources/vendors/sparklines/jquery.sparkline.min.js"></script>
-		<script src="/pmis/resources/vendors/bower_components/moment/min/moment.min.js"></script>
-		<script src="/pmis/resources/vendors/bootstrap-growl/bootstrap-growl.min.js"></script>
-		<script src="/pmis/resources/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
-		<script src="/pmis/resources/js1/custom.js"></script>
-		<script src='/pmis/resources/js1/jquery.peity.js'></script>    
-		<script src='/pmis/resources/js1/holder.min.js'></script> -->
+		<script src="/wrpmis/resources/vendors/sparklines/jquery.sparkline.min.js"></script>
+		<script src="/wrpmis/resources/vendors/bower_components/moment/min/moment.min.js"></script>
+		<script src="/wrpmis/resources/vendors/bootstrap-growl/bootstrap-growl.min.js"></script>
+		<script src="/wrpmis/resources/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+		<script src="/wrpmis/resources/js1/custom.js"></script>
+		<script src='/wrpmis/resources/js1/jquery.peity.js'></script>    
+		<script src='/wrpmis/resources/js1/holder.min.js'></script> -->
 
 	<script>
     

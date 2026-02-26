@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants2"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
@@ -9,16 +9,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Progress Form</title>
-    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-    <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <!-- <link rel="stylesheet" href="/pmis/resources/css/la.css"> -->
-    <link rel="stylesheet" href="/pmis/resources/css/rits.css">     
-    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" />
-	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-responsive-table.css" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/wrpmis/resources/images/favicon.png">
+    <link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/datatable-material.css">
+    <!-- <link rel="stylesheet" href="/wrpmis/resources/css/la.css"> -->
+    <link rel="stylesheet" href="/wrpmis/resources/css/rits.css">     
+    <link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/wrpmis/resources/css/mobile-form-template.css" />
+	<link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/wrpmis/resources/css/mobile-responsive-table.css" />
       <style>
 
         .table-inside .mdl-data-table td:first-of-type{
@@ -146,7 +146,7 @@
         /*  select all holding code starts here */
          .mobile_responsible_table.different >thead{
          	display:block;
-         	background-color:#007A7A;
+         	background-color:#EA6A2A;
          	padding-bottom:0;
          }        
          .mobile_responsible_table.different >thead tr> th:not(:first-of-type){
@@ -226,12 +226,6 @@
                                       <div class="col s6 m3 l2 input-field offset-l1">
                                           <p class="searchable_label">Project</p>
                                           <select name="project_id_fk" id="project_id_fk" onchange="getMileStoneList();" class="searchable validate-dropdown">
-                                              <option value="">Select</option>                                                    
-                                          </select>
-                                      </div> 
-                                       <div class="col s6 m3 l2 input-field">
-                                          <p class="searchable_label">Work</p>
-                                          <select name="work_id_fk" id="work_id_fk" onchange="getMileStoneList();" class="searchable validate-dropdown">
                                               <option value="">Select</option>                                                    
                                           </select>
                                       </div> 
@@ -415,15 +409,15 @@
     
  <jsp:include page="../layout/footer.jsp"></jsp:include>
 
-    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-    <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-    <script src="/pmis/resources/js/datepickerDepedency.js"></script>
-    <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
-    <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-    <script src="/pmis/resources/js/dataTables.material.min.js"></script>
-    <script src="/pmis/resources/js/select2.min.js"></script>
-    <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
-    <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
+    <script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+    <script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/wrpmis/resources/js/datepickerDepedency.js"></script>
+    <script src="/wrpmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+    <script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+    <script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
+    <script src="/wrpmis/resources/js/select2.min.js"></script>
+    <script src="/wrpmis/resources/js/moment-v2.8.4.min.js"></script>
+    <script src="/wrpmis/resources/js/datetime-moment-v1.10.12.js"></script>
 	
     <script>
 	   /*  $(document).on('focus', '.datepicker',function(){
@@ -581,37 +575,7 @@
             }
        }
         
-        function getWorksFilterList() {
-        	$(".page-loader").show();
-        	var contract_id_fk = $("#contract_id_fk").val();
-        	var milestone_fk = $("#milestone_fk").val();
-        	var project_id_fk = $("#project_id_fk").val();
-        	var work_id_fk = $("#work_id_fk").val();
-    		if ($.trim(work_id_fk) == "") {
-            	$("#work_id_fk option:not(:first)").remove();
-         	    var myParams = {project_id_fk: project_id_fk,work_id_fk : work_id_fk,contract_id_fk : contract_id_fk, milestone_fk : milestone_fk };
-                $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInPMISStripChart",
-                    data: myParams, cache: false,
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $.each(data, function (i, val) {
-                            	var workShortName = '';
-                            	 if ($.trim(val.work_short_name) != '') { workShortName = ' - ' + $.trim(val.work_short_name) }
-    	                           $("#work_id_fk").append('<option value="' + val.work_id_fk + '">' +$.trim(val.work_id_fk)+ workShortName   +'</option>');
-                            });
-                        }
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
-                    },error: function (jqXHR, exception) {
-     	   			      $(".page-loader").hide();
-    	   	          	  getErrorMessage(jqXHR, exception);
-    	   	     	  }
-                });
-            }else{
-            	  $(".page-loader").hide();
-            }
-       }
+
         
        function getMileStoneList(){
        	 $(".page-loader-2").show();
@@ -620,7 +584,6 @@
        	 getMileStoneFilterList();
        	 getContractFilterList();
        	 getProjectsFilterList();
-       	 getWorksFilterList();
        	 $("#filerList").html('');
        	 $("#select-all").prop('checked', false);
        	var project_id_fk = $("#project_id_fk").val();

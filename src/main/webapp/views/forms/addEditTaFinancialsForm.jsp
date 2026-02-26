@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants2"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -14,16 +14,16 @@
      	 <c:if test="${action eq 'edit'}">Update TA Financial - Update Forms - PMIS</c:if>
 		 <c:if test="${action eq 'add'}">Add TA Financial - Update Forms - PMIS</c:if>
     </title>
-    <link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <!-- <link rel="stylesheet" href="/pmis/resources/css/finance.css"> -->
-    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
-    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" >
-    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-responsive-table.css" > 
+    <link rel="icon" type="image/png" sizes="96x96"	href="/wrpmis/resources/images/favicon.png">
+    <link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/datatable-material.css">
+    <!-- <link rel="stylesheet" href="/wrpmis/resources/css/finance.css"> -->
+    <link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/wrpmis/resources/css/mobile-form-template.css" >
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/wrpmis/resources/css/mobile-responsive-table.css" > 
     <style>
         .input-field .searchable_label {
             font-size: 0.85rem;
@@ -51,8 +51,8 @@
         }
 
         input[type=month]:not(.browser-default):focus:not([readonly]) {
-            border-bottom: 1px solid #007A7A;
-            box-shadow: 0 1px 0 0 #007A7A;
+            border-bottom: 1px solid #EA6A2A;
+            box-shadow: 0 1px 0 0 #EA6A2A;
         }
 
         #financialFormTable .input-field .prefix {
@@ -181,17 +181,6 @@
                         <div class="container container-no-margin">
                          <c:if test="${action eq 'add'}">	
                             <div class="row" >
-                                <div class="col s6 m4 input-field offset-m2">
-                                    <p class="searchable_label">Work <span class="required">*</span></p>
-                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
-                                        onchange="getContractsList(this.value);">
-                                        <option value="">Select</option>
-                                         <c:forEach var="obj" items="${worksList }">
-                                            <option value="${obj.work_id_fk }" >${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
-                                        </c:forEach>
-                                    </select>
-                                    <span id="work_id_fkError" class="error-msg" ></span>
-                                </div>
                                 <div class="col s6 m4 input-field">
                                     <p class="searchable_label">Contract <span class="required">*</span></p>
                                     <select id="contract_id_fk" name="contract_id_fk" class="searchable validate-dropdown"  onchange="resetWorksList();">
@@ -208,11 +197,7 @@
                          <div>
                        		<c:if test="${action eq 'edit'}">	
                        		 <div class="row no-mar" >
-                       		  <div class="col s6 m4 input-field offset-m2">
-                                    <input type="text"  id="work_id_fk" value="${taFinancialDetails.work_id_fk}- ${taFinancialDetails.work_short_name}" readonly />
-                                     <input type="hidden" name="work_id_fk"  value="${taFinancialDetails.work_id_fk}"  /> 
-                                    <label for="work_id_fk"> Work <span class="required">*</span></label>
-							  </div> 
+
 							  <div class="col s6 m4 input-field"> 
                                     <input type="text" value="${taFinancialDetails.contract_id_fk}-${taFinancialDetails.contract_short_name}" readonly />
                                     <input type="hidden" name="contract_id_fk" id="contract_id_fk" value="${taFinancialDetails.contract_id_fk}" readonly />      
@@ -475,12 +460,12 @@
  <jsp:include page="../layout/footer.jsp"></jsp:include>
     <!-- footer  -->
 
-   <!--  <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script> -->
-    <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-    <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-    <script src="/pmis/resources/js/dataTables.material.min.js"></script>
-    <script src="/pmis/resources/js/select2.min.js"></script>
-    <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+   <!--  <script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script> -->
+    <script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+    <script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
+    <script src="/wrpmis/resources/js/select2.min.js"></script>
+    <script src="/wrpmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 
     <script>
         $(document).ready(function () {

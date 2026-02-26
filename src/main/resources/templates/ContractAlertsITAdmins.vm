@@ -4,7 +4,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>PMIS $alert_type Alerts</title>
+    <title>WRPMIS $alert_type Alerts</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 
@@ -17,7 +17,7 @@
                     <tr>
                         <td align="center" bgcolor="#22223B"
                             style="color: #ffffff; font-size: 20px; font-weight: bold; font-family: Arial, sans-serif;padding: 10px;">
-                            <span>PMIS $alert_type Alerts</span>
+                            <span>WRPMIS $alert_type Alerts</span>
 							<span style="float:right;">$today_date</span>
                         </td>
                     </tr>
@@ -81,7 +81,7 @@
                                                                     !$x.contract_short_name.empty)
                                                                     <a title="Work : $x.work_short_name &#013;Contractor : $x.contractor_name "
                                                                         style="cursor: pointer;">
-                                                                        <img src="http://203.153.40.44/pmis/resources/images/alert_imgs/info.png" alt="info icon"
+                                                                        <img src="http://203.153.40.44/wrpmis/resources/images/alert_imgs/info.png" alt="info icon"
                                                                             style="width:auto;height:20px;  vertical-align: middle;">
                                                                     </a> $x.contract_short_name
                                                                     #end
@@ -89,7 +89,7 @@
 																<td align="left" width="15%"
                                                                     style="padding: 10px;font-family: Arial, sans-serif; font-size: 12px; font-weight: 500; border:1px solid #A0A3BB; word-wrap:break-word;">
                                                                     #if($x.alert_type_fk && !$x.alert_type_fk.empty)
-																	<img src="http://203.153.40.44/pmis/resources/images/alert_imgs/$x.alert_type_image" alt="info icon"
+																	<img src="http://203.153.40.44/wrpmis/resources/images/alert_imgs/$x.alert_type_image" alt="info icon"
                                                                             style="width:auto;height:20px;  vertical-align: middle;">
                                                                     $x.alert_type_fk
                                                                     #end
@@ -133,7 +133,7 @@
                             <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                 <tr>
                                     <td style=" font-family: Arial, sans-serif; font-size: 12px;" align="center">
-                                        <img src="http://203.153.40.44/pmis/resources/images/mrvclogo.png" alt="Logo" style=" width: 25px;  height: 25px; vertical-align: bottom;"> 
+                                        <img src="http://203.153.40.44/wrpmis/resources/images/mrvclogo.png" alt="Logo" style=" width: 25px;  height: 25px; vertical-align: bottom;"> 
                                         &copy; $current_year @ mrvc.indianrailways.gov.in | Designed & Developed by <a
                                             href="https://www.synergizglobal.com"><img
                                                 src="https://syntrack-dev.s3.ap-south-1.amazonaws.com/SynergizGlobal/img/synergiz.png"

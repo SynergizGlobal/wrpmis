@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants2"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -11,16 +11,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Edit Contract - Update Forms - PMIS</title>
-    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">    
-    <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <!-- <link rel="stylesheet" href="/pmis/resources/css/contract.css">  -->
-    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
-    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-form-template.css" />
-    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/pmis/resources/css/mobile-responsive-table.css" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/wrpmis/resources/images/favicon.png">
+    <link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">    
+    <link rel="stylesheet" href="/wrpmis/resources/css/datatable-material.css">
+    <!-- <link rel="stylesheet" href="/wrpmis/resources/css/contract.css">  -->
+    <link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/wrpmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 820px)" href="/wrpmis/resources/css/mobile-responsive-table.css" />
     <style> 
         #ravTable .datepicker~button,
         #insurenceTable .datepicker~button,
@@ -42,10 +42,10 @@
 			z-index:2;
 		}
 		.t-46{
-			top:46px;
+			top:0;
 		}
 		.t-98{
-			top:98px;
+			top:52px;
 		}
 		.btn{
 			z-index:0;
@@ -270,7 +270,7 @@
 		  -moz-appearance: textfield;
 		}
 		.input-field>textarea+label:not(.label-icon).active{
-			margin-top: 8px;
+			margin-top: -6px;
 		}
 		/* cost unit dropdown , lable and input styling starts here  */
 		.pt-5{
@@ -515,6 +515,12 @@
      font-size: 13px; 
     background-color: #fff;
 }	
+table.mdl-data-table.table-add td {
+    text-align: center;
+}
+textarea{
+	height: auto
+}
 
 
     </style>
@@ -525,7 +531,7 @@
     <!-- header  starts-->
              <jsp:include page="../layout/header.jsp"></jsp:include>
     <!-- card  -->
-    <div class="row">
+    <div class="container-padding">
         <div class="col s12 m12" id="formDiv">
         	<form action="<%=request.getContextPath() %>/update-contract" id="contractForm" name="contractForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
             <input id="contract_id" name="contract_id" type="hidden" value="${contractDeatils.contract_id }">
@@ -570,13 +576,6 @@
                                			 <label for="project_id_fk_temp">Project <span class="required">*</span></label>
                                       	 <input type="hidden" name="project_id_fk" id="project_id_fk" value="${contractDeatils.project_id_fk}" readonly />
 	                                </div>
-	                                <div class="col s6 m6 l6 input-field">
-                                    	<input type="text" id="work_id_fk_temp"  value="${contractDeatils.work_id_fk} - ${contractDeatils.work_name}" readonly />
-                                    	<label for="work_id_fk_temp">Work <span class="required">*</span></label>
-                                        <input type="hidden" name="work_id_fk" id="work_id_fk" value="${contractDeatils.work_id_fk}" readonly />
-                                    	<input type="hidden" name="work_name" value="${contractDeatils.work_name}" />
-                                    	<input type="hidden" name="work_short_name" value="${contractDeatils.work_short_name}" />
-	                                </div>	
 	                                
 	                                 <%-- <div class="col s12 m4 l4 input-field" style="<c:if test="${(contractDeatils.status eq 'Open') or (contractDeatils.status eq 'Closed')}">pointer-events: none;opacity: 0.4;</c:if>"> --%>
 		                             <div class="col s12 m4 l4 input-field" style="<c:if test="${(contractDeatils.status eq 'Open') or (contractDeatils.status eq 'Closed')}">display:none;</c:if>">
@@ -800,7 +799,7 @@
 									                </tbody>
 									            </table>
 									            <c:if test="${sessionScope.USER_ROLE_NAME eq 'IT Admin' || sessionScope.USER_TYPE eq 'HOD'   || sessionScope.USER_TYPE eq 'DyHOD'}">
-									            <table  class="mdl-data-table" style="margin-bottom: 30px">
+									            <table  class="mdl-data-table table-add" style="margin-bottom: 30px">
 			                                        <tbody>                                          
 			                                            <tr>
 			                                   				<td colspan="3"  ><a class="btn waves-effect waves-light bg-m t-c "  onclick="addDepartmentRow()"> <i class="fa fa-plus"></i></a></td>
@@ -1169,7 +1168,7 @@
                                          
 	                                </div>	                              	
 	                            </div>
-	                            <div class="row" style="max-width:1280px;margin-left: 200px;">
+	                            <div class="row" style="width: 90%; margin: 20px auto;">
 	                                <div class="col s12 m12 l12 input-field ">
 	                                    <textarea id="remarks" name ="remarks" class="pmis-textarea" data-length="1000" 
 	                                    >${contractDeatils.remarks }</textarea>
@@ -1563,7 +1562,7 @@
                                             </c:choose>
                                         </tbody>
                                     </table>
-                                     <table class="mdl-data-table">
+                                     <table class="mdl-data-table table-add">
                                         <tbody id="bankTableBody">                                          
                                             <tr>
 									 			<td colspan="9" > 
@@ -1842,7 +1841,7 @@
                                             </c:choose>  
                                         </tbody>
                                     </table>
-                                     <table  class="mdl-data-table">
+                                     <table  class="mdl-data-table table-add">
                                         <tbody id="insurenceTableBody">                                          
                                             <tr>
                                    <td colspan="8"  ><a   class="btn waves-effect waves-light bg-m t-c "  onclick="addInsurenceRow()"> <i class="fa fa-plus"></i></a></td>
@@ -1980,7 +1979,7 @@
 	                                            </c:choose>  
 	                                        </tbody>
 	                                    </table>
-	                                    <table class="mdl-data-table">
+	                                    <table class="mdl-data-table table-add">
 	                                        <tbody>                                          
 	                                            <tr>
 	  												<td colspan="6"  ><a type="button"  class="btn waves-effect waves-light bg-m t-c "  onclick="addMilestoneRow()"> <i
@@ -2520,7 +2519,7 @@
                                             </c:choose> 
                                         </tbody>
                                     </table>
-                                     <table class="mdl-data-table">
+                                     <table class="mdl-data-table table-add">
                                         <tbody>                                          
                                             <tr>
 												<td colspan="6" >	<a type="button"  class="btn waves-effect waves-light bg-m t-c "  onclick="addRevRow()"> <i
@@ -2741,7 +2740,7 @@
 	                                            </tbody>
 	                                        </table>
 	                                        
-	                                        <table class="mdl-data-table">
+	                                        <table class="mdl-data-table table-add">
 		                                        <tbody>                                          
 		                                            <tr>
 														<td colspan="3" >	<a type="button"  class="btn waves-effect waves-light bg-m t-c "  onclick="addContractDocumentRow()"> <i
@@ -2768,7 +2767,7 @@
 	                                <div class="row fixed-width">
 	                                     <h5 class="center-align"><span class="div-header">GST Rate</span></h5> 
 	                                    <div class="table-inside">
-										    <div class="container">
+<%-- 										    <div class="container">
 										            <h5>Contract Details</h5>
 										            <div class="item col s6 m6 l6">
 										                <label for="contract-value-gst">Contract Value inclusive of GST:</label><span class="required">*</span>
@@ -2843,7 +2842,7 @@
 										                
 										            </div>
 										    </div>	                                    
-										    </div>
+ --%>										    </div>
 	                                </div>
 	                            </div>
 							</div>
@@ -2906,13 +2905,13 @@
 	</div> 
  
 
-<!--     <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>  -->
-    <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-    <script src="/pmis/resources/js/datepickerDepedency.js"></script>
-    <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-    <script src="/pmis/resources/js/dataTables.material.min.js"></script>
-    <script src="/pmis/resources/js/select2.min.js"></script>
-	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+<script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script> 
+    <script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/wrpmis/resources/js/datepickerDepedency.js"></script>
+    <script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+    <script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
+    <script src="/wrpmis/resources/js/select2.min.js"></script>
+	<script src="/wrpmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 
 
     <script>
@@ -3899,7 +3898,7 @@
 	                	$("#ravTable input.checkbox").prop("disabled", false);	     */ 
 	                	
 	                	
-	                    var isValid = true;
+	                   /* var isValid = true;
 	                    var errorMessage = "Please fill out the following fields:\n";
 
 	                    // Validate Contract Details
@@ -3966,7 +3965,7 @@
 	                        $(".page-loader").hide();
 	                        return false;
 	                        event.preventDefault();
-	                    }	                	
+	                    }*/	                	
 	                	
 	                	
 	                	

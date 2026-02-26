@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants2"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 
@@ -13,17 +14,16 @@
    		 <c:if test="${action eq 'edit'}">Update Project - Update Forms - PMIS</c:if>
 		 <c:if test="${action eq 'add'}"> Add Project - Update Forms - PMIS</c:if>    
     </title>
-    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">    
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-    <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/datatable-material.css">
     
-    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    <!-- <link rel="stylesheet" href="/pmis/resources/css/project.css"> -->
-    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
-    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" >
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" >
+    <link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
+    <!-- <link rel="stylesheet" href="/wrpmis/resources/css/project.css"> -->
+    <link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">	
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/wrpmis/resources/css/mobile-form-template.css" >
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/wrpmis/resources/css/mobile-responsive-table.css" >
     
 	<style>
 		.my-error-class {
@@ -62,17 +62,15 @@
 		}
 		
 		.w7em{width: 7em;}
-		
+		.row{
+			margin-bottom: 10px;
+		}
 		@media(max-width: 2200px){
-		.table-add{position: absolute;}
-		.add-align{position: absolute;
-   					 margin-top: -5.5em;
-   					 margin-left: 11%;}
+		.table-add{position: relative;}
+		
    		.bd-none{border: none;}
    		 }
-    	@media(max-Width: 2000px){
-    	.add-align{margin-left:18%;}
-    	}
+    	
     	@media(max-width: 820px){
     	.add-align{position: relative; margin-top: 0; margin-left:0;}
     	.table-add{position: relative;}
@@ -250,7 +248,96 @@
 		.w70{
 			width: 70% !important;
 		}
+		
+		    .page-title-bar {
+        background: #f4f4f4;
+        padding: 20px 30px;
+        border-bottom: 1px solid #ccc;
+        margin-bottom: 10px;
+    }
 
+    .page-title-bar h5 {
+        margin: 0;
+        font-size: 24px;
+        font-weight: bold;
+        display: inline-block;
+    }
+
+    .action-buttons {
+        float: right;
+        margin-top: -35px;
+    }
+
+    .action-buttons .btn {
+        margin-left: 10px;
+    }
+
+    .data-table-wrapper {
+        background: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .success, .error {
+        margin: 10px 0;
+        padding: 10px;
+        border-radius: 4px;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .success {
+        background-color: #d4edda;
+        color: #155724;
+    }
+
+    .error {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+
+    table.mdl-data-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    table.mdl-data-table th,
+    table.mdl-data-table td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    table.mdl-data-table th {
+        background: #e56717;
+        color: white;
+    }
+
+    table.mdl-data-table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .last-column {
+        text-align: center;
+    }
+
+    .mob-btn i {
+        font-size: 16px;
+    }
+
+    .container-padding {
+        padding: 30px;
+    }
+	table.mdl-data-table.table-add td{
+		text-align: center;
+	}
+	textarea{
+		border: 0;
+		border-bottom: 1px solid #9e9e9e;
+		outline: 0;
+		margin: 15px 0;
+	}
 	</style>
 </head>
 
@@ -262,7 +349,7 @@
     <!-- header ends  -->
 
     <!-- card  -->
-    <div class="row">
+<div class="container-padding">
         <div class="col s12 m12">
             <div class="card ">
                 <div class="card-content">
@@ -293,323 +380,311 @@
 						</div>
 					</div>
                     <!-- form start-->
-                    <div class="container container-no-margin">
-	                        <c:if test="${action eq 'edit'}">				                
-				                	<form action="update-project" id="projectForm" name="projectForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
-	                        </c:if>
-			              
-			                <c:if test="${action eq 'add'}">				                
-			                	<form action="add-project" id="projectForm" name="projectForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
-							</c:if> 
-							
-                            <div class="row">
-                               
-                               
-                            </div>
+<div class="container container-no-margin">
+    <c:if test="${action eq 'edit'}">				                
+        <form action="update-project" id="projectForm" name="projectForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+    </c:if>
+    <c:if test="${action eq 'add'}">				                
+        <form action="add-project" id="projectForm" name="projectForm" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+    </c:if> 
 
-                            <div class="row">
-                                <%-- <div class="col s12 m4 input-field">
-                                    <input id="pink_book_item_number" type="text" class="validate" value="${projectDetails.pink_book_item_number }" name="pink_book_item_number">
-                                    <label for="pink_book_item_number">PB Item No</label>
-                                    <span  id="pink_book_item_numberError"> </span>
-                                </div> --%>
-                                 <c:if test="${action eq 'edit'}">	
-                                  <input id="project_id" type="hidden" class="form-control" name="project_id" value="${projectDetails.project_id }" >   
-                                <!--	<div class="col s6 m4 l4 input-field offset-m2">			                
-	                                     <input id="project_id" type="text" class="form-control" name="project_id" value="${projectDetails.project_id }" readonly >   
-	                               		 <label>Project ID :</label>
-                               		 </div> --!>
-                               		 <div class="col s6 m4 l4 input-field">
-	                                    <input id=project_name type="text" class="validate" value="${projectDetails.project_name }" name="project_name">
-	                                    <label for="project_name">Project Name <span class="required">*</span></label>
-	                                    <span  id="project_nameError"> </span>
-	                                </div>
-                                </c:if>
-                                <c:if test="${action ne 'edit'}">
-	                                <div class="col s6 m4 l4 input-field">
-	                                    <input id=project_name type="text" class="validate" value="${projectDetails.project_name }" name="project_name">
-	                                    <label for="project_name">Project Name <span class="required">*</span></label>
-	                                    <span  id="project_nameError"> </span>
-	                                </div>
-                                </c:if>
-                                <div class="col s6 m4 l4 input-field">
-<!-- 									<label for="project_staus">Project Status<span class="required">*</span></label> -->
-									 <p class="searchable_label">Project Status <span class="required">*</span></p>
-									<select class="validate-dropdown searchable" name="project_status" id="project_status">
-										<option value="">Select</option>
-										<option value="Open" <c:if test="${projectDetails.project_status == 'Open'}">selected</c:if>>Open</option>
-										<option value="Closed" <c:if test="${projectDetails.project_status == 'Closed'}">selected</c:if>>Closed</option>
-									</select> 
-									<span id="project_statusError"></span>
-								</div>
-                                <div class="col s12 m4 l4 input-field md-pt-2px">
-                                    <input id="plan_head_number" maxlength="15" data-length="15" type="text" class="validate w80 pdr4em" value="${projectDetails.plan_head_number }" name="plan_head_number">
-                                    <label for="plan_head_number" class='fs-sm-8rem'>Plan Head Number<span class="required">*</span></label>
-                                    <span  id="plan_head_numberError"> </span>
-                                </div>
-                            </div>
-                            
-                            <div class="row">
-                                <div class="col s6 m4 l4 input-field">
-									<!-- <input id="financial_years" type="text" class="validate" name="financial_years" value="${projectDetails.financial_year_fk }"> -->
-                                    <p class="searchable_label">Financial Year</p>
-									<select  name="financial_years"  id="financial_years"  class="validate-dropdown searchable">
-                   					 	<option value="" >Select</option>
-                         			 	<c:forEach var="obj" items="${yearList}">
-    					  				 	<option value="${obj.financial_year }"<c:if test="${projectDetails.financial_year_fk eq obj.financial_year}">selected</c:if>>${obj.financial_year}</option>
-                          			  	</c:forEach>
-               					  	</select>
-                                    <span  id="financial_yearsError"> </span>
-								</div>
-								 <div class="col s6 m4 l4 input-field">
-								 	 <p class="searchable_label">Railway</p>
-									<select class="searchable validate-dropdown" id="railways" name="railways" >
-										<option value="" >Select</option>	
-										<option value="WR" <c:if test="${projectDetails.railway eq 'WR'}">selected</c:if>>WR</option>
-						                <option value="CR" <c:if test="${projectDetails.railway eq 'CR'}">selected</c:if>>CR</option>
-									</select>
-								 </div>
-                                <div class="col s12 m4 l4 input-field md-mt-0">
-                                    <input id="pink_book_item_numbers" maxlength="15" data-length="15" class="validate w80 pdr4em" type="text" name="pink_book_item_numbers" value="${projectDetails.pb_item_no }" maxlength="15"/>
-                                    <label for="pink_book_item_numbers">PB Item No </label>                                   
-                                    <span  id="pink_book_item_numbersError"> </span>
-                                </div>
-                                <div class="col m2 hide-on-small-only"></div>
-                            </div>
-                            
+    <div class="row">
+        <div class="col s6 m4 l4 input-field">
+            <input id="project_name" maxlength="100" type="text" class="validate w80 pdr4em" value="${projectDetails.project_name}" name="project_name">
+            <label for="project_name">Project Name <span class="required">*</span></label>
+            <span id="project_nameError"></span>
+            <input type="hidden" name="project_id" id="project_id" value="${projectDetails.project_id}">
+        </div>
 
-							<div class="row">
-                              <div class="col s12 m6 l6 input-field">
-                                  <textarea id="benefits"  name="benefits" class="pmis-textarea pdr4em w85" data-length="1000" maxlength="1000">${projectDetails.benefits }</textarea>
-                                  <label for="benefits">Benefits</label>
-                                   <span id="benefitsError"></span>
-                              </div>
-                              <div class="col s12 m6 l6 input-field">
-                                    <textarea id="remarks" class="pmis-textarea pdr4em w85"  maxlength="1000" data-length="1000"  name="remarks">${projectDetails.remarks }</textarea>
-                                    <label for="remarks">Remarks</label>
-                                     <span id="remarksError"></span>
-                                </div>
-	                        </div>
-							<div class="row">
-                                
-                                
-                            </div>
+        <div class="col s6 m4 l4 input-field">
+            <p class="searchable_label">Project Status <span class="required">*</span></p>
+            <select class="validate-dropdown searchable" name="project_status" id="project_status">
+                <option value="">Select</option>
+                <option value="Open" <c:if test="${projectDetails.project_status == 'Open'}">selected</c:if>>Open</option>
+                <option value="Closed" <c:if test="${projectDetails.project_status == 'Closed'}">selected</c:if>>Closed</option>
+            </select> 
+            <span id="project_statusError"></span>
+        </div>
+
+        <div class="col s6 m4 l4 input-field">
+            <p class="searchable_label">Project Type</p>
+            <select class="validate-dropdown searchable" name="project_type_id" id="project_type_id">
+                <option value="">Select</option>
+                <c:forEach var="obj" items="${projectTypes}">
+                    <option value="${obj.project_type_id}" <c:if test="${projectDetails.project_type_id == obj.project_type_id}">selected</c:if>>${obj.project_type_name}</option>
+                </c:forEach>
+            </select>
+            <span id="project_type_nameError"></span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col s6 m4 l4 input-field">
+            <p class="searchable_label">Railway Zone</p>
+            <select class="validate-dropdown searchable" name="railway_zone" id="railway_zone">
+                <option value="">Select</option>
+                <c:forEach var="z" items="${railwayZones}">
+                    <option value="${z.railway_id}" <c:if test="${projectDetails.railway_zone == z.railway_id}">selected</c:if>>${z.railway_name}</option>
+                </c:forEach>
+            </select>
+            <span id="railway_zoneError"></span>
+        </div>
+
+        <div class="col s6 m4 l4 input-field">
+            <input id="plan_head_number" maxlength="15" type="text" class="validate w80 pdr4em" value="${projectDetails.plan_head_number}" name="plan_head_number">
+            <label for="plan_head_number">Plan Head Number <span class="required">*</span></label>
+            <span id="plan_head_numberError"></span>
+        </div>
+
+        <div class="col s6 m4 l4 input-field">
+            <p class="searchable_label">Sanctioned Year</p>
+			<select  name="financial_years"  id="financial_years"  class="validate-dropdown searchable">
+             					 	<option value="" >Select</option>
+                   			 	<c:forEach var="obj" items="${yearList}">
+			  				 	<option value="${obj.financial_year }"<c:if test="${projectDetails.financial_year_fk eq obj.financial_year}">selected</c:if>>${obj.financial_year}</option>
+                    			  	</c:forEach>
+         					  	</select>
+            <span id="sanctioned_yearError"></span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col s6 m4 l4 input-field">
+            <input id="sanctioned_amount" type="text" class="validate w80 pdr4em" value="${projectDetails.sanctioned_amount}" name="sanctioned_amount">
+            <label for="sanctioned_amount">Sanctioned Amount</label>
+            <span id="sanctioned_amountError"></span>
+        </div>
+
+        <div class="col s6 m4 l4 input-field">
+            <input id="sanctioned_commissioning_date" type="date" class="validate w80 pdr4em" value="${projectDetails.sanctioned_commissioning_date}" name="sanctioned_commissioning_date">
+            <label for="sanctioned_commissioning_date">Sanctioned Commissioning Date</label>
+        </div>
+
+        <div class="col s6 m4 l4 input-field">
+            <p class="searchable_label">Division</p>
+            <select class="validate-dropdown searchable" name="division_id" id="division_id">
+                <option value="">Select</option>
+                <c:forEach var="d" items="${divisions}">
+                    <option value="${d.division_id}" <c:if test="${projectDetails.division_id == d.division_id}">selected</c:if>>${d.division_name}</option>
+                </c:forEach>
+            </select>
+            <span id="divisionError"></span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col s6 m4 l4 input-field">
+            <p class="searchable_label">Section</p>
+            <select class="validate-dropdown searchable" name="section_id" id="section_id">
+                <option value="">Select</option>
+                <c:forEach var="d" items="${sections}">
+                    <option value="${d.section_id}" <c:if test="${projectDetails.section_id == d.section_id}">selected</c:if>>${d.section_name}</option>
+                </c:forEach>
+            </select>
+            <span id="divisionError"></span>
+        </div>
+
+        <div class="col s6 m4 l4 input-field">
+            <input id="pink_book_item_numbers" type="text" class="validate w80 pdr4em" value="${projectDetails.pb_item_no}" name="pink_book_item_numbers">
+            <label for="pink_book_item_numbers">PB Item No</label>
+        </div>
+
+        <div class="col s6 m4 l4 input-field">
+            <input id="actual_completion_cost" type="text" class="validate w80 pdr4em" value="${projectDetails.actual_completion_cost}" name="actual_completion_cost">
+            <label for="actual_completion_cost">Actual Completion Cost</label>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col s6 m4 l4 input-field">
+            <input id="actual_completion_date" type="date" class="validate w80 pdr4em" value="${projectDetails.actual_completion_date}" name="actual_completion_date">
+            <label for="actual_completion_date">Actual Completion Date</label>
+        </div>
+		<div class="col s6 m4 l4 input-field">
+ <input 
+            id="proposed_length" 
+            type="text" 
+            class="validate w80 pdr4em" 
+            name="proposed_length" 
+            placeholder="Enter proposed length"
+            oninput="validateProposedLength(this)"
+            value="${projectDetails.proposed_length == null 
+                    ? '' 
+                    : (projectDetails.proposed_length + 0 == 0 
+                        ? '0' 
+                        : projectDetails.proposed_length + 0)}"
+        >
+
+		    <label for="proposed_length">Proposed Length (km)</label>
+		</div>       
+    </div>
+
+    <div class="row">
+        <div class="col s6 m6 l6 input-field">
+            <textarea id="benefits" name="benefits" class="pmis-textarea pdr4em w85" data-length="1000" maxlength="1000">${projectDetails.benefits}</textarea>
+            <label for="benefits">Benefits</label>
+            <span id="benefitsError"></span>
+        </div>
+
+        <div class="col s6 m6 l6 input-field">
+            <textarea id="remarks" name="remarks" class="pmis-textarea pdr4em w85" data-length="1000" maxlength="1000">${projectDetails.remarks}</textarea>
+            <label for="remarks">Remarks</label>
+            <span id="remarksError"></span>
+        </div>
+    </div>
+
+<div class="row">
+    <div class="col l12 m12 s12">
+        <div class="row fixed-width">
+            <div class="table-inside">
+                <h6>Commissioned Length</h6>
+                <table class="mdl-data-table update-table mobile_responsible_table">
+                    <thead>
+                        <tr>
+                            <th>S. No.</th>
+                            <th>From Chainage (m)</th>
+                            <th>To Chainage (m)</th>
+                            <th>Completed Length (m)</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="commissionedLengthBody">
+                        <c:choose>
+                            <c:when test="${not empty projectDetails.projectCommissionedLengthList && fn:length(projectDetails.projectCommissionedLengthList) gt 0}">
+                                <c:forEach var="cObj" items="${projectDetails.projectCommissionedLengthList}" varStatus="index">
+                                    <tr id="commissionedRow${index.count}">
+                                        <td>${index.index + 1}</td>
+
+										<td>
+										    <input type="text" name="commission_from_chainage" id="from_chainage_${index.count}" 
+										           class="validate w100" 
+										           value="<fmt:formatNumber value='${cObj.commission_fromchainage}' maxFractionDigits='10' groupingUsed='false' />"
+										           oninput="validateNumber(this)" />
+										</td>
+										<td>
+										    <input type="text" name="commission_to_chainage" id="to_chainage_${index.count}" 
+										           class="validate w100" 
+										           value="<fmt:formatNumber value='${cObj.commission_tochainage}' maxFractionDigits='10' groupingUsed='false' />"
+										           oninput="validateNumber(this)" />
+										</td>
+										<td>
+										    <input type="text" name="commission_completed_length" id="completed_length_${index.count}" 
+										           class="validate w100" 
+										           value="<fmt:formatNumber value='${cObj.commission_completedlength}' maxFractionDigits='10' groupingUsed='false' />"
+										           oninput="validateNumber(this)" />
+										</td>
+
+                                    </tr>
+                                </c:forEach>
+                            </c:when>
+                            <c:otherwise>
+                                <!-- Default row for add mode or empty edit -->
+                                <tr id="commissionedRow0">
+                                    <td>1</td>
+                                    <td><input type="text" name="commission_from_chainage" id="from_chainage_0" class="validate w100" oninput="validateNumber(this)" /></td>
+                                    <td><input type="text" name="commission_to_chainage" id="to_chainage_0" class="validate w100" oninput="validateNumber(this)" /></td>
+                                    <td><input type="text" name="commission_completed_length" id="completed_length_0" class="validate w100" oninput="validateNumber(this)" /></td>
+                                    <td class="mobile_btn_close">
+                                        <a onclick="removeCommissionedRow(0);" class="btn red"><i class="fa fa-close"></i></a>
+                                    </td>
+                                </tr>
+                            </c:otherwise>
+                        </c:choose>
+                    </tbody>
+                </table>
+
+                <!-- Add Row Button -->
+                <table class="mdl-data-table table-add">
+                    <tbody>
+                        <tr class="bd-none">
+                            <td colspan="5">
+                                <a type="button" class="btn waves-effect waves-light bg-m t-c" onclick="addCommissionedRow()">
+                                    <i class="fa fa-plus"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Hidden input to track row count -->
+                <input type="hidden" id="commissionedRowNo" name="commissionedRowNo" 
+                       value="${not empty projectDetails.projectCommissionedLengthList ? fn:length(projectDetails.projectCommissionedLengthList) : 1}" />
+            </div>
+        </div>
+    </div>
+</div>
+
+
 							
-							<div class="row">
-								<div class="col l12 m12 s12">
-									<div class="row fixed-width">
-										<!-- <div class="table-inside"> -->
-											<table class="mdl-data-table mobile_responsible_table">
-												<thead>
-													<tr>
-														<!-- <th style="width: 52%;text-align: left;">Date</th>
-														<th style="width: 52%;text-align: left;">Attach Image</th>
-														<th></th>
-														<th style="width: 8%;text-align: left;">Action</th>
-														 -->
-														<th>Date</th>
-														<th>Attach Image</th>
-														<th></th>
-														<th>Action</th>
-													</tr>
-												</thead>
-												<tbody id="projectImageFilesBody">
-													<c:choose>
-														<c:when	test="${not empty projectDetails.projectGalleryFilesList && fn:length(projectDetails.projectGalleryFilesList) gt 0 }">
-															<c:forEach var="iObj" items="${projectDetails.projectGalleryFilesList }" varStatus="index">
-																<tr id="imageRow${index.count }">
-																
-																	<td data-head="Data" class="input-field">
-																			<input id="created_date${index.count }" name="created_dates" type="text" class="validate datepicker" value="${iObj.created_date }">
-										                                    <button type="button" id="created_date${index.count }_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
-										                                    <span id="dateError" class="error-msg" ></span>
-																	</td>
-																	<td data-head="Attach Image" class="cell-disp-inb input-field file-field">
-									                                        <div class="btn bg-m t-c">
-									                                            <span>Attach Image</span>
-									                                            <input type="file" id="projectGalleryFiles${index.count }" name="projectGalleryFiles" accept="image/x-png,image/gif,image/jpeg" onchange="validateImage('${index.count }')">
-									                                        </div>
-									                                        <div class="file-path-wrapper">
-									                                            <input class="file-path validate" type="text" id="projectGalleryFileNames${index.count }" name="projectGalleryFileNames" value="${iObj.file_name }">
-									                                        </div>          
-			                                                      	</td>
-			                                                      	<td>
-			                                                      		<a href="<%=CommonConstants2.PROJECT_GALLERY%>${iObj.project_id_fk }/${iObj.file_name }" class="filevalue" download><i class="fa fa-arrow-down"></i></a>
-			                                                      	</td>
-																	<td class="mobile_btn_close">
-																		<a onclick="removeImage('${index.count }');" class="btn red"> 
-																			<i class="fa fa-close"></i></a>
-																	</td>
-																</tr>	
-																	<script>
-																		var date = '${iObj.created_date }'	
-																	</script>														
-															</c:forEach>
-														</c:when>
-														<c:otherwise>
-															<tr id="imageRow0">
-																<td data-head="Data" class="input-field">
-																		<input id="created_date0" name="created_dates" type="text" class="validate datepicker" placeholder="date">
-									                                    <button type="button" id="created_date0_icon" class="datepicker-button"><i class="fa fa-calendar"></i></button>
-									                                    <span id="dateError" class="error-msg" ></span>
-																</td>
-																<td data-head="Attach Image" class="cell-disp-inb input-field file-field">
-								                                        <div class="btn bg-m t-c">
-								                                            <span>Attach Image</span>
-								                                            <input type="file" id="projectGalleryFiles0" name="projectGalleryFiles" accept="image/x-png,image/gif,image/jpeg" >
-								                                        </div>
-								                                        <div class="file-path-wrapper">
-								                                            <input class="file-path validate" type="text" id="projectGalleryFileNames0" name="projectGalleryFileNames">
-								                                        </div>
-		                                                      	</td>
-		                                                      	<td></td>
-																<td class="mobile_btn_close">
-																	<a onclick="removeImage('0');" class="btn red"> 
-																		<i class="fa fa-close"></i></a>
-																</td>																
-															</tr>
-															<script>
-																		var date = ''
-															</script>
-														</c:otherwise>
-													</c:choose>
-													
-												</tbody>
-											</table>
-											<table class="mdl-data-table table-add">
-												<tbody>
-													<tr class="bd-none">
-														<td colspan="6"  ><a
-															type="button"
-															class="btn waves-effect waves-light bg-m t-c add-align"
-															onclick="addImageFileRow()"> <i
-																class="fa fa-plus"></i>
-														</a>
-													</tr>
-												</tbody>
-											</table>
-											
-											<c:choose>
-												<c:when test="${not empty (projectDetails.projectGalleryFilesList) && fn:length(projectDetails.projectGalleryFilesList) gt 0 }">
-													<input type="hidden" id="imageRowNo" name="imageRowNo" value="${fn:length(projectDetails.projectGalleryFilesList) }" />
-												</c:when>
-												<c:otherwise>
-													<input type="hidden" id="imageRowNo" name="imageRowNo" value="0" />
-												</c:otherwise>
-											</c:choose>
-										<!-- </div> -->
-									</div>
-								</div>
-							</div>
+<div class="row">
+    <div class="col l12 m12 s12">
+        <div class="row fixed-width">
+            <div class="table-inside">
+                <table class="mdl-data-table update-table mobile_responsible_table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Estimated Completion Cost</th>
+                            <th>Revised Completion Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="completionCostBody">
+                        <tr id="costRow0">
+                            <td><input type="date" name="completion_dates" class="validate w100" /></td>
+                            <td><input type="text" name="estimated_completion_costs" class="validate w100" /></td>
+                            <td><input type="date" name="revised_completion_dates" class="validate w100" /></td>
+                            <td class="mobile_btn_close">
+                                <a onclick="removeCostRow('0');" class="btn red"><i class="fa fa-close"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <table class="mdl-data-table table-add">
+                    <tbody>
+                        <tr class="bd-none">
+                            <td colspan="4">
+                                <a type="button" class="btn waves-effect waves-light bg-m t-c" onclick="addCostRow()">
+                                    <i class="fa fa-plus"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <input type="hidden" id="costRowNo" name="costRowNo" value="1" />
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <h5 class="center-align">KMZ file / Chainage-wise Coordinates Upload</h5>
+    
+    <div class="col s12 m12 center-align exportButton">
+        <div class="m-n1">
+            <!-- Download Button with Icon -->
+            <a href="/wrpmis/1_Chainage_wise_Coordinates_TemplateP46.xlsx" download
+               class="btn waves-effect waves-light bg-s t-c"
+               title="Download Chainage-wise Coordinates Template">
+                <i class="fa fa-arrow-circle-down left"></i>Download
+            </a>
+
+            <!-- Upload Button -->
+            <a href="javascript:void(0);" onclick="openUploadChainageModal();"
+               class="btn waves-effect waves-light bg-s t-c">
+                <i class="fa fa-arrow-circle-up left"></i> Upload
+            </a>
+        </div>
+    </div>
+</div>
+
+	
+
 							
-							<div class="row">
-								<div class="col l12 m12 s12">
-									<div class="row fixed-width">
-										<div class="table-inside">
-											<table class="mdl-data-table update-table mobile_responsible_table">
-												<thead>
-													<tr>
-													<!-- 	<th style="width: 30%;text-align: left;">File Type</th>
-														<th style="width: 52%;text-align: left;">Attach File</th>
-														<th></th>
-														<th style="width: 8%;text-align: left;">Action</th> -->
-														
-														<th>File Type</th>
-														<th>Attach File</th>
-														<th></th>
-														<th>Action</th>
-													</tr>
-												</thead>
-												<tbody id="projectFilesBody">
-													<c:choose>
-														<c:when	test="${not empty projectDetails.projectFilesList && fn:length(projectDetails.projectFilesList) gt 0 }">
-															<c:forEach var="iObj" items="${projectDetails.projectFilesList }" varStatus="index">
-																<tr id="actionRow${index.count }">
-																	<td data-head="File Type" class="input-field">
-																		<select  name="project_file_types"  id="project_file_types${index.count }"  class="validate-dropdown searchable">
-						                                   					 <option value="" >Select</option>
-						                                         			  <c:forEach var="obj" items="${projectFileTypes}">
-						                    					  				 <option value="${obj.project_file_type }" <c:if test="${iObj.project_file_type_fk eq obj.project_file_type}">selected</c:if>>${obj.project_file_type}</option>
-						                                          			  </c:forEach>
-						                               					  </select>
-																	</td>
-																	<td data-head="Attach File" class="file-field input-field cell-disp-inb">
-								                                        <div class="btn bg-m t-c">
-								                                            <span>Attach File</span>
-								                                            <input type="file" id="projectFiles${index.count }" name="projectFiles">
-								                                        </div>
-								                                        <div class="file-path-wrapper">
-								                                            <input class="file-path validate" type="text" id="projectFileNames${index.count }" name="projectFileNames" value="${iObj.attachment }">
-								                                        </div>                             
-			                                                      	</td>
-			                                                      	<td>
-			                                                      		<input type="hidden" id="project_file_ids${index.count }" name="project_file_ids" value="${iObj.project_file_id }"/>
-			                                                      		<a href="<%=CommonConstants.PROJECT_FILES%>${iObj.project_id_fk }/${iObj.attachment }" class="filevalue" download><i class="fa fa-arrow-down"></i></a>
-			                                                      	</td>
-																	<td class="mobile_btn_close">
-																		<a onclick="removeActions('${index.count }');" class="btn red"> 
-																			<i class="fa fa-close"></i></a>
-																	</td>
-																</tr>															
-															</c:forEach>
-														</c:when>
-														<c:otherwise>
-															<tr id="actionRow0">
-																<td data-head="File Type" class="input-field">
-																	<select  name="project_file_types"  id="project_file_types0"  class="validate-dropdown searchable">
-					                                   					 <option value="" >Select</option>
-					                                         			  <c:forEach var="obj" items="${projectFileTypes}">
-					                    					  				 <option value="${obj.project_file_type }">${obj.project_file_type}</option>
-					                                          			  </c:forEach>
-					                               					  </select>
-																</td>
-																<td data-head="Attach File" class="file-field input-field cell-disp-inb">
-								                                        <div class="btn bg-m t-c">
-								                                            <span>Attach File</span>
-								                                            <input type="file" id="projectFiles0" name="projectFiles">
-								                                        </div>
-								                                        <div class="file-path-wrapper">
-								                                            <input class="file-path validate" type="text" id="projectFileNames0" name="projectFileNames">
-								                                        </div>                                       
-		                                                      	</td>
-		                                                      	<td><input type="hidden" id="project_file_ids0" name="project_file_ids"/></td>
-																<td class="mobile_btn_close">
-																	<a onclick="removeActions('0');" class="btn red"> 
-																		<i class="fa fa-close"></i></a>
-																</td>
-															</tr>
-														</c:otherwise>
-													</c:choose>
-													
-												</tbody>
-											</table>
-											<table class="mdl-data-table table-add">
-												<tbody>
-													<tr  class="bd-none">
-														<td colspan="6"  ><a
-															type="button"
-															class="btn waves-effect waves-light bg-m t-c  add-align"
-															onclick="addFileRow()"> <i
-																class="fa fa-plus"></i>
-														</a>
-													</tr>
-												</tbody>
-											</table>
-											
-											<c:choose>
-												<c:when test="${not empty (projectDetails.projectFilesList) && fn:length(projectDetails.projectFilesList) gt 0 }">
-													<input type="hidden" id="rowNo" name="rowNo" value="${fn:length(projectDetails.projectFilesList) }" />
-												</c:when>
-												<c:otherwise>
-													<input type="hidden" id="rowNo" name="rowNo" value="0" />
-												</c:otherwise>
-											</c:choose>
-										</div>
-									</div>
-								</div>
-							</div>
-							
-						
+		
 							<c:if test="${action eq 'edit'}">
 							<div class="row">
 								<div class="col l12 m12 s12 ">
@@ -693,14 +768,13 @@
 											</table>
 											<table class="mdl-data-table table-add">
 												<tbody>
-													<tr>
-														<td colspan="6"  ><a
-															type="button"
-															class="btn waves-effect waves-light bg-m t-c add-align"
-															onclick="addPinkBookRow()"> <i
-																class="fa fa-plus"></i>
-														</a>
-													</tr>
+							                        <tr class="bd-none">
+							                            <td colspan="4">
+							                                <a type="button" class="btn waves-effect waves-light bg-m t-c" onclick="addPinkBookRow()">
+							                                    <i class="fa fa-plus"></i>
+							                                </a>
+							                            </td>
+							                        </tr>													
 												</tbody>
 											</table>
 											<c:choose>
@@ -723,10 +797,10 @@
                                 <div class="col s6 m6 l6 mt-brdr center-align">
                                     <div class=" m-1">
                                      <c:if test="${action eq 'edit'}">
- 											<button onclick="updateProject();" class="btn waves-effect waves-light bg-m w7em">Update</button>    
+ 											<button type="button" onclick="updateProject();" class="btn waves-effect waves-light bg-m w7em">Update</button>    
  									 </c:if>
                                          <c:if test="${action eq 'add'}">
- 											<button onclick="addProject();" class="btn waves-effect waves-light bg-m w7em">Add</button>    
+ 											<button type="button" onclick="addProject();" class="btn waves-effect waves-light bg-m w7em">Add</button>    
  									 </c:if>
                                     </div>
                                 </div>
@@ -744,6 +818,57 @@
             </div>
         </div>
     </div>
+    
+
+
+		<div id="upload_template" class="modal">
+		<div class="modal-content">
+			<div class="center-align p-2 bg-m modal-title headbg">
+				<h6>Upload Chainages </h6>
+			</div>
+			<!-- form start-->
+			<div class="container">
+				<form action="<%=request.getContextPath()%>/upload-chainages"
+					method="post" enctype="multipart/form-data">
+					<div class="row no-mar">
+						<div class="col s12 m12 input-field center-align">
+							<div class="row">
+								<div class="col m2 hide-on-small-only"></div>
+								<div class="col m8 s12">
+									<div class="file-field input-field">
+										<div class="btn bg-m">
+											<span>Attachment</span> <input type="file" id="ProjectChainagesFile"
+												name="ProjectChainagesFile" required="required">
+										</div>
+										<div class="file-path-wrapper">
+											<input class="file-path validate" type="text">
+										</div>
+									</div>
+								</div>
+								<div class="col m2 hide-on-small-only"></div>
+							</div>
+						</div>
+					</div>
+					            <input type="hidden" name="project_id_fk" id="project_id_fk" value="${projectDetails.project_id}">
+					
+					<div class="row no-mar">
+						<div class="col s12 m6">
+							<div class="center-align m-1">
+								<button type="submit" class="btn waves-effect waves-light bg-m"
+									style="width: 100%;">Upload</button>
+							</div>
+						</div>
+						<div class="col s12 m6">
+							<div class="center-align m-1">
+								<button type="button" class="btn waves-effect waves-light bg-s"
+									style="width: 100%;" onclick="closeUploadLAModal();">Cancel</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 
 
     <!-- footer  -->
@@ -764,17 +889,18 @@
 	</div> 
 
 
-  	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-    <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-    <script src="/pmis/resources/js/datepickerDepedency.js"></script>
-    <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-    <script src="/pmis/resources/js/dataTables.material.min.js"></script>
-    <script src="/pmis/resources/js/select2.min.js"></script>
-	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+  	<script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+    <script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/wrpmis/resources/js/datepickerDepedency.js"></script>
+    <script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+    <script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
+    <script src="/wrpmis/resources/js/select2.min.js"></script>
+	<script src="/wrpmis/resources/js/jquery-validation-1.19.1.min.js"></script>
  
 
     <script type="text/javascript">
     $(document).ready(function() {
+    	$('.modal').modal();
         $(".num").keypress(function() {
             if ($(this).val().length == $(this).attr("maxlength")) {
                 return false;
@@ -784,7 +910,63 @@
 	 $("[data-length]").each(function(i,val){
      	$('#'+val.id).characterCounter();;
      });
+	 
+	 function validateNumber(input) {
+		    // Allow only digits and one decimal point
+		    input.value = input.value.replace(/[^0-9.]/g, '');
+		    const parts = input.value.split('.');
+		    if (parts.length > 2) {
+		        input.value = parts[0] + '.' + parts[1];
+		    }
+		}	 
+	 
+	 function validateProposedLength(input) {
+		    // Allow only digits and a single decimal point
+		    input.value = input.value.replace(/[^0-9.]/g, '');
 
+		    // Ensure only one decimal point
+		    const parts = input.value.split('.');
+		    if (parts.length > 2) {
+		        input.value = parts[0] + '.' + parts[1];
+		    }
+		}	
+	 
+	 
+	 function addCommissionedRow() {
+		    const tbody = document.getElementById('commissionedLengthBody');
+		    const rowNoInput = document.getElementById('commissionedRowNo');
+		    let rowNo = parseInt(rowNoInput.value);
+
+		    const tr = document.createElement('tr');
+		    tr.id = `commissionedRow${rowNo}`;
+		    tr.innerHTML = `
+		        <td class="sno"></td>
+		        <td><input type="text" name="commission_from_chainage" id="from_chainage_${rowNo}" class="validate w100" oninput="validateNumber(this)" /></td>
+		        <td><input type="text" name="commission_to_chainage" id="to_chainage_${rowNo}" class="validate w100" oninput="validateNumber(this)" /></td>
+		        <td><input type="text" name="commission_completed_length" id="completed_length_${rowNo}" class="validate w100" oninput="validateNumber(this)" /></td>
+		        <td class="mobile_btn_close">
+		            <a onclick="removeCommissionedRow(${rowNo});" class="btn red"><i class="fa fa-close"></i></a>
+		        </td>
+		    `;
+		    tbody.appendChild(tr);
+		    rowNoInput.value = rowNo + 1;
+
+		    updateSNo(); // update S. No. for all rows
+		}
+
+		function removeCommissionedRow(rowNo) {
+		    const tr = document.getElementById(`commissionedRow${rowNo}`);
+		    if (tr) tr.remove();
+		    updateSNo();
+		}
+
+		function updateSNo() {
+		    const rows = document.querySelectorAll('#commissionedLengthBody tr');
+		    rows.forEach((row, index) => {
+		        const snoTd = row.querySelector('.sno');
+		        if (snoTd) snoTd.innerText = index + 1;
+		    });
+		}
 	/****************************************************************************************************/
 /*     let date_pickers = document.querySelectorAll('.datepicker');
         $.each(date_pickers, function(){
@@ -893,26 +1075,12 @@
 	/****************************************************************************************************/
 
         $(document).ready(function () {
+        	var date='';
         	$('select:not(.searchable)').formSelect();
             $('.searchable').select2();
             $('#remarks,#benefits').characterCounter(); 
            	var dateVal=  date;
            	if(dateVal == ''){
-           	  /* $(".datepicker").each(function(){
-             		var id = $(this).attr('id');
-  				$('#'+id).datepicker({
-  					maxDate: new Date(),
-  		        	format:'dd-mm-yyyy',
-  		   	    	onSelect: function () {
-  		   	    	   $('.confirmation-btns .datepicker-done').click();
-  		   	    	}
-  		        }).datepicker("setDate", new Date());
-  				
-  		        $('#'+id+'_icon').click(function () {
-  	                event.stopPropagation();
-  	                $('#'+id).click();
-  	            });
-             	}); */
            	}
           
         });
@@ -1039,6 +1207,51 @@
 				});  
 
     </script>
+    
+ <script>
+function handleFileTypeChange(index) {
+    const select = document.getElementById('project_file_types'+index);
+    const fileInput = document.getElementById('projectFiles'+index);
+
+    if (select && fileInput) {
+        if (select.value.trim().toLowerCase() === 'kmz / chainage-wise coordinates') {
+            fileInput.setAttribute("accept", ".kmz");
+        } else {
+            fileInput.removeAttribute("accept");
+        }
+    }
+}
+
+function addCostRow() {
+    var rowNo = parseInt($("#costRowNo").val());
+    var newRow = `
+        <tr id="costRow${rowNo}">
+            <td><input type="date" name="completion_dates" class="validate w100" /></td>
+            <td><input type="text" name="estimated_completion_costs" class="validate w100" /></td>
+            <td><input type="date" name="revised_completion_dates" class="validate w100" /></td>
+            <td class="mobile_btn_close">
+                <a onclick="removeCostRow('${rowNo}');" class="btn red"><i class="fa fa-close"></i></a>
+            </td>
+        </tr>`;
+    $("#completionCostBody").append(newRow);
+    $("#costRowNo").val(rowNo + 1);
+}
+
+function removeCostRow(rowId) {
+    $("#costRow" + rowId).remove();
+}
+
+function openUploadChainageModal() {
+	$("#ProjectChainagesFile").val('');
+	$("#upload_template").modal('open');
+}  
+
+function closeUploadLAModal() {
+	$("#ProjectChainagesFile").val('');
+	$("#upload_template").modal('close');
+}   	
+
+</script>   
 </body>
 
 </html>

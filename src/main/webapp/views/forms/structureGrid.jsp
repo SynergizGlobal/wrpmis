@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants"%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -8,16 +8,14 @@
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Structure - Update Forms - PMIS</title>
-    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">     
-    <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <!-- <link rel="stylesheet" href="/pmis/resources/css/la.css"> -->
-    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
-    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
+    <link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">     
+    <link rel="stylesheet" href="/wrpmis/resources/css/datatable-material.css">
+    <!-- <link rel="stylesheet" href="/wrpmis/resources/css/la.css"> -->
+    <link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">	
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/wrpmis/resources/css/mobile-form-template.css" />
 
     <style>
          p a {
@@ -148,55 +146,8 @@ thead tr th:last-of-type{
    <!-- header  starts-->
          <jsp:include page="../layout/header.jsp"></jsp:include>
 
-	<div class="row">
-		<%-- <div class="col s12 m12 hide-on-med-and-down">
-			<div class="card">
-				<div class="card-content">
-					<span class="card-title headbg">
-						<div class="center-align bg-m p-2 m-b-5">
-							<h6>Structure</h6>
-						</div>
-					</span>
-					<div class="">
-						<c:if test="${not empty success }">
-							<div class="center-align m-1 close-message">${success}</div>
-						</c:if>
-						<c:if test="${not empty error }">
-							<div class="center-align m-1 close-message">${error}</div>
-						</c:if>
-						<div class="row plr-1 center-align">
-							<div class="col s12 m4 l-align hide-on-med-and-down">
-								<!-- <div class="m-1">
-									<a href="javascript:void(0);" onclick="openUploadStructureModal();"
-										class="btn waves-effect waves-light bg-s t-c"> <strong><i
-											class="fa fa-arrow-circle-up" ></i> Upload Data</strong></a>
-									<p style="padding-top: 1rem">
-										Click <a href="/pmis/StructureFile.xlsx" download>here</a>
-										for the template
-									</p>
-								</div> -->
-							</div>
-
-							<div class="col s12 m4 c-align">
-								<div class="m-1 ">
-									<a href="<%=request.getContextPath()%>/add-structure-form"
-										class="btn waves-effect waves-light bg-s t-c"> <strong><i
-											class="fa fa-plus-circle"></i> Add Structure</strong></a>
-								</div>
-							</div>
-
-							<div class="col s12 m4 r-align ">
-								<div class="m-1 ">
-									<a href="javascript:void(0);" onclick="exportStructure();"
-										class="btn waves-effect waves-light bg-s t-c"> <strong><i
-											class="fa fa-cloud-download"></i> Export Data</strong></a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div> --%>
+	<div class="container-padding">
+		
 		<div class="row no-mar">
 			<div class="col s12 m12">
 				<div class="card">
@@ -210,9 +161,7 @@ thead tr th:last-of-type{
 							        <a href="<%=request.getContextPath()%>/add-structure-form"
 																	class="btn waves-effect waves-light bg-s t-c"> <strong><i
 																		class="fa fa-plus-circle"></i> Add</strong></a>
-									<!-- <a href="javascript:void(0);" onclick="exportStructure();"
-																	class="btn waves-effect waves-light bg-s t-c"> <strong><i
-																		class="fa fa-cloud-download"></i> Export</strong></a> -->
+
 							    </div>
 							</div>
 							</div>
@@ -240,50 +189,7 @@ thead tr th:last-of-type{
 	                                        </c:forEach> --%>
 										</select>
 									</div>
-									<div class="col s6 m4 l2 input-field">
-										<p class="searchable_label">Work</p>
-										<select id="work_id_fk" name="work_id_fk"
-											  class="searchable" onchange="addInQueWork(this.value);getStructureList();">
-											<option value="">Select</option>
-											<%--  <c:forEach var="obj" items="${contractList}">
-	                       						  <option value="${obj.contract_id }" <c:if test="${param.contract_id eq obj.contract_id }">selected</c:if>>${obj.contract_id }</option>
-	                                        </c:forEach> --%>
-										</select>
-									</div>
-									<%-- <div class="col s6 m4 l2 input-field">
-										<p class="searchable_label">Structure</p>
-										<select id="structure_fk" name="structure_fk"
-											  class="searchable"  onchange="addInQueDepartment(this.value);getStructureList();">
-											<option value="">Select</option>
-											<c:forEach var="obj" items="${structureList}">
-												<option value="${obj.structureList_fk }"
-													<c:if test="${param.department_fk eq obj.department_fk }">selected</c:if>>${obj.department_fk}<c:if
-														test="${not empty obj.department_name}"> - </c:if>${obj.department_name}</option>
-											</c:forEach>
-										</select>
-									</div>
-									<div class="col s6 m4 l2 input-field">
-										<p class="searchable_label">Contract</p>
-										<select id="contract_id_fk" name="contract_id_fk"
-										 class="searchable" onchange="addInQueContract(this.value);getStructureList();">
-											<option value="">Select</option>
-											<c:forEach var="obj" items="${contractList}">
-												<option value="${obj.contract_id }"
-													<c:if test="${param.contract_id eq obj.contract_id }">selected</c:if>>${obj.contract_id }</option>
-											</c:forEach>
-										</select>
-									</div>									
-									<div class="col s6 m4 l2 input-field">
-										<p class="searchable_label">Work Status</p>
-										<select id="work_status_fk" name="work_status_fk"
-										 class="searchable" onchange="addInQueContract(this.value);getStructureList();">
-											<option value="">Select</option>
-											<c:forEach var="obj" items="${workStatusList}">
-												<option value="${obj.work_status_fk }"
-													<c:if test="${param.contract_id eq obj.contract_id }">selected</c:if>>${obj.contract_id }</option>
-											</c:forEach>
-										</select>
-									</div>	 --%>								
+																
 									<div class="col s12 m4 l2 input-field center-align">
 										<button
 											class="btn bg-m waves-effect waves-light t-c clear-filters"
@@ -300,11 +206,8 @@ thead tr th:last-of-type{
 									<table id="datatable-structure" class="mdl-data-table">
 										<thead>
 											<tr>
-												<th class="w200">Work </th>
+											    <th>Project </th>
 												<th>Structures </th>
-												<!-- <th>Structure Id </th>
-												<th>Contract </th>
-												<th>Work Status </th> -->
 												<th class="no-sort">Action</th>
 											</tr>
 										</thead>
@@ -318,64 +221,7 @@ thead tr th:last-of-type{
 				</div>
 			</div>
 		</div>
-		<%-- <c:if test="${USER_ROLE_CODE eq 'IT' }">
-		<div class="row hide-on-med-and-down">
-			<div class="col m12 s12">
-				 <div class="card">
-	                <div class="card-content">
-	                    <span class="card-title headbg">
-	                        <div class="center-align bg-m p-2 m-b-5">
-	                            <h6>Uploaded Structure Data</h6>
-	                        </div>
-	                    </span>
-	                    <div class="">
-	                      <!--   <div class="row no-mar" >
-	                            <div class="col m5 hide-on-small-only"></div>                            
-	                                    <div class="col s12 m2 input-field">
-	                                        <p class="searchable_label">Work</p>
-	                                        <select id="work_id_fk_filter" name="work_id_fk" class="searchable" onchange="">
-	                                            <option value="">Select</option>
-	                                        </select>
-	                                    </div>                                 
-	                                    <div class="col s12 m3">
-	                                        <button class="btn bg-m waves-effect waves-light t-c clear-filters"
-	                                            style="margin-top: 20px;width: 100%;" onclick="clearFilters()">Clear
-	                                            Filters</button>
-	                                    </div>                          
-	                            <div class="col m5 hide-on-small-only"></div>
-	                        </div> -->
-	                        <div class="row">
-	                            <div class="col m12 s12">
-	                                <table id="structure-table" class="mdl-data-table">
-	                                    <thead>
-	                                        <tr>                                            
-												<th>Uploaded File</th>
-												<th>Status</th>
-												<th>Remarks</th>
-												<th>Uploaded by </th>
-												<th>Uploaded On</th>
-	                                        </tr>
-	                                    </thead>
-										<tbody>
-											<!-- <tr>
-												<td></td>
-												<td></td>
-												<td></td>
-												<td></td>
-												<td></td>
-											</tr> -->
-	
-										</tbody>
-	
-									</table>
-	                            </div>
-	                        </div>
-	                    </div>
-	                </div>
-	            </div>
-			</div>
-		</div>
-	</c:if> --%>
+		
 	</div>
 
 	<!-- update popup starts -->
@@ -465,24 +311,22 @@ thead tr th:last-of-type{
  
 	 <form action="<%=request.getContextPath()%>/get-structure" id="getForm" name="getForm" method="post" >
   		<input type="hidden" name="structure_id" id="structure_id"/>
-  		<input type="hidden" id="work" name="work_id_fk"/>
     </form>
     
   <form action="<%=request.getContextPath()%>/export-structure" name="exportStructureForm" id="exportStructureForm" target="_blank" method="post">	
         <input type="hidden" name="project_id_fk" id="exportProject_id_fk" />
-        <input type="hidden" name="work_id_fk" id="exportWork_id_fk" />
         <input type="hidden" name="department_fk" id="exportDepartment_id_fk" />
         <input type="hidden" name="contract_id_fk" id="exportContract_id_fk" />
 	</form>
 	
-    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-    <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-    <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
-    <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-    <script src="/pmis/resources/js/dataTables.material.min.js"></script>
-    <script src="/pmis/resources/js/select2.min.js"></script>
-    <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
-    <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
+    <script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+    <script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/wrpmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+    <script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+    <script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
+    <script src="/wrpmis/resources/js/select2.min.js"></script>
+    <script src="/wrpmis/resources/js/moment-v2.8.4.min.js"></script>
+    <script src="/wrpmis/resources/js/datetime-moment-v1.10.12.js"></script>
     
     <script>
 	
@@ -512,13 +356,7 @@ thead tr th:last-of-type{
 	        		  var temp2 = temp[i].split('=');
 		        	  if($.trim(temp2[0]) == 'project_id_fk' ){
 		        		  getProjectListFilter(temp2[1]);
-		        	  }else if($.trim(temp2[0]) == 'work_id_fk'){
-		        		  getWorksListFilter(temp2[1]);
-		        	  }/* else if($.trim(temp2[0]) == 'contract_id_fk'){
-		        		  getContractListFilter(temp2[1]);
-		        	  }else if($.trim(temp2[0]) == 'department_fk'){
-		        		  getDepartmentListFilter(temp2[1]);
-		        	  } */
+		        	  }
 	        	  }
 	          }
             }
@@ -550,9 +388,7 @@ thead tr th:last-of-type{
 
 		function clearFilter() {
 			$("#project_id_fk").val('');
-			$("#work_id_fk").val('');
-			/* $("#department_fk").val('');
-			$("#contract_id_fk").val(''); */
+
 			$('.searchable').select2();
 			window.localStorage.setItem("structureFilters",'');
 			window.location.href = "<%=request.getContextPath()%>/structure";
@@ -569,115 +405,15 @@ thead tr th:last-of-type{
 	       	    	filtersMap["project_id_fk"] = project_id_fk;
 	        	}
 	        }
-	        
-	        function addInQueWork(work_id_fk){
-		      	Object.keys(filtersMap).forEach(function (key) {
-			   		if(key.match('work_id_fk')) delete filtersMap[key];
-		   	   	});
-		      	if($.trim(work_id_fk) != ''){
-	            	filtersMap["work_id_fk"] = work_id_fk;
-		      	}
-	        }
-	        
-	     /*    function addInQueContract(contract_id_fk){
-	        	Object.keys(filtersMap).forEach(function (key) {
-		   			if(key.match('contract_id_fk')) delete filtersMap[key];
-		   		});
-	        	if($.trim(contract_id_fk) != ''){
-	       	    	filtersMap["contract_id_fk"] = contract_id_fk;
-	        	}
-	        }
-	        
-	        function addInQueDepartment(department_fk){
-		      	Object.keys(filtersMap).forEach(function (key) {
-			   		if(key.match('department_fk')) delete filtersMap[key];
-		   	   	});
-		      	if($.trim(department_fk) != ''){
-	            	filtersMap["department_fk"] = department_fk;
-		      	}
-	        } */
-	        
-      <%--   function getStructureUploadsList(){
-        	$(".page-loader-2").show();
-        	
-        	table1 = $('#structure-table').DataTable();
-    		table1.destroy();
-    		$.fn.dataTable.moment('DD-MMM-YYYY');
-    		table1 = $('#structure-table').DataTable({
-    			"order": [],
-        		"bStateSave": false,
-        		fixedHeader: true,
-                "fnStateSave": function (oSettings, oData) {
-                    localStorage.setItem('MRVCDataTablesUpload', JSON.stringify(oData));
-                },
-                "fnStateLoad": function (oSettings) {
-                    return JSON.parse(localStorage.getItem('MRVCDataTablesUpload'));
-                },
-                columnDefs: [
-                    {
-                        targets: [0, 1, 2],
-                        className: 'mdl-data-table__cell--non-numeric'
-                    },
-                    { orderable: false, 'aTargets': ['no-sort'] }
-                ],
-                // "ScrollX": true,
-                "sScrollX": "100%",
-                 "sScrollXInner": "100%",
-                 "ordering":false,
-                 "bScrollCollapse": true,
-                initComplete: function () {
-                    $('.dataTables_filter input[type="search"]').attr('placeholder', 'Search').css({ 'width': '350px', 'display': 'inline-block' });
-                }
-            }).rows().remove().draw();
-    		
-    		table1.state.clear();		
-    		var myParams = {};
-    		$.ajax({url : "<%=request.getContextPath()%>/ajax/getStructureUploadsList",
-				type:"POST",
-    			data:myParams,async: false,
-    			success : function(data){    				
-    				if(data != null && data != '' && data.length > 0){    					
-	             		$.each(data,function(key,val){
-	             			var design_data_id = "'"+val.design_data_id+"'"; 
-	                        var filePath = "";
-	                        
-	                        if($.trim(val.uploaded_file) != ''){
-	                        	filePath = '<a href="<%=CommonConstants.STRUCTURE_UPLOADED_FILES%>'+ val.uploaded_file +'">'+val.uploaded_file + '</a>';
-	                        }
-	                        var rowArray = [];    	                 
-	                        
-	                       	rowArray.push(filePath);
-	                       	rowArray.push($.trim(val.status));
-	                       	rowArray.push($.trim(val.remarks));
-	                       	rowArray.push($.trim(val.uploaded_by_user_id_fk));
-	                       	rowArray.push($.trim(val.uploaded_on)); 
-	                       	
-	                        table1.row.add(rowArray).draw( true );
-	                        		                       
-	    				});
-	             		
-	             		$(".page-loader-2").hide();
-	    			}else{
-	    				$(".page-loader-2").hide();
-	    			}
-    			
-    		},error: function (jqXHR, exception) {
-    			$(".page-loader-2").hide();
-             	getErrorMessage(jqXHR, exception);
-         }});
-       } --%>
+
+
+    
         
 		function getStructureList() {
 			$(".page-loader-2").show();
 
-			getWorksListFilter('');
 			getProjectListFilter('');
-			//getDepartmentListFilter('');
-			//getContractListFilter('');
-						
-			var work_id_fk = $("#work_id_fk").val();
-			/* var contract_id_fk = $("#contract_id_fk").val();
-			var department_fk = $("#department_fk").val(); */
+
 			var project_id_fk = $("#project_id_fk").val();
 			
 			var filters = '';
@@ -691,10 +427,9 @@ thead tr th:last-of-type{
 			
 						table.destroy();
 			
-						$.fn.dataTable.moment('DD-MMM-YYYY');
+						
 			
-						var myParams = "work_id_fk=" + work_id_fk 
-								+ "&project_id_fk=" + project_id_fk;
+						var myParams = "&project_id_fk=" + project_id_fk;
 			
 						/***************************************************************************************************/
 			
@@ -785,11 +520,9 @@ thead tr th:last-of-type{
 													
 						        "aoColumns": [
 						        	
-						            { "mData": function(data,type,row){
-						            	var work_short_name = '';
-				                        if ($.trim(data.work_short_name) != '') { work_short_name = ' - ' + $.trim(data.work_short_name) }    	
-				                     	if($.trim(data.work_id_fk) == ''){ return '-'; }else{ return data.work_id_fk + work_short_name; }
-			            			} },   				            
+						        	 { "mData": function(data,type,row){
+							            	if($.trim(data.project_id_fk) == ''){ return '-'; }else{ return data.project_id_fk; }
+							            } },  				            
 						            { "mData": function(data,type,row){
 						            	var structureType = data.structure_type_fk;
 										if(typeof structureType !== "undefined" && structureType != null
@@ -811,8 +544,7 @@ thead tr th:last-of-type{
 						            } }, */
 						         	{ "mData": function(data,type,row){
 						         		var structure_id = "'"+data.structure_id+"'";
-						         		var work = "'"+data.work_id_fk+"'";
-					                    var actions = '<a href="javascript:void(0);"  onclick="getStructure('+structure_id+','+work+');" class="btn waves-effect waves-light bg-m t-c mob-btn" ><i class="fa fa-pencil"></i></a>';
+					                    var actions = '<a href="javascript:void(0);"  onclick="getStructure('+structure_id+');" class="btn waves-effect waves-light bg-m t-c mob-btn" ><i class="fa fa-pencil"></i></a>';
 						            	return actions;
 						            } }
 						            
@@ -843,81 +575,14 @@ thead tr th:last-of-type{
 	    	    console.log(msg);
 	     }
 	  	
-	    function getWorksListFilter(work) {
-	    	var work_id_fk = $("#work_id_fk").val();
-	    	/* var contract_id_fk = $("#contract_id_fk").val();
-	    	var department_fk = $("#department_fk").val(); */
-	    	var project_id_fk = $("#project_id_fk").val();
-         	$(".page-loader").show();
-            if ($.trim(work_id_fk) == "") {
-                $("#work_id_fk option:not(:first)").remove();
-     		 	var myParams = {work_id_fk : work_id_fk, project_id_fk : project_id_fk};
-                $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorksListFilterInStructure",
-                    data: myParams, cache: false,async: false,
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $.each(data, function (i, val) {
-                            	var contract_short_name = '';
-                            	if ($.trim(val.work_short_name) != '') { work_short_name = ' - ' + $.trim(val.work_short_name) } 
-                            	var selectedFlag = (work == val.work_id_fk)?'selected':'';
- 	                            $("#work_id_fk").append('<option value="' + val.work_id_fk + '"'+selectedFlag+'>' + $.trim(val.work_id_fk) + work_short_name +'</option>');
-                            });
-                        }
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
-                    },error: function (jqXHR, exception) {
-     	   			  $(".page-loader").hide();
-   	   	          	  getErrorMessage(jqXHR, exception);
-  	   	     	  }
-                });
-            }else{
-            	  $(".page-loader").hide();
-            }
-        }
-	 <%--  	
-	    function getContractListFilter(contract) {
-	    	var work_id_fk = $("#work_id_fk").val();
-	    	// var contract_id_fk = $("#contract_id_fk").val();
-	    	//var department_fk = $("#department_fk").val();
-	    	var project_id_fk = $("#project_id_fk").val();
-         	$(".page-loader").show();
-            if ($.trim(contract_id_fk) == "") {
-                $("#contract_id_fk option:not(:first)").remove();
-     		 	var myParams = {work_id_fk : work_id_fk, project_id_fk : project_id_fk};
-                $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getContractsListFilterInStructure",
-                    data: myParams, cache: false,async: false,
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $.each(data, function (i, val) {
-                            	var contract_short_name = '';
-                            	if ($.trim(val.contract_short_name) != '') { contract_short_name = ' - ' + $.trim(val.contract_short_name) }
-                            	var selectedFlag = (contract == val.contract_id_fk)?'selected':'';
- 	                            $("#contract_id_fk").append('<option value="' + val.contract_id_fk + '"'+selectedFlag+'>' + $.trim(val.contract_id_fk) + contract_short_name +'</option>');
-                            });
-                        }
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
-                    },error: function (jqXHR, exception) {
-     	   			  $(".page-loader").hide();
-   	   	          	  getErrorMessage(jqXHR, exception);
-  	   	     	  }
-                });
-            }else{
-            	  $(".page-loader").hide();
-            }
-        } --%>
+
       	
         function getProjectListFilter(project) {
-        	var work_id_fk = $("#work_id_fk").val();
-	    	/* var contract_id_fk = $("#contract_id_fk").val();
-	    	var department_fk = $("#department_fk").val(); */
 	    	var project_id_fk = $("#project_id_fk").val();
          	$(".page-loader").show();
             if ($.trim(project_id_fk) == "") {
                 $("#project_id_fk option:not(:first)").remove();
-     		 	var myParams = {work_id_fk : work_id_fk,project_id_fk : project_id_fk};
+     		 	var myParams = {project_id_fk : project_id_fk};
                 $.ajax({
                     url: "<%=request.getContextPath()%>/ajax/getProjectsListFilterInStructure",
                     data: myParams, cache: false,async: false,
@@ -925,7 +590,7 @@ thead tr th:last-of-type{
                         if (data.length > 0) {
                             $.each(data, function (i, val) {
                                 var selectedFlag = (project == val.project_id_fk)?'selected':'';
-                            	$("#project_id_fk").append('<option value="' + val.project_id_fk + '" '+selectedFlag+'>' + val.project_id_fk + $.trim(val.project_name) +'</option>');
+                            	$("#project_id_fk").append('<option value="' + val.project_id_fk + '" '+selectedFlag+'>' + val.project_id_fk +' - '+ $.trim(val.project_name) +'</option>');
                             });
                         }
                         $('.searchable').select2();
@@ -940,50 +605,18 @@ thead tr th:last-of-type{
             }
         }
         
- <%--        function getDepartmentListFilter(department) {
-        	var work_id_fk = $("#work_id_fk").val();
-	    	// var contract_id_fk = $("#contract_id_fk").val();
-	    	//var department_fk = $("#department_fk").val();
-	    	var project_id_fk = $("#project_id_fk").val();
-         	$(".page-loader").show();
-            if ($.trim(department_fk) == "") {
-                $("#department_fk option:not(:first)").remove();
-     		  	var myParams = {work_id_fk : work_id_fk, project_id_fk : project_id_fk};
-                 $.ajax({
-                     url: "<%=request.getContextPath()%>/ajax/getDepartmentsListFilterInStructure",
-                     data: myParams, cache: false,async: false,
-                     success: function (data) {
-                         if (data.length > 0) {
-                             $.each(data, function (i, val) {
-                            	var selectedFlag = (department == val.department_fk)?'selected':'';
-                           	 	$("#department_fk").append('<option value="' + val.department_fk + '"'+selectedFlag+'>' + $.trim(val.department_name) +'</option>');
-                             });
-                         }
-                         $('.searchable').select2();
-                         $(".page-loader").hide();
-                     },error: function (jqXHR, exception) {
-  	      	   		   $(".page-loader").hide();
-  	    	   	       getErrorMessage(jqXHR, exception);
-      	   	       }
-                 });
-             }else{
-             	   $(".page-loader").hide();
-             }
-        } --%>
+ 
         
-	    function getStructure(structure_id,work) {
+	    function getStructure(structure_id) {
 			$("#structure_id").val(structure_id);
-			$("#work").val(work);
 			$("#getForm").submit();
 		}
 	
 	    function exportStructure(){
-	    	var work_id_fk = $("#work_id_fk").val();
 	    	/* var contract_id_fk = $("#contract_id_fk").val();
 	    	var department_fk = $("#department_fk").val(); */
 	    	var project_id_fk = $("#project_id_fk").val();
 	     	 
-	    	 $("#exportWork_id_fk").val(work_id_fk);
 	     	/*  $("#exportContract_id_fk").val(contract_id_fk);
 	     	 $("#exportDepartment_id_fk").val(department_fk); */
 	     	 $("#exportProject_id_fk").val(project_id_fk);

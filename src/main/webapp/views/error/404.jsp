@@ -11,9 +11,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Error page</title>
-    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
+    <link rel="icon" type="image/png" sizes="96x96" href="/wrpmis/resources/images/favicon.png">
     <style>
         /* body {
             background-color: antiquewhite;
@@ -209,7 +207,7 @@ CSS Pretty Print
 	 height: 80%;
 	 left: 10%;
 	 bottom: 10%;
-	 background: url("/pmis/resources/images/sky-list.png");
+	 background: url("/wrpmis/resources/images/sky-list.png");
 }
  .skyscrappers__list .skyscrapper__item:last-child:not(:only-child) {
 	 background: rgba(75, 175, 172, 1);
@@ -593,7 +591,7 @@ CSS Pretty Print
     <nav>
         <div class="nav-wrapper blue darken-3">
             <div class="">
-                <a href="<%=request.getContextPath() %>/home" class="brand-logo fs"><img src="/pmis/resources/images/mrvclogo.png" alt="Logo"> MRVC PMIS</a>
+                <a href="<%=request.getContextPath() %>/home" class="brand-logo fs"><img src="/wrpmis/resources/images/mrvclogo.png" alt="Logo"> WR PMIS</a>
                 <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="fa fa-bars"></i></a>
 
             </div>
@@ -695,7 +693,7 @@ CSS Pretty Print
     	<div class="container">
     	<div class="row">
     		<div class="col s12 m2 left-align">
-    		<img alt="image" src="/pmis/resources/images/404-crane.png" class="crane">
+    		<img alt="image" src="/wrpmis/resources/images/404-crane.png" class="crane">
     		</div>
     		<div class="col s12 m6 center-align offset-m1">
     			<div class="cont">
@@ -707,7 +705,7 @@ CSS Pretty Print
     		</div>
     		<div class="col s12 m2 right-align">
     		<h1 class="load"><span>?</span><span>?</span><span>?</span></h1>
-    		<img alt="image" src="/pmis/resources/images/404-man.png" class="man">
+    		<img alt="image" src="/wrpmis/resources/images/404-man.png" class="man">
     		</div>
     	</div>
     </div>
@@ -720,13 +718,10 @@ CSS Pretty Print
         <div class="footer-copyright blue lighten-5 bottom">
             <div class="container">
                 <span>Copyright 2020 @ mrvc.indianrailways.gov.in | Designed & Developed by</span> <img
-                    src="/pmis/resources/images/synergiz.png" class="footer-img" alt="footer image">
+                    src="/wrpmis/resources/images/synergiz.png" class="footer-img" alt="footer image">
             </div>
         </div>
     </div>
-
-    <!-- <script src="js/jQuery.min.js"></script>
-    <script src="js/materialize.min.js"></script> -->
 
 </body>
 

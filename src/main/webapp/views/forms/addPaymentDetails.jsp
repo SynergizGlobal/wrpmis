@@ -331,12 +331,12 @@ header {
 var storeObject=[];
 $(document).ready(function () {
     $.ajax({
-        url: "http://203.153.40.44:8080/gemapi/api/get-bill-details",
+        url: "http://203.153.40.44:8080/gemapiprod/api/get-bill-details",
         type: "POST",
         contentType: "application/json",
         dataType: "json",
         data: JSON.stringify({
-            "user": "DEMO",
+            "user": "MRVC",
             "method": "getbills",
             "from_date": "2020-01-01",
             "to_date": "2025-03-26"
@@ -344,7 +344,7 @@ $(document).ready(function () {
         success: function (response) {
 
         	const encryptedData = response.data;
-        	const rawKey = "qcNv4GRqj40WdqhY"; // Plain-text key (not Base64)
+        	const rawKey = "Y1*AW91pAn1U$ss4"; // Plain-text key (not Base64)
 
         	// Convert plain key to WordArray using UTF-8
         	const key = CryptoJS.enc.Utf8.parse(rawKey);
@@ -489,7 +489,7 @@ $(document).ready(function () {
     	    sanctionDate: document.getElementById("sanctionDate").value
     	  };
 
-    	  fetch("http://203.153.40.44:8080/gemapi/api/payment-status", {
+    	  fetch("http://203.153.40.44:8080/gemapiprod/api/payment-status", {
     	    method: "POST",
     	    headers: {
     	      "Content-Type": "application/json"

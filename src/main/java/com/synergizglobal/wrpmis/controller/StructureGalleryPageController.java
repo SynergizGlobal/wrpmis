@@ -1,0 +1,115 @@
+package com.synergizglobal.wrpmis.controller;
+
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.synergizglobal.wrpmis.Iservice.StructureGalleryPageService;
+import com.synergizglobal.wrpmis.Iservice.WorkService;
+import com.synergizglobal.wrpmis.constants.PageConstants;
+import com.synergizglobal.wrpmis.model.Design;
+import com.synergizglobal.wrpmis.model.Structure;
+
+@Controller
+public class StructureGalleryPageController {
+	@InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+    }
+	public static Logger logger = Logger.getLogger(StructureGalleryPageController.class);
+	
+	@Autowired
+	StructureGalleryPageService service;
+	
+	@RequestMapping(value="/structure-gallery-page",method={RequestMethod.GET})
+	public ModelAndView galleryPage(HttpSession session,@ModelAttribute Structure obj){
+		ModelAndView model = new ModelAndView(PageConstants.structureGalleryPage);
+		try {
+			List<Structure> dates = service.getMonthList(null);
+			model.addObject("dates", dates);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("galleryPage : " + e.getMessage());
+		}
+		return model;
+	}
+
+	@RequestMapping(value="/structure-gallery-page/{work_id}",method={RequestMethod.GET})
+	public ModelAndView galleryPageWithWork(HttpSession session,@ModelAttribute Structure obj,@PathVariable("work_id") String work_id){
+		ModelAndView model = new ModelAndView(PageConstants.structureGalleryPage);
+		try {
+			List<Structure> dates = service.getMonthList(obj);
+			model.addObject("dates", dates);
+			
+			Structure work = service.getWorkShortName(obj);
+			model.addObject("work", work);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("galleryPageWithWork : " + e.getMessage());
+		}
+		return model;
+	}
+	
+	@RequestMapping(value = "/ajax/getGalleryList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Structure> getGalleryList(@ModelAttribute Structure obj) {
+		List<Structure> objList = null;
+		try {
+			objList = service.getGalleryList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getGalleryList : " + e.getMessage());
+		}
+		return objList;
+	}
+	@RequestMapping(value = "/ajax/getMonthList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Structure> getMonthList(@ModelAttribute Structure obj) {
+		List<Structure> objList = null;
+		try {
+			objList = service.getMonthList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getMonthList : " + e.getMessage());
+		}
+		return objList;
+	}
+	@RequestMapping(value = "/ajax/getStructuresLists", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Structure> getStructuresList(@ModelAttribute Structure obj) {
+		List<Structure> objList = null;
+		try {
+			objList = service.getStructuresList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getStructuresList : " + e.getMessage());
+		}
+		return objList;
+	}
+	@RequestMapping(value = "/ajax/getStructureIdList", method = {RequestMethod.GET,RequestMethod.POST},produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Structure> getStructureIdList(@ModelAttribute Structure obj) {
+		List<Structure> objList = null;
+		try {
+			objList = service.getStructureIdList(obj);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.error("getStructureIdList : " + e.getMessage());
+		}
+		return objList;
+	}
+}

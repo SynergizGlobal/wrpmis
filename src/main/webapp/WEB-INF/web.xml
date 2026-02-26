@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
-  <display-name>pmis</display-name>
+  <display-name>wrpmis</display-name>
     <!-- Spring configuration start -->
   <servlet>
-		<servlet-name>pmis</servlet-name>
+		<servlet-name>wrpmis</servlet-name>
 		<servlet-class>
 			org.springframework.web.servlet.DispatcherServlet
 		</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>pmis</servlet-name>
+		<servlet-name>wrpmis</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	
@@ -25,7 +25,20 @@
 	       <param-name>forceEncoding</param-name>  
 	       <param-value>true</param-value>  
 	    </init-param>  
-	</filter>  
+	</filter> 
+    <filter>
+        <filter-name>httpHeaderSecurity</filter-name>
+        <filter-class>org.apache.catalina.filters.HttpHeaderSecurityFilter</filter-class>
+        <!-- Optional init params -->
+        <init-param>
+            <param-name>antiClickJackingOption</param-name>
+            <param-value>DENY</param-value>
+        </init-param>
+        <init-param>
+            <param-name>hstsEnabled</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>	 
 	<filter-mapping>  
 	    <filter-name>encodingFilter</filter-name>  
 	    <url-pattern>/*</url-pattern>  
@@ -33,7 +46,7 @@
 	
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>/WEB-INF/pmis-servlet.xml</param-value>
+		<param-value>/WEB-INF/wrpmis-servlet.xml</param-value>
 	</context-param>
 	
 	<session-config>

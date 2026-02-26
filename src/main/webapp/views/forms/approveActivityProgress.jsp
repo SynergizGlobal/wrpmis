@@ -1,5 +1,5 @@
  <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
- <%@page import="com.synergizglobal.pmis.constants.CommonConstants2" %>
+ <%@page import="com.synergizglobal.wrpmis.constants.CommonConstants2" %>
  <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
  <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
 <!DOCTYPE html>
@@ -9,18 +9,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Approve Activity Progress - Update Forms - PMIS</title>
-    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-    <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <!-- <link rel="stylesheet" href="/pmis/resources/css/la.css"> -->
-    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
-    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
-    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
-    <link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css">
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/wrpmis/resources/images/favicon.png">
+    <link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/datatable-material.css">
+    <!-- <link rel="stylesheet" href="/wrpmis/resources/css/la.css"> -->
+    <link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/font-awesome-v.4.7.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/sweetalert-v.1.1.0.min.css">
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/wrpmis/resources/css/mobile-form-template.css" />
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/wrpmis/resources/css/mobile-responsive-table.css" />
     <style>
     	 .fixed-width {
             width: 100%;
@@ -40,6 +40,17 @@
 		.dataTables_filter label {
 		    color: transparent;
 		}
+		
+		.disabled-row {
+		    background: #f1f1f1;
+		    opacity: 0.6;
+		}	
+		
+		[type="checkbox"]:not(:checked):disabled + span:not(.lever):before {
+		    border: none;
+		    background-color: rgba(0, 0, 0, 0.42);
+		}		
+			
         thead th input[type="checkbox"]:checked+span:not(.lever):before {
             border-right: 2px solid #fff;
             border-bottom: 2px solid #fff;
@@ -62,7 +73,7 @@
 
         .tabs .tab a {
             text-transform: capitalize;
-            color: #007a7a;
+            color: #EA6A2A;
         }
 
         .tabs .tab a:hover,
@@ -70,11 +81,11 @@
         .tabs .tab a:focus,
         .tabs .tab a:focus.active {
             background-color: #f2fefe;
-            color: #007a7a;
+            color: #EA6A2A;
         }
 
         .tabs .indicator {
-            background-color: #007a7a;
+            background-color: #EA6A2A;
         }
 
         a.bg-s.disabled>.fa {
@@ -176,36 +187,44 @@ tr.even {
 
 
 table tr td:nth-child(11) {
-    background: #d9f1ff;
+    background: #F7D5CD;
     text-align:center;
+    color: #000
 }
 
 table tr td:nth-child(9) {
-    background: #d9f1ff;
+    background: #F7D5CD;
     text-align:center;
+    color: #000
 }
 
 table tr td:nth-child(10) {
-    background: #d9f1ff;
+    background: #F7D5CD;
     text-align:center;
+    color: #000
 }
 
 
 table tr td:nth-child(16) {
-    background: #d9f1ff;
+    background: #F7D5CD;
     text-align:center;
+    color: #000
 }
 
 table tr td:nth-child(14) {
-    background: #d9f1ff;
+    background: #F7D5CD;
     text-align:center;
+    color: #000
 }
 
 table tr td:nth-child(15) {
-    background: #d9f1ff;
+    background: #F7D5CD;
     text-align:center;
+    color: #000
 }
-
+.mdl-cell{
+	overflow: auto;
+}
 
 
     </style>
@@ -218,7 +237,7 @@ table tr td:nth-child(15) {
 
 
     <!-- card  -->
-    <div class="row">
+    <div class="row w-100">
         <div class="col s12 m12">
             <div class="card">
                 <div class="card-content">
@@ -247,14 +266,6 @@ table tr td:nth-child(15) {
                                             <div id="pending_div" class="row no-mar" style="display: none;">
                                                 <div class="col m10 s12 offset-m1">
                                                     <div class="row">
-                                                        <div class="col s6 m4 l2 input-field offset-l1">
-                                                            <p class="searchable_label">Work</p>
-                                                            <select id="pending_work_id_fk" name="work_id_fk"
-                                                                onchange="addInQueWork(this.value);getActivities();"
-                                                                class="searchable">
-                                                                <option value="">Select</option>
-                                                            </select>
-                                                        </div>
                                                         <div class="col s6 m4 l2 input-field">
                                                             <p class="searchable_label">Contract</p>
                                                             <select id="pending_contract_id_fk" name="contract_id_fk"
@@ -305,14 +316,6 @@ table tr td:nth-child(15) {
                                             <div id="approved_div" class="row no-mar" style="display: none;">
                                                 <div class="col m10 s12 offset-m1">
                                                     <div class="row">
-                                                        <div class="col s6 m4 l2 input-field offset-l1">
-                                                            <p class="searchable_label">Work</p>
-                                                            <select id="approved_work_id_fk" name="work_id_fk"
-                                                                onchange="addInQueWork(this.value);getActivities();"
-                                                                class="searchable">
-                                                                <option value="">Select</option>
-                                                            </select>
-                                                        </div>
                                                         <div class="col s6 m4 l2 input-field">
                                                             <p class="searchable_label">Contract</p>
                                                             <select id="approved_contract_id_fk" name="contract_id_fk"
@@ -356,14 +359,6 @@ table tr td:nth-child(15) {
                                             <div id="rejected_div" class="row no-mar" style="display: none;">
                                                 <div class="col m10 s12 offset-m1">
                                                     <div class="row">
-                                                        <div class="col s6 m4 l2 input-field offset-l1">
-                                                            <p class="searchable_label">Work</p>
-                                                            <select id="rejected_work_id_fk" name="work_id_fk"
-                                                                onchange="addInQueWork(this.value);getActivities();"
-                                                                class="searchable">
-                                                                <option value="">Select</option>
-                                                            </select>
-                                                        </div>
                                                         <div class="col s6 m4 l2 input-field">
                                                             <p class="searchable_label">Contract</p>
                                                             <select id="rejected_contract_id_fk" name="contract_id_fk"
@@ -411,8 +406,13 @@ table tr td:nth-child(15) {
                                     </a>
                                     <a class="btn waves-effect bg-s t-c disabled" id="reject-btn" onclick="rejectMultipleActivityProgress();"> <i class="fa fa-close"></i> Reject
                                     </a>
-                                </div>
+							        <a class="btn waves-effect grey darken-1 disabled" id="toggle-disabled-btn" onclick="toggleDisabledRows();">
+							           <i class="fa fa-unlock"></i> Enable Completed Activities
+							        </a>
+							    </div>                                
                             </div>
+                            
+
 
                             <div class="row fixed-width" style="margin-bottom: 30px;">
                                 <div class="table-inside">
@@ -421,12 +421,12 @@ table tr td:nth-child(15) {
                                         <thead>
                                         	<tr>
                                         		<th colspan="9"></th>
-                                        		<th colspan="3" style="text-align:center;">Progress till last update</th>
+                                        		<th colspan="3" style="text-align:center;background: #EA6A2A;color: #fff;">Progress till last update</th>
                                         		<th colspan="2"></th>
-                                        		<th colspan="3">Results shown after accepting in the validation form</th>
+                                        		<th colspan="3" style="background: #EA6A2A;color: #fff;">Results shown after accepting in the validation form</th>
                                         		<th colspan="5"></th>
                                         	</tr>
-                                            <tr style="background-color: #007A7A;color:#ffffff;">
+                                            <tr style="background-color: #EA6A2A;color:#ffffff;">
                                                 <th class="no-sort" style=" text-align: left; vertical-align: bottom;">
                                                     <p>
                                                         <label>
@@ -446,15 +446,15 @@ table tr td:nth-child(15) {
                                                 <th class="fw-100">Unit</th>
                                                 <th>Scope</th>
                                                 
-                                                <th style="text-align:center;background-color:#fdcdac;color:#000000;">Activity Level</th>
-                                                <th style="text-align:center;background-color:#fdcdac;color:#000000;">Component Level</th>
-                                                <th style="text-align:center;background-color:#fdcdac;color:#000000;">Structure Level</th>
+                                                <th style="text-align:center;">Activity Level</th>
+                                                <th style="text-align:center;">Component Level</th>
+                                                <th style="text-align:center;">Structure Level</th>
                                                                                                 
                                                 <th class="fw-125">Reporting</th>
                                                 <th>Actual Progress Updated / Updated Scope</th>
-                                                <th style="text-align:center;background-color:#68bb59;color:#000000;">Activity Level</th>
-                                                <th style="text-align:center;background-color:#68bb59;color:#000000;">Component Level</th>
-                                                <th style="text-align:center;background-color:#68bb59;color:#000000;">Structure Level</th>
+                                                <th style="text-align:center;">Activity Level</th>
+                                                <th style="text-align:center;">Component Level</th>
+                                                <th style="text-align:center;">Structure Level</th>
                                                 <th>Updated by</th>
                                                 <th class="fw-100">Updated on</th>
                                                 <th>Approved on</th>
@@ -502,11 +502,11 @@ table tr td:nth-child(15) {
             </div>
             <!-- form ends  -->
         </div>
-
+</div>
         <!-- Page Loader starts-->
         <div class="page-loader" style="display: none;">
             <div class="preloader-wrapper big active">
-                <div class="spinner-layer spinner-#007a7a-only">
+                <div class="spinner-layer spinner-#EA6A2A-only">
                     <div class="circle-clipper left">
                         <div class="circle"></div>
                     </div>
@@ -540,17 +540,53 @@ table tr td:nth-child(15) {
 
         <jsp:include page="../layout/footer.jsp"></jsp:include>
 
-        <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-        <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-        <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
-        <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-        <script src="/pmis/resources/js/dataTables.material.min.js"></script>
-        <script src="/pmis/resources/js/select2.min.js"></script>
-        <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
-        <script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
-        <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
+        <script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+        <script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+        <script src="/wrpmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+        <script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+        <script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
+        <script src="/wrpmis/resources/js/select2.min.js"></script>
+        <script src="/wrpmis/resources/js/moment-v2.8.4.min.js"></script>
+        <script src="/wrpmis/resources/js/sweetalert-v.1.1.0.min.js"></script>
+        <script src="/wrpmis/resources/js/datetime-moment-v1.10.12.js"></script>
   
         <script type="text/javascript">
+        
+        function checkDisabledRows() {
+            const disabledRows = document.querySelectorAll('.activity-row input[type="checkbox"]:disabled');
+            const enableBtn = document.getElementById('toggle-disabled-btn');
+
+            if (disabledRows.length > 0) {
+                enableBtn.classList.remove("disabled");  // Enable the button
+            } else {
+                enableBtn.classList.add("disabled");     // Disable if none
+            }
+        }
+
+        
+        function toggleDisabledRows() {
+            const disabledChecks = document.querySelectorAll('.activity-row input[type="checkbox"]:disabled');
+
+            disabledChecks.forEach(cb => {
+                cb.disabled = false;                          // Enable checkbox
+                cb.checked = true;                            // Auto-select
+                cb.closest('.activity-row').classList.remove('disabled-row'); // Remove grey
+            });
+
+            // Only enable Reject button
+            document.getElementById('reject-btn').classList.remove('disabled');
+            document.getElementById('approve-btn').classList.add('disabled');
+
+            // Show approve/reject button section if hidden
+            document.getElementById('button_div').style.display = 'block';
+
+            // Disable this toggle button itself
+            document.getElementById('toggle-disabled-btn').classList.add('disabled');
+            $('#pending_select-all').prop('disabled', true);
+        }
+
+        
+       
         	var filtersMap = new Object();
         	var pageNo = window.localStorage.getItem("approvePageNo");
         	var id = 1;
@@ -829,7 +865,6 @@ table tr td:nth-child(15) {
             	table = $('#datatable-table-pending').DataTable();
 
         		table.destroy();
-        		$.fn.dataTable.moment('DD-MMM-YYYY');
         		table = $('#datatable-table-pending').DataTable({
         			"sort" : [],
             		"bStateSave": true,
@@ -871,6 +906,13 @@ table tr td:nth-child(15) {
                         { targets: [2], className: 'fw-150'  },
                         { targets: [5], className: 'fw-200'  }, 
                     ],
+                    createdRow: function (row, data, dataIndex) {
+                        $(row).addClass('activity-row'); // <-- add this class to all rows
+                        // If first column checkbox is disabled, also add 'disabled-row' class
+                        if ($(row).find('input[type="checkbox"]:disabled').length > 0) {
+                            $(row).addClass('disabled-row');
+                        }
+                    },                   
                     //'order': [1, 'asc'],
                     "ScrollX": true,
                     "ordering":false,
@@ -993,6 +1035,13 @@ table tr td:nth-child(15) {
         	                    	{
         	                    		mtr=' / '+val.updated_scope;
         	                    	}
+        	                    	
+        	                    	var updatedby="";
+        	                    	
+        	                    	if( val.updated_by!=null)
+        	                    		{
+        	                    			updatedby=val.updated_by;
+        	                    		}
         	                    
 	        	         		rowArray.push(checkbox);
         	                   	//rowArray.push(val.work_short_name);
@@ -1007,7 +1056,7 @@ table tr td:nth-child(15) {
         	                   	rowArray.push($.trim(val.cumulative_completed));
         	                   	rowArray.push($.trim(val.component_per_prior));
         	                   	rowArray.push($.trim(val.structure_per_prior));
-        	                   	rowArray.push($.trim(val.updated_by+' '+val.progress_date));
+        	                   	rowArray.push($.trim(updatedby+' '+val.progress_date));
         	                   	rowArray.push($.trim(val.actual_for_the_day+''+mtr));
         	                   	var m1=0;
         	                   	if(val.cumulative_completed==null || val.cumulative_completed==undefined)
@@ -1086,9 +1135,9 @@ table tr td:nth-child(15) {
         				
         			},error: function (jqXHR, exception) {
         				$(".page-loader-2").hide();
-        	         	getErrorMessage(jqXHR, exception);
+        	         	//getErrorMessage(jqXHR, exception);
         	     }});
-           	
+        		checkDisabledRows();
             }
             function validateChecckBox(key){
                 if ($('#pending_activity_check_'+key).is(':checked')) 
@@ -1167,7 +1216,7 @@ table tr td:nth-child(15) {
                             $(".page-loader").hide();
                         },error: function (jqXHR, exception) {
          	   			  $(".page-loader").hide();
-       	   	          	  getErrorMessage(jqXHR, exception);
+       	   	          	  //getErrorMessage(jqXHR, exception);
       	   	     	  }
                     });
                 }else{
@@ -1233,7 +1282,7 @@ table tr td:nth-child(15) {
                             
                         },error: function (jqXHR, exception) {
          	   			  $(".page-loader").hide();
-       	   	          	  getErrorMessage(jqXHR, exception);
+       	   	          	  //getErrorMessage(jqXHR, exception);
       	   	     	  }
                     });
                 }else{
@@ -1291,7 +1340,7 @@ table tr td:nth-child(15) {
                             $(".page-loader").hide();
                         },error: function (jqXHR, exception) {
          	   			  $(".page-loader").hide();
-       	   	          	  getErrorMessage(jqXHR, exception);
+       	   	          	  //getErrorMessage(jqXHR, exception);
       	   	     	  }
                     });
                 }else{
@@ -1326,7 +1375,7 @@ table tr td:nth-child(15) {
                              $(".page-loader").hide();
                          },error: function (jqXHR, exception) {
       	      	   		   $(".page-loader").hide();
-      	    	   	       getErrorMessage(jqXHR, exception);
+      	    	   	       //getErrorMessage(jqXHR, exception);
           	   	       }
                      });
                  }else{
@@ -1361,7 +1410,7 @@ table tr td:nth-child(15) {
                             $(".page-loader").hide();
                         },error: function (jqXHR, exception) {
          	   			  $(".page-loader").hide();
-       	   	          	  getErrorMessage(jqXHR, exception);
+       	   	          	  //getErrorMessage(jqXHR, exception);
       	   	     	  }
                     });
                 }else{
@@ -1396,7 +1445,7 @@ table tr td:nth-child(15) {
                             $(".page-loader").hide();
                         },error: function (jqXHR, exception) {
      	      	   		   $(".page-loader").hide();
-     	    	   	       getErrorMessage(jqXHR, exception);
+     	    	   	       //getErrorMessage(jqXHR, exception);
          	   	       }
                     });
                 }else{
@@ -1431,7 +1480,7 @@ table tr td:nth-child(15) {
                              $(".page-loader").hide();
                          },error: function (jqXHR, exception) {
       	      	   		   $(".page-loader").hide();
-      	    	   	       getErrorMessage(jqXHR, exception);
+      	    	   	       //getErrorMessage(jqXHR, exception);
           	   	       }
                      });
                  }else{
@@ -1591,7 +1640,7 @@ table tr td:nth-child(15) {
                             $(".page-loader").hide();
                         },error: function (jqXHR, exception) {
          	   			  $(".page-loader").hide();
-       	   	          	  getErrorMessage(jqXHR, exception);
+       	   	          	  //getErrorMessage(jqXHR, exception);
       	   	     	  }
                     });
                 }else{
@@ -1671,7 +1720,7 @@ table tr td:nth-child(15) {
                             
                         },error: function (jqXHR, exception) {
          	   			  $(".page-loader").hide();
-       	   	          	  getErrorMessage(jqXHR, exception);
+       	   	          	  //getErrorMessage(jqXHR, exception);
       	   	     	  }
                     });
                 }else{                	

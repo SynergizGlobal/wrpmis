@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-	<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
+	<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants2"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %><!DOCTYPE html>
 <html>
@@ -9,16 +9,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Structure Gallery - PMIS</title>
-    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png"> 
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">          
-    <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <!-- <link rel="stylesheet" href="/pmis/resources/css/contractor.css"> -->
-    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
-    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-   	<link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
-   	<link rel="stylesheet" href="/pmis/resources/css/sweetalert-v.1.1.0.min.css">
-   	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-grid-template.css" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/wrpmis/resources/images/favicon.png"> 
+    <link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">          
+    <link rel="stylesheet" href="/wrpmis/resources/css/datatable-material.css">
+    <!-- <link rel="stylesheet" href="/wrpmis/resources/css/contractor.css"> -->
+    <link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
+   	<link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">	
+   	<link rel="stylesheet" href="/wrpmis/resources/css/sweetalert-v.1.1.0.min.css">
+   	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/wrpmis/resources/css/mobile-grid-template.css" />
    <style>
    		/*  #imageFiles{
    		 	display: flex;
@@ -35,11 +35,11 @@
     		-webkit-transform: scale(1.5);
     		margin: 12px 307px;
    		 }
-   		 .br-bl{border: 2px solid #4498d3dd;
+   		 .br-bl{border: 2px solid #b45f06;
    		 	padding:10px !important;
    		 	border-radius: 10px;
    		 }
-   		 .bg-m, .bg-m:hover{background-color: #4498d3dd;}
+   		 .bg-m, .bg-m:hover{background-color: #b45f06;}
    		 .img-li:hover {
     		box-shadow: 0 14px 28px rgb(0 0 0 / 15%), 0 10px 10px rgb(0 0 0 / 0%);
 		}
@@ -319,7 +319,7 @@ ul.breadcrumb li a:hover {
                                             <li class="col l4 m4 s12">
                                                 <center>
                                                     <a href="#modal1" class="modal-trigger">
-                                                        <img src="/pmis/resources/images/mrvclogo.png" alt="image" class="gal-image myImages" id="myImg">
+                                                        <img src="/wrpmis/resources/images/mrvclogo.png" alt="image" class="gal-image myImages" id="myImg">
                                                     </a>
                                                 </center>
                                                 <button class="accordion">description: <span class="right">Date: 08/03/2021</span></button>
@@ -370,20 +370,20 @@ ul.breadcrumb li a:hover {
     <!-- footer included -->
    <%--  <jsp:include page="../layout/footer.jsp"></jsp:include> --%>
 
-    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-    <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-    <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
-    <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-    <script src="/pmis/resources/js/dataTables.material.min.js"></script>
-    <script src="/pmis/resources/js/select2.min.js"></script>
-    <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
-    <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
+    <script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+    <script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/wrpmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+    <script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+    <script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
+    <script src="/wrpmis/resources/js/select2.min.js"></script>
+    <script src="/wrpmis/resources/js/moment-v2.8.4.min.js"></script>
+    <script src="/wrpmis/resources/js/datetime-moment-v1.10.12.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.5.0/jszip.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip-utils/0.1.0/jszip-utils.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
     
     
-   	<script src="/pmis/resources/js/sweetalert-v.1.1.0.min.js"></script>  
+   	<script src="/wrpmis/resources/js/sweetalert-v.1.1.0.min.js"></script>  
 
 	<form name="getForm" id="getForm" method="post">
     	<input type="hidden" name="contractor_id" id="contractor_id" />
@@ -448,11 +448,11 @@ ul.breadcrumb li a:hover {
                            $.each(data, function (i, val) {  
                         	   $('.download').css("display", "block");
                         	   //var path = '${CommonConstants2.STRUCTURE_FILE_SAVING_PATH}';
-                        	    var newName = "/pmis/STRUCTURE_FILES/"+val.attachment;
+                        	    var newName = "/wrpmis/STRUCTURE_FILES/"+val.attachment;
                         	    newName = newName.replace(/[\/\*\|\:\<\>\\.\,\?\/\-\_\!\@\#\$\%\^\&\;\(\)\[\]\{\}\=\+\~\`\"\\]/gi, '').replace(/ /g,"");
-                                var htmlText = '<div class=""><li class="col l4 m5 s12 img-li w31"><center><div class="imgs"><input type="checkbox" id="checkbox'+i+'" name = "checkbox" class="removed" style="display: none" src="/pmis/STRUCTURE_FILES/'+val.attachment+'" nameNdate ="'+val.attachment+'" /></div>'
+                                var htmlText = '<div class=""><li class="col l4 m5 s12 img-li w31"><center><div class="imgs"><input type="checkbox" id="checkbox'+i+'" name = "checkbox" class="removed" style="display: none" src="/wrpmis/STRUCTURE_FILES/'+val.attachment+'" nameNdate ="'+val.attachment+'" /></div>'
                                 	+'<a href="#modal" class="modal-trigger" >'
-                                    +'  <img src="/pmis/STRUCTURE_FILES/'+val.attachment+'" alt="image" onclick="openImage('+i+')" class="gal-image myImages" id="myImg'+i+'">'
+                                    +'  <img src="/wrpmis/STRUCTURE_FILES/'+val.attachment+'" alt="image" onclick="openImage('+i+')" class="gal-image myImages" id="myImg'+i+'">'
                                         +'</a> </center><input type="hidden" id = "'+newName+'"  value="'+val.name+'_'+val.created_date+'"/>'
                                     +' <div class="accordion mt10px align-center"  ><div class="col s8 m8 l8">'+val.name+'</div> <input type="hidden" id="name'+i+'" value="'+val.name+'"/><input type="hidden" id="date'+i+'" value="'+val.created_date+'"/>'
                                 +'<span class="col s4 m4 l4">'+val.created_date+'</span></div></li></div>';

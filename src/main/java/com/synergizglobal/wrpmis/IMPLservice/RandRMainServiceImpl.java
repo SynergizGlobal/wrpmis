@@ -1,0 +1,232 @@
+package com.synergizglobal.wrpmis.IMPLservice;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.synergizglobal.wrpmis.Idao.DashboardsAccessDao;
+import com.synergizglobal.wrpmis.Idao.RandRMainDao;
+import com.synergizglobal.wrpmis.Iservice.RandRMainService;
+import com.synergizglobal.wrpmis.model.Design;
+import com.synergizglobal.wrpmis.model.RandRMain;
+
+@Service
+public class RandRMainServiceImpl implements RandRMainService{
+	@Autowired
+	RandRMainDao dao;
+
+	@Override
+	public List<RandRMain> getWorksFilterListInRR(RandRMain obj) throws Exception {
+		return dao.getWorksFilterListInRR(obj);
+	}
+
+	@Override
+	public List<RandRMain> getStatusFilterListInRR(RandRMain obj) throws Exception {
+		return dao.getStatusFilterListInRR(obj);
+	}
+
+	@Override
+	public List<RandRMain> getLocationsFilterListInRR(RandRMain obj) throws Exception {
+		return dao.getLocationsFilterListInRR(obj);
+	}
+
+	@Override
+	public List<RandRMain> getTypeofUseFilterListInRR(RandRMain obj) throws Exception {
+		return dao.getTypeofUseFilterListInRR(obj);
+	}
+
+	@Override
+	public List<RandRMain> getStructuresFilterListInRR(RandRMain obj) throws Exception {
+		return dao.getStructuresFilterListInRR(obj);
+	}
+
+	@Override
+	public List<RandRMain> getPhasesFilterListInRR(RandRMain obj) throws Exception {
+		return dao.getPhasesFilterListInRR(obj);
+	}
+
+	@Override
+	public int getTotalRecords(RandRMain obj, String searchParameter) throws Exception {
+		return dao.getTotalRecords(obj,searchParameter);
+	}
+
+	@Override
+	public List<RandRMain> getRRList(RandRMain obj, int startIndex, int offset, String searchParameter)
+			throws Exception {
+		return dao.getRRList(obj,startIndex,offset,searchParameter);
+	}
+
+	@Override
+	public List<RandRMain> getProjectsListForRRForm(RandRMain obj) throws Exception {
+		return dao.getProjectsListForRRForm(obj);
+	}
+
+	@Override
+	public List<RandRMain> getWorkListForRRForm(RandRMain obj) throws Exception {
+		return dao.getWorkListForRRForm(obj);
+	}
+	
+	@Override
+	public List<RandRMain> getBSESAgencyNamesList(RandRMain obj) throws Exception {
+		return dao.getBSESAgencyNamesList(obj);
+	}	
+
+	@Override
+	public List<RandRMain> getDocTypeListForRRForm(RandRMain obj) throws Exception {
+		return dao.getDocTypeListForRRForm(obj);
+	}
+
+	@Override
+	public List<RandRMain> getPhaseListForRRForm(RandRMain obj) throws Exception {
+		return dao.getPhaseListForRRForm(obj);
+	}
+
+	@Override
+	public List<RandRMain> getStructureListForRRForm(RandRMain obj) throws Exception {
+		return dao.getStructureListForRRForm(obj);
+	}
+
+	@Override
+	public List<RandRMain> getLocationListForRRForm(RandRMain obj) throws Exception {
+		return dao.getLocationListForRRForm(obj);
+	}
+
+	@Override
+	public List<RandRMain> getSubLocationListForRRForm(RandRMain obj) throws Exception {
+		return dao.getSubLocationListForRRForm(obj);
+	}
+
+	@Override
+	public List<RandRMain> getTypeofUseListForRRForm(RandRMain obj) throws Exception {
+		return dao.getTypeofUseListForRRForm(obj);
+	}
+
+	@Override
+	public List<RandRMain> getVerificationByListForRRForm(RandRMain obj) throws Exception {
+		return dao.getVerificationByListForRRForm(obj);
+	}
+
+	@Override
+	public List<RandRMain> getUnitsListForRRForm(RandRMain obj) throws Exception {
+		return dao.getUnitsListForRRForm(obj);
+	}
+
+	@Override
+	public List<RandRMain> getStatusListForRRForm(RandRMain obj) throws Exception {
+		return dao.getStatusListForRRForm(obj);
+	}
+
+	@Override
+	public List<RandRMain> getOccupancyStatusListForRRForm(RandRMain obj) throws Exception {
+		return dao.getOccupancyStatusListForRRForm(obj);
+	}
+
+	@Override
+	public List<RandRMain> getGenderListForRRForm(RandRMain obj) throws Exception {
+		return dao.getGenderListForRRForm(obj);
+	}
+
+	@Override
+	public List<RandRMain> getTenureStatusListForRRForm(RandRMain obj) throws Exception {
+		return dao.getTenureStatusListForRRForm(obj);
+	}
+
+	@Override
+	public List<RandRMain> getCasteListForRRForm(RandRMain obj) throws Exception {
+		return dao.getCasteListForRRForm(obj);
+	}
+
+	@Override
+	public List<RandRMain> getMotherTongueListForRRForm(RandRMain obj) throws Exception {
+		return dao.getMotherTongueListForRRForm(obj);
+	}
+
+	@Override
+	public List<RandRMain> getTypeofFamilyListForRRForm(RandRMain obj) throws Exception {
+		return dao.getTypeofFamilyListForRRForm(obj);
+	}
+
+	@Override
+	public List<RandRMain> getMaritualStatusListForRRForm(RandRMain obj) throws Exception {
+		return dao.getMaritualStatusListForRRForm(obj);
+	}
+
+	@Override
+	public RandRMain getRandRMainForm(RandRMain rr) throws Exception {
+		return dao.getRandRMainForm(rr);
+	}
+
+	@Override
+	public String addRR(RandRMain obj) throws Exception {
+		return dao.addRR(obj);
+	}
+
+	@Override
+	public String updateRR(RandRMain obj) throws Exception {
+		return dao.updateRR(obj);
+	}
+
+	@Override
+	public List<RandRMain> getRRIdListForRRForm(RandRMain obj) throws Exception {
+		return dao.getRRIdListForRRForm(obj);
+	}
+
+	@Override
+	public List<RandRMain> getRandRMainList(RandRMain obj) throws Exception {
+		return dao.getRandRMainList(obj);
+	}
+
+	@Override
+	public List<RandRMain> gecommercialList(String rr_id) throws Exception {
+		return dao.gecommercialList(rr_id);
+	}
+
+	@Override
+	public List<RandRMain> getComDetailsListList(String rr_id) throws Exception {
+		return dao.getComDetailsListList(rr_id);
+	}
+
+	@Override
+	public List<RandRMain> getResidentialList(String rr_id) throws Exception {
+		return dao.getResidentialList(rr_id);
+	}
+
+	@Override
+	public List<RandRMain> getRDetailsList(String rr_id) throws Exception {
+		return dao.getRDetailsList(rr_id);
+	}
+
+	@Override
+	public String[] uploadRRData(List<RandRMain> rrsList, RandRMain rr) throws Exception {
+		return dao.uploadRRData(rrsList,rr);
+	}
+
+	@Override
+	public String checkLAIdMethod(RandRMain rr, String check) throws Exception {
+		return dao.checkLAIdMethod(rr,check);
+	}
+
+	@Override
+	public List<RandRMain> getRRUploadsList(RandRMain obj) throws Exception {
+		return dao.getRRUploadsList(obj);
+	}
+
+	@Override
+	public boolean saveRRDataUploadFile(RandRMain obj) throws Exception {
+		return dao.saveRRDataUploadFile(obj);
+	}
+	
+	@Override
+	public List<RandRMain> getRRCoordinates(RandRMain obj) throws Exception
+	{
+		return dao.getRRCoordinates(obj);
+	}
+	
+	@Override
+	public String getRRId(String action) throws Exception
+	{
+		return dao.getRRId(action);
+	}
+
+}

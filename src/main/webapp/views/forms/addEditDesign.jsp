@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants2"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants2"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
@@ -8,15 +8,14 @@
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Design & Drawing - Update Forms - PMIS</title>
-    <link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">     
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">     
-    <!-- <link rel="stylesheet" href="/pmis/resources/css/la.css"> -->
-    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
-    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">	
-    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" />
-	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-responsive-table.css" />
+    <link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">     
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">     
+    <!-- <link rel="stylesheet" href="/wrpmis/resources/css/la.css"> -->
+    <link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">	
+    <link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/wrpmis/resources/css/mobile-form-template.css" />
+	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/wrpmis/resources/css/mobile-responsive-table.css" />
 	
     <style>
         #revTable .datepicker~button{
@@ -257,25 +256,13 @@
                             <div class="row">
                                 <div class="col s6 m4 l4 input-field offset-m2">
                                     <p class="searchable_label"> Project <span class="required">*</span></p>
-                                    <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk"  
-                                    onchange="getWorksList(this.value);">
+                                    <select class="searchable validate-dropdown" id="project_id_fk" name="project_id_fk" >
                                          <option value="" >Select</option>
                                          <c:forEach var="obj" items="${projectsList }">
                                       	   <option value= "${ obj.project_id}" <c:if test="${designDetails.project_id_fk eq obj.project_id}">selected</c:if>>${obj.project_id}<c:if test="${not empty obj.project_name}"> - </c:if> ${obj.project_name }</option>
                                          </c:forEach>
                                     </select>
                                     <span id="project_id_fkError" class="error-msg" ></span>
-                                </div>
-                                <div class="col s6 m4 l4 input-field">
-                                    <p class="searchable_label"> Work <span class="required">*</span></p>
-                                    <select class="searchable validate-dropdown" id="work_id_fk" name="work_id_fk"
-                                        onchange="getContractsList(this.value);">
-                                        <option value="" >Select</option>
-                                        <c:forEach var="obj" items="${worksList }">
-                                      	   <option value= "${ obj.work_id}">${obj.work_id}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
-                                         </c:forEach>
-                                    </select>
-                                      <span id="work_id_fkError" class="error-msg" ></span>
                                 </div>
                             
                             </c:if>
@@ -286,11 +273,6 @@
 								    	<label for="project_id_fk">Project <span class="required">*</span></label>
 								    	<input type="hidden" name="project_id_fk" id="project_id_fk" value="${designDetails.project_id_fk}" readonly />
 								    </div> 
-	                                <div class="col s6 m4 input-field"> 
-	                                    <input type="text" value="${designDetails.work_id_fk}- ${designDetails.work_short_name}" readonly />
-	                                	<label for="work_id_fk">Work <span class="required">*</span></label>
-	                                	<input type="hidden" name="work_id_fk" id="work_id_fk" value="${designDetails.work_id_fk}" readonly />
-	                                </div>
 	                            
                             </c:if>
                             
@@ -301,7 +283,7 @@
                                      	onchange="resetWorksAndProjectsDropdowns();">
                                         <option value="">Select</option>
                                         <c:forEach var="obj" items="${contractsList }">
-                                      	   <option workId="${obj.work_id_fk }" value= "${ obj.contract_id}">${obj.contract_id}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
+                                      	   <option value= "${ obj.contract_id}">${obj.contract_id}<c:if test="${not empty obj.contract_short_name}"> - </c:if> ${obj.contract_short_name }</option>
                                          </c:forEach>
                                     </select>
                                     <span id="contract_id_fkError" class="error-msg" ></span>
@@ -479,7 +461,7 @@
                                 </div>
                                 <div class="col s6 m4 l3 input-field offset-m2">
                                     <input id="mrvc_drawing_no" name="mrvc_drawing_no" type="text" class="validate" value="${designDetails.mrvc_drawing_no }">
-                                    <label for="mrvc_drawing_no">MRVC Drawing No </label>
+                                    <label for="mrvc_drawing_no">WR Drawing No </label>
                                 </div>
                                 <div class="col s6 m4 l3 input-field">
                                     <input id="mrvc_reviewed" name="mrvc_reviewed" type="text" class="validate datepicker" value="${designDetails.mrvc_reviewed }">
@@ -724,7 +706,7 @@
                                             <tr>
                                                 <th>Revision </th>
                                                 <th>Consultant Submission </th>
-                                                <th>MRVC Reviewed </th>
+                                                <th>WR Reviewed </th>
                                                 <th>Divisional Approval </th>
                                                 <th>HQ approval </th>
                                                 <th>Revision Status</th>
@@ -750,7 +732,7 @@
 		                                                </td>
 		                                                <td  data-head="MRVC Reviewed" class="input-field">
 		                                                    <input id="mrvc_revieweds${index.count }" name="mrvc_revieweds" type="text" class="validate datepicker"
-		                                                        placeholder="MRVC Reviewed" value="${revObj.mrvc_reviewed }">
+		                                                        placeholder="WR Reviewed" value="${revObj.mrvc_reviewed }">
 		                                                    <button type="button" id="mrvc_revieweds${index.count }_icon" class="datepicker-button"><i
 		                                                            class="fa fa-calendar"></i></button>
 		                                                </td>
@@ -935,7 +917,7 @@
 
                             <div id="issue_yes" style="display: none;">
                                 <div class="row" style="margin-bottom:20px">
-                                    <h6 class="center-align" style="color:#007A7A;font-weight:600">Issue Details </h6>
+                                    <h6 class="center-align" style="color:#EA6A2A;font-weight:600">Issue Details </h6>
                                     <div class="col l12 m8 s12">
                                         <div class="row">
                                             <div class="col s12 m6 input-field issue-mar">
@@ -1037,16 +1019,16 @@
     <!-- footer  -->
  <jsp:include page="../layout/footer.jsp"></jsp:include>
  
-    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-    <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-    <script src="/pmis/resources/js/datepickerDepedency.js"></script>
-    <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-    <script src="/pmis/resources/js/dataTables.material.min.js"></script>
-    <script src="/pmis/resources/js/select2.min.js"></script>
-	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+    <script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+    <script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/wrpmis/resources/js/datepickerDepedency.js"></script>
+    <script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+    <script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
+    <script src="/wrpmis/resources/js/select2.min.js"></script>
+	<script src="/wrpmis/resources/js/jquery-validation-1.19.1.min.js"></script>
 
 	
-<!-- 	<script src="/pmis/resources/js/dataTables.material.min.js"></script> -->
+<!-- 	<script src="/wrpmis/resources/js/dataTables.material.min.js"></script> -->
 
 
     <script>
@@ -1174,9 +1156,6 @@
             }
             
             var projectId = "${designDetails.project_id_fk}";
-            if($.trim(projectId) != ''){
-            	getWorksList(projectId);
-            }
             var work_id_fk = "${designDetails.work_id_fk}";
             if($.trim(work_id_fk) != ''){
             	getContractsList(work_id_fk);
@@ -1184,38 +1163,6 @@
             
         });
 
-      
-    
-        function getWorksList(projectId) {
-        	$(".page-loader").show();
-            $("#work_id_fk option:not(:first)").remove();
-            $("#contract_id_fk option:not(:first)").remove();
-            if ($.trim(projectId) != "") {
-                var myParams = { project_id_fk: projectId };
-                $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorkListForDesignForm",
-                    data: myParams, cache: false,
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $.each(data, function (i, val) {
-                                var workName = '';
-                                if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
-                                var workId = "${designDetails.work_id_fk}";
-                                if ($.trim(workId) != '' && val.work_id == $.trim(workId)) {
-                                    $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' + $.trim(val.work_id) + $.trim(workName) + '</option>');
-                                } else {
-                                    $("#work_id_fk").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + $.trim(workName) + '</option>');
-                                }
-                            });
-                        }
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
-                    }
-                });
-            }else{
-            	$(".page-loader").hide();
-            }
-        }
         function getContractsList(work_id_fk) {
         	$(".page-loader").show();
             $("#contract_id_fk option:not(:first)").remove();
@@ -1259,30 +1206,7 @@
        			$("#project_id_fk").select2();
        		}
        		
-       		if ($.trim(projectId) != "") {
-       			$("#work_id_fk option:not(:first)").remove();
-                var myParams = { project_id_fk: projectId };
-                $.ajax({
-                    url: "<%=request.getContextPath()%>/ajax/getWorkListForDesignForm",
-                    data: myParams, cache: false,
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $.each(data, function (i, val) {
-                                var workName = '';
-                                if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
-                                if ($.trim(workId) != '' && val.work_id == $.trim(workId)) {
-                                    $("#work_id_fk").append('<option value="' + val.work_id + '" selected>' + $.trim(val.work_id) + $.trim(workName) + '</option>');
-                                } else {
-                                    $("#work_id_fk").append('<option value="' + val.work_id + '">' + $.trim(val.work_id) + $.trim(workName) + '</option>');
-                                }
-                            });
-                        }
-                        $('.searchable').select2();
-                        $(".page-loader").hide();
-                    }
-                });
-                $('.searchable').select2();
-            }
+
        		
         }
         

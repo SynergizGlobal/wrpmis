@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding = "UTF-8"%>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants"%>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants"%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -9,14 +9,14 @@
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quarterly plan</title>
-    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">     
-    <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
-    <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
-    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
+    <link rel="icon" type="image/png" sizes="96x96" href="/wrpmis/resources/images/favicon.png">
+    <link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">     
+    <link rel="stylesheet" href="/wrpmis/resources/css/datatable-material.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/font-awesome-v.4.7.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/header-footer.css">
 
     <style type="text/css">
         [type="checkbox"]:not(:checked), [type="checkbox"]:checked{position: relative; opacity: 1;pointer-events: auto;}
@@ -257,13 +257,6 @@
                             <div class="col m11 s12 ">
                                 <div class="row" style="margin-bottom: 0;" id="filters">
                                     <div class="col s12 m3 input-field">
-                                        <p class="searchable_label">Work</p>
-										<select id="work_id_fk" name="work_id_fk"
-											onchange="addInQueWork(this.value);getFortnightQuarterlyPlanList();" class="searchable">
-											<option value="">Select</option>
-										</select>
-                                    </div>
-                                    <div class="col s12 m3 input-field">
                                         <p class="searchable_label">Items</p>
                                         <select id="item" class="searchable" name="item" onchange="addInQueitem(this.value);getFortnightQuarterlyPlanList();" class="searchable">
                                             <option value="">Select</option>
@@ -338,16 +331,7 @@
 					<div class="row no-mar">
 						<div class="col s12 m12">
 							<div class="row">
-								<div class="col m6 s12">
-                                        Work <span class="required">*</span>
-										<select id="export_work_id_fk" name="work_id_fk" class="searchable" style="width:100%" onChange="$('#workError').html('');">
-											<option value="">Select</option>
-	                                       	<c:forEach var="obj" items="${FortnightPlanWorkList }">
-	                                      	   	<option value= "${obj.work_id_fk}">${obj.work_id_fk}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
-	                                    	 </c:forEach>  											
-										</select>
-										<span id="workError" class="error-msg" ></span>
-								</div>								
+							
 								<div class="col m6 s12">
 									<div class="file-field input-field">
 										<div class="btn bg-m">
@@ -486,14 +470,14 @@
     <!-- footer  -->
     <jsp:include page="../layout/footer.jsp"></jsp:include>
     
-    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-    <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-    <script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
-    <script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-    <script src="/pmis/resources/js/dataTables.material.min.js"></script>
-    <script src="/pmis/resources/js/select2.min.js"></script>
-    <script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
-    <script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
+    <script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+    <script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/wrpmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+    <script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+    <script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
+    <script src="/wrpmis/resources/js/select2.min.js"></script>
+    <script src="/wrpmis/resources/js/moment-v2.8.4.min.js"></script>
+    <script src="/wrpmis/resources/js/datetime-moment-v1.10.12.js"></script>
     
     <script>
 	var filtersMap = new Object();
@@ -524,9 +508,7 @@
 	        		  var temp2 = temp[i].split('=');
 		        	  if($.trim(temp2[0]) == 'period' ){
 		        		getPeriodFilterList(temp2[1]);
-		        	  }else if($.trim(temp2[0]) == 'work_id_fk'){
-		        		getWorksFilterList(temp2[1]);
-	        		  }else if($.trim(temp2[0]) == 'item'){
+		        	  }else if($.trim(temp2[0]) == 'item'){
 	        			getitemFilterList(temp2[1]);
 	        	  }
 	        	  }
@@ -594,7 +576,6 @@
     	$(".page-loader").show();
     	
     	getPeriodFilterList('');
-    	getWorksFilterList('');
     	getitemFilterList('');
     	
     	var work_id_fk = $("#work_id_fk").val();
@@ -621,7 +602,6 @@
 		 
 		table.destroy();
 		
-		$.fn.dataTable.moment('DD-MMM-YYYY');
 		table = $('#app_com_table').DataTable({
      		"bStateSave": true,  
      		fixedHeader: true,
@@ -744,37 +724,7 @@
         }
 	 }
     
-    function getWorksFilterList(work_id){
-	 	$(".page-loader").show();
-	 	var period = $("#period").val();
-	 	var work_id_fk = $("#work_id_fk").val();
-	 	var item = $("#item").val();
-	    if ($.trim(work_id_fk) == "") {
-	    	$("#work_id_fk option:not(:first)").remove();
-	    	var myParams = {work_id_fk : work_id_fk,period : period,item : item};
-            $.ajax({
-                url: "<%=request.getContextPath()%>/ajax/getWorksListFilterInQuarterlyFortnight",
-                data: myParams, cache: false,async: false,
-                success: function (data) {
-                	if(data != null && data != '' && data.length > 0){  
-                        $.each(data, function (i, val) {
-                        	 var work_short_name = '';
-                             if ($.trim(val.work_short_name) != '') { work_short_name = ' - ' + $.trim(val.work_short_name) }
-                             var selectedFlag = (work_id == val.work_id_fk)?'selected':'';
-	                         $("#work_id_fk").append('<option value="' + val.work_id_fk + '"'+selectedFlag+'>' + $.trim(val.work_id_fk) + work_short_name + '</option>');
-                        });
-                    }
-                    $('.searchable').select2();
-                    $(".page-loader").hide();
-                },error: function (jqXHR, exception) {
- 	   			      $(".page-loader").hide();
-	   	          	  getErrorMessage(jqXHR, exception);
-	   	     	  }
-            });
-        }else{
-        	  $(".page-loader").hide();
-        }
-	 }
+
     
     
     function getitemFilterList(item){
@@ -890,22 +840,22 @@
       	 
       	 	 if($("#export_period").val()=="1st January,23  - 31st March,23")
       		 {
-      	      	 window.location.href="/pmis/QuarterlyPlan_1"+".xlsx";
+      	      	 window.location.href="/wrpmis/QuarterlyPlan_1"+".xlsx";
 
       		 }
       	 	 else  if($("#export_period").val()=="1st April,23  - 30th June,23")
       		 {
-      	      	 window.location.href="/pmis/QuarterlyPlan_2"+".xlsx";
+      	      	 window.location.href="/wrpmis/QuarterlyPlan_2"+".xlsx";
 
       		 }
       	 	 else  if($("#export_period").val()=="1st July,23  - 30th September,23")
       		 {
-      	      	 window.location.href="/pmis/QuarterlyPlan_3"+".xlsx";
+      	      	 window.location.href="/wrpmis/QuarterlyPlan_3"+".xlsx";
 
       		 }
       	 	 else  if($("#export_period").val()=="1st October,23  - 31st December,23")
       		 {
-      	      	 window.location.href="/pmis/QuarterlyPlan_4"+".xlsx";
+      	      	 window.location.href="/wrpmis/QuarterlyPlan_4"+".xlsx";
 
       		 }      	 	 
     }

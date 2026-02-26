@@ -6,15 +6,15 @@
 	<meta charset="UTF-8">
 	<title>Structure Status Report - Reports - PMIS</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="icon" type="image/png" sizes="96x96"	href="/pmis/resources/images/favicon.png">
-	<link rel="stylesheet"	href="/pmis/resources/css/materialize-v.1.0.min.css">
-	<link rel="stylesheet"	href="/pmis/resources/css/material-design-lite-v.1.0.css">
-	<link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-	<!-- <link rel="stylesheet" href="/pmis/resources/css/la.css"> -->
-	<link rel="stylesheet" href="/pmis/resources/css/rits.css">
-	<link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-	<link rel="stylesheet"	href="/pmis/resources/css/searchable-dropdown.css">
-	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/pmis/resources/css/mobile-form-template.css" >
+	<link rel="icon" type="image/png" sizes="96x96"	href="/wrpmis/resources/images/favicon.png">
+	<link rel="stylesheet"	href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+	<link rel="stylesheet"	href="/wrpmis/resources/css/material-design-lite-v.1.0.css">
+	<link rel="stylesheet" href="/wrpmis/resources/css/datatable-material.css">
+	<!-- <link rel="stylesheet" href="/wrpmis/resources/css/la.css"> -->
+	<link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+	<link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
+	<link rel="stylesheet"	href="/wrpmis/resources/css/searchable-dropdown.css">
+	<link rel="stylesheet" media="screen and (max-device-width: 768px)" href="/wrpmis/resources/css/mobile-form-template.css" >
 	<style>
 		.input-field .searchable_label {
 			font-size:0.9rem;
@@ -50,21 +50,11 @@
 							<div class="row no-mar" style="margin-bottom:0;">
 								<div class="col s6 m3 l4 input-field"> 
 									<p class="searchable_label">Project</p>
-									<select class="searchable validate-dropdown" id="project_id" name="project_id" onchange="addInQueProject(this.value);getWorksList();getContractsList();getActivitiesList();">
+									<select class="searchable validate-dropdown" id="project_id" name="project_id" onchange="addInQueProject(this.value);getContractsList();getActivitiesList();">
 										<option value="">Select</option>										
 									</select> 
 									<span id="project_idError" class="error-msg"></span>
 								</div>							
-								<div class="col s6 m3 l4 input-field">
-									<p class="searchable_label">Work</p>
-									<select class="searchable validate-dropdown" id="work_id" name="work_id" onchange="addInQueWork(this.value);resetProjectsDropdowns();getContractsList();getActivitiesList();">
-										<option value="">Select</option>
-										<c:forEach var="obj" items="${worksList }">
-	                                      	   <option  value= "${obj.work_id}" >${obj.work_id}<c:if test="${not empty obj.work_short_name}"> - </c:if> ${obj.work_short_name }</option>
-	                                    </c:forEach>	
-									</select> 
-									<span id="work_idError" class="error-msg"></span>
-								</div>	
 								<div class="col s6 m3 l4 input-field">
 									<p class="searchable_label">Contract</p>
 									<select class="searchable validate-dropdown" id="contract_id" name="contract_id" onchange="addInQueContract(this.value);getFobList();resetWorksAndProjectsDropdowns();getActivitiesList();">
@@ -141,14 +131,14 @@
 	<!-- footer included -->
 	<jsp:include page="../layout/footer.jsp"></jsp:include>
 
-	<script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-	<script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
-	<script src="/pmis/resources/js/jquery-validation-1.19.1.min.js"></script>
-	<script src="/pmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
-	<script src="/pmis/resources/js/dataTables.material.min.js"></script>
-	<script src="/pmis/resources/js/select2.min.js"></script>
-	<script src="/pmis/resources/js/moment-v2.8.4.min.js"></script>
-	<script src="/pmis/resources/js/datetime-moment-v1.10.12.js"></script>
+	<script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+	<script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
+	<script src="/wrpmis/resources/js/jquery-validation-1.19.1.min.js"></script>
+	<script src="/wrpmis/resources/js/jquery.dataTables-v.1.10.min.js"></script>
+	<script src="/wrpmis/resources/js/dataTables.material.min.js"></script>
+	<script src="/wrpmis/resources/js/select2.min.js"></script>
+	<script src="/wrpmis/resources/js/moment-v2.8.4.min.js"></script>
+	<script src="/wrpmis/resources/js/datetime-moment-v1.10.12.js"></script>
 	<script>
 
 	 var filtersMap = new Object();
@@ -165,8 +155,6 @@
     	        		  var temp2 = temp[i].split('=');
     		        	  if($.trim(temp2[0]) == 'project_id' ){
     		        		  getProjectsList(temp2[1]);
-    		        	  }else if($.trim(temp2[0]) == 'work_id'){
-    		        		  getWorksList(temp2[1]);
     		        	  }else if($.trim(temp2[0]) == 'contract_id'){
     		        		  getContractsList(temp2[1]);
     		        		  //getFobList("");
@@ -237,7 +225,6 @@
       	  var work_id = $("#work_id").val();
       	  var contract_id = $("#contract_id").val();
       	  var structure_type_fk = $("#structure_type_fk").val();
-      	  if(work_id == ""){getWorksList("");}
      	  if(contract_id == ""){getContractsList("");}
       	var filters = '';
     	Object.keys(filtersMap).forEach(function (key) {
@@ -278,36 +265,6 @@
 	        }
         }
         
-        function getWorksList(work) {
-        	$(".page-loader").show();
-        	var project_id = $("#project_id").val();
-        	var work_id = $("#work_id").val();
-        	var contract_id = $("#contract_id").val();
-        	var structure_type_fk = $("#structure_type_fk").val(); 
-        	//if(contract_id == ""){$("#structure_type_fk_div").hide();}
-        	
-           	$("#work_id option:not(:first)").remove();
-           	var myParams = {project_id : project_id};
-               $.ajax({
-                url: "<%=request.getContextPath()%>/ajax/getWorksFilterListInStructureStatusReport",
-                data: myParams, cache: false,async: false,
-                success: function (data) {
-                    if (data.length > 0) {
-                        $.each(data, function (i, val) {
-                            var workName = '';
-                            if ($.trim(val.work_short_name) != '') { workName = ' - ' + $.trim(val.work_short_name) }
-                            var selectedFlag = (work == val.work_id)?'selected':'';
-                            $("#work_id").append('<option value="' + val.work_id + '"'+selectedFlag+'>' + $.trim(val.work_id) + $.trim(workName) + '</option>');
-                        });
-                    }
-                    $('.searchable').select2();
-                    $(".page-loader").hide();
-                },error: function (jqXHR, exception) {
- 	   			    $(".page-loader").hide();
-	   	          	getErrorMessage(jqXHR, exception);
-	   	     	}
-            });
-        }
 
         //geting contracts list    
         function getContractsList(contarct) {

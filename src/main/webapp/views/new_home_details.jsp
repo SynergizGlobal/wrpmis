@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants" %>
-<%@page import="com.synergizglobal.pmis.constants.CommonConstants2" %>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants" %>
+<%@page import="com.synergizglobal.wrpmis.constants.CommonConstants2" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html
@@ -11,17 +11,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to PMIS</title>
-    <link rel="icon" type="image/png" sizes="96x96" href="/pmis/resources/images/favicon.png">
-    <link rel="stylesheet" href="/pmis/resources/css/materialize-v.1.0.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/material-design-lite-v.1.0.css">
-    <link rel="stylesheet" href="/pmis/resources/css/font-awesome-v.4.7.css">
+    <link rel="icon" type="image/png" sizes="96x96" href="/wrpmis/resources/images/favicon.png">
+    <link rel="stylesheet" href="/wrpmis/resources/css/materialize-v.1.0.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/material-design-lite-v.1.0.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/font-awesome-v.4.7.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined"
         rel="stylesheet">
-    <link rel="stylesheet" href="/pmis/resources/css/datatable-material.css">
-    <link rel="stylesheet" href="/pmis/resources/css/rits.css">
-    <link rel="stylesheet" href="/pmis/resources/css/select2.min.css">
-    <link rel="stylesheet" href="/pmis/resources/css/header-footer.css">
-    <link rel="stylesheet" href="/pmis/resources/css/searchable-dropdown.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/datatable-material.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/rits.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/select2.min.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/header-footer.css">
+    <link rel="stylesheet" href="/wrpmis/resources/css/searchable-dropdown.css">
     <style type="text/css">
     
     </style>
@@ -37,7 +37,7 @@
     .modal-header{position: sticky;
 				    top: 0;
 				    z-index: 1;
-				    background-color: #01BAEF;}	
+				    background-color: #EA6A2A;}	
     .w150{width: 150% !important;}
     .btn:hover, .btn-large:hover, .btn-small:hover{background-color: #1565c0;}
     .btn {
@@ -280,7 +280,7 @@
 
         .btn {
             padding: 0 0.75rem;
-            background-color: #01BAEF;
+            background-color: #EA6A2A;
             margin: 24px 0 16px;
             text-transform: capitalize;
             border-radius: 5px;
@@ -392,7 +392,7 @@
             top: 0;
             pointer-events: none;
             visibility: hidden;
-            background-color: #01BAEF;
+            background-color: #EA6A2A;
             text-align: justify;
             box-shadow: 0 0 5px 2px #aaa;
             white-space: pre-wrap;
@@ -402,7 +402,7 @@
         body {
             margin: 0;
             font-family: 'Open Sans', sans-serif;
-            /* background: black url("/pmis/resources/images/login-background.jpg") no-repeat center center; */
+            /* background: black url("/wrpmis/resources/images/login-background.jpg") no-repeat center center; */
             background: linear-gradient(to top, rgba(255, 255, 255, 1), rgba(101, 150, 255, .75));
             /* background: #6596ff; */
             background-size: cover;
@@ -794,97 +794,6 @@
     <div class="row middleText">
         <div class="col s12 m12 l12">
             <div class="row">
-                <div class="col s12 m5 l5">
-                    <div class="block">
-                        <div class="projects-filter-work">
-                            <div class="card main-clr" id="projectDetailsDiv">
-                                <div class="card-content" style="cursor: pointer;">
-                                    <!-- <div class="line">
-                                        <p class="alignleft w150">Year of Inclusion</p>
-                                        <p class="aligncenter">:</p>
-                                        <p class="alignleft pdlr20px"></p>
-                                    </div> -->
-                                    <div class="line">
-                                        <p class="alignleft w150">Sanctioned Year</p>
-                                        <p class="aligncenter">:</p>
-                                        <p class="alignleft pdlr20px">${projectOverview.sanctioned_year_fk }
-                                        </p>
-                                    </div>
-                                    <div class="line">
-                                        <p class="alignleft w150">Pink Book No</p>
-                                        <p class="aligncenter">:</p>
-                                        <p class="alignleft pdlr20px">
-                                            ${projectOverview.pink_book_item_number }</p>
-                                    </div>
-                                    <div class="line">
-                                        <p class="alignleft w150">Sanctioned Completion Cost (in Cr) </p>
-                                        <p class="aligncenter">:</p>
-                                        <p class="alignleft pdlr20px">
-                                            <c:if
-                                                test="${not empty projectOverview.latest_revised_cost }">
-                                                ₹ ${projectOverview.latest_revised_cost } Cr
-                                            </c:if>
-                                        </p>
-                                    </div>
-<%--                                     <div class="line">
-                                        <p class="alignleft w150">
-                                            <c:if
-                                                test="${projectOverview.project_status eq 'Closed' }">
-                                                Completion Cost </c:if>
-                                           
-                                        </p>
-                                        <p class="aligncenter">:</p>
-                                        <p class="alignleft pdlr20px">
-                                            <c:if
-                                                test="${projectOverview.project_status eq 'Closed' }">
-                                                <c:if
-                                                    test="${not empty projectOverview.completion_cost }">
-                                                    ₹ ${projectOverview.completion_cost } Cr </c:if>
-                                            </c:if>
-                                        </p>
-                                    </div> --%>
-                                    <div class="line">
-                                        <p class="alignleft w150">
-                                            <c:if
-                                                test="${projectOverview.project_status eq 'Closed' }">
-                                                Completion Year</c:if>
-                                            <c:if
-                                                test="${projectOverview.project_status eq 'Open' }">
-                                                Projected Completion Year</c:if>
-                                        </p>
-                                        <p class="aligncenter">:</p>
-                                        <p class="alignleft pdlr20px">
-                                            <c:if
-                                                test="${projectOverview.project_status eq 'Closed' }">
-                                                ${projectOverview.year_of_completion }</c:if>
-                                            <c:if
-                                                test="${projectOverview.project_status eq 'Open' }">
-                                                ${projectOverview.projected_completion_year }</c:if>
-                                        </p>
-                                    </div>
-
-                                    <div class="line">
-                                        <p class="alignleft w150">Physical Progress (%)</p>
-                                        <p class="aligncenter">:</p>
-                                        <p class="alignleft pdlr20px">
-                                           ${projectOverview.physical_progress}
-                                        </p>
-                                    </div>
-                                    <div class="line">
-                                        <p class="alignleft w150">Financial Progress (%)</p>
-                                        <p class="aligncenter">:</p>
-                                        <p class="alignleft pdlr20px">
-                                            ${projectOverview.financial_progress}
-                                        </p>
-
-                                    </div>
-
-                                </div>
-                            </div>
-                           
-                        </div>
-                    </div>
-                </div>
                 <div class="col s12 m7 l7" id="full-col">
                     <div class="row" id="projectsList">
                         <ul>
@@ -894,26 +803,6 @@
                                     <!-- <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="130px" viewBox="0 0 1440 130" preserveAspectRatio="none" style="transform-origin: 50% 50%;position: absolute;height: 25px;left: 0; top: -23px;">
                 <path id="wave-bottom-white" fill="white" d="M0,56.050526 C121.352261,18.683509 262.172393,0 422.460394,0 C662.892396,0 818.88453,115.474324 1058.94661,115.474324 C1218.988,115.474324 1342.92081,94.808741 1440,56 L1440,130 L0,130 L0,56.050526 Z"/></svg> -->
 
-                                    <c:if test="${empty wObj.work_id_fk}">
-                                        <a href="javascript:void(0);"
-                                            onClick="movingOnPosition(this,${loop.index})">
-                                            <div >
-								    <div class="btn diamond">
-								         <span>${wObj.work_short_name}</span>
-								    </div>
-								</div></a>
-                                    </c:if>
-                                    <c:if test="${not empty wObj.work_id_fk}">
-                                        <a
-                                            href="javascript:getTableauDashboard('${wObj.work_id_fk }');" class="getLinks">
-                                            <div >
-								    <div class="btn diamond" style="font-size:18px;font-weight:bold;">
-								         <span>${wObj.work_short_name}</span>
-								    </div>
-								</div>
-                                            
-                                            </a>
-                                    </c:if>
                                     <!-- <div class="col s6 m6 l6">
                 <p>Silent feature</p>
             </div>
@@ -1006,20 +895,6 @@
                                                         ${wObj.projected_completion_year }</c:if>
                                                 </p>
                                             </div>
-                                            <div class="line">
-                                                <p class="alignleft">Work ID</p>
-                                                <p class="aligncenter">:</p>
-                                                <p class="alignleft pdlr20px">${wObj.work_id}</p>
-                                            </div>
-                                            <%-- <c:if
-                                                test="${empty wObj.year_of_completion and empty wObj.completion_cost}">
-                                                <div class="line">
-                                                    <p class="alignleft">PB Item No</p>
-                                                    <p class="aligncenter">:</p>
-                                                    <p class="alignright">
-                                                        ${wObj.pink_book_item_number}</p>
-                                                </div>
-                                                </c:if> --%>
                                                 <div class="line">
                                                     <p class="alignleft">Railway</p>
                                                     <p class="aligncenter">:</p>
@@ -1144,8 +1019,8 @@
     <!-- footer starts here  -->
     <jsp:include page="./layout/footer.jsp"></jsp:include>
     <!-- footer ends here  -->
-    <script src="/pmis/resources/js/jQuery-v.3.5.min.js"></script>
-    <script src="/pmis/resources/js/materialize-v.1.0.min.js"></script>
+    <script src="/wrpmis/resources/js/jQuery-v.3.5.min.js"></script>
+    <script src="/wrpmis/resources/js/materialize-v.1.0.min.js"></script>
 
     <script type="text/javascript">
     
@@ -1225,23 +1100,6 @@
                                     var name = $.trim(val.dashboard_name).toLowerCase();
                                     var link = name.replaceAll(" ", "-");
                                     if ($.trim(val.dashboard_id) == $.trim(val.parent_dashboard_id_sr_fk)) {
-                                    		if(work_id=='P04W06' && work_his=='P04W06')
-                                    		{
-                                    			window.location.href = "<%=request.getContextPath()%>/ta-dashboard?work_id=P04W06";
-                                       			
-                                    		}
-                                    		else  if(work_id=='P05W09' || work_his=='P05W09')
-                                    		{ 
-                                    			window.location.href = "<%=request.getContextPath()%>/ta-dashboard?work_id="+work_his;
-                                    		}
-                                    		else if(work_id=='P05W06')
-                                    		{ 
-                                    			window.location.href = "<%=request.getContextPath()%>/work-overview-dashboard/"+work_id;
-                                    		}
-                                    		else
-                                   			{
-                                    			window.location.href = "<%=request.getContextPath()%>/InfoViz/" + link
-                                   			}
                                     } else {
                                         var parent_dashboard_id_sr_fk = $.trim(val.parent_dashboard_id_sr_fk);
                                         var myParams2 = { parent_dashboard_id_sr_fk: parent_dashboard_id_sr_fk };
